@@ -67,6 +67,8 @@ export const tell =
     FromIdentity.succeed(writer.tell(w))
 
 /**
+ * Returns an effect whose success is mapped by the specified `f` function.
+ *
  * @since 3.0.0
  */
 export const map = <F extends TypeLambda>(Functor: Functor<F>) => {

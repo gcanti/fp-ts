@@ -75,10 +75,6 @@ export const tuple = <A extends ReadonlyArray<unknown>>(
   ...eqs: { [K in keyof A]: Eq<A[K]> }
 ): Eq<Readonly<Readonly<A>>> => fromEquals((that) => (self) => eqs.every((E, i) => E.equals(that[i])(self[i])))
 
-// -------------------------------------------------------------------------------------
-// type class members
-// -------------------------------------------------------------------------------------
-
 /**
  * @category Contravariant
  * @since 3.0.0

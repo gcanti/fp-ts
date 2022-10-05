@@ -144,10 +144,6 @@ export const toUndefined: <A>(self: SyncOption<A>) => Sync<A | undefined> = io.m
  */
 export const toNull: <A>(self: SyncOption<A>) => Sync<A | null> = io.map(option.toNull)
 
-// -------------------------------------------------------------------------------------
-// type class members
-// -------------------------------------------------------------------------------------
-
 /**
  * Returns an effect whose success is mapped by the specified `f` function.
  *

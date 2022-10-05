@@ -47,6 +47,7 @@ Added in v3.0.0
 - [mapping](#mapping)
   - [as](#as)
   - [flap](#flap)
+  - [map](#map)
   - [unit](#unit)
 - [model](#model)
   - [Identity (type alias)](#identity-type-alias)
@@ -73,7 +74,6 @@ Added in v3.0.0
   - [flatten](#flatten)
   - [foldMap](#foldmap)
   - [idKind](#idkind)
-  - [map](#map)
   - [orElse](#orelse)
   - [reduce](#reduce)
   - [reduceRight](#reduceright)
@@ -367,6 +367,18 @@ export declare const flap: <A>(a: A) => <B>(fab: (a: A) => B) => B
 
 Added in v3.0.0
 
+## map
+
+Returns an effect whose success is mapped by the specified `f` function.
+
+**Signature**
+
+```ts
+export declare const map: <A, B>(f: (a: A) => B) => (fa: A) => B
+```
+
+Added in v3.0.0
+
 ## unit
 
 Returns the effect resulting from mapping the success of this effect to unit.
@@ -600,16 +612,6 @@ Added in v3.0.0
 
 ```ts
 export declare const idKind: <A>() => (a: A) => A
-```
-
-Added in v3.0.0
-
-## map
-
-**Signature**
-
-```ts
-export declare const map: <A, B>(f: (a: A) => B) => (fa: A) => B
 ```
 
 Added in v3.0.0

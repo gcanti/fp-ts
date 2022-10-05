@@ -195,6 +195,8 @@ export const getHeytingAlgebra = <S>(H: HeytingAlgebra<S>): HeytingAlgebra<Const
 export const getBooleanAlgebra: <S>(H: BooleanAlgebra<S>) => BooleanAlgebra<Const<S, never>> = getHeytingAlgebra
 
 /**
+ * Returns an effect whose success is mapped by the specified `f` function.
+ *
  * @category mapping
  * @since 3.0.0
  */

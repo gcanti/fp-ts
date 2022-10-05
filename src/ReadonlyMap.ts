@@ -200,11 +200,9 @@ export const pop = <K>(E: Eq<K>): ((k: K) => <A>(m: ReadonlyMap<K, A>) => Option
   }
 }
 
-// -------------------------------------------------------------------------------------
-// type class members
-// -------------------------------------------------------------------------------------
-
 /**
+ * Returns an effect whose success is mapped by the specified `f` function.
+ *
  * @category mapping
  * @since 3.0.0
  */

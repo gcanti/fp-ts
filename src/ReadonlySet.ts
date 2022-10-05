@@ -152,12 +152,10 @@ export const remove =
   (a: A): ((s: ReadonlySet<A>) => ReadonlySet<A>) =>
     filter(predicate.not(E.equals(a)))
 
-// -------------------------------------------------------------------------------------
-// type class members
-// -------------------------------------------------------------------------------------
-
 /**
- * @category Functor
+ * Returns an effect whose success is mapped by the specified `f` function.
+ *
+ * @category mapping
  * @since 3.0.0
  */
 export const map = <B>(E: Eq<B>): (<A>(f: (x: A) => B) => (s: ReadonlySet<A>) => ReadonlySet<B>) => {

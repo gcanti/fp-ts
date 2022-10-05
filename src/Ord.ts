@@ -77,10 +77,6 @@ export const tuple = <A extends ReadonlyArray<unknown>>(...ords: { [K in keyof A
  */
 export const reverse = <A>(O: Ord<A>): Ord<A> => fromCompare((that) => (self) => O.compare(self)(that))
 
-// -------------------------------------------------------------------------------------
-// type class members
-// -------------------------------------------------------------------------------------
-
 /**
  * @example
  * import { contramap } from 'fp-ts/Ord'

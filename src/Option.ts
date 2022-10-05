@@ -423,10 +423,6 @@ export const toNull: <A>(self: Option<A>) => A | null = /*#__PURE__*/ getOrElse(
  */
 export const toUndefined: <A>(self: Option<A>) => A | undefined = /*#__PURE__*/ getOrElse(undefined)
 
-// -------------------------------------------------------------------------------------
-// type class members
-// -------------------------------------------------------------------------------------
-
 /**
  * Returns an effect whose success is mapped by the specified `f` function.
  *

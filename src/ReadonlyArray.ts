@@ -1238,6 +1238,9 @@ export const orElse =
     (self as ReadonlyArray<A | B>).concat(that)
 
 /**
+ * Returns an effect whose success is mapped by the specified `f` function.
+ *
+ * @category mapping
  * @since 3.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => (fa: ReadonlyArray<A>) => ReadonlyArray<B> = (f) => (fa) =>

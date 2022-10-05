@@ -171,10 +171,6 @@ export const liftAsyncResult = <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => AsyncResult<unknown, B>
 ): ((...a: A) => AsyncOption<B>) => flow(f, fromAsyncEither)
 
-// -------------------------------------------------------------------------------------
-// type class members
-// -------------------------------------------------------------------------------------
-
 /**
  * Returns an effect whose success is mapped by the specified `f` function.
  *

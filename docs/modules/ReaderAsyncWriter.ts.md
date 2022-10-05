@@ -46,6 +46,7 @@ Added in v3.0.0
   - [liftWriter](#liftwriter)
 - [mapping](#mapping)
   - [flap](#flap)
+  - [map](#map)
   - [mapBoth](#mapboth)
 - [model](#model)
   - [ReaderAsyncWriter (interface)](#readerasyncwriter-interface)
@@ -66,7 +67,6 @@ Added in v3.0.0
   - [listen](#listen)
   - [listens](#listens)
   - [local](#local)
-  - [map](#map)
   - [pass](#pass)
   - [snd](#snd)
   - [swap](#swap)
@@ -387,6 +387,20 @@ export declare const flap: <A>(
 
 Added in v3.0.0
 
+## map
+
+Returns an effect whose success is mapped by the specified `f` function.
+
+**Signature**
+
+```ts
+export declare const map: <A, B>(
+  f: (a: A) => B
+) => <R, E>(self: ReaderAsyncWriter<R, E, A>) => ReaderAsyncWriter<R, E, B>
+```
+
+Added in v3.0.0
+
 ## mapBoth
 
 Returns an effect whose failure and success channels have been mapped by
@@ -593,18 +607,6 @@ Changes the value of the local context during the execution of the action `ma` (
 export declare const local: <R2, R1>(
   f: (r2: R2) => R1
 ) => <W, A>(self: ReaderAsyncWriter<R1, W, A>) => ReaderAsyncWriter<R2, W, A>
-```
-
-Added in v3.0.0
-
-## map
-
-**Signature**
-
-```ts
-export declare const map: <A, B>(
-  f: (a: A) => B
-) => <R, E>(self: ReaderAsyncWriter<R, E, A>) => ReaderAsyncWriter<R, E, B>
 ```
 
 Added in v3.0.0

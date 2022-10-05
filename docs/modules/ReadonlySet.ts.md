@@ -14,8 +14,6 @@ Added in v3.0.0
 
 - [Flattenable](#flattenable)
   - [flatMap](#flatmap)
-- [Functor](#functor)
-  - [map](#map)
 - [constructors](#constructors)
   - [fromReadonlyArray](#fromreadonlyarray)
   - [singleton](#singleton)
@@ -29,6 +27,8 @@ Added in v3.0.0
   - [getShow](#getshow)
   - [getUnionMonoid](#getunionmonoid)
   - [getUnionSemigroup](#getunionsemigroup)
+- [mapping](#mapping)
+  - [map](#map)
 - [utils](#utils)
   - [difference](#difference)
   - [elem](#elem)
@@ -64,18 +64,6 @@ Added in v3.0.0
 export declare const flatMap: <B>(
   E: eq.Eq<B>
 ) => <A>(f: (x: A) => ReadonlySet<B>) => (s: ReadonlySet<A>) => ReadonlySet<B>
-```
-
-Added in v3.0.0
-
-# Functor
-
-## map
-
-**Signature**
-
-```ts
-export declare const map: <B>(E: eq.Eq<B>) => <A>(f: (x: A) => B) => (s: ReadonlySet<A>) => ReadonlySet<B>
 ```
 
 Added in v3.0.0
@@ -189,6 +177,20 @@ Added in v3.0.0
 
 ```ts
 export declare const getUnionSemigroup: <A>(E: eq.Eq<A>) => Semigroup<ReadonlySet<A>>
+```
+
+Added in v3.0.0
+
+# mapping
+
+## map
+
+Returns an effect whose success is mapped by the specified `f` function.
+
+**Signature**
+
+```ts
+export declare const map: <B>(E: eq.Eq<B>) => <A>(f: (x: A) => B) => (s: ReadonlySet<A>) => ReadonlySet<B>
 ```
 
 Added in v3.0.0

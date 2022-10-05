@@ -34,11 +34,9 @@ export interface TracedFFix<W> extends TypeLambda {
   readonly type: Traced<W, this['Out1']>
 }
 
-// -------------------------------------------------------------------------------------
-// type class members
-// -------------------------------------------------------------------------------------
-
 /**
+ * Returns an effect whose success is mapped by the specified `f` function.
+ *
  * @category mapping
  * @since 3.0.0
  */

@@ -166,10 +166,6 @@ export const catchAll: <E1, E2, B>(
  */
 export const swap: <E, A>(ma: SyncResult<E, A>) => SyncResult<A, E> = /*#__PURE__*/ eitherT.swap(io.Functor)
 
-// -------------------------------------------------------------------------------------
-// type class members
-// -------------------------------------------------------------------------------------
-
 /**
  * Returns an effect whose success is mapped by the specified `f` function.
  *

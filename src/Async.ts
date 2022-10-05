@@ -93,11 +93,9 @@ export const delay =
       flatMap(() => self)
     )
 
-// -------------------------------------------------------------------------------------
-// type class members
-// -------------------------------------------------------------------------------------
-
 /**
+ * Returns an effect whose success is mapped by the specified `f` function.
+ *
  * @category mapping
  * @since 3.0.0
  */

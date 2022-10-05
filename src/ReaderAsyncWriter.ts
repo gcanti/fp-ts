@@ -197,6 +197,9 @@ export const censor: <W>(f: (w: W) => W) => <R, A>(self: ReaderAsyncWriter<R, W,
   /*#__PURE__*/ writerT.censor(readerTask.Functor)
 
 /**
+ * Returns an effect whose success is mapped by the specified `f` function.
+ *
+ * @category mapping
  * @since 3.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => <R, E>(self: ReaderAsyncWriter<R, E, A>) => ReaderAsyncWriter<R, E, B> =

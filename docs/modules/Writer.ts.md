@@ -14,8 +14,6 @@ Added in v3.0.0
 
 - [Bifunctor](#bifunctor)
   - [mapLeft](#mapleft)
-- [Functor](#functor)
-  - [map](#map)
 - [constructors](#constructors)
   - [tell](#tell)
 - [instances](#instances)
@@ -23,7 +21,7 @@ Added in v3.0.0
   - [Comonad](#comonad)
   - [Composable](#composable)
   - [Foldable](#foldable)
-  - [Functor](#functor-1)
+  - [Functor](#functor)
   - [Traversable](#traversable)
   - [getApplicative](#getapplicative)
   - [getApply](#getapply)
@@ -33,6 +31,7 @@ Added in v3.0.0
   - [getMonad](#getmonad)
 - [mapping](#mapping)
   - [flap](#flap)
+  - [map](#map)
   - [mapBoth](#mapboth)
 - [model](#model)
   - [Writer (type alias)](#writer-type-alias)
@@ -74,18 +73,6 @@ Added in v3.0.0
 
 ```ts
 export declare const mapLeft: <W, X>(f: (w: W) => X) => <A>(self: Writer<W, A>) => Writer<X, A>
-```
-
-Added in v3.0.0
-
-# Functor
-
-## map
-
-**Signature**
-
-```ts
-export declare const map: <A, B>(f: (a: A) => B) => <W>(self: Writer<W, A>) => Writer<W, B>
 ```
 
 Added in v3.0.0
@@ -234,6 +221,18 @@ Added in v3.0.0
 
 ```ts
 export declare const flap: <A>(a: A) => <W, B>(fab: Writer<W, (a: A) => B>) => Writer<W, B>
+```
+
+Added in v3.0.0
+
+## map
+
+Returns an effect whose success is mapped by the specified `f` function.
+
+**Signature**
+
+```ts
+export declare const map: <A, B>(f: (a: A) => B) => <W>(self: Writer<W, A>) => Writer<W, B>
 ```
 
 Added in v3.0.0

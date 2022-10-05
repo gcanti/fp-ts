@@ -62,6 +62,9 @@ export const getShow: <A>(S: Show<A>) => Show<Identity<A>> = identity
 export const getEq: <A>(E: Eq<A>) => Eq<Identity<A>> = identity
 
 /**
+ * Returns an effect whose success is mapped by the specified `f` function.
+ *
+ * @category mapping
  * @since 3.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => (fa: Identity<A>) => Identity<B> = identity

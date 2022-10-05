@@ -138,10 +138,6 @@ export const swap: <E, A>(self: Async<these.These<E, A>>) => Async<these.These<A
   task.Functor
 )
 
-// -------------------------------------------------------------------------------------
-// type class members
-// -------------------------------------------------------------------------------------
-
 /**
  * Returns an effect whose success is mapped by the specified `f` function.
  *

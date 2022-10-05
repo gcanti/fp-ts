@@ -15,8 +15,6 @@ Added in v3.0.0
 - [FilterableWithIndex](#filterablewithindex)
   - [filterMapWithIndex](#filtermapwithindex)
   - [partitionMapWithIndex](#partitionmapwithindex)
-- [Functor](#functor)
-  - [map](#map)
 - [FunctorWithIndex](#functorwithindex)
   - [mapWithIndex](#mapwithindex)
 - [constructors](#constructors)
@@ -37,7 +35,7 @@ Added in v3.0.0
   - [Compactable](#compactable)
   - [Filterable](#filterable)
   - [FilterableWithIndex](#filterablewithindex-1)
-  - [Functor](#functor-1)
+  - [Functor](#functor)
   - [FunctorWithIndex](#functorwithindex-1)
   - [getDifferenceMagma](#getdifferencemagma)
   - [getEq](#geteq)
@@ -53,6 +51,7 @@ Added in v3.0.0
   - [getUnionSemigroup](#getunionsemigroup)
 - [mapping](#mapping)
   - [flap](#flap)
+  - [map](#map)
 - [model](#model)
   - [ReadonlyRecord (type alias)](#readonlyrecord-type-alias)
 - [traversing](#traversing)
@@ -118,20 +117,6 @@ Added in v3.0.0
 export declare function partitionMapWithIndex<K extends string, A, B, C>(
   f: (key: K, a: A) => Result<B, C>
 ): (r: ReadonlyRecord<K, A>) => readonly [ReadonlyRecord<string, B>, ReadonlyRecord<string, C>]
-```
-
-Added in v3.0.0
-
-# Functor
-
-## map
-
-**Signature**
-
-```ts
-export declare const map: <A, B>(
-  f: (a: A) => B
-) => <K extends string>(r: Readonly<Record<K, A>>) => Readonly<Record<K, B>>
 ```
 
 Added in v3.0.0
@@ -518,6 +503,20 @@ Added in v3.0.0
 
 ```ts
 export declare const flap: <A>(a: A) => <B>(fab: Readonly<Record<string, (a: A) => B>>) => Readonly<Record<string, B>>
+```
+
+Added in v3.0.0
+
+## map
+
+Returns an effect whose success is mapped by the specified `f` function.
+
+**Signature**
+
+```ts
+export declare const map: <A, B>(
+  f: (a: A) => B
+) => <K extends string>(r: Readonly<Record<K, A>>) => Readonly<Record<K, B>>
 ```
 
 Added in v3.0.0

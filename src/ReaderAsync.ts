@@ -73,6 +73,8 @@ export const fromReaderSync: <R, A>(fa: ReaderSync<R, A>) => ReaderAsync<R, A> =
 export const local: <R2, R1>(f: (r2: R2) => R1) => <A>(ma: ReaderAsync<R1, A>) => ReaderAsync<R2, A> = reader.local
 
 /**
+ * Returns an effect whose success is mapped by the specified `f` function.
+ *
  * @category mapping
  * @since 3.0.0
  */

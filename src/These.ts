@@ -197,10 +197,6 @@ export const isSuccess = <A>(fa: These<unknown, A>): fa is Success<A> => fa._tag
  */
 export const isBoth = <E, A>(fa: These<E, A>): fa is Both<E, A> => fa._tag === 'Both'
 
-// -------------------------------------------------------------------------------------
-// type class members
-// -------------------------------------------------------------------------------------
-
 /**
  * Returns an effect whose failure and success channels have been mapped by
  * the specified pair of functions, `f` and `g`.

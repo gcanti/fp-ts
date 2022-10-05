@@ -59,6 +59,8 @@ export const local: <R2, R1>(f: (r2: R2) => R1) => <A>(ma: ReaderSync<R1, A>) =>
 export const asksReaderSync: <R1, R2, A>(f: (r1: R1) => ReaderSync<R2, A>) => ReaderSync<R1 & R2, A> = reader.asksReader
 
 /**
+ * Returns an effect whose success is mapped by the specified `f` function.
+ *
  * @category mapping
  * @since 3.0.0
  */

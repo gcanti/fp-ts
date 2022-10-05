@@ -169,12 +169,10 @@ export const pop =
       option.map((out) => [r[k], out])
     )
 
-// -------------------------------------------------------------------------------------
-// type class members
-// -------------------------------------------------------------------------------------
-
 /**
- * @category Functor
+ * Returns an effect whose success is mapped by the specified `f` function.
+ *
+ * @category mapping
  * @since 3.0.0
  */
 export const map = <A, B>(f: (a: A) => B): (<K extends string>(r: ReadonlyRecord<K, A>) => ReadonlyRecord<K, B>) =>

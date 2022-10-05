@@ -71,6 +71,7 @@ Added in v3.0.0
 - [mapping](#mapping)
   - [as](#as)
   - [flap](#flap)
+  - [map](#map)
   - [unit](#unit)
 - [model](#model)
   - [ReadonlyNonEmptyArray (type alias)](#readonlynonemptyarray-type-alias)
@@ -114,7 +115,6 @@ Added in v3.0.0
   - [intercalate](#intercalate)
   - [intersperse](#intersperse)
   - [last](#last)
-  - [map](#map)
   - [max](#max)
   - [min](#min)
   - [modifyAt](#modifyat)
@@ -659,6 +659,18 @@ Added in v3.0.0
 
 ```ts
 export declare const flap: <A>(a: A) => <B>(fab: readonly [(a: A) => B, ...((a: A) => B)[]]) => readonly [B, ...B[]]
+```
+
+Added in v3.0.0
+
+## map
+
+Returns an effect whose success is mapped by the specified `f` function.
+
+**Signature**
+
+```ts
+export declare const map: <A, B>(f: (a: A) => B) => (fa: readonly [A, ...A[]]) => readonly [B, ...B[]]
 ```
 
 Added in v3.0.0
@@ -1242,16 +1254,6 @@ Added in v3.0.0
 
 ```ts
 export declare const last: <A>(as: readonly [A, ...A[]]) => A
-```
-
-Added in v3.0.0
-
-## map
-
-**Signature**
-
-```ts
-export declare const map: <A, B>(f: (a: A) => B) => (fa: readonly [A, ...A[]]) => readonly [B, ...B[]]
 ```
 
 Added in v3.0.0

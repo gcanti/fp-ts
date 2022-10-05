@@ -62,6 +62,8 @@ export const leftKind = <F extends TypeLambda>(
 ): (<S, R, O, FE, E>(fl: Kind<F, S, R, O, FE, E>) => Kind<TheseT<F, E>, S, R, O, FE, never>) => Functor.map(these.fail)
 
 /**
+ * Returns an effect whose success is mapped by the specified `f` function.
+ *
  * @since 3.0.0
  */
 export const map = <F extends TypeLambda>(Functor: Functor<F>) => {

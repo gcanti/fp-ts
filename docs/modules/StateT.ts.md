@@ -121,6 +121,8 @@ Added in v3.0.0
 
 ## map
 
+Returns an effect whose success is mapped by the specified `f` function.
+
 **Signature**
 
 ```ts

@@ -248,10 +248,6 @@ export const flatMapReaderAsyncResult =
   <S, E1>(ma: StateReaderAsyncResult<S, R, E1, A>): StateReaderAsyncResult<S, R, E1 | E2, B> =>
     pipe(ma, flatMap<A, S, R, E2, B>(liftReaderAsyncResult(f)))
 
-// -------------------------------------------------------------------------------------
-// type class members
-// -------------------------------------------------------------------------------------
-
 /**
  * Returns an effect whose success is mapped by the specified `f` function.
  *

@@ -306,10 +306,6 @@ export const catchAll: <E1, E2, B>(
 ) => <A>(self: Result<E1, A>) => Result<E2, A | B> = (onError) => (self) =>
   isFailure(self) ? onError(self.failure) : self
 
-// -------------------------------------------------------------------------------------
-// type class members
-// -------------------------------------------------------------------------------------
-
 /**
  * Returns an effect whose failure and success channels have been mapped by
  * the specified pair of functions, `f` and `g`.
@@ -653,6 +649,8 @@ export const mapError: <E, G>(f: (e: E) => G) => <A>(self: Result<E, A>) => Resu
   /*#__PURE__*/ bifunctor.mapLeft(Bifunctor)
 
 /**
+ * Returns an effect whose success is mapped by the specified `f` function.
+ *
  * @category mapping
  * @since 3.0.0
  */

@@ -12,8 +12,6 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Functor](#functor)
-  - [map](#map)
 - [constructors](#constructors)
   - [get](#get)
   - [gets](#gets)
@@ -32,13 +30,14 @@ Added in v3.0.0
   - [Flattenable](#flattenable)
   - [FromIdentity](#fromidentity)
   - [FromState](#fromstate)
-  - [Functor](#functor-1)
+  - [Functor](#functor)
   - [Monad](#monad)
 - [lifting](#lifting)
   - [lift2](#lift2)
   - [lift3](#lift3)
 - [mapping](#mapping)
   - [flap](#flap)
+  - [map](#map)
 - [model](#model)
   - [State (interface)](#state-interface)
 - [sequencing](#sequencing)
@@ -68,18 +67,6 @@ Added in v3.0.0
   - [unit](#unit)
 
 ---
-
-# Functor
-
-## map
-
-**Signature**
-
-```ts
-export declare const map: <A, B>(f: (a: A) => B) => <S>(self: State<S, A>) => State<S, B>
-```
-
-Added in v3.0.0
 
 # constructors
 
@@ -314,6 +301,18 @@ Added in v3.0.0
 
 ```ts
 export declare const flap: <A>(a: A) => <S, B>(fab: State<S, (a: A) => B>) => State<S, B>
+```
+
+Added in v3.0.0
+
+## map
+
+Returns an effect whose success is mapped by the specified `f` function.
+
+**Signature**
+
+```ts
+export declare const map: <A, B>(f: (a: A) => B) => <S>(self: State<S, A>) => State<S, B>
 ```
 
 Added in v3.0.0

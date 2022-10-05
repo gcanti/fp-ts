@@ -102,6 +102,7 @@ Added in v3.0.0
 - [mapping](#mapping)
   - [as](#as)
   - [flap](#flap)
+  - [map](#map)
   - [unit](#unit)
 - [pattern matching](#pattern-matching)
   - [match](#match)
@@ -162,7 +163,6 @@ Added in v3.0.0
   - [isOutOfBound](#isoutofbound)
   - [last](#last)
   - [lookup](#lookup)
-  - [map](#map)
   - [mapWithIndex](#mapwithindex)
   - [modifyAt](#modifyat)
   - [partitionKind](#partitionkind)
@@ -1230,6 +1230,18 @@ export declare const flap: <A>(a: A) => <B>(fab: readonly ((a: A) => B)[]) => re
 
 Added in v3.0.0
 
+## map
+
+Returns an effect whose success is mapped by the specified `f` function.
+
+**Signature**
+
+```ts
+export declare const map: <A, B>(f: (a: A) => B) => (fa: readonly A[]) => readonly B[]
+```
+
+Added in v3.0.0
+
 ## unit
 
 Returns the effect resulting from mapping the success of this effect to unit.
@@ -2249,16 +2261,6 @@ import { pipe } from 'fp-ts/Function'
 
 assert.deepStrictEqual(pipe([1, 2, 3], lookup(1)), some(2))
 assert.deepStrictEqual(pipe([1, 2, 3], lookup(3)), none)
-```
-
-Added in v3.0.0
-
-## map
-
-**Signature**
-
-```ts
-export declare const map: <A, B>(f: (a: A) => B) => (fa: readonly A[]) => readonly B[]
 ```
 
 Added in v3.0.0
