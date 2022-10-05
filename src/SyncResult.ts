@@ -3,7 +3,7 @@
  * error of type `E`.
  *
  * If you want to represent a synchronous computation that never fails, please see `Sync`.
- * If you want to represent a synchronous computation that may yield nothing, please see `IOOption`.
+ * If you want to represent a synchronous computation that may yield nothing, please see `SyncOption`.
  *
  * @since 3.0.0
  */

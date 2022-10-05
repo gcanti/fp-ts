@@ -1,4 +1,4 @@
-import * as _ from '../../src/IOOption'
+import * as _ from '../../src/SyncOption'
 import { pipe } from '../../src/Function'
 
 declare const n: number
@@ -10,7 +10,7 @@ declare const predicate: (sn: string | number) => boolean
 // fromPredicate
 // -------------------------------------------------------------------------------------
 
-// $ExpectType IOOption<string>
+// $ExpectType SyncOption<string>
 pipe(sn, _.liftPredicate(isString))
 pipe(
   sn,
@@ -21,11 +21,11 @@ pipe(
   )
 )
 
-// $ExpectType IOOption<string | number>
+// $ExpectType SyncOption<string | number>
 pipe(sn, _.liftPredicate(predicate))
-// $ExpectType IOOption<number>
+// $ExpectType SyncOption<number>
 pipe(n, _.liftPredicate(predicate))
-// $ExpectType IOOption<number>
+// $ExpectType SyncOption<number>
 pipe(
   n,
   _.liftPredicate(

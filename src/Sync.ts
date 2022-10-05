@@ -9,7 +9,7 @@
  * type `A` and **never fails**.
  *
  * If you want to represent a synchronous computation that may fail, please see `SyncResult`.
- * If you want to represent a synchronous computation that may yield nothing, please see `IOOption`.
+ * If you want to represent a synchronous computation that may yield nothing, please see `SyncOption`.
  *
  * @since 3.0.0
  */

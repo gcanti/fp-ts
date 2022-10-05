@@ -1,5 +1,5 @@
 /**
- * `IOOption<A>` represents a synchronous computation that either yields a value of type `A` or nothing.
+ * `SyncOption<A>` represents a synchronous computation that either yields a value of type `A` or nothing.
  *
  * If you want to represent a synchronous computation that never fails, please see `Sync`.
  * If you want to represent a synchronous computation that may fail, please see `SyncResult`.
@@ -40,7 +40,7 @@ import type { Option } from './Option'
  * @category model
  * @since 3.0.0
  */
-export interface IOOption<A> extends Sync<Option<A>> {}
+export interface SyncOption<A> extends Sync<Option<A>> {}
 
 // -------------------------------------------------------------------------------------
 // type lambdas
@@ -50,32 +50,32 @@ export interface IOOption<A> extends Sync<Option<A>> {}
  * @category type lambdas
  * @since 3.0.0
  */
-export interface IOOptionTypeLambda extends TypeLambda {
-  readonly type: IOOption<this['Out1']>
+export interface SyncOptionTypeLambda extends TypeLambda {
+  readonly type: SyncOption<this['Out1']>
 }
 
 /**
  * @since 3.0.0
  */
-export const emptyKind: <A>() => IOOption<A> = /*#__PURE__*/ optionT.emptyKind(io.FromIdentity)
+export const emptyKind: <A>() => SyncOption<A> = /*#__PURE__*/ optionT.emptyKind(io.FromIdentity)
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const none: IOOption<never> = /*#__PURE__*/ emptyKind()
+export const none: SyncOption<never> = /*#__PURE__*/ emptyKind()
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const some: <A>(a: A) => IOOption<A> = /*#__PURE__*/ optionT.some(io.FromIdentity)
+export const some: <A>(a: A) => SyncOption<A> = /*#__PURE__*/ optionT.some(io.FromIdentity)
 
 /**
  * @category conversions
  * @since 3.0.0
  */
-export const fromOption: <A>(fa: Option<A>) => IOOption<A> = io.succeed
+export const fromOption: <A>(fa: Option<A>) => SyncOption<A> = io.succeed
 
 /**
  * @category conversions
@@ -89,13 +89,13 @@ export const fromResult: <A>(e: Result<unknown, A>) => Sync<option.Option<A>> = 
  * @category conversions
  * @since 3.0.0
  */
-export const fromSync: <A>(ma: Sync<A>) => IOOption<A> = /*#__PURE__*/ optionT.fromKind(io.Functor)
+export const fromSync: <A>(ma: Sync<A>) => SyncOption<A> = /*#__PURE__*/ optionT.fromKind(io.Functor)
 
 /**
  * @category conversions
  * @since 3.0.0
  */
-export const fromSyncEither: <A>(ma: SyncResult<unknown, A>) => IOOption<A> = /*#__PURE__*/ io.map(option.fromResult)
+export const fromSyncEither: <A>(ma: SyncResult<unknown, A>) => SyncOption<A> = /*#__PURE__*/ io.map(option.fromResult)
 
 // -------------------------------------------------------------------------------------
 // pattern matching
@@ -105,7 +105,7 @@ export const fromSyncEither: <A>(ma: SyncResult<unknown, A>) => IOOption<A> = /*
  * @category pattern matching
  * @since 3.0.0
  */
-export const match: <B, A, C = B>(onNone: LazyArg<B>, onSome: (a: A) => C) => (ma: IOOption<A>) => Sync<B | C> =
+export const match: <B, A, C = B>(onNone: LazyArg<B>, onSome: (a: A) => C) => (ma: SyncOption<A>) => Sync<B | C> =
   /*#__PURE__*/ optionT.match(io.Functor)
 
 /**
@@ -115,13 +115,13 @@ export const match: <B, A, C = B>(onNone: LazyArg<B>, onSome: (a: A) => C) => (m
 export const matchIO: <B, A, C = B>(
   onNone: LazyArg<Sync<B>>,
   onSome: (a: A) => Sync<C>
-) => (ma: IOOption<A>) => Sync<B | C> = /*#__PURE__*/ optionT.matchKind(io.Flattenable)
+) => (ma: SyncOption<A>) => Sync<B | C> = /*#__PURE__*/ optionT.matchKind(io.Flattenable)
 
 /**
  * @category error handling
  * @since 3.0.0
  */
-export const getOrElse: <B>(onNone: B) => <A>(self: IOOption<A>) => Sync<A | B> = /*#__PURE__*/ optionT.getOrElse(
+export const getOrElse: <B>(onNone: B) => <A>(self: SyncOption<A>) => Sync<A | B> = /*#__PURE__*/ optionT.getOrElse(
   io.Functor
 )
 
@@ -129,20 +129,20 @@ export const getOrElse: <B>(onNone: B) => <A>(self: IOOption<A>) => Sync<A | B> 
  * @category error handling
  * @since 3.0.0
  */
-export const getOrElseIO: <B>(onNone: Sync<B>) => <A>(self: IOOption<A>) => Sync<A | B> =
+export const getOrElseIO: <B>(onNone: Sync<B>) => <A>(self: SyncOption<A>) => Sync<A | B> =
   /*#__PURE__*/ optionT.getOrElseKind(io.Monad)
 
 /**
  * @category conversions
  * @since 3.0.0
  */
-export const toUndefined: <A>(self: IOOption<A>) => Sync<A | undefined> = io.map(option.toUndefined)
+export const toUndefined: <A>(self: SyncOption<A>) => Sync<A | undefined> = io.map(option.toUndefined)
 
 /**
  * @category conversions
  * @since 3.0.0
  */
-export const toNull: <A>(self: IOOption<A>) => Sync<A | null> = io.map(option.toNull)
+export const toNull: <A>(self: SyncOption<A>) => Sync<A | null> = io.map(option.toNull)
 
 // -------------------------------------------------------------------------------------
 // type class members
@@ -154,19 +154,19 @@ export const toNull: <A>(self: IOOption<A>) => Sync<A | null> = io.map(option.to
  * @category mapping
  * @since 3.0.0
  */
-export const map: <A, B>(f: (a: A) => B) => (fa: IOOption<A>) => IOOption<B> = /*#__PURE__*/ optionT.map(io.Functor)
+export const map: <A, B>(f: (a: A) => B) => (fa: SyncOption<A>) => SyncOption<B> = /*#__PURE__*/ optionT.map(io.Functor)
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const succeed: <A>(a: A) => IOOption<A> = some
+export const succeed: <A>(a: A) => SyncOption<A> = some
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const FromIdentity: fromIdentity.FromIdentity<IOOptionTypeLambda> = {
+export const FromIdentity: fromIdentity.FromIdentity<SyncOptionTypeLambda> = {
   succeed
 }
 
@@ -174,14 +174,14 @@ export const FromIdentity: fromIdentity.FromIdentity<IOOptionTypeLambda> = {
  * @category sequencing
  * @since 3.0.0
  */
-export const flatMap: <A, B>(f: (a: A) => IOOption<B>) => (self: IOOption<A>) => IOOption<B> =
+export const flatMap: <A, B>(f: (a: A) => SyncOption<B>) => (self: SyncOption<A>) => SyncOption<B> =
   /*#__PURE__*/ optionT.flatMap(io.Monad)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const Flattenable: flattenable.Flattenable<IOOptionTypeLambda> = {
+export const Flattenable: flattenable.Flattenable<SyncOptionTypeLambda> = {
   map,
   flatMap
 }
@@ -190,27 +190,27 @@ export const Flattenable: flattenable.Flattenable<IOOptionTypeLambda> = {
  * @since 3.0.0
  */
 export const composeKind: <B, C>(
-  bfc: (b: B) => IOOption<C>
-) => <A>(afb: (a: A) => IOOption<B>) => (a: A) => IOOption<C> = /*#__PURE__*/ flattenable.composeKind(Flattenable)
+  bfc: (b: B) => SyncOption<C>
+) => <A>(afb: (a: A) => SyncOption<B>) => (a: A) => SyncOption<C> = /*#__PURE__*/ flattenable.composeKind(Flattenable)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const ComposableKind: composableKind.ComposableKind<IOOptionTypeLambda> = {
+export const ComposableKind: composableKind.ComposableKind<SyncOptionTypeLambda> = {
   composeKind
 }
 
 /**
  * @since 3.0.0
  */
-export const idKind: <A>() => (a: A) => IOOption<A> = /*#__PURE__*/ fromIdentity.idKind(FromIdentity)
+export const idKind: <A>() => (a: A) => SyncOption<A> = /*#__PURE__*/ fromIdentity.idKind(FromIdentity)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const CategoryKind: categoryKind.CategoryKind<IOOptionTypeLambda> = {
+export const CategoryKind: categoryKind.CategoryKind<SyncOptionTypeLambda> = {
   composeKind,
   idKind
 }
@@ -222,7 +222,7 @@ export const CategoryKind: categoryKind.CategoryKind<IOOptionTypeLambda> = {
  * @category sequencing
  * @since 3.0.0
  */
-export const zipLeft: (that: IOOption<unknown>) => <A>(self: IOOption<A>) => IOOption<A> =
+export const zipLeft: (that: SyncOption<unknown>) => <A>(self: SyncOption<A>) => SyncOption<A> =
   /*#__PURE__*/ flattenable.zipLeft(Flattenable)
 
 /**
@@ -231,19 +231,19 @@ export const zipLeft: (that: IOOption<unknown>) => <A>(self: IOOption<A>) => IOO
  * @category sequencing
  * @since 3.0.0
  */
-export const zipRight: <A>(that: IOOption<A>) => (self: IOOption<unknown>) => IOOption<A> =
+export const zipRight: <A>(that: SyncOption<A>) => (self: SyncOption<unknown>) => SyncOption<A> =
   /*#__PURE__*/ flattenable.zipRight(Flattenable)
 
 /**
  * @since 3.0.0
  */
-export const ap: <A>(fa: IOOption<A>) => <B>(fab: IOOption<(a: A) => B>) => IOOption<B> =
+export const ap: <A>(fa: SyncOption<A>) => <B>(fab: SyncOption<(a: A) => B>) => SyncOption<B> =
   /*#__PURE__*/ flattenable.ap(Flattenable)
 
 /**
  * @since 3.0.0
  */
-export const flatten: <A>(mma: IOOption<IOOption<A>>) => IOOption<A> = /*#__PURE__*/ flatMap(identity)
+export const flatten: <A>(mma: SyncOption<SyncOption<A>>) => SyncOption<A> = /*#__PURE__*/ flatMap(identity)
 
 /**
  * Lazy version of `orElse`.
@@ -251,21 +251,20 @@ export const flatten: <A>(mma: IOOption<IOOption<A>>) => IOOption<A> = /*#__PURE
  * @category error handling
  * @since 3.0.0
  */
-export const catchAll: <B>(that: LazyArg<IOOption<B>>) => <A>(self: IOOption<A>) => IOOption<A | B> =
+export const catchAll: <B>(that: LazyArg<SyncOption<B>>) => <A>(self: SyncOption<A>) => SyncOption<A | B> =
   /*#__PURE__*/ optionT.catchAll(io.Monad)
 
 /**
  * @since 3.0.0
  */
-export const orElse: <B>(that: IOOption<B>) => <A>(self: IOOption<A>) => IOOption<A | B> = /*#__PURE__*/ optionT.orElse(
-  io.Monad
-)
+export const orElse: <B>(that: SyncOption<B>) => <A>(self: SyncOption<A>) => SyncOption<A | B> =
+  /*#__PURE__*/ optionT.orElse(io.Monad)
 
 /**
  * @category filtering
  * @since 3.0.0
  */
-export const filterMap: <A, B>(f: (a: A) => Option<B>) => (fga: IOOption<A>) => IOOption<B> =
+export const filterMap: <A, B>(f: (a: A) => Option<B>) => (fga: SyncOption<A>) => SyncOption<B> =
   /*#__PURE__*/ filterable.filterMapComposition(io.Functor, option.Filterable)
 
 /**
@@ -274,7 +273,7 @@ export const filterMap: <A, B>(f: (a: A) => Option<B>) => (fga: IOOption<A>) => 
  */
 export const partitionMap: <A, B, C>(
   f: (a: A) => Result<B, C>
-) => (fa: IOOption<A>) => readonly [IOOption<B>, IOOption<C>] = /*#__PURE__*/ filterable.partitionMapComposition(
+) => (fa: SyncOption<A>) => readonly [SyncOption<B>, SyncOption<C>] = /*#__PURE__*/ filterable.partitionMapComposition(
   io.Functor,
   option.Filterable
 )
@@ -287,7 +286,7 @@ export const partitionMap: <A, B, C>(
  * @category instances
  * @since 3.0.0
  */
-export const Functor: functor.Functor<IOOptionTypeLambda> = {
+export const Functor: functor.Functor<SyncOptionTypeLambda> = {
   map
 }
 
@@ -295,7 +294,7 @@ export const Functor: functor.Functor<IOOptionTypeLambda> = {
  * @category mapping
  * @since 3.0.0
  */
-export const flap: <A>(a: A) => <B>(fab: IOOption<(a: A) => B>) => IOOption<B> = /*#__PURE__*/ functor.flap(Functor)
+export const flap: <A>(a: A) => <B>(fab: SyncOption<(a: A) => B>) => SyncOption<B> = /*#__PURE__*/ functor.flap(Functor)
 
 /**
  * Maps the success value of this effect to the specified constant value.
@@ -303,7 +302,7 @@ export const flap: <A>(a: A) => <B>(fab: IOOption<(a: A) => B>) => IOOption<B> =
  * @category mapping
  * @since 3.0.0
  */
-export const as: <B>(b: B) => (self: IOOption<unknown>) => IOOption<B> = /*#__PURE__*/ functor.as(Functor)
+export const as: <B>(b: B) => (self: SyncOption<unknown>) => SyncOption<B> = /*#__PURE__*/ functor.as(Functor)
 
 /**
  * Returns the effect resulting from mapping the success of this effect to unit.
@@ -311,41 +310,41 @@ export const as: <B>(b: B) => (self: IOOption<unknown>) => IOOption<B> = /*#__PU
  * @category mapping
  * @since 3.0.0
  */
-export const unit: (self: IOOption<unknown>) => IOOption<void> = /*#__PURE__*/ functor.unit(Functor)
+export const unit: (self: SyncOption<unknown>) => SyncOption<void> = /*#__PURE__*/ functor.unit(Functor)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const Apply: apply.Apply<IOOptionTypeLambda> = {
+export const Apply: apply.Apply<SyncOptionTypeLambda> = {
   map,
   ap
 }
 
 /**
- * Lifts a binary function into `IOOption`.
+ * Lifts a binary function into `SyncOption`.
  *
  * @category lifting
  * @since 3.0.0
  */
-export const lift2: <A, B, C>(f: (a: A, b: B) => C) => (fa: IOOption<A>, fb: IOOption<B>) => IOOption<C> =
+export const lift2: <A, B, C>(f: (a: A, b: B) => C) => (fa: SyncOption<A>, fb: SyncOption<B>) => SyncOption<C> =
   /*#__PURE__*/ apply.lift2(Apply)
 
 /**
- * Lifts a ternary function into `IOOption`.
+ * Lifts a ternary function into `SyncOption`.
  *
  * @category lifting
  * @since 3.0.0
  */
 export const lift3: <A, B, C, D>(
   f: (a: A, b: B, c: C) => D
-) => (fa: IOOption<A>, fb: IOOption<B>, fc: IOOption<C>) => IOOption<D> = /*#__PURE__*/ apply.lift3(Apply)
+) => (fa: SyncOption<A>, fb: SyncOption<B>, fc: SyncOption<C>) => SyncOption<D> = /*#__PURE__*/ apply.lift3(Apply)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const Applicative: applicative.Applicative<IOOptionTypeLambda> = {
+export const Applicative: applicative.Applicative<SyncOptionTypeLambda> = {
   map,
   ap,
   succeed
@@ -356,7 +355,7 @@ export const Applicative: applicative.Applicative<IOOptionTypeLambda> = {
  *
  * @since 3.0.0
  */
-export const tap: <A>(f: (a: A) => IOOption<unknown>) => (self: IOOption<A>) => IOOption<A> =
+export const tap: <A>(f: (a: A) => SyncOption<unknown>) => (self: SyncOption<A>) => SyncOption<A> =
   /*#__PURE__*/ flattenable.tap(Flattenable)
 
 /**
@@ -365,14 +364,14 @@ export const tap: <A>(f: (a: A) => IOOption<unknown>) => (self: IOOption<A>) => 
  * @category error handling
  * @since 3.0.0
  */
-export const tapError: (onNone: IOOption<unknown>) => <A>(self: IOOption<A>) => IOOption<A> =
+export const tapError: (onNone: SyncOption<unknown>) => <A>(self: SyncOption<A>) => SyncOption<A> =
   /*#__PURE__*/ optionT.tapError(io.Monad)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const SemigroupKind: semigroupKind.SemigroupKind<IOOptionTypeLambda> = {
+export const SemigroupKind: semigroupKind.SemigroupKind<SyncOptionTypeLambda> = {
   combineKind: orElse
 }
 
@@ -380,7 +379,7 @@ export const SemigroupKind: semigroupKind.SemigroupKind<IOOptionTypeLambda> = {
  * @category instances
  * @since 3.0.0
  */
-export const MonoidKind: monoidKind.MonoidKind<IOOptionTypeLambda> = {
+export const MonoidKind: monoidKind.MonoidKind<SyncOptionTypeLambda> = {
   combineKind: orElse,
   emptyKind: emptyKind
 }
@@ -389,13 +388,13 @@ export const MonoidKind: monoidKind.MonoidKind<IOOptionTypeLambda> = {
  * @category do notation
  * @since 3.0.0
  */
-export const guard: (b: boolean) => IOOption<void> = /*#__PURE__*/ monoidKind.guard(MonoidKind, FromIdentity)
+export const guard: (b: boolean) => SyncOption<void> = /*#__PURE__*/ monoidKind.guard(MonoidKind, FromIdentity)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const Monad: monad.Monad<IOOptionTypeLambda> = {
+export const Monad: monad.Monad<SyncOptionTypeLambda> = {
   map,
   succeed,
   flatMap
@@ -405,14 +404,14 @@ export const Monad: monad.Monad<IOOptionTypeLambda> = {
  * @category filtering
  * @since 3.0.0
  */
-export const compact: <A>(foa: IOOption<option.Option<A>>) => IOOption<A> =
+export const compact: <A>(foa: SyncOption<option.Option<A>>) => SyncOption<A> =
   /*#__PURE__*/ compactable.compactComposition(io.Functor, option.Compactable)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const Compactable: compactable.Compactable<IOOptionTypeLambda> = {
+export const Compactable: compactable.Compactable<SyncOptionTypeLambda> = {
   compact
 }
 
@@ -420,14 +419,14 @@ export const Compactable: compactable.Compactable<IOOptionTypeLambda> = {
  * @category filtering
  * @since 3.0.0
  */
-export const separate: <A, B>(fe: IOOption<Result<A, B>>) => readonly [IOOption<A>, IOOption<B>] =
+export const separate: <A, B>(fe: SyncOption<Result<A, B>>) => readonly [SyncOption<A>, SyncOption<B>] =
   /*#__PURE__*/ compactable.separate(Functor, Compactable)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const Filterable: filterable.Filterable<IOOptionTypeLambda> = {
+export const Filterable: filterable.Filterable<SyncOptionTypeLambda> = {
   filterMap,
   partitionMap
 }
@@ -437,8 +436,8 @@ export const Filterable: filterable.Filterable<IOOptionTypeLambda> = {
  * @since 3.0.0
  */
 export const filter: {
-  <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): (fc: IOOption<C>) => IOOption<B>
-  <B extends A, A = B>(predicate: Predicate<A>): (fb: IOOption<B>) => IOOption<B>
+  <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): (fc: SyncOption<C>) => SyncOption<B>
+  <B extends A, A = B>(predicate: Predicate<A>): (fb: SyncOption<B>) => SyncOption<B>
 } = /*#__PURE__*/ filterable.filter(Filterable)
 
 /**
@@ -447,16 +446,16 @@ export const filter: {
  */
 export const partition: {
   <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): (
-    fc: IOOption<C>
-  ) => readonly [IOOption<C>, IOOption<B>]
-  <B extends A, A = B>(predicate: Predicate<A>): (fb: IOOption<B>) => readonly [IOOption<B>, IOOption<B>]
+    fc: SyncOption<C>
+  ) => readonly [SyncOption<C>, SyncOption<B>]
+  <B extends A, A = B>(predicate: Predicate<A>): (fb: SyncOption<B>) => readonly [SyncOption<B>, SyncOption<B>]
 } = /*#__PURE__*/ filterable.partition(Filterable)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const FromSync: fromSync_.FromSync<IOOptionTypeLambda> = {
+export const FromSync: fromSync_.FromSync<SyncOptionTypeLambda> = {
   fromSync: fromSync
 }
 
@@ -468,33 +467,33 @@ export const FromSync: fromSync_.FromSync<IOOptionTypeLambda> = {
  * @category logging
  * @since 3.0.0
  */
-export const log: (...x: ReadonlyArray<unknown>) => IOOption<void> = /*#__PURE__*/ fromSync_.log(FromSync)
+export const log: (...x: ReadonlyArray<unknown>) => SyncOption<void> = /*#__PURE__*/ fromSync_.log(FromSync)
 
 /**
  * @category logging
  * @since 3.0.0
  */
-export const logError: (...x: ReadonlyArray<unknown>) => IOOption<void> = /*#__PURE__*/ fromSync_.logError(FromSync)
+export const logError: (...x: ReadonlyArray<unknown>) => SyncOption<void> = /*#__PURE__*/ fromSync_.logError(FromSync)
 
 /**
  * @category lifting
  * @since 3.0.0
  */
-export const liftSync: <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Sync<B>) => (...a: A) => IOOption<B> =
+export const liftSync: <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Sync<B>) => (...a: A) => SyncOption<B> =
   /*#__PURE__*/ fromSync_.liftSync(FromSync)
 
 /**
  * @category sequencing
  * @since 3.0.0
  */
-export const flatMapSync: <A, B>(f: (a: A) => Sync<B>) => (self: IOOption<A>) => IOOption<B> =
+export const flatMapSync: <A, B>(f: (a: A) => Sync<B>) => (self: SyncOption<A>) => SyncOption<B> =
   /*#__PURE__*/ fromSync_.flatMapSync(FromSync, Flattenable)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const FromOption: fromOption_.FromOption<IOOptionTypeLambda> = {
+export const FromOption: fromOption_.FromOption<SyncOptionTypeLambda> = {
   fromOption
 }
 
@@ -503,22 +502,23 @@ export const FromOption: fromOption_.FromOption<IOOptionTypeLambda> = {
  * @since 3.0.0
  */
 export const liftPredicate: {
-  <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): (c: C) => IOOption<B>
-  <B extends A, A = B>(predicate: Predicate<A>): (b: B) => IOOption<B>
+  <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): (c: C) => SyncOption<B>
+  <B extends A, A = B>(predicate: Predicate<A>): (b: B) => SyncOption<B>
 } = /*#__PURE__*/ fromOption_.liftPredicate(FromOption)
 
 /**
  * @category lifting
  * @since 3.0.0
  */
-export const liftOption: <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Option<B>) => (...a: A) => IOOption<B> =
-  /*#__PURE__*/ fromOption_.liftOption(FromOption)
+export const liftOption: <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => Option<B>
+) => (...a: A) => SyncOption<B> = /*#__PURE__*/ fromOption_.liftOption(FromOption)
 
 /**
  * @category conversions
  * @since 3.0.0
  */
-export const fromNullable: <A>(a: A) => IOOption<NonNullable<A>> = /*#__PURE__*/ fromOption_.fromNullable(FromOption)
+export const fromNullable: <A>(a: A) => SyncOption<NonNullable<A>> = /*#__PURE__*/ fromOption_.fromNullable(FromOption)
 
 /**
  * @category lifting
@@ -526,7 +526,7 @@ export const fromNullable: <A>(a: A) => IOOption<NonNullable<A>> = /*#__PURE__*/
  */
 export const liftNullable: <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => B | null | undefined
-) => (...a: A) => IOOption<NonNullable<B>> = /*#__PURE__*/ fromOption_.liftNullable(FromOption)
+) => (...a: A) => SyncOption<NonNullable<B>> = /*#__PURE__*/ fromOption_.liftNullable(FromOption)
 
 /**
  * @category sequencing
@@ -534,13 +534,16 @@ export const liftNullable: <A extends ReadonlyArray<unknown>, B>(
  */
 export const flatMapNullable: <A, B>(
   f: (a: A) => B | null | undefined
-) => (ma: IOOption<A>) => IOOption<NonNullable<B>> = /*#__PURE__*/ fromOption_.flatMapNullable(FromOption, Flattenable)
+) => (ma: SyncOption<A>) => SyncOption<NonNullable<B>> = /*#__PURE__*/ fromOption_.flatMapNullable(
+  FromOption,
+  Flattenable
+)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const FromResult: fromResult_.FromResult<IOOptionTypeLambda> = {
+export const FromResult: fromResult_.FromResult<SyncOptionTypeLambda> = {
   fromResult
 }
 
@@ -550,13 +553,13 @@ export const FromResult: fromResult_.FromResult<IOOptionTypeLambda> = {
  */
 export const liftEither: <A extends ReadonlyArray<unknown>, E, B>(
   f: (...a: A) => Result<E, B>
-) => (...a: A) => IOOption<B> = /*#__PURE__*/ fromResult_.liftEither(FromResult)
+) => (...a: A) => SyncOption<B> = /*#__PURE__*/ fromResult_.liftEither(FromResult)
 
 /**
  * @category sequencing
  * @since 3.0.0
  */
-export const flatMapEither: <A, E, B>(f: (a: A) => Result<E, B>) => (ma: IOOption<A>) => IOOption<B> =
+export const flatMapEither: <A, E, B>(f: (a: A) => Result<E, B>) => (ma: SyncOption<A>) => SyncOption<B> =
   /*#__PURE__*/ fromResult_.flatMapEither(FromResult, Flattenable)
 
 // -------------------------------------------------------------------------------------
@@ -567,19 +570,19 @@ export const flatMapEither: <A, E, B>(f: (a: A) => Result<E, B>) => (ma: IOOptio
  * @category do notation
  * @since 3.0.0
  */
-export const Do: IOOption<{}> = /*#__PURE__*/ succeed(_.Do)
+export const Do: SyncOption<{}> = /*#__PURE__*/ succeed(_.Do)
 
 /**
  * @category do notation
  * @since 3.0.0
  */
-export const bindTo: <N extends string>(name: N) => <A>(self: IOOption<A>) => IOOption<{ readonly [K in N]: A }> =
+export const bindTo: <N extends string>(name: N) => <A>(self: SyncOption<A>) => SyncOption<{ readonly [K in N]: A }> =
   /*#__PURE__*/ functor.bindTo(Functor)
 
 const let_: <N extends string, A extends object, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
-) => (self: IOOption<A>) => IOOption<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
+) => (self: SyncOption<A>) => SyncOption<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
   /*#__PURE__*/ functor.let(Functor)
 
 export {
@@ -596,8 +599,8 @@ export {
  */
 export const bind: <N extends string, A extends object, B>(
   name: Exclude<N, keyof A>,
-  f: (a: A) => IOOption<B>
-) => (self: IOOption<A>) => IOOption<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
+  f: (a: A) => SyncOption<B>
+) => (self: SyncOption<A>) => SyncOption<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
   /*#__PURE__*/ flattenable.bind(Flattenable)
 
 /**
@@ -608,8 +611,8 @@ export const bind: <N extends string, A extends object, B>(
  */
 export const bindRight: <N extends string, A extends object, B>(
   name: Exclude<N, keyof A>,
-  fb: IOOption<B>
-) => (self: IOOption<A>) => IOOption<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
+  fb: SyncOption<B>
+) => (self: SyncOption<A>) => SyncOption<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
   /*#__PURE__*/ apply.bindRight(Apply)
 
 // -------------------------------------------------------------------------------------
@@ -620,13 +623,13 @@ export const bindRight: <N extends string, A extends object, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const Zip: IOOption<readonly []> = /*#__PURE__*/ succeed(_.Zip)
+export const Zip: SyncOption<readonly []> = /*#__PURE__*/ succeed(_.Zip)
 
 /**
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const tupled: <A>(self: IOOption<A>) => IOOption<readonly [A]> = /*#__PURE__*/ functor.tupled(Functor)
+export const tupled: <A>(self: SyncOption<A>) => SyncOption<readonly [A]> = /*#__PURE__*/ functor.tupled(Functor)
 
 /**
  * Sequentially zips this effect with the specified effect.
@@ -635,8 +638,8 @@ export const tupled: <A>(self: IOOption<A>) => IOOption<readonly [A]> = /*#__PUR
  * @since 3.0.0
  */
 export const zipFlatten: <B>(
-  fb: IOOption<B>
-) => <A extends ReadonlyArray<unknown>>(self: IOOption<A>) => IOOption<readonly [...A, B]> =
+  fb: SyncOption<B>
+) => <A extends ReadonlyArray<unknown>>(self: SyncOption<A>) => SyncOption<readonly [...A, B]> =
   /*#__PURE__*/ apply.zipFlatten(Apply)
 
 /**
@@ -645,7 +648,7 @@ export const zipFlatten: <B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const zipWith: <B, A, C>(that: IOOption<B>, f: (a: A, b: B) => C) => (self: IOOption<A>) => IOOption<C> =
+export const zipWith: <B, A, C>(that: SyncOption<B>, f: (a: A, b: B) => C) => (self: SyncOption<A>) => SyncOption<C> =
   /*#__PURE__*/ apply.zipWith(Apply)
 
 // -------------------------------------------------------------------------------------
@@ -659,8 +662,8 @@ export const zipWith: <B, A, C>(that: IOOption<B>, f: (a: A, b: B) => C) => (sel
  * @since 3.0.0
  */
 export const traverseReadonlyNonEmptyArrayWithIndex = <A, B>(
-  f: (index: number, a: A) => IOOption<B>
-): ((as: ReadonlyNonEmptyArray<A>) => IOOption<ReadonlyNonEmptyArray<B>>) =>
+  f: (index: number, a: A) => SyncOption<B>
+): ((as: ReadonlyNonEmptyArray<A>) => SyncOption<ReadonlyNonEmptyArray<B>>) =>
   flow(io.traverseReadonlyNonEmptyArrayWithIndex(f), io.map(option.traverseReadonlyNonEmptyArrayWithIndex(SK)))
 
 /**
@@ -670,8 +673,8 @@ export const traverseReadonlyNonEmptyArrayWithIndex = <A, B>(
  * @since 3.0.0
  */
 export const traverseReadonlyArrayWithIndex = <A, B>(
-  f: (index: number, a: A) => IOOption<B>
-): ((as: ReadonlyArray<A>) => IOOption<ReadonlyArray<B>>) => {
+  f: (index: number, a: A) => SyncOption<B>
+): ((as: ReadonlyArray<A>) => SyncOption<ReadonlyArray<B>>) => {
   const g = traverseReadonlyNonEmptyArrayWithIndex(f)
   return (as) => (_.isNonEmpty(as) ? g(as) : Zip)
 }
@@ -683,8 +686,8 @@ export const traverseReadonlyArrayWithIndex = <A, B>(
  * @since 3.0.0
  */
 export const traverseReadonlyNonEmptyArray = <A, B>(
-  f: (a: A) => IOOption<B>
-): ((as: ReadonlyNonEmptyArray<A>) => IOOption<ReadonlyNonEmptyArray<B>>) => {
+  f: (a: A) => SyncOption<B>
+): ((as: ReadonlyNonEmptyArray<A>) => SyncOption<ReadonlyNonEmptyArray<B>>) => {
   return traverseReadonlyNonEmptyArrayWithIndex(flow(SK, f))
 }
 
@@ -695,8 +698,8 @@ export const traverseReadonlyNonEmptyArray = <A, B>(
  * @since 3.0.0
  */
 export const traverseReadonlyArray = <A, B>(
-  f: (a: A) => IOOption<B>
-): ((as: ReadonlyArray<A>) => IOOption<ReadonlyArray<B>>) => {
+  f: (a: A) => SyncOption<B>
+): ((as: ReadonlyArray<A>) => SyncOption<ReadonlyArray<B>>) => {
   return traverseReadonlyArrayWithIndex(flow(SK, f))
 }
 
@@ -706,5 +709,5 @@ export const traverseReadonlyArray = <A, B>(
  * @category traversing
  * @since 3.0.0
  */
-export const sequenceReadonlyArray: <A>(arr: ReadonlyArray<IOOption<A>>) => IOOption<ReadonlyArray<A>> =
+export const sequenceReadonlyArray: <A>(arr: ReadonlyArray<SyncOption<A>>) => SyncOption<ReadonlyArray<A>> =
   /*#__PURE__*/ traverseReadonlyArray(identity)

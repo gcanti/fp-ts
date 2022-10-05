@@ -1,6 +1,6 @@
 ---
 title: Sync.ts
-nav_order: 96
+nav_order: 95
 parent: Modules
 ---
 
@@ -16,7 +16,7 @@ interface Sync<A> {
 type `A` and **never fails**.
 
 If you want to represent a synchronous computation that may fail, please see `SyncResult`.
-If you want to represent a synchronous computation that may yield nothing, please see `IOOption`.
+If you want to represent a synchronous computation that may yield nothing, please see `SyncOption`.
 
 Added in v3.0.0
 

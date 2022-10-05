@@ -2,12 +2,12 @@ import * as E from '../src/Result'
 import { pipe } from '../src/Function'
 import * as I from '../src/Sync'
 import * as IE from '../src/SyncResult'
-import * as _ from '../src/IOOption'
+import * as _ from '../src/SyncOption'
 import * as O from '../src/Option'
 import * as RA from '../src/ReadonlyArray'
 import * as U from './util'
 
-describe('IOOption', () => {
+describe('SyncOption', () => {
   // -------------------------------------------------------------------------------------
   // type class members
   // -------------------------------------------------------------------------------------
@@ -34,7 +34,7 @@ describe('IOOption', () => {
 
   it('orElse', () => {
     U.deepStrictEqual(pipe(_.some(1), _.orElse(_.some(2)))(), O.some(1))
-    U.deepStrictEqual(pipe(_.some(2), _.orElse(_.none as _.IOOption<number>))(), O.some(2))
+    U.deepStrictEqual(pipe(_.some(2), _.orElse(_.none as _.SyncOption<number>))(), O.some(2))
     U.deepStrictEqual(pipe(_.none, _.orElse(_.some(1)))(), O.some(1))
     U.deepStrictEqual(pipe(_.none, _.orElse(_.none))(), O.none)
   })
@@ -179,12 +179,12 @@ describe('IOOption', () => {
 
   it('sequenceReadonlyArray', () => {
     const log: Array<number | string> = []
-    const some = (n: number): _.IOOption<number> =>
+    const some = (n: number): _.SyncOption<number> =>
       _.fromSync(() => {
         log.push(n)
         return n
       })
-    const none = (s: string): _.IOOption<number> =>
+    const none = (s: string): _.SyncOption<number> =>
       pipe(
         () => {
           log.push(s)

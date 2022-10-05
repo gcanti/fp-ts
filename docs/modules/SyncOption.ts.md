@@ -1,12 +1,12 @@
 ---
-title: IOOption.ts
-nav_order: 54
+title: SyncOption.ts
+nav_order: 96
 parent: Modules
 ---
 
-## IOOption overview
+## SyncOption overview
 
-`IOOption<A>` represents a synchronous computation that either yields a value of type `A` or nothing.
+`SyncOption<A>` represents a synchronous computation that either yields a value of type `A` or nothing.
 
 If you want to represent a synchronous computation that never fails, please see `Sync`.
 If you want to represent a synchronous computation that may fail, please see `SyncResult`.
@@ -81,7 +81,7 @@ Added in v3.0.0
   - [map](#map)
   - [unit](#unit)
 - [model](#model)
-  - [IOOption (interface)](#iooption-interface)
+  - [SyncOption (interface)](#syncoption-interface)
 - [pattern matching](#pattern-matching)
   - [match](#match)
   - [matchIO](#matchio)
@@ -104,7 +104,7 @@ Added in v3.0.0
   - [zipFlatten](#zipflatten)
   - [zipWith](#zipwith)
 - [type lambdas](#type-lambdas)
-  - [IOOptionTypeLambda (interface)](#iooptiontypelambda-interface)
+  - [SyncOptionTypeLambda (interface)](#syncoptiontypelambda-interface)
 - [utils](#utils)
   - [ap](#ap)
   - [composeKind](#composekind)
@@ -123,7 +123,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const none: IOOption<never>
+export declare const none: SyncOption<never>
 ```
 
 Added in v3.0.0
@@ -133,7 +133,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const some: <A>(a: A) => IOOption<A>
+export declare const some: <A>(a: A) => SyncOption<A>
 ```
 
 Added in v3.0.0
@@ -143,7 +143,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const succeed: <A>(a: A) => IOOption<A>
+export declare const succeed: <A>(a: A) => SyncOption<A>
 ```
 
 Added in v3.0.0
@@ -155,7 +155,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromNullable: <A>(a: A) => IOOption<NonNullable<A>>
+export declare const fromNullable: <A>(a: A) => SyncOption<NonNullable<A>>
 ```
 
 Added in v3.0.0
@@ -165,7 +165,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromOption: <A>(fa: option.Option<A>) => IOOption<A>
+export declare const fromOption: <A>(fa: option.Option<A>) => SyncOption<A>
 ```
 
 Added in v3.0.0
@@ -185,7 +185,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromSync: <A>(ma: io.Sync<A>) => IOOption<A>
+export declare const fromSync: <A>(ma: io.Sync<A>) => SyncOption<A>
 ```
 
 Added in v3.0.0
@@ -195,7 +195,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromSyncEither: <A>(ma: SyncResult<unknown, A>) => IOOption<A>
+export declare const fromSyncEither: <A>(ma: SyncResult<unknown, A>) => SyncOption<A>
 ```
 
 Added in v3.0.0
@@ -205,7 +205,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const toNull: <A>(self: IOOption<A>) => io.Sync<A | null>
+export declare const toNull: <A>(self: SyncOption<A>) => io.Sync<A | null>
 ```
 
 Added in v3.0.0
@@ -215,7 +215,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const toUndefined: <A>(self: IOOption<A>) => io.Sync<A | undefined>
+export declare const toUndefined: <A>(self: SyncOption<A>) => io.Sync<A | undefined>
 ```
 
 Added in v3.0.0
@@ -227,7 +227,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Do: IOOption<{}>
+export declare const Do: SyncOption<{}>
 ```
 
 Added in v3.0.0
@@ -239,8 +239,8 @@ Added in v3.0.0
 ```ts
 export declare const bind: <N extends string, A extends object, B>(
   name: Exclude<N, keyof A>,
-  f: (a: A) => IOOption<B>
-) => (self: IOOption<A>) => IOOption<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+  f: (a: A) => SyncOption<B>
+) => (self: SyncOption<A>) => SyncOption<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -254,8 +254,8 @@ A variant of `bind` that sequentially ignores the scope.
 ```ts
 export declare const bindRight: <N extends string, A extends object, B>(
   name: Exclude<N, keyof A>,
-  fb: IOOption<B>
-) => (self: IOOption<A>) => IOOption<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+  fb: SyncOption<B>
+) => (self: SyncOption<A>) => SyncOption<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -265,7 +265,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bindTo: <N extends string>(name: N) => <A>(self: IOOption<A>) => IOOption<{ readonly [K in N]: A }>
+export declare const bindTo: <N extends string>(
+  name: N
+) => <A>(self: SyncOption<A>) => SyncOption<{ readonly [K in N]: A }>
 ```
 
 Added in v3.0.0
@@ -275,7 +277,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const guard: (b: boolean) => IOOption<void>
+export declare const guard: (b: boolean) => SyncOption<void>
 ```
 
 Added in v3.0.0
@@ -288,7 +290,7 @@ Added in v3.0.0
 export declare const let: <N extends string, A extends object, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
-) => (self: IOOption<A>) => IOOption<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => (self: SyncOption<A>) => SyncOption<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -302,7 +304,7 @@ Lazy version of `orElse`.
 **Signature**
 
 ```ts
-export declare const catchAll: <B>(that: LazyArg<IOOption<B>>) => <A>(self: IOOption<A>) => IOOption<B | A>
+export declare const catchAll: <B>(that: LazyArg<SyncOption<B>>) => <A>(self: SyncOption<A>) => SyncOption<B | A>
 ```
 
 Added in v3.0.0
@@ -312,7 +314,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getOrElse: <B>(onNone: B) => <A>(self: IOOption<A>) => io.Sync<B | A>
+export declare const getOrElse: <B>(onNone: B) => <A>(self: SyncOption<A>) => io.Sync<B | A>
 ```
 
 Added in v3.0.0
@@ -322,7 +324,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getOrElseIO: <B>(onNone: io.Sync<B>) => <A>(self: IOOption<A>) => io.Sync<B | A>
+export declare const getOrElseIO: <B>(onNone: io.Sync<B>) => <A>(self: SyncOption<A>) => io.Sync<B | A>
 ```
 
 Added in v3.0.0
@@ -334,7 +336,7 @@ Returns an effect that effectfully "peeks" at the failure of this effect.
 **Signature**
 
 ```ts
-export declare const tapError: (onNone: IOOption<unknown>) => <A>(self: IOOption<A>) => IOOption<A>
+export declare const tapError: (onNone: SyncOption<unknown>) => <A>(self: SyncOption<A>) => SyncOption<A>
 ```
 
 Added in v3.0.0
@@ -346,7 +348,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const compact: <A>(foa: IOOption<option.Option<A>>) => IOOption<A>
+export declare const compact: <A>(foa: SyncOption<option.Option<A>>) => SyncOption<A>
 ```
 
 Added in v3.0.0
@@ -357,8 +359,8 @@ Added in v3.0.0
 
 ```ts
 export declare const filter: {
-  <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): (fc: IOOption<C>) => IOOption<B>
-  <B extends A, A = B>(predicate: Predicate<A>): (fb: IOOption<B>) => IOOption<B>
+  <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): (fc: SyncOption<C>) => SyncOption<B>
+  <B extends A, A = B>(predicate: Predicate<A>): (fb: SyncOption<B>) => SyncOption<B>
 }
 ```
 
@@ -369,7 +371,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const filterMap: <A, B>(f: (a: A) => option.Option<B>) => (fga: IOOption<A>) => IOOption<B>
+export declare const filterMap: <A, B>(f: (a: A) => option.Option<B>) => (fga: SyncOption<A>) => SyncOption<B>
 ```
 
 Added in v3.0.0
@@ -381,9 +383,9 @@ Added in v3.0.0
 ```ts
 export declare const partition: {
   <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): (
-    fc: IOOption<C>
-  ) => readonly [IOOption<C>, IOOption<B>]
-  <B extends A, A = B>(predicate: Predicate<A>): (fb: IOOption<B>) => readonly [IOOption<B>, IOOption<B>]
+    fc: SyncOption<C>
+  ) => readonly [SyncOption<C>, SyncOption<B>]
+  <B extends A, A = B>(predicate: Predicate<A>): (fb: SyncOption<B>) => readonly [SyncOption<B>, SyncOption<B>]
 }
 ```
 
@@ -396,7 +398,7 @@ Added in v3.0.0
 ```ts
 export declare const partitionMap: <A, B, C>(
   f: (a: A) => Result<B, C>
-) => (fa: IOOption<A>) => readonly [IOOption<B>, IOOption<C>]
+) => (fa: SyncOption<A>) => readonly [SyncOption<B>, SyncOption<C>]
 ```
 
 Added in v3.0.0
@@ -406,7 +408,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const separate: <A, B>(fe: IOOption<Result<A, B>>) => readonly [IOOption<A>, IOOption<B>]
+export declare const separate: <A, B>(fe: SyncOption<Result<A, B>>) => readonly [SyncOption<A>, SyncOption<B>]
 ```
 
 Added in v3.0.0
@@ -418,7 +420,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Applicative: applicative.Applicative<IOOptionTypeLambda>
+export declare const Applicative: applicative.Applicative<SyncOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -428,7 +430,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Apply: apply.Apply<IOOptionTypeLambda>
+export declare const Apply: apply.Apply<SyncOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -438,7 +440,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const CategoryKind: categoryKind.CategoryKind<IOOptionTypeLambda>
+export declare const CategoryKind: categoryKind.CategoryKind<SyncOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -448,7 +450,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Compactable: compactable.Compactable<IOOptionTypeLambda>
+export declare const Compactable: compactable.Compactable<SyncOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -458,7 +460,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ComposableKind: composableKind.ComposableKind<IOOptionTypeLambda>
+export declare const ComposableKind: composableKind.ComposableKind<SyncOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -468,7 +470,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Filterable: filterable.Filterable<IOOptionTypeLambda>
+export declare const Filterable: filterable.Filterable<SyncOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -478,7 +480,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Flattenable: flattenable.Flattenable<IOOptionTypeLambda>
+export declare const Flattenable: flattenable.Flattenable<SyncOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -488,7 +490,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromIdentity: fromIdentity.FromIdentity<IOOptionTypeLambda>
+export declare const FromIdentity: fromIdentity.FromIdentity<SyncOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -498,7 +500,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromOption: fromOption_.FromOption<IOOptionTypeLambda>
+export declare const FromOption: fromOption_.FromOption<SyncOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -508,7 +510,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromResult: fromResult_.FromResult<IOOptionTypeLambda>
+export declare const FromResult: fromResult_.FromResult<SyncOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -518,7 +520,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromSync: fromSync_.FromSync<IOOptionTypeLambda>
+export declare const FromSync: fromSync_.FromSync<SyncOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -528,7 +530,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: functor.Functor<IOOptionTypeLambda>
+export declare const Functor: functor.Functor<SyncOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -538,7 +540,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: monad.Monad<IOOptionTypeLambda>
+export declare const Monad: monad.Monad<SyncOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -548,7 +550,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const MonoidKind: monoidKind.MonoidKind<IOOptionTypeLambda>
+export declare const MonoidKind: monoidKind.MonoidKind<SyncOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -558,7 +560,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const SemigroupKind: semigroupKind.SemigroupKind<IOOptionTypeLambda>
+export declare const SemigroupKind: semigroupKind.SemigroupKind<SyncOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -567,26 +569,26 @@ Added in v3.0.0
 
 ## lift2
 
-Lifts a binary function into `IOOption`.
+Lifts a binary function into `SyncOption`.
 
 **Signature**
 
 ```ts
-export declare const lift2: <A, B, C>(f: (a: A, b: B) => C) => (fa: IOOption<A>, fb: IOOption<B>) => IOOption<C>
+export declare const lift2: <A, B, C>(f: (a: A, b: B) => C) => (fa: SyncOption<A>, fb: SyncOption<B>) => SyncOption<C>
 ```
 
 Added in v3.0.0
 
 ## lift3
 
-Lifts a ternary function into `IOOption`.
+Lifts a ternary function into `SyncOption`.
 
 **Signature**
 
 ```ts
 export declare const lift3: <A, B, C, D>(
   f: (a: A, b: B, c: C) => D
-) => (fa: IOOption<A>, fb: IOOption<B>, fc: IOOption<C>) => IOOption<D>
+) => (fa: SyncOption<A>, fb: SyncOption<B>, fc: SyncOption<C>) => SyncOption<D>
 ```
 
 Added in v3.0.0
@@ -598,7 +600,7 @@ Added in v3.0.0
 ```ts
 export declare const liftEither: <A extends readonly unknown[], E, B>(
   f: (...a: A) => Result<E, B>
-) => (...a: A) => IOOption<B>
+) => (...a: A) => SyncOption<B>
 ```
 
 Added in v3.0.0
@@ -610,7 +612,7 @@ Added in v3.0.0
 ```ts
 export declare const liftNullable: <A extends readonly unknown[], B>(
   f: (...a: A) => B | null | undefined
-) => (...a: A) => IOOption<NonNullable<B>>
+) => (...a: A) => SyncOption<NonNullable<B>>
 ```
 
 Added in v3.0.0
@@ -622,7 +624,7 @@ Added in v3.0.0
 ```ts
 export declare const liftOption: <A extends readonly unknown[], B>(
   f: (...a: A) => option.Option<B>
-) => (...a: A) => IOOption<B>
+) => (...a: A) => SyncOption<B>
 ```
 
 Added in v3.0.0
@@ -633,8 +635,8 @@ Added in v3.0.0
 
 ```ts
 export declare const liftPredicate: {
-  <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): (c: C) => IOOption<B>
-  <B extends A, A = B>(predicate: Predicate<A>): (b: B) => IOOption<B>
+  <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): (c: C) => SyncOption<B>
+  <B extends A, A = B>(predicate: Predicate<A>): (b: B) => SyncOption<B>
 }
 ```
 
@@ -645,7 +647,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const liftSync: <A extends readonly unknown[], B>(f: (...a: A) => io.Sync<B>) => (...a: A) => IOOption<B>
+export declare const liftSync: <A extends readonly unknown[], B>(
+  f: (...a: A) => io.Sync<B>
+) => (...a: A) => SyncOption<B>
 ```
 
 Added in v3.0.0
@@ -657,7 +661,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const log: (...x: ReadonlyArray<unknown>) => IOOption<void>
+export declare const log: (...x: ReadonlyArray<unknown>) => SyncOption<void>
 ```
 
 Added in v3.0.0
@@ -667,7 +671,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const logError: (...x: ReadonlyArray<unknown>) => IOOption<void>
+export declare const logError: (...x: ReadonlyArray<unknown>) => SyncOption<void>
 ```
 
 Added in v3.0.0
@@ -681,7 +685,7 @@ Maps the success value of this effect to the specified constant value.
 **Signature**
 
 ```ts
-export declare const as: <B>(b: B) => (self: IOOption<unknown>) => IOOption<B>
+export declare const as: <B>(b: B) => (self: SyncOption<unknown>) => SyncOption<B>
 ```
 
 Added in v3.0.0
@@ -691,7 +695,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const flap: <A>(a: A) => <B>(fab: IOOption<(a: A) => B>) => IOOption<B>
+export declare const flap: <A>(a: A) => <B>(fab: SyncOption<(a: A) => B>) => SyncOption<B>
 ```
 
 Added in v3.0.0
@@ -703,7 +707,7 @@ Returns an effect whose success is mapped by the specified `f` function.
 **Signature**
 
 ```ts
-export declare const map: <A, B>(f: (a: A) => B) => (fa: IOOption<A>) => IOOption<B>
+export declare const map: <A, B>(f: (a: A) => B) => (fa: SyncOption<A>) => SyncOption<B>
 ```
 
 Added in v3.0.0
@@ -715,19 +719,19 @@ Returns the effect resulting from mapping the success of this effect to unit.
 **Signature**
 
 ```ts
-export declare const unit: (self: IOOption<unknown>) => IOOption<void>
+export declare const unit: (self: SyncOption<unknown>) => SyncOption<void>
 ```
 
 Added in v3.0.0
 
 # model
 
-## IOOption (interface)
+## SyncOption (interface)
 
 **Signature**
 
 ```ts
-export interface IOOption<A> extends Sync<Option<A>> {}
+export interface SyncOption<A> extends Sync<Option<A>> {}
 ```
 
 Added in v3.0.0
@@ -742,7 +746,7 @@ Added in v3.0.0
 export declare const match: <B, A, C = B>(
   onNone: LazyArg<B>,
   onSome: (a: A) => C
-) => (ma: IOOption<A>) => io.Sync<B | C>
+) => (ma: SyncOption<A>) => io.Sync<B | C>
 ```
 
 Added in v3.0.0
@@ -755,7 +759,7 @@ Added in v3.0.0
 export declare const matchIO: <B, A, C = B>(
   onNone: LazyArg<io.Sync<B>>,
   onSome: (a: A) => io.Sync<C>
-) => (ma: IOOption<A>) => io.Sync<B | C>
+) => (ma: SyncOption<A>) => io.Sync<B | C>
 ```
 
 Added in v3.0.0
@@ -767,7 +771,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const flatMap: <A, B>(f: (a: A) => IOOption<B>) => (self: IOOption<A>) => IOOption<B>
+export declare const flatMap: <A, B>(f: (a: A) => SyncOption<B>) => (self: SyncOption<A>) => SyncOption<B>
 ```
 
 Added in v3.0.0
@@ -777,7 +781,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const flatMapEither: <A, E, B>(f: (a: A) => Result<E, B>) => (ma: IOOption<A>) => IOOption<B>
+export declare const flatMapEither: <A, E, B>(f: (a: A) => Result<E, B>) => (ma: SyncOption<A>) => SyncOption<B>
 ```
 
 Added in v3.0.0
@@ -789,7 +793,7 @@ Added in v3.0.0
 ```ts
 export declare const flatMapNullable: <A, B>(
   f: (a: A) => B | null | undefined
-) => (ma: IOOption<A>) => IOOption<NonNullable<B>>
+) => (ma: SyncOption<A>) => SyncOption<NonNullable<B>>
 ```
 
 Added in v3.0.0
@@ -799,7 +803,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const flatMapSync: <A, B>(f: (a: A) => io.Sync<B>) => (self: IOOption<A>) => IOOption<B>
+export declare const flatMapSync: <A, B>(f: (a: A) => io.Sync<B>) => (self: SyncOption<A>) => SyncOption<B>
 ```
 
 Added in v3.0.0
@@ -812,7 +816,7 @@ produced by the effect.
 **Signature**
 
 ```ts
-export declare const zipLeft: (that: IOOption<unknown>) => <A>(self: IOOption<A>) => IOOption<A>
+export declare const zipLeft: (that: SyncOption<unknown>) => <A>(self: SyncOption<A>) => SyncOption<A>
 ```
 
 Added in v3.0.0
@@ -824,7 +828,7 @@ A variant of `flatMap` that ignores the value produced by this effect.
 **Signature**
 
 ```ts
-export declare const zipRight: <A>(that: IOOption<A>) => (self: IOOption<unknown>) => IOOption<A>
+export declare const zipRight: <A>(that: SyncOption<A>) => (self: SyncOption<unknown>) => SyncOption<A>
 ```
 
 Added in v3.0.0
@@ -838,7 +842,7 @@ Equivalent to `ReadonlyArray#sequence(Applicative)`.
 **Signature**
 
 ```ts
-export declare const sequenceReadonlyArray: <A>(arr: readonly IOOption<A>[]) => IOOption<readonly A[]>
+export declare const sequenceReadonlyArray: <A>(arr: readonly SyncOption<A>[]) => SyncOption<readonly A[]>
 ```
 
 Added in v3.0.0
@@ -851,8 +855,8 @@ Equivalent to `ReadonlyArray#traverse(Applicative)`.
 
 ```ts
 export declare const traverseReadonlyArray: <A, B>(
-  f: (a: A) => IOOption<B>
-) => (as: readonly A[]) => IOOption<readonly B[]>
+  f: (a: A) => SyncOption<B>
+) => (as: readonly A[]) => SyncOption<readonly B[]>
 ```
 
 Added in v3.0.0
@@ -865,8 +869,8 @@ Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
 
 ```ts
 export declare const traverseReadonlyArrayWithIndex: <A, B>(
-  f: (index: number, a: A) => IOOption<B>
-) => (as: readonly A[]) => IOOption<readonly B[]>
+  f: (index: number, a: A) => SyncOption<B>
+) => (as: readonly A[]) => SyncOption<readonly B[]>
 ```
 
 Added in v3.0.0
@@ -879,8 +883,8 @@ Equivalent to `ReadonlyNonEmptyArray#traverse(Apply)`.
 
 ```ts
 export declare const traverseReadonlyNonEmptyArray: <A, B>(
-  f: (a: A) => IOOption<B>
-) => (as: readonly [A, ...A[]]) => IOOption<readonly [B, ...B[]]>
+  f: (a: A) => SyncOption<B>
+) => (as: readonly [A, ...A[]]) => SyncOption<readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0
@@ -893,8 +897,8 @@ Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Apply)`.
 
 ```ts
 export declare const traverseReadonlyNonEmptyArrayWithIndex: <A, B>(
-  f: (index: number, a: A) => IOOption<B>
-) => (as: readonly [A, ...A[]]) => IOOption<readonly [B, ...B[]]>
+  f: (index: number, a: A) => SyncOption<B>
+) => (as: readonly [A, ...A[]]) => SyncOption<readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0
@@ -906,7 +910,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Zip: IOOption<readonly []>
+export declare const Zip: SyncOption<readonly []>
 ```
 
 Added in v3.0.0
@@ -916,7 +920,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const tupled: <A>(self: IOOption<A>) => IOOption<readonly [A]>
+export declare const tupled: <A>(self: SyncOption<A>) => SyncOption<readonly [A]>
 ```
 
 Added in v3.0.0
@@ -929,8 +933,8 @@ Sequentially zips this effect with the specified effect.
 
 ```ts
 export declare const zipFlatten: <B>(
-  fb: IOOption<B>
-) => <A extends readonly unknown[]>(self: IOOption<A>) => IOOption<readonly [...A, B]>
+  fb: SyncOption<B>
+) => <A extends readonly unknown[]>(self: SyncOption<A>) => SyncOption<readonly [...A, B]>
 ```
 
 Added in v3.0.0
@@ -942,20 +946,23 @@ Sequentially zips this effect with the specified effect using the specified comb
 **Signature**
 
 ```ts
-export declare const zipWith: <B, A, C>(that: IOOption<B>, f: (a: A, b: B) => C) => (self: IOOption<A>) => IOOption<C>
+export declare const zipWith: <B, A, C>(
+  that: SyncOption<B>,
+  f: (a: A, b: B) => C
+) => (self: SyncOption<A>) => SyncOption<C>
 ```
 
 Added in v3.0.0
 
 # type lambdas
 
-## IOOptionTypeLambda (interface)
+## SyncOptionTypeLambda (interface)
 
 **Signature**
 
 ```ts
-export interface IOOptionTypeLambda extends TypeLambda {
-  readonly type: IOOption<this['Out1']>
+export interface SyncOptionTypeLambda extends TypeLambda {
+  readonly type: SyncOption<this['Out1']>
 }
 ```
 
@@ -968,7 +975,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ap: <A>(fa: IOOption<A>) => <B>(fab: IOOption<(a: A) => B>) => IOOption<B>
+export declare const ap: <A>(fa: SyncOption<A>) => <B>(fab: SyncOption<(a: A) => B>) => SyncOption<B>
 ```
 
 Added in v3.0.0
@@ -979,8 +986,8 @@ Added in v3.0.0
 
 ```ts
 export declare const composeKind: <B, C>(
-  bfc: (b: B) => IOOption<C>
-) => <A>(afb: (a: A) => IOOption<B>) => (a: A) => IOOption<C>
+  bfc: (b: B) => SyncOption<C>
+) => <A>(afb: (a: A) => SyncOption<B>) => (a: A) => SyncOption<C>
 ```
 
 Added in v3.0.0
@@ -990,7 +997,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const emptyKind: <A>() => IOOption<A>
+export declare const emptyKind: <A>() => SyncOption<A>
 ```
 
 Added in v3.0.0
@@ -1000,7 +1007,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const flatten: <A>(mma: IOOption<IOOption<A>>) => IOOption<A>
+export declare const flatten: <A>(mma: SyncOption<SyncOption<A>>) => SyncOption<A>
 ```
 
 Added in v3.0.0
@@ -1010,7 +1017,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const idKind: <A>() => (a: A) => IOOption<A>
+export declare const idKind: <A>() => (a: A) => SyncOption<A>
 ```
 
 Added in v3.0.0
@@ -1020,7 +1027,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const orElse: <B>(that: IOOption<B>) => <A>(self: IOOption<A>) => IOOption<B | A>
+export declare const orElse: <B>(that: SyncOption<B>) => <A>(self: SyncOption<A>) => SyncOption<B | A>
 ```
 
 Added in v3.0.0
@@ -1032,7 +1039,7 @@ Returns an effect that effectfully "peeks" at the success of this effect.
 **Signature**
 
 ```ts
-export declare const tap: <A>(f: (a: A) => IOOption<unknown>) => (self: IOOption<A>) => IOOption<A>
+export declare const tap: <A>(f: (a: A) => SyncOption<unknown>) => (self: SyncOption<A>) => SyncOption<A>
 ```
 
 Added in v3.0.0
