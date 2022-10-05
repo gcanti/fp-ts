@@ -16,9 +16,9 @@ import * as apply from './Apply'
 import type * as bifunctor from './Bifunctor'
 import * as flattenable from './Flattenable'
 import type { Compactable } from './Compactable'
-import * as either from './Result'
+import * as result from './Result'
 import type { Result } from './Result'
-import * as eitherT from './EitherT'
+import * as eitherT from './ResultT'
 import type { Filterable } from './Filterable'
 import * as fromResult_ from './FromResult'
 import * as fromSync_ from './FromSync'
@@ -112,7 +112,7 @@ export const fromSyncEither: <E, A>(ioEither: SyncResult<E, A>) => AsyncResult<E
  * @since 3.0.0
  */
 export const fromAsyncOption: <E>(onNone: E) => <A>(self: AsyncOption<A>) => AsyncResult<E, A> = (onNone) =>
-  task.map(either.fromOption(onNone))
+  task.map(result.fromOption(onNone))
 
 /**
  * @category conversions
@@ -370,9 +370,9 @@ export const orElse: <E2, B>(that: AsyncResult<E2, B>) => <E1, A>(self: AsyncRes
 export const getValidatedApplicative = <E>(
   Apply: apply.Apply<task.TaskTypeLambda>,
   Semigroup: Semigroup<E>
-): applicative.Applicative<either.ValidatedT<AsyncResultTypeLambda, E>> => ({
+): applicative.Applicative<result.ValidatedT<AsyncResultTypeLambda, E>> => ({
   map,
-  ap: apply.apComposition(Apply, either.getValidatedApplicative(Semigroup)),
+  ap: apply.apComposition(Apply, result.getValidatedApplicative(Semigroup)),
   succeed
 })
 
@@ -385,7 +385,7 @@ export const getValidatedApplicative = <E>(
  */
 export const getValidatedSemigroupKind = <E>(
   Semigroup: Semigroup<E>
-): semigroupKind.SemigroupKind<either.ValidatedT<AsyncResultTypeLambda, E>> => {
+): semigroupKind.SemigroupKind<result.ValidatedT<AsyncResultTypeLambda, E>> => {
   return {
     combineKind: eitherT.getValidatedCombineKind(task.Monad, Semigroup)
   }
@@ -411,7 +411,7 @@ export const separate: <E>(
  * @category instances
  * @since 3.0.0
  */
-export const getCompactable = <E>(onNone: E): Compactable<either.ValidatedT<AsyncResultTypeLambda, E>> => {
+export const getCompactable = <E>(onNone: E): Compactable<result.ValidatedT<AsyncResultTypeLambda, E>> => {
   return {
     compact: compact(onNone)
   }
@@ -421,7 +421,7 @@ export const getCompactable = <E>(onNone: E): Compactable<either.ValidatedT<Asyn
  * @category instances
  * @since 3.0.0
  */
-export const getFilterable = <E>(onEmpty: E): Filterable<either.ValidatedT<AsyncResultTypeLambda, E>> => {
+export const getFilterable = <E>(onEmpty: E): Filterable<result.ValidatedT<AsyncResultTypeLambda, E>> => {
   return {
     partitionMap: (f) => partitionMap(f, onEmpty),
     filterMap: (f) => filterMap(f, onEmpty)
@@ -797,7 +797,7 @@ export const partitionMap: <A, B, C, E>(
  * @since 3.0.0
  */
 export const liftEither: <A extends ReadonlyArray<unknown>, E, B>(
-  f: (...a: A) => either.Result<E, B>
+  f: (...a: A) => result.Result<E, B>
 ) => (...a: A) => AsyncResult<E, B> = /*#__PURE__*/ fromResult_.liftEither(FromResult)
 
 /**
@@ -905,7 +905,7 @@ export function taskify<L, R>(f: Function): () => AsyncResult<L, R> {
 export const bracket: <E1, A, E2, B, E3>(
   acquire: AsyncResult<E1, A>,
   use: (a: A) => AsyncResult<E2, B>,
-  release: (a: A, e: either.Result<E2, B>) => AsyncResult<E3, void>
+  release: (a: A, e: result.Result<E2, B>) => AsyncResult<E3, void>
 ) => AsyncResult<E1 | E2 | E3, B> = /*#__PURE__*/ eitherT.bracket(task.Monad)
 
 // -------------------------------------------------------------------------------------
@@ -1020,7 +1020,7 @@ export const zipWith: <E2, B, A, C>(
 export const traverseReadonlyNonEmptyArrayWithIndexPar = <A, E, B>(
   f: (index: number, a: A) => AsyncResult<E, B>
 ): ((as: ReadonlyNonEmptyArray<A>) => AsyncResult<E, ReadonlyNonEmptyArray<B>>) =>
-  flow(task.traverseReadonlyNonEmptyArrayWithIndexPar(f), task.map(either.traverseReadonlyNonEmptyArrayWithIndex(SK)))
+  flow(task.traverseReadonlyNonEmptyArrayWithIndexPar(f), task.map(result.traverseReadonlyNonEmptyArrayWithIndex(SK)))
 
 /**
  * Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativePar)`.
@@ -1094,7 +1094,7 @@ export const traverseReadonlyNonEmptyArrayWithIndex =
                 return ebs
               })
         ),
-      f(0, _.head(as))().then(either.map(_.singleton))
+      f(0, _.head(as))().then(result.map(_.singleton))
     )
 
 /**

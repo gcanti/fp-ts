@@ -1,4 +1,4 @@
-import * as _ from '../../src/EitherT'
+import * as _ from '../../src/ResultT'
 import * as RTE from '../../src/ReaderAsyncResult'
 import type * as E from '../../src/Result'
 

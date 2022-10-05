@@ -1,6 +1,6 @@
 ---
 title: index.ts
-nav_order: 54
+nav_order: 53
 parent: Modules
 ---
 
@@ -46,9 +46,9 @@ Added in v3.0.0
   - [tree](#tree)
   - [writer](#writer)
 - [monad transformers](#monad-transformers)
-  - [eitherT](#eithert)
   - [optionT](#optiont)
   - [readerT](#readert)
+  - [resultT](#resultt)
   - [stateT](#statet)
   - [theseT](#theset)
   - [writerT](#writert)
@@ -452,16 +452,6 @@ Added in v3.0.0
 
 # monad transformers
 
-## eitherT
-
-**Signature**
-
-```ts
-export declare const eitherT: typeof eitherT
-```
-
-Added in v3.0.0
-
 ## optionT
 
 **Signature**
@@ -478,6 +468,16 @@ Added in v3.0.0
 
 ```ts
 export declare const readerT: typeof readerT
+```
+
+Added in v3.0.0
+
+## resultT
+
+**Signature**
+
+```ts
+export declare const resultT: typeof resultT
 ```
 
 Added in v3.0.0

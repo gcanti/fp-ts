@@ -8,7 +8,7 @@ import type * as applicative from './Applicative'
 import * as apply from './Apply'
 import * as bifunctor from './Bifunctor'
 import * as flattenable from './Flattenable'
-import * as either from './Result'
+import * as result from './Result'
 import type { Result } from './Result'
 import type { Endomorphism } from './Endomorphism'
 import * as fromResult_ from './FromResult'
@@ -143,8 +143,8 @@ export const asksStateReaderAsyncResult =
  * @category conversions
  * @since 3.0.0
  */
-export const fromResult: <E, A, S>(fa: either.Result<E, A>) => StateReaderAsyncResult<S, unknown, E, A> =
-  /*#__PURE__*/ either.match(
+export const fromResult: <E, A, S>(fa: result.Result<E, A>) => StateReaderAsyncResult<S, unknown, E, A> =
+  /*#__PURE__*/ result.match(
     (e) => fail(e),
     (a) => succeed(a)
   )
@@ -836,7 +836,7 @@ export const partitionMap: <A, B, C, E>(
  * @since 3.0.0
  */
 export const liftEither: <A extends ReadonlyArray<unknown>, E, B>(
-  f: (...a: A) => either.Result<E, B>
+  f: (...a: A) => result.Result<E, B>
 ) => <S>(...a: A) => StateReaderAsyncResult<S, unknown, E, B> = /*#__PURE__*/ fromResult_.liftEither(FromResult)
 
 /**
@@ -1008,7 +1008,7 @@ export const traverseReadonlyNonEmptyArrayWithIndex =
                 return esb
               })
         ),
-      f(0, _.head(as))(s)(r)().then(either.map(([s, b]) => [s, [b]]))
+      f(0, _.head(as))(s)(r)().then(result.map(([s, b]) => [s, [b]]))
     )
 
 /**

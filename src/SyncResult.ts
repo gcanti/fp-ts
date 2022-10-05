@@ -15,9 +15,9 @@ import type * as categoryKind from './CategoryKind'
 import type * as composableKind from './ComposableKind'
 import * as flattenable from './Flattenable'
 import type { Compactable } from './Compactable'
-import * as either from './Result'
+import * as result from './Result'
 import type { Result } from './Result'
-import * as eitherT from './EitherT'
+import * as eitherT from './ResultT'
 import type * as filterable from './Filterable'
 import * as fromResult_ from './FromResult'
 import * as fromSync_ from './FromSync'
@@ -129,7 +129,7 @@ export const getOrElseIO: <B>(onError: Sync<B>) => <A>(self: SyncResult<unknown,
 export const fromThrowable =
   <A, E>(f: () => A, onThrow: (error: unknown) => E): SyncResult<E, A> =>
   () =>
-    either.fromThrowable(f, onThrow)
+    result.fromThrowable(f, onThrow)
 
 /**
  * Lifts a function that may throw to one returning a `SyncResult`.
@@ -247,9 +247,9 @@ export const orElse: <E2, B>(that: SyncResult<E2, B>) => <E1, A>(self: SyncResul
  */
 export const getValidatedApplicative = <E>(
   Semigroup: Semigroup<E>
-): applicative.Applicative<either.ValidatedT<SyncResultTypeLambda, E>> => ({
+): applicative.Applicative<result.ValidatedT<SyncResultTypeLambda, E>> => ({
   map,
-  ap: apply.apComposition(io.Apply, either.getValidatedApplicative(Semigroup)),
+  ap: apply.apComposition(io.Apply, result.getValidatedApplicative(Semigroup)),
   succeed
 })
 
@@ -262,7 +262,7 @@ export const getValidatedApplicative = <E>(
  */
 export const getValidatedSemigroupKind = <E>(
   Semigroup: Semigroup<E>
-): semigroupKind.SemigroupKind<either.ValidatedT<SyncResultTypeLambda, E>> => {
+): semigroupKind.SemigroupKind<result.ValidatedT<SyncResultTypeLambda, E>> => {
   return {
     combineKind: eitherT.getValidatedCombineKind(io.Monad, Semigroup)
   }
@@ -288,7 +288,7 @@ export const separate: <E>(
  * @category instances
  * @since 3.0.0
  */
-export const getCompactable = <E>(onNone: E): Compactable<either.ValidatedT<SyncResultTypeLambda, E>> => {
+export const getCompactable = <E>(onNone: E): Compactable<result.ValidatedT<SyncResultTypeLambda, E>> => {
   return {
     compact: compact(onNone)
   }
@@ -298,7 +298,7 @@ export const getCompactable = <E>(onNone: E): Compactable<either.ValidatedT<Sync
  * @category instances
  * @since 3.0.0
  */
-export const getFilterable = <E>(onEmpty: E): filterable.Filterable<either.ValidatedT<SyncResultTypeLambda, E>> => {
+export const getFilterable = <E>(onEmpty: E): filterable.Filterable<result.ValidatedT<SyncResultTypeLambda, E>> => {
   return {
     partitionMap: (f) => partitionMap(f, onEmpty),
     filterMap: (f) => filterMap(f, onEmpty)
@@ -797,7 +797,7 @@ export const zipWith: <E2, B, A, C>(
 export const traverseReadonlyNonEmptyArrayWithIndexPar: <A, E, B>(
   f: (index: number, a: A) => SyncResult<E, B>
 ) => (as: ReadonlyNonEmptyArray<A>) => SyncResult<E, ReadonlyNonEmptyArray<B>> = (f) =>
-  flow(io.traverseReadonlyNonEmptyArrayWithIndex(f), io.map(either.traverseReadonlyNonEmptyArrayWithIndex(SK)))
+  flow(io.traverseReadonlyNonEmptyArrayWithIndex(f), io.map(result.traverseReadonlyNonEmptyArrayWithIndex(SK)))
 
 /**
  * Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativePar)`.

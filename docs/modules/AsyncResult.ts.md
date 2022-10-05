@@ -244,7 +244,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromResult: <E, A>(either: either.Result<E, A>) => AsyncResult<E, A>
+export declare const fromResult: <E, A>(either: result.Result<E, A>) => AsyncResult<E, A>
 ```
 
 Added in v3.0.0
@@ -428,7 +428,7 @@ get all errors you need to provide a way to combine them via a `Semigroup`.
 export declare const getValidatedApplicative: <E>(
   Apply: apply.Apply<task.TaskTypeLambda>,
   Semigroup: Semigroup<E>
-) => applicative.Applicative<either.ValidatedT<AsyncResultTypeLambda, E>>
+) => applicative.Applicative<result.ValidatedT<AsyncResultTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -443,7 +443,7 @@ get all errors you need to provide a way to combine them via a `Semigroup`.
 ```ts
 export declare const getValidatedSemigroupKind: <E>(
   Semigroup: Semigroup<E>
-) => semigroupKind.SemigroupKind<either.ValidatedT<AsyncResultTypeLambda, E>>
+) => semigroupKind.SemigroupKind<result.ValidatedT<AsyncResultTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -573,7 +573,7 @@ Added in v3.0.0
 
 ```ts
 export declare const partitionMap: <A, B, C, E>(
-  f: (a: A) => either.Result<B, C>,
+  f: (a: A) => result.Result<B, C>,
   onEmpty: E
 ) => (self: AsyncResult<E, A>) => readonly [AsyncResult<E, B>, AsyncResult<E, C>]
 ```
@@ -587,7 +587,7 @@ Added in v3.0.0
 ```ts
 export declare const separate: <E>(
   onEmpty: E
-) => <A, B>(self: AsyncResult<E, either.Result<A, B>>) => readonly [AsyncResult<E, A>, AsyncResult<E, B>]
+) => <A, B>(self: AsyncResult<E, result.Result<A, B>>) => readonly [AsyncResult<E, A>, AsyncResult<E, B>]
 ```
 
 Added in v3.0.0
@@ -729,7 +729,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getCompactable: <E>(onNone: E) => Compactable<either.ValidatedT<AsyncResultTypeLambda, E>>
+export declare const getCompactable: <E>(onNone: E) => Compactable<result.ValidatedT<AsyncResultTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -739,7 +739,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFilterable: <E>(onEmpty: E) => Filterable<either.ValidatedT<AsyncResultTypeLambda, E>>
+export declare const getFilterable: <E>(onEmpty: E) => Filterable<result.ValidatedT<AsyncResultTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -909,7 +909,7 @@ Added in v3.0.0
 
 ```ts
 export declare const liftEither: <A extends readonly unknown[], E, B>(
-  f: (...a: A) => either.Result<E, B>
+  f: (...a: A) => result.Result<E, B>
 ) => (...a: A) => AsyncResult<E, B>
 ```
 
@@ -1137,7 +1137,7 @@ Added in v3.0.0
 
 ```ts
 export declare const flatMapEither: <A, E2, B>(
-  f: (a: A) => either.Result<E2, B>
+  f: (a: A) => result.Result<E2, B>
 ) => <E1>(self: AsyncResult<E1, A>) => AsyncResult<E2 | E1, B>
 ```
 
@@ -1472,7 +1472,7 @@ whether the body action throws (\*) or returns.
 export declare const bracket: <E1, A, E2, B, E3>(
   acquire: AsyncResult<E1, A>,
   use: (a: A) => AsyncResult<E2, B>,
-  release: (a: A, e: either.Result<E2, B>) => AsyncResult<E3, void>
+  release: (a: A, e: result.Result<E2, B>) => AsyncResult<E3, void>
 ) => AsyncResult<E1 | E2 | E3, B>
 ```
 

@@ -1,7 +1,7 @@
 /**
  * @since 3.0.0
  */
-import * as either from './Result'
+import * as result from './Result'
 import type { Result } from './Result'
 import { identity } from './Function'
 
@@ -35,7 +35,7 @@ export interface JsonArray extends ReadonlyArray<Json> {}
  *
  * @since 3.0.0
  */
-export const parse = (s: string): Result<unknown, Json> => either.fromThrowable(() => JSON.parse(s), identity)
+export const parse = (s: string): Result<unknown, Json> => result.fromThrowable(() => JSON.parse(s), identity)
 
 /**
  * Converts a JavaScript value to a JavaScript Object Notation (JSON) string.
@@ -43,7 +43,7 @@ export const parse = (s: string): Result<unknown, Json> => either.fromThrowable(
  * @since 3.0.0
  */
 export const stringify = <A>(a: A): Result<unknown, string> =>
-  either.fromThrowable(() => {
+  result.fromThrowable(() => {
     const s = JSON.stringify(a)
     if (typeof s !== 'string') {
       throw new Error('Converting unsupported structure to JSON')

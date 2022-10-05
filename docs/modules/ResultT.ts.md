@@ -1,10 +1,10 @@
 ---
-title: EitherT.ts
-nav_order: 26
+title: ResultT.ts
+nav_order: 86
 parent: Modules
 ---
 
-## EitherT overview
+## ResultT overview
 
 Added in v3.0.0
 
@@ -13,7 +13,7 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [utils](#utils)
-  - [EitherT (interface)](#eithert-interface)
+  - [ResultT (interface)](#resultt-interface)
   - [ap](#ap)
   - [bracket](#bracket)
   - [catchAll](#catchall)
@@ -42,12 +42,12 @@ Added in v3.0.0
 
 # utils
 
-## EitherT (interface)
+## ResultT (interface)
 
 **Signature**
 
 ```ts
-export interface EitherT<F extends TypeLambda, E> extends TypeLambda {
+export interface ResultT<F extends TypeLambda, E> extends TypeLambda {
   readonly type: Kind<F, this['InOut1'], this['In1'], this['Out3'], this['Out2'], Result<E, this['Out1']>>
 }
 ```

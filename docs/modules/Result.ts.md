@@ -1,6 +1,6 @@
 ---
 title: Result.ts
-nav_order: 86
+nav_order: 85
 parent: Modules
 ---
 
@@ -129,8 +129,8 @@ Added in v3.0.0
   - [zipFlatten](#zipflatten)
   - [zipWith](#zipwith)
 - [type lambdas](#type-lambdas)
-  - [EitherTypeLambda (interface)](#eithertypelambda-interface)
-  - [EitherTypeLambdaFix (interface)](#eithertypelambdafix-interface)
+  - [ResultTypeLambda (interface)](#resulttypelambda-interface)
+  - [ResultTypeLambdaFix (interface)](#resulttypelambdafix-interface)
   - [ValidatedT (interface)](#validatedt-interface)
 - [utils](#utils)
   - [ap](#ap)
@@ -373,7 +373,7 @@ get all errors you need to provide a way to combine them via a `Semigroup`.
 ```ts
 export declare const getValidatedApplicative: <E>(
   Semigroup: Semigroup<E>
-) => applicative.Applicative<ValidatedT<EitherTypeLambda, E>>
+) => applicative.Applicative<ValidatedT<ResultTypeLambda, E>>
 ```
 
 **Example**
@@ -423,7 +423,7 @@ get all errors you need to provide a way to combine them via a `Semigroup`.
 ```ts
 export declare const getValidatedSemigroupKind: <E>(
   Semigroup: Semigroup<E>
-) => semigroupKind.SemigroupKind<ValidatedT<EitherTypeLambda, E>>
+) => semigroupKind.SemigroupKind<ValidatedT<ResultTypeLambda, E>>
 ```
 
 **Example**
@@ -741,7 +741,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Applicative: applicative.Applicative<EitherTypeLambda>
+export declare const Applicative: applicative.Applicative<ResultTypeLambda>
 ```
 
 Added in v3.0.0
@@ -751,7 +751,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Apply: apply.Apply<EitherTypeLambda>
+export declare const Apply: apply.Apply<ResultTypeLambda>
 ```
 
 Added in v3.0.0
@@ -761,7 +761,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Bifunctor: bifunctor.Bifunctor<EitherTypeLambda>
+export declare const Bifunctor: bifunctor.Bifunctor<ResultTypeLambda>
 ```
 
 Added in v3.0.0
@@ -771,7 +771,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const CategoryKind: categoryKind.CategoryKind<EitherTypeLambda>
+export declare const CategoryKind: categoryKind.CategoryKind<ResultTypeLambda>
 ```
 
 Added in v3.0.0
@@ -781,7 +781,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ComposableKind: composableKind.ComposableKind<EitherTypeLambda>
+export declare const ComposableKind: composableKind.ComposableKind<ResultTypeLambda>
 ```
 
 Added in v3.0.0
@@ -791,7 +791,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Extendable: extendable.Extendable<EitherTypeLambda>
+export declare const Extendable: extendable.Extendable<ResultTypeLambda>
 ```
 
 Added in v3.0.0
@@ -801,7 +801,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Flattenable: flattenable.Flattenable<EitherTypeLambda>
+export declare const Flattenable: flattenable.Flattenable<ResultTypeLambda>
 ```
 
 Added in v3.0.0
@@ -811,7 +811,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FlattenableRec: flattenableRec.FlattenableRec<EitherTypeLambda>
+export declare const FlattenableRec: flattenableRec.FlattenableRec<ResultTypeLambda>
 ```
 
 Added in v3.0.0
@@ -821,7 +821,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Foldable: foldable.Foldable<EitherTypeLambda>
+export declare const Foldable: foldable.Foldable<ResultTypeLambda>
 ```
 
 Added in v3.0.0
@@ -831,7 +831,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromIdentity: fromIdentity.FromIdentity<EitherTypeLambda>
+export declare const FromIdentity: fromIdentity.FromIdentity<ResultTypeLambda>
 ```
 
 Added in v3.0.0
@@ -841,7 +841,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromResult: fromResult_.FromResult<EitherTypeLambda>
+export declare const FromResult: fromResult_.FromResult<ResultTypeLambda>
 ```
 
 Added in v3.0.0
@@ -851,7 +851,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: functor.Functor<EitherTypeLambda>
+export declare const Functor: functor.Functor<ResultTypeLambda>
 ```
 
 Added in v3.0.0
@@ -861,7 +861,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: monad.Monad<EitherTypeLambda>
+export declare const Monad: monad.Monad<ResultTypeLambda>
 ```
 
 Added in v3.0.0
@@ -871,7 +871,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const SemigroupKind: semigroupKind.SemigroupKind<EitherTypeLambda>
+export declare const SemigroupKind: semigroupKind.SemigroupKind<ResultTypeLambda>
 ```
 
 Added in v3.0.0
@@ -881,7 +881,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Traversable: traversable.Traversable<EitherTypeLambda>
+export declare const Traversable: traversable.Traversable<ResultTypeLambda>
 ```
 
 Added in v3.0.0
@@ -891,7 +891,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getCompactable: <E>(onNone: E) => Compactable<ValidatedT<EitherTypeLambda, E>>
+export declare const getCompactable: <E>(onNone: E) => Compactable<ValidatedT<ResultTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -911,7 +911,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFilterable: <E>(onEmpty: E) => filterable.Filterable<ValidatedT<EitherTypeLambda, E>>
+export declare const getFilterable: <E>(onEmpty: E) => filterable.Filterable<ValidatedT<ResultTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -923,7 +923,7 @@ Builds `FilterableKind` instance for `Result` given `Monoid` for the left side
 **Signature**
 
 ```ts
-export declare const getFilterableKind: <E>(onEmpty: E) => FilterableKind<ValidatedT<EitherTypeLambda, E>>
+export declare const getFilterableKind: <E>(onEmpty: E) => FilterableKind<ValidatedT<ResultTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -1519,24 +1519,24 @@ Added in v3.0.0
 
 # type lambdas
 
-## EitherTypeLambda (interface)
+## ResultTypeLambda (interface)
 
 **Signature**
 
 ```ts
-export interface EitherTypeLambda extends TypeLambda {
+export interface ResultTypeLambda extends TypeLambda {
   readonly type: Result<this['Out2'], this['Out1']>
 }
 ```
 
 Added in v3.0.0
 
-## EitherTypeLambdaFix (interface)
+## ResultTypeLambdaFix (interface)
 
 **Signature**
 
 ```ts
-export interface EitherTypeLambdaFix<E> extends TypeLambda {
+export interface ResultTypeLambdaFix<E> extends TypeLambda {
   readonly type: Result<E, this['Out1']>
 }
 ```

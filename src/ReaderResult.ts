@@ -9,8 +9,8 @@ import * as apply from './Apply'
 import type * as bifunctor from './Bifunctor'
 import * as flattenable from './Flattenable'
 import type { Compactable } from './Compactable'
-import * as either from './Result'
-import * as eitherT from './EitherT'
+import * as result from './Result'
+import * as eitherT from './ResultT'
 import type * as filterable from './Filterable'
 import * as fromResult_ from './FromResult'
 import * as fromReader_ from './FromReader'
@@ -27,7 +27,7 @@ import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import type { Refinement } from './Refinement'
 import type { Semigroup } from './Semigroup'
 
-import Either = either.Result
+import Either = result.Result
 import Reader = reader.Reader
 
 /**
@@ -100,7 +100,7 @@ export const fromResult: <E, A>(fa: Either<E, A>) => ReaderResult<unknown, E, A>
 export const match: <E, B, A, C = B>(
   onError: (e: E) => B,
   onSuccess: (a: A) => C
-) => <R>(ma: Reader<R, either.Result<E, A>>) => Reader<R, B | C> = /*#__PURE__*/ eitherT.match(reader.Functor)
+) => <R>(ma: Reader<R, result.Result<E, A>>) => Reader<R, B | C> = /*#__PURE__*/ eitherT.match(reader.Functor)
 
 /**
  * @category pattern matching
@@ -109,7 +109,7 @@ export const match: <E, B, A, C = B>(
 export const matchReader: <E, R2, B, A, R3, C = B>(
   onError: (e: E) => Reader<R2, B>,
   onSuccess: (a: A) => Reader<R3, C>
-) => <R1>(ma: Reader<R1, either.Result<E, A>>) => Reader<R1 & R2 & R3, B | C> = /*#__PURE__*/ eitherT.matchKind(
+) => <R1>(ma: Reader<R1, result.Result<E, A>>) => Reader<R1 & R2 & R3, B | C> = /*#__PURE__*/ eitherT.matchKind(
   reader.Monad
 )
 
@@ -330,9 +330,9 @@ export const orElse: <R2, E2, B>(
  */
 export const getValidatedApplicative = <E>(
   Semigroup: Semigroup<E>
-): applicative.Applicative<either.ValidatedT<ReaderResultTypeLambda, E>> => ({
+): applicative.Applicative<result.ValidatedT<ReaderResultTypeLambda, E>> => ({
   map,
-  ap: apply.apComposition(reader.Apply, either.getValidatedApplicative(Semigroup)),
+  ap: apply.apComposition(reader.Apply, result.getValidatedApplicative(Semigroup)),
   succeed
 })
 
@@ -345,7 +345,7 @@ export const getValidatedApplicative = <E>(
  */
 export const getValidatedSemigroupKind = <E>(
   Semigroup: Semigroup<E>
-): semigroupKind.SemigroupKind<either.ValidatedT<ReaderResultTypeLambda, E>> => {
+): semigroupKind.SemigroupKind<result.ValidatedT<ReaderResultTypeLambda, E>> => {
   return {
     combineKind: eitherT.getValidatedCombineKind(reader.Monad, Semigroup)
   }
@@ -371,7 +371,7 @@ export const separate: <E>(
  * @category instances
  * @since 3.0.0
  */
-export const getCompactable = <E>(onNone: E): Compactable<either.ValidatedT<ReaderResultTypeLambda, E>> => {
+export const getCompactable = <E>(onNone: E): Compactable<result.ValidatedT<ReaderResultTypeLambda, E>> => {
   return {
     compact: compact(onNone)
   }
@@ -381,7 +381,7 @@ export const getCompactable = <E>(onNone: E): Compactable<either.ValidatedT<Read
  * @category instances
  * @since 3.0.0
  */
-export const getFilterable = <E>(onEmpty: E): filterable.Filterable<either.ValidatedT<ReaderResultTypeLambda, E>> => {
+export const getFilterable = <E>(onEmpty: E): filterable.Filterable<result.ValidatedT<ReaderResultTypeLambda, E>> => {
   return {
     partitionMap: (f) => partitionMap(f, onEmpty),
     filterMap: (f) => filterMap(f, onEmpty)
@@ -654,7 +654,7 @@ export const partitionMap: <A, B, C, E>(
  * @since 3.0.0
  */
 export const liftEither: <A extends ReadonlyArray<unknown>, E, B>(
-  f: (...a: A) => either.Result<E, B>
+  f: (...a: A) => result.Result<E, B>
 ) => (...a: A) => ReaderResult<unknown, E, B> = /*#__PURE__*/ fromResult_.liftEither(FromResult)
 
 /**
@@ -822,7 +822,7 @@ export const bracket: <R, E, A, B>(
 export const traverseReadonlyNonEmptyArrayWithIndex = <A, R, E, B>(
   f: (index: number, a: A) => ReaderResult<R, E, B>
 ): ((as: ReadonlyNonEmptyArray<A>) => ReaderResult<R, E, ReadonlyNonEmptyArray<B>>) =>
-  flow(reader.traverseReadonlyNonEmptyArrayWithIndex(f), reader.map(either.traverseReadonlyNonEmptyArrayWithIndex(SK)))
+  flow(reader.traverseReadonlyNonEmptyArrayWithIndex(f), reader.map(result.traverseReadonlyNonEmptyArrayWithIndex(SK)))
 
 /**
  * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.

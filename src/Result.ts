@@ -76,7 +76,7 @@ export type Result<E, A> = Failure<E> | Success<A>
  * @category type lambdas
  * @since 3.0.0
  */
-export interface EitherTypeLambda extends TypeLambda {
+export interface ResultTypeLambda extends TypeLambda {
   readonly type: Result<this['Out2'], this['Out1']>
 }
 
@@ -84,7 +84,7 @@ export interface EitherTypeLambda extends TypeLambda {
  * @category type lambdas
  * @since 3.0.0
  */
-export interface EitherTypeLambdaFix<E> extends TypeLambda {
+export interface ResultTypeLambdaFix<E> extends TypeLambda {
   readonly type: Result<E, this['Out1']>
 }
 
@@ -576,7 +576,7 @@ export const separate: <E>(
  * @category instances
  * @since 3.0.0
  */
-export const getCompactable = <E>(onNone: E): Compactable<ValidatedT<EitherTypeLambda, E>> => {
+export const getCompactable = <E>(onNone: E): Compactable<ValidatedT<ResultTypeLambda, E>> => {
   return {
     compact: compact(onNone)
   }
@@ -586,7 +586,7 @@ export const getCompactable = <E>(onNone: E): Compactable<ValidatedT<EitherTypeL
  * @category instances
  * @since 3.0.0
  */
-export const getFilterable = <E>(onEmpty: E): filterable.Filterable<ValidatedT<EitherTypeLambda, E>> => {
+export const getFilterable = <E>(onEmpty: E): filterable.Filterable<ValidatedT<ResultTypeLambda, E>> => {
   return {
     partitionMap: (f) => partitionMap(f, onEmpty),
     filterMap: (f) => filterMap(f, onEmpty)
@@ -627,7 +627,7 @@ export const partitionMapKind = <F extends TypeLambda>(Applicative: applicative.
  * @category instances
  * @since 3.0.0
  */
-export const getFilterableKind = <E>(onEmpty: E): FilterableKind<ValidatedT<EitherTypeLambda, E>> => {
+export const getFilterableKind = <E>(onEmpty: E): FilterableKind<ValidatedT<ResultTypeLambda, E>> => {
   return {
     filterMapKind: (Applicative) => (f) => filterMapKind(Applicative)(f, onEmpty),
     partitionMapKind: (Applicative) => (f) => partitionMapKind(Applicative)(f, onEmpty)
@@ -638,7 +638,7 @@ export const getFilterableKind = <E>(onEmpty: E): FilterableKind<ValidatedT<Eith
  * @category instances
  * @since 3.0.0
  */
-export const Bifunctor: bifunctor.Bifunctor<EitherTypeLambda> = {
+export const Bifunctor: bifunctor.Bifunctor<ResultTypeLambda> = {
   mapBoth
 }
 
@@ -663,7 +663,7 @@ export const map: <A, B>(f: (a: A) => B) => <E>(fa: Result<E, A>) => Result<E, B
  * @category instances
  * @since 3.0.0
  */
-export const Functor: functor.Functor<EitherTypeLambda> = {
+export const Functor: functor.Functor<ResultTypeLambda> = {
   map
 }
 
@@ -694,7 +694,7 @@ export const unit: <E>(self: Result<E, unknown>) => Result<E, void> = /*#__PURE_
  * @category instances
  * @since 3.0.0
  */
-export const FromIdentity: fromIdentity.FromIdentity<EitherTypeLambda> = {
+export const FromIdentity: fromIdentity.FromIdentity<ResultTypeLambda> = {
   succeed
 }
 
@@ -726,7 +726,7 @@ export const flatten: <E1, E2, A>(mma: Result<E1, Result<E2, A>>) => Result<E1 |
  * @category instances
  * @since 3.0.0
  */
-export const Flattenable: flattenable.Flattenable<EitherTypeLambda> = {
+export const Flattenable: flattenable.Flattenable<ResultTypeLambda> = {
   map,
   flatMap
 }
@@ -743,7 +743,7 @@ export const composeKind: <B, E2, C>(
  * @category instances
  * @since 3.0.0
  */
-export const ComposableKind: composableKind.ComposableKind<EitherTypeLambda> = {
+export const ComposableKind: composableKind.ComposableKind<ResultTypeLambda> = {
   composeKind
 }
 
@@ -756,7 +756,7 @@ export const idKind: <A>() => (a: A) => Result<never, A> = /*#__PURE__*/ fromIde
  * @category instances
  * @since 3.0.0
  */
-export const CategoryKind: categoryKind.CategoryKind<EitherTypeLambda> = {
+export const CategoryKind: categoryKind.CategoryKind<ResultTypeLambda> = {
   composeKind,
   idKind
 }
@@ -790,7 +790,7 @@ export const ap: <E2, A>(fa: Result<E2, A>) => <E1, B>(fab: Result<E1, (a: A) =>
  * @category instances
  * @since 3.0.0
  */
-export const Apply: apply.Apply<EitherTypeLambda> = {
+export const Apply: apply.Apply<ResultTypeLambda> = {
   map,
   ap
 }
@@ -820,7 +820,7 @@ export const lift3: <A, B, C, D>(
  * @category instances
  * @since 3.0.0
  */
-export const Applicative: applicative.Applicative<EitherTypeLambda> = {
+export const Applicative: applicative.Applicative<ResultTypeLambda> = {
   map,
   ap,
   succeed
@@ -881,7 +881,7 @@ export const Applicative: applicative.Applicative<EitherTypeLambda> = {
  */
 export const getValidatedApplicative = <E>(
   Semigroup: Semigroup<E>
-): applicative.Applicative<ValidatedT<EitherTypeLambda, E>> => ({
+): applicative.Applicative<ValidatedT<ResultTypeLambda, E>> => ({
   map,
   ap: (fa) => (fab) =>
     isFailure(fab)
@@ -898,7 +898,7 @@ export const getValidatedApplicative = <E>(
  * @category instances
  * @since 3.0.0
  */
-export const Monad: monad.Monad<EitherTypeLambda> = {
+export const Monad: monad.Monad<ResultTypeLambda> = {
   map,
   succeed,
   flatMap
@@ -932,7 +932,7 @@ export const tap: <A, E2>(f: (a: A) => Result<E2, unknown>) => <E1>(self: Result
  * @category instances
  * @since 3.0.0
  */
-export const FlattenableRec: flattenableRec.FlattenableRec<EitherTypeLambda> = {
+export const FlattenableRec: flattenableRec.FlattenableRec<ResultTypeLambda> = {
   flatMapRec: flatMapRec
 }
 
@@ -940,7 +940,7 @@ export const FlattenableRec: flattenableRec.FlattenableRec<EitherTypeLambda> = {
  * @category instances
  * @since 3.0.0
  */
-export const Foldable: foldable.Foldable<EitherTypeLambda> = {
+export const Foldable: foldable.Foldable<ResultTypeLambda> = {
   reduce,
   foldMap,
   reduceRight
@@ -950,7 +950,7 @@ export const Foldable: foldable.Foldable<EitherTypeLambda> = {
  * @category instances
  * @since 3.0.0
  */
-export const Traversable: traversable.Traversable<EitherTypeLambda> = {
+export const Traversable: traversable.Traversable<ResultTypeLambda> = {
   traverse
 }
 
@@ -967,7 +967,7 @@ export const sequence: <F extends TypeLambda>(
  * @category instances
  * @since 3.0.0
  */
-export const SemigroupKind: semigroupKind.SemigroupKind<EitherTypeLambda> = {
+export const SemigroupKind: semigroupKind.SemigroupKind<ResultTypeLambda> = {
   combineKind: orElse
 }
 
@@ -1007,7 +1007,7 @@ export const SemigroupKind: semigroupKind.SemigroupKind<EitherTypeLambda> = {
  */
 export const getValidatedSemigroupKind = <E>(
   Semigroup: Semigroup<E>
-): semigroupKind.SemigroupKind<ValidatedT<EitherTypeLambda, E>> => ({
+): semigroupKind.SemigroupKind<ValidatedT<ResultTypeLambda, E>> => ({
   combineKind: (that) => (self) => {
     if (isSuccess(self)) {
       return self
@@ -1020,7 +1020,7 @@ export const getValidatedSemigroupKind = <E>(
  * @category instances
  * @since 3.0.0
  */
-export const Extendable: extendable.Extendable<EitherTypeLambda> = {
+export const Extendable: extendable.Extendable<ResultTypeLambda> = {
   map,
   extend
 }
@@ -1029,7 +1029,7 @@ export const Extendable: extendable.Extendable<EitherTypeLambda> = {
  * @category instances
  * @since 3.0.0
  */
-export const FromResult: fromResult_.FromResult<EitherTypeLambda> = {
+export const FromResult: fromResult_.FromResult<ResultTypeLambda> = {
   fromResult: identity
 }
 

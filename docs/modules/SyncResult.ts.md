@@ -205,7 +205,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromResult: <E, A>(fa: either.Result<E, A>) => SyncResult<E, A>
+export declare const fromResult: <E, A>(fa: result.Result<E, A>) => SyncResult<E, A>
 ```
 
 Added in v3.0.0
@@ -346,7 +346,7 @@ get all errors you need to provide a way to combine them via a `Semigroup`.
 ```ts
 export declare const getValidatedApplicative: <E>(
   Semigroup: Semigroup<E>
-) => applicative.Applicative<either.ValidatedT<SyncResultTypeLambda, E>>
+) => applicative.Applicative<result.ValidatedT<SyncResultTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -361,7 +361,7 @@ get all errors you need to provide a way to combine them via a `Semigroup`.
 ```ts
 export declare const getValidatedSemigroupKind: <E>(
   Semigroup: Semigroup<E>
-) => semigroupKind.SemigroupKind<either.ValidatedT<SyncResultTypeLambda, E>>
+) => semigroupKind.SemigroupKind<result.ValidatedT<SyncResultTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -456,7 +456,7 @@ Added in v3.0.0
 
 ```ts
 export declare const partitionMap: <A, B, C, E>(
-  f: (a: A) => either.Result<B, C>,
+  f: (a: A) => result.Result<B, C>,
   onEmpty: E
 ) => (self: SyncResult<E, A>) => readonly [SyncResult<E, B>, SyncResult<E, C>]
 ```
@@ -470,7 +470,7 @@ Added in v3.0.0
 ```ts
 export declare const separate: <E>(
   onEmpty: E
-) => <A, B>(self: SyncResult<E, either.Result<A, B>>) => readonly [SyncResult<E, A>, SyncResult<E, B>]
+) => <A, B>(self: SyncResult<E, result.Result<A, B>>) => readonly [SyncResult<E, A>, SyncResult<E, B>]
 ```
 
 Added in v3.0.0
@@ -602,7 +602,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getCompactable: <E>(onNone: E) => Compactable<either.ValidatedT<SyncResultTypeLambda, E>>
+export declare const getCompactable: <E>(onNone: E) => Compactable<result.ValidatedT<SyncResultTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -612,7 +612,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFilterable: <E>(onEmpty: E) => filterable.Filterable<either.ValidatedT<SyncResultTypeLambda, E>>
+export declare const getFilterable: <E>(onEmpty: E) => filterable.Filterable<result.ValidatedT<SyncResultTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -692,7 +692,7 @@ Added in v3.0.0
 
 ```ts
 export declare const liftEither: <A extends readonly unknown[], E, B>(
-  f: (...a: A) => either.Result<E, B>
+  f: (...a: A) => result.Result<E, B>
 ) => (...a: A) => SyncResult<E, B>
 ```
 
@@ -895,7 +895,7 @@ Added in v3.0.0
 
 ```ts
 export declare const flatMapEither: <A, E2, B>(
-  f: (a: A) => either.Result<E2, B>
+  f: (a: A) => result.Result<E2, B>
 ) => <E1>(ma: SyncResult<E1, A>) => SyncResult<E2 | E1, B>
 ```
 
@@ -1196,7 +1196,7 @@ whether the body action throws (\*) or returns.
 export declare const bracket: <E1, A, E2, B, E3>(
   acquire: SyncResult<E1, A>,
   use: (a: A) => SyncResult<E2, B>,
-  release: (a: A, e: either.Result<E2, B>) => SyncResult<E3, void>
+  release: (a: A, e: result.Result<E2, B>) => SyncResult<E3, void>
 ) => SyncResult<E1 | E2 | E3, B>
 ```
 

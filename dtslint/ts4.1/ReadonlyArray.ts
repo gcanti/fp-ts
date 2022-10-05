@@ -117,8 +117,8 @@ pipe(
 
 // #1484
 const isPositive = E.exists((n: number) => n > 0)
-declare const eithers: ReadonlyArray<E.Result<string, number>>
-pipe(eithers, _.filter(E.isSuccess), _.filter(isPositive))
+declare const results: ReadonlyArray<E.Result<string, number>>
+pipe(results, _.filter(E.isSuccess), _.filter(isPositive))
 
 interface Registered {
   readonly type: 'Registered'

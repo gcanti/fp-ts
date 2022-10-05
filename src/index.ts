@@ -27,7 +27,6 @@ import * as const_ from './Const'
 import * as contravariant from './Contravariant'
 import * as date from './Date'
 import * as distributiveLattice from './DistributiveLattice'
-import * as eitherT from './EitherT'
 import * as endomorphism from './Endomorphism'
 import * as eq from './Eq'
 import * as extendable from './Extendable'
@@ -87,6 +86,7 @@ import * as readonlyRecord from './ReadonlyRecord'
 import * as readonlySet from './ReadonlySet'
 import * as refinement from './Refinement'
 import * as result from './Result'
+import * as resultT from './ResultT'
 import * as ring from './Ring'
 import * as semigroup from './Semigroup'
 import * as semigroupKind from './SemigroupKind'
@@ -236,16 +236,6 @@ export {
    * @since 3.0.0
    */
   distributiveLattice,
-  /**
-   * @category data types
-   * @since 3.0.0
-   */
-  result,
-  /**
-   * @category monad transformers
-   * @since 3.0.0
-   */
-  eitherT,
   /**
    * @category data types
    * @since 3.0.0
@@ -485,6 +475,11 @@ export {
    */
   readerSync,
   /**
+   * @category monad transformers
+   * @since 3.0.0
+   */
+  readerT,
+  /**
    * @category data types
    * @since 3.0.0
    */
@@ -515,10 +510,15 @@ export {
    */
   refinement,
   /**
+   * @category data types
+   * @since 3.0.0
+   */
+  result,
+  /**
    * @category monad transformers
    * @since 3.0.0
    */
-  readerT,
+  resultT,
   /**
    * @category type classes
    * @since 3.0.0

@@ -1,6 +1,6 @@
 ---
 title: ReaderResult.ts
-nav_order: 77
+nav_order: 76
 parent: Modules
 ---
 
@@ -239,7 +239,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromResult: <E, A>(fa: either.Result<E, A>) => ReaderResult<unknown, E, A>
+export declare const fromResult: <E, A>(fa: result.Result<E, A>) => ReaderResult<unknown, E, A>
 ```
 
 Added in v3.0.0
@@ -378,7 +378,7 @@ get all errors you need to provide a way to combine them via a `Semigroup`.
 ```ts
 export declare const getValidatedApplicative: <E>(
   Semigroup: Semigroup<E>
-) => applicative.Applicative<either.ValidatedT<ReaderResultTypeLambda, E>>
+) => applicative.Applicative<result.ValidatedT<ReaderResultTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -393,7 +393,7 @@ get all errors you need to provide a way to combine them via a `Semigroup`.
 ```ts
 export declare const getValidatedSemigroupKind: <E>(
   Semigroup: Semigroup<E>
-) => semigroupKind.SemigroupKind<either.ValidatedT<ReaderResultTypeLambda, E>>
+) => semigroupKind.SemigroupKind<result.ValidatedT<ReaderResultTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -490,7 +490,7 @@ Added in v3.0.0
 
 ```ts
 export declare const partitionMap: <A, B, C, E>(
-  f: (a: A) => either.Result<B, C>,
+  f: (a: A) => result.Result<B, C>,
   onEmpty: E
 ) => <R>(self: ReaderResult<R, E, A>) => readonly [ReaderResult<R, E, B>, ReaderResult<R, E, C>]
 ```
@@ -504,7 +504,7 @@ Added in v3.0.0
 ```ts
 export declare const separate: <E>(
   onEmpty: E
-) => <R, A, B>(self: ReaderResult<R, E, either.Result<A, B>>) => readonly [ReaderResult<R, E, A>, ReaderResult<R, E, B>]
+) => <R, A, B>(self: ReaderResult<R, E, result.Result<A, B>>) => readonly [ReaderResult<R, E, A>, ReaderResult<R, E, B>]
 ```
 
 Added in v3.0.0
@@ -636,7 +636,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getCompactable: <E>(onNone: E) => Compactable<either.ValidatedT<ReaderResultTypeLambda, E>>
+export declare const getCompactable: <E>(onNone: E) => Compactable<result.ValidatedT<ReaderResultTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -648,7 +648,7 @@ Added in v3.0.0
 ```ts
 export declare const getFilterable: <E>(
   onEmpty: E
-) => filterable.Filterable<either.ValidatedT<ReaderResultTypeLambda, E>>
+) => filterable.Filterable<result.ValidatedT<ReaderResultTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -705,7 +705,7 @@ Added in v3.0.0
 
 ```ts
 export declare const liftEither: <A extends readonly unknown[], E, B>(
-  f: (...a: A) => either.Result<E, B>
+  f: (...a: A) => result.Result<E, B>
 ) => (...a: A) => ReaderResult<unknown, E, B>
 ```
 
@@ -848,7 +848,7 @@ Added in v3.0.0
 export declare const match: <E, B, A, C = B>(
   onError: (e: E) => B,
   onSuccess: (a: A) => C
-) => <R>(ma: reader.Reader<R, either.Result<E, A>>) => reader.Reader<R, B | C>
+) => <R>(ma: reader.Reader<R, result.Result<E, A>>) => reader.Reader<R, B | C>
 ```
 
 Added in v3.0.0
@@ -861,7 +861,7 @@ Added in v3.0.0
 export declare const matchReader: <E, R2, B, A, R3, C = B>(
   onError: (e: E) => reader.Reader<R2, B>,
   onSuccess: (a: A) => reader.Reader<R3, C>
-) => <R1>(ma: reader.Reader<R1, either.Result<E, A>>) => reader.Reader<R1 & R2 & R3, B | C>
+) => <R1>(ma: reader.Reader<R1, result.Result<E, A>>) => reader.Reader<R1 & R2 & R3, B | C>
 ```
 
 Added in v3.0.0
@@ -886,7 +886,7 @@ Added in v3.0.0
 
 ```ts
 export declare const flatMapEither: <A, E2, B>(
-  f: (a: A) => either.Result<E2, B>
+  f: (a: A) => result.Result<E2, B>
 ) => <R, E1>(ma: ReaderResult<R, E1, A>) => ReaderResult<R, E2 | E1, B>
 ```
 
@@ -1125,7 +1125,7 @@ whether the body action throws (\*) or returns.
 export declare const bracket: <R, E, A, B>(
   aquire: ReaderResult<R, E, A>,
   use: (a: A) => ReaderResult<R, E, B>,
-  release: (a: A, e: either.Result<E, B>) => ReaderResult<R, E, void>
+  release: (a: A, e: result.Result<E, B>) => ReaderResult<R, E, void>
 ) => ReaderResult<R, E, B>
 ```
 

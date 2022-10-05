@@ -410,7 +410,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromResult: <E, A, S>(fa: either.Result<E, A>) => StateReaderAsyncResult<S, unknown, E, A>
+export declare const fromResult: <E, A, S>(fa: result.Result<E, A>) => StateReaderAsyncResult<S, unknown, E, A>
 ```
 
 Added in v3.0.0
@@ -572,7 +572,7 @@ Added in v3.0.0
 
 ```ts
 export declare const partitionMap: <A, B, C, E>(
-  f: (a: A) => either.Result<B, C>,
+  f: (a: A) => result.Result<B, C>,
   onEmpty: E
 ) => <S, R>(
   self: StateReaderAsyncResult<S, R, E, A>
@@ -800,7 +800,7 @@ Added in v3.0.0
 
 ```ts
 export declare const liftEither: <A extends readonly unknown[], E, B>(
-  f: (...a: A) => either.Result<E, B>
+  f: (...a: A) => result.Result<E, B>
 ) => <S>(...a: A) => StateReaderAsyncResult<S, unknown, E, B>
 ```
 
@@ -1047,7 +1047,7 @@ Added in v3.0.0
 
 ```ts
 export declare const flatMapEither: <A, E2, B>(
-  f: (a: A) => either.Result<E2, B>
+  f: (a: A) => result.Result<E2, B>
 ) => <S, R, E1>(ma: StateReaderAsyncResult<S, R, E1, A>) => StateReaderAsyncResult<S, R, E2 | E1, B>
 ```
 
