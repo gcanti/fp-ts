@@ -17,7 +17,7 @@ import * as flattenable from './Flattenable'
 import type { Compactable } from './Compactable'
 import * as result from './Result'
 import type { Result } from './Result'
-import * as eitherT from './ResultT'
+import * as resultT from './ResultT'
 import type * as filterable from './Filterable'
 import * as fromResult_ from './FromResult'
 import * as fromSync_ from './FromSync'
@@ -25,7 +25,7 @@ import { flow, identity, SK } from './Function'
 import * as functor from './Functor'
 import type { TypeLambda } from './HKT'
 import * as _ from './internal'
-import * as io from './Sync'
+import * as sync from './Sync'
 import type { Sync } from './Sync'
 import type * as monad from './Monad'
 import type { Option } from './Option'
@@ -57,31 +57,31 @@ export interface SyncResultTypeLambda extends TypeLambda {
  * @category constructors
  * @since 3.0.0
  */
-export const fail: <E>(e: E) => SyncResult<E, never> = /*#__PURE__*/ eitherT.fail(io.FromIdentity)
+export const fail: <E>(e: E) => SyncResult<E, never> = /*#__PURE__*/ resultT.fail(sync.FromIdentity)
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const succeed: <A>(a: A) => SyncResult<never, A> = /*#__PURE__*/ eitherT.succeed(io.FromIdentity)
+export const succeed: <A>(a: A) => SyncResult<never, A> = /*#__PURE__*/ resultT.succeed(sync.FromIdentity)
 
 /**
  * @category conversions
  * @since 3.0.0
  */
-export const fromSync: <A>(ma: Sync<A>) => SyncResult<never, A> = /*#__PURE__*/ eitherT.fromKind(io.Functor)
+export const fromSync: <A>(ma: Sync<A>) => SyncResult<never, A> = /*#__PURE__*/ resultT.fromKind(sync.Functor)
 
 /**
  * @category conversions
  * @since 3.0.0
  */
-export const failSync: <E>(me: Sync<E>) => SyncResult<E, never> = /*#__PURE__*/ eitherT.failKind(io.Functor)
+export const failSync: <E>(me: Sync<E>) => SyncResult<E, never> = /*#__PURE__*/ resultT.failKind(sync.Functor)
 
 /**
  * @category conversions
  * @since 3.0.0
  */
-export const fromResult: <E, A>(fa: Result<E, A>) => SyncResult<E, A> = io.succeed
+export const fromResult: <E, A>(fa: Result<E, A>) => SyncResult<E, A> = sync.succeed
 
 // -------------------------------------------------------------------------------------
 // pattern matching
@@ -94,30 +94,30 @@ export const fromResult: <E, A>(fa: Result<E, A>) => SyncResult<E, A> = io.succe
 export const match: <E, B, A, C = B>(
   onError: (e: E) => B,
   onSuccess: (a: A) => C
-) => (ma: SyncResult<E, A>) => Sync<B | C> = /*#__PURE__*/ eitherT.match(io.Functor)
+) => (ma: SyncResult<E, A>) => Sync<B | C> = /*#__PURE__*/ resultT.match(sync.Functor)
 
 /**
  * @category pattern matching
  * @since 3.0.0
  */
-export const matchIO: <E, B, A, C = B>(
+export const matchSync: <E, B, A, C = B>(
   onError: (e: E) => Sync<B>,
   onSuccess: (a: A) => Sync<C>
-) => (ma: SyncResult<E, A>) => Sync<B | C> = /*#__PURE__*/ eitherT.matchKind(io.Monad)
+) => (ma: SyncResult<E, A>) => Sync<B | C> = /*#__PURE__*/ resultT.matchKind(sync.Monad)
 
 /**
  * @category error handling
  * @since 3.0.0
  */
 export const getOrElse: <B>(onError: B) => <A>(self: SyncResult<unknown, A>) => Sync<A | B> =
-  /*#__PURE__*/ eitherT.getOrElse(io.Functor)
+  /*#__PURE__*/ resultT.getOrElse(sync.Functor)
 
 /**
  * @category error handling
  * @since 3.0.0
  */
-export const getOrElseIO: <B>(onError: Sync<B>) => <A>(self: SyncResult<unknown, A>) => Sync<A | B> =
-  /*#__PURE__*/ eitherT.getOrElseKind(io.Monad)
+export const getOrElseSync: <B>(onError: Sync<B>) => <A>(self: SyncResult<unknown, A>) => Sync<A | B> =
+  /*#__PURE__*/ resultT.getOrElseKind(sync.Monad)
 
 /**
  * Constructs a new `SyncResult` from a function that performs a side effect and might throw.
@@ -149,7 +149,7 @@ export const liftThrowable =
  * @category interop
  * @since 3.0.0
  */
-export const toUnion: <E, A>(fa: SyncResult<E, A>) => Sync<E | A> = /*#__PURE__*/ eitherT.toUnion(io.Functor)
+export const toUnion: <E, A>(fa: SyncResult<E, A>) => Sync<E | A> = /*#__PURE__*/ resultT.toUnion(sync.Functor)
 
 /**
  * Recovers from all errors.
@@ -159,12 +159,12 @@ export const toUnion: <E, A>(fa: SyncResult<E, A>) => Sync<E | A> = /*#__PURE__*
  */
 export const catchAll: <E1, E2, B>(
   onError: (e: E1) => SyncResult<E2, B>
-) => <A>(ma: SyncResult<E1, A>) => SyncResult<E2, A | B> = /*#__PURE__*/ eitherT.catchAll(io.Monad)
+) => <A>(ma: SyncResult<E1, A>) => SyncResult<E2, A | B> = /*#__PURE__*/ resultT.catchAll(sync.Monad)
 
 /**
  * @since 3.0.0
  */
-export const swap: <E, A>(ma: SyncResult<E, A>) => SyncResult<A, E> = /*#__PURE__*/ eitherT.swap(io.Functor)
+export const swap: <E, A>(ma: SyncResult<E, A>) => SyncResult<A, E> = /*#__PURE__*/ resultT.swap(sync.Functor)
 
 /**
  * Returns an effect whose success is mapped by the specified `f` function.
@@ -172,8 +172,8 @@ export const swap: <E, A>(ma: SyncResult<E, A>) => SyncResult<A, E> = /*#__PURE_
  * @category mapping
  * @since 3.0.0
  */
-export const map: <A, B>(f: (a: A) => B) => <E>(fa: SyncResult<E, A>) => SyncResult<E, B> = /*#__PURE__*/ eitherT.map(
-  io.Functor
+export const map: <A, B>(f: (a: A) => B) => <E>(fa: SyncResult<E, A>) => SyncResult<E, B> = /*#__PURE__*/ resultT.map(
+  sync.Functor
 )
 
 /**
@@ -184,7 +184,7 @@ export const map: <A, B>(f: (a: A) => B) => <E>(fa: SyncResult<E, A>) => SyncRes
  * @since 3.0.0
  */
 export const mapBoth: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (self: SyncResult<E, A>) => SyncResult<G, B> =
-  /*#__PURE__*/ eitherT.mapBoth(io.Functor)
+  /*#__PURE__*/ resultT.mapBoth(sync.Functor)
 
 /**
  * Returns an effect with its error channel mapped using the specified
@@ -194,7 +194,7 @@ export const mapBoth: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (self: Syn
  * @since 3.0.0
  */
 export const mapError: <E, G>(f: (e: E) => G) => <A>(self: SyncResult<E, A>) => SyncResult<G, A> =
-  /*#__PURE__*/ eitherT.mapError(io.Functor)
+  /*#__PURE__*/ resultT.mapError(sync.Functor)
 
 /**
  * @category sequencing
@@ -202,7 +202,7 @@ export const mapError: <E, G>(f: (e: E) => G) => <A>(self: SyncResult<E, A>) => 
  */
 export const flatMap: <A, E2, B>(
   f: (a: A) => SyncResult<E2, B>
-) => <E1>(self: SyncResult<E1, A>) => SyncResult<E1 | E2, B> = /*#__PURE__*/ eitherT.flatMap(io.Monad)
+) => <E1>(self: SyncResult<E1, A>) => SyncResult<E1 | E2, B> = /*#__PURE__*/ resultT.flatMap(sync.Monad)
 
 /**
  * Creates a composite effect that represents this effect followed by another
@@ -212,7 +212,7 @@ export const flatMap: <A, E2, B>(
  * @since 3.0.0
  */
 export const flatMapError: <E1, E2>(f: (e: E1) => Sync<E2>) => <A>(self: SyncResult<E1, A>) => SyncResult<E2, A> =
-  /*#__PURE__*/ eitherT.flatMapError(io.Monad)
+  /*#__PURE__*/ resultT.flatMapError(sync.Monad)
 
 /**
  * @since 3.0.0
@@ -228,7 +228,7 @@ export const flatten: <E1, E2, A>(mma: SyncResult<E1, SyncResult<E2, A>>) => Syn
  * @since 3.0.0
  */
 export const orElse: <E2, B>(that: SyncResult<E2, B>) => <E1, A>(self: SyncResult<E1, A>) => SyncResult<E2, A | B> =
-  /*#__PURE__*/ eitherT.orElse(io.Monad)
+  /*#__PURE__*/ resultT.orElse(sync.Monad)
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -245,7 +245,7 @@ export const getValidatedApplicative = <E>(
   Semigroup: Semigroup<E>
 ): applicative.Applicative<result.ValidatedT<SyncResultTypeLambda, E>> => ({
   map,
-  ap: apply.apComposition(io.Apply, result.getValidatedApplicative(Semigroup)),
+  ap: apply.apComposition(sync.Apply, result.getValidatedApplicative(Semigroup)),
   succeed
 })
 
@@ -260,7 +260,7 @@ export const getValidatedSemigroupKind = <E>(
   Semigroup: Semigroup<E>
 ): semigroupKind.SemigroupKind<result.ValidatedT<SyncResultTypeLambda, E>> => {
   return {
-    combineKind: eitherT.getValidatedCombineKind(io.Monad, Semigroup)
+    combineKind: resultT.getValidatedCombineKind(sync.Monad, Semigroup)
   }
 }
 
@@ -269,7 +269,7 @@ export const getValidatedSemigroupKind = <E>(
  * @since 3.0.0
  */
 export const compact: <E>(onNone: E) => <A>(self: SyncResult<E, Option<A>>) => SyncResult<E, A> =
-  /*#__PURE__*/ eitherT.compact(io.Functor)
+  /*#__PURE__*/ resultT.compact(sync.Functor)
 
 /**
  * @category filtering
@@ -278,7 +278,7 @@ export const compact: <E>(onNone: E) => <A>(self: SyncResult<E, Option<A>>) => S
 export const separate: <E>(
   onEmpty: E
 ) => <A, B>(self: SyncResult<E, Result<A, B>>) => readonly [SyncResult<E, A>, SyncResult<E, B>] =
-  /*#__PURE__*/ eitherT.separate(io.Functor)
+  /*#__PURE__*/ resultT.separate(sync.Functor)
 
 /**
  * @category instances
@@ -482,7 +482,7 @@ export const Monad: monad.Monad<SyncResultTypeLambda> = {
  */
 export const tapError: <E1, E2>(
   onError: (e: E1) => SyncResult<E2, unknown>
-) => <A>(self: SyncResult<E1, A>) => SyncResult<E1 | E2, A> = /*#__PURE__*/ eitherT.tapLeft(io.Monad)
+) => <A>(self: SyncResult<E1, A>) => SyncResult<E1 | E2, A> = /*#__PURE__*/ resultT.tapLeft(sync.Monad)
 
 /**
  * @category instances
@@ -572,9 +572,9 @@ export const flatMapOption: <A, B, E2>(
  * @category sequencing
  * @since 3.0.0
  */
-export const flatMapEither: <A, E2, B>(
+export const flatMapResult: <A, E2, B>(
   f: (a: A) => Result<E2, B>
-) => <E1>(ma: SyncResult<E1, A>) => SyncResult<E1 | E2, B> = /*#__PURE__*/ fromResult_.flatMapEither(
+) => <E1>(ma: SyncResult<E1, A>) => SyncResult<E1 | E2, B> = /*#__PURE__*/ fromResult_.flatMapResult(
   FromResult,
   Flattenable
 )
@@ -635,9 +635,9 @@ export const partitionMap: <A, B, C, E>(
  * @category lifting
  * @since 3.0.0
  */
-export const liftEither: <A extends ReadonlyArray<unknown>, E, B>(
+export const liftResult: <A extends ReadonlyArray<unknown>, E, B>(
   f: (...a: A) => Result<E, B>
-) => (...a: A) => SyncResult<E, B> = /*#__PURE__*/ fromResult_.liftEither(FromResult)
+) => (...a: A) => SyncResult<E, B> = /*#__PURE__*/ fromResult_.liftResult(FromResult)
 
 /**
  * @category conversions
@@ -679,7 +679,7 @@ export const bracket: <E1, A, E2, B, E3>(
   acquire: SyncResult<E1, A>,
   use: (a: A) => SyncResult<E2, B>,
   release: (a: A, e: Result<E2, B>) => SyncResult<E3, void>
-) => SyncResult<E1 | E2 | E3, B> = /*#__PURE__*/ eitherT.bracket(io.Monad)
+) => SyncResult<E1 | E2 | E3, B> = /*#__PURE__*/ resultT.bracket(sync.Monad)
 
 // -------------------------------------------------------------------------------------
 // do notation
@@ -793,7 +793,7 @@ export const zipWith: <E2, B, A, C>(
 export const traverseReadonlyNonEmptyArrayWithIndexPar: <A, E, B>(
   f: (index: number, a: A) => SyncResult<E, B>
 ) => (as: ReadonlyNonEmptyArray<A>) => SyncResult<E, ReadonlyNonEmptyArray<B>> = (f) =>
-  flow(io.traverseReadonlyNonEmptyArrayWithIndex(f), io.map(result.traverseReadonlyNonEmptyArrayWithIndex(SK)))
+  flow(sync.traverseReadonlyNonEmptyArrayWithIndex(f), sync.map(result.traverseReadonlyNonEmptyArrayWithIndex(SK)))
 
 /**
  * Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativePar)`.

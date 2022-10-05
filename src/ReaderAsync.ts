@@ -20,7 +20,7 @@ import * as reader from './Reader'
 import type { ReaderSync } from './ReaderSync'
 import * as readerT from './ReaderT'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
-import * as task from './Async'
+import * as async from './Async'
 import type { Async } from './Async'
 
 /**
@@ -43,7 +43,7 @@ export const asksReaderAsync: <R1, R2, A>(f: (r1: R1) => ReaderAsync<R2, A>) => 
  * @since 3.0.0
  */
 export const fromReader: <R, A>(fa: reader.Reader<R, A>) => ReaderAsync<R, A> = /*#__PURE__*/ readerT.fromReader(
-  task.FromIdentity
+  async.FromIdentity
 )
 
 /**
@@ -56,13 +56,13 @@ export const fromAsync: <A>(fa: Async<A>) => ReaderAsync<unknown, A> = /*#__PURE
  * @category conversions
  * @since 3.0.0
  */
-export const fromSync: <A>(fa: Sync<A>) => ReaderAsync<unknown, A> = /*#__PURE__*/ flow(task.fromSync, fromAsync)
+export const fromSync: <A>(fa: Sync<A>) => ReaderAsync<unknown, A> = /*#__PURE__*/ flow(async.fromSync, fromAsync)
 
 /**
  * @category conversions
  * @since 3.0.0
  */
-export const fromReaderSync: <R, A>(fa: ReaderSync<R, A>) => ReaderAsync<R, A> = reader.map(task.fromSync)
+export const fromReaderSync: <R, A>(fa: ReaderSync<R, A>) => ReaderAsync<R, A> = reader.map(async.fromSync)
 
 /**
  * Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
@@ -79,7 +79,7 @@ export const local: <R2, R1>(f: (r2: R2) => R1) => <A>(ma: ReaderAsync<R1, A>) =
  * @since 3.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => <R>(fa: ReaderAsync<R, A>) => ReaderAsync<R, B> = /*#__PURE__*/ readerT.map(
-  task.Functor
+  async.Functor
 )
 
 /**
@@ -87,13 +87,13 @@ export const map: <A, B>(f: (a: A) => B) => <R>(fa: ReaderAsync<R, A>) => Reader
  */
 export const apPar: <R2, A>(
   fa: ReaderAsync<R2, A>
-) => <R1, B>(fab: ReaderAsync<R1, (a: A) => B>) => ReaderAsync<R1 & R2, B> = /*#__PURE__*/ readerT.ap(task.ApplyPar)
+) => <R1, B>(fab: ReaderAsync<R1, (a: A) => B>) => ReaderAsync<R1 & R2, B> = /*#__PURE__*/ readerT.ap(async.ApplyPar)
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const succeed: <A>(a: A) => ReaderAsync<unknown, A> = /*#__PURE__*/ readerT.succeed(task.FromIdentity)
+export const succeed: <A>(a: A) => ReaderAsync<unknown, A> = /*#__PURE__*/ readerT.succeed(async.FromIdentity)
 
 /**
  * @category sequencing
@@ -101,7 +101,7 @@ export const succeed: <A>(a: A) => ReaderAsync<unknown, A> = /*#__PURE__*/ reade
  */
 export const flatMap: <A, R2, B>(
   f: (a: A) => ReaderAsync<R2, B>
-) => <R1>(self: ReaderAsync<R1, A>) => ReaderAsync<R1 & R2, B> = /*#__PURE__*/ readerT.flatMap(task.Monad)
+) => <R1>(self: ReaderAsync<R1, A>) => ReaderAsync<R1 & R2, B> = /*#__PURE__*/ readerT.flatMap(async.Monad)
 
 /**
  * @since 3.0.0
@@ -494,7 +494,7 @@ export const liftAsync: <A extends ReadonlyArray<unknown>, B>(
  * @category sequencing
  * @since 3.0.0
  */
-export const flatMapTask: <A, B>(f: (a: A) => Async<B>) => <R>(self: ReaderAsync<R, A>) => ReaderAsync<R, B> =
+export const flatMapAsync: <A, B>(f: (a: A) => Async<B>) => <R>(self: ReaderAsync<R, A>) => ReaderAsync<R, B> =
   /*#__PURE__*/ fromAsync_.flatMapAsync(FromAsync, Flattenable)
 
 // -------------------------------------------------------------------------------------
@@ -642,7 +642,10 @@ export const zipWithPar = /*#__PURE__*/ apply.zipWith(ApplyPar)
 export const traverseReadonlyNonEmptyArrayWithIndexPar = <A, R, B>(
   f: (index: number, a: A) => ReaderAsync<R, B>
 ): ((as: ReadonlyNonEmptyArray<A>) => ReaderAsync<R, ReadonlyNonEmptyArray<B>>) =>
-  flow(reader.traverseReadonlyNonEmptyArrayWithIndex(f), reader.map(task.traverseReadonlyNonEmptyArrayWithIndexPar(SK)))
+  flow(
+    reader.traverseReadonlyNonEmptyArrayWithIndex(f),
+    reader.map(async.traverseReadonlyNonEmptyArrayWithIndexPar(SK))
+  )
 
 /**
  * Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativePar)`.
@@ -702,7 +705,7 @@ export const sequenceReadonlyArrayPar: <R, A>(
 export const traverseReadonlyNonEmptyArrayWithIndex = <A, R, B>(
   f: (index: number, a: A) => ReaderAsync<R, B>
 ): ((as: ReadonlyNonEmptyArray<A>) => ReaderAsync<R, ReadonlyNonEmptyArray<B>>) =>
-  flow(reader.traverseReadonlyNonEmptyArrayWithIndex(f), reader.map(task.traverseReadonlyNonEmptyArrayWithIndex(SK)))
+  flow(reader.traverseReadonlyNonEmptyArrayWithIndex(f), reader.map(async.traverseReadonlyNonEmptyArrayWithIndex(SK)))
 
 /**
  * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.

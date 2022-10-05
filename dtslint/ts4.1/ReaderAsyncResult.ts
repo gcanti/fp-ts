@@ -79,7 +79,7 @@ pipe(
 // $ExpectType ReaderAsyncResult<string, string | number, number>
 pipe(
   _.succeed('a') as _.ReaderAsyncResult<string, string, string>,
-  _.flatMapEither(() => E.succeed(1) as E.Result<number, number>)
+  _.flatMapResult(() => E.succeed(1) as E.Result<number, number>)
 )
 
 //

@@ -19,6 +19,10 @@ Added in v3.0.0
   - [asks](#asks)
   - [asksStateReaderAsyncResult](#asksstatereaderasyncresult)
   - [fail](#fail)
+  - [failAsync](#failasync)
+  - [failReader](#failreader)
+  - [failState](#failstate)
+  - [failSync](#failsync)
   - [fromAsync](#fromasync)
   - [fromReader](#fromreader)
   - [fromReaderAsyncResult](#fromreaderasyncresult)
@@ -26,21 +30,17 @@ Added in v3.0.0
   - [fromSync](#fromsync)
   - [get](#get)
   - [gets](#gets)
-  - [leftIO](#leftio)
-  - [leftReader](#leftreader)
-  - [leftState](#leftstate)
-  - [leftTask](#lefttask)
   - [modify](#modify)
   - [put](#put)
   - [sleep](#sleep)
   - [succeed](#succeed)
 - [conversions](#conversions)
-  - [fromAsyncEither](#fromasynceither)
+  - [fromAsyncResult](#fromasyncresult)
   - [fromNullable](#fromnullable)
   - [fromOption](#fromoption)
   - [fromReaderResult](#fromreaderresult)
   - [fromResult](#fromresult)
-  - [fromSyncEither](#fromsynceither)
+  - [fromSyncResult](#fromsyncresult)
 - [do notation](#do-notation)
   - [bind](#bind)
   - [bindRight](#bindright)
@@ -75,12 +75,12 @@ Added in v3.0.0
   - [lift3](#lift3)
   - [liftAsync](#liftasync)
   - [liftAsyncResult](#liftasyncresult)
-  - [liftEither](#lifteither)
   - [liftNullable](#liftnullable)
   - [liftOption](#liftoption)
   - [liftPredicate](#liftpredicate)
   - [liftReader](#liftreader)
   - [liftReaderAsyncResult](#liftreaderasyncresult)
+  - [liftResult](#liftresult)
   - [liftState](#liftstate)
   - [liftSync](#liftsync)
   - [liftSyncResult](#liftsyncresult)
@@ -97,16 +97,16 @@ Added in v3.0.0
   - [StateReaderAsyncResult (interface)](#statereaderasyncresult-interface)
 - [sequencing](#sequencing)
   - [flatMap](#flatmap)
+  - [flatMapAsync](#flatmapasync)
   - [flatMapAsyncResult](#flatmapasyncresult)
-  - [flatMapEither](#flatmapeither)
   - [flatMapNullable](#flatmapnullable)
   - [flatMapOption](#flatmapoption)
   - [flatMapReader](#flatmapreader)
   - [flatMapReaderAsyncResult](#flatmapreaderasyncresult)
+  - [flatMapResult](#flatmapresult)
   - [flatMapState](#flatmapstate)
   - [flatMapSync](#flatmapsync)
   - [flatMapSyncResult](#flatmapsyncresult)
-  - [flatMapTask](#flatmaptask)
   - [zipLeft](#zipleft)
   - [zipRight](#zipright)
 - [traversing](#traversing)
@@ -199,6 +199,46 @@ export declare const fail: <E, S>(e: E) => StateReaderAsyncResult<S, unknown, E,
 
 Added in v3.0.0
 
+## failAsync
+
+**Signature**
+
+```ts
+export declare const failAsync: <E, S>(me: Async<E>) => StateReaderAsyncResult<S, unknown, E, never>
+```
+
+Added in v3.0.0
+
+## failReader
+
+**Signature**
+
+```ts
+export declare const failReader: <R, E, S>(me: reader.Reader<R, E>) => StateReaderAsyncResult<S, R, E, never>
+```
+
+Added in v3.0.0
+
+## failState
+
+**Signature**
+
+```ts
+export declare const failState: <S, E>(me: State<S, E>) => StateReaderAsyncResult<S, unknown, E, never>
+```
+
+Added in v3.0.0
+
+## failSync
+
+**Signature**
+
+```ts
+export declare const failSync: <E, S>(me: Sync<E>) => StateReaderAsyncResult<S, unknown, E, never>
+```
+
+Added in v3.0.0
+
 ## fromAsync
 
 **Signature**
@@ -275,46 +315,6 @@ export declare const gets: <S, A>(f: (s: S) => A) => StateReaderAsyncResult<S, u
 
 Added in v3.0.0
 
-## leftIO
-
-**Signature**
-
-```ts
-export declare const leftIO: <E, S>(me: Sync<E>) => StateReaderAsyncResult<S, unknown, E, never>
-```
-
-Added in v3.0.0
-
-## leftReader
-
-**Signature**
-
-```ts
-export declare const leftReader: <R, E, S>(me: reader.Reader<R, E>) => StateReaderAsyncResult<S, R, E, never>
-```
-
-Added in v3.0.0
-
-## leftState
-
-**Signature**
-
-```ts
-export declare const leftState: <S, E>(me: State<S, E>) => StateReaderAsyncResult<S, unknown, E, never>
-```
-
-Added in v3.0.0
-
-## leftTask
-
-**Signature**
-
-```ts
-export declare const leftTask: <E, S>(me: Async<E>) => StateReaderAsyncResult<S, unknown, E, never>
-```
-
-Added in v3.0.0
-
 ## modify
 
 Modify the state by applying a function to the current state
@@ -363,12 +363,12 @@ Added in v3.0.0
 
 # conversions
 
-## fromAsyncEither
+## fromAsyncResult
 
 **Signature**
 
 ```ts
-export declare const fromAsyncEither: <E, A, S>(fa: AsyncResult<E, A>) => StateReaderAsyncResult<S, unknown, E, A>
+export declare const fromAsyncResult: <E, A, S>(fa: AsyncResult<E, A>) => StateReaderAsyncResult<S, unknown, E, A>
 ```
 
 Added in v3.0.0
@@ -415,12 +415,12 @@ export declare const fromResult: <E, A, S>(fa: result.Result<E, A>) => StateRead
 
 Added in v3.0.0
 
-## fromSyncEither
+## fromSyncResult
 
 **Signature**
 
 ```ts
-export declare const fromSyncEither: <E, A, S>(fa: SyncResult<E, A>) => StateReaderAsyncResult<S, unknown, E, A>
+export declare const fromSyncResult: <E, A, S>(fa: SyncResult<E, A>) => StateReaderAsyncResult<S, unknown, E, A>
 ```
 
 Added in v3.0.0
@@ -794,18 +794,6 @@ export declare const liftAsyncResult: <A extends readonly unknown[], E, B>(
 
 Added in v3.0.0
 
-## liftEither
-
-**Signature**
-
-```ts
-export declare const liftEither: <A extends readonly unknown[], E, B>(
-  f: (...a: A) => result.Result<E, B>
-) => <S>(...a: A) => StateReaderAsyncResult<S, unknown, E, B>
-```
-
-Added in v3.0.0
-
 ## liftNullable
 
 **Signature**
@@ -867,6 +855,18 @@ Added in v3.0.0
 export declare const liftReaderAsyncResult: <A extends readonly unknown[], R, E, B>(
   f: (...a: A) => readerAsyncResult.ReaderAsyncResult<R, E, B>
 ) => <S>(...a: A) => StateReaderAsyncResult<S, R, E, B>
+```
+
+Added in v3.0.0
+
+## liftResult
+
+**Signature**
+
+```ts
+export declare const liftResult: <A extends readonly unknown[], E, B>(
+  f: (...a: A) => result.Result<E, B>
+) => <S>(...a: A) => StateReaderAsyncResult<S, unknown, E, B>
 ```
 
 Added in v3.0.0
@@ -1029,6 +1029,18 @@ export declare const flatMap: <A, S, R2, E2, B>(
 
 Added in v3.0.0
 
+## flatMapAsync
+
+**Signature**
+
+```ts
+export declare const flatMapAsync: <A, B>(
+  f: (a: A) => Async<B>
+) => <S, R, E>(self: StateReaderAsyncResult<S, R, E, A>) => StateReaderAsyncResult<S, R, E, B>
+```
+
+Added in v3.0.0
+
 ## flatMapAsyncResult
 
 **Signature**
@@ -1036,18 +1048,6 @@ Added in v3.0.0
 ```ts
 export declare const flatMapAsyncResult: <A, E2, B>(
   f: (a: A) => AsyncResult<E2, B>
-) => <S, R, E1>(ma: StateReaderAsyncResult<S, R, E1, A>) => StateReaderAsyncResult<S, R, E2 | E1, B>
-```
-
-Added in v3.0.0
-
-## flatMapEither
-
-**Signature**
-
-```ts
-export declare const flatMapEither: <A, E2, B>(
-  f: (a: A) => result.Result<E2, B>
 ) => <S, R, E1>(ma: StateReaderAsyncResult<S, R, E1, A>) => StateReaderAsyncResult<S, R, E2 | E1, B>
 ```
 
@@ -1103,6 +1103,18 @@ export declare const flatMapReaderAsyncResult: <A, R, E2, B>(
 
 Added in v3.0.0
 
+## flatMapResult
+
+**Signature**
+
+```ts
+export declare const flatMapResult: <A, E2, B>(
+  f: (a: A) => result.Result<E2, B>
+) => <S, R, E1>(ma: StateReaderAsyncResult<S, R, E1, A>) => StateReaderAsyncResult<S, R, E2 | E1, B>
+```
+
+Added in v3.0.0
+
 ## flatMapState
 
 **Signature**
@@ -1135,18 +1147,6 @@ Added in v3.0.0
 export declare const flatMapSyncResult: <A, E2, B>(
   f: (a: A) => SyncResult<E2, B>
 ) => <S, R, E1>(ma: StateReaderAsyncResult<S, R, E1, A>) => StateReaderAsyncResult<S, R, E2 | E1, B>
-```
-
-Added in v3.0.0
-
-## flatMapTask
-
-**Signature**
-
-```ts
-export declare const flatMapTask: <A, B>(
-  f: (a: A) => Async<B>
-) => <S, R, E>(self: StateReaderAsyncResult<S, R, E, A>) => StateReaderAsyncResult<S, R, E, B>
 ```
 
 Added in v3.0.0

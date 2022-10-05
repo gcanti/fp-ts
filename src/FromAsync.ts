@@ -8,7 +8,7 @@ import type { FromSync } from './FromSync'
 import { pipe } from './Function'
 import type { TypeLambda, Kind } from './HKT'
 import type { Async } from './Async'
-import * as task from './Async'
+import * as async from './Async'
 
 /**
  * @category model
@@ -27,7 +27,7 @@ export interface FromAsync<F extends TypeLambda> extends FromSync<F> {
 export const sleep =
   <F extends TypeLambda>(FromAsync: FromAsync<F>) =>
   <S>(duration: number): Kind<F, S, unknown, never, never, void> =>
-    FromAsync.fromAsync(task.sleep(duration))
+    FromAsync.fromAsync(async.sleep(duration))
 
 /**
  * Returns an effect that is delayed from this effect by the specified `duration` (in millis).

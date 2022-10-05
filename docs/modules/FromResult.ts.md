@@ -23,16 +23,16 @@ Added in v3.0.0
   - [partition](#partition)
   - [partitionMap](#partitionmap)
 - [lifting](#lifting)
-  - [liftEither](#lifteither)
   - [liftNullable](#liftnullable)
   - [liftOption](#liftoption)
   - [liftPredicate](#liftpredicate)
+  - [liftResult](#liftresult)
 - [model](#model)
   - [FromResult (interface)](#fromresult-interface)
 - [sequencing](#sequencing)
-  - [flatMapEither](#flatmapeither)
   - [flatMapNullable](#flatmapnullable)
   - [flatMapOption](#flatmapoption)
+  - [flatMapResult](#flatmapresult)
 
 ---
 
@@ -135,20 +135,6 @@ Added in v3.0.0
 
 # lifting
 
-## liftEither
-
-**Signature**
-
-```ts
-export declare const liftEither: <F extends TypeLambda>(
-  FromResult: FromResult<F>
-) => <A extends readonly unknown[], E, B>(
-  f: (...a: A) => Result<E, B>
-) => <S>(...a: A) => Kind<F, S, unknown, never, E, B>
-```
-
-Added in v3.0.0
-
 ## liftNullable
 
 **Signature**
@@ -196,6 +182,20 @@ export declare const liftPredicate: <F extends TypeLambda>(
 
 Added in v3.0.0
 
+## liftResult
+
+**Signature**
+
+```ts
+export declare const liftResult: <F extends TypeLambda>(
+  FromResult: FromResult<F>
+) => <A extends readonly unknown[], E, B>(
+  f: (...a: A) => Result<E, B>
+) => <S>(...a: A) => Kind<F, S, unknown, never, E, B>
+```
+
+Added in v3.0.0
+
 # model
 
 ## FromResult (interface)
@@ -211,21 +211,6 @@ export interface FromResult<F extends TypeLambda> extends TypeClass<F> {
 Added in v3.0.0
 
 # sequencing
-
-## flatMapEither
-
-**Signature**
-
-```ts
-export declare const flatMapEither: <M extends TypeLambda>(
-  FromResult: FromResult<M>,
-  Flattenable: Flattenable<M>
-) => <A, E2, B>(
-  f: (a: A) => Result<E2, B>
-) => <S, R, O, E1>(self: Kind<M, S, R, O, E1, A>) => Kind<M, S, R, O, E2 | E1, B>
-```
-
-Added in v3.0.0
 
 ## flatMapNullable
 
@@ -255,6 +240,21 @@ export declare const flatMapOption: <F extends TypeLambda>(
   f: (a: A) => Option<B>,
   onNone: E2
 ) => <S, R, O, E1>(self: Kind<F, S, R, O, E1, A>) => Kind<F, S, R, O, E2 | E1, B>
+```
+
+Added in v3.0.0
+
+## flatMapResult
+
+**Signature**
+
+```ts
+export declare const flatMapResult: <M extends TypeLambda>(
+  FromResult: FromResult<M>,
+  Flattenable: Flattenable<M>
+) => <A, E2, B>(
+  f: (a: A) => Result<E2, B>
+) => <S, R, O, E1>(self: Kind<M, S, R, O, E1, A>) => Kind<M, S, R, O, E2 | E1, B>
 ```
 
 Added in v3.0.0

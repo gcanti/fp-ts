@@ -214,9 +214,9 @@ describe('Option', () => {
     U.deepStrictEqual(_.fromResult(E.succeed(1)), _.some(1))
   })
 
-  it('toEither', () => {
-    U.deepStrictEqual(pipe(_.none, _.toEither('e')), E.fail('e'))
-    U.deepStrictEqual(pipe(_.some(1), _.toEither('e')), E.succeed(1))
+  it('toResult', () => {
+    U.deepStrictEqual(pipe(_.none, _.toResult('e')), E.fail('e'))
+    U.deepStrictEqual(pipe(_.some(1), _.toResult('e')), E.succeed(1))
   })
 
   it('emptyKind', () => {

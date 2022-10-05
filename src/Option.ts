@@ -174,7 +174,7 @@ export const fromResult = getSuccess
  * @category conversions
  * @since 3.0.0
  */
-export const toEither: <E>(onNone: E) => <A>(fa: Option<A>) => Result<E, A> = _.fromOption
+export const toResult: <E>(onNone: E) => <A>(fa: Option<A>) => Result<E, A> = _.fromOption
 
 // -------------------------------------------------------------------------------------
 // pattern matching
@@ -1020,16 +1020,16 @@ export const FromResult: fromResult_.FromResult<OptionTypeLambda> = {
  * @category lifting
  * @since 3.0.0
  */
-export const liftEither: <A extends ReadonlyArray<unknown>, E, B>(
+export const liftResult: <A extends ReadonlyArray<unknown>, E, B>(
   f: (...a: A) => Result<E, B>
-) => (...a: A) => Option<B> = /*#__PURE__*/ fromResult_.liftEither(FromResult)
+) => (...a: A) => Option<B> = /*#__PURE__*/ fromResult_.liftResult(FromResult)
 
 /**
  * @category sequencing
  * @since 3.0.0
  */
-export const flatMapEither: <A, E, B>(f: (a: A) => Result<E, B>) => (ma: Option<A>) => Option<B> =
-  /*#__PURE__*/ fromResult_.flatMapEither(FromResult, Flattenable)
+export const flatMapResult: <A, E, B>(f: (a: A) => Result<E, B>) => (ma: Option<A>) => Option<B> =
+  /*#__PURE__*/ fromResult_.flatMapResult(FromResult, Flattenable)
 
 /**
  * Tests whether a value is a member of a `Option`.

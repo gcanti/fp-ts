@@ -136,7 +136,7 @@ export const flatten: <A>(mma: Async<Async<A>>) => Async<A> = /*#__PURE__*/ flat
  * @category type lambdas
  * @since 3.0.0
  */
-export interface TaskTypeLambda extends TypeLambda {
+export interface AsyncTypeLambda extends TypeLambda {
   readonly type: Async<this['Out1']>
 }
 
@@ -145,7 +145,7 @@ export interface TaskTypeLambda extends TypeLambda {
 // -------------------------------------------------------------------------------------
 
 /**
- * Monoid returning the first completed task.
+ * Monoid returning the first completed async.
  *
  * Note: uses `Promise.race` internally.
  *
@@ -174,7 +174,7 @@ export const getRaceMonoid = <A>(): Monoid<Async<A>> => ({
  * @category instances
  * @since 3.0.0
  */
-export const Functor: functor.Functor<TaskTypeLambda> = {
+export const Functor: functor.Functor<AsyncTypeLambda> = {
   map
 }
 
@@ -204,7 +204,7 @@ export const unit: (self: Async<unknown>) => Async<void> = /*#__PURE__*/ functor
  * @category instances
  * @since 3.0.0
  */
-export const FromIdentity: fromIdentity.FromIdentity<TaskTypeLambda> = {
+export const FromIdentity: fromIdentity.FromIdentity<AsyncTypeLambda> = {
   succeed
 }
 
@@ -212,7 +212,7 @@ export const FromIdentity: fromIdentity.FromIdentity<TaskTypeLambda> = {
  * @category instances
  * @since 3.0.0
  */
-export const ApplyPar: apply.Apply<TaskTypeLambda> = {
+export const ApplyPar: apply.Apply<AsyncTypeLambda> = {
   map,
   ap: apPar
 }
@@ -258,7 +258,7 @@ export const zipRightPar: <A>(that: Async<A>) => (self: Async<unknown>) => Async
  * @category instances
  * @since 3.0.0
  */
-export const ApplicativePar: applicative.Applicative<TaskTypeLambda> = {
+export const ApplicativePar: applicative.Applicative<AsyncTypeLambda> = {
   map,
   ap: apPar,
   succeed
@@ -268,7 +268,7 @@ export const ApplicativePar: applicative.Applicative<TaskTypeLambda> = {
  * @category instances
  * @since 3.0.0
  */
-export const Flattenable: flattenable.Flattenable<TaskTypeLambda> = {
+export const Flattenable: flattenable.Flattenable<AsyncTypeLambda> = {
   map,
   flatMap
 }
@@ -283,7 +283,7 @@ export const composeKind: <B, C>(bfc: (b: B) => Async<C>) => <A>(afb: (a: A) => 
  * @category instances
  * @since 3.0.0
  */
-export const ComposableKind: composableKind.ComposableKind<TaskTypeLambda> = {
+export const ComposableKind: composableKind.ComposableKind<AsyncTypeLambda> = {
   composeKind
 }
 
@@ -296,7 +296,7 @@ export const idKind: <A>() => (a: A) => Async<A> = /*#__PURE__*/ fromIdentity.id
  * @category instances
  * @since 3.0.0
  */
-export const CategoryKind: categoryKind.CategoryKind<TaskTypeLambda> = {
+export const CategoryKind: categoryKind.CategoryKind<AsyncTypeLambda> = {
   composeKind,
   idKind
 }
@@ -330,7 +330,7 @@ export const ap: <A>(fa: Async<A>) => <B>(self: Async<(a: A) => B>) => Async<B> 
  * @category instances
  * @since 3.0.0
  */
-export const Apply: apply.Apply<TaskTypeLambda> = {
+export const Apply: apply.Apply<AsyncTypeLambda> = {
   map,
   ap
 }
@@ -357,7 +357,7 @@ export const lift3: <A, B, C, D>(f: (a: A, b: B, c: C) => D) => (fa: Async<A>, f
  * @category instances
  * @since 3.0.0
  */
-export const Applicative: applicative.Applicative<TaskTypeLambda> = {
+export const Applicative: applicative.Applicative<AsyncTypeLambda> = {
   map,
   ap,
   succeed
@@ -375,7 +375,7 @@ export const tap: <A>(f: (a: A) => Async<unknown>) => (self: Async<A>) => Async<
  * @category instances
  * @since 3.0.0
  */
-export const Monad: monad.Monad<TaskTypeLambda> = {
+export const Monad: monad.Monad<AsyncTypeLambda> = {
   map,
   succeed,
   flatMap
@@ -385,7 +385,7 @@ export const Monad: monad.Monad<TaskTypeLambda> = {
  * @category instances
  * @since 3.0.0
  */
-export const FromSync: fromSync_.FromSync<TaskTypeLambda> = {
+export const FromSync: fromSync_.FromSync<AsyncTypeLambda> = {
   fromSync: fromSync
 }
 
@@ -423,7 +423,7 @@ export const flatMapSync: <A, B>(f: (a: A) => Sync<B>) => (self: Async<A>) => As
  * @category instances
  * @since 3.0.0
  */
-export const FromAsync: fromAsync_.FromAsync<TaskTypeLambda> = {
+export const FromAsync: fromAsync_.FromAsync<AsyncTypeLambda> = {
   fromSync: fromSync,
   fromAsync: identity
 }

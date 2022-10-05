@@ -33,11 +33,11 @@ Added in v3.0.0
   - [succeed](#succeed)
 - [conversions](#conversions)
   - [fromAsync](#fromasync)
-  - [fromAsyncEither](#fromasynceither)
+  - [fromAsyncResult](#fromasyncresult)
   - [fromNullable](#fromnullable)
   - [fromOption](#fromoption)
   - [fromResult](#fromresult)
-  - [fromSyncEither](#fromsynceither)
+  - [fromSyncResult](#fromsyncresult)
 - [do notation](#do-notation)
   - [Do](#do)
   - [bind](#bind)
@@ -84,7 +84,6 @@ Added in v3.0.0
   - [lift3](#lift3)
   - [liftAsync](#liftasync)
   - [liftAsyncResult](#liftasyncresult)
-  - [liftEither](#lifteither)
   - [liftNullable](#liftnullable)
   - [liftOption](#liftoption)
   - [liftPredicate](#liftpredicate)
@@ -92,6 +91,7 @@ Added in v3.0.0
   - [liftReaderAsync](#liftreaderasync)
   - [liftReaderResult](#liftreaderresult)
   - [liftReaderSync](#liftreadersync)
+  - [liftResult](#liftresult)
   - [liftSync](#liftsync)
   - [liftSyncResult](#liftsyncresult)
 - [logging](#logging)
@@ -110,17 +110,17 @@ Added in v3.0.0
   - [matchReaderAsync](#matchreaderasync)
 - [sequencing](#sequencing)
   - [flatMap](#flatmap)
+  - [flatMapAsync](#flatmapasync)
   - [flatMapAsyncResult](#flatmapasyncresult)
-  - [flatMapEither](#flatmapeither)
   - [flatMapNullable](#flatmapnullable)
   - [flatMapOption](#flatmapoption)
   - [flatMapReader](#flatmapreader)
   - [flatMapReaderAsync](#flatmapreaderasync)
   - [flatMapReaderResult](#flatmapreaderresult)
   - [flatMapReaderSync](#flatmapreadersync)
+  - [flatMapResult](#flatmapresult)
   - [flatMapSync](#flatmapsync)
   - [flatMapSyncResult](#flatmapsyncresult)
-  - [flatMapTask](#flatmaptask)
   - [zipLeft](#zipleft)
   - [zipRight](#zipright)
 - [traversing](#traversing)
@@ -224,7 +224,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const failAsync: <E>(me: task.Async<E>) => ReaderAsyncResult<unknown, E, never>
+export declare const failAsync: <E>(me: async.Async<E>) => ReaderAsyncResult<unknown, E, never>
 ```
 
 Added in v3.0.0
@@ -244,7 +244,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const failReaderAsync: <R, E>(me: readerTask.ReaderAsync<R, E>) => ReaderAsyncResult<R, E, never>
+export declare const failReaderAsync: <R, E>(me: readerAsync.ReaderAsync<R, E>) => ReaderAsyncResult<R, E, never>
 ```
 
 Added in v3.0.0
@@ -284,7 +284,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromReaderAsync: <R, A>(ma: readerTask.ReaderAsync<R, A>) => ReaderAsyncResult<R, never, A>
+export declare const fromReaderAsync: <R, A>(ma: readerAsync.ReaderAsync<R, A>) => ReaderAsyncResult<R, never, A>
 ```
 
 Added in v3.0.0
@@ -348,17 +348,17 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromAsync: <A>(ma: task.Async<A>) => ReaderAsyncResult<unknown, never, A>
+export declare const fromAsync: <A>(ma: async.Async<A>) => ReaderAsyncResult<unknown, never, A>
 ```
 
 Added in v3.0.0
 
-## fromAsyncEither
+## fromAsyncResult
 
 **Signature**
 
 ```ts
-export declare const fromAsyncEither: <E, A>(fa: taskEither.AsyncResult<E, A>) => ReaderAsyncResult<unknown, E, A>
+export declare const fromAsyncResult: <E, A>(fa: asyncResult.AsyncResult<E, A>) => ReaderAsyncResult<unknown, E, A>
 ```
 
 Added in v3.0.0
@@ -393,12 +393,12 @@ export declare const fromResult: <E, A>(fa: Result<E, A>) => ReaderAsyncResult<u
 
 Added in v3.0.0
 
-## fromSyncEither
+## fromSyncResult
 
 **Signature**
 
 ```ts
-export declare const fromSyncEither: <E, A>(fa: SyncResult<E, A>) => ReaderAsyncResult<unknown, E, A>
+export declare const fromSyncResult: <E, A>(fa: SyncResult<E, A>) => ReaderAsyncResult<unknown, E, A>
 ```
 
 Added in v3.0.0
@@ -499,7 +499,7 @@ one that may depend on the error produced by this one.
 
 ```ts
 export declare const flatMapError: <E1, R, E2>(
-  f: (e: E1) => readerTask.ReaderAsync<R, E2>
+  f: (e: E1) => readerAsync.ReaderAsync<R, E2>
 ) => <A>(self: ReaderAsyncResult<R, E1, A>) => ReaderAsyncResult<R, E2, A>
 ```
 
@@ -512,7 +512,7 @@ Added in v3.0.0
 ```ts
 export declare const getOrElse: <B>(
   onError: B
-) => <R, A>(self: ReaderAsyncResult<R, unknown, A>) => readerTask.ReaderAsync<R, B | A>
+) => <R, A>(self: ReaderAsyncResult<R, unknown, A>) => readerAsync.ReaderAsync<R, B | A>
 ```
 
 Added in v3.0.0
@@ -523,8 +523,8 @@ Added in v3.0.0
 
 ```ts
 export declare const getOrElseReaderAsync: <R2, B>(
-  onError: readerTask.ReaderAsync<R2, B>
-) => <R1, A>(self: ReaderAsyncResult<R1, unknown, A>) => readerTask.ReaderAsync<R1 & R2, B | A>
+  onError: readerAsync.ReaderAsync<R2, B>
+) => <R1, A>(self: ReaderAsyncResult<R1, unknown, A>) => readerAsync.ReaderAsync<R1 & R2, B | A>
 ```
 
 Added in v3.0.0
@@ -538,7 +538,7 @@ get all errors you need to provide a way to combine them via a `Semigroup`.
 
 ```ts
 export declare const getValidatedApplicative: <E>(
-  Apply: apply.Apply<task.TaskTypeLambda>,
+  Apply: apply.Apply<async.AsyncTypeLambda>,
   Semigroup: Semigroup<E>
 ) => applicative.Applicative<ValidatedT<ReaderAsyncResultTypeLambda, E>>
 ```
@@ -846,7 +846,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const toUnion: <R, E, A>(fa: ReaderAsyncResult<R, E, A>) => readerTask.ReaderAsync<R, E | A>
+export declare const toUnion: <R, E, A>(fa: ReaderAsyncResult<R, E, A>) => readerAsync.ReaderAsync<R, E | A>
 ```
 
 Added in v3.0.0
@@ -894,7 +894,7 @@ Added in v3.0.0
 
 ```ts
 export declare const liftAsync: <A extends readonly unknown[], B>(
-  f: (...a: A) => task.Async<B>
+  f: (...a: A) => async.Async<B>
 ) => (...a: A) => ReaderAsyncResult<unknown, never, B>
 ```
 
@@ -906,19 +906,7 @@ Added in v3.0.0
 
 ```ts
 export declare const liftAsyncResult: <A extends readonly unknown[], E, B>(
-  f: (...a: A) => taskEither.AsyncResult<E, B>
-) => (...a: A) => ReaderAsyncResult<unknown, E, B>
-```
-
-Added in v3.0.0
-
-## liftEither
-
-**Signature**
-
-```ts
-export declare const liftEither: <A extends readonly unknown[], E, B>(
-  f: (...a: A) => Result<E, B>
+  f: (...a: A) => asyncResult.AsyncResult<E, B>
 ) => (...a: A) => ReaderAsyncResult<unknown, E, B>
 ```
 
@@ -983,7 +971,7 @@ Added in v3.0.0
 
 ```ts
 export declare const liftReaderAsync: <A extends readonly unknown[], R, B>(
-  f: (...a: A) => readerTask.ReaderAsync<R, B>
+  f: (...a: A) => readerAsync.ReaderAsync<R, B>
 ) => (...a: A) => ReaderAsyncResult<R, never, B>
 ```
 
@@ -1009,6 +997,18 @@ Added in v3.0.0
 export declare const liftReaderSync: <A extends readonly unknown[], R, B>(
   f: (...a: A) => ReaderSync<R, B>
 ) => (...a: A) => ReaderAsyncResult<R, never, B>
+```
+
+Added in v3.0.0
+
+## liftResult
+
+**Signature**
+
+```ts
+export declare const liftResult: <A extends readonly unknown[], E, B>(
+  f: (...a: A) => Result<E, B>
+) => (...a: A) => ReaderAsyncResult<unknown, E, B>
 ```
 
 Added in v3.0.0
@@ -1149,7 +1149,7 @@ Added in v3.0.0
 export declare const match: <E, B, A, C = B>(
   onError: (e: E) => B,
   onSuccess: (a: A) => C
-) => <R>(ma: ReaderAsyncResult<R, E, A>) => readerTask.ReaderAsync<R, B | C>
+) => <R>(ma: ReaderAsyncResult<R, E, A>) => readerAsync.ReaderAsync<R, B | C>
 ```
 
 Added in v3.0.0
@@ -1160,9 +1160,9 @@ Added in v3.0.0
 
 ```ts
 export declare const matchReaderAsync: <E, R2, B, A, R3, C = B>(
-  onError: (e: E) => readerTask.ReaderAsync<R2, B>,
-  onSuccess: (a: A) => readerTask.ReaderAsync<R3, C>
-) => <R1>(ma: ReaderAsyncResult<R1, E, A>) => readerTask.ReaderAsync<R1 & R2 & R3, B | C>
+  onError: (e: E) => readerAsync.ReaderAsync<R2, B>,
+  onSuccess: (a: A) => readerAsync.ReaderAsync<R3, C>
+) => <R1>(ma: ReaderAsyncResult<R1, E, A>) => readerAsync.ReaderAsync<R1 & R2 & R3, B | C>
 ```
 
 Added in v3.0.0
@@ -1181,25 +1181,25 @@ export declare const flatMap: <A, R2, E2, B>(
 
 Added in v3.0.0
 
+## flatMapAsync
+
+**Signature**
+
+```ts
+export declare const flatMapAsync: <A, B>(
+  f: (a: A) => async.Async<B>
+) => <R, E>(self: ReaderAsyncResult<R, E, A>) => ReaderAsyncResult<R, E, B>
+```
+
+Added in v3.0.0
+
 ## flatMapAsyncResult
 
 **Signature**
 
 ```ts
 export declare const flatMapAsyncResult: <A, E2, B>(
-  f: (a: A) => taskEither.AsyncResult<E2, B>
-) => <R, E1>(ma: ReaderAsyncResult<R, E1, A>) => ReaderAsyncResult<R, E2 | E1, B>
-```
-
-Added in v3.0.0
-
-## flatMapEither
-
-**Signature**
-
-```ts
-export declare const flatMapEither: <A, E2, B>(
-  f: (a: A) => Result<E2, B>
+  f: (a: A) => asyncResult.AsyncResult<E2, B>
 ) => <R, E1>(ma: ReaderAsyncResult<R, E1, A>) => ReaderAsyncResult<R, E2 | E1, B>
 ```
 
@@ -1249,7 +1249,7 @@ Added in v3.0.0
 
 ```ts
 export declare const flatMapReaderAsync: <A, R2, B>(
-  f: (a: A) => readerTask.ReaderAsync<R2, B>
+  f: (a: A) => readerAsync.ReaderAsync<R2, B>
 ) => <R1, E>(ma: ReaderAsyncResult<R1, E, A>) => ReaderAsyncResult<R1 & R2, E, B>
 ```
 
@@ -1279,6 +1279,18 @@ export declare const flatMapReaderSync: <A, R2, B>(
 
 Added in v3.0.0
 
+## flatMapResult
+
+**Signature**
+
+```ts
+export declare const flatMapResult: <A, E2, B>(
+  f: (a: A) => Result<E2, B>
+) => <R, E1>(ma: ReaderAsyncResult<R, E1, A>) => ReaderAsyncResult<R, E2 | E1, B>
+```
+
+Added in v3.0.0
+
 ## flatMapSync
 
 **Signature**
@@ -1299,18 +1311,6 @@ Added in v3.0.0
 export declare const flatMapSyncResult: <A, E2, B>(
   f: (a: A) => SyncResult<E2, B>
 ) => <R, E1>(ma: ReaderAsyncResult<R, E1, A>) => ReaderAsyncResult<R, E2 | E1, B>
-```
-
-Added in v3.0.0
-
-## flatMapTask
-
-**Signature**
-
-```ts
-export declare const flatMapTask: <A, B>(
-  f: (a: A) => task.Async<B>
-) => <R, E>(self: ReaderAsyncResult<R, E, A>) => ReaderAsyncResult<R, E, B>
 ```
 
 Added in v3.0.0

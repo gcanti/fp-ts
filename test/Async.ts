@@ -6,7 +6,7 @@ import * as S from '../src/string'
 import * as _ from '../src/Async'
 import * as U from './util'
 
-export const assertTask =
+export const assertAsync =
   <A, B>(a: _.Async<A>, b: _.Async<B>, expectedLog: ReadonlyArray<A | B>) =>
   async <C>(f: (a: _.Async<A>, b: _.Async<B>) => _.Async<C>, expected: C) => {
     const log: Array<A | B> = []
@@ -23,8 +23,8 @@ export const assertTask =
 const a = pipe(_.succeed('a'), _.delay(5))
 const b = _.succeed('b')
 
-const assertPar = assertTask(a, b, ['b', 'a'])
-const assertSeq = assertTask(a, b, ['a', 'b'])
+const assertPar = assertAsync(a, b, ['b', 'a'])
+const assertSeq = assertAsync(a, b, ['a', 'b'])
 
 describe('Async', () => {
   // -------------------------------------------------------------------------------------

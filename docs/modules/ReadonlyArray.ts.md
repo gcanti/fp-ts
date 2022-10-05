@@ -95,10 +95,10 @@ Added in v3.0.0
 - [lifting](#lifting)
   - [lift2](#lift2)
   - [lift3](#lift3)
-  - [liftEither](#lifteither)
   - [liftNullable](#liftnullable)
   - [liftOption](#liftoption)
   - [liftPredicate](#liftpredicate)
+  - [liftResult](#liftresult)
 - [mapping](#mapping)
   - [as](#as)
   - [flap](#flap)
@@ -1157,18 +1157,6 @@ export declare const lift3: <A, B, C, D>(
 
 Added in v3.0.0
 
-## liftEither
-
-**Signature**
-
-```ts
-export declare const liftEither: <A extends readonly unknown[], E, B>(
-  f: (...a: A) => Result<E, B>
-) => (...a: A) => readonly B[]
-```
-
-Added in v3.0.0
-
 ## liftNullable
 
 **Signature**
@@ -1202,6 +1190,18 @@ export declare const liftPredicate: {
   <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): (c: C) => readonly B[]
   <B extends A, A = B>(predicate: Predicate<A>): (b: B) => readonly B[]
 }
+```
+
+Added in v3.0.0
+
+## liftResult
+
+**Signature**
+
+```ts
+export declare const liftResult: <A extends readonly unknown[], E, B>(
+  f: (...a: A) => Result<E, B>
+) => (...a: A) => readonly B[]
 ```
 
 Added in v3.0.0

@@ -47,11 +47,11 @@ pipe(
 pipe(_.succeed('a'), _.getOrElse(null))
 
 //
-// getOrElseTask
+// getOrElseAsync
 //
 
 // $ExpectType Async<string | null>
-pipe(_.succeed('a'), _.getOrElseTask(T.succeed(null)))
+pipe(_.succeed('a'), _.getOrElseAsync(T.succeed(null)))
 
 //
 // flatMapEitherK
@@ -60,7 +60,7 @@ pipe(_.succeed('a'), _.getOrElseTask(T.succeed(null)))
 // $ExpectType AsyncResult<string | number, number>
 pipe(
   _.succeed('a') as _.AsyncResult<string, string>,
-  _.flatMapEither(() => E.succeed(1) as E.Result<number, number>)
+  _.flatMapResult(() => E.succeed(1) as E.Result<number, number>)
 )
 
 //

@@ -68,11 +68,11 @@ Added in v3.0.0
 - [lifting](#lifting)
   - [lift2](#lift2)
   - [lift3](#lift3)
-  - [liftEither](#lifteither)
   - [liftNullable](#liftnullable)
   - [liftOption](#liftoption)
   - [liftPredicate](#liftpredicate)
   - [liftReader](#liftreader)
+  - [liftResult](#liftresult)
 - [mapping](#mapping)
   - [as](#as)
   - [flap](#flap)
@@ -86,10 +86,10 @@ Added in v3.0.0
   - [matchReader](#matchreader)
 - [sequencing](#sequencing)
   - [flatMap](#flatmap)
-  - [flatMapEither](#flatmapeither)
   - [flatMapNullable](#flatmapnullable)
   - [flatMapOption](#flatmapoption)
   - [flatMapReader](#flatmapreader)
+  - [flatMapResult](#flatmapresult)
   - [zipLeft](#zipleft)
   - [zipRight](#zipright)
 - [traversing](#traversing)
@@ -699,18 +699,6 @@ export declare const lift3: <A, B, C, D>(
 
 Added in v3.0.0
 
-## liftEither
-
-**Signature**
-
-```ts
-export declare const liftEither: <A extends readonly unknown[], E, B>(
-  f: (...a: A) => result.Result<E, B>
-) => (...a: A) => ReaderResult<unknown, E, B>
-```
-
-Added in v3.0.0
-
 ## liftNullable
 
 **Signature**
@@ -758,6 +746,18 @@ Added in v3.0.0
 export declare const liftReader: <A extends readonly unknown[], R, B>(
   f: (...a: A) => reader.Reader<R, B>
 ) => (...a: A) => ReaderResult<R, never, B>
+```
+
+Added in v3.0.0
+
+## liftResult
+
+**Signature**
+
+```ts
+export declare const liftResult: <A extends readonly unknown[], E, B>(
+  f: (...a: A) => result.Result<E, B>
+) => (...a: A) => ReaderResult<unknown, E, B>
 ```
 
 Added in v3.0.0
@@ -833,7 +833,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface ReaderResult<R, E, A> extends Reader<R, Either<E, A>> {}
+export interface ReaderResult<R, E, A> extends Reader<R, Result<E, A>> {}
 ```
 
 Added in v3.0.0
@@ -880,18 +880,6 @@ export declare const flatMap: <A, R2, E2, B>(
 
 Added in v3.0.0
 
-## flatMapEither
-
-**Signature**
-
-```ts
-export declare const flatMapEither: <A, E2, B>(
-  f: (a: A) => result.Result<E2, B>
-) => <R, E1>(ma: ReaderResult<R, E1, A>) => ReaderResult<R, E2 | E1, B>
-```
-
-Added in v3.0.0
-
 ## flatMapNullable
 
 **Signature**
@@ -926,6 +914,18 @@ Added in v3.0.0
 export declare const flatMapReader: <A, R2, B>(
   f: (a: A) => reader.Reader<R2, B>
 ) => <R1, E>(ma: ReaderResult<R1, E, A>) => ReaderResult<R1 & R2, E, B>
+```
+
+Added in v3.0.0
+
+## flatMapResult
+
+**Signature**
+
+```ts
+export declare const flatMapResult: <A, E2, B>(
+  f: (a: A) => result.Result<E2, B>
+) => <R, E1>(ma: ReaderResult<R, E1, A>) => ReaderResult<R, E2 | E1, B>
 ```
 
 Added in v3.0.0

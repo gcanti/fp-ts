@@ -15,8 +15,8 @@ Added in v3.0.0
 - [constructors](#constructors)
   - [id](#id)
 - [lifting](#lifting)
-  - [liftEither](#lifteither)
   - [liftOption](#liftoption)
+  - [liftResult](#liftresult)
 - [utils](#utils)
   - [Refinement (interface)](#refinement-interface)
   - [and](#and)
@@ -41,16 +41,6 @@ Added in v3.0.0
 
 # lifting
 
-## liftEither
-
-**Signature**
-
-```ts
-export declare const liftEither: <A, B extends A>(f: (a: A) => Result<unknown, B>) => Refinement<A, B>
-```
-
-Added in v3.0.0
-
 ## liftOption
 
 Returns a `Refinement` from a `Option` returning function.
@@ -60,6 +50,16 @@ This function ensures that a `Refinement` definition is type-safe.
 
 ```ts
 export declare const liftOption: <A, B extends A>(f: (a: A) => Option<B>) => Refinement<A, B>
+```
+
+Added in v3.0.0
+
+## liftResult
+
+**Signature**
+
+```ts
+export declare const liftResult: <A, B extends A>(f: (a: A) => Result<unknown, B>) => Refinement<A, B>
 ```
 
 Added in v3.0.0

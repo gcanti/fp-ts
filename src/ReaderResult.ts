@@ -10,7 +10,7 @@ import type * as bifunctor from './Bifunctor'
 import * as flattenable from './Flattenable'
 import type { Compactable } from './Compactable'
 import * as result from './Result'
-import * as eitherT from './ResultT'
+import * as resultT from './ResultT'
 import type * as filterable from './Filterable'
 import * as fromResult_ from './FromResult'
 import * as fromReader_ from './FromReader'
@@ -27,14 +27,14 @@ import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import type { Refinement } from './Refinement'
 import type { Semigroup } from './Semigroup'
 
-import Either = result.Result
+import Result = result.Result
 import Reader = reader.Reader
 
 /**
  * @category model
  * @since 3.0.0
  */
-export interface ReaderResult<R, E, A> extends Reader<R, Either<E, A>> {}
+export interface ReaderResult<R, E, A> extends Reader<R, Result<E, A>> {}
 
 // -------------------------------------------------------------------------------------
 // type lambdas
@@ -52,13 +52,13 @@ export interface ReaderResultTypeLambda extends TypeLambda {
  * @category constructors
  * @since 3.0.0
  */
-export const fail: <E>(e: E) => ReaderResult<unknown, E, never> = /*#__PURE__*/ eitherT.fail(reader.FromIdentity)
+export const fail: <E>(e: E) => ReaderResult<unknown, E, never> = /*#__PURE__*/ resultT.fail(reader.FromIdentity)
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const succeed: <A>(a: A) => ReaderResult<unknown, never, A> = /*#__PURE__*/ eitherT.succeed(reader.FromIdentity)
+export const succeed: <A>(a: A) => ReaderResult<unknown, never, A> = /*#__PURE__*/ resultT.succeed(reader.FromIdentity)
 
 /**
  * @category constructors
@@ -71,7 +71,7 @@ export const asksReaderResult: <R1, R2, E, A>(f: (r1: R1) => ReaderResult<R2, E,
  * @category conversions
  * @since 3.0.0
  */
-export const fromReader: <R, A>(ma: Reader<R, A>) => ReaderResult<R, never, A> = /*#__PURE__*/ eitherT.fromKind(
+export const fromReader: <R, A>(ma: Reader<R, A>) => ReaderResult<R, never, A> = /*#__PURE__*/ resultT.fromKind(
   reader.Functor
 )
 
@@ -79,7 +79,7 @@ export const fromReader: <R, A>(ma: Reader<R, A>) => ReaderResult<R, never, A> =
  * @category conversions
  * @since 3.0.0
  */
-export const failReader: <R, E>(me: Reader<R, E>) => ReaderResult<R, E, never> = /*#__PURE__*/ eitherT.failKind(
+export const failReader: <R, E>(me: Reader<R, E>) => ReaderResult<R, E, never> = /*#__PURE__*/ resultT.failKind(
   reader.Functor
 )
 
@@ -87,7 +87,7 @@ export const failReader: <R, E>(me: Reader<R, E>) => ReaderResult<R, E, never> =
  * @category conversions
  * @since 3.0.0
  */
-export const fromResult: <E, A>(fa: Either<E, A>) => ReaderResult<unknown, E, A> = reader.succeed
+export const fromResult: <E, A>(fa: Result<E, A>) => ReaderResult<unknown, E, A> = reader.succeed
 
 // -------------------------------------------------------------------------------------
 // pattern matching
@@ -100,7 +100,7 @@ export const fromResult: <E, A>(fa: Either<E, A>) => ReaderResult<unknown, E, A>
 export const match: <E, B, A, C = B>(
   onError: (e: E) => B,
   onSuccess: (a: A) => C
-) => <R>(ma: Reader<R, result.Result<E, A>>) => Reader<R, B | C> = /*#__PURE__*/ eitherT.match(reader.Functor)
+) => <R>(ma: Reader<R, result.Result<E, A>>) => Reader<R, B | C> = /*#__PURE__*/ resultT.match(reader.Functor)
 
 /**
  * @category pattern matching
@@ -109,7 +109,7 @@ export const match: <E, B, A, C = B>(
 export const matchReader: <E, R2, B, A, R3, C = B>(
   onError: (e: E) => Reader<R2, B>,
   onSuccess: (a: A) => Reader<R3, C>
-) => <R1>(ma: Reader<R1, result.Result<E, A>>) => Reader<R1 & R2 & R3, B | C> = /*#__PURE__*/ eitherT.matchKind(
+) => <R1>(ma: Reader<R1, result.Result<E, A>>) => Reader<R1 & R2 & R3, B | C> = /*#__PURE__*/ resultT.matchKind(
   reader.Monad
 )
 
@@ -118,7 +118,7 @@ export const matchReader: <E, R2, B, A, R3, C = B>(
  * @since 3.0.0
  */
 export const getOrElse: <B>(onError: B) => <R, A>(self: ReaderResult<R, unknown, A>) => Reader<R, A | B> =
-  /*#__PURE__*/ eitherT.getOrElse(reader.Functor)
+  /*#__PURE__*/ resultT.getOrElse(reader.Functor)
 
 /**
  * @category error handling
@@ -126,7 +126,7 @@ export const getOrElse: <B>(onError: B) => <R, A>(self: ReaderResult<R, unknown,
  */
 export const getOrElseReader: <R2, B>(
   onError: Reader<R2, B>
-) => <R1, A>(self: ReaderResult<R1, unknown, A>) => Reader<R1 & R2, A | B> = /*#__PURE__*/ eitherT.getOrElseKind(
+) => <R1, A>(self: ReaderResult<R1, unknown, A>) => Reader<R1 & R2, A | B> = /*#__PURE__*/ resultT.getOrElseKind(
   reader.Monad
 )
 
@@ -134,7 +134,7 @@ export const getOrElseReader: <R2, B>(
  * @category interop
  * @since 3.0.0
  */
-export const toUnion: <R, E, A>(fa: ReaderResult<R, E, A>) => Reader<R, E | A> = /*#__PURE__*/ eitherT.toUnion(
+export const toUnion: <R, E, A>(fa: ReaderResult<R, E, A>) => Reader<R, E | A> = /*#__PURE__*/ resultT.toUnion(
   reader.Functor
 )
 
@@ -155,14 +155,14 @@ export const local: <R2, R1>(f: (r2: R2) => R1) => <E, A>(ma: ReaderResult<R1, E
  */
 export const catchAll: <E1, R1, E2, B>(
   onError: (e: E1) => ReaderResult<R1, E2, B>
-) => <R2, A>(ma: ReaderResult<R2, E1, A>) => ReaderResult<R1 & R2, E2, A | B> = /*#__PURE__*/ eitherT.catchAll(
+) => <R2, A>(ma: ReaderResult<R2, E1, A>) => ReaderResult<R1 & R2, E2, A | B> = /*#__PURE__*/ resultT.catchAll(
   reader.Monad
 )
 
 /**
  * @since 3.0.0
  */
-export const swap: <R, E, A>(ma: ReaderResult<R, E, A>) => ReaderResult<R, A, E> = /*#__PURE__*/ eitherT.swap(
+export const swap: <R, E, A>(ma: ReaderResult<R, E, A>) => ReaderResult<R, A, E> = /*#__PURE__*/ resultT.swap(
   reader.Functor
 )
 
@@ -173,7 +173,7 @@ export const swap: <R, E, A>(ma: ReaderResult<R, E, A>) => ReaderResult<R, A, E>
  * @since 3.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => <R, E>(fa: ReaderResult<R, E, A>) => ReaderResult<R, E, B> =
-  /*#__PURE__*/ eitherT.map(reader.Functor)
+  /*#__PURE__*/ resultT.map(reader.Functor)
 
 /**
  * @category instances
@@ -193,7 +193,7 @@ export const FromIdentity: fromIdentity.FromIdentity<ReaderResultTypeLambda> = {
 export const mapBoth: <E, G, A, B>(
   f: (e: E) => G,
   g: (a: A) => B
-) => <R>(self: ReaderResult<R, E, A>) => ReaderResult<R, G, B> = /*#__PURE__*/ eitherT.mapBoth(reader.Functor)
+) => <R>(self: ReaderResult<R, E, A>) => ReaderResult<R, G, B> = /*#__PURE__*/ resultT.mapBoth(reader.Functor)
 
 /**
  * Returns an effect with its error channel mapped using the specified
@@ -203,7 +203,7 @@ export const mapBoth: <E, G, A, B>(
  * @since 3.0.0
  */
 export const mapError: <E, G>(f: (e: E) => G) => <R, A>(self: ReaderResult<R, E, A>) => ReaderResult<R, G, A> =
-  /*#__PURE__*/ eitherT.mapError(reader.Functor)
+  /*#__PURE__*/ resultT.mapError(reader.Functor)
 
 /**
  * @category sequencing
@@ -211,7 +211,7 @@ export const mapError: <E, G>(f: (e: E) => G) => <R, A>(self: ReaderResult<R, E,
  */
 export const flatMap: <A, R2, E2, B>(
   f: (a: A) => ReaderResult<R2, E2, B>
-) => <R1, E1>(self: ReaderResult<R1, E1, A>) => ReaderResult<R1 & R2, E1 | E2, B> = /*#__PURE__*/ eitherT.flatMap(
+) => <R1, E1>(self: ReaderResult<R1, E1, A>) => ReaderResult<R1 & R2, E1 | E2, B> = /*#__PURE__*/ resultT.flatMap(
   reader.Monad
 )
 
@@ -224,7 +224,7 @@ export const flatMap: <A, R2, E2, B>(
  */
 export const flatMapError: <E1, R, E2>(
   f: (e: E1) => Reader<R, E2>
-) => <A>(self: ReaderResult<R, E1, A>) => ReaderResult<R, E2, A> = /*#__PURE__*/ eitherT.flatMapError(reader.Monad)
+) => <A>(self: ReaderResult<R, E1, A>) => ReaderResult<R, E2, A> = /*#__PURE__*/ resultT.flatMapError(reader.Monad)
 
 /**
  * @category instances
@@ -313,7 +313,7 @@ export const flatten: <R1, E1, R2, E2, A>(
  */
 export const orElse: <R2, E2, B>(
   that: ReaderResult<R2, E2, B>
-) => <R1, E1, A>(self: ReaderResult<R1, E1, A>) => ReaderResult<R1 & R2, E2, A | B> = /*#__PURE__*/ eitherT.orElse(
+) => <R1, E1, A>(self: ReaderResult<R1, E1, A>) => ReaderResult<R1 & R2, E2, A | B> = /*#__PURE__*/ resultT.orElse(
   reader.Monad
 )
 
@@ -347,7 +347,7 @@ export const getValidatedSemigroupKind = <E>(
   Semigroup: Semigroup<E>
 ): semigroupKind.SemigroupKind<result.ValidatedT<ReaderResultTypeLambda, E>> => {
   return {
-    combineKind: eitherT.getValidatedCombineKind(reader.Monad, Semigroup)
+    combineKind: resultT.getValidatedCombineKind(reader.Monad, Semigroup)
   }
 }
 
@@ -356,7 +356,7 @@ export const getValidatedSemigroupKind = <E>(
  * @since 3.0.0
  */
 export const compact: <E>(onNone: E) => <R, A>(self: ReaderResult<R, E, Option<A>>) => ReaderResult<R, E, A> =
-  /*#__PURE__*/ eitherT.compact(reader.Functor)
+  /*#__PURE__*/ resultT.compact(reader.Functor)
 
 /**
  * @category filtering
@@ -364,8 +364,8 @@ export const compact: <E>(onNone: E) => <R, A>(self: ReaderResult<R, E, Option<A
  */
 export const separate: <E>(
   onEmpty: E
-) => <R, A, B>(self: ReaderResult<R, E, Either<A, B>>) => readonly [ReaderResult<R, E, A>, ReaderResult<R, E, B>] =
-  /*#__PURE__*/ eitherT.separate(reader.Functor)
+) => <R, A, B>(self: ReaderResult<R, E, Result<A, B>>) => readonly [ReaderResult<R, E, A>, ReaderResult<R, E, B>] =
+  /*#__PURE__*/ resultT.separate(reader.Functor)
 
 /**
  * @category instances
@@ -493,7 +493,7 @@ export const tap: <A, R2, E2>(
  */
 export const tapError: <E1, R2, E2>(
   onError: (e: E1) => ReaderResult<R2, E2, unknown>
-) => <R1, A>(self: ReaderResult<R1, E1, A>) => ReaderResult<R1 & R2, E1 | E2, A> = /*#__PURE__*/ eitherT.tapLeft(
+) => <R1, A>(self: ReaderResult<R1, E1, A>) => ReaderResult<R1 & R2, E1 | E2, A> = /*#__PURE__*/ resultT.tapLeft(
   reader.Monad
 )
 
@@ -644,7 +644,7 @@ export const partition: {
  * @since 3.0.0
  */
 export const partitionMap: <A, B, C, E>(
-  f: (a: A) => Either<B, C>,
+  f: (a: A) => Result<B, C>,
   onEmpty: E
 ) => <R>(self: ReaderResult<R, E, A>) => readonly [ReaderResult<R, E, B>, ReaderResult<R, E, C>] =
   /*#__PURE__*/ fromResult_.partitionMap(FromResult, Flattenable)
@@ -653,17 +653,17 @@ export const partitionMap: <A, B, C, E>(
  * @category lifting
  * @since 3.0.0
  */
-export const liftEither: <A extends ReadonlyArray<unknown>, E, B>(
+export const liftResult: <A extends ReadonlyArray<unknown>, E, B>(
   f: (...a: A) => result.Result<E, B>
-) => (...a: A) => ReaderResult<unknown, E, B> = /*#__PURE__*/ fromResult_.liftEither(FromResult)
+) => (...a: A) => ReaderResult<unknown, E, B> = /*#__PURE__*/ fromResult_.liftResult(FromResult)
 
 /**
  * @category sequencing
  * @since 3.0.0
  */
-export const flatMapEither: <A, E2, B>(
-  f: (a: A) => Either<E2, B>
-) => <R, E1>(ma: ReaderResult<R, E1, A>) => ReaderResult<R, E1 | E2, B> = /*#__PURE__*/ fromResult_.flatMapEither(
+export const flatMapResult: <A, E2, B>(
+  f: (a: A) => Result<E2, B>
+) => <R, E1>(ma: ReaderResult<R, E1, A>) => ReaderResult<R, E1 | E2, B> = /*#__PURE__*/ fromResult_.flatMapResult(
   FromResult,
   Flattenable
 )
@@ -806,8 +806,8 @@ export const zipWith: <R2, E2, B, A, C>(
 export const bracket: <R, E, A, B>(
   aquire: ReaderResult<R, E, A>,
   use: (a: A) => ReaderResult<R, E, B>,
-  release: (a: A, e: Either<E, B>) => ReaderResult<R, E, void>
-) => ReaderResult<R, E, B> = /*#__PURE__*/ eitherT.bracket(reader.Monad)
+  release: (a: A, e: Result<E, B>) => ReaderResult<R, E, void>
+) => ReaderResult<R, E, B> = /*#__PURE__*/ resultT.bracket(reader.Monad)
 
 // -------------------------------------------------------------------------------------
 // array utils

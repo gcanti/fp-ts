@@ -90,7 +90,7 @@ Added in v3.0.0
   - [zipWith](#zipwith)
   - [zipWithPar](#zipwithpar)
 - [type lambdas](#type-lambdas)
-  - [TaskTypeLambda (interface)](#tasktypelambda-interface)
+  - [AsyncTypeLambda (interface)](#asynctypelambda-interface)
 - [utils](#utils)
   - [ap](#ap)
   - [apPar](#appar)
@@ -224,7 +224,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Applicative: applicative.Applicative<TaskTypeLambda>
+export declare const Applicative: applicative.Applicative<AsyncTypeLambda>
 ```
 
 Added in v3.0.0
@@ -234,7 +234,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ApplicativePar: applicative.Applicative<TaskTypeLambda>
+export declare const ApplicativePar: applicative.Applicative<AsyncTypeLambda>
 ```
 
 Added in v3.0.0
@@ -244,7 +244,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Apply: apply.Apply<TaskTypeLambda>
+export declare const Apply: apply.Apply<AsyncTypeLambda>
 ```
 
 Added in v3.0.0
@@ -254,7 +254,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ApplyPar: apply.Apply<TaskTypeLambda>
+export declare const ApplyPar: apply.Apply<AsyncTypeLambda>
 ```
 
 Added in v3.0.0
@@ -264,7 +264,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const CategoryKind: categoryKind.CategoryKind<TaskTypeLambda>
+export declare const CategoryKind: categoryKind.CategoryKind<AsyncTypeLambda>
 ```
 
 Added in v3.0.0
@@ -274,7 +274,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ComposableKind: composableKind.ComposableKind<TaskTypeLambda>
+export declare const ComposableKind: composableKind.ComposableKind<AsyncTypeLambda>
 ```
 
 Added in v3.0.0
@@ -284,7 +284,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Flattenable: flattenable.Flattenable<TaskTypeLambda>
+export declare const Flattenable: flattenable.Flattenable<AsyncTypeLambda>
 ```
 
 Added in v3.0.0
@@ -294,7 +294,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromAsync: fromAsync_.FromAsync<TaskTypeLambda>
+export declare const FromAsync: fromAsync_.FromAsync<AsyncTypeLambda>
 ```
 
 Added in v3.0.0
@@ -304,7 +304,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromIdentity: fromIdentity.FromIdentity<TaskTypeLambda>
+export declare const FromIdentity: fromIdentity.FromIdentity<AsyncTypeLambda>
 ```
 
 Added in v3.0.0
@@ -314,7 +314,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromSync: fromSync_.FromSync<TaskTypeLambda>
+export declare const FromSync: fromSync_.FromSync<AsyncTypeLambda>
 ```
 
 Added in v3.0.0
@@ -324,7 +324,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: functor.Functor<TaskTypeLambda>
+export declare const Functor: functor.Functor<AsyncTypeLambda>
 ```
 
 Added in v3.0.0
@@ -334,14 +334,14 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: monad.Monad<TaskTypeLambda>
+export declare const Monad: monad.Monad<AsyncTypeLambda>
 ```
 
 Added in v3.0.0
 
 ## getRaceMonoid
 
-Monoid returning the first completed task.
+Monoid returning the first completed async.
 
 Note: uses `Promise.race` internally.
 
@@ -800,12 +800,12 @@ Added in v3.0.0
 
 # type lambdas
 
-## TaskTypeLambda (interface)
+## AsyncTypeLambda (interface)
 
 **Signature**
 
 ```ts
-export interface TaskTypeLambda extends TypeLambda {
+export interface AsyncTypeLambda extends TypeLambda {
   readonly type: Async<this['Out1']>
 }
 ```

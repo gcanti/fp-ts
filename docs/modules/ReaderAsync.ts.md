@@ -65,10 +65,10 @@ Added in v3.0.0
   - [ReaderAsync (interface)](#readerasync-interface)
 - [sequencing](#sequencing)
   - [flatMap](#flatmap)
+  - [flatMapAsync](#flatmapasync)
   - [flatMapReader](#flatmapreader)
   - [flatMapReaderSync](#flatmapreadersync)
   - [flatMapSync](#flatmapsync)
-  - [flatMapTask](#flatmaptask)
   - [zipLeft](#zipleft)
   - [zipLeftPar](#zipleftpar)
   - [zipRight](#zipright)
@@ -170,7 +170,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromAsync: <A>(fa: task.Async<A>) => ReaderAsync<unknown, A>
+export declare const fromAsync: <A>(fa: async.Async<A>) => ReaderAsync<unknown, A>
 ```
 
 Added in v3.0.0
@@ -495,7 +495,7 @@ Added in v3.0.0
 
 ```ts
 export declare const liftAsync: <A extends readonly unknown[], B>(
-  f: (...a: A) => task.Async<B>
+  f: (...a: A) => async.Async<B>
 ) => (...a: A) => ReaderAsync<unknown, B>
 ```
 
@@ -635,6 +635,18 @@ export declare const flatMap: <A, R2, B>(
 
 Added in v3.0.0
 
+## flatMapAsync
+
+**Signature**
+
+```ts
+export declare const flatMapAsync: <A, B>(
+  f: (a: A) => async.Async<B>
+) => <R>(self: ReaderAsync<R, A>) => ReaderAsync<R, B>
+```
+
+Added in v3.0.0
+
 ## flatMapReader
 
 **Signature**
@@ -665,18 +677,6 @@ Added in v3.0.0
 
 ```ts
 export declare const flatMapSync: <A, B>(f: (a: A) => Sync<B>) => <R>(self: ReaderAsync<R, A>) => ReaderAsync<R, B>
-```
-
-Added in v3.0.0
-
-## flatMapTask
-
-**Signature**
-
-```ts
-export declare const flatMapTask: <A, B>(
-  f: (a: A) => task.Async<B>
-) => <R>(self: ReaderAsync<R, A>) => ReaderAsync<R, B>
 ```
 
 Added in v3.0.0

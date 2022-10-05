@@ -134,10 +134,10 @@ describe('ReaderResult', () => {
     U.deepStrictEqual(pipe(_.fail('a'), A.combineKind(_.fail('b')))(null), E.fail('ab'))
   })
 
-  it('flatMapEither', () => {
+  it('flatMapResult', () => {
     const f = (s: string) => (s.length === 1 ? E.succeed(s.length) : E.fail('b'))
-    U.deepStrictEqual(pipe(_.succeed('a'), _.flatMapEither(f))({}), E.succeed(1))
-    U.deepStrictEqual(pipe(_.succeed('aa'), _.flatMapEither(f))({}), E.fail('b'))
+    U.deepStrictEqual(pipe(_.succeed('a'), _.flatMapResult(f))({}), E.succeed(1))
+    U.deepStrictEqual(pipe(_.succeed('aa'), _.flatMapResult(f))({}), E.fail('b'))
   })
 
   it('do notation', () => {

@@ -19,12 +19,12 @@ Added in v3.0.0
   - [succeed](#succeed)
 - [conversions](#conversions)
   - [fromAsync](#fromasync)
-  - [fromAsyncEither](#fromasynceither)
+  - [fromAsyncResult](#fromasyncresult)
   - [fromNullable](#fromnullable)
   - [fromOption](#fromoption)
   - [fromResult](#fromresult)
   - [fromSync](#fromsync)
-  - [fromSyncEither](#fromsynceither)
+  - [fromSyncResult](#fromsyncresult)
 - [do notation](#do-notation)
   - [Do](#do)
   - [bind](#bind)
@@ -35,7 +35,7 @@ Added in v3.0.0
 - [error handling](#error-handling)
   - [catchAll](#catchall)
   - [getOrElse](#getorelse)
-  - [getOrElseTask](#getorelsetask)
+  - [getOrElseAsync](#getorelseasync)
   - [tapError](#taperror)
 - [filtering](#filtering)
   - [compact](#compact)
@@ -69,10 +69,10 @@ Added in v3.0.0
   - [lift3](#lift3)
   - [liftAsync](#liftasync)
   - [liftAsyncResult](#liftasyncresult)
-  - [liftEither](#lifteither)
   - [liftNullable](#liftnullable)
   - [liftOption](#liftoption)
   - [liftPredicate](#liftpredicate)
+  - [liftResult](#liftresult)
   - [liftSync](#liftsync)
 - [mapping](#mapping)
   - [as](#as)
@@ -83,14 +83,14 @@ Added in v3.0.0
   - [AsyncOption (interface)](#asyncoption-interface)
 - [pattern matching](#pattern-matching)
   - [match](#match)
-  - [matchTask](#matchtask)
+  - [matchAsync](#matchasync)
 - [sequencing](#sequencing)
   - [flatMap](#flatmap)
+  - [flatMapAsync](#flatmapasync)
   - [flatMapAsyncResult](#flatmapasyncresult)
-  - [flatMapEither](#flatmapeither)
   - [flatMapNullable](#flatmapnullable)
+  - [flatMapResult](#flatmapresult)
   - [flatMapSync](#flatmapsync)
-  - [flatMapTask](#flatmaptask)
   - [zipLeft](#zipleft)
   - [zipRight](#zipright)
 - [traversing](#traversing)
@@ -174,17 +174,17 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromAsync: <A>(fa: task.Async<A>) => AsyncOption<A>
+export declare const fromAsync: <A>(fa: async.Async<A>) => AsyncOption<A>
 ```
 
 Added in v3.0.0
 
-## fromAsyncEither
+## fromAsyncResult
 
 **Signature**
 
 ```ts
-export declare const fromAsyncEither: <A>(fa: AsyncResult<unknown, A>) => AsyncOption<A>
+export declare const fromAsyncResult: <A>(fa: AsyncResult<unknown, A>) => AsyncOption<A>
 ```
 
 Added in v3.0.0
@@ -229,12 +229,12 @@ export declare const fromSync: <A>(fa: Sync<A>) => AsyncOption<A>
 
 Added in v3.0.0
 
-## fromSyncEither
+## fromSyncResult
 
 **Signature**
 
 ```ts
-export declare const fromSyncEither: <A>(fa: SyncResult<unknown, A>) => AsyncOption<A>
+export declare const fromSyncResult: <A>(fa: SyncResult<unknown, A>) => AsyncOption<A>
 ```
 
 Added in v3.0.0
@@ -333,17 +333,17 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getOrElse: <B>(onNone: B) => <A>(self: AsyncOption<A>) => task.Async<B | A>
+export declare const getOrElse: <B>(onNone: B) => <A>(self: AsyncOption<A>) => async.Async<B | A>
 ```
 
 Added in v3.0.0
 
-## getOrElseTask
+## getOrElseAsync
 
 **Signature**
 
 ```ts
-export declare const getOrElseTask: <B>(onNone: task.Async<B>) => <A>(self: AsyncOption<A>) => task.Async<B | A>
+export declare const getOrElseAsync: <B>(onNone: async.Async<B>) => <A>(self: AsyncOption<A>) => async.Async<B | A>
 ```
 
 Added in v3.0.0
@@ -658,7 +658,7 @@ Added in v3.0.0
 
 ```ts
 export declare const liftAsync: <A extends readonly unknown[], B>(
-  f: (...a: A) => task.Async<B>
+  f: (...a: A) => async.Async<B>
 ) => (...a: A) => AsyncOption<B>
 ```
 
@@ -671,18 +671,6 @@ Added in v3.0.0
 ```ts
 export declare const liftAsyncResult: <A extends readonly unknown[], B>(
   f: (...a: A) => AsyncResult<unknown, B>
-) => (...a: A) => AsyncOption<B>
-```
-
-Added in v3.0.0
-
-## liftEither
-
-**Signature**
-
-```ts
-export declare const liftEither: <A extends readonly unknown[], E, B>(
-  f: (...a: A) => Result<E, B>
 ) => (...a: A) => AsyncOption<B>
 ```
 
@@ -721,6 +709,18 @@ export declare const liftPredicate: {
   <C extends A, B extends A, A = C>(refinement: Refinement<A, B>): (c: C) => AsyncOption<B>
   <B extends A, A = B>(predicate: Predicate<A>): (b: B) => AsyncOption<B>
 }
+```
+
+Added in v3.0.0
+
+## liftResult
+
+**Signature**
+
+```ts
+export declare const liftResult: <A extends readonly unknown[], E, B>(
+  f: (...a: A) => Result<E, B>
+) => (...a: A) => AsyncOption<B>
 ```
 
 Added in v3.0.0
@@ -805,20 +805,20 @@ Added in v3.0.0
 export declare const match: <B, A, C = B>(
   onNone: LazyArg<B>,
   onSome: (a: A) => C
-) => (ma: AsyncOption<A>) => task.Async<B | C>
+) => (ma: AsyncOption<A>) => async.Async<B | C>
 ```
 
 Added in v3.0.0
 
-## matchTask
+## matchAsync
 
 **Signature**
 
 ```ts
-export declare const matchTask: <B, A, C = B>(
-  onNone: LazyArg<task.Async<B>>,
-  onSome: (a: A) => task.Async<C>
-) => (ma: AsyncOption<A>) => task.Async<B | C>
+export declare const matchAsync: <B, A, C = B>(
+  onNone: LazyArg<async.Async<B>>,
+  onSome: (a: A) => async.Async<C>
+) => (ma: AsyncOption<A>) => async.Async<B | C>
 ```
 
 Added in v3.0.0
@@ -835,6 +835,16 @@ export declare const flatMap: <A, B>(f: (a: A) => AsyncOption<B>) => (self: Asyn
 
 Added in v3.0.0
 
+## flatMapAsync
+
+**Signature**
+
+```ts
+export declare const flatMapAsync: <A, B>(f: (a: A) => async.Async<B>) => (self: AsyncOption<A>) => AsyncOption<B>
+```
+
+Added in v3.0.0
+
 ## flatMapAsyncResult
 
 **Signature**
@@ -843,16 +853,6 @@ Added in v3.0.0
 export declare const flatMapAsyncResult: <A, B>(
   f: (a: A) => AsyncResult<unknown, B>
 ) => (ma: AsyncOption<A>) => AsyncOption<B>
-```
-
-Added in v3.0.0
-
-## flatMapEither
-
-**Signature**
-
-```ts
-export declare const flatMapEither: <A, E, B>(f: (a: A) => Result<E, B>) => (ma: AsyncOption<A>) => AsyncOption<B>
 ```
 
 Added in v3.0.0
@@ -869,22 +869,22 @@ export declare const flatMapNullable: <A, B>(
 
 Added in v3.0.0
 
+## flatMapResult
+
+**Signature**
+
+```ts
+export declare const flatMapResult: <A, E, B>(f: (a: A) => Result<E, B>) => (ma: AsyncOption<A>) => AsyncOption<B>
+```
+
+Added in v3.0.0
+
 ## flatMapSync
 
 **Signature**
 
 ```ts
 export declare const flatMapSync: <A, B>(f: (a: A) => Sync<B>) => (self: AsyncOption<A>) => AsyncOption<B>
-```
-
-Added in v3.0.0
-
-## flatMapTask
-
-**Signature**
-
-```ts
-export declare const flatMapTask: <A, B>(f: (a: A) => task.Async<B>) => (self: AsyncOption<A>) => AsyncOption<B>
 ```
 
 Added in v3.0.0

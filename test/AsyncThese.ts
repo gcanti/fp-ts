@@ -24,14 +24,14 @@ describe('AsyncThese', () => {
       (a: number) => a + 1
     )
     U.deepStrictEqual(await pipe(_.succeed(1), f)(), TH.succeed(2))
-    U.deepStrictEqual(await pipe(_.left('a'), f)(), TH.fail('aa'))
+    U.deepStrictEqual(await pipe(_.fail('a'), f)(), TH.fail('aa'))
     U.deepStrictEqual(await pipe(_.both('a', 1), f)(), TH.both('aa', 2))
   })
 
   it('mapError', async () => {
     const f = _.mapError((e: string) => e + e)
     U.deepStrictEqual(await pipe(_.succeed(1), f)(), TH.succeed(1))
-    U.deepStrictEqual(await pipe(_.left('a'), f)(), TH.fail('aa'))
+    U.deepStrictEqual(await pipe(_.fail('a'), f)(), TH.fail('aa'))
     U.deepStrictEqual(await pipe(_.both('a', 1), f)(), TH.both('aa', 1))
   })
 
@@ -61,16 +61,16 @@ describe('AsyncThese', () => {
     it('map', async () => {
       const f = (n: number): number => n * 2
       U.deepStrictEqual(await pipe(_.succeed(1), M.map(f))(), TH.succeed(2))
-      U.deepStrictEqual(await pipe(_.left('a'), M.map(f))(), TH.fail('a'))
+      U.deepStrictEqual(await pipe(_.fail('a'), M.map(f))(), TH.fail('a'))
       U.deepStrictEqual(await pipe(_.both('a', 1), M.map(f))(), TH.both('a', 2))
     })
 
     it('flatMap', async () => {
-      const f = (n: number) => (n > 2 ? _.both(`c`, n * 3) : n > 1 ? _.succeed(n * 2) : _.left(`b`))
+      const f = (n: number) => (n > 2 ? _.both(`c`, n * 3) : n > 1 ? _.succeed(n * 2) : _.fail(`b`))
       U.deepStrictEqual(await pipe(_.succeed(1), M.flatMap(f))(), TH.fail('b'))
       U.deepStrictEqual(await pipe(_.succeed(2), M.flatMap(f))(), TH.succeed(4))
 
-      U.deepStrictEqual(await pipe(_.left('a'), M.flatMap(f))(), TH.fail('a'))
+      U.deepStrictEqual(await pipe(_.fail('a'), M.flatMap(f))(), TH.fail('a'))
 
       U.deepStrictEqual(await pipe(_.both('a', 1), M.flatMap(f))(), TH.fail('ab'))
       U.deepStrictEqual(await pipe(_.both('a', 2), M.flatMap(f))(), TH.both('a', 4))
@@ -88,7 +88,7 @@ describe('AsyncThese', () => {
   })
 
   it('left', async () => {
-    const x = await _.left('a')()
+    const x = await _.fail('a')()
     U.deepStrictEqual(x, TH.fail('a'))
   })
 
@@ -102,8 +102,8 @@ describe('AsyncThese', () => {
     U.deepStrictEqual(x, TH.succeed(1))
   })
 
-  it('leftIO', async () => {
-    const x = await _.leftIO(IO.succeed('a'))()
+  it('failSync', async () => {
+    const x = await _.failSync(IO.succeed('a'))()
     U.deepStrictEqual(x, TH.fail('a'))
   })
 
@@ -112,8 +112,8 @@ describe('AsyncThese', () => {
     U.deepStrictEqual(x, TH.succeed(1))
   })
 
-  it('leftTask', async () => {
-    const x = await _.leftTask(T.succeed('a'))()
+  it('leftAsync', async () => {
+    const x = await _.failAsync(T.succeed('a'))()
     U.deepStrictEqual(x, TH.fail('a'))
   })
 
@@ -133,19 +133,19 @@ describe('AsyncThese', () => {
       (e, a) => `both ${e} ${a}`
     )
     U.deepStrictEqual(await pipe(_.succeed(1), match)(), 'right 1')
-    U.deepStrictEqual(await pipe(_.left('a'), match)(), 'left a')
+    U.deepStrictEqual(await pipe(_.fail('a'), match)(), 'left a')
     U.deepStrictEqual(await pipe(_.both('a', 1), match)(), 'both a 1')
   })
 
-  it('matchTask', async () => {
-    const matchTask = _.matchTask(
+  it('matchAsync', async () => {
+    const matchAsync = _.matchAsync(
       (e) => T.succeed(`left ${e}`),
       (a) => T.succeed(`right ${a}`),
       (e, a) => T.succeed(`both ${e} ${a}`)
     )
-    U.deepStrictEqual(await pipe(_.succeed(1), matchTask)(), 'right 1')
-    U.deepStrictEqual(await pipe(_.left('a'), matchTask)(), 'left a')
-    U.deepStrictEqual(await pipe(_.both('a', 1), matchTask)(), 'both a 1')
+    U.deepStrictEqual(await pipe(_.succeed(1), matchAsync)(), 'right 1')
+    U.deepStrictEqual(await pipe(_.fail('a'), matchAsync)(), 'left a')
+    U.deepStrictEqual(await pipe(_.both('a', 1), matchAsync)(), 'both a 1')
   })
 
   // -------------------------------------------------------------------------------------
@@ -154,7 +154,7 @@ describe('AsyncThese', () => {
 
   it('swap', async () => {
     U.deepStrictEqual(await _.swap(_.succeed(1))(), TH.fail(1))
-    U.deepStrictEqual(await _.swap(_.left('a'))(), TH.succeed('a'))
+    U.deepStrictEqual(await _.swap(_.fail('a'))(), TH.succeed('a'))
     U.deepStrictEqual(await _.swap(_.both('a', 1))(), TH.both(1, 'a'))
   })
 
@@ -165,7 +165,7 @@ describe('AsyncThese', () => {
   it('toTuple2', async () => {
     const f = _.toTuple2('b', 2)
     U.deepStrictEqual(await f(_.succeed(1))(), ['b', 1])
-    U.deepStrictEqual(await f(_.left('a'))(), ['a', 2])
+    U.deepStrictEqual(await f(_.fail('a'))(), ['a', 2])
     U.deepStrictEqual(await f(_.both('a', 1))(), ['a', 1])
   })
 
@@ -183,7 +183,7 @@ describe('AsyncThese', () => {
   // --- Par ---
 
   it('traverseReadonlyArrayWithIndexPar', async () => {
-    const f = (i: number, n: number) => (n > 0 ? _.succeed(n + i) : n === 0 ? _.both('a', 0) : _.left(String(n)))
+    const f = (i: number, n: number) => (n > 0 ? _.succeed(n + i) : n === 0 ? _.both('a', 0) : _.fail(String(n)))
     const standard = RA.traverseWithIndex(_.getApplicative(T.ApplicativePar, S.Semigroup))(f)
     const optimized = _.traverseReadonlyArrayWithIndexPar(S.Semigroup)(f)
     const assert = async (input: ReadonlyArray<number>) => {
@@ -199,7 +199,7 @@ describe('AsyncThese', () => {
   })
 
   it('traverseReadonlyNonEmptyArrayPar', async () => {
-    const f = (n: number) => (n > 0 ? _.succeed(n) : n === 0 ? _.both('a', 0) : _.left(String(n)))
+    const f = (n: number) => (n > 0 ? _.succeed(n) : n === 0 ? _.both('a', 0) : _.fail(String(n)))
     const standard = RA.traverse(_.getApplicative(T.ApplicativePar, S.Semigroup))(f)
     const optimized = _.traverseReadonlyNonEmptyArrayPar(S.Semigroup)(f)
     const assert = async (input: ReadonlyNonEmptyArray<number>) => {
@@ -221,7 +221,7 @@ describe('AsyncThese', () => {
         return n
       })
     const left = (s: string): _.AsyncThese<string, number> =>
-      _.leftIO(() => {
+      _.failSync(() => {
         log.push(s)
         return s
       })
@@ -235,7 +235,7 @@ describe('AsyncThese', () => {
   // --- Seq ---
 
   it('traverseReadonlyArrayWithIndex', async () => {
-    const f = (i: number, n: number) => (n > 0 ? _.succeed(n + i) : n === 0 ? _.both('a', 0) : _.left(String(n)))
+    const f = (i: number, n: number) => (n > 0 ? _.succeed(n + i) : n === 0 ? _.both('a', 0) : _.fail(String(n)))
     const standard = RA.traverseWithIndex(_.getApplicative(T.Applicative, S.Semigroup))(f)
     const optimized = _.traverseReadonlyArrayWithIndex(S.Semigroup)(f)
     const assert = async (input: ReadonlyArray<number>) => {
@@ -251,7 +251,7 @@ describe('AsyncThese', () => {
   })
 
   it('traverseReadonlyNonEmptyArray', async () => {
-    const f = (n: number) => (n > 0 ? _.succeed(n) : n === 0 ? _.both('a', 0) : _.left(String(n)))
+    const f = (n: number) => (n > 0 ? _.succeed(n) : n === 0 ? _.both('a', 0) : _.fail(String(n)))
     const standard = RA.traverse(_.getApplicative(T.Applicative, S.Semigroup))(f)
     const optimized = _.traverseReadonlyNonEmptyArray(S.Semigroup)(f)
     const assert = async (input: ReadonlyNonEmptyArray<number>) => {
@@ -273,7 +273,7 @@ describe('AsyncThese', () => {
         return n
       })
     const left = (s: string): _.AsyncThese<string, number> =>
-      _.leftIO(() => {
+      _.failSync(() => {
         log.push(s)
         return s
       })

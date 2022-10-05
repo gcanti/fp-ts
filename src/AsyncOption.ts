@@ -30,7 +30,7 @@ import * as fromIdentity from './FromIdentity'
 import type { Predicate } from './Predicate'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import type { Refinement } from './Refinement'
-import * as task from './Async'
+import * as async from './Async'
 import type { Async } from './Async'
 import type { AsyncResult } from './AsyncResult'
 
@@ -43,7 +43,7 @@ export interface AsyncOption<A> extends Async<Option<A>> {}
 /**
  * @since 3.0.0
  */
-export const emptyKind: <A>() => AsyncOption<A> = /*#__PURE__*/ optionT.emptyKind(task.FromIdentity)
+export const emptyKind: <A>() => AsyncOption<A> = /*#__PURE__*/ optionT.emptyKind(async.FromIdentity)
 
 /**
  * @category constructors
@@ -55,48 +55,48 @@ export const none: AsyncOption<never> = /*#__PURE__*/ emptyKind()
  * @category constructors
  * @since 3.0.0
  */
-export const some: <A>(a: A) => AsyncOption<A> = /*#__PURE__*/ optionT.some(task.FromIdentity)
+export const some: <A>(a: A) => AsyncOption<A> = /*#__PURE__*/ optionT.some(async.FromIdentity)
 
 /**
  * @category conversions
  * @since 3.0.0
  */
-export const fromOption: <A>(fa: Option<A>) => AsyncOption<A> = task.succeed
+export const fromOption: <A>(fa: Option<A>) => AsyncOption<A> = async.succeed
 
 /**
  * @category conversions
  * @since 3.0.0
  */
 export const fromResult: <A>(fa: Result<unknown, A>) => AsyncOption<A> = /*#__PURE__*/ optionT.fromResult(
-  task.FromIdentity
+  async.FromIdentity
 )
 
 /**
  * @category conversions
  * @since 3.0.0
  */
-export const fromSync: <A>(fa: Sync<A>) => AsyncOption<A> = (ma) => fromAsync(task.fromSync(ma))
+export const fromSync: <A>(fa: Sync<A>) => AsyncOption<A> = (ma) => fromAsync(async.fromSync(ma))
 
 /**
  * @category conversions
  * @since 3.0.0
  */
-export const fromAsync: <A>(fa: Async<A>) => AsyncOption<A> = /*#__PURE__*/ optionT.fromKind(task.Functor)
+export const fromAsync: <A>(fa: Async<A>) => AsyncOption<A> = /*#__PURE__*/ optionT.fromKind(async.Functor)
 
 /**
  * @category conversions
  * @since 3.0.0
  */
-export const fromSyncEither: <A>(fa: SyncResult<unknown, A>) => AsyncOption<A> = /*#__PURE__*/ flow(
-  task.fromSync,
-  task.map(option.fromResult)
+export const fromSyncResult: <A>(fa: SyncResult<unknown, A>) => AsyncOption<A> = /*#__PURE__*/ flow(
+  async.fromSync,
+  async.map(option.fromResult)
 )
 
 /**
  * @category conversions
  * @since 3.0.0
  */
-export const fromAsyncEither: <A>(fa: AsyncResult<unknown, A>) => AsyncOption<A> = /*#__PURE__*/ task.map(
+export const fromAsyncResult: <A>(fa: AsyncResult<unknown, A>) => AsyncOption<A> = /*#__PURE__*/ async.map(
   option.fromResult
 )
 
@@ -109,31 +109,31 @@ export const fromAsyncEither: <A>(fa: AsyncResult<unknown, A>) => AsyncOption<A>
  * @since 3.0.0
  */
 export const match: <B, A, C = B>(onNone: LazyArg<B>, onSome: (a: A) => C) => (ma: AsyncOption<A>) => Async<B | C> =
-  /*#__PURE__*/ optionT.match(task.Functor)
+  /*#__PURE__*/ optionT.match(async.Functor)
 
 /**
  * @category pattern matching
  * @since 3.0.0
  */
-export const matchTask: <B, A, C = B>(
+export const matchAsync: <B, A, C = B>(
   onNone: LazyArg<Async<B>>,
   onSome: (a: A) => Async<C>
-) => (ma: AsyncOption<A>) => Async<B | C> = /*#__PURE__*/ optionT.matchKind(task.Monad)
+) => (ma: AsyncOption<A>) => Async<B | C> = /*#__PURE__*/ optionT.matchKind(async.Monad)
 
 /**
  * @category error handling
  * @since 3.0.0
  */
 export const getOrElse: <B>(onNone: B) => <A>(self: AsyncOption<A>) => Async<A | B> = /*#__PURE__*/ optionT.getOrElse(
-  task.Functor
+  async.Functor
 )
 
 /**
  * @category error handling
  * @since 3.0.0
  */
-export const getOrElseTask: <B>(onNone: Async<B>) => <A>(self: AsyncOption<A>) => Async<A | B> =
-  /*#__PURE__*/ optionT.getOrElseKind(task.Monad)
+export const getOrElseAsync: <B>(onNone: Async<B>) => <A>(self: AsyncOption<A>) => Async<A | B> =
+  /*#__PURE__*/ optionT.getOrElseKind(async.Monad)
 
 /**
  * Converts a `Promise` that may reject to a `AsyncOption`.
@@ -169,7 +169,7 @@ export const liftRejectable =
  */
 export const liftAsyncResult = <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => AsyncResult<unknown, B>
-): ((...a: A) => AsyncOption<B>) => flow(f, fromAsyncEither)
+): ((...a: A) => AsyncOption<B>) => flow(f, fromAsyncResult)
 
 /**
  * Returns an effect whose success is mapped by the specified `f` function.
@@ -178,7 +178,7 @@ export const liftAsyncResult = <A extends ReadonlyArray<unknown>, B>(
  * @since 3.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => (fa: AsyncOption<A>) => AsyncOption<B> = /*#__PURE__*/ optionT.map(
-  task.Functor
+  async.Functor
 )
 
 /**
@@ -192,7 +192,7 @@ export const succeed: <A>(a: A) => AsyncOption<A> = some
  * @since 3.0.0
  */
 export const flatMap: <A, B>(f: (a: A) => AsyncOption<B>) => (self: AsyncOption<A>) => AsyncOption<B> =
-  /*#__PURE__*/ optionT.flatMap(task.Monad)
+  /*#__PURE__*/ optionT.flatMap(async.Monad)
 
 /**
  * @category sequencing
@@ -214,20 +214,20 @@ export const flatten: <A>(mma: AsyncOption<AsyncOption<A>>) => AsyncOption<A> = 
  * @since 3.0.0
  */
 export const catchAll: <B>(that: LazyArg<AsyncOption<B>>) => <A>(self: AsyncOption<A>) => AsyncOption<A | B> =
-  /*#__PURE__*/ optionT.catchAll(task.Monad)
+  /*#__PURE__*/ optionT.catchAll(async.Monad)
 
 /**
  * @since 3.0.0
  */
 export const orElse: <B>(that: AsyncOption<B>) => <A>(self: AsyncOption<A>) => AsyncOption<A | B> =
-  /*#__PURE__*/ optionT.orElse(task.Monad)
+  /*#__PURE__*/ optionT.orElse(async.Monad)
 
 /**
  * @category filtering
  * @since 3.0.0
  */
 export const filterMap: <A, B>(f: (a: A) => option.Option<B>) => (fa: AsyncOption<A>) => AsyncOption<B> =
-  /*#__PURE__*/ filterable.filterMapComposition(task.Functor, option.Filterable)
+  /*#__PURE__*/ filterable.filterMapComposition(async.Functor, option.Filterable)
 
 /**
  * @category filtering
@@ -236,7 +236,7 @@ export const filterMap: <A, B>(f: (a: A) => option.Option<B>) => (fa: AsyncOptio
 export const partitionMap: <A, B, C>(
   f: (a: A) => Result<B, C>
 ) => (fa: AsyncOption<A>) => readonly [AsyncOption<B>, AsyncOption<C>] =
-  /*#__PURE__*/ filterable.partitionMapComposition(task.Functor, option.Filterable)
+  /*#__PURE__*/ filterable.partitionMapComposition(async.Functor, option.Filterable)
 
 // -------------------------------------------------------------------------------------
 // type lambdas
@@ -409,7 +409,7 @@ export const tap: <A>(f: (a: A) => AsyncOption<unknown>) => (self: AsyncOption<A
  * @since 3.0.0
  */
 export const tapError: (onNone: AsyncOption<unknown>) => <A>(self: AsyncOption<A>) => AsyncOption<A> =
-  /*#__PURE__*/ optionT.tapError(task.Monad)
+  /*#__PURE__*/ optionT.tapError(async.Monad)
 
 /**
  * @category instances
@@ -528,16 +528,16 @@ export const FromResult: fromResult_.FromResult<AsyncOptionTypeLambda> = {
  * @category lifting
  * @since 3.0.0
  */
-export const liftEither: <A extends ReadonlyArray<unknown>, E, B>(
+export const liftResult: <A extends ReadonlyArray<unknown>, E, B>(
   f: (...a: A) => Result<E, B>
-) => (...a: A) => AsyncOption<B> = /*#__PURE__*/ fromResult_.liftEither(FromResult)
+) => (...a: A) => AsyncOption<B> = /*#__PURE__*/ fromResult_.liftResult(FromResult)
 
 /**
  * @category sequencing
  * @since 3.0.0
  */
-export const flatMapEither: <A, E, B>(f: (a: A) => Result<E, B>) => (ma: AsyncOption<A>) => AsyncOption<B> =
-  /*#__PURE__*/ fromResult_.flatMapEither(FromResult, Flattenable)
+export const flatMapResult: <A, E, B>(f: (a: A) => Result<E, B>) => (ma: AsyncOption<A>) => AsyncOption<B> =
+  /*#__PURE__*/ fromResult_.flatMapResult(FromResult, Flattenable)
 
 /**
  * @category instances
@@ -577,7 +577,7 @@ export const liftAsync: <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => As
  * @category sequencing
  * @since 3.0.0
  */
-export const flatMapTask: <A, B>(f: (a: A) => Async<B>) => (self: AsyncOption<A>) => AsyncOption<B> =
+export const flatMapAsync: <A, B>(f: (a: A) => Async<B>) => (self: AsyncOption<A>) => AsyncOption<B> =
   /*#__PURE__*/ fromAsync_.flatMapAsync(FromAsync, Flattenable)
 
 /**
@@ -585,7 +585,7 @@ export const flatMapTask: <A, B>(f: (a: A) => Async<B>) => (self: AsyncOption<A>
  * @since 3.0.0
  */
 export const compact: <A>(foa: AsyncOption<option.Option<A>>) => AsyncOption<A> =
-  /*#__PURE__*/ compactable.compactComposition(task.Functor, option.Compactable)
+  /*#__PURE__*/ compactable.compactComposition(async.Functor, option.Compactable)
 
 /**
  * @category instances
@@ -737,7 +737,7 @@ export const zipWith: <B, A, C>(
 export const traverseReadonlyNonEmptyArrayWithIndexPar = <A, B>(
   f: (index: number, a: A) => AsyncOption<B>
 ): ((as: ReadonlyNonEmptyArray<A>) => AsyncOption<ReadonlyNonEmptyArray<B>>) =>
-  flow(task.traverseReadonlyNonEmptyArrayWithIndexPar(f), task.map(option.traverseReadonlyNonEmptyArrayWithIndex(SK)))
+  flow(async.traverseReadonlyNonEmptyArrayWithIndexPar(f), async.map(option.traverseReadonlyNonEmptyArrayWithIndex(SK)))
 
 /**
  * Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativePar)`.

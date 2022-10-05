@@ -8,7 +8,7 @@ parent: Modules
 
 A data structure providing "inclusive-or" as opposed to `Result`'s "exclusive-or".
 
-If you interpret `Either<E, A>` as suggesting the computation may either fail or succeed (exclusively), then
+If you interpret `Result<E, A>` as suggesting the computation may either fail or succeed (exclusively), then
 `These<E, A>` may fail, succeed, or do both at the same time.
 
 There are a few ways to interpret the both case:
@@ -63,10 +63,10 @@ Added in v3.0.0
   - [getSemigroup](#getsemigroup)
   - [getShow](#getshow)
 - [lifting](#lifting)
-  - [liftEither](#lifteither)
   - [liftNullable](#liftnullable)
   - [liftOption](#liftoption)
   - [liftPredicate](#liftpredicate)
+  - [liftResult](#liftresult)
 - [mapping](#mapping)
   - [as](#as)
   - [flap](#flap)
@@ -437,18 +437,6 @@ Added in v3.0.0
 
 # lifting
 
-## liftEither
-
-**Signature**
-
-```ts
-export declare const liftEither: <A extends readonly unknown[], E, B>(
-  f: (...a: A) => Result<E, B>
-) => (...a: A) => These<E, B>
-```
-
-Added in v3.0.0
-
 ## liftNullable
 
 **Signature**
@@ -484,6 +472,18 @@ export declare const liftPredicate: {
   <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: E): (c: C) => These<E, B>
   <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: E): (b: B) => These<E, B>
 }
+```
+
+Added in v3.0.0
+
+## liftResult
+
+**Signature**
+
+```ts
+export declare const liftResult: <A extends readonly unknown[], E, B>(
+  f: (...a: A) => Result<E, B>
+) => (...a: A) => These<E, B>
 ```
 
 Added in v3.0.0

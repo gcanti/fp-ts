@@ -61,7 +61,7 @@ export const succeed: <A>(a: A) => Sync<A> = constant
  * @category instances
  * @since 3.0.0
  */
-export const FromIdentity: fromIdentity.FromIdentity<IOTypeLambda> = {
+export const FromIdentity: fromIdentity.FromIdentity<SyncTypeLambda> = {
   succeed
 }
 
@@ -69,7 +69,7 @@ export const FromIdentity: fromIdentity.FromIdentity<IOTypeLambda> = {
  * @category instances
  * @since 3.0.0
  */
-export const Flattenable: flattenable.Flattenable<IOTypeLambda> = {
+export const Flattenable: flattenable.Flattenable<SyncTypeLambda> = {
   map,
   flatMap
 }
@@ -84,7 +84,7 @@ export const composeKind: <B, C>(bfc: (b: B) => Sync<C>) => <A>(afb: (a: A) => S
  * @category instances
  * @since 3.0.0
  */
-export const ComposableKind: composableKind.ComposableKind<IOTypeLambda> = {
+export const ComposableKind: composableKind.ComposableKind<SyncTypeLambda> = {
   composeKind
 }
 
@@ -97,7 +97,7 @@ export const idKind: <A>() => (a: A) => Sync<A> = /*#__PURE__*/ fromIdentity.idK
  * @category instances
  * @since 3.0.0
  */
-export const CategoryKind: categoryKind.CategoryKind<IOTypeLambda> = {
+export const CategoryKind: categoryKind.CategoryKind<SyncTypeLambda> = {
   composeKind,
   idKind
 }
@@ -151,7 +151,7 @@ export const flatten: <A>(mma: Sync<Sync<A>>) => Sync<A> = /*#__PURE__*/ flatMap
  * @category type lambdas
  * @since 3.0.0
  */
-export interface IOTypeLambda extends TypeLambda {
+export interface SyncTypeLambda extends TypeLambda {
   readonly type: Sync<this['Out1']>
 }
 
@@ -163,7 +163,7 @@ export interface IOTypeLambda extends TypeLambda {
  * @category instances
  * @since 3.0.0
  */
-export const Functor: functor.Functor<IOTypeLambda> = {
+export const Functor: functor.Functor<SyncTypeLambda> = {
   map
 }
 
@@ -193,7 +193,7 @@ export const unit: (self: Sync<unknown>) => Sync<void> = /*#__PURE__*/ functor.u
  * @category instances
  * @since 3.0.0
  */
-export const Apply: apply.Apply<IOTypeLambda> = {
+export const Apply: apply.Apply<SyncTypeLambda> = {
   map,
   ap
 }
@@ -220,7 +220,7 @@ export const lift3: <A, B, C, D>(f: (a: A, b: B, c: C) => D) => (fa: Sync<A>, fb
  * @category instances
  * @since 3.0.0
  */
-export const Applicative: applicative.Applicative<IOTypeLambda> = {
+export const Applicative: applicative.Applicative<SyncTypeLambda> = {
   map,
   ap,
   succeed
@@ -230,7 +230,7 @@ export const Applicative: applicative.Applicative<IOTypeLambda> = {
  * @category instances
  * @since 3.0.0
  */
-export const Monad: monad.Monad<IOTypeLambda> = {
+export const Monad: monad.Monad<SyncTypeLambda> = {
   map,
   succeed,
   flatMap
@@ -248,7 +248,7 @@ export const tap: <A>(f: (a: A) => Sync<unknown>) => (self: Sync<A>) => Sync<A> 
  * @category instances
  * @since 3.0.0
  */
-export const FromSync: fromSync_.FromSync<IOTypeLambda> = {
+export const FromSync: fromSync_.FromSync<SyncTypeLambda> = {
   fromSync: identity
 }
 
@@ -272,7 +272,7 @@ export const logError: (...x: ReadonlyArray<unknown>) => Sync<void> = /*#__PURE_
  * @category instances
  * @since 3.0.0
  */
-export const FlattenableRec: flatMapableRec.FlattenableRec<IOTypeLambda> = {
+export const FlattenableRec: flatMapableRec.FlattenableRec<SyncTypeLambda> = {
   flatMapRec: flatMapRec
 }
 

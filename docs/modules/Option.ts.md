@@ -32,8 +32,8 @@ Added in v3.0.0
 - [conversions](#conversions)
   - [fromNullable](#fromnullable)
   - [fromResult](#fromresult)
-  - [toEither](#toeither)
   - [toNull](#tonull)
+  - [toResult](#toresult)
   - [toUndefined](#toundefined)
 - [do notation](#do-notation)
   - [Do](#do)
@@ -91,9 +91,9 @@ Added in v3.0.0
 - [lifting](#lifting)
   - [lift2](#lift2)
   - [lift3](#lift3)
-  - [liftEither](#lifteither)
   - [liftNullable](#liftnullable)
   - [liftPredicate](#liftpredicate)
+  - [liftResult](#liftresult)
 - [mapping](#mapping)
   - [as](#as)
   - [flap](#flap)
@@ -110,8 +110,8 @@ Added in v3.0.0
   - [isSome](#issome)
 - [sequencing](#sequencing)
   - [flatMap](#flatmap)
-  - [flatMapEither](#flatmapeither)
   - [flatMapNullable](#flatmapnullable)
+  - [flatMapResult](#flatmapresult)
   - [zipLeft](#zipleft)
   - [zipRight](#zipright)
 - [traversing](#traversing)
@@ -262,16 +262,6 @@ export declare const fromResult: <A>(ma: Result<unknown, A>) => Option<A>
 
 Added in v3.0.0
 
-## toEither
-
-**Signature**
-
-```ts
-export declare const toEither: <E>(onNone: E) => <A>(fa: Option<A>) => Result<E, A>
-```
-
-Added in v3.0.0
-
 ## toNull
 
 Extracts the value out of the structure, if it exists. Otherwise returns `null`.
@@ -290,6 +280,16 @@ import { pipe } from 'fp-ts/Function'
 
 assert.strictEqual(pipe(some(1), toNull), 1)
 assert.strictEqual(pipe(none, toNull), null)
+```
+
+Added in v3.0.0
+
+## toResult
+
+**Signature**
+
+```ts
+export declare const toResult: <E>(onNone: E) => <A>(fa: Option<A>) => Result<E, A>
 ```
 
 Added in v3.0.0
@@ -972,18 +972,6 @@ export declare const lift3: <A, B, C, D>(
 
 Added in v3.0.0
 
-## liftEither
-
-**Signature**
-
-```ts
-export declare const liftEither: <A extends readonly unknown[], E, B>(
-  f: (...a: A) => Result<E, B>
-) => (...a: A) => Option<B>
-```
-
-Added in v3.0.0
-
 ## liftNullable
 
 Returns a _smart constructor_ from a function that returns a nullable value.
@@ -1036,6 +1024,18 @@ const getOption = O.liftPredicate((n: number) => n >= 0)
 
 assert.deepStrictEqual(getOption(-1), O.none)
 assert.deepStrictEqual(getOption(1), O.some(1))
+```
+
+Added in v3.0.0
+
+## liftResult
+
+**Signature**
+
+```ts
+export declare const liftResult: <A extends readonly unknown[], E, B>(
+  f: (...a: A) => Result<E, B>
+) => (...a: A) => Option<B>
 ```
 
 Added in v3.0.0
@@ -1225,16 +1225,6 @@ export declare const flatMap: <A, B>(f: (a: A) => Option<B>) => (self: Option<A>
 
 Added in v3.0.0
 
-## flatMapEither
-
-**Signature**
-
-```ts
-export declare const flatMapEither: <A, E, B>(f: (a: A) => Result<E, B>) => (ma: Option<A>) => Option<B>
-```
-
-Added in v3.0.0
-
 ## flatMapNullable
 
 This is `flatMap` + `fromNullable`, useful when working with optional values.
@@ -1286,6 +1276,16 @@ assert.deepStrictEqual(
   ),
   none
 )
+```
+
+Added in v3.0.0
+
+## flatMapResult
+
+**Signature**
+
+```ts
+export declare const flatMapResult: <A, E, B>(f: (a: A) => Result<E, B>) => (ma: Option<A>) => Option<B>
 ```
 
 Added in v3.0.0

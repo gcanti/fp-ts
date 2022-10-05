@@ -97,7 +97,7 @@ export const liftOption = <F extends TypeLambda>(FromResult: FromResult<F>) => {
  * @category lifting
  * @since 3.0.0
  */
-export const liftEither =
+export const liftResult =
   <F extends TypeLambda>(FromResult: FromResult<F>) =>
   <A extends ReadonlyArray<unknown>, E, B>(f: (...a: A) => Result<E, B>) =>
   <S>(...a: A): Kind<F, S, unknown, never, E, B> =>
@@ -138,11 +138,11 @@ export const flatMapOption = <F extends TypeLambda>(FromResult: FromResult<F>, F
  * @category sequencing
  * @since 3.0.0
  */
-export const flatMapEither = <M extends TypeLambda>(FromResult: FromResult<M>, Flattenable: Flattenable<M>) => {
-  const liftEither_ = liftEither(FromResult)
+export const flatMapResult = <M extends TypeLambda>(FromResult: FromResult<M>, Flattenable: Flattenable<M>) => {
+  const liftResult_ = liftResult(FromResult)
   return <A, E2, B>(f: (a: A) => Result<E2, B>) =>
     <S, R, O, E1>(self: Kind<M, S, R, O, E1, A>): Kind<M, S, R, O, E1 | E2, B> => {
-      return pipe(self, Flattenable.flatMap<A, S, R, O, E1 | E2, B>(liftEither_(f)))
+      return pipe(self, Flattenable.flatMap<A, S, R, O, E1 | E2, B>(liftResult_(f)))
     }
 }
 

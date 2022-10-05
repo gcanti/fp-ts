@@ -31,7 +31,7 @@ Returns a random number between 0 (inclusive) and 1 (exclusive). This is a direc
 **Signature**
 
 ```ts
-export declare const random: io.Sync<number>
+export declare const random: sync.Sync<number>
 ```
 
 Added in v3.0.0
@@ -43,7 +43,7 @@ Returns a random boolean value with an equal chance of being `true` or `false`
 **Signature**
 
 ```ts
-export declare const randomBool: io.Sync<boolean>
+export declare const randomBool: sync.Sync<boolean>
 ```
 
 Added in v3.0.0
@@ -55,7 +55,7 @@ Returns a random element of a `ReadonlyNonEmptyArray`.
 **Signature**
 
 ```ts
-export declare const randomElem: <A>(as: readonly [A, ...A[]]) => io.Sync<A>
+export declare const randomElem: <A>(as: readonly [A, ...A[]]) => sync.Sync<A>
 ```
 
 Added in v3.0.0

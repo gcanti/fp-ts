@@ -2119,9 +2119,9 @@ export const FromResult: fromResult_.FromResult<ReadonlyArrayTypeLambda> = {
  * @category lifting
  * @since 3.0.0
  */
-export const liftEither: <A extends ReadonlyArray<unknown>, E, B>(
+export const liftResult: <A extends ReadonlyArray<unknown>, E, B>(
   f: (...a: A) => Result<E, B>
-) => (...a: A) => ReadonlyArray<B> = /*#__PURE__*/ fromResult_.liftEither(FromResult)
+) => (...a: A) => ReadonlyArray<B> = /*#__PURE__*/ fromResult_.liftResult(FromResult)
 
 /**
  * @category FlattenableRec

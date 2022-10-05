@@ -19,13 +19,13 @@ import type { Monoid } from './Monoid'
 import type { FromIdentity } from './FromIdentity'
 import type { Reader } from './Reader'
 import * as reader from './Reader'
-import * as readerTask from './ReaderAsync'
+import * as readerAsync from './ReaderAsync'
 import type { ReaderAsync } from './ReaderAsync'
 import * as readonlyNonEmptyArray from './ReadonlyNonEmptyArray'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import type { Semigroup } from './Semigroup'
 import type { Async } from './Async'
-import * as task from './Async'
+import * as async from './Async'
 import type { Writer } from './Writer'
 import * as writerT from './WriterT'
 
@@ -62,14 +62,14 @@ export interface ReaderAsyncWriterFFix<W> extends TypeLambda {
 export const fromReader =
   <W>(w: W) =>
   <R, A>(fa: Reader<R, A>): ReaderAsyncWriter<R, W, A> =>
-    fromReaderAsync(w)(readerTask.fromReader(fa))
+    fromReaderAsync(w)(readerAsync.fromReader(fa))
 
 /**
  * @category conversions
  * @since 3.0.0
  */
 export const fromReaderAsync: <W>(w: W) => <R, A>(a: ReaderAsync<R, A>) => ReaderAsyncWriter<R, W, A> =
-  /*#__PURE__*/ writerT.fromKind(readerTask.Functor)
+  /*#__PURE__*/ writerT.fromKind(readerAsync.Functor)
 
 /**
  * @category conversions
@@ -83,14 +83,14 @@ export const fromAsyncWriter: <W, A>(a: Async<Writer<W, A>>) => ReaderAsyncWrite
  * @since 3.0.0
  */
 export const fromSync: <W>(w: W) => <A>(fa: Sync<A>) => ReaderAsyncWriter<unknown, W, A> =
-  /*#__PURE__*/ writerT.fromSync(readerTask.Functor, readerTask.FromSync)
+  /*#__PURE__*/ writerT.fromSync(readerAsync.Functor, readerAsync.FromSync)
 
 /**
  * @category conversions
  * @since 3.0.0
  */
 export const fromAsync: <W>(w: W) => <A>(fa: Async<A>) => ReaderAsyncWriter<unknown, W, A> =
-  /*#__PURE__*/ writerT.fromAsync(readerTask.Functor, readerTask.FromAsync)
+  /*#__PURE__*/ writerT.fromAsync(readerAsync.Functor, readerAsync.FromAsync)
 
 /**
  * Appends a value to the accumulator
@@ -98,7 +98,7 @@ export const fromAsync: <W>(w: W) => <A>(fa: Async<A>) => ReaderAsyncWriter<unkn
  * @category constructors
  * @since 3.0.0
  */
-export const tell: <W, R>(w: W) => ReaderAsyncWriter<R, W, void> = /*#__PURE__*/ writerT.tell(readerTask.FromIdentity)
+export const tell: <W, R>(w: W) => ReaderAsyncWriter<R, W, void> = /*#__PURE__*/ writerT.tell(readerAsync.FromIdentity)
 
 /**
  * @category constructors
@@ -112,27 +112,27 @@ export const asksReaderAsyncWriter: <R1, R2, W, A>(
  * @category conversions
  * @since 3.0.0
  */
-export const fromWriter = <W, A>(fa: Writer<W, A>): ReaderAsyncWriter<unknown, W, A> => readerTask.succeed(fa)
+export const fromWriter = <W, A>(fa: Writer<W, A>): ReaderAsyncWriter<unknown, W, A> => readerAsync.succeed(fa)
 
 /**
  * @category conversions
  * @since 3.0.0
  */
 export const fromReaderWriter = <R, W, A>(fa: Reader<R, Writer<W, A>>): ReaderAsyncWriter<R, W, A> =>
-  flow(fa, task.succeed)
+  flow(fa, async.succeed)
 
 /**
  * @since 3.0.0
  */
 export const fst: <R, W, A>(self: ReaderAsyncWriter<R, W, A>) => ReaderAsync<R, W> = /*#__PURE__*/ writerT.fst(
-  readerTask.Functor
+  readerAsync.Functor
 )
 
 /**
  * @since 3.0.0
  */
 export const snd: <R, W, A>(self: ReaderAsyncWriter<R, W, A>) => ReaderAsync<R, A> = /*#__PURE__*/ writerT.snd(
-  readerTask.Functor
+  readerAsync.Functor
 )
 
 /**
@@ -149,13 +149,13 @@ export const local: <R2, R1>(
  * @since 3.0.0
  */
 export const swap: <R, W, A>(self: ReaderAsyncWriter<R, W, A>) => ReaderAsyncWriter<R, A, W> =
-  /*#__PURE__*/ writerT.swap(readerTask.Functor)
+  /*#__PURE__*/ writerT.swap(readerAsync.Functor)
 
 /**
  * @category lifting
  * @since 3.0.0
  */
-export const liftTaskWriter =
+export const liftAsyncWriter =
   <A extends ReadonlyArray<unknown>, W, B>(
     f: (...a: A) => Async<Writer<W, B>>
   ): ((...a: A) => ReaderAsyncWriter<unknown, W, B>) =>
@@ -174,13 +174,13 @@ export const liftReaderWriter = <A extends ReadonlyArray<unknown>, R, W, B>(
  * @since 3.0.0
  */
 export const listen: <R, W, A>(self: ReaderAsyncWriter<R, W, A>) => ReaderAsyncWriter<R, W, readonly [W, A]> =
-  /*#__PURE__*/ writerT.listen(readerTask.Functor)
+  /*#__PURE__*/ writerT.listen(readerAsync.Functor)
 
 /**
  * @since 3.0.0
  */
 export const pass: <R, W, A>(self: ReaderAsyncWriter<R, W, readonly [A, (w: W) => W]>) => ReaderAsyncWriter<R, W, A> =
-  /*#__PURE__*/ writerT.pass(readerTask.Functor)
+  /*#__PURE__*/ writerT.pass(readerAsync.Functor)
 
 /**
  * @since 3.0.0
@@ -188,13 +188,13 @@ export const pass: <R, W, A>(self: ReaderAsyncWriter<R, W, readonly [A, (w: W) =
 export const listens: <W, B>(
   f: (w: W) => B
 ) => <R, A>(self: ReaderAsyncWriter<R, W, A>) => ReaderAsyncWriter<R, W, readonly [A, B]> =
-  /*#__PURE__*/ writerT.listens(readerTask.Functor)
+  /*#__PURE__*/ writerT.listens(readerAsync.Functor)
 
 /**
  * @since 3.0.0
  */
 export const censor: <W>(f: (w: W) => W) => <R, A>(self: ReaderAsyncWriter<R, W, A>) => ReaderAsyncWriter<R, W, A> =
-  /*#__PURE__*/ writerT.censor(readerTask.Functor)
+  /*#__PURE__*/ writerT.censor(readerAsync.Functor)
 
 /**
  * Returns an effect whose success is mapped by the specified `f` function.
@@ -203,7 +203,7 @@ export const censor: <W>(f: (w: W) => W) => <R, A>(self: ReaderAsyncWriter<R, W,
  * @since 3.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => <R, E>(self: ReaderAsyncWriter<R, E, A>) => ReaderAsyncWriter<R, E, B> =
-  /*#__PURE__*/ writerT.map(readerTask.Functor)
+  /*#__PURE__*/ writerT.map(readerAsync.Functor)
 
 /**
  * Returns an effect with its error channel mapped using the specified
@@ -215,7 +215,7 @@ export const map: <A, B>(f: (a: A) => B) => <R, E>(self: ReaderAsyncWriter<R, E,
 export const mapError: <E, G>(
   f: (e: E) => G
 ) => <R, A>(self: ReaderAsyncWriter<R, E, A>) => ReaderAsyncWriter<R, G, A> = /*#__PURE__*/ writerT.mapLeft(
-  readerTask.Functor
+  readerAsync.Functor
 )
 
 /**
@@ -229,7 +229,7 @@ export const mapBoth: <E, G, A, B>(
   f: (e: E) => G,
   g: (a: A) => B
 ) => <R>(self: ReaderAsyncWriter<R, E, A>) => ReaderAsyncWriter<R, G, B> = /*#__PURE__*/ writerT.mapBoth(
-  readerTask.Functor
+  readerAsync.Functor
 )
 
 // -------------------------------------------------------------------------------------
@@ -264,7 +264,7 @@ export const flap: <A>(a: A) => <R, E, B>(self: ReaderAsyncWriter<R, E, (a: A) =
  * @since 3.0.0
  */
 export const getFromIdentity = <W>(M: Monoid<W>): FromIdentity<ReaderAsyncWriterFFix<W>> => ({
-  succeed: writerT.succeed(readerTask.FromIdentity, M)
+  succeed: writerT.succeed(readerAsync.FromIdentity, M)
 })
 
 /**
@@ -272,7 +272,7 @@ export const getFromIdentity = <W>(M: Monoid<W>): FromIdentity<ReaderAsyncWriter
  * @since 3.0.0
  */
 export const getApply = <W>(
-  Apply: Apply<readerTask.ReaderAsyncTypeLambda>,
+  Apply: Apply<readerAsync.ReaderAsyncTypeLambda>,
   Semigroup: Semigroup<W>
 ): Apply<ReaderAsyncWriterFFix<W>> => ({
   map,
@@ -284,7 +284,7 @@ export const getApply = <W>(
  * @since 3.0.0
  */
 export const getApplicative = <W>(
-  Apply: Apply<readerTask.ReaderAsyncTypeLambda>,
+  Apply: Apply<readerAsync.ReaderAsyncTypeLambda>,
   Monoid: Monoid<W>
 ): Applicative<ReaderAsyncWriterFFix<W>> => {
   const { ap } = getApply(Apply, Monoid)
@@ -303,7 +303,7 @@ export const getApplicative = <W>(
 export const getFlattenable = <W>(S: Semigroup<W>): Flattenable<ReaderAsyncWriterFFix<W>> => {
   return {
     map,
-    flatMap: writerT.flatMap(readerTask.Flattenable, S)
+    flatMap: writerT.flatMap(readerAsync.Flattenable, S)
   }
 }
 
@@ -413,7 +413,7 @@ export const tupled: <R, E, A>(self: ReaderAsyncWriter<R, E, A>) => ReaderAsyncW
  * @since 3.0.0
  */
 export const traverseReadonlyNonEmptyArrayWithIndex =
-  <W>(Apply: Apply<readerTask.ReaderAsyncTypeLambda>, Semigroup: Semigroup<W>) =>
+  <W>(Apply: Apply<readerAsync.ReaderAsyncTypeLambda>, Semigroup: Semigroup<W>) =>
   <A, R, B>(f: (index: number, a: A) => ReaderAsyncWriter<R, W, B>) =>
   (as: ReadonlyNonEmptyArray<A>): ReaderAsyncWriter<R, W, ReadonlyNonEmptyArray<B>> => {
     // TODO
@@ -427,7 +427,7 @@ export const traverseReadonlyNonEmptyArrayWithIndex =
  * @since 3.0.0
  */
 export const traverseReadonlyArrayWithIndex =
-  <W>(Apply: Apply<readerTask.ReaderAsyncTypeLambda>, Monoid: Monoid<W>) =>
+  <W>(Apply: Apply<readerAsync.ReaderAsyncTypeLambda>, Monoid: Monoid<W>) =>
   <A, R, B>(
     f: (index: number, a: A) => ReaderAsyncWriter<R, W, B>
   ): ((as: ReadonlyArray<A>) => ReaderAsyncWriter<R, W, ReadonlyArray<B>>) => {
@@ -443,7 +443,7 @@ export const traverseReadonlyArrayWithIndex =
  * @since 3.0.0
  */
 export const traverseReadonlyNonEmptyArray = <W>(
-  Apply: Apply<readerTask.ReaderAsyncTypeLambda>,
+  Apply: Apply<readerAsync.ReaderAsyncTypeLambda>,
   Semigroup: Semigroup<W>
 ) => {
   const traverseReadonlyNonEmptyArrayWithIndexAM = traverseReadonlyNonEmptyArrayWithIndex(Apply, Semigroup)
@@ -460,7 +460,7 @@ export const traverseReadonlyNonEmptyArray = <W>(
  * @category traversing
  * @since 3.0.0
  */
-export const traverseReadonlyArray = <W>(A: Apply<readerTask.ReaderAsyncTypeLambda>, M: Monoid<W>) => {
+export const traverseReadonlyArray = <W>(A: Apply<readerAsync.ReaderAsyncTypeLambda>, M: Monoid<W>) => {
   const traverseReadonlyArrayWithIndexAM = traverseReadonlyArrayWithIndex(A, M)
   return <A, R, B>(
     f: (a: A) => ReaderAsyncWriter<R, W, B>
@@ -476,7 +476,7 @@ export const traverseReadonlyArray = <W>(A: Apply<readerTask.ReaderAsyncTypeLamb
  * @since 3.0.0
  */
 export const sequenceReadonlyArray = <W>(
-  A: Apply<readerTask.ReaderAsyncTypeLambda>,
+  A: Apply<readerAsync.ReaderAsyncTypeLambda>,
   M: Monoid<W>
 ): (<R, A>(arr: ReadonlyArray<ReaderAsyncWriter<R, W, A>>) => ReaderAsyncWriter<R, W, ReadonlyArray<A>>) =>
   traverseReadonlyArray(A, M)(identity)

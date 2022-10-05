@@ -137,7 +137,7 @@ describe('StateReaderAsyncResult', () => {
 
   it('leftState', async () => {
     const s: State<unknown, number> = (s) => [s, 1]
-    const e = await pipe(_.leftState(s), _.evaluate(state))({})()
+    const e = await pipe(_.failState(s), _.evaluate(state))({})()
     U.deepStrictEqual(e, E.fail(1))
   })
 
@@ -163,13 +163,13 @@ describe('StateReaderAsyncResult', () => {
     U.deepStrictEqual(e, E.succeed([{}, 1] as const))
   })
 
-  it('leftTask', async () => {
-    const e = await _.leftTask(T.succeed(1))({})({})()
+  it('leftAsync', async () => {
+    const e = await _.failAsync(T.succeed(1))({})({})()
     U.deepStrictEqual(e, E.fail(1))
   })
 
-  it('fromAsyncEither', async () => {
-    const e = await _.fromAsyncEither(TE.succeed(1))({})({})()
+  it('fromAsyncResult', async () => {
+    const e = await _.fromAsyncResult(TE.succeed(1))({})({})()
     U.deepStrictEqual(e, E.succeed([{}, 1] as const))
   })
 
@@ -179,14 +179,14 @@ describe('StateReaderAsyncResult', () => {
   })
 
   it('leftReader', async () => {
-    const e = await _.leftReader(R.succeed(1))({})({})()
+    const e = await _.failReader(R.succeed(1))({})({})()
     U.deepStrictEqual(e, E.fail(1))
   })
 
-  it('fromSyncEither', async () => {
-    const e1 = await _.fromSyncEither(IE.succeed(1))({})({})()
+  it('fromSyncResult', async () => {
+    const e1 = await _.fromSyncResult(IE.succeed(1))({})({})()
     U.deepStrictEqual(e1, E.succeed([{}, 1] as const))
-    const e2 = await _.fromSyncEither(IE.fail(1))({})({})()
+    const e2 = await _.fromSyncResult(IE.fail(1))({})({})()
     U.deepStrictEqual(e2, E.fail(1))
   })
 
@@ -209,8 +209,8 @@ describe('StateReaderAsyncResult', () => {
     U.deepStrictEqual(e, E.succeed([{}, 1] as const))
   })
 
-  it('leftIO', async () => {
-    const e = await _.leftIO(I.succeed(1))({})({})()
+  it('failSync', async () => {
+    const e = await _.failSync(I.succeed(1))({})({})()
     U.deepStrictEqual(e, E.fail(1))
   })
 
@@ -228,9 +228,9 @@ describe('StateReaderAsyncResult', () => {
     U.deepStrictEqual(e2, E.succeed([{}, 1] as const))
   })
 
-  it('flatMapEither', async () => {
+  it('flatMapResult', async () => {
     const f = flow(S.size, E.succeed)
-    const x = await pipe(_.succeed('a'), _.flatMapEither(f))(undefined)(undefined)()
+    const x = await pipe(_.succeed('a'), _.flatMapResult(f))(undefined)(undefined)()
     U.deepStrictEqual(x, E.succeed([undefined, 1] as const))
   })
 
@@ -384,7 +384,7 @@ describe('StateReaderAsyncResult', () => {
         return n
       })
     const left = (s: string): _.StateReaderAsyncResult<undefined, undefined, string, number> =>
-      _.leftIO(() => {
+      _.failSync(() => {
         log.push(s)
         return s
       })

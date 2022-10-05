@@ -26,7 +26,7 @@ Added in v3.0.0
   - [fromOption](#fromoption)
   - [fromResult](#fromresult)
   - [fromSync](#fromsync)
-  - [fromSyncEither](#fromsynceither)
+  - [fromSyncResult](#fromsyncresult)
   - [toNull](#tonull)
   - [toUndefined](#toundefined)
 - [do notation](#do-notation)
@@ -39,7 +39,7 @@ Added in v3.0.0
 - [error handling](#error-handling)
   - [catchAll](#catchall)
   - [getOrElse](#getorelse)
-  - [getOrElseIO](#getorelseio)
+  - [getOrElseSync](#getorelsesync)
   - [tapError](#taperror)
 - [filtering](#filtering)
   - [compact](#compact)
@@ -67,10 +67,10 @@ Added in v3.0.0
 - [lifting](#lifting)
   - [lift2](#lift2)
   - [lift3](#lift3)
-  - [liftEither](#lifteither)
   - [liftNullable](#liftnullable)
   - [liftOption](#liftoption)
   - [liftPredicate](#liftpredicate)
+  - [liftResult](#liftresult)
   - [liftSync](#liftsync)
 - [logging](#logging)
   - [log](#log)
@@ -84,11 +84,11 @@ Added in v3.0.0
   - [SyncOption (interface)](#syncoption-interface)
 - [pattern matching](#pattern-matching)
   - [match](#match)
-  - [matchIO](#matchio)
+  - [matchSync](#matchsync)
 - [sequencing](#sequencing)
   - [flatMap](#flatmap)
-  - [flatMapEither](#flatmapeither)
   - [flatMapNullable](#flatmapnullable)
+  - [flatMapResult](#flatmapresult)
   - [flatMapSync](#flatmapsync)
   - [zipLeft](#zipleft)
   - [zipRight](#zipright)
@@ -175,7 +175,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromResult: <A>(e: Result<unknown, A>) => io.Sync<option.Option<A>>
+export declare const fromResult: <A>(e: Result<unknown, A>) => sync.Sync<option.Option<A>>
 ```
 
 Added in v3.0.0
@@ -185,17 +185,17 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromSync: <A>(ma: io.Sync<A>) => SyncOption<A>
+export declare const fromSync: <A>(ma: sync.Sync<A>) => SyncOption<A>
 ```
 
 Added in v3.0.0
 
-## fromSyncEither
+## fromSyncResult
 
 **Signature**
 
 ```ts
-export declare const fromSyncEither: <A>(ma: SyncResult<unknown, A>) => SyncOption<A>
+export declare const fromSyncResult: <A>(ma: SyncResult<unknown, A>) => SyncOption<A>
 ```
 
 Added in v3.0.0
@@ -205,7 +205,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const toNull: <A>(self: SyncOption<A>) => io.Sync<A | null>
+export declare const toNull: <A>(self: SyncOption<A>) => sync.Sync<A | null>
 ```
 
 Added in v3.0.0
@@ -215,7 +215,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const toUndefined: <A>(self: SyncOption<A>) => io.Sync<A | undefined>
+export declare const toUndefined: <A>(self: SyncOption<A>) => sync.Sync<A | undefined>
 ```
 
 Added in v3.0.0
@@ -314,17 +314,17 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getOrElse: <B>(onNone: B) => <A>(self: SyncOption<A>) => io.Sync<B | A>
+export declare const getOrElse: <B>(onNone: B) => <A>(self: SyncOption<A>) => sync.Sync<B | A>
 ```
 
 Added in v3.0.0
 
-## getOrElseIO
+## getOrElseSync
 
 **Signature**
 
 ```ts
-export declare const getOrElseIO: <B>(onNone: io.Sync<B>) => <A>(self: SyncOption<A>) => io.Sync<B | A>
+export declare const getOrElseSync: <B>(onNone: sync.Sync<B>) => <A>(self: SyncOption<A>) => sync.Sync<B | A>
 ```
 
 Added in v3.0.0
@@ -593,18 +593,6 @@ export declare const lift3: <A, B, C, D>(
 
 Added in v3.0.0
 
-## liftEither
-
-**Signature**
-
-```ts
-export declare const liftEither: <A extends readonly unknown[], E, B>(
-  f: (...a: A) => Result<E, B>
-) => (...a: A) => SyncOption<B>
-```
-
-Added in v3.0.0
-
 ## liftNullable
 
 **Signature**
@@ -642,13 +630,25 @@ export declare const liftPredicate: {
 
 Added in v3.0.0
 
+## liftResult
+
+**Signature**
+
+```ts
+export declare const liftResult: <A extends readonly unknown[], E, B>(
+  f: (...a: A) => Result<E, B>
+) => (...a: A) => SyncOption<B>
+```
+
+Added in v3.0.0
+
 ## liftSync
 
 **Signature**
 
 ```ts
 export declare const liftSync: <A extends readonly unknown[], B>(
-  f: (...a: A) => io.Sync<B>
+  f: (...a: A) => sync.Sync<B>
 ) => (...a: A) => SyncOption<B>
 ```
 
@@ -746,20 +746,20 @@ Added in v3.0.0
 export declare const match: <B, A, C = B>(
   onNone: LazyArg<B>,
   onSome: (a: A) => C
-) => (ma: SyncOption<A>) => io.Sync<B | C>
+) => (ma: SyncOption<A>) => sync.Sync<B | C>
 ```
 
 Added in v3.0.0
 
-## matchIO
+## matchSync
 
 **Signature**
 
 ```ts
-export declare const matchIO: <B, A, C = B>(
-  onNone: LazyArg<io.Sync<B>>,
-  onSome: (a: A) => io.Sync<C>
-) => (ma: SyncOption<A>) => io.Sync<B | C>
+export declare const matchSync: <B, A, C = B>(
+  onNone: LazyArg<sync.Sync<B>>,
+  onSome: (a: A) => sync.Sync<C>
+) => (ma: SyncOption<A>) => sync.Sync<B | C>
 ```
 
 Added in v3.0.0
@@ -776,16 +776,6 @@ export declare const flatMap: <A, B>(f: (a: A) => SyncOption<B>) => (self: SyncO
 
 Added in v3.0.0
 
-## flatMapEither
-
-**Signature**
-
-```ts
-export declare const flatMapEither: <A, E, B>(f: (a: A) => Result<E, B>) => (ma: SyncOption<A>) => SyncOption<B>
-```
-
-Added in v3.0.0
-
 ## flatMapNullable
 
 **Signature**
@@ -798,12 +788,22 @@ export declare const flatMapNullable: <A, B>(
 
 Added in v3.0.0
 
+## flatMapResult
+
+**Signature**
+
+```ts
+export declare const flatMapResult: <A, E, B>(f: (a: A) => Result<E, B>) => (ma: SyncOption<A>) => SyncOption<B>
+```
+
+Added in v3.0.0
+
 ## flatMapSync
 
 **Signature**
 
 ```ts
-export declare const flatMapSync: <A, B>(f: (a: A) => io.Sync<B>) => (self: SyncOption<A>) => SyncOption<B>
+export declare const flatMapSync: <A, B>(f: (a: A) => sync.Sync<B>) => (self: SyncOption<A>) => SyncOption<B>
 ```
 
 Added in v3.0.0

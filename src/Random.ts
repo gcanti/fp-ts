@@ -1,7 +1,7 @@
 /**
  * @since 3.0.0
  */
-import * as io from './Sync'
+import * as sync from './Sync'
 import { pipe } from './Function'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import type { Sync } from './Sync'
@@ -24,7 +24,7 @@ export const random: Sync<number> = () => Math.random()
 export const randomInt = (low: number, high: number): Sync<number> =>
   pipe(
     random,
-    io.map((n) => Math.floor((high - low + 1) * n + low))
+    sync.map((n) => Math.floor((high - low + 1) * n + low))
   )
 
 /**
@@ -36,7 +36,7 @@ export const randomInt = (low: number, high: number): Sync<number> =>
 export const randomRange = (min: number, max: number): Sync<number> =>
   pipe(
     random,
-    io.map((n) => (max - min) * n + min)
+    sync.map((n) => (max - min) * n + min)
   )
 
 /**
@@ -48,7 +48,7 @@ export const randomBool: Sync<boolean> =
   /*#__PURE__*/
   pipe(
     random,
-    io.map((n) => n < 0.5)
+    sync.map((n) => n < 0.5)
   )
 
 /**
@@ -59,5 +59,5 @@ export const randomBool: Sync<boolean> =
 export const randomElem = <A>(as: ReadonlyNonEmptyArray<A>): Sync<A> =>
   pipe(
     randomInt(0, as.length - 1),
-    io.map((i) => as[i])
+    sync.map((i) => as[i])
   )

@@ -115,7 +115,7 @@ describe('ReaderAsyncResult', () => {
     return U.deepStrictEqual(await _.asks((s: string) => s.length)('foo')(), E.succeed(3))
   })
 
-  it('leftTask', async () => {
+  it('leftAsync', async () => {
     U.deepStrictEqual(await _.failAsync(T.succeed(1))({})(), E.fail(1))
   })
 
@@ -139,11 +139,11 @@ describe('ReaderAsyncResult', () => {
     U.deepStrictEqual(await _.failReader(R.succeed(1))({})(), E.fail(1))
   })
 
-  it('fromAsyncEither', async () => {
-    U.deepStrictEqual(await _.fromAsyncEither(TE.succeed(1))({})(), E.succeed(1))
+  it('fromAsyncResult', async () => {
+    U.deepStrictEqual(await _.fromAsyncResult(TE.succeed(1))({})(), E.succeed(1))
   })
 
-  it('leftIO', async () => {
+  it('failSync', async () => {
     U.deepStrictEqual(await _.failSync(I.succeed(1))({})(), E.fail(1))
   })
 
@@ -155,9 +155,9 @@ describe('ReaderAsyncResult', () => {
     U.deepStrictEqual(await _.failReaderSync(RIO.succeed(1))({})(), E.fail(1))
   })
 
-  it('fromSyncEither', async () => {
-    U.deepStrictEqual(await _.fromSyncEither(() => E.succeed(1))({})(), E.succeed(1))
-    U.deepStrictEqual(await _.fromSyncEither(() => E.fail('error'))({})(), E.fail('error'))
+  it('fromSyncResult', async () => {
+    U.deepStrictEqual(await _.fromSyncResult(() => E.succeed(1))({})(), E.succeed(1))
+    U.deepStrictEqual(await _.fromSyncResult(() => E.fail('error'))({})(), E.fail('error'))
   })
 
   it('match', async () => {
@@ -295,9 +295,9 @@ describe('ReaderAsyncResult', () => {
     })
   })
 
-  it('flatMapEither', async () => {
+  it('flatMapResult', async () => {
     const f = flow(S.size, E.succeed)
-    U.deepStrictEqual(await pipe(_.succeed('a'), _.flatMapEither(f))(undefined)(), E.succeed(1))
+    U.deepStrictEqual(await pipe(_.succeed('a'), _.flatMapResult(f))(undefined)(), E.succeed(1))
   })
 
   it('flatMapSyncResult', async () => {

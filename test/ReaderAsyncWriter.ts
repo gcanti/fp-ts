@@ -106,9 +106,9 @@ describe('ReaderAsyncWriter', () => {
     U.deepStrictEqual(await _.liftWriter(sum)(1, 2)(undefined)(), [3, 'sum'])
   })
 
-  it('liftTaskWriter', async () => {
+  it('liftAsyncWriter', async () => {
     const sum = (a: number, b: number) => T.succeed([a + b, 'sum'] as const)
-    U.deepStrictEqual(await _.liftTaskWriter(sum)(1, 2)(undefined)(), [3, 'sum'])
+    U.deepStrictEqual(await _.liftAsyncWriter(sum)(1, 2)(undefined)(), [3, 'sum'])
   })
 
   it('liftReaderWriter', async () => {

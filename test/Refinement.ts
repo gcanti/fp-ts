@@ -74,16 +74,16 @@ describe('Refinement', () => {
     U.strictEqual(refinement(''), false)
   })
 
-  it('liftEither', () => {
+  it('liftResult', () => {
     const f = (s: string | number): E.Result<string, string> =>
       typeof s === 'string' ? E.succeed(s) : E.fail('not a string')
-    const isString = _.liftEither(f)
+    const isString = _.liftResult(f)
     U.deepStrictEqual(isString('s'), true)
     U.deepStrictEqual(isString(1), false)
     type A = { readonly type: 'A' }
     type B = { readonly type: 'B' }
     type C = A | B
-    const isA = _.liftEither<C, A>((c) => (c.type === 'A' ? E.succeed(c) : E.fail('not as A')))
+    const isA = _.liftResult<C, A>((c) => (c.type === 'A' ? E.succeed(c) : E.fail('not as A')))
     U.deepStrictEqual(isA({ type: 'A' }), true)
     U.deepStrictEqual(isA({ type: 'B' }), false)
   })

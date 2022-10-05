@@ -48,11 +48,11 @@ pipe(
 pipe(_.some('a'), _.getOrElse(null))
 
 //
-// getOrElseTask
+// getOrElseAsync
 //
 
 // $ExpectType Async<string | null>
-pipe(_.some('a'), _.getOrElseTask(T.succeed(null)))
+pipe(_.some('a'), _.getOrElseAsync(T.succeed(null)))
 
 //
 // match
@@ -68,13 +68,13 @@ pipe(
 )
 
 //
-// matchTask
+// matchAsync
 //
 
 // $ExpectType Async<number | boolean>
 pipe(
   _.some('a'),
-  _.matchTask(
+  _.matchAsync(
     () => T.succeed(1),
     () => T.succeed(true)
   )

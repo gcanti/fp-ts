@@ -41,8 +41,8 @@ Added in v3.0.0
   - [getFromSync](#getfromsync)
   - [getMonad](#getmonad)
 - [lifting](#lifting)
+  - [liftAsyncWriter](#liftasyncwriter)
   - [liftReaderWriter](#liftreaderwriter)
-  - [liftTaskWriter](#lifttaskwriter)
   - [liftWriter](#liftwriter)
 - [mapping](#mapping)
   - [flap](#flap)
@@ -136,7 +136,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromReaderAsync: <W>(w: W) => <R, A>(a: readerTask.ReaderAsync<R, A>) => ReaderAsyncWriter<R, W, A>
+export declare const fromReaderAsync: <W>(
+  w: W
+) => <R, A>(a: readerAsync.ReaderAsync<R, A>) => ReaderAsyncWriter<R, W, A>
 ```
 
 Added in v3.0.0
@@ -255,7 +257,7 @@ Added in v3.0.0
 
 ```ts
 export declare const getApplicative: <W>(
-  Apply: Apply<readerTask.ReaderAsyncTypeLambda>,
+  Apply: Apply<readerAsync.ReaderAsyncTypeLambda>,
   Monoid: Monoid<W>
 ) => Applicative<ReaderAsyncWriterFFix<W>>
 ```
@@ -268,7 +270,7 @@ Added in v3.0.0
 
 ```ts
 export declare const getApply: <W>(
-  Apply: Apply<readerTask.ReaderAsyncTypeLambda>,
+  Apply: Apply<readerAsync.ReaderAsyncTypeLambda>,
   Semigroup: Semigroup<W>
 ) => Apply<ReaderAsyncWriterFFix<W>>
 ```
@@ -337,6 +339,18 @@ Added in v3.0.0
 
 # lifting
 
+## liftAsyncWriter
+
+**Signature**
+
+```ts
+export declare const liftAsyncWriter: <A extends readonly unknown[], W, B>(
+  f: (...a: A) => Async<Writer<W, B>>
+) => (...a: A) => ReaderAsyncWriter<unknown, W, B>
+```
+
+Added in v3.0.0
+
 ## liftReaderWriter
 
 **Signature**
@@ -345,18 +359,6 @@ Added in v3.0.0
 export declare const liftReaderWriter: <A extends readonly unknown[], R, W, B>(
   f: (...a: A) => Reader<R, Writer<W, B>>
 ) => (...a: A) => ReaderAsyncWriter<R, W, B>
-```
-
-Added in v3.0.0
-
-## liftTaskWriter
-
-**Signature**
-
-```ts
-export declare const liftTaskWriter: <A extends readonly unknown[], W, B>(
-  f: (...a: A) => Async<Writer<W, B>>
-) => (...a: A) => ReaderAsyncWriter<unknown, W, B>
 ```
 
 Added in v3.0.0
@@ -439,7 +441,7 @@ Equivalent to `ReadonlyArray#sequence(getApplicative(A, M))`.
 
 ```ts
 export declare const sequenceReadonlyArray: <W>(
-  A: Apply<readerTask.ReaderAsyncTypeLambda>,
+  A: Apply<readerAsync.ReaderAsyncTypeLambda>,
   M: Monoid<W>
 ) => <R, A>(arr: readonly ReaderAsyncWriter<R, W, A>[]) => ReaderAsyncWriter<R, W, readonly A[]>
 ```
@@ -454,7 +456,7 @@ Equivalent to `ReadonlyArray#traverse(getApplicative(A, M))`.
 
 ```ts
 export declare const traverseReadonlyArray: <W>(
-  A: Apply<readerTask.ReaderAsyncTypeLambda>,
+  A: Apply<readerAsync.ReaderAsyncTypeLambda>,
   M: Monoid<W>
 ) => <A, R, B>(f: (a: A) => ReaderAsyncWriter<R, W, B>) => (as: readonly A[]) => ReaderAsyncWriter<R, W, readonly B[]>
 ```
@@ -469,7 +471,7 @@ Equivalent to `ReadonlyArray#traverseWithIndex(getApplicative(Apply, Monoid))`.
 
 ```ts
 export declare const traverseReadonlyArrayWithIndex: <W>(
-  Apply: Apply<readerTask.ReaderAsyncTypeLambda>,
+  Apply: Apply<readerAsync.ReaderAsyncTypeLambda>,
   Monoid: Monoid<W>
 ) => <A, R, B>(
   f: (index: number, a: A) => ReaderAsyncWriter<R, W, B>
@@ -486,7 +488,7 @@ Equivalent to `ReadonlyNonEmptyArray#traverse(getApply(Apply, Semigroup))`.
 
 ```ts
 export declare const traverseReadonlyNonEmptyArray: <W>(
-  Apply: Apply<readerTask.ReaderAsyncTypeLambda>,
+  Apply: Apply<readerAsync.ReaderAsyncTypeLambda>,
   Semigroup: Semigroup<W>
 ) => <A, R, B>(
   f: (a: A) => ReaderAsyncWriter<R, W, B>
@@ -503,7 +505,7 @@ Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(getApply(Apply, Semigroup
 
 ```ts
 export declare const traverseReadonlyNonEmptyArrayWithIndex: <W>(
-  Apply: Apply<readerTask.ReaderAsyncTypeLambda>,
+  Apply: Apply<readerAsync.ReaderAsyncTypeLambda>,
   Semigroup: Semigroup<W>
 ) => <A, R, B>(
   f: (index: number, a: A) => ReaderAsyncWriter<R, W, B>
@@ -569,7 +571,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fst: <R, W, A>(self: ReaderAsyncWriter<R, W, A>) => readerTask.ReaderAsync<R, W>
+export declare const fst: <R, W, A>(self: ReaderAsyncWriter<R, W, A>) => readerAsync.ReaderAsync<R, W>
 ```
 
 Added in v3.0.0
@@ -628,7 +630,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const snd: <R, W, A>(self: ReaderAsyncWriter<R, W, A>) => readerTask.ReaderAsync<R, A>
+export declare const snd: <R, W, A>(self: ReaderAsyncWriter<R, W, A>) => readerAsync.ReaderAsync<R, A>
 ```
 
 Added in v3.0.0

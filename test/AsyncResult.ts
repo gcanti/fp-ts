@@ -11,13 +11,13 @@ import * as S from '../src/string'
 import * as T from '../src/Async'
 import * as _ from '../src/AsyncResult'
 import * as TO from '../src/AsyncOption'
-import { assertTask } from './Async'
+import { assertAsync } from './Async'
 import * as U from './util'
 
 const a: _.AsyncResult<string, string> = pipe(_.succeed('a'), T.delay(100))
 const b: _.AsyncResult<string, string> = _.succeed('b')
 
-const assertSeq = assertTask(a, b, [E.succeed('a'), E.succeed('b')])
+const assertSeq = assertAsync(a, b, [E.succeed('a'), E.succeed('b')])
 
 describe('AsyncResult', () => {
   it('flatMapError', async () => {
@@ -152,7 +152,7 @@ describe('AsyncResult', () => {
   // instances
   // -------------------------------------------------------------------------------------
 
-  it('getApplicativeTaskValidation', async () => {
+  it('getApplicativeAsyncValidation', async () => {
     const tuple2 =
       <A>(a: A) =>
       <B>(b: B): readonly [A, B] =>
@@ -174,7 +174,7 @@ describe('AsyncResult', () => {
     // await assertPar((a, b) => pipe(a, A.map(S.Semigroup.combine), A.ap(b)), E.right('ba'))
   })
 
-  it('getSemigroupKTaskValidation', async () => {
+  it('getSemigroupKAsyncValidation', async () => {
     const A = _.getValidatedSemigroupKind(S.Semigroup)
     const assertSemigroupKind = async (
       a: _.AsyncResult<string, number>,
@@ -395,9 +395,9 @@ describe('AsyncResult', () => {
     U.deepStrictEqual(await _.swap(_.fail('a'))(), E.succeed('a'))
   })
 
-  it('flatMapEither', async () => {
+  it('flatMapResult', async () => {
     const f = flow(S.size, E.succeed)
-    U.deepStrictEqual(await pipe(_.succeed('a'), _.flatMapEither(f))(), E.succeed(1))
+    U.deepStrictEqual(await pipe(_.succeed('a'), _.flatMapResult(f))(), E.succeed(1))
   })
 
   it('flatMapSyncResult', async () => {
@@ -453,7 +453,7 @@ describe('AsyncResult', () => {
     U.deepStrictEqual(await fa(), E.succeed(1))
   })
 
-  it('leftIO', async () => {
+  it('failSync', async () => {
     U.deepStrictEqual(await _.failSync(I.succeed(1))(), E.fail(1))
   })
 
@@ -462,9 +462,9 @@ describe('AsyncResult', () => {
     U.deepStrictEqual(await _.fromRejectable(() => Promise.reject('a'), identity)(), E.fail('a'))
   })
 
-  it('fromSyncEither', async () => {
-    U.deepStrictEqual(await _.fromSyncEither(() => E.succeed(1))(), E.succeed(1))
-    U.deepStrictEqual(await _.fromSyncEither(() => E.fail('a'))(), E.fail('a'))
+  it('fromSyncResult', async () => {
+    U.deepStrictEqual(await _.fromSyncResult(() => E.succeed(1))(), E.succeed(1))
+    U.deepStrictEqual(await _.fromSyncResult(() => E.fail('a'))(), E.fail('a'))
   })
 
   it('fromOption', async () => {
@@ -501,8 +501,8 @@ describe('AsyncResult', () => {
     U.deepStrictEqual(await f(_.fail(''))(), 'left')
   })
 
-  it('matchTask', async () => {
-    const f = _.matchTask(
+  it('matchAsync', async () => {
+    const f = _.matchAsync(
       () => T.succeed('left'),
       () => T.succeed('right')
     )
@@ -516,8 +516,8 @@ describe('AsyncResult', () => {
     U.deepStrictEqual(await f(_.fail('a'))(), 2)
   })
 
-  it('getOrElseTask', async () => {
-    const f = _.getOrElseTask(T.succeed(2))
+  it('getOrElseAsync', async () => {
+    const f = _.getOrElseAsync(T.succeed(2))
     U.deepStrictEqual(await f(_.succeed(1))(), 1)
     U.deepStrictEqual(await f(_.fail('a'))(), 2)
   })

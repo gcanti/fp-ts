@@ -17,9 +17,9 @@ Added in v3.0.0
   - [ap](#ap)
   - [both](#both)
   - [fail](#fail)
+  - [failKind](#failkind)
   - [flatMap](#flatmap)
   - [fromKind](#fromkind)
-  - [leftKind](#leftkind)
   - [map](#map)
   - [mapBoth](#mapboth)
   - [mapError](#maperror)
@@ -86,6 +86,18 @@ export declare const fail: <F extends TypeLambda>(
 
 Added in v3.0.0
 
+## failKind
+
+**Signature**
+
+```ts
+export declare const failKind: <F extends TypeLambda>(
+  Functor: Functor<F>
+) => <S, R, O, FE, E>(fl: Kind<F, S, R, O, FE, E>) => Kind<F, S, R, O, FE, These<E, never>>
+```
+
+Added in v3.0.0
+
 ## flatMap
 
 **Signature**
@@ -109,18 +121,6 @@ Added in v3.0.0
 export declare const fromKind: <F extends TypeLambda>(
   Functor: Functor<F>
 ) => <S, R, O, FE, A>(fa: Kind<F, S, R, O, FE, A>) => Kind<F, S, R, O, FE, These<never, A>>
-```
-
-Added in v3.0.0
-
-## leftKind
-
-**Signature**
-
-```ts
-export declare const leftKind: <F extends TypeLambda>(
-  Functor: Functor<F>
-) => <S, R, O, FE, E>(fl: Kind<F, S, R, O, FE, E>) => Kind<F, S, R, O, FE, These<E, never>>
 ```
 
 Added in v3.0.0

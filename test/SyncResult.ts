@@ -93,8 +93,8 @@ describe('SyncResult', () => {
     U.deepStrictEqual(f(_.fail('b'))(), E.fail('b'))
   })
 
-  it('flatMapEither', () => {
-    const f = _.flatMapEither((n: number) => (n > 0 ? E.succeed(n) : E.fail('a')))
+  it('flatMapResult', () => {
+    const f = _.flatMapResult((n: number) => (n > 0 ? E.succeed(n) : E.fail('a')))
     U.deepStrictEqual(f(_.succeed(1))(), E.succeed(1))
     U.deepStrictEqual(f(_.succeed(-1))(), E.fail('a'))
     U.deepStrictEqual(f(_.fail('b'))(), E.fail('b'))
@@ -132,7 +132,7 @@ describe('SyncResult', () => {
   })
 
   it('matchIO', () => {
-    const f = _.matchIO(
+    const f = _.matchSync(
       () => I.succeed('left'),
       () => I.succeed('right')
     )
@@ -147,7 +147,7 @@ describe('SyncResult', () => {
   })
 
   it('getOrElseIO', () => {
-    const f = _.getOrElseIO(I.succeed(2))
+    const f = _.getOrElseSync(I.succeed(2))
     U.deepStrictEqual(f(_.succeed(1))(), 1)
     U.deepStrictEqual(f(_.fail('a'))(), 2)
   })
@@ -160,9 +160,9 @@ describe('SyncResult', () => {
     U.deepStrictEqual(_.catchAll(() => _.succeed(2))(_.succeed(1))(), E.succeed(1))
   })
 
-  it('flatMapEither', () => {
+  it('flatMapResult', () => {
     const f = flow(S.size, E.succeed)
-    const x = pipe(_.succeed('a'), _.flatMapEither(f))()
+    const x = pipe(_.succeed('a'), _.flatMapResult(f))()
     U.deepStrictEqual(x, E.succeed(1))
   })
 

@@ -1,7 +1,7 @@
 /**
  * A data structure providing "inclusive-or" as opposed to `Result`'s "exclusive-or".
  *
- * If you interpret `Either<E, A>` as suggesting the computation may either fail or succeed (exclusively), then
+ * If you interpret `Result<E, A>` as suggesting the computation may either fail or succeed (exclusively), then
  * `These<E, A>` may fail, succeed, or do both at the same time.
  *
  * There are a few ways to interpret the both case:
@@ -483,9 +483,9 @@ export const liftPredicate: {
  * @category lifting
  * @since 3.0.0
  */
-export const liftEither: <A extends ReadonlyArray<unknown>, E, B>(
+export const liftResult: <A extends ReadonlyArray<unknown>, E, B>(
   f: (...a: A) => Result<E, B>
-) => (...a: A) => These<E, B> = /*#__PURE__*/ fromResult_.liftEither(FromResult)
+) => (...a: A) => These<E, B> = /*#__PURE__*/ fromResult_.liftResult(FromResult)
 
 /**
  * @category conversions

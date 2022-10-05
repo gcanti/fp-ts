@@ -73,7 +73,7 @@ Added in v3.0.0
   - [zipFlatten](#zipflatten)
   - [zipWith](#zipwith)
 - [type lambdas](#type-lambdas)
-  - [IOTypeLambda (interface)](#iotypelambda-interface)
+  - [SyncTypeLambda (interface)](#synctypelambda-interface)
 - [utils](#utils)
   - [ap](#ap)
   - [composeKind](#composekind)
@@ -165,7 +165,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Applicative: applicative.Applicative<IOTypeLambda>
+export declare const Applicative: applicative.Applicative<SyncTypeLambda>
 ```
 
 Added in v3.0.0
@@ -175,7 +175,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Apply: apply.Apply<IOTypeLambda>
+export declare const Apply: apply.Apply<SyncTypeLambda>
 ```
 
 Added in v3.0.0
@@ -185,7 +185,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const CategoryKind: categoryKind.CategoryKind<IOTypeLambda>
+export declare const CategoryKind: categoryKind.CategoryKind<SyncTypeLambda>
 ```
 
 Added in v3.0.0
@@ -195,7 +195,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ComposableKind: composableKind.ComposableKind<IOTypeLambda>
+export declare const ComposableKind: composableKind.ComposableKind<SyncTypeLambda>
 ```
 
 Added in v3.0.0
@@ -205,7 +205,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Flattenable: flattenable.Flattenable<IOTypeLambda>
+export declare const Flattenable: flattenable.Flattenable<SyncTypeLambda>
 ```
 
 Added in v3.0.0
@@ -215,7 +215,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FlattenableRec: flatMapableRec.FlattenableRec<IOTypeLambda>
+export declare const FlattenableRec: flatMapableRec.FlattenableRec<SyncTypeLambda>
 ```
 
 Added in v3.0.0
@@ -225,7 +225,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromIdentity: fromIdentity.FromIdentity<IOTypeLambda>
+export declare const FromIdentity: fromIdentity.FromIdentity<SyncTypeLambda>
 ```
 
 Added in v3.0.0
@@ -235,7 +235,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromSync: fromSync_.FromSync<IOTypeLambda>
+export declare const FromSync: fromSync_.FromSync<SyncTypeLambda>
 ```
 
 Added in v3.0.0
@@ -245,7 +245,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: functor.Functor<IOTypeLambda>
+export declare const Functor: functor.Functor<SyncTypeLambda>
 ```
 
 Added in v3.0.0
@@ -255,7 +255,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: monad.Monad<IOTypeLambda>
+export declare const Monad: monad.Monad<SyncTypeLambda>
 ```
 
 Added in v3.0.0
@@ -537,12 +537,12 @@ Added in v3.0.0
 
 # type lambdas
 
-## IOTypeLambda (interface)
+## SyncTypeLambda (interface)
 
 **Signature**
 
 ```ts
-export interface IOTypeLambda extends TypeLambda {
+export interface SyncTypeLambda extends TypeLambda {
   readonly type: Sync<this['Out1']>
 }
 ```

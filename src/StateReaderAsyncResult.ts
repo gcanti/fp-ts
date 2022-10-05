@@ -84,7 +84,7 @@ export const fromAsync = <A, S>(ma: Async<A>): StateReaderAsyncResult<S, unknown
  * @category constructors
  * @since 3.0.0
  */
-export const leftTask = <E, S>(me: Async<E>): StateReaderAsyncResult<S, unknown, E, never> =>
+export const failAsync = <E, S>(me: Async<E>): StateReaderAsyncResult<S, unknown, E, never> =>
   fromReaderAsyncResult(readerAsyncResult.failAsync(me))
 
 /**
@@ -98,7 +98,7 @@ export const fromReader = <R, A, S>(ma: Reader<R, A>): StateReaderAsyncResult<S,
  * @category constructors
  * @since 3.0.0
  */
-export const leftReader = <R, E, S>(me: Reader<R, E>): StateReaderAsyncResult<S, R, E, never> =>
+export const failReader = <R, E, S>(me: Reader<R, E>): StateReaderAsyncResult<S, R, E, never> =>
   fromReaderAsyncResult(readerAsyncResult.failReader(me))
 
 /**
@@ -112,7 +112,7 @@ export const fromSync = <A, S>(ma: Sync<A>): StateReaderAsyncResult<S, unknown, 
  * @category constructors
  * @since 3.0.0
  */
-export const leftIO = <E, S>(me: Sync<E>): StateReaderAsyncResult<S, unknown, E, never> =>
+export const failSync = <E, S>(me: Sync<E>): StateReaderAsyncResult<S, unknown, E, never> =>
   fromReaderAsyncResult(readerAsyncResult.failSync(me))
 
 /**
@@ -126,7 +126,7 @@ export const fromState: <S, A>(ma: State<S, A>) => StateReaderAsyncResult<S, unk
  * @category constructors
  * @since 3.0.0
  */
-export const leftState: <S, E>(me: State<S, E>) => StateReaderAsyncResult<S, unknown, E, never> = (me) => (s) =>
+export const failState: <S, E>(me: State<S, E>) => StateReaderAsyncResult<S, unknown, E, never> = (me) => (s) =>
   readerAsyncResult.fail(me(s)[1])
 
 /**
@@ -153,15 +153,15 @@ export const fromResult: <E, A, S>(fa: result.Result<E, A>) => StateReaderAsyncR
  * @category conversions
  * @since 3.0.0
  */
-export const fromAsyncEither: <E, A, S>(fa: AsyncResult<E, A>) => StateReaderAsyncResult<S, unknown, E, A> = (ma) =>
-  fromReaderAsyncResult(readerAsyncResult.fromAsyncEither(ma))
+export const fromAsyncResult: <E, A, S>(fa: AsyncResult<E, A>) => StateReaderAsyncResult<S, unknown, E, A> = (ma) =>
+  fromReaderAsyncResult(readerAsyncResult.fromAsyncResult(ma))
 
 /**
  * @category conversions
  * @since 3.0.0
  */
-export const fromSyncEither: <E, A, S>(fa: SyncResult<E, A>) => StateReaderAsyncResult<S, unknown, E, A> = (ma) =>
-  fromReaderAsyncResult(readerAsyncResult.fromSyncEither(ma))
+export const fromSyncResult: <E, A, S>(fa: SyncResult<E, A>) => StateReaderAsyncResult<S, unknown, E, A> = (ma) =>
+  fromReaderAsyncResult(readerAsyncResult.fromSyncResult(ma))
 
 /**
  * @category conversions
@@ -197,7 +197,7 @@ export const liftSyncResult =
     f: (...a: A) => SyncResult<E, B>
   ): (<S>(...a: A) => StateReaderAsyncResult<S, unknown, E, B>) =>
   (...a) =>
-    fromSyncEither(f(...a))
+    fromSyncResult(f(...a))
 
 /**
  * @category sequencing
@@ -217,7 +217,7 @@ export const liftAsyncResult =
     f: (...a: A) => AsyncResult<E, B>
   ): (<S>(...a: A) => StateReaderAsyncResult<S, unknown, E, B>) =>
   (...a) =>
-    fromAsyncEither(f(...a))
+    fromAsyncResult(f(...a))
 
 /**
  * @category sequencing
@@ -678,7 +678,7 @@ export const liftAsync: <A extends ReadonlyArray<unknown>, B>(
  * @category sequencing
  * @since 3.0.0
  */
-export const flatMapTask: <A, B>(
+export const flatMapAsync: <A, B>(
   f: (a: A) => Async<B>
 ) => <S, R, E>(self: StateReaderAsyncResult<S, R, E, A>) => StateReaderAsyncResult<S, R, E, B> =
   /*#__PURE__*/ fromAsync_.flatMapAsync(FromAsync, Flattenable)
@@ -763,10 +763,10 @@ export const flatMapOption: <A, B, E2>(
  * @category sequencing
  * @since 3.0.0
  */
-export const flatMapEither: <A, E2, B>(
+export const flatMapResult: <A, E2, B>(
   f: (a: A) => Result<E2, B>
 ) => <S, R, E1>(ma: StateReaderAsyncResult<S, R, E1, A>) => StateReaderAsyncResult<S, R, E1 | E2, B> =
-  /*#__PURE__*/ fromResult_.flatMapEither(FromResult, Flattenable)
+  /*#__PURE__*/ fromResult_.flatMapResult(FromResult, Flattenable)
 
 /**
  * @category lifting
@@ -831,9 +831,9 @@ export const partitionMap: <A, B, C, E>(
  * @category lifting
  * @since 3.0.0
  */
-export const liftEither: <A extends ReadonlyArray<unknown>, E, B>(
+export const liftResult: <A extends ReadonlyArray<unknown>, E, B>(
   f: (...a: A) => result.Result<E, B>
-) => <S>(...a: A) => StateReaderAsyncResult<S, unknown, E, B> = /*#__PURE__*/ fromResult_.liftEither(FromResult)
+) => <S>(...a: A) => StateReaderAsyncResult<S, unknown, E, B> = /*#__PURE__*/ fromResult_.liftResult(FromResult)
 
 /**
  * @category conversions

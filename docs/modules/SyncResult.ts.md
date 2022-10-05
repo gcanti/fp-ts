@@ -39,7 +39,7 @@ Added in v3.0.0
   - [catchAll](#catchall)
   - [flatMapError](#flatmaperror)
   - [getOrElse](#getorelse)
-  - [getOrElseIO](#getorelseio)
+  - [getOrElseSync](#getorelsesync)
   - [getValidatedApplicative](#getvalidatedapplicative)
   - [getValidatedSemigroupKind](#getvalidatedsemigroupkind)
   - [mapError](#maperror)
@@ -73,10 +73,10 @@ Added in v3.0.0
 - [lifting](#lifting)
   - [lift2](#lift2)
   - [lift3](#lift3)
-  - [liftEither](#lifteither)
   - [liftNullable](#liftnullable)
   - [liftOption](#liftoption)
   - [liftPredicate](#liftpredicate)
+  - [liftResult](#liftresult)
   - [liftSync](#liftsync)
 - [logging](#logging)
   - [log](#log)
@@ -91,12 +91,12 @@ Added in v3.0.0
   - [SyncResult (interface)](#syncresult-interface)
 - [pattern matching](#pattern-matching)
   - [match](#match)
-  - [matchIO](#matchio)
+  - [matchSync](#matchsync)
 - [sequencing](#sequencing)
   - [flatMap](#flatmap)
-  - [flatMapEither](#flatmapeither)
   - [flatMapNullable](#flatmapnullable)
   - [flatMapOption](#flatmapoption)
+  - [flatMapResult](#flatmapresult)
   - [flatMapSync](#flatmapsync)
   - [zipLeft](#zipleft)
   - [zipRight](#zipright)
@@ -175,7 +175,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const failSync: <E>(me: io.Sync<E>) => SyncResult<E, never>
+export declare const failSync: <E>(me: sync.Sync<E>) => SyncResult<E, never>
 ```
 
 Added in v3.0.0
@@ -215,7 +215,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromSync: <A>(ma: io.Sync<A>) => SyncResult<never, A>
+export declare const fromSync: <A>(ma: sync.Sync<A>) => SyncResult<never, A>
 ```
 
 Added in v3.0.0
@@ -310,7 +310,7 @@ one that may depend on the error produced by this one.
 
 ```ts
 export declare const flatMapError: <E1, E2>(
-  f: (e: E1) => io.Sync<E2>
+  f: (e: E1) => sync.Sync<E2>
 ) => <A>(self: SyncResult<E1, A>) => SyncResult<E2, A>
 ```
 
@@ -321,17 +321,17 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getOrElse: <B>(onError: B) => <A>(self: SyncResult<unknown, A>) => io.Sync<B | A>
+export declare const getOrElse: <B>(onError: B) => <A>(self: SyncResult<unknown, A>) => sync.Sync<B | A>
 ```
 
 Added in v3.0.0
 
-## getOrElseIO
+## getOrElseSync
 
 **Signature**
 
 ```ts
-export declare const getOrElseIO: <B>(onError: io.Sync<B>) => <A>(self: SyncResult<unknown, A>) => io.Sync<B | A>
+export declare const getOrElseSync: <B>(onError: sync.Sync<B>) => <A>(self: SyncResult<unknown, A>) => sync.Sync<B | A>
 ```
 
 Added in v3.0.0
@@ -651,7 +651,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const toUnion: <E, A>(fa: SyncResult<E, A>) => io.Sync<E | A>
+export declare const toUnion: <E, A>(fa: SyncResult<E, A>) => sync.Sync<E | A>
 ```
 
 Added in v3.0.0
@@ -682,18 +682,6 @@ Lifts a ternary function into `SyncResult`.
 export declare const lift3: <A, B, C, D>(
   f: (a: A, b: B, c: C) => D
 ) => <E1, E2, E3>(fa: SyncResult<E1, A>, fb: SyncResult<E2, B>, fc: SyncResult<E3, C>) => SyncResult<E1 | E2 | E3, D>
-```
-
-Added in v3.0.0
-
-## liftEither
-
-**Signature**
-
-```ts
-export declare const liftEither: <A extends readonly unknown[], E, B>(
-  f: (...a: A) => result.Result<E, B>
-) => (...a: A) => SyncResult<E, B>
 ```
 
 Added in v3.0.0
@@ -737,13 +725,25 @@ export declare const liftPredicate: {
 
 Added in v3.0.0
 
+## liftResult
+
+**Signature**
+
+```ts
+export declare const liftResult: <A extends readonly unknown[], E, B>(
+  f: (...a: A) => result.Result<E, B>
+) => (...a: A) => SyncResult<E, B>
+```
+
+Added in v3.0.0
+
 ## liftSync
 
 **Signature**
 
 ```ts
 export declare const liftSync: <A extends readonly unknown[], B>(
-  f: (...a: A) => io.Sync<B>
+  f: (...a: A) => sync.Sync<B>
 ) => (...a: A) => SyncResult<never, B>
 ```
 
@@ -857,20 +857,20 @@ Added in v3.0.0
 export declare const match: <E, B, A, C = B>(
   onError: (e: E) => B,
   onSuccess: (a: A) => C
-) => (ma: SyncResult<E, A>) => io.Sync<B | C>
+) => (ma: SyncResult<E, A>) => sync.Sync<B | C>
 ```
 
 Added in v3.0.0
 
-## matchIO
+## matchSync
 
 **Signature**
 
 ```ts
-export declare const matchIO: <E, B, A, C = B>(
-  onError: (e: E) => io.Sync<B>,
-  onSuccess: (a: A) => io.Sync<C>
-) => (ma: SyncResult<E, A>) => io.Sync<B | C>
+export declare const matchSync: <E, B, A, C = B>(
+  onError: (e: E) => sync.Sync<B>,
+  onSuccess: (a: A) => sync.Sync<C>
+) => (ma: SyncResult<E, A>) => sync.Sync<B | C>
 ```
 
 Added in v3.0.0
@@ -885,18 +885,6 @@ Added in v3.0.0
 export declare const flatMap: <A, E2, B>(
   f: (a: A) => SyncResult<E2, B>
 ) => <E1>(self: SyncResult<E1, A>) => SyncResult<E2 | E1, B>
-```
-
-Added in v3.0.0
-
-## flatMapEither
-
-**Signature**
-
-```ts
-export declare const flatMapEither: <A, E2, B>(
-  f: (a: A) => result.Result<E2, B>
-) => <E1>(ma: SyncResult<E1, A>) => SyncResult<E2 | E1, B>
 ```
 
 Added in v3.0.0
@@ -927,12 +915,24 @@ export declare const flatMapOption: <A, B, E2>(
 
 Added in v3.0.0
 
+## flatMapResult
+
+**Signature**
+
+```ts
+export declare const flatMapResult: <A, E2, B>(
+  f: (a: A) => result.Result<E2, B>
+) => <E1>(ma: SyncResult<E1, A>) => SyncResult<E2 | E1, B>
+```
+
+Added in v3.0.0
+
 ## flatMapSync
 
 **Signature**
 
 ```ts
-export declare const flatMapSync: <A, B>(f: (a: A) => io.Sync<B>) => <E>(self: SyncResult<E, A>) => SyncResult<E, B>
+export declare const flatMapSync: <A, B>(f: (a: A) => sync.Sync<B>) => <E>(self: SyncResult<E, A>) => SyncResult<E, B>
 ```
 
 Added in v3.0.0

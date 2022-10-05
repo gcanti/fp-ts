@@ -78,11 +78,11 @@ describe('SyncOption', () => {
     U.deepStrictEqual(f(3)(), O.some(3))
   })
 
-  it('fromSyncEither', () => {
+  it('fromSyncResult', () => {
     const pl = IE.fail('a')
     const pr = IE.succeed('a')
-    const fl = _.fromSyncEither(pl)
-    const fr = _.fromSyncEither(pr)
+    const fl = _.fromSyncResult(pl)
+    const fr = _.fromSyncResult(pr)
     U.deepStrictEqual(fl(), O.none)
     U.deepStrictEqual(fr(), O.some('a'))
   })
@@ -92,8 +92,8 @@ describe('SyncOption', () => {
   // -------------------------------------------------------------------------------------
 
   it('getOrElseIO', () => {
-    U.deepStrictEqual(pipe(_.some(1), _.getOrElseIO(I.succeed(2)))(), 1)
-    U.deepStrictEqual(pipe(_.none, _.getOrElseIO(I.succeed(2)))(), 2)
+    U.deepStrictEqual(pipe(_.some(1), _.getOrElseSync(I.succeed(2)))(), 1)
+    U.deepStrictEqual(pipe(_.none, _.getOrElseSync(I.succeed(2)))(), 2)
   })
 
   // -------------------------------------------------------------------------------------
@@ -116,7 +116,7 @@ describe('SyncOption', () => {
   })
 
   it('matchIO', () => {
-    const f = _.matchIO(
+    const f = _.matchSync(
       () => I.succeed('none'),
       (a) => I.succeed(`some(${a})`)
     )
@@ -124,18 +124,18 @@ describe('SyncOption', () => {
     U.deepStrictEqual(pipe(_.none, f)(), 'none')
   })
 
-  it('liftEither', () => {
+  it('liftResult', () => {
     const f = (s: string) => (s.length <= 2 ? E.succeed(s + '!') : E.fail(s.length))
-    const g = _.liftEither(f)
+    const g = _.liftResult(f)
     U.deepStrictEqual(g('')(), O.some('!'))
     U.deepStrictEqual(g('a')(), O.some('a!'))
     U.deepStrictEqual(g('aa')(), O.some('aa!'))
     U.deepStrictEqual(g('aaa')(), O.none)
   })
 
-  it('flatMapEither', () => {
+  it('flatMapResult', () => {
     const f = (s: string) => (s.length <= 2 ? E.succeed(s + '!') : E.fail(s.length))
-    const g = _.flatMapEither(f)
+    const g = _.flatMapResult(f)
     U.deepStrictEqual(g(_.succeed(''))(), O.some('!'))
     U.deepStrictEqual(g(_.succeed('a'))(), O.some('a!'))
     U.deepStrictEqual(g(_.succeed('aa'))(), O.some('aa!'))

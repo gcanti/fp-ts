@@ -50,7 +50,7 @@ pipe(_.succeed('a'), _.getOrElse(null))
 //
 
 // $ExpectType Sync<string | null>
-pipe(_.succeed('a'), _.getOrElseIO(IO.succeed(null)))
+pipe(_.succeed('a'), _.getOrElseSync(IO.succeed(null)))
 
 //
 // flatMapEitherK
@@ -60,7 +60,7 @@ pipe(_.succeed('a'), _.getOrElseIO(IO.succeed(null)))
 pipe(
   // tslint:disable-next-line: no-unnecessary-type-assertion
   _.succeed('a') as _.SyncResult<string, string>,
-  _.flatMapEither(() => E.succeed(1) as E.Result<number, number>)
+  _.flatMapResult(() => E.succeed(1) as E.Result<number, number>)
 )
 
 //

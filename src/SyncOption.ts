@@ -24,7 +24,7 @@ import { flow, identity, SK } from './Function'
 import * as functor from './Functor'
 import type { TypeLambda } from './HKT'
 import * as _ from './internal'
-import * as io from './Sync'
+import * as sync from './Sync'
 import type { SyncResult } from './SyncResult'
 import type * as monad from './Monad'
 import * as option from './Option'
@@ -57,7 +57,7 @@ export interface SyncOptionTypeLambda extends TypeLambda {
 /**
  * @since 3.0.0
  */
-export const emptyKind: <A>() => SyncOption<A> = /*#__PURE__*/ optionT.emptyKind(io.FromIdentity)
+export const emptyKind: <A>() => SyncOption<A> = /*#__PURE__*/ optionT.emptyKind(sync.FromIdentity)
 
 /**
  * @category constructors
@@ -69,33 +69,35 @@ export const none: SyncOption<never> = /*#__PURE__*/ emptyKind()
  * @category constructors
  * @since 3.0.0
  */
-export const some: <A>(a: A) => SyncOption<A> = /*#__PURE__*/ optionT.some(io.FromIdentity)
+export const some: <A>(a: A) => SyncOption<A> = /*#__PURE__*/ optionT.some(sync.FromIdentity)
 
 /**
  * @category conversions
  * @since 3.0.0
  */
-export const fromOption: <A>(fa: Option<A>) => SyncOption<A> = io.succeed
+export const fromOption: <A>(fa: Option<A>) => SyncOption<A> = sync.succeed
 
 /**
  * @category conversions
  * @since 3.0.0
  */
 export const fromResult: <A>(e: Result<unknown, A>) => Sync<option.Option<A>> = /*#__PURE__*/ optionT.fromResult(
-  io.FromIdentity
+  sync.FromIdentity
 )
 
 /**
  * @category conversions
  * @since 3.0.0
  */
-export const fromSync: <A>(ma: Sync<A>) => SyncOption<A> = /*#__PURE__*/ optionT.fromKind(io.Functor)
+export const fromSync: <A>(ma: Sync<A>) => SyncOption<A> = /*#__PURE__*/ optionT.fromKind(sync.Functor)
 
 /**
  * @category conversions
  * @since 3.0.0
  */
-export const fromSyncEither: <A>(ma: SyncResult<unknown, A>) => SyncOption<A> = /*#__PURE__*/ io.map(option.fromResult)
+export const fromSyncResult: <A>(ma: SyncResult<unknown, A>) => SyncOption<A> = /*#__PURE__*/ sync.map(
+  option.fromResult
+)
 
 // -------------------------------------------------------------------------------------
 // pattern matching
@@ -106,43 +108,43 @@ export const fromSyncEither: <A>(ma: SyncResult<unknown, A>) => SyncOption<A> = 
  * @since 3.0.0
  */
 export const match: <B, A, C = B>(onNone: LazyArg<B>, onSome: (a: A) => C) => (ma: SyncOption<A>) => Sync<B | C> =
-  /*#__PURE__*/ optionT.match(io.Functor)
+  /*#__PURE__*/ optionT.match(sync.Functor)
 
 /**
  * @category pattern matching
  * @since 3.0.0
  */
-export const matchIO: <B, A, C = B>(
+export const matchSync: <B, A, C = B>(
   onNone: LazyArg<Sync<B>>,
   onSome: (a: A) => Sync<C>
-) => (ma: SyncOption<A>) => Sync<B | C> = /*#__PURE__*/ optionT.matchKind(io.Flattenable)
+) => (ma: SyncOption<A>) => Sync<B | C> = /*#__PURE__*/ optionT.matchKind(sync.Flattenable)
 
 /**
  * @category error handling
  * @since 3.0.0
  */
 export const getOrElse: <B>(onNone: B) => <A>(self: SyncOption<A>) => Sync<A | B> = /*#__PURE__*/ optionT.getOrElse(
-  io.Functor
+  sync.Functor
 )
 
 /**
  * @category error handling
  * @since 3.0.0
  */
-export const getOrElseIO: <B>(onNone: Sync<B>) => <A>(self: SyncOption<A>) => Sync<A | B> =
-  /*#__PURE__*/ optionT.getOrElseKind(io.Monad)
+export const getOrElseSync: <B>(onNone: Sync<B>) => <A>(self: SyncOption<A>) => Sync<A | B> =
+  /*#__PURE__*/ optionT.getOrElseKind(sync.Monad)
 
 /**
  * @category conversions
  * @since 3.0.0
  */
-export const toUndefined: <A>(self: SyncOption<A>) => Sync<A | undefined> = io.map(option.toUndefined)
+export const toUndefined: <A>(self: SyncOption<A>) => Sync<A | undefined> = sync.map(option.toUndefined)
 
 /**
  * @category conversions
  * @since 3.0.0
  */
-export const toNull: <A>(self: SyncOption<A>) => Sync<A | null> = io.map(option.toNull)
+export const toNull: <A>(self: SyncOption<A>) => Sync<A | null> = sync.map(option.toNull)
 
 /**
  * Returns an effect whose success is mapped by the specified `f` function.
@@ -150,7 +152,9 @@ export const toNull: <A>(self: SyncOption<A>) => Sync<A | null> = io.map(option.
  * @category mapping
  * @since 3.0.0
  */
-export const map: <A, B>(f: (a: A) => B) => (fa: SyncOption<A>) => SyncOption<B> = /*#__PURE__*/ optionT.map(io.Functor)
+export const map: <A, B>(f: (a: A) => B) => (fa: SyncOption<A>) => SyncOption<B> = /*#__PURE__*/ optionT.map(
+  sync.Functor
+)
 
 /**
  * @category constructors
@@ -171,7 +175,7 @@ export const FromIdentity: fromIdentity.FromIdentity<SyncOptionTypeLambda> = {
  * @since 3.0.0
  */
 export const flatMap: <A, B>(f: (a: A) => SyncOption<B>) => (self: SyncOption<A>) => SyncOption<B> =
-  /*#__PURE__*/ optionT.flatMap(io.Monad)
+  /*#__PURE__*/ optionT.flatMap(sync.Monad)
 
 /**
  * @category instances
@@ -248,20 +252,20 @@ export const flatten: <A>(mma: SyncOption<SyncOption<A>>) => SyncOption<A> = /*#
  * @since 3.0.0
  */
 export const catchAll: <B>(that: LazyArg<SyncOption<B>>) => <A>(self: SyncOption<A>) => SyncOption<A | B> =
-  /*#__PURE__*/ optionT.catchAll(io.Monad)
+  /*#__PURE__*/ optionT.catchAll(sync.Monad)
 
 /**
  * @since 3.0.0
  */
 export const orElse: <B>(that: SyncOption<B>) => <A>(self: SyncOption<A>) => SyncOption<A | B> =
-  /*#__PURE__*/ optionT.orElse(io.Monad)
+  /*#__PURE__*/ optionT.orElse(sync.Monad)
 
 /**
  * @category filtering
  * @since 3.0.0
  */
 export const filterMap: <A, B>(f: (a: A) => Option<B>) => (fga: SyncOption<A>) => SyncOption<B> =
-  /*#__PURE__*/ filterable.filterMapComposition(io.Functor, option.Filterable)
+  /*#__PURE__*/ filterable.filterMapComposition(sync.Functor, option.Filterable)
 
 /**
  * @category filtering
@@ -270,7 +274,7 @@ export const filterMap: <A, B>(f: (a: A) => Option<B>) => (fga: SyncOption<A>) =
 export const partitionMap: <A, B, C>(
   f: (a: A) => Result<B, C>
 ) => (fa: SyncOption<A>) => readonly [SyncOption<B>, SyncOption<C>] = /*#__PURE__*/ filterable.partitionMapComposition(
-  io.Functor,
+  sync.Functor,
   option.Filterable
 )
 
@@ -361,7 +365,7 @@ export const tap: <A>(f: (a: A) => SyncOption<unknown>) => (self: SyncOption<A>)
  * @since 3.0.0
  */
 export const tapError: (onNone: SyncOption<unknown>) => <A>(self: SyncOption<A>) => SyncOption<A> =
-  /*#__PURE__*/ optionT.tapError(io.Monad)
+  /*#__PURE__*/ optionT.tapError(sync.Monad)
 
 /**
  * @category instances
@@ -401,7 +405,7 @@ export const Monad: monad.Monad<SyncOptionTypeLambda> = {
  * @since 3.0.0
  */
 export const compact: <A>(foa: SyncOption<option.Option<A>>) => SyncOption<A> =
-  /*#__PURE__*/ compactable.compactComposition(io.Functor, option.Compactable)
+  /*#__PURE__*/ compactable.compactComposition(sync.Functor, option.Compactable)
 
 /**
  * @category instances
@@ -547,16 +551,16 @@ export const FromResult: fromResult_.FromResult<SyncOptionTypeLambda> = {
  * @category lifting
  * @since 3.0.0
  */
-export const liftEither: <A extends ReadonlyArray<unknown>, E, B>(
+export const liftResult: <A extends ReadonlyArray<unknown>, E, B>(
   f: (...a: A) => Result<E, B>
-) => (...a: A) => SyncOption<B> = /*#__PURE__*/ fromResult_.liftEither(FromResult)
+) => (...a: A) => SyncOption<B> = /*#__PURE__*/ fromResult_.liftResult(FromResult)
 
 /**
  * @category sequencing
  * @since 3.0.0
  */
-export const flatMapEither: <A, E, B>(f: (a: A) => Result<E, B>) => (ma: SyncOption<A>) => SyncOption<B> =
-  /*#__PURE__*/ fromResult_.flatMapEither(FromResult, Flattenable)
+export const flatMapResult: <A, E, B>(f: (a: A) => Result<E, B>) => (ma: SyncOption<A>) => SyncOption<B> =
+  /*#__PURE__*/ fromResult_.flatMapResult(FromResult, Flattenable)
 
 // -------------------------------------------------------------------------------------
 // do notation
@@ -660,7 +664,7 @@ export const zipWith: <B, A, C>(that: SyncOption<B>, f: (a: A, b: B) => C) => (s
 export const traverseReadonlyNonEmptyArrayWithIndex = <A, B>(
   f: (index: number, a: A) => SyncOption<B>
 ): ((as: ReadonlyNonEmptyArray<A>) => SyncOption<ReadonlyNonEmptyArray<B>>) =>
-  flow(io.traverseReadonlyNonEmptyArrayWithIndex(f), io.map(option.traverseReadonlyNonEmptyArrayWithIndex(SK)))
+  flow(sync.traverseReadonlyNonEmptyArrayWithIndex(f), sync.map(option.traverseReadonlyNonEmptyArrayWithIndex(SK)))
 
 /**
  * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.

@@ -84,9 +84,9 @@ describe('ReaderAsync', () => {
     U.deepStrictEqual(await pipe(_.succeed('a'), _.flatMapSync(f))(undefined)(), 1)
   })
 
-  it('flatMapTask', async () => {
+  it('flatMapAsync', async () => {
     const f = flow(S.size, T.succeed)
-    U.deepStrictEqual(await pipe(_.succeed('a'), _.flatMapTask(f))(undefined)(), 1)
+    U.deepStrictEqual(await pipe(_.succeed('a'), _.flatMapAsync(f))(undefined)(), 1)
   })
 
   it('liftIO', async () => {
@@ -94,7 +94,7 @@ describe('ReaderAsync', () => {
     U.deepStrictEqual(await pipe(_.succeed('a'), _.flatMap(f))({})(), 1)
   })
 
-  it('liftTask', async () => {
+  it('liftAsync', async () => {
     const f = _.liftAsync(flow(S.size, T.succeed))
     U.deepStrictEqual(await pipe(_.succeed('a'), _.flatMap(f))({})(), 1)
   })

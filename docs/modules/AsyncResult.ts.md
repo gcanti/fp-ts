@@ -7,7 +7,7 @@ parent: Modules
 ## AsyncResult overview
 
 ```ts
-interface AsyncResult<E, A> extends Task<Either<E, A>> {}
+interface AsyncResult<E, A> extends Async<Result<E, A>> {}
 ```
 
 `AsyncResult<E, A>` represents an asynchronous computation that either yields a value of type `A` or fails yielding an
@@ -32,7 +32,7 @@ Added in v3.0.0
   - [fromOption](#fromoption)
   - [fromResult](#fromresult)
   - [fromSync](#fromsync)
-  - [fromSyncEither](#fromsynceither)
+  - [fromSyncResult](#fromsyncresult)
   - [toUnion](#tounion)
 - [do notation](#do-notation)
   - [Do](#do)
@@ -44,7 +44,7 @@ Added in v3.0.0
   - [catchAll](#catchall)
   - [flatMapError](#flatmaperror)
   - [getOrElse](#getorelse)
-  - [getOrElseTask](#getorelsetask)
+  - [getOrElseAsync](#getorelseasync)
   - [getValidatedApplicative](#getvalidatedapplicative)
   - [getValidatedSemigroupKind](#getvalidatedsemigroupkind)
   - [mapError](#maperror)
@@ -82,10 +82,10 @@ Added in v3.0.0
   - [lift3](#lift3)
   - [liftAsync](#liftasync)
   - [liftAsyncOption](#liftasyncoption)
-  - [liftEither](#lifteither)
   - [liftNullable](#liftnullable)
   - [liftOption](#liftoption)
   - [liftPredicate](#liftpredicate)
+  - [liftResult](#liftresult)
   - [liftSync](#liftsync)
   - [liftSyncResult](#liftsyncresult)
 - [logging](#logging)
@@ -101,16 +101,16 @@ Added in v3.0.0
   - [AsyncResult (interface)](#asyncresult-interface)
 - [pattern matching](#pattern-matching)
   - [match](#match)
-  - [matchTask](#matchtask)
+  - [matchAsync](#matchasync)
 - [sequencing](#sequencing)
   - [flatMap](#flatmap)
+  - [flatMapAsync](#flatmapasync)
   - [flatMapAsyncOption](#flatmapasyncoption)
-  - [flatMapEither](#flatmapeither)
   - [flatMapNullable](#flatmapnullable)
   - [flatMapOption](#flatmapoption)
+  - [flatMapResult](#flatmapresult)
   - [flatMapSync](#flatmapsync)
   - [flatMapSyncResult](#flatmapsyncresult)
-  - [flatMapTask](#flatmaptask)
   - [flatten](#flatten)
   - [zipLeft](#zipleft)
   - [zipRight](#zipright)
@@ -184,7 +184,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const failAsync: <E>(task: task.Async<E>) => AsyncResult<E, never>
+export declare const failAsync: <E>(async: async.Async<E>) => AsyncResult<E, never>
 ```
 
 Added in v3.0.0
@@ -194,7 +194,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const failSync: <E>(io: Sync<E>) => AsyncResult<E, never>
+export declare const failSync: <E>(sync: Sync<E>) => AsyncResult<E, never>
 ```
 
 Added in v3.0.0
@@ -204,7 +204,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromAsync: <A>(task: task.Async<A>) => AsyncResult<never, A>
+export declare const fromAsync: <A>(async: async.Async<A>) => AsyncResult<never, A>
 ```
 
 Added in v3.0.0
@@ -254,17 +254,17 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromSync: <A>(io: Sync<A>) => AsyncResult<never, A>
+export declare const fromSync: <A>(sync: Sync<A>) => AsyncResult<never, A>
 ```
 
 Added in v3.0.0
 
-## fromSyncEither
+## fromSyncResult
 
 **Signature**
 
 ```ts
-export declare const fromSyncEither: <E, A>(ioEither: SyncResult<E, A>) => AsyncResult<E, A>
+export declare const fromSyncResult: <E, A>(syncResult: SyncResult<E, A>) => AsyncResult<E, A>
 ```
 
 Added in v3.0.0
@@ -274,7 +274,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const toUnion: <E, A>(fa: AsyncResult<E, A>) => task.Async<E | A>
+export declare const toUnion: <E, A>(fa: AsyncResult<E, A>) => async.Async<E | A>
 ```
 
 Added in v3.0.0
@@ -389,7 +389,7 @@ one that may depend on the error produced by this one.
 
 ```ts
 export declare const flatMapError: <E1, E2>(
-  f: (e: E1) => task.Async<E2>
+  f: (e: E1) => async.Async<E2>
 ) => <A>(self: AsyncResult<E1, A>) => AsyncResult<E2, A>
 ```
 
@@ -400,19 +400,19 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getOrElse: <B>(onError: B) => <A>(self: AsyncResult<unknown, A>) => task.Async<B | A>
+export declare const getOrElse: <B>(onError: B) => <A>(self: AsyncResult<unknown, A>) => async.Async<B | A>
 ```
 
 Added in v3.0.0
 
-## getOrElseTask
+## getOrElseAsync
 
 **Signature**
 
 ```ts
-export declare const getOrElseTask: <B>(
-  onError: task.Async<B>
-) => <A>(self: AsyncResult<unknown, A>) => task.Async<B | A>
+export declare const getOrElseAsync: <B>(
+  onError: async.Async<B>
+) => <A>(self: AsyncResult<unknown, A>) => async.Async<B | A>
 ```
 
 Added in v3.0.0
@@ -426,7 +426,7 @@ get all errors you need to provide a way to combine them via a `Semigroup`.
 
 ```ts
 export declare const getValidatedApplicative: <E>(
-  Apply: apply.Apply<task.TaskTypeLambda>,
+  Apply: apply.Apply<async.AsyncTypeLambda>,
   Semigroup: Semigroup<E>
 ) => applicative.Applicative<result.ValidatedT<AsyncResultTypeLambda, E>>
 ```
@@ -885,7 +885,7 @@ Added in v3.0.0
 
 ```ts
 export declare const liftAsync: <A extends readonly unknown[], B>(
-  f: (...a: A) => task.Async<B>
+  f: (...a: A) => async.Async<B>
 ) => (...a: A) => AsyncResult<never, B>
 ```
 
@@ -899,18 +899,6 @@ Added in v3.0.0
 export declare const liftAsyncOption: <E>(
   onNone: E
 ) => <A extends readonly unknown[], B>(f: (...a: A) => AsyncOption<B>) => (...a: A) => AsyncResult<E, B>
-```
-
-Added in v3.0.0
-
-## liftEither
-
-**Signature**
-
-```ts
-export declare const liftEither: <A extends readonly unknown[], E, B>(
-  f: (...a: A) => result.Result<E, B>
-) => (...a: A) => AsyncResult<E, B>
 ```
 
 Added in v3.0.0
@@ -950,6 +938,18 @@ export declare const liftPredicate: {
   <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: E): (c: C) => AsyncResult<E, B>
   <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: E): (b: B) => AsyncResult<E, B>
 }
+```
+
+Added in v3.0.0
+
+## liftResult
+
+**Signature**
+
+```ts
+export declare const liftResult: <A extends readonly unknown[], E, B>(
+  f: (...a: A) => result.Result<E, B>
+) => (...a: A) => AsyncResult<E, B>
 ```
 
 Added in v3.0.0
@@ -1086,20 +1086,20 @@ Added in v3.0.0
 export declare const match: <E, B, A, C = B>(
   onError: (e: E) => B,
   onSuccess: (a: A) => C
-) => (task: AsyncResult<E, A>) => task.Async<B | C>
+) => (async: AsyncResult<E, A>) => async.Async<B | C>
 ```
 
 Added in v3.0.0
 
-## matchTask
+## matchAsync
 
 **Signature**
 
 ```ts
-export declare const matchTask: <E, B, A, C = B>(
-  onError: (e: E) => task.Async<B>,
-  onSuccess: (a: A) => task.Async<C>
-) => (self: AsyncResult<E, A>) => task.Async<B | C>
+export declare const matchAsync: <E, B, A, C = B>(
+  onError: (e: E) => async.Async<B>,
+  onSuccess: (a: A) => async.Async<C>
+) => (self: AsyncResult<E, A>) => async.Async<B | C>
 ```
 
 Added in v3.0.0
@@ -1118,6 +1118,18 @@ export declare const flatMap: <A, E2, B>(
 
 Added in v3.0.0
 
+## flatMapAsync
+
+**Signature**
+
+```ts
+export declare const flatMapAsync: <A, B>(
+  f: (a: A) => async.Async<B>
+) => <E>(self: AsyncResult<E, A>) => AsyncResult<E, B>
+```
+
+Added in v3.0.0
+
 ## flatMapAsyncOption
 
 **Signature**
@@ -1126,18 +1138,6 @@ Added in v3.0.0
 export declare const flatMapAsyncOption: <A, B, E2>(
   f: (a: A) => AsyncOption<B>,
   onNone: E2
-) => <E1>(self: AsyncResult<E1, A>) => AsyncResult<E2 | E1, B>
-```
-
-Added in v3.0.0
-
-## flatMapEither
-
-**Signature**
-
-```ts
-export declare const flatMapEither: <A, E2, B>(
-  f: (a: A) => result.Result<E2, B>
 ) => <E1>(self: AsyncResult<E1, A>) => AsyncResult<E2 | E1, B>
 ```
 
@@ -1169,6 +1169,18 @@ export declare const flatMapOption: <A, B, E2>(
 
 Added in v3.0.0
 
+## flatMapResult
+
+**Signature**
+
+```ts
+export declare const flatMapResult: <A, E2, B>(
+  f: (a: A) => result.Result<E2, B>
+) => <E1>(self: AsyncResult<E1, A>) => AsyncResult<E2 | E1, B>
+```
+
+Added in v3.0.0
+
 ## flatMapSync
 
 **Signature**
@@ -1187,18 +1199,6 @@ Added in v3.0.0
 export declare const flatMapSyncResult: <A, E2, B>(
   f: (a: A) => SyncResult<E2, B>
 ) => <E1>(self: AsyncResult<E1, A>) => AsyncResult<E2 | E1, B>
-```
-
-Added in v3.0.0
-
-## flatMapTask
-
-**Signature**
-
-```ts
-export declare const flatMapTask: <A, B>(
-  f: (a: A) => task.Async<B>
-) => <E>(self: AsyncResult<E, A>) => AsyncResult<E, B>
 ```
 
 Added in v3.0.0
