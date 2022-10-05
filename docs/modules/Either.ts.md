@@ -26,8 +26,7 @@ Added in v3.0.0
 
 - [constructors](#constructors)
   - [left](#left)
-  - [of](#of)
-  - [right](#right)
+  - [succeed](#succeed)
 - [conversions](#conversions)
   - [fromNullable](#fromnullable)
   - [fromOption](#fromoption)
@@ -132,7 +131,7 @@ Added in v3.0.0
 - [type lambdas](#type-lambdas)
   - [EitherTypeLambda (interface)](#eithertypelambda-interface)
   - [EitherTypeLambdaFix (interface)](#eithertypelambdafix-interface)
-  - [ValidatedTypeLambda (interface)](#validatedtypelambda-interface)
+  - [ValidatedT (interface)](#validatedt-interface)
 - [utils](#utils)
   - [ap](#ap)
   - [composeKind](#composekind)
@@ -161,19 +160,7 @@ export declare const left: <E>(e: E) => Either<E, never>
 
 Added in v3.0.0
 
-## of
-
-Alias of `right`.
-
-**Signature**
-
-```ts
-export declare const of: <A>(a: A) => Either<never, A>
-```
-
-Added in v3.0.0
-
-## right
+## succeed
 
 Constructs a new `Either` holding a `Right` value. This usually represents a successful value due to the right bias
 of this structure.
@@ -181,7 +168,7 @@ of this structure.
 **Signature**
 
 ```ts
-export declare const right: <A>(a: A) => Either<never, A>
+export declare const succeed: <A>(a: A) => Either<never, A>
 ```
 
 Added in v3.0.0
@@ -206,7 +193,7 @@ import * as E from 'fp-ts/Either'
 
 const parse = E.fromNullable('nully')
 
-assert.deepStrictEqual(parse(1), E.right(1))
+assert.deepStrictEqual(parse(1), E.succeed(1))
 assert.deepStrictEqual(parse(null), E.left('nully'))
 ```
 
@@ -227,7 +214,7 @@ import * as E from 'fp-ts/Either'
 import { pipe } from 'fp-ts/Function'
 import * as O from 'fp-ts/Option'
 
-assert.deepStrictEqual(pipe(O.some(1), E.fromOption('error')), E.right(1))
+assert.deepStrictEqual(pipe(O.some(1), E.fromOption('error')), E.succeed(1))
 assert.deepStrictEqual(pipe(O.none, E.fromOption('error')), E.left('error'))
 ```
 
@@ -370,7 +357,7 @@ export declare const getOrElse: <B>(onError: B) => <A>(self: Either<unknown, A>)
 import * as E from 'fp-ts/Either'
 import { pipe } from 'fp-ts/Function'
 
-assert.deepStrictEqual(pipe(E.right(1), E.getOrElse(0)), 1)
+assert.deepStrictEqual(pipe(E.succeed(1), E.getOrElse(0)), 1)
 assert.deepStrictEqual(pipe(E.left('error'), E.getOrElse(0)), 0)
 ```
 
@@ -386,7 +373,7 @@ get all errors you need to provide a way to combine them via a `Semigroup`.
 ```ts
 export declare const getValidatedApplicative: <E>(
   Semigroup: Semigroup<E>
-) => applicative.Applicative<ValidatedTypeLambda<EitherTypeLambda, E>>
+) => applicative.Applicative<ValidatedT<EitherTypeLambda, E>>
 ```
 
 **Example**
@@ -399,10 +386,10 @@ import * as S from 'fp-ts/Semigroup'
 import * as string from 'fp-ts/string'
 
 const parseString = (u: unknown): E.Either<string, string> =>
-  typeof u === 'string' ? E.right(u) : E.left('not a string')
+  typeof u === 'string' ? E.succeed(u) : E.left('not a string')
 
 const parseNumber = (u: unknown): E.Either<string, number> =>
-  typeof u === 'number' ? E.right(u) : E.left('not a number')
+  typeof u === 'number' ? E.succeed(u) : E.left('not a number')
 
 interface Person {
   readonly name: string
@@ -436,7 +423,7 @@ get all errors you need to provide a way to combine them via a `Semigroup`.
 ```ts
 export declare const getValidatedSemigroupKind: <E>(
   Semigroup: Semigroup<E>
-) => semigroupKind.SemigroupKind<ValidatedTypeLambda<EitherTypeLambda, E>>
+) => semigroupKind.SemigroupKind<ValidatedT<EitherTypeLambda, E>>
 ```
 
 **Example**
@@ -448,10 +435,10 @@ import * as S from 'fp-ts/Semigroup'
 import * as string from 'fp-ts/string'
 
 const parseString = (u: unknown): E.Either<string, string> =>
-  typeof u === 'string' ? E.right(u) : E.left('not a string')
+  typeof u === 'string' ? E.succeed(u) : E.left('not a string')
 
 const parseNumber = (u: unknown): E.Either<string, number> =>
-  typeof u === 'number' ? E.right(u) : E.left('not a number')
+  typeof u === 'number' ? E.succeed(u) : E.left('not a number')
 
 const parse = (u: unknown): E.Either<string, string | number> =>
   pipe(parseString(u), E.orElse<string, string | number>(parseNumber(u)))
@@ -488,12 +475,12 @@ types of kind `* -> *`.
 
 In case of `Either` returns the left-most non-`Left` value (or the right-most `Left` value if both values are `Left`).
 
-| x        | y        | pipe(x, orElse(y) |
-| -------- | -------- | ----------------- |
-| left(a)  | left(b)  | left(b)           |
-| left(a)  | right(2) | right(2)          |
-| right(1) | left(b)  | right(1)          |
-| right(1) | right(2) | right(1)          |
+| x          | y          | pipe(x, orElse(y) |
+| ---------- | ---------- | ----------------- |
+| left(a)    | left(b)    | left(b)           |
+| left(a)    | succeed(2) | succeed(2)        |
+| succeed(1) | left(b)    | succeed(1)        |
+| succeed(1) | succeed(2) | succeed(1)        |
 
 **Signature**
 
@@ -508,9 +495,9 @@ import * as E from 'fp-ts/Either'
 import { pipe } from 'fp-ts/Function'
 
 assert.deepStrictEqual(pipe(E.left('a'), E.orElse(E.left('b'))), E.left('b'))
-assert.deepStrictEqual(pipe(E.left('a'), E.orElse(E.right(2))), E.right(2))
-assert.deepStrictEqual(pipe(E.right(1), E.orElse(E.left('b'))), E.right(1))
-assert.deepStrictEqual(pipe(E.right(1), E.orElse(E.right(2))), E.right(1))
+assert.deepStrictEqual(pipe(E.left('a'), E.orElse(E.succeed(2))), E.succeed(2))
+assert.deepStrictEqual(pipe(E.succeed(1), E.orElse(E.left('b'))), E.succeed(1))
+assert.deepStrictEqual(pipe(E.succeed(1), E.orElse(E.succeed(2))), E.succeed(1))
 ```
 
 Added in v3.0.0
@@ -562,14 +549,14 @@ import { pipe } from 'fp-ts/Function'
 
 assert.deepStrictEqual(
   pipe(
-    E.right(1),
+    E.succeed(1),
     E.filter((n) => n > 0, 'error')
   ),
-  E.right(1)
+  E.succeed(1)
 )
 assert.deepStrictEqual(
   pipe(
-    E.right(-1),
+    E.succeed(-1),
     E.filter((n) => n > 0, 'error')
   ),
   E.left('error')
@@ -688,7 +675,7 @@ import { Monoid } from 'fp-ts/string'
 
 const yell = (a: string) => `${a}!`
 
-assert.deepStrictEqual(pipe(E.right('a'), E.foldMap(Monoid)(yell)), 'a!')
+assert.deepStrictEqual(pipe(E.succeed('a'), E.foldMap(Monoid)(yell)), 'a!')
 
 assert.deepStrictEqual(pipe(E.left('e'), E.foldMap(Monoid)(yell)), Monoid.empty)
 ```
@@ -714,7 +701,7 @@ import * as E from 'fp-ts/Either'
 const startWith = 'prefix'
 const combine = (a: string, b: string) => `${a}:${b}`
 
-assert.deepStrictEqual(pipe(E.right('a'), E.reduce(startWith, combine)), 'prefix:a')
+assert.deepStrictEqual(pipe(E.succeed('a'), E.reduce(startWith, combine)), 'prefix:a')
 
 assert.deepStrictEqual(pipe(E.left('e'), E.reduce(startWith, combine)), 'prefix')
 ```
@@ -740,7 +727,7 @@ import * as E from 'fp-ts/Either'
 const startWith = 'postfix'
 const combine = (a: string, b: string) => `${a}:${b}`
 
-assert.deepStrictEqual(pipe(E.right('a'), E.reduceRight(startWith, combine)), 'a:postfix')
+assert.deepStrictEqual(pipe(E.succeed('a'), E.reduceRight(startWith, combine)), 'a:postfix')
 
 assert.deepStrictEqual(pipe(E.left('e'), E.reduceRight(startWith, combine)), 'postfix')
 ```
@@ -904,7 +891,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getCompactable: <E>(onNone: E) => Compactable<ValidatedTypeLambda<EitherTypeLambda, E>>
+export declare const getCompactable: <E>(onNone: E) => Compactable<ValidatedT<EitherTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -924,7 +911,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFilterable: <E>(onEmpty: E) => filterable.Filterable<ValidatedTypeLambda<EitherTypeLambda, E>>
+export declare const getFilterable: <E>(onEmpty: E) => filterable.Filterable<ValidatedT<EitherTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -936,7 +923,7 @@ Builds `FilterableKind` instance for `Either` given `Monoid` for the left side
 **Signature**
 
 ```ts
-export declare const getFilterableKind: <E>(onEmpty: E) => FilterableKind<ValidatedTypeLambda<EitherTypeLambda, E>>
+export declare const getFilterableKind: <E>(onEmpty: E) => FilterableKind<ValidatedT<EitherTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -961,9 +948,9 @@ import { pipe } from 'fp-ts/Function'
 
 const S = E.getSemigroup<number, string>(N.SemigroupSum)
 assert.deepStrictEqual(pipe(E.left('a'), S.combine(E.left('b'))), E.left('a'))
-assert.deepStrictEqual(pipe(E.left('a'), S.combine(E.right(2))), E.right(2))
-assert.deepStrictEqual(pipe(E.right(1), S.combine(E.left('b'))), E.right(1))
-assert.deepStrictEqual(pipe(E.right(1), S.combine(E.right(2))), E.right(3))
+assert.deepStrictEqual(pipe(E.left('a'), S.combine(E.succeed(2))), E.succeed(2))
+assert.deepStrictEqual(pipe(E.succeed(1), S.combine(E.left('b'))), E.succeed(1))
+assert.deepStrictEqual(pipe(E.succeed(1), S.combine(E.succeed(2))), E.succeed(3))
 ```
 
 Added in v3.0.0
@@ -1007,7 +994,7 @@ const unsafeHead = <A>(as: ReadonlyArray<A>): A => {
 const head = <A>(as: ReadonlyArray<A>): E.Either<unknown, A> => E.fromThrowable(() => unsafeHead(as), identity)
 
 assert.deepStrictEqual(head([]), E.left(new Error('empty array')))
-assert.deepStrictEqual(head([1, 2, 3]), E.right(1))
+assert.deepStrictEqual(head([1, 2, 3]), E.succeed(1))
 ```
 
 Added in v3.0.0
@@ -1097,7 +1084,7 @@ export declare const liftPredicate: {
 **Example**
 
 ```ts
-import { liftPredicate, left, right } from 'fp-ts/Either'
+import { liftPredicate, left, succeed } from 'fp-ts/Either'
 import { pipe } from 'fp-ts/Function'
 
 assert.deepStrictEqual(
@@ -1105,7 +1092,7 @@ assert.deepStrictEqual(
     1,
     liftPredicate((n) => n > 0, 'error')
   ),
-  right(1)
+  succeed(1)
 )
 assert.deepStrictEqual(
   pipe(
@@ -1209,7 +1196,7 @@ Added in v3.0.0
 ```ts
 export interface Right<A> {
   readonly _tag: 'Right'
-  readonly right: A
+  readonly success: A
 }
 ```
 
@@ -1241,7 +1228,7 @@ const onError = (errors: ReadonlyArray<string>): string => `Errors: ${errors.joi
 
 const onSuccess = (value: number): string => `Ok: ${value}`
 
-assert.strictEqual(pipe(E.right(1), E.match(onError, onSuccess)), 'Ok: 1')
+assert.strictEqual(pipe(E.succeed(1), E.match(onError, onSuccess)), 'Ok: 1')
 assert.strictEqual(pipe(E.left(['error 1', 'error 2']), E.match(onError, onSuccess)), 'Errors: error 1, error 2')
 ```
 
@@ -1336,8 +1323,8 @@ export declare const flatten: <E1, E2, A>(mma: Either<E1, Either<E2, A>>) => Eit
 ```ts
 import * as E from 'fp-ts/Either'
 
-assert.deepStrictEqual(E.flatten(E.right(E.right('a'))), E.right('a'))
-assert.deepStrictEqual(E.flatten(E.right(E.left('e'))), E.left('e'))
+assert.deepStrictEqual(E.flatten(E.succeed(E.succeed('a'))), E.succeed('a'))
+assert.deepStrictEqual(E.flatten(E.succeed(E.left('e'))), E.left('e'))
 assert.deepStrictEqual(E.flatten(E.left('e')), E.left('e'))
 ```
 
@@ -1416,9 +1403,9 @@ import * as RA from 'fp-ts/ReadonlyArray'
 import * as E from 'fp-ts/Either'
 import * as O from 'fp-ts/Option'
 
-assert.deepStrictEqual(pipe(E.right(['a']), E.traverse(O.Applicative)(RA.head)), O.some(E.right('a')))
+assert.deepStrictEqual(pipe(E.succeed(['a']), E.traverse(O.Applicative)(RA.head)), O.some(E.succeed('a')))
 
-assert.deepStrictEqual(pipe(E.right([]), E.traverse(O.Applicative)(RA.head)), O.none)
+assert.deepStrictEqual(pipe(E.succeed([]), E.traverse(O.Applicative)(RA.head)), O.none)
 ```
 
 Added in v3.0.0
@@ -1556,12 +1543,12 @@ export interface EitherTypeLambdaFix<E> extends TypeLambda {
 
 Added in v3.0.0
 
-## ValidatedTypeLambda (interface)
+## ValidatedT (interface)
 
 **Signature**
 
 ```ts
-export interface ValidatedTypeLambda<F extends TypeLambda, E> extends TypeLambda {
+export interface ValidatedT<F extends TypeLambda, E> extends TypeLambda {
   readonly type: Kind<F, this['InOut1'], this['In1'], this['Out3'], E, this['Out1']>
 }
 ```
@@ -1632,8 +1619,8 @@ import * as E from 'fp-ts/Either'
 const f = E.exists((n: number) => n > 2)
 
 assert.strictEqual(f(E.left('a')), false)
-assert.strictEqual(f(E.right(1)), false)
-assert.strictEqual(f(E.right(3)), true)
+assert.strictEqual(f(E.succeed(1)), false)
+assert.strictEqual(f(E.succeed(3)), true)
 ```
 
 Added in v3.0.0

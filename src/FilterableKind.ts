@@ -107,7 +107,7 @@ export const partitionKind =
       return partitionMapKind((b) =>
         pipe(
           predicate(b),
-          Applicative.map((ok) => (ok ? _.right(b) : _.left(b)))
+          Applicative.map((ok) => (ok ? _.succeed(b) : _.left(b)))
         )
       )
     }

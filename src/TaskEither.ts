@@ -69,14 +69,7 @@ export const left: <E>(e: E) => TaskEither<E, never> = /*#__PURE__*/ eitherT.lef
  * @category constructors
  * @since 3.0.0
  */
-export const right: <A>(a: A) => TaskEither<never, A> = /*#__PURE__*/ eitherT.right(task.FromIdentity)
-
-/**
- * Alias of `right`.
- *
- * @since 3.0.0
- */
-export const of = right
+export const succeed: <A>(a: A) => TaskEither<never, A> = /*#__PURE__*/ eitherT.succeed(task.FromIdentity)
 
 /**
  * @category conversions
@@ -106,7 +99,7 @@ export const leftIO: <E>(io: IO<E>) => TaskEither<E, never> = /*#__PURE__*/ flow
  * @category conversions
  * @since 3.0.0
  */
-export const fromEither: <E, A>(either: Either<E, A>) => TaskEither<E, A> = task.of
+export const fromEither: <E, A>(either: Either<E, A>) => TaskEither<E, A> = task.succeed
 
 /**
  * @category conversions
@@ -168,7 +161,7 @@ export const getOrElseTask: <B>(onError: Task<B>) => <A>(self: TaskEither<unknow
  * import { identity } from 'fp-ts/Function'
  *
  * async function test() {
- *   assert.deepStrictEqual(await TE.fromRejectable(() => Promise.resolve(1), identity)(), E.right(1))
+ *   assert.deepStrictEqual(await TE.fromRejectable(() => Promise.resolve(1), identity)(), E.succeed(1))
  *   assert.deepStrictEqual(await TE.fromRejectable(() => Promise.reject('error'), identity)(), E.left('error'))
  * }
  *
@@ -182,7 +175,7 @@ export const fromRejectable =
   <A, E>(f: LazyArg<Promise<A>>, onRejected: (reason: unknown) => E): TaskEither<E, A> =>
   async () => {
     try {
-      return await f().then(_.right)
+      return await f().then(_.succeed)
     } catch (reason) {
       return _.left(onRejected(reason))
     }
@@ -211,9 +204,9 @@ export const liftRejectable =
  * import * as TE from 'fp-ts/TaskEither'
  *
  * async function test() {
- *   const errorHandler = TE.catchAll((error: string) => TE.right(`recovering from ${error}...`))
- *   assert.deepStrictEqual(await pipe(TE.right('ok'), errorHandler)(), E.right('ok'))
- *   assert.deepStrictEqual(await pipe(TE.left('ko'), errorHandler)(), E.right('recovering from ko...'))
+ *   const errorHandler = TE.catchAll((error: string) => TE.succeed(`recovering from ${error}...`))
+ *   assert.deepStrictEqual(await pipe(TE.succeed('ok'), errorHandler)(), E.succeed('ok'))
+ *   assert.deepStrictEqual(await pipe(TE.left('ko'), errorHandler)(), E.succeed('recovering from ko...'))
  * }
  *
  * test()
@@ -337,17 +330,17 @@ export const flatten: <E1, E2, A>(self: TaskEither<E1, TaskEither<E2, A>>) => Ta
  * async function test() {
  *   assert.deepStrictEqual(
  *     await pipe(
- *       TE.right(1),
- *       TE.orElse(TE.right(2))
+ *       TE.succeed(1),
+ *       TE.orElse(TE.succeed(2))
  *     )(),
- *     E.right(1)
+ *     E.succeed(1)
  *   )
  *   assert.deepStrictEqual(
  *     await pipe(
  *       TE.left('a'),
- *       TE.orElse(TE.right(2))
+ *       TE.orElse(TE.succeed(2))
  *     )(),
- *     E.right(2)
+ *     E.succeed(2)
  *   )
  *   assert.deepStrictEqual(
  *     await pipe(
@@ -380,7 +373,7 @@ export const getValidatedApplicative = <E>(
 ): applicative.Applicative<either.ValidatedT<TaskEitherTypeLambda, E>> => ({
   map,
   ap: apply.apComposition(Apply, either.getValidatedApplicative(Semigroup)),
-  of
+  succeed
 })
 
 /**
@@ -471,7 +464,7 @@ export const unit: <E>(self: TaskEither<E, unknown>) => TaskEither<E, void> = /*
  * @since 3.0.0
  */
 export const FromIdentity: fromIdentity.FromIdentity<TaskEitherTypeLambda> = {
-  of
+  succeed
 }
 
 /**
@@ -578,7 +571,7 @@ export const lift3: <A, B, C, D>(
 export const Applicative: applicative.Applicative<TaskEitherTypeLambda> = {
   map,
   ap,
-  of
+  succeed
 }
 
 /**
@@ -606,7 +599,7 @@ export const tapError: <E1, E2>(
  */
 export const Monad: monad.Monad<TaskEitherTypeLambda> = {
   map,
-  of,
+  succeed,
   flatMap
 }
 
@@ -891,7 +884,7 @@ export function taskify<L, R>(f: Function): () => TaskEither<L, R> {
     const args = Array.prototype.slice.call(arguments)
     return () =>
       new Promise((resolve) => {
-        const cbResolver = (e: L, r: R) => (e != null ? resolve(_.left(e)) : resolve(_.right(r)))
+        const cbResolver = (e: L, r: R) => (e != null ? resolve(_.left(e)) : resolve(_.succeed(r)))
         f.apply(null, args.concat(cbResolver))
       })
   }
@@ -919,7 +912,7 @@ export const bracket: <E1, A, E2, B, E3>(
  * @category do notation
  * @since 3.0.0
  */
-export const Do: TaskEither<never, {}> = /*#__PURE__*/ of(_.Do)
+export const Do: TaskEither<never, {}> = /*#__PURE__*/ succeed(_.Do)
 
 /**
  * @category do notation
@@ -977,7 +970,7 @@ export const bindRight: <N extends string, A extends object, E2, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const Zip: TaskEither<never, readonly []> = /*#__PURE__*/ of(_.Zip)
+export const Zip: TaskEither<never, readonly []> = /*#__PURE__*/ succeed(_.Zip)
 
 /**
  * @category tuple sequencing
@@ -1092,7 +1085,7 @@ export const traverseReadonlyNonEmptyArrayWithIndex =
                 if (_.isLeft(eb)) {
                   return eb
                 }
-                ebs.right.push(eb.right)
+                ebs.success.push(eb.success)
                 return ebs
               })
         ),

@@ -25,7 +25,7 @@ Added in v3.0.0
   - [mapError](#maperror)
   - [match](#match)
   - [matchKind](#matchkind)
-  - [right](#right)
+  - [succeed](#succeed)
   - [swap](#swap)
   - [toTuple2](#totuple2)
 
@@ -205,12 +205,12 @@ export declare const matchKind: <F extends TypeLambda>(
 
 Added in v3.0.0
 
-## right
+## succeed
 
 **Signature**
 
 ```ts
-export declare const right: <F extends TypeLambda>(
+export declare const succeed: <F extends TypeLambda>(
   FromIdentity: FromIdentity<F>
 ) => <A, S>(a: A) => Kind<F, S, unknown, never, never, These<never, A>>
 ```
@@ -237,7 +237,7 @@ Added in v3.0.0
 export declare const toTuple2: <F extends TypeLambda>(
   Functor: Functor<F>
 ) => <E, A>(
-  onRight: E,
+  onSuccess: E,
   onLeft: A
 ) => <S, R, O, FE>(self: Kind<F, S, R, O, FE, These<E, A>>) => Kind<F, S, R, O, FE, readonly [E, A]>
 ```

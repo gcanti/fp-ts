@@ -75,7 +75,7 @@ export const some: <A>(a: A) => IOOption<A> = /*#__PURE__*/ optionT.some(io.From
  * @category conversions
  * @since 3.0.0
  */
-export const fromOption: <A>(fa: Option<A>) => IOOption<A> = io.of
+export const fromOption: <A>(fa: Option<A>) => IOOption<A> = io.succeed
 
 /**
  * @category conversions
@@ -158,14 +158,14 @@ export const map: <A, B>(f: (a: A) => B) => (fa: IOOption<A>) => IOOption<B> = /
  * @category constructors
  * @since 3.0.0
  */
-export const of: <A>(a: A) => IOOption<A> = some
+export const succeed: <A>(a: A) => IOOption<A> = some
 
 /**
  * @category instances
  * @since 3.0.0
  */
 export const FromIdentity: fromIdentity.FromIdentity<IOOptionTypeLambda> = {
-  of
+  succeed
 }
 
 /**
@@ -346,7 +346,7 @@ export const lift3: <A, B, C, D>(
 export const Applicative: applicative.Applicative<IOOptionTypeLambda> = {
   map,
   ap,
-  of
+  succeed
 }
 
 /**
@@ -395,7 +395,7 @@ export const guard: (b: boolean) => IOOption<void> = /*#__PURE__*/ monoidKind.gu
  */
 export const Monad: monad.Monad<IOOptionTypeLambda> = {
   map,
-  of,
+  succeed,
   flatMap
 }
 
@@ -565,7 +565,7 @@ export const flatMapEither: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: IOOptio
  * @category do notation
  * @since 3.0.0
  */
-export const Do: IOOption<{}> = /*#__PURE__*/ of(_.Do)
+export const Do: IOOption<{}> = /*#__PURE__*/ succeed(_.Do)
 
 /**
  * @category do notation
@@ -618,7 +618,7 @@ export const bindRight: <N extends string, A extends object, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const Zip: IOOption<readonly []> = /*#__PURE__*/ of(_.Zip)
+export const Zip: IOOption<readonly []> = /*#__PURE__*/ succeed(_.Zip)
 
 /**
  * @category tuple sequencing

@@ -57,7 +57,7 @@ export const left: <E>(e: E) => TaskThese<E, never> = /*#__PURE__*/ theseT.left(
  * @category constructors
  * @since 3.0.0
  */
-export const right: <A>(a: A) => TaskThese<never, A> = /*#__PURE__*/ theseT.right(task.FromIdentity)
+export const succeed: <A>(a: A) => TaskThese<never, A> = /*#__PURE__*/ theseT.succeed(task.FromIdentity)
 
 /**
  * @category constructors
@@ -99,13 +99,13 @@ export const fromIOEither: <E, A>(fa: IOEither<E, A>) => TaskThese<E, A> = /*#__
  * @category conversions
  * @since 3.0.0
  */
-export const fromEither: <E, A>(fa: Either<E, A>) => TaskThese<E, A> = task.of
+export const fromEither: <E, A>(fa: Either<E, A>) => TaskThese<E, A> = task.succeed
 
 /**
  * @category conversions
  * @since 3.0.0
  */
-export const fromThese: <E, A>(fa: these.These<E, A>) => TaskThese<E, A> = task.of
+export const fromThese: <E, A>(fa: these.These<E, A>) => TaskThese<E, A> = task.succeed
 
 // -------------------------------------------------------------------------------------
 // pattern matching
@@ -172,14 +172,6 @@ export const mapBoth: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (self: Tas
 export const mapError: <E, G>(f: (e: E) => G) => <A>(self: TaskThese<E, A>) => TaskThese<G, A> =
   /*#__PURE__*/ theseT.mapError(task.Functor)
 
-/**
- * Alias of `right`.
- *
- * @category constructors
- * @since 3.0.0
- */
-export const of = right
-
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
@@ -208,7 +200,7 @@ export const getApplicative = <E>(
   return {
     map,
     ap: AS.ap,
-    of
+    succeed
   }
 }
 
@@ -229,7 +221,7 @@ export const getMonad = <E>(S: Semigroup<E>): Monad<ValidatedT<TaskTheseTypeLamb
   const C = getFlattenable(S)
   return {
     map,
-    of,
+    succeed,
     flatMap: C.flatMap
   }
 }
@@ -270,7 +262,7 @@ export const unit: <E>(self: TaskThese<E, unknown>) => TaskThese<E, void> = /*#_
  * @since 3.0.0
  */
 export const FromIdentity: fromIdentity.FromIdentity<TaskTheseTypeLambda> = {
-  of
+  succeed
 }
 
 /**
@@ -424,7 +416,7 @@ export const toTuple2: <E, A>(e: E, a: A) => (fa: TaskThese<E, A>) => Task<reado
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const Zip: TaskThese<never, readonly []> = /*#__PURE__*/ of(_.Zip)
+export const Zip: TaskThese<never, readonly []> = /*#__PURE__*/ succeed(_.Zip)
 
 // -------------------------------------------------------------------------------------
 // array utils
@@ -521,13 +513,13 @@ export const traverseReadonlyNonEmptyArrayWithIndex =
                   return eb
                 }
                 if (these.isBoth(eb)) {
-                  const right = ebs.right
-                  right.push(eb.right)
+                  const success = ebs.success
+                  success.push(eb.success)
                   return these.isBoth(ebs)
-                    ? these.both(S.combine(eb.left)(ebs.left), right)
-                    : these.both(eb.left, right)
+                    ? these.both(S.combine(eb.left)(ebs.left), success)
+                    : these.both(eb.left, success)
                 }
-                ebs.right.push(eb.right)
+                ebs.success.push(eb.success)
                 return ebs
               })
         ),

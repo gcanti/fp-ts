@@ -27,10 +27,10 @@ export interface EitherT<F extends TypeLambda, E> extends TypeLambda {
 /**
  * @since 3.0.0
  */
-export const right =
+export const succeed =
   <F extends TypeLambda>(FromIdentity: FromIdentity<F>) =>
   <A, S>(a: A): Kind<EitherT<F, never>, S, unknown, never, never, A> =>
-    FromIdentity.of(either.right(a))
+    FromIdentity.succeed(either.succeed(a))
 
 /**
  * @since 3.0.0
@@ -38,7 +38,7 @@ export const right =
 export const left =
   <F extends TypeLambda>(FromIdentity: FromIdentity<F>) =>
   <E, S>(e: E): Kind<EitherT<F, E>, S, unknown, never, never, never> =>
-    FromIdentity.of(either.left(e))
+    FromIdentity.succeed(either.left(e))
 
 /**
  * @since 3.0.0
@@ -46,7 +46,7 @@ export const left =
 export const fromKind = <F extends TypeLambda>(
   Functor: Functor<F>
 ): (<S, R, O, FE, A>(fa: Kind<F, S, R, O, FE, A>) => Kind<EitherT<F, never>, S, R, O, FE, A>) =>
-  Functor.map(either.right)
+  Functor.map(either.succeed)
 
 /**
  * @since 3.0.0
@@ -92,7 +92,7 @@ export const flatMap =
       self,
       Monad.flatMap(
         (e): Kind<EitherT<F, E1 | E2>, S, R1 & R2, O1 | O2, FE1 | FE2, B> =>
-          either.isLeft(e) ? Monad.of(e) : f(e.right)
+          either.isLeft(e) ? Monad.succeed(e) : f(e.success)
       )
     )
 
@@ -111,7 +111,7 @@ export const flatMapError =
       Monad.flatMap<Either<E1, A>, S, R, O, FE, Either<E2, A>>(
         either.match(
           (e) => pipe(f(e), Monad.map(either.left)),
-          (a) => Monad.of(either.right(a))
+          (a) => Monad.succeed(either.succeed(a))
         )
       )
     )
@@ -128,7 +128,7 @@ export const catchAll =
     pipe(
       self,
       Monad.flatMap<Either<E1, A>, S, R1 & R2, O1 | O2, FE1 | FE2, Either<E2, A | B>>((e) =>
-        either.isLeft(e) ? onError(e.left) : Monad.of(e)
+        either.isLeft(e) ? onError(e.left) : Monad.succeed(e)
       )
     )
 
@@ -177,13 +177,13 @@ export const getValidatedCombineKind =
   <R1, O1, FE1, A>(
     self: Kind<EitherT<F, E>, S, R1, O1, FE1, A>
   ): Kind<EitherT<F, E>, S, R1 & R2, O1 | O2, FE1 | FE2, A | B> => {
-    const right_ = right(Monad)
+    const succeed_ = succeed(Monad)
     return pipe(
       self,
       Monad.flatMap(
         either.match<E, Kind<F, S, R1 & R2, O1 | O2, FE1 | FE2, Either<E, A | B>>, A | B>(
           (e1) => pipe(that, Monad.map(either.mapError((e2) => Semigroup.combine(e2)(e1)))),
-          right_
+          succeed_
         )
       )
     )
@@ -230,7 +230,10 @@ export const getOrElseKind =
   <R1, O1, FE1, A>(
     self: Kind<EitherT<F, unknown>, S, R1, O1, FE1, A>
   ): Kind<F, S, R1 & R2, O1 | O2, FE1 | FE2, A | B> => {
-    return pipe(self, Monad.flatMap(either.match<unknown, Kind<F, S, R2, O2, FE2, A | B>, A>(() => onError, Monad.of)))
+    return pipe(
+      self,
+      Monad.flatMap(either.match<unknown, Kind<F, S, R2, O2, FE2, A | B>, A>(() => onError, Monad.succeed))
+    )
   }
 
 /**
@@ -296,7 +299,7 @@ export const bracket =
                   release(a, e),
                   Monad.flatMap(
                     either.match<E3, Kind<F, S, unknown, never, never, Either<E2 | E3, B>>, void>(leftM, () =>
-                      Monad.of(e)
+                      Monad.succeed(e)
                     )
                   )
                 )

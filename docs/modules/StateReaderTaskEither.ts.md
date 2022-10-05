@@ -31,10 +31,9 @@ Added in v3.0.0
   - [leftState](#leftstate)
   - [leftTask](#lefttask)
   - [modify](#modify)
-  - [of](#of)
   - [put](#put)
-  - [right](#right)
   - [sleep](#sleep)
+  - [succeed](#succeed)
 - [conversions](#conversions)
   - [fromEither](#fromeither)
   - [fromIOEither](#fromioeither)
@@ -89,9 +88,11 @@ Added in v3.0.0
   - [log](#log)
   - [logError](#logerror)
 - [mapping](#mapping)
+  - [as](#as)
   - [flap](#flap)
   - [map](#map)
   - [mapBoth](#mapboth)
+  - [unit](#unit)
 - [model](#model)
   - [StateReaderTaskEither (interface)](#statereadertaskeither-interface)
 - [sequencing](#sequencing)
@@ -130,7 +131,6 @@ Added in v3.0.0
   - [idKind](#idkind)
   - [local](#local)
   - [tap](#tap)
-  - [unit](#unit)
 
 ---
 
@@ -327,18 +327,6 @@ export declare const modify: <S>(f: Endomorphism<S>) => StateReaderTaskEither<S,
 
 Added in v3.0.0
 
-## of
-
-Alias of `right`.
-
-**Signature**
-
-```ts
-export declare const of: <A, S>(a: A) => StateReaderTaskEither<S, unknown, never, A>
-```
-
-Added in v3.0.0
-
 ## put
 
 Set the state
@@ -351,16 +339,6 @@ export declare const put: <S>(s: S) => StateReaderTaskEither<S, unknown, never, 
 
 Added in v3.0.0
 
-## right
-
-**Signature**
-
-```ts
-export declare const right: <A, S>(a: A) => StateReaderTaskEither<S, unknown, never, A>
-```
-
-Added in v3.0.0
-
 ## sleep
 
 Returns an effect that suspends for the specified `duration` (in millis).
@@ -369,6 +347,16 @@ Returns an effect that suspends for the specified `duration` (in millis).
 
 ```ts
 export declare const sleep: <S>(duration: number) => StateReaderTaskEither<S, unknown, never, void>
+```
+
+Added in v3.0.0
+
+## succeed
+
+**Signature**
+
+```ts
+export declare const succeed: <A, S>(a: A) => StateReaderTaskEither<S, unknown, never, A>
 ```
 
 Added in v3.0.0
@@ -943,6 +931,20 @@ Added in v3.0.0
 
 # mapping
 
+## as
+
+Maps the success value of this effect to the specified constant value.
+
+**Signature**
+
+```ts
+export declare const as: <B>(
+  b: B
+) => <S, R, E>(self: StateReaderTaskEither<S, R, E, unknown>) => StateReaderTaskEither<S, R, E, B>
+```
+
+Added in v3.0.0
+
 ## flap
 
 **Signature**
@@ -981,6 +983,20 @@ export declare const mapBoth: <E, G, A, B>(
   f: (e: E) => G,
   g: (a: A) => B
 ) => <S, R>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, G, B>
+```
+
+Added in v3.0.0
+
+## unit
+
+Returns the effect resulting from mapping the success of this effect to unit.
+
+**Signature**
+
+```ts
+export declare const unit: <S, R, E>(
+  self: StateReaderTaskEither<S, R, E, unknown>
+) => StateReaderTaskEither<S, R, E, void>
 ```
 
 Added in v3.0.0
@@ -1412,16 +1428,6 @@ Returns an effect that effectfully "peeks" at the success of this effect.
 export declare const tap: <A, S, R2, E2>(
   f: (a: A) => StateReaderTaskEither<S, R2, E2, unknown>
 ) => <R1, E1>(self: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E2 | E1, A>
-```
-
-Added in v3.0.0
-
-## unit
-
-**Signature**
-
-```ts
-export declare const unit: <S>() => StateReaderTaskEither<S, unknown, never, void>
 ```
 
 Added in v3.0.0

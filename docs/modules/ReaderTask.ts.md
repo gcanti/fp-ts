@@ -16,8 +16,8 @@ Added in v3.0.0
   - [ask](#ask)
   - [asks](#asks)
   - [asksReaderTask](#asksreadertask)
-  - [of](#of)
   - [sleep](#sleep)
+  - [succeed](#succeed)
 - [conversions](#conversions)
   - [fromIO](#fromio)
   - [fromReader](#fromreader)
@@ -141,16 +141,6 @@ export declare const asksReaderTask: <R1, R2, A>(f: (r1: R1) => ReaderTask<R2, A
 
 Added in v3.0.0
 
-## of
-
-**Signature**
-
-```ts
-export declare const of: <A>(a: A) => ReaderTask<unknown, A>
-```
-
-Added in v3.0.0
-
 ## sleep
 
 Returns an effect that suspends for the specified `duration` (in millis).
@@ -159,6 +149,16 @@ Returns an effect that suspends for the specified `duration` (in millis).
 
 ```ts
 export declare const sleep: (duration: number) => ReaderTask<unknown, void>
+```
+
+Added in v3.0.0
+
+## succeed
+
+**Signature**
+
+```ts
+export declare const succeed: <A>(a: A) => ReaderTask<unknown, A>
 ```
 
 Added in v3.0.0

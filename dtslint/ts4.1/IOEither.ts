@@ -18,20 +18,20 @@ _.ap(fa)(fab)
 
 // $ExpectType IOEither<never, number>
 pipe(
-  _.right('a'),
-  _.flatMap(() => _.right(1))
+  _.succeed('a'),
+  _.flatMap(() => _.succeed(1))
 )
 
 // $ExpectType IOEither<number, number>
 pipe(
-  _.right('a'),
-  _.flatMap(() => _.right(1) as _.IOEither<number, number>)
+  _.succeed('a'),
+  _.flatMap(() => _.succeed(1) as _.IOEither<number, number>)
 )
 
 // $ExpectType IOEither<string | number, number>
 pipe(
-  _.right('a') as _.IOEither<string, string>,
-  _.flatMap(() => _.right(1) as _.IOEither<number, number>)
+  _.succeed('a') as _.IOEither<string, string>,
+  _.flatMap(() => _.succeed(1) as _.IOEither<number, number>)
 )
 
 //
@@ -43,14 +43,14 @@ pipe(
 //
 
 // $ExpectType IO<string | null>
-pipe(_.right('a'), _.getOrElse(null))
+pipe(_.succeed('a'), _.getOrElse(null))
 
 //
 // getOrElseIO
 //
 
 // $ExpectType IO<string | null>
-pipe(_.right('a'), _.getOrElseIO(IO.of(null)))
+pipe(_.succeed('a'), _.getOrElseIO(IO.succeed(null)))
 
 //
 // flatMapEitherK
@@ -59,8 +59,8 @@ pipe(_.right('a'), _.getOrElseIO(IO.of(null)))
 // $ExpectType IOEither<string | number, number>
 pipe(
   // tslint:disable-next-line: no-unnecessary-type-assertion
-  _.right('a') as _.IOEither<string, string>,
-  _.flatMapEither(() => E.right(1) as E.Either<number, number>)
+  _.succeed('a') as _.IOEither<string, string>,
+  _.flatMapEither(() => E.succeed(1) as E.Either<number, number>)
 )
 
 //
@@ -69,10 +69,10 @@ pipe(
 
 // $ExpectType IOEither<string | number, { readonly a1: number; readonly a2: string; readonly a3: boolean; }>
 pipe(
-  _.right(1) as _.IOEither<string, number>,
+  _.succeed(1) as _.IOEither<string, number>,
   _.bindTo('a1'),
-  _.bind('a2', () => _.right('b')),
-  _.bind('a3', () => _.right(true) as _.IOEither<number, boolean>)
+  _.bind('a2', () => _.succeed('b')),
+  _.bind('a3', () => _.succeed(true) as _.IOEither<number, boolean>)
 )
 
 //
@@ -81,10 +81,10 @@ pipe(
 
 // $ExpectType IOEither<string | number, { readonly a1: number; readonly a2: string; readonly a3: boolean; }>
 pipe(
-  _.right(1) as _.IOEither<string, number>,
+  _.succeed(1) as _.IOEither<string, number>,
   _.bindTo('a1'),
-  _.bindRight('a2', _.right('b')),
-  _.bindRight('a3', _.right(true) as _.IOEither<number, boolean>)
+  _.bindRight('a2', _.succeed('b')),
+  _.bindRight('a3', _.succeed(true) as _.IOEither<number, boolean>)
 )
 
 //
@@ -94,6 +94,6 @@ pipe(
 // $ExpectType IOEither<string, { readonly a1: number; readonly a2: string; }>
 pipe(
   _.Do,
-  _.bind('a1', () => _.right(1) as _.IOEither<string, number>),
-  _.bind('a2', () => _.right('b') as _.IOEither<string, string>)
+  _.bind('a1', () => _.succeed(1) as _.IOEither<string, number>),
+  _.bind('a2', () => _.succeed('b') as _.IOEither<string, string>)
 )

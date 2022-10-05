@@ -12,8 +12,6 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [FromIdentity](#fromidentity)
-  - [of](#of)
 - [Functor](#functor)
   - [map](#map)
 - [constructors](#constructors)
@@ -32,7 +30,7 @@ Added in v3.0.0
   - [CategoryKind](#categorykind)
   - [ComposableKind](#composablekind)
   - [Flattenable](#flattenable)
-  - [FromIdentity](#fromidentity-1)
+  - [FromIdentity](#fromidentity)
   - [FromState](#fromstate)
   - [Functor](#functor-1)
   - [Monad](#monad)
@@ -66,21 +64,10 @@ Added in v3.0.0
   - [execute](#execute)
   - [flatten](#flatten)
   - [idKind](#idkind)
+  - [succeed](#succeed)
   - [unit](#unit)
 
 ---
-
-# FromIdentity
-
-## of
-
-**Signature**
-
-```ts
-export declare const of: <A, S>(a: A) => State<S, A>
-```
-
-Added in v3.0.0
 
 # Functor
 
@@ -571,6 +558,16 @@ Added in v3.0.0
 
 ```ts
 export declare const idKind: <A>() => <S>(a: A) => State<S, A>
+```
+
+Added in v3.0.0
+
+## succeed
+
+**Signature**
+
+```ts
+export declare const succeed: <A, S>(a: A) => State<S, A>
 ```
 
 Added in v3.0.0

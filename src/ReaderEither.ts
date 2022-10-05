@@ -58,7 +58,7 @@ export const left: <E>(e: E) => ReaderEither<unknown, E, never> = /*#__PURE__*/ 
  * @category constructors
  * @since 3.0.0
  */
-export const right: <A>(a: A) => ReaderEither<unknown, never, A> = /*#__PURE__*/ eitherT.right(reader.FromIdentity)
+export const succeed: <A>(a: A) => ReaderEither<unknown, never, A> = /*#__PURE__*/ eitherT.succeed(reader.FromIdentity)
 
 /**
  * @category constructors
@@ -87,7 +87,7 @@ export const leftReader: <R, E>(me: Reader<R, E>) => ReaderEither<R, E, never> =
  * @category conversions
  * @since 3.0.0
  */
-export const fromEither: <E, A>(fa: Either<E, A>) => ReaderEither<unknown, E, A> = reader.of
+export const fromEither: <E, A>(fa: Either<E, A>) => ReaderEither<unknown, E, A> = reader.succeed
 
 // -------------------------------------------------------------------------------------
 // pattern matching
@@ -176,19 +176,11 @@ export const map: <A, B>(f: (a: A) => B) => <R, E>(fa: ReaderEither<R, E, A>) =>
   /*#__PURE__*/ eitherT.map(reader.Functor)
 
 /**
- * Alias of `right`.
- *
- * @category constructors
- * @since 3.0.0
- */
-export const of = right
-
-/**
  * @category instances
  * @since 3.0.0
  */
 export const FromIdentity: fromIdentity.FromIdentity<ReaderEitherTypeLambda> = {
-  of
+  succeed
 }
 
 /**
@@ -341,7 +333,7 @@ export const getValidatedApplicative = <E>(
 ): applicative.Applicative<either.ValidatedT<ReaderEitherTypeLambda, E>> => ({
   map,
   ap: apply.apComposition(reader.Apply, either.getValidatedApplicative(Semigroup)),
-  of
+  succeed
 })
 
 /**
@@ -470,7 +462,7 @@ export const lift3: <A, B, C, D>(
 export const Applicative: applicative.Applicative<ReaderEitherTypeLambda> = {
   map,
   ap,
-  of
+  succeed
 }
 
 /**
@@ -479,7 +471,7 @@ export const Applicative: applicative.Applicative<ReaderEitherTypeLambda> = {
  */
 export const Monad: monad.Monad<ReaderEitherTypeLambda> = {
   map,
-  of,
+  succeed,
   flatMap
 }
 
@@ -710,7 +702,7 @@ export const flatMapNullable: <A, B, E2>(
  * @category do notation
  * @since 3.0.0
  */
-export const Do: ReaderEither<unknown, never, {}> = /*#__PURE__*/ of(_.Do)
+export const Do: ReaderEither<unknown, never, {}> = /*#__PURE__*/ succeed(_.Do)
 
 /**
  * @category do notation
@@ -771,7 +763,7 @@ export const bindRight: <N extends string, A extends object, R2, E2, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const Zip: ReaderEither<unknown, never, readonly []> = /*#__PURE__*/ of(_.Zip)
+export const Zip: ReaderEither<unknown, never, readonly []> = /*#__PURE__*/ succeed(_.Zip)
 
 /**
  * @category tuple sequencing

@@ -29,9 +29,8 @@ Added in v3.0.0
   - [leftReaderIO](#leftreaderio)
   - [leftReaderTask](#leftreadertask)
   - [leftTask](#lefttask)
-  - [of](#of)
-  - [right](#right)
   - [sleep](#sleep)
+  - [succeed](#succeed)
 - [conversions](#conversions)
   - [fromEither](#fromeither)
   - [fromIOEither](#fromioeither)
@@ -320,28 +319,6 @@ export declare const leftTask: <E>(me: task.Task<E>) => ReaderTaskEither<unknown
 
 Added in v3.0.0
 
-## of
-
-Alias of `right`.
-
-**Signature**
-
-```ts
-export declare const of: <A>(a: A) => ReaderTaskEither<unknown, never, A>
-```
-
-Added in v3.0.0
-
-## right
-
-**Signature**
-
-```ts
-export declare const right: <A>(a: A) => ReaderTaskEither<unknown, never, A>
-```
-
-Added in v3.0.0
-
 ## sleep
 
 Returns an effect that suspends for the specified `duration` (in millis).
@@ -350,6 +327,16 @@ Returns an effect that suspends for the specified `duration` (in millis).
 
 ```ts
 export declare const sleep: (duration: number) => ReaderTaskEither<unknown, never, void>
+```
+
+Added in v3.0.0
+
+## succeed
+
+**Signature**
+
+```ts
+export declare const succeed: <A>(a: A) => ReaderTaskEither<unknown, never, A>
 ```
 
 Added in v3.0.0
@@ -553,7 +540,7 @@ get all errors you need to provide a way to combine them via a `Semigroup`.
 export declare const getValidatedApplicative: <E>(
   Apply: apply.Apply<task.TaskTypeLambda>,
   Semigroup: Semigroup<E>
-) => applicative.Applicative<ValidatedTypeLambda<ReaderTaskEitherTypeLambda, E>>
+) => applicative.Applicative<ValidatedT<ReaderTaskEitherTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -568,7 +555,7 @@ get all errors you need to provide a way to combine them via a `Semigroup`.
 ```ts
 export declare const getValidatedSemigroupKind: <E>(
   Semigroup: Semigroup<E>
-) => semigroupKind.SemigroupKind<ValidatedTypeLambda<ReaderTaskEitherTypeLambda, E>>
+) => semigroupKind.SemigroupKind<ValidatedT<ReaderTaskEitherTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -837,7 +824,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getCompactable: <E>(onNone: E) => Compactable<ValidatedTypeLambda<ReaderTaskEitherTypeLambda, E>>
+export declare const getCompactable: <E>(onNone: E) => Compactable<ValidatedT<ReaderTaskEitherTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -847,7 +834,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFilterable: <E>(onEmpty: E) => Filterable<ValidatedTypeLambda<ReaderTaskEitherTypeLambda, E>>
+export declare const getFilterable: <E>(onEmpty: E) => Filterable<ValidatedT<ReaderTaskEitherTypeLambda, E>>
 ```
 
 Added in v3.0.0

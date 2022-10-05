@@ -40,7 +40,7 @@ export const fromReader: <R, A>(fa: reader.Reader<R, A>) => ReaderIO<R, A> = /*#
  * @category conversions
  * @since 3.0.0
  */
-export const fromIO: <A>(fa: I.IO<A>) => ReaderIO<unknown, A> = /*#__PURE__*/ reader.of
+export const fromIO: <A>(fa: I.IO<A>) => ReaderIO<unknown, A> = /*#__PURE__*/ reader.succeed
 
 /**
  * Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
@@ -69,14 +69,14 @@ export const map: <A, B>(f: (a: A) => B) => <R>(fa: ReaderIO<R, A>) => ReaderIO<
  * @category constructors
  * @since 3.0.0
  */
-export const of: <A>(a: A) => ReaderIO<unknown, A> = /*#__PURE__*/ readerT.of(I.FromIdentity)
+export const succeed: <A>(a: A) => ReaderIO<unknown, A> = /*#__PURE__*/ readerT.succeed(I.FromIdentity)
 
 /**
  * @category instances
  * @since 3.0.0
  */
 export const FromIdentity: fromIdentity.FromIdentity<ReaderIOTypeLambda> = {
-  of
+  succeed
 }
 
 /**
@@ -240,7 +240,7 @@ export const lift3: <A, B, C, D>(
 export const Applicative: applicative.Applicative<ReaderIOTypeLambda> = {
   map,
   ap,
-  of
+  succeed
 }
 
 /**
@@ -249,7 +249,7 @@ export const Applicative: applicative.Applicative<ReaderIOTypeLambda> = {
  */
 export const Monad: monad.Monad<ReaderIOTypeLambda> = {
   map,
-  of,
+  succeed,
   flatMap
 }
 
@@ -351,7 +351,7 @@ export const flatMapReader: <A, R2, B>(
  * @category do notation
  * @since 3.0.0
  */
-export const Do: ReaderIO<unknown, {}> = /*#__PURE__*/ of(_.Do)
+export const Do: ReaderIO<unknown, {}> = /*#__PURE__*/ succeed(_.Do)
 
 /**
  * @category do notation
@@ -405,7 +405,7 @@ export const bindRight: <N extends string, A extends object, R2, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const Zip: ReaderIO<unknown, readonly []> = /*#__PURE__*/ of(_.Zip)
+export const Zip: ReaderIO<unknown, readonly []> = /*#__PURE__*/ succeed(_.Zip)
 
 /**
  * @category tuple sequencing

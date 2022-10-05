@@ -66,9 +66,9 @@ describe('IOOption', () => {
 
   it('flatMapNullable', () => {
     const f = _.flatMapNullable((n: number) => (n > 0 ? n : n === 0 ? null : undefined))
-    U.deepStrictEqual(f(_.of(1))(), O.some(1))
-    U.deepStrictEqual(f(_.of(0))(), O.none)
-    U.deepStrictEqual(f(_.of(-1))(), O.none)
+    U.deepStrictEqual(f(_.succeed(1))(), O.some(1))
+    U.deepStrictEqual(f(_.succeed(0))(), O.none)
+    U.deepStrictEqual(f(_.succeed(-1))(), O.none)
   })
 
   it('fromPredicate', () => {
@@ -80,7 +80,7 @@ describe('IOOption', () => {
 
   it('fromIOEither', () => {
     const pl = IE.left('a')
-    const pr = IE.right('a')
+    const pr = IE.succeed('a')
     const fl = _.fromIOEither(pl)
     const fr = _.fromIOEither(pr)
     U.deepStrictEqual(fl(), O.none)
@@ -92,8 +92,8 @@ describe('IOOption', () => {
   // -------------------------------------------------------------------------------------
 
   it('getOrElseIO', () => {
-    U.deepStrictEqual(pipe(_.some(1), _.getOrElseIO(I.of(2)))(), 1)
-    U.deepStrictEqual(pipe(_.none, _.getOrElseIO(I.of(2)))(), 2)
+    U.deepStrictEqual(pipe(_.some(1), _.getOrElseIO(I.succeed(2)))(), 1)
+    U.deepStrictEqual(pipe(_.none, _.getOrElseIO(I.succeed(2)))(), 2)
   })
 
   // -------------------------------------------------------------------------------------
@@ -117,15 +117,15 @@ describe('IOOption', () => {
 
   it('matchIO', () => {
     const f = _.matchIO(
-      () => I.of('none'),
-      (a) => I.of(`some(${a})`)
+      () => I.succeed('none'),
+      (a) => I.succeed(`some(${a})`)
     )
     U.deepStrictEqual(pipe(_.some(1), f)(), 'some(1)')
     U.deepStrictEqual(pipe(_.none, f)(), 'none')
   })
 
   it('liftEither', () => {
-    const f = (s: string) => (s.length <= 2 ? E.right(s + '!') : E.left(s.length))
+    const f = (s: string) => (s.length <= 2 ? E.succeed(s + '!') : E.left(s.length))
     const g = _.liftEither(f)
     U.deepStrictEqual(g('')(), O.some('!'))
     U.deepStrictEqual(g('a')(), O.some('a!'))
@@ -134,18 +134,18 @@ describe('IOOption', () => {
   })
 
   it('flatMapEither', () => {
-    const f = (s: string) => (s.length <= 2 ? E.right(s + '!') : E.left(s.length))
+    const f = (s: string) => (s.length <= 2 ? E.succeed(s + '!') : E.left(s.length))
     const g = _.flatMapEither(f)
-    U.deepStrictEqual(g(_.of(''))(), O.some('!'))
-    U.deepStrictEqual(g(_.of('a'))(), O.some('a!'))
-    U.deepStrictEqual(g(_.of('aa'))(), O.some('aa!'))
-    U.deepStrictEqual(g(_.of('aaa'))(), O.none)
+    U.deepStrictEqual(g(_.succeed(''))(), O.some('!'))
+    U.deepStrictEqual(g(_.succeed('a'))(), O.some('a!'))
+    U.deepStrictEqual(g(_.succeed('aa'))(), O.some('aa!'))
+    U.deepStrictEqual(g(_.succeed('aaa'))(), O.none)
   })
 
   it('tapError', () => {
     const log: Array<number> = []
-    U.deepStrictEqual(pipe(_.of(1), _.tapError(_.of(2)))(), O.some(1))
-    U.deepStrictEqual(pipe(_.of(1), _.tapError(_.none))(), O.some(1))
+    U.deepStrictEqual(pipe(_.succeed(1), _.tapError(_.succeed(2)))(), O.some(1))
+    U.deepStrictEqual(pipe(_.succeed(1), _.tapError(_.none))(), O.some(1))
     U.deepStrictEqual(
       pipe(
         _.none,

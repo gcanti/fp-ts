@@ -100,14 +100,14 @@ export const unit: <A>(self: A) => Identity<void> = /*#__PURE__*/ functor.unit(F
  * @category constructors
  * @since 3.0.0
  */
-export const of: <A>(a: A) => Identity<A> = identity
+export const succeed: <A>(a: A) => Identity<A> = identity
 
 /**
  * @category instances
  * @since 3.0.0
  */
 export const FromIdentity: fromIdentity.FromIdentity<IdentityTypeLambda> = {
-  of
+  succeed
 }
 
 /**
@@ -211,7 +211,7 @@ export const lift3: <A, B, C, D>(f: (a: A, b: B, c: C) => D) => (fa: A, fb: B, f
 export const Applicative: applicative.Applicative<IdentityTypeLambda> = {
   map,
   ap,
-  of
+  succeed
 }
 
 /**
@@ -239,7 +239,7 @@ export const FlattenableRec: flattenableRec.FlattenableRec<IdentityTypeLambda> =
  */
 export const Monad: monad.Monad<IdentityTypeLambda> = {
   map,
-  of,
+  succeed,
   flatMap
 }
 
@@ -350,7 +350,7 @@ export const SemigroupKind: semigroupKind.SemigroupKind<IdentityTypeLambda> = {
  * @category do notation
  * @since 3.0.0
  */
-export const Do: Identity<{}> = /*#__PURE__*/ of(_.Do)
+export const Do: Identity<{}> = /*#__PURE__*/ succeed(_.Do)
 
 /**
  * @category do notation
@@ -402,7 +402,7 @@ export const bindRight: <N extends string, A extends object, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const Zip: Identity<readonly []> = /*#__PURE__*/ of(_.Zip)
+export const Zip: Identity<readonly []> = /*#__PURE__*/ succeed(_.Zip)
 
 /**
  * @category tuple sequencing

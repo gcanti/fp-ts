@@ -52,7 +52,7 @@ pipe(_.some('a'), _.getOrElse(null))
 //
 
 // $ExpectType Task<string | null>
-pipe(_.some('a'), _.getOrElseTask(T.of(null)))
+pipe(_.some('a'), _.getOrElseTask(T.succeed(null)))
 
 //
 // match
@@ -75,8 +75,8 @@ pipe(
 pipe(
   _.some('a'),
   _.matchTask(
-    () => T.of(1),
-    () => T.of(true)
+    () => T.succeed(1),
+    () => T.succeed(true)
   )
 )
 

@@ -21,7 +21,7 @@ Added in v3.0.0
   - [fromKind](#fromkind)
   - [fromState](#fromstate)
   - [map](#map)
-  - [of](#of)
+  - [succeed](#succeed)
 
 ---
 
@@ -135,12 +135,12 @@ export declare const map: <F extends TypeLambda>(
 
 Added in v3.0.0
 
-## of
+## succeed
 
 **Signature**
 
 ```ts
-export declare const of: <F extends TypeLambda>(
+export declare const succeed: <F extends TypeLambda>(
   F: FromIdentity<F>
 ) => <A, S, FS>(a: A) => (s: S) => Kind<F, FS, unknown, never, never, readonly [S, A]>
 ```

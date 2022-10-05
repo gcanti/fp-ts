@@ -16,10 +16,10 @@ const as = pipe(RNEA.range(0, 1000))
 
 suite
   .add('RNEA.sequence(_.getApplicative(S.Semigroup))', function () {
-    pipe(as, RNEA.traverse(_.getApplicative(S.Semigroup))(_.of))
+    pipe(as, RNEA.traverse(_.getApplicative(S.Semigroup))(_.succeed))
   })
   .add('_.sequenceReadonlyNonEmptyArray', function () {
-    pipe(as, _.traverseReadonlyNonEmptyArrayWithIndex(S.Semigroup)(_.of))
+    pipe(as, _.traverseReadonlyNonEmptyArrayWithIndex(S.Semigroup)(_.succeed))
   })
   .on('cycle', function (event: any) {
     // tslint:disable-next-line: no-console

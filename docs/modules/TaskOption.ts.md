@@ -14,9 +14,9 @@ Added in v3.0.0
 
 - [constructors](#constructors)
   - [none](#none)
-  - [of](#of)
   - [sleep](#sleep)
   - [some](#some)
+  - [succeed](#succeed)
 - [conversions](#conversions)
   - [fromEither](#fromeither)
   - [fromIO](#fromio)
@@ -135,16 +135,6 @@ export declare const none: TaskOption<never>
 
 Added in v3.0.0
 
-## of
-
-**Signature**
-
-```ts
-export declare const of: <A>(a: A) => TaskOption<A>
-```
-
-Added in v3.0.0
-
 ## sleep
 
 Returns an effect that suspends for the specified `duration` (in millis).
@@ -163,6 +153,16 @@ Added in v3.0.0
 
 ```ts
 export declare const some: <A>(a: A) => TaskOption<A>
+```
+
+Added in v3.0.0
+
+## succeed
+
+**Signature**
+
+```ts
+export declare const succeed: <A>(a: A) => TaskOption<A>
 ```
 
 Added in v3.0.0

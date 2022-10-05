@@ -29,7 +29,7 @@ export const separate = <F extends TypeLambda>(Functor: Functor<F>, Compactable:
   ): readonly [Kind<F, S, R, O, E, A>, Kind<F, S, R, O, E, B>] => {
     return [
       pipe(self, Functor.map(_.getLeft), Compactable.compact),
-      pipe(self, Functor.map(_.getRight), Compactable.compact)
+      pipe(self, Functor.map(_.getSuccess), Compactable.compact)
     ]
   }
 }

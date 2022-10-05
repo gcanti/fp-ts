@@ -61,7 +61,7 @@ export const some: <A>(a: A) => TaskOption<A> = /*#__PURE__*/ optionT.some(task.
  * @category conversions
  * @since 3.0.0
  */
-export const fromOption: <A>(fa: Option<A>) => TaskOption<A> = task.of
+export const fromOption: <A>(fa: Option<A>) => TaskOption<A> = task.succeed
 
 /**
  * @category conversions
@@ -189,7 +189,7 @@ export const map: <A, B>(f: (a: A) => B) => (fa: TaskOption<A>) => TaskOption<B>
  * @category constructors
  * @since 3.0.0
  */
-export const of: <A>(a: A) => TaskOption<A> = some
+export const succeed: <A>(a: A) => TaskOption<A> = some
 
 /**
  * @category sequencing
@@ -294,7 +294,7 @@ export const unit: (self: TaskOption<unknown>) => TaskOption<void> = /*#__PURE__
  * @since 3.0.0
  */
 export const FromIdentity: fromIdentity.FromIdentity<TaskOptionTypeLambda> = {
-  of
+  succeed
 }
 
 /**
@@ -395,7 +395,7 @@ export const lift3: <A, B, C, D>(
 export const Applicative: applicative.Applicative<TaskOptionTypeLambda> = {
   map,
   ap,
-  of
+  succeed
 }
 
 /**
@@ -421,7 +421,7 @@ export const tapError: (onNone: TaskOption<unknown>) => <A>(self: TaskOption<A>)
  */
 export const Monad: monad.Monad<TaskOptionTypeLambda> = {
   map,
-  of,
+  succeed,
   flatMap
 }
 
@@ -643,7 +643,7 @@ export const partition: {
  * @category do notation
  * @since 3.0.0
  */
-export const Do: TaskOption<{}> = /*#__PURE__*/ of(_.Do)
+export const Do: TaskOption<{}> = /*#__PURE__*/ succeed(_.Do)
 
 /**
  * @category do notation
@@ -696,7 +696,7 @@ export const bindRight: <N extends string, A extends object, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const Zip: TaskOption<readonly []> = /*#__PURE__*/ of(_.Zip)
+export const Zip: TaskOption<readonly []> = /*#__PURE__*/ succeed(_.Zip)
 
 /**
  * @category tuple sequencing

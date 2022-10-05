@@ -63,7 +63,7 @@ export const left: <E>(e: E) => IOEither<E, never> = /*#__PURE__*/ eitherT.left(
  * @category constructors
  * @since 3.0.0
  */
-export const right: <A>(a: A) => IOEither<never, A> = /*#__PURE__*/ eitherT.right(io.FromIdentity)
+export const succeed: <A>(a: A) => IOEither<never, A> = /*#__PURE__*/ eitherT.succeed(io.FromIdentity)
 
 /**
  * @category conversions
@@ -81,7 +81,7 @@ export const leftIO: <E>(me: IO<E>) => IOEither<E, never> = /*#__PURE__*/ either
  * @category conversions
  * @since 3.0.0
  */
-export const fromEither: <E, A>(fa: Either<E, A>) => IOEither<E, A> = io.of
+export const fromEither: <E, A>(fa: Either<E, A>) => IOEither<E, A> = io.succeed
 
 // -------------------------------------------------------------------------------------
 // pattern matching
@@ -201,14 +201,6 @@ export const mapError: <E, G>(f: (e: E) => G) => <A>(self: IOEither<E, A>) => IO
   /*#__PURE__*/ eitherT.mapError(io.Functor)
 
 /**
- * Alias of `right`.
- *
- * @category constructors
- * @since 3.0.0
- */
-export const of = right
-
-/**
  * @category sequencing
  * @since 3.0.0
  */
@@ -257,7 +249,7 @@ export const getValidatedApplicative = <E>(
 ): applicative.Applicative<either.ValidatedT<IOEitherTypeLambda, E>> => ({
   map,
   ap: apply.apComposition(io.Apply, either.getValidatedApplicative(Semigroup)),
-  of
+  succeed
 })
 
 /**
@@ -348,7 +340,7 @@ export const unit: <E>(self: IOEither<E, unknown>) => IOEither<E, void> = /*#__P
  * @since 3.0.0
  */
 export const FromIdentity: fromIdentity.FromIdentity<IOEitherTypeLambda> = {
-  of
+  succeed
 }
 
 /**
@@ -468,7 +460,7 @@ export const lift3: <A, B, C, D>(
 export const Applicative: applicative.Applicative<IOEitherTypeLambda> = {
   map,
   ap,
-  of
+  succeed
 }
 
 /**
@@ -477,7 +469,7 @@ export const Applicative: applicative.Applicative<IOEitherTypeLambda> = {
  */
 export const Monad: monad.Monad<IOEitherTypeLambda> = {
   map,
-  of,
+  succeed,
   flatMap
 }
 
@@ -694,7 +686,7 @@ export const bracket: <E1, A, E2, B, E3>(
  * @category do notation
  * @since 3.0.0
  */
-export const Do: IOEither<never, {}> = /*#__PURE__*/ of(_.Do)
+export const Do: IOEither<never, {}> = /*#__PURE__*/ succeed(_.Do)
 
 /**
  * @category do notation
@@ -748,7 +740,7 @@ export const bindRight: <N extends string, A extends object, E2, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const Zip: IOEither<never, readonly []> = /*#__PURE__*/ of(_.Zip)
+export const Zip: IOEither<never, readonly []> = /*#__PURE__*/ succeed(_.Zip)
 
 /**
  * @category tuple sequencing
@@ -857,15 +849,15 @@ export const traverseReadonlyNonEmptyArrayWithIndex =
     if (_.isLeft(e)) {
       return e
     }
-    const out: _.NonEmptyArray<B> = [e.right]
+    const out: _.NonEmptyArray<B> = [e.success]
     for (let i = 1; i < as.length; i++) {
       const e = f(i, as[i])()
       if (_.isLeft(e)) {
         return e
       }
-      out.push(e.right)
+      out.push(e.success)
     }
-    return _.right(out)
+    return _.succeed(out)
   }
 
 /**

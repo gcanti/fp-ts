@@ -19,8 +19,8 @@ Added in v3.0.0
 
 - [constructors](#constructors)
   - [none](#none)
-  - [of](#of)
   - [some](#some)
+  - [succeed](#succeed)
 - [conversions](#conversions)
   - [fromEither](#fromeither)
   - [fromIO](#fromio)
@@ -128,22 +128,22 @@ export declare const none: IOOption<never>
 
 Added in v3.0.0
 
-## of
-
-**Signature**
-
-```ts
-export declare const of: <A>(a: A) => IOOption<A>
-```
-
-Added in v3.0.0
-
 ## some
 
 **Signature**
 
 ```ts
 export declare const some: <A>(a: A) => IOOption<A>
+```
+
+Added in v3.0.0
+
+## succeed
+
+**Signature**
+
+```ts
+export declare const succeed: <A>(a: A) => IOOption<A>
 ```
 
 Added in v3.0.0

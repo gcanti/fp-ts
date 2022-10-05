@@ -134,11 +134,11 @@ export const some: <A>(a: A) => Option<A> = _.some
  * Returns the `Left` value of an `Either` if possible.
  *
  * @example
- * import { getLeft, none, some } from 'fp-ts/Option'
- * import { right, left } from 'fp-ts/Either'
+ * import * as O from 'fp-ts/Option'
+ * import * as E from 'fp-ts/Either'
  *
- * assert.deepStrictEqual(getLeft(right(1)), none)
- * assert.deepStrictEqual(getLeft(left('a')), some('a'))
+ * assert.deepStrictEqual(O.getLeft(E.succeed(1)), O.none)
+ * assert.deepStrictEqual(O.getLeft(E.left('a')), O.some('a'))
  *
  * @category constructors
  * @since 3.0.0
@@ -149,26 +149,26 @@ export const getLeft: <E>(ma: Either<E, unknown>) => Option<E> = _.getLeft
  * Returns the `Right` value of an `Either` if possible.
  *
  * @example
- * import { getRight, none, some } from 'fp-ts/Option'
- * import { right, left } from 'fp-ts/Either'
+ * import * as O from 'fp-ts/Option'
+ * import * as E from 'fp-ts/Either'
  *
- * assert.deepStrictEqual(getRight(right(1)), some(1))
- * assert.deepStrictEqual(getRight(left('a')), none)
+ * assert.deepStrictEqual(O.getSuccess(E.succeed(1)), O.some(1))
+ * assert.deepStrictEqual(O.getSuccess(E.left('a')), O.none)
  *
  * @category constructors
  * @since 3.0.0
  */
-export const getRight: <A>(ma: Either<unknown, A>) => Option<A> = _.getRight
+export const getSuccess: <A>(ma: Either<unknown, A>) => Option<A> = _.getSuccess
 
 /**
  * Converts an `Either` to an `Option` discarding the error.
  *
- * Alias of [getRight](#getright)
+ * Alias of [getSuccess](#getsuccess)
  *
  * @category conversions
  * @since 3.0.0
  */
-export const fromEither = getRight
+export const fromEither = getSuccess
 
 /**
  * @category conversions
@@ -440,14 +440,14 @@ export const map: <A, B>(f: (a: A) => B) => (fa: Option<A>) => Option<B> = (f) =
  * @category constructors
  * @since 3.0.0
  */
-export const of: <A>(a: A) => Option<A> = some
+export const succeed: <A>(a: A) => Option<A> = some
 
 /**
  * @category instances
  * @since 3.0.0
  */
 export const FromIdentity: fromIdentity.FromIdentity<OptionTypeLambda> = {
-  of
+  succeed
 }
 
 /**
@@ -636,7 +636,7 @@ const defaultSeparated = /*#__PURE__*/ [none, none] as const
  * @since 3.0.0
  */
 export const separate: <A, B>(fe: Option<Either<A, B>>) => readonly [Option<A>, Option<B>] = (ma) =>
-  isNone(ma) ? defaultSeparated : [getLeft(ma.value), getRight(ma.value)]
+  isNone(ma) ? defaultSeparated : [getLeft(ma.value), getSuccess(ma.value)]
 
 /**
  * @category filtering
@@ -661,7 +661,7 @@ export const traverse: <F extends TypeLambda>(
   F: applicative.Applicative<F>
 ) => <A, S, R, O, E, B>(f: (a: A) => Kind<F, S, R, O, E, B>) => (ta: Option<A>) => Kind<F, S, R, O, E, Option<B>> =
   (F) => (f) => (ta) =>
-    isNone(ta) ? F.of(none) : pipe(f(ta.value), F.map(some))
+    isNone(ta) ? F.succeed(none) : pipe(f(ta.value), F.map(some))
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -816,7 +816,7 @@ export const lift3: <A, B, C, D>(
 export const Applicative: applicative.Applicative<OptionTypeLambda> = {
   map,
   ap,
-  of
+  succeed
 }
 
 /**
@@ -825,7 +825,7 @@ export const Applicative: applicative.Applicative<OptionTypeLambda> = {
  */
 export const Monad: monad.Monad<OptionTypeLambda> = {
   map,
-  of,
+  succeed,
   flatMap
 }
 
@@ -1099,7 +1099,7 @@ export const exists =
  * @category do notation
  * @since 3.0.0
  */
-export const Do: Option<{}> = /*#__PURE__*/ of(_.Do)
+export const Do: Option<{}> = /*#__PURE__*/ succeed(_.Do)
 
 /**
  * @category do notation
@@ -1152,7 +1152,7 @@ export const bindRight: <N extends string, A extends object, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const Zip: Option<readonly []> = /*#__PURE__*/ of(_.Zip)
+export const Zip: Option<readonly []> = /*#__PURE__*/ succeed(_.Zip)
 
 /**
  * @category tuple sequencing

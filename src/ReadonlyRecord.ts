@@ -277,9 +277,9 @@ export const traverseWithIndex = (
     <K extends string, A, S, R, O, E, B>(f: (k: K, a: A) => Kind<F, S, R, O, E, B>) =>
     (r: ReadonlyRecord<K, A>) => {
       if (isEmpty(r)) {
-        return F.of(empty)
+        return F.succeed(empty)
       }
-      let out: Kind<F, S, R, O, E, Record<string, B>> = F.of({})
+      let out: Kind<F, S, R, O, E, Record<string, B>> = F.succeed({})
       for (const key of keysO(r)) {
         out = pipe(
           out,
@@ -339,7 +339,7 @@ export function partitionMapWithIndex<K extends string, A, B, C>(
         if (_.isLeft(e)) {
           left[k] = e.left
         } else {
-          right[k] = e.right
+          right[k] = e.success
         }
       }
     }
@@ -453,7 +453,7 @@ export const separate = <A, B>(
       if (_.isLeft(e)) {
         left[k] = e.left
       } else {
-        right[k] = e.right
+        right[k] = e.success
       }
     }
   }

@@ -271,7 +271,7 @@ export const getApply = <S>(Semigroup: Semigroup<S>): Apply<ConstTypeLambdaFix<S
  */
 export const getFromIdentity = <S>(Monoid: Monoid<S>): FromIdentity<ConstTypeLambdaFix<S>> => {
   return {
-    of: constant(make(Monoid.empty))
+    succeed: constant(make(Monoid.empty))
   }
 }
 
@@ -285,6 +285,6 @@ export const getApplicative = <S>(Monoid: Monoid<S>): Applicative<ConstTypeLambd
   return {
     map: Apply.map,
     ap: Apply.ap,
-    of: FromIdentity.of
+    succeed: FromIdentity.succeed
   }
 }

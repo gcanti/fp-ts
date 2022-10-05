@@ -35,9 +35,8 @@ Added in v3.0.0
   - [fromOptions](#fromoptions)
   - [left](#left)
   - [leftOrBoth](#leftorboth)
-  - [of](#of)
-  - [right](#right)
-  - [rightOrBoth](#rightorboth)
+  - [succeed](#succeed)
+  - [successOrBoth](#successorboth)
 - [conversions](#conversions)
   - [fromNullable](#fromnullable)
   - [fromOption](#fromoption)
@@ -100,8 +99,8 @@ Added in v3.0.0
   - [exists](#exists)
   - [getLeft](#getleft)
   - [getLeftOnly](#getleftonly)
-  - [getRight](#getright)
-  - [getRightOnly](#getrightonly)
+  - [getSuccess](#getsuccess)
+  - [getSuccessOnly](#getsuccessonly)
   - [swap](#swap)
 
 ---
@@ -113,7 +112,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const both: <E, A>(left: E, right: A) => These<E, A>
+export declare const both: <E, A>(left: E, success: A) => These<E, A>
 ```
 
 Added in v3.0.0
@@ -131,12 +130,12 @@ export declare const fromOptions: <E, A>(fe: Option<E>, fa: Option<A>) => Option
 **Example**
 
 ```ts
-import { fromOptions, left, right, both } from 'fp-ts/These'
+import { fromOptions, left, succeed, both } from 'fp-ts/These'
 import { none, some } from 'fp-ts/Option'
 
 assert.deepStrictEqual(fromOptions(none, none), none)
 assert.deepStrictEqual(fromOptions(some('a'), none), some(left('a')))
-assert.deepStrictEqual(fromOptions(none, some(1)), some(right(1)))
+assert.deepStrictEqual(fromOptions(none, some(1)), some(succeed(1)))
 assert.deepStrictEqual(fromOptions(some('a'), some(1)), some(both('a', 1)))
 ```
 
@@ -172,42 +171,32 @@ assert.deepStrictEqual(leftOrBoth('a')(some(1)), both('a', 1))
 
 Added in v3.0.0
 
-## of
+## succeed
 
 **Signature**
 
 ```ts
-export declare const of: <A>(right: A) => These<never, A>
+export declare const succeed: <A>(success: A) => These<never, A>
 ```
 
 Added in v3.0.0
 
-## right
+## successOrBoth
 
 **Signature**
 
 ```ts
-export declare const right: <A>(right: A) => These<never, A>
-```
-
-Added in v3.0.0
-
-## rightOrBoth
-
-**Signature**
-
-```ts
-export declare const rightOrBoth: <A>(a: A) => <E>(me: Option<E>) => These<E, A>
+export declare const successOrBoth: <A>(a: A) => <E>(me: Option<E>) => These<E, A>
 ```
 
 **Example**
 
 ```ts
-import { rightOrBoth, right, both } from 'fp-ts/These'
+import { successOrBoth, succeed, both } from 'fp-ts/These'
 import { none, some } from 'fp-ts/Option'
 
-assert.deepStrictEqual(rightOrBoth(1)(none), right(1))
-assert.deepStrictEqual(rightOrBoth(1)(some('a')), both('a', 1))
+assert.deepStrictEqual(successOrBoth(1)(none), succeed(1))
+assert.deepStrictEqual(successOrBoth(1)(some('a')), both('a', 1))
 ```
 
 Added in v3.0.0
@@ -239,17 +228,17 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const toTuple2: <E, A>(onRight: E, onLeft: A) => (fa: These<E, A>) => readonly [E, A]
+export declare const toTuple2: <E, A>(onSuccess: E, onLeft: A) => (fa: These<E, A>) => readonly [E, A]
 ```
 
 **Example**
 
 ```ts
-import { toTuple2, left, right, both } from 'fp-ts/These'
+import { toTuple2, left, succeed, both } from 'fp-ts/These'
 
 const f = toTuple2('a', 1)
 assert.deepStrictEqual(f(left('b')), ['b', 1])
-assert.deepStrictEqual(f(right(2)), ['a', 2])
+assert.deepStrictEqual(f(succeed(2)), ['a', 2])
 assert.deepStrictEqual(f(both('b', 2)), ['b', 2])
 ```
 
@@ -381,7 +370,7 @@ Added in v3.0.0
 ```ts
 export declare const getApplicative: <E>(
   Semigroup: Semigroup<E>
-) => applicative.Applicative<ValidatedTypeLambda<TheseTypeLambda, E>>
+) => applicative.Applicative<ValidatedT<TheseTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -391,7 +380,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getApply: <E>(Semigroup: Semigroup<E>) => Apply<ValidatedTypeLambda<TheseTypeLambda, E>>
+export declare const getApply: <E>(Semigroup: Semigroup<E>) => Apply<ValidatedT<TheseTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -411,7 +400,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFlattenable: <E>(S: Semigroup<E>) => Flattenable<ValidatedTypeLambda<TheseTypeLambda, E>>
+export declare const getFlattenable: <E>(S: Semigroup<E>) => Flattenable<ValidatedT<TheseTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -421,7 +410,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getMonad: <E>(S: Semigroup<E>) => Monad<ValidatedTypeLambda<TheseTypeLambda, E>>
+export declare const getMonad: <E>(S: Semigroup<E>) => Monad<ValidatedT<TheseTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -570,7 +559,7 @@ Added in v3.0.0
 export interface Both<E, A> {
   readonly _tag: 'Both'
   readonly left: E
-  readonly right: A
+  readonly success: A
 }
 ```
 
@@ -799,11 +788,11 @@ export declare const getLeft: <E, A>(fa: These<E, A>) => Option<E>
 **Example**
 
 ```ts
-import { getLeft, left, right, both } from 'fp-ts/These'
+import { getLeft, left, succeed, both } from 'fp-ts/These'
 import { none, some } from 'fp-ts/Option'
 
 assert.deepStrictEqual(getLeft(left('a')), some('a'))
-assert.deepStrictEqual(getLeft(right(1)), none)
+assert.deepStrictEqual(getLeft(succeed(1)), none)
 assert.deepStrictEqual(getLeft(both('a', 1)), some('a'))
 ```
 
@@ -822,58 +811,58 @@ export declare const getLeftOnly: <E, A>(fa: These<E, A>) => Option<E>
 **Example**
 
 ```ts
-import { getLeftOnly, left, right, both } from 'fp-ts/These'
+import { getLeftOnly, left, succeed, both } from 'fp-ts/These'
 import { none, some } from 'fp-ts/Option'
 
 assert.deepStrictEqual(getLeftOnly(left('a')), some('a'))
-assert.deepStrictEqual(getLeftOnly(right(1)), none)
+assert.deepStrictEqual(getLeftOnly(succeed(1)), none)
 assert.deepStrictEqual(getLeftOnly(both('a', 1)), none)
 ```
 
 Added in v3.0.0
 
-## getRight
+## getSuccess
 
 Returns an `A` value if possible
 
 **Signature**
 
 ```ts
-export declare const getRight: <E, A>(fa: These<E, A>) => Option<A>
+export declare const getSuccess: <E, A>(fa: These<E, A>) => Option<A>
 ```
 
 **Example**
 
 ```ts
-import { getRight, left, right, both } from 'fp-ts/These'
+import { getSuccess, left, succeed, both } from 'fp-ts/These'
 import { none, some } from 'fp-ts/Option'
 
-assert.deepStrictEqual(getRight(left('a')), none)
-assert.deepStrictEqual(getRight(right(1)), some(1))
-assert.deepStrictEqual(getRight(both('a', 1)), some(1))
+assert.deepStrictEqual(getSuccess(left('a')), none)
+assert.deepStrictEqual(getSuccess(succeed(1)), some(1))
+assert.deepStrictEqual(getSuccess(both('a', 1)), some(1))
 ```
 
 Added in v3.0.0
 
-## getRightOnly
+## getSuccessOnly
 
 Returns the `A` value if and only if the value is constructed with `Right`
 
 **Signature**
 
 ```ts
-export declare const getRightOnly: <E, A>(fa: These<E, A>) => Option<A>
+export declare const getSuccessOnly: <E, A>(fa: These<E, A>) => Option<A>
 ```
 
 **Example**
 
 ```ts
-import { getRightOnly, left, right, both } from 'fp-ts/These'
+import { getSuccessOnly, left, succeed, both } from 'fp-ts/These'
 import { none, some } from 'fp-ts/Option'
 
-assert.deepStrictEqual(getRightOnly(left('a')), none)
-assert.deepStrictEqual(getRightOnly(right(1)), some(1))
-assert.deepStrictEqual(getRightOnly(both('a', 1)), none)
+assert.deepStrictEqual(getSuccessOnly(left('a')), none)
+assert.deepStrictEqual(getSuccessOnly(succeed(1)), some(1))
+assert.deepStrictEqual(getSuccessOnly(both('a', 1)), none)
 ```
 
 Added in v3.0.0

@@ -21,8 +21,8 @@ Added in v3.0.0
 
 - [constructors](#constructors)
   - [left](#left)
-  - [right](#right)
   - [sleep](#sleep)
+  - [succeed](#succeed)
 - [conversions](#conversions)
   - [fromEither](#fromeither)
   - [fromIO](#fromio)
@@ -138,7 +138,6 @@ Added in v3.0.0
   - [composeKind](#composekind)
   - [delay](#delay)
   - [idKind](#idkind)
-  - [of](#of)
   - [swap](#swap)
   - [tap](#tap)
 
@@ -156,16 +155,6 @@ export declare const left: <E>(e: E) => TaskEither<E, never>
 
 Added in v3.0.0
 
-## right
-
-**Signature**
-
-```ts
-export declare const right: <A>(a: A) => TaskEither<never, A>
-```
-
-Added in v3.0.0
-
 ## sleep
 
 Returns an effect that suspends for the specified `duration` (in millis).
@@ -174,6 +163,16 @@ Returns an effect that suspends for the specified `duration` (in millis).
 
 ```ts
 export declare const sleep: (duration: number) => TaskEither<never, void>
+```
+
+Added in v3.0.0
+
+## succeed
+
+**Signature**
+
+```ts
+export declare const succeed: <A>(a: A) => TaskEither<never, A>
 ```
 
 Added in v3.0.0
@@ -367,9 +366,9 @@ import { pipe } from 'fp-ts/Function'
 import * as TE from 'fp-ts/TaskEither'
 
 async function test() {
-  const errorHandler = TE.catchAll((error: string) => TE.right(`recovering from ${error}...`))
-  assert.deepStrictEqual(await pipe(TE.right('ok'), errorHandler)(), E.right('ok'))
-  assert.deepStrictEqual(await pipe(TE.left('ko'), errorHandler)(), E.right('recovering from ko...'))
+  const errorHandler = TE.catchAll((error: string) => TE.succeed(`recovering from ${error}...`))
+  assert.deepStrictEqual(await pipe(TE.succeed('ok'), errorHandler)(), E.succeed('ok'))
+  assert.deepStrictEqual(await pipe(TE.left('ko'), errorHandler)(), E.succeed('recovering from ko...'))
 }
 
 test()
@@ -423,7 +422,7 @@ get all errors you need to provide a way to combine them via a `Semigroup`.
 export declare const getValidatedApplicative: <E>(
   Apply: apply.Apply<task.TaskTypeLambda>,
   Semigroup: Semigroup<E>
-) => applicative.Applicative<either.ValidatedTypeLambda<TaskEitherTypeLambda, E>>
+) => applicative.Applicative<either.ValidatedT<TaskEitherTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -438,7 +437,7 @@ get all errors you need to provide a way to combine them via a `Semigroup`.
 ```ts
 export declare const getValidatedSemigroupKind: <E>(
   Semigroup: Semigroup<E>
-) => semigroupKind.SemigroupKind<either.ValidatedTypeLambda<TaskEitherTypeLambda, E>>
+) => semigroupKind.SemigroupKind<either.ValidatedT<TaskEitherTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -479,8 +478,8 @@ import { pipe } from 'fp-ts/Function'
 import * as TE from 'fp-ts/TaskEither'
 
 async function test() {
-  assert.deepStrictEqual(await pipe(TE.right(1), TE.orElse(TE.right(2)))(), E.right(1))
-  assert.deepStrictEqual(await pipe(TE.left('a'), TE.orElse(TE.right(2)))(), E.right(2))
+  assert.deepStrictEqual(await pipe(TE.succeed(1), TE.orElse(TE.succeed(2)))(), E.succeed(1))
+  assert.deepStrictEqual(await pipe(TE.left('a'), TE.orElse(TE.succeed(2)))(), E.succeed(2))
   assert.deepStrictEqual(await pipe(TE.left('a'), TE.orElse(TE.left('b')))(), E.left('b'))
 }
 
@@ -724,7 +723,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getCompactable: <E>(onNone: E) => Compactable<either.ValidatedTypeLambda<TaskEitherTypeLambda, E>>
+export declare const getCompactable: <E>(onNone: E) => Compactable<either.ValidatedT<TaskEitherTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -734,7 +733,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFilterable: <E>(onEmpty: E) => Filterable<either.ValidatedTypeLambda<TaskEitherTypeLambda, E>>
+export declare const getFilterable: <E>(onEmpty: E) => Filterable<either.ValidatedT<TaskEitherTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -762,7 +761,7 @@ import * as TE from 'fp-ts/TaskEither'
 import { identity } from 'fp-ts/Function'
 
 async function test() {
-  assert.deepStrictEqual(await TE.fromRejectable(() => Promise.resolve(1), identity)(), E.right(1))
+  assert.deepStrictEqual(await TE.fromRejectable(() => Promise.resolve(1), identity)(), E.succeed(1))
   assert.deepStrictEqual(await TE.fromRejectable(() => Promise.reject('error'), identity)(), E.left('error'))
 }
 
@@ -1495,18 +1494,6 @@ Added in v3.0.0
 
 ```ts
 export declare const idKind: <A>() => (a: A) => TaskEither<never, A>
-```
-
-Added in v3.0.0
-
-## of
-
-Alias of `right`.
-
-**Signature**
-
-```ts
-export declare const of: <A>(a: A) => TaskEither<never, A>
 ```
 
 Added in v3.0.0

@@ -63,7 +63,7 @@ export const partition: <F extends TypeLambda>(
   <B extends A, A = B>(
     predicate: Predicate<A>
   ): (<S, R, O, E>(self: Kind<F, S, R, O, E, B>) => readonly [Kind<F, S, R, O, E, B>, Kind<F, S, R, O, E, B>]) =>
-    Filterable.partitionMap((b) => (predicate(b) ? _.right(b) : _.left(b)))
+    Filterable.partitionMap((b) => (predicate(b) ? _.succeed(b) : _.left(b)))
 
 /**
  * Returns a default `filterMap` composition.
@@ -98,5 +98,5 @@ export const partitionMapComposition = <F extends TypeLambda, G extends TypeLamb
   Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, C>>
 ]) => {
   const filterMap = filterMapComposition(FunctorF, FilterableG)
-  return (f) => (self) => [pipe(self, filterMap(flow(f, _.getLeft))), pipe(self, filterMap(flow(f, _.getRight)))]
+  return (f) => (self) => [pipe(self, filterMap(flow(f, _.getLeft))), pipe(self, filterMap(flow(f, _.getSuccess)))]
 }

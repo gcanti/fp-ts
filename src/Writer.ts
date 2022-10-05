@@ -298,7 +298,7 @@ export const sequence: <F extends TypeLambda>(
  * @since 3.0.0
  */
 export const getFromIdentity = <W>(M: Monoid<W>): FromIdentity<WriterFFix<W>> => ({
-  of: (a) => [M.empty, a]
+  succeed: (a) => [M.empty, a]
 })
 
 /**
@@ -324,7 +324,7 @@ export const getApplicative = <W>(Monoid: Monoid<W>): applicative.Applicative<Wr
   return {
     map,
     ap: Apply.ap,
-    of: FromIdentity.of
+    succeed: FromIdentity.succeed
   }
 }
 
@@ -352,7 +352,7 @@ export const getMonad = <W>(M: Monoid<W>): Monad<WriterFFix<W>> => {
   const C = getFlattenable(M)
   return {
     map,
-    of: P.of,
+    succeed: P.succeed,
     flatMap: C.flatMap
   }
 }
@@ -373,7 +373,7 @@ export function getFlattenableRec<W>(M: Monoid<W>): FlattenableRec<WriterFFix<W>
         result = f(s.left)
         s = snd(result)
       }
-      return [M.combine(fst(result))(acc), s.right]
+      return [M.combine(fst(result))(acc), s.success]
     }
 
   return {

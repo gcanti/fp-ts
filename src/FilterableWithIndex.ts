@@ -55,4 +55,4 @@ export const partitionWithIndex: <F extends TypeLambda, I>(
   <B extends A, A = B>(
     predicate: (i: I, a: A) => boolean
   ): (<S, R, O, E>(fb: Kind<F, S, R, O, E, B>) => readonly [Kind<F, S, R, O, E, B>, Kind<F, S, R, O, E, B>]) =>
-    F.partitionMapWithIndex((i, b) => (predicate(i, b) ? _.right(b) : _.left(b)))
+    F.partitionMapWithIndex((i, b) => (predicate(i, b) ? _.succeed(b) : _.left(b)))

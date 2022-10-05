@@ -15,18 +15,18 @@ _.ap(fa)(fab)
 
 // $ExpectType ReaderIO<unknown, number>
 pipe(
-  _.of('a'),
-  _.flatMap(() => _.of(1))
+  _.succeed('a'),
+  _.flatMap(() => _.succeed(1))
 )
 
 // $ExpectType ReaderIO<{ b: number; }, number>
 pipe(
-  _.of('a'),
-  _.flatMap(() => _.of(1) as _.ReaderIO<{ b: number }, number>)
+  _.succeed('a'),
+  _.flatMap(() => _.succeed(1) as _.ReaderIO<{ b: number }, number>)
 )
 
 // $ExpectType ReaderIO<{ a: string; } & { b: number; }, number>
 pipe(
-  _.of('a') as _.ReaderIO<{ a: string }, string>,
-  _.flatMap(() => _.of(1) as _.ReaderIO<{ b: number }, number>)
+  _.succeed('a') as _.ReaderIO<{ a: string }, string>,
+  _.flatMap(() => _.succeed(1) as _.ReaderIO<{ b: number }, number>)
 )

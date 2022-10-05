@@ -17,7 +17,7 @@ describe('State', () => {
     })
 
     it('ap', () => {
-      U.deepStrictEqual(pipe(_.of(U.double), _.ap(_.of(1)))(0), [0, 2])
+      U.deepStrictEqual(pipe(_.succeed(U.double), _.ap(_.succeed(1)))(0), [0, 2])
     })
 
     it('flatMap', () => {
@@ -27,16 +27,16 @@ describe('State', () => {
     })
 
     it('flatten', () => {
-      U.deepStrictEqual(pipe(_.of(_.of('a')), _.flatten)(0), [0, 'a'])
+      U.deepStrictEqual(pipe(_.succeed(_.succeed('a')), _.flatten)(0), [0, 'a'])
     })
   })
 
   it('evaluate', () => {
-    U.deepStrictEqual(pipe(_.of<string, number>('a'), _.evaluate(0)), 'a')
+    U.deepStrictEqual(pipe(_.succeed<string, number>('a'), _.evaluate(0)), 'a')
   })
 
   it('execute', () => {
-    U.deepStrictEqual(pipe(_.of<string, number>('a'), _.execute(0)), 0)
+    U.deepStrictEqual(pipe(_.succeed<string, number>('a'), _.execute(0)), 0)
   })
 
   it('put', () => {
@@ -58,36 +58,36 @@ describe('State', () => {
   it('do notation', () => {
     U.deepStrictEqual(
       pipe(
-        _.of(1),
+        _.succeed(1),
         _.bindTo('a'),
-        _.bind('b', () => _.of('b'))
+        _.bind('b', () => _.succeed('b'))
       )('state'),
       ['state', { a: 1, b: 'b' }]
     )
   })
 
   it('apS', () => {
-    U.deepStrictEqual(pipe(_.of(1), _.bindTo('a'), _.bindRight('b', _.of('b')))(undefined), [
+    U.deepStrictEqual(pipe(_.succeed(1), _.bindTo('a'), _.bindRight('b', _.succeed('b')))(undefined), [
       undefined,
       { a: 1, b: 'b' }
     ])
   })
 
   it('zipFlatten', () => {
-    U.deepStrictEqual(pipe(_.of(1), _.tupled, _.zipFlatten(_.of('b')))({}), [{}, [1, 'b']])
+    U.deepStrictEqual(pipe(_.succeed(1), _.tupled, _.zipFlatten(_.succeed('b')))({}), [{}, [1, 'b']])
   })
 
   describe('array utils', () => {
     const input: ReadonlyNonEmptyArray<string> = ['a', 'b']
 
     it('traverseReadonlyArrayWithIndex', () => {
-      const f = _.traverseReadonlyArrayWithIndex((i, a: string) => _.of(a + i))
+      const f = _.traverseReadonlyArrayWithIndex((i, a: string) => _.succeed(a + i))
       U.deepStrictEqual(pipe(RA.empty, f)({}), [{}, RA.empty])
       U.deepStrictEqual(pipe(input, f)({}), [{}, ['a0', 'b1']])
     })
 
     it('traverseReadonlyNonEmptyArray', () => {
-      const f = _.traverseReadonlyNonEmptyArray((a: string) => _.of(a))
+      const f = _.traverseReadonlyNonEmptyArray((a: string) => _.succeed(a))
       U.deepStrictEqual(pipe(input, f)({}), [{}, ['a', 'b']])
     })
 

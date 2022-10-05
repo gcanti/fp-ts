@@ -15,9 +15,8 @@ Added in v3.0.0
 - [constructors](#constructors)
   - [both](#both)
   - [left](#left)
-  - [of](#of)
-  - [right](#right)
   - [sleep](#sleep)
+  - [succeed](#succeed)
 - [conversions](#conversions)
   - [fromEither](#fromeither)
   - [fromIO](#fromio)
@@ -107,28 +106,6 @@ export declare const left: <E>(e: E) => TaskThese<E, never>
 
 Added in v3.0.0
 
-## of
-
-Alias of `right`.
-
-**Signature**
-
-```ts
-export declare const of: <A>(a: A) => TaskThese<never, A>
-```
-
-Added in v3.0.0
-
-## right
-
-**Signature**
-
-```ts
-export declare const right: <A>(a: A) => TaskThese<never, A>
-```
-
-Added in v3.0.0
-
 ## sleep
 
 Returns an effect that suspends for the specified `duration` (in millis).
@@ -137,6 +114,16 @@ Returns an effect that suspends for the specified `duration` (in millis).
 
 ```ts
 export declare const sleep: (duration: number) => TaskThese<never, void>
+```
+
+Added in v3.0.0
+
+## succeed
+
+**Signature**
+
+```ts
+export declare const succeed: <A>(a: A) => TaskThese<never, A>
 ```
 
 Added in v3.0.0
@@ -328,7 +315,7 @@ Added in v3.0.0
 export declare const getApplicative: <E>(
   Apply: Apply<task.TaskTypeLambda>,
   Semigroup: Semigroup<E>
-) => Applicative<ValidatedTypeLambda<TaskTheseTypeLambda, E>>
+) => Applicative<ValidatedT<TaskTheseTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -341,7 +328,7 @@ Added in v3.0.0
 export declare const getApply: <E>(
   Apply: Apply<task.TaskTypeLambda>,
   Semigroup: Semigroup<E>
-) => Apply<ValidatedTypeLambda<TaskTheseTypeLambda, E>>
+) => Apply<ValidatedT<TaskTheseTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -351,7 +338,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFlattenable: <E>(S: Semigroup<E>) => Flattenable<ValidatedTypeLambda<TaskTheseTypeLambda, E>>
+export declare const getFlattenable: <E>(S: Semigroup<E>) => Flattenable<ValidatedT<TaskTheseTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -361,7 +348,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getMonad: <E>(S: Semigroup<E>) => Monad<ValidatedTypeLambda<TaskTheseTypeLambda, E>>
+export declare const getMonad: <E>(S: Semigroup<E>) => Monad<ValidatedT<TaskTheseTypeLambda, E>>
 ```
 
 Added in v3.0.0

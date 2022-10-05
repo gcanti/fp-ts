@@ -27,7 +27,7 @@ Added in v3.0.0
 
 ```ts
 export interface FromIdentity<F extends TypeLambda> extends TypeClass<F> {
-  readonly of: <A, S>(a: A) => Kind<F, S, unknown, never, never, A>
+  readonly succeed: <A, S>(a: A) => Kind<F, S, unknown, never, never, A>
 }
 ```
 

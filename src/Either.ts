@@ -59,7 +59,7 @@ export interface Left<E> {
  */
 export interface Right<A> {
   readonly _tag: 'Right'
-  readonly right: A
+  readonly success: A
 }
 
 /**
@@ -110,7 +110,7 @@ export const isLeft: <E>(ma: Either<E, unknown>) => ma is Left<E> = _.isLeft
  * @category refinements
  * @since 3.0.0
  */
-export const isRight: <A>(ma: Either<unknown, A>) => ma is Right<A> = _.isRight
+export const isRight: <A>(ma: Either<unknown, A>) => ma is Right<A> = _.isSuccess
 
 /**
  * Constructs a new `Either` holding a `Left` value. This usually represents a failure, due to the right-bias of this
@@ -128,7 +128,7 @@ export const left: <E>(e: E) => Either<E, never> = _.left
  * @category constructors
  * @since 3.0.0
  */
-export const right: <A>(a: A) => Either<never, A> = _.right
+export const succeed: <A>(a: A) => Either<never, A> = _.succeed
 
 // -------------------------------------------------------------------------------------
 // pattern matching
@@ -148,7 +148,7 @@ export const right: <A>(a: A) => Either<never, A> = _.right
  *
  * assert.strictEqual(
  *   pipe(
- *     E.right(1),
+ *     E.succeed(1),
  *     E.match(onError , onSuccess)
  *   ),
  *   'Ok: 1'
@@ -167,7 +167,7 @@ export const right: <A>(a: A) => Either<never, A> = _.right
 export const match =
   <E, B, A, C = B>(onError: (e: E) => B, onSuccess: (a: A) => C) =>
   (self: Either<E, A>): B | C =>
-    isLeft(self) ? onError(self.left) : onSuccess(self.right)
+    isLeft(self) ? onError(self.left) : onSuccess(self.success)
 
 /**
  * Returns the wrapped value if it's a `Right` or a default value if is a `Left`.
@@ -178,7 +178,7 @@ export const match =
  *
  * assert.deepStrictEqual(
  *   pipe(
- *     E.right(1),
+ *     E.succeed(1),
  *     E.getOrElse(0)
  *   ),
  *   1
@@ -197,7 +197,7 @@ export const match =
 export const getOrElse =
   <B>(onError: B) =>
   <A>(self: Either<unknown, A>): A | B =>
-    isLeft(self) ? onError : self.right
+    isLeft(self) ? onError : self.success
 
 /**
  * Takes a lazy default and a nullable value, if the value is not nully, turn it into a `Right`, if the value is nully use
@@ -208,7 +208,7 @@ export const getOrElse =
  *
  * const parse = E.fromNullable('nully')
  *
- * assert.deepStrictEqual(parse(1), E.right(1))
+ * assert.deepStrictEqual(parse(1), E.succeed(1))
  * assert.deepStrictEqual(parse(null), E.left('nully'))
  *
  * @category conversions
@@ -256,7 +256,7 @@ export const flatMapNullable = <A, B, E2>(
  *   E.fromThrowable(() => unsafeHead(as), identity)
  *
  * assert.deepStrictEqual(head([]), E.left(new Error('empty array')))
- * assert.deepStrictEqual(head([1, 2, 3]), E.right(1))
+ * assert.deepStrictEqual(head([1, 2, 3]), E.succeed(1))
  *
  * @see {@link liftThrowable}
  * @category interop
@@ -264,7 +264,7 @@ export const flatMapNullable = <A, B, E2>(
  */
 export const fromThrowable = <A, E>(f: () => A, onThrow: (error: unknown) => E): Either<E, A> => {
   try {
-    return right(f())
+    return succeed(f())
   } catch (e) {
     return left(onThrow(e))
   }
@@ -293,7 +293,7 @@ export const toUnion: <E, A>(fa: Either<E, A>) => E | A = /*#__PURE__*/ match(id
 /**
  * @since 3.0.0
  */
-export const swap = <E, A>(ma: Either<E, A>): Either<A, E> => (isLeft(ma) ? right(ma.left) : left(ma.right))
+export const swap = <E, A>(ma: Either<E, A>): Either<A, E> => (isLeft(ma) ? succeed(ma.left) : left(ma.success))
 
 /**
  * Recovers from all errors.
@@ -318,15 +318,7 @@ export const catchAll: <E1, E2, B>(
  */
 export const mapBoth: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (self: Either<E, A>) => Either<G, B> =
   (f, g) => (fa) =>
-    isLeft(fa) ? left(f(fa.left)) : right(g(fa.right))
-
-/**
- * Alias of `right`.
- *
- * @category constructors
- * @since 3.0.0
- */
-export const of = right
+    isLeft(fa) ? left(f(fa.left)) : succeed(g(fa.success))
 
 /**
  * @category sequencing
@@ -336,7 +328,11 @@ export const flatMapRec = <A, E, B>(f: (a: A) => Either<E, Either<A, B>>): ((a: 
   flow(
     f,
     flattenableRec.tailRec<Either<E, Either<A, B>>, Either<E, B>>((e) =>
-      isLeft(e) ? right(left(e.left)) : isLeft(e.right) ? left(f(e.right.left)) : right(right(e.right.right))
+      isLeft(e)
+        ? succeed(left(e.left))
+        : isLeft(e.success)
+        ? left(f(e.success.left))
+        : succeed(succeed(e.success.success))
     )
   )
 
@@ -346,12 +342,12 @@ export const flatMapRec = <A, E, B>(f: (a: A) => Either<E, Either<A, B>>): ((a: 
  *
  * In case of `Either` returns the left-most non-`Left` value (or the right-most `Left` value if both values are `Left`).
  *
- * | x        | y        | pipe(x, orElse(y) |
- * | -------- | -------- | ------------------|
- * | left(a)  | left(b)  | left(b)           |
- * | left(a)  | right(2) | right(2)          |
- * | right(1) | left(b)  | right(1)          |
- * | right(1) | right(2) | right(1)          |
+ * | x          | y          | pipe(x, orElse(y) |
+ * | ---------- | ---------- | ------------------|
+ * | left(a)    | left(b)    | left(b)           |
+ * | left(a)    | succeed(2) | succeed(2)        |
+ * | succeed(1) | left(b)    | succeed(1)        |
+ * | succeed(1) | succeed(2) | succeed(1)        |
  *
  * @example
  * import * as E from 'fp-ts/Either'
@@ -367,23 +363,23 @@ export const flatMapRec = <A, E, B>(f: (a: A) => Either<E, Either<A, B>>): ((a: 
  * assert.deepStrictEqual(
  *   pipe(
  *     E.left('a'),
- *     E.orElse(E.right(2))
+ *     E.orElse(E.succeed(2))
  *   ),
- *   E.right(2)
+ *   E.succeed(2)
  * )
  * assert.deepStrictEqual(
  *   pipe(
- *     E.right(1),
+ *     E.succeed(1),
  *     E.orElse(E.left('b'))
  *   ),
- *   E.right(1)
+ *   E.succeed(1)
  * )
  * assert.deepStrictEqual(
  *   pipe(
- *     E.right(1),
- *     E.orElse(E.right(2))
+ *     E.succeed(1),
+ *     E.orElse(E.succeed(2))
  *   ),
- *   E.right(1)
+ *   E.succeed(1)
  * )
  *
  * @category error handling
@@ -397,7 +393,7 @@ export const orElse: <E2, B>(that: Either<E2, B>) => <E1, A>(self: Either<E1, A>
  * @since 3.0.0
  */
 export const extend: <E, A, B>(f: (wa: Either<E, A>) => B) => (wa: Either<E, A>) => Either<E, B> = (f) => (wa) =>
-  isLeft(wa) ? wa : right(f(wa))
+  isLeft(wa) ? wa : succeed(f(wa))
 
 /**
  * @since 3.0.0
@@ -415,7 +411,7 @@ export const duplicate: <E, A>(ma: Either<E, A>) => Either<E, Either<E, A>> = /*
  * const combine = (a: string, b: string) => `${a}:${b}`
  *
  * assert.deepStrictEqual(
- *   pipe(E.right('a'), E.reduce(startWith, combine)),
+ *   pipe(E.succeed('a'), E.reduce(startWith, combine)),
  *   'prefix:a',
  * )
  *
@@ -428,7 +424,7 @@ export const duplicate: <E, A>(ma: Either<E, A>) => Either<E, Either<E, A>> = /*
  * @since 3.0.0
  */
 export const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => <E>(fa: Either<E, A>) => B = (b, f) => (fa) =>
-  isLeft(fa) ? b : f(b, fa.right)
+  isLeft(fa) ? b : f(b, fa.success)
 
 /**
  * Map each element of the structure to a monoid, and combine the results.
@@ -441,7 +437,7 @@ export const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => <E>(fa: Either<E, A>)
  * const yell = (a: string) => `${a}!`
  *
  * assert.deepStrictEqual(
- *   pipe(E.right('a'), E.foldMap(Monoid)(yell)),
+ *   pipe(E.succeed('a'), E.foldMap(Monoid)(yell)),
  *   'a!',
  * )
  *
@@ -454,7 +450,7 @@ export const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => <E>(fa: Either<E, A>)
  * @since 3.0.0
  */
 export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: Either<E, A>) => M = (M) => (f) => (fa) =>
-  isLeft(fa) ? M.empty : f(fa.right)
+  isLeft(fa) ? M.empty : f(fa.success)
 
 /**
  * Right-associative fold of a structure.
@@ -467,7 +463,7 @@ export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: Either
  * const combine = (a: string, b: string) => `${a}:${b}`
  *
  * assert.deepStrictEqual(
- *   pipe(E.right('a'), E.reduceRight(startWith, combine)),
+ *   pipe(E.succeed('a'), E.reduceRight(startWith, combine)),
  *   'a:postfix',
  * )
  *
@@ -480,7 +476,7 @@ export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: Either
  * @since 3.0.0
  */
 export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <E>(fa: Either<E, A>) => B = (b, f) => (fa) =>
-  isLeft(fa) ? b : f(fa.right, b)
+  isLeft(fa) ? b : f(fa.success, b)
 
 /**
  * Map each element of a structure to an action, evaluate these actions from left to right, and collect the results.
@@ -492,12 +488,12 @@ export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <E>(fa: Either<E
  * import * as O from 'fp-ts/Option'
  *
  * assert.deepStrictEqual(
- *   pipe(E.right(['a']), E.traverse(O.Applicative)(RA.head)),
- *   O.some(E.right('a')),
+ *   pipe(E.succeed(['a']), E.traverse(O.Applicative)(RA.head)),
+ *   O.some(E.succeed('a')),
  *  )
  *
  * assert.deepStrictEqual(
- *   pipe(E.right([]), E.traverse(O.Applicative)(RA.head)),
+ *   pipe(E.succeed([]), E.traverse(O.Applicative)(RA.head)),
  *   O.none,
  * )
  *
@@ -508,14 +504,14 @@ export const traverse =
   <F extends TypeLambda>(F: applicative.Applicative<F>) =>
   <A, FS, FR, FO, FE, B>(f: (a: A) => Kind<F, FS, FR, FO, FE, B>) =>
   <E>(ta: Either<E, A>): Kind<F, FS, FR, FO, FE, Either<E, B>> =>
-    isLeft(ta) ? F.of(left(ta.left)) : pipe(f(ta.right), F.map(right))
+    isLeft(ta) ? F.succeed(left(ta.left)) : pipe(f(ta.success), F.map(succeed))
 
 /**
  * @category instances
  * @since 3.0.0
  */
 export const getShow = <E, A>(SE: Show<E>, SA: Show<A>): Show<Either<E, A>> => ({
-  show: (ma) => (isLeft(ma) ? `left(${SE.show(ma.left)})` : `right(${SA.show(ma.right)})`)
+  show: (ma) => (isLeft(ma) ? `left(${SE.show(ma.left)})` : `succeed(${SA.show(ma.success)})`)
 })
 
 /**
@@ -527,7 +523,7 @@ export const getEq = <E, A>(EE: eq.Eq<E>, EA: eq.Eq<A>): eq.Eq<Either<E, A>> =>
     (that) => (self) =>
       isLeft(self)
         ? isLeft(that) && EE.equals(that.left)(self.left)
-        : isRight(that) && EA.equals(that.right)(self.right)
+        : isRight(that) && EA.equals(that.success)(self.success)
   )
 
 /**
@@ -541,15 +537,16 @@ export const getEq = <E, A>(EE: eq.Eq<E>, EA: eq.Eq<A>): eq.Eq<Either<E, A>> =>
  *
  * const S = E.getSemigroup<number, string>(N.SemigroupSum)
  * assert.deepStrictEqual(pipe(E.left('a'), S.combine(E.left('b'))), E.left('a'))
- * assert.deepStrictEqual(pipe(E.left('a'), S.combine(E.right(2))), E.right(2))
- * assert.deepStrictEqual(pipe(E.right(1), S.combine(E.left('b'))), E.right(1))
- * assert.deepStrictEqual(pipe(E.right(1), S.combine(E.right(2))), E.right(3))
+ * assert.deepStrictEqual(pipe(E.left('a'), S.combine(E.succeed(2))), E.succeed(2))
+ * assert.deepStrictEqual(pipe(E.succeed(1), S.combine(E.left('b'))), E.succeed(1))
+ * assert.deepStrictEqual(pipe(E.succeed(1), S.combine(E.succeed(2))), E.succeed(3))
  *
  * @category instances
  * @since 3.0.0
  */
 export const getSemigroup = <A, E>(S: Semigroup<A>): Semigroup<Either<E, A>> => ({
-  combine: (that) => (self) => isLeft(that) ? self : isLeft(self) ? that : right(S.combine(that.right)(self.right))
+  combine: (that) => (self) =>
+    isLeft(that) ? self : isLeft(self) ? that : succeed(S.combine(that.success)(self.success))
 })
 
 /**
@@ -557,7 +554,7 @@ export const getSemigroup = <A, E>(S: Semigroup<A>): Semigroup<Either<E, A>> => 
  * @since 3.0.0
  */
 export const compact: <E>(onNone: E) => <A>(self: Either<E, Option<A>>) => Either<E, A> = (e) => (self) =>
-  isLeft(self) ? self : _.isNone(self.right) ? left(e) : right(self.right.value)
+  isLeft(self) ? self : _.isNone(self.success) ? left(e) : succeed(self.success.value)
 
 /**
  * @category filtering
@@ -569,9 +566,9 @@ export const separate: <E>(
   return (self) =>
     isLeft(self)
       ? [self, self]
-      : isLeft(self.right)
-      ? [right(self.right.left), left(onEmpty)]
-      : [left(onEmpty), right(self.right.right)]
+      : isLeft(self.success)
+      ? [succeed(self.success.left), left(onEmpty)]
+      : [left(onEmpty), succeed(self.success.success)]
 }
 
 /**
@@ -697,7 +694,7 @@ export const unit: <E>(self: Either<E, unknown>) => Either<E, void> = /*#__PURE_
  * @since 3.0.0
  */
 export const FromIdentity: fromIdentity.FromIdentity<EitherTypeLambda> = {
-  of
+  succeed
 }
 
 /**
@@ -706,7 +703,7 @@ export const FromIdentity: fromIdentity.FromIdentity<EitherTypeLambda> = {
  */
 export const flatMap: <A, E2, B>(f: (a: A) => Either<E2, B>) => <E1>(self: Either<E1, A>) => Either<E1 | E2, B> =
   (f) => (self) =>
-    isLeft(self) ? self : f(self.right)
+    isLeft(self) ? self : f(self.success)
 
 /**
  * The `flatten` function is the conventional monad join operator. It is used to remove one level of monadic structure, projecting its bound argument into the outer level.
@@ -714,8 +711,8 @@ export const flatMap: <A, E2, B>(f: (a: A) => Either<E2, B>) => <E1>(self: Eithe
  * @example
  * import * as E from 'fp-ts/Either'
  *
- * assert.deepStrictEqual(E.flatten(E.right(E.right('a'))), E.right('a'))
- * assert.deepStrictEqual(E.flatten(E.right(E.left('e'))), E.left('e'))
+ * assert.deepStrictEqual(E.flatten(E.succeed(E.succeed('a'))), E.succeed('a'))
+ * assert.deepStrictEqual(E.flatten(E.succeed(E.left('e'))), E.left('e'))
  * assert.deepStrictEqual(E.flatten(E.left('e')), E.left('e'))
  *
  * @category sequencing
@@ -825,7 +822,7 @@ export const lift3: <A, B, C, D>(
 export const Applicative: applicative.Applicative<EitherTypeLambda> = {
   map,
   ap,
-  of
+  succeed
 }
 
 /**
@@ -840,10 +837,10 @@ export const Applicative: applicative.Applicative<EitherTypeLambda> = {
  * import * as string from 'fp-ts/string'
  *
  * const parseString = (u: unknown): E.Either<string, string> =>
- *   typeof u === 'string' ? E.right(u) : E.left('not a string')
+ *   typeof u === 'string' ? E.succeed(u) : E.left('not a string')
  *
  * const parseNumber = (u: unknown): E.Either<string, number> =>
- *   typeof u === 'number' ? E.right(u) : E.left('not a number')
+ *   typeof u === 'number' ? E.succeed(u) : E.left('not a number')
  *
  * interface Person {
  *   readonly name: string
@@ -892,8 +889,8 @@ export const getValidatedApplicative = <E>(
         : fab
       : isLeft(fa)
       ? fa
-      : right(fab.right(fa.right)),
-  of
+      : succeed(fab.success(fa.success)),
+  succeed
 })
 
 /**
@@ -902,7 +899,7 @@ export const getValidatedApplicative = <E>(
  */
 export const Monad: monad.Monad<EitherTypeLambda> = {
   map,
-  of,
+  succeed,
   flatMap
 }
 
@@ -984,10 +981,10 @@ export const SemigroupKind: semigroupKind.SemigroupKind<EitherTypeLambda> = {
  * import * as string from 'fp-ts/string'
  *
  * const parseString = (u: unknown): E.Either<string, string> =>
- *   typeof u === 'string' ? E.right(u) : E.left('not a string')
+ *   typeof u === 'string' ? E.succeed(u) : E.left('not a string')
  *
  * const parseNumber = (u: unknown): E.Either<string, number> =>
- *   typeof u === 'number' ? E.right(u) : E.left('not a number')
+ *   typeof u === 'number' ? E.succeed(u) : E.left('not a number')
  *
  * const parse = (u: unknown): E.Either<string, string | number> =>
  *   pipe(
@@ -1046,7 +1043,7 @@ export const FromEither: fromEither_.FromEither<EitherTypeLambda> = {
  *     O.some(1),
  *     E.fromOption('error')
  *   ),
- *   E.right(1)
+ *   E.succeed(1)
  * )
  * assert.deepStrictEqual(
  *   pipe(
@@ -1065,7 +1062,7 @@ export const fromOption: <E>(onNone: E) => <A>(fa: Option<A>) => Either<E, A> = 
  * @category conversions
  * @since 3.0.0
  */
-export const toOption: <A>(self: Either<unknown, A>) => Option<A> = _.getRight
+export const toOption: <A>(self: Either<unknown, A>) => Option<A> = _.getSuccess
 
 /**
  * @category conversions
@@ -1081,7 +1078,7 @@ export const toUndefined: <A>(self: Either<unknown, A>) => A | undefined = /*#__
 
 /**
  * @example
- * import { liftPredicate, left, right } from 'fp-ts/Either'
+ * import { liftPredicate, left, succeed } from 'fp-ts/Either'
  * import { pipe } from 'fp-ts/Function'
  *
  * assert.deepStrictEqual(
@@ -1089,7 +1086,7 @@ export const toUndefined: <A>(self: Either<unknown, A>) => A | undefined = /*#__
  *     1,
  *     liftPredicate((n) => n > 0, 'error')
  *   ),
- *   right(1)
+ *   succeed(1)
  * )
  * assert.deepStrictEqual(
  *   pipe(
@@ -1123,14 +1120,14 @@ export const liftOption: <A extends ReadonlyArray<unknown>, B, E>(
  *
  * assert.deepStrictEqual(
  *   pipe(
- *     E.right(1),
+ *     E.succeed(1),
  *     E.filter((n) => n > 0, 'error')
  *   ),
- *   E.right(1)
+ *   E.succeed(1)
  * )
  * assert.deepStrictEqual(
  *   pipe(
- *     E.right(-1),
+ *     E.succeed(-1),
  *     E.filter((n) => n > 0, 'error')
  *   ),
  *   E.left('error')
@@ -1203,7 +1200,7 @@ export const elem =
   <A>(E: eq.Eq<A>) =>
   (a: A) =>
   <E>(ma: Either<E, A>): boolean =>
-    isLeft(ma) ? false : E.equals(ma.right)(a)
+    isLeft(ma) ? false : E.equals(ma.success)(a)
 
 /**
  * Returns `false` if `Left` or returns the result of the application of the given predicate to the `Right` value.
@@ -1214,15 +1211,15 @@ export const elem =
  * const f = E.exists((n: number) => n > 2)
  *
  * assert.strictEqual(f(E.left('a')), false)
- * assert.strictEqual(f(E.right(1)), false)
- * assert.strictEqual(f(E.right(3)), true)
+ * assert.strictEqual(f(E.succeed(1)), false)
+ * assert.strictEqual(f(E.succeed(3)), true)
  *
  * @since 3.0.0
  */
 export const exists =
   <A>(predicate: Predicate<A>) =>
   (ma: Either<unknown, A>): boolean =>
-    isLeft(ma) ? false : predicate(ma.right)
+    isLeft(ma) ? false : predicate(ma.success)
 
 // -------------------------------------------------------------------------------------
 // do notation
@@ -1232,7 +1229,7 @@ export const exists =
  * @category do notation
  * @since 3.0.0
  */
-export const Do: Either<never, {}> = /*#__PURE__*/ of(_.Do)
+export const Do: Either<never, {}> = /*#__PURE__*/ succeed(_.Do)
 
 /**
  * @category do notation
@@ -1285,7 +1282,7 @@ export const bindRight: <N extends string, A extends object, E2, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const Zip: Either<never, readonly []> = /*#__PURE__*/ of(_.Zip)
+export const Zip: Either<never, readonly []> = /*#__PURE__*/ succeed(_.Zip)
 
 /**
  * @category tuple sequencing
@@ -1332,15 +1329,15 @@ export const traverseReadonlyNonEmptyArrayWithIndex =
     if (isLeft(e)) {
       return e
     }
-    const out: _.NonEmptyArray<B> = [e.right]
+    const out: _.NonEmptyArray<B> = [e.success]
     for (let i = 1; i < as.length; i++) {
       const e = f(i, as[i])
       if (isLeft(e)) {
         return e
       }
-      out.push(e.right)
+      out.push(e.success)
     }
-    return right(out)
+    return succeed(out)
   }
 
 /**

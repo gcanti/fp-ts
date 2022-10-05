@@ -1,19 +1,19 @@
 /**
- * The `Applicative` type class extends the `Apply` type class with a `of` function, which can be used to create values
+ * The `Applicative` type class extends the `Apply` type class with a `succeed` function, which can be used to create values
  * of type `f a` from values of type `a`.
  *
  * Where `Apply` provides the ability to lift functions of two or more arguments to functions whose arguments are
- * wrapped using `f`, and `Functor` provides the ability to lift functions of one argument, `pure` can be seen as the
+ * wrapped using `f`, and `Functor` provides the ability to lift functions of one argument, `succeed` can be seen as the
  * function which lifts functions of _zero_ arguments. That is, `Applicative` functors support a lifting operation for
  * any number of function arguments.
  *
  * Instances must satisfy the following laws in addition to the `Apply` laws:
  *
- * 1. Identity: `of(identity) |> ap(fa) <-> fa`
- * 2. Homomorphism: `of(ab) |> ap(a) <-> of(ab(a))`
- * 3. Interchange: `fab |> ap(of(a)) <-> of(ab => ab(a)) |> ap(fab)`
+ * 1. Identity: `succeed(identity) |> ap(fa) <-> fa`
+ * 2. Homomorphism: `succeed(ab) |> ap(a) <-> succeed(ab(a))`
+ * 3. Interchange: `fab |> ap(succeed(a)) <-> succeed(ab => ab(a)) |> ap(fab)`
  *
- * Note. `Functor`'s `map` can be derived: `map = f => fa => of(f) |> ap(fa)`
+ * Note. `Functor`'s `map` can be derived: `map = f => fa => succeed(f) |> ap(fa)`
  *
  * @since 3.0.0
  */
@@ -39,7 +39,7 @@ export const getApplicativeMonoid = <F extends TypeLambda>(Applicative: Applicat
   return <A, S, R, O, E>(Monoid: Monoid<A>): Monoid<Kind<F, S, R, O, E, A>> => {
     return {
       combine: getApplySemigroup<A, S, R, O, E>(Monoid).combine,
-      empty: Applicative.of(Monoid.empty)
+      empty: Applicative.succeed(Monoid.empty)
     }
   }
 }

@@ -25,10 +25,10 @@ export interface TheseT<F extends TypeLambda, E> extends TypeLambda {
 /**
  * @since 3.0.0
  */
-export const right =
+export const succeed =
   <F extends TypeLambda>(FromIdentity: FromIdentity<F>) =>
   <A, S>(a: A): Kind<TheseT<F, never>, S, unknown, never, never, A> =>
-    FromIdentity.of(these.right(a))
+    FromIdentity.succeed(these.succeed(a))
 
 /**
  * @since 3.0.0
@@ -36,7 +36,7 @@ export const right =
 export const left =
   <F extends TypeLambda>(FromIdentity: FromIdentity<F>) =>
   <E, S>(e: E): Kind<TheseT<F, E>, S, unknown, never, never, never> =>
-    FromIdentity.of(these.left(e))
+    FromIdentity.succeed(these.left(e))
 
 /**
  * @since 3.0.0
@@ -44,14 +44,15 @@ export const left =
 export const both =
   <F extends TypeLambda>(FromIdentity: FromIdentity<F>) =>
   <E, A, S>(e: E, a: A): Kind<TheseT<F, E>, S, unknown, never, never, A> =>
-    FromIdentity.of(these.both(e, a))
+    FromIdentity.succeed(these.both(e, a))
 
 /**
  * @since 3.0.0
  */
 export const fromKind = <F extends TypeLambda>(
   Functor: Functor<F>
-): (<S, R, O, FE, A>(fa: Kind<F, S, R, O, FE, A>) => Kind<TheseT<F, never>, S, R, O, FE, A>) => Functor.map(these.right)
+): (<S, R, O, FE, A>(fa: Kind<F, S, R, O, FE, A>) => Kind<TheseT<F, never>, S, R, O, FE, A>) =>
+  Functor.map(these.succeed)
 
 /**
  * @since 3.0.0
@@ -178,7 +179,7 @@ export const swap = <F extends TypeLambda>(
 export const toTuple2 = <F extends TypeLambda>(
   Functor: Functor<F>
 ): (<E, A>(
-  onRight: E,
+  onSuccess: E,
   onLeft: A
 ) => <S, R, O, FE>(self: Kind<TheseT<F, E>, S, R, O, FE, A>) => Kind<F, S, R, O, FE, readonly [E, A]>) =>
   flow(these.toTuple2, Functor.map)

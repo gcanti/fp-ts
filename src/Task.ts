@@ -114,7 +114,7 @@ export const apPar: <A>(fa: Task<A>) => <B>(fab: Task<(a: A) => B>) => Task<B> =
  * @category constructors
  * @since 3.0.0
  */
-export const of: <A>(a: A) => Task<A> = (a) => () => Promise.resolve(a)
+export const succeed: <A>(a: A) => Task<A> = (a) => () => Promise.resolve(a)
 
 /**
  * @category sequencing
@@ -157,8 +157,8 @@ export interface TaskTypeLambda extends TypeLambda {
  *
  * async function test() {
  *   const S = T.getRaceMonoid<string>()
- *   const fa = T.delay(20)(T.of('a'))
- *   const fb = T.delay(10)(T.of('b'))
+ *   const fa = T.delay(20)(T.succeed('a'))
+ *   const fb = T.delay(10)(T.succeed('b'))
  *   assert.deepStrictEqual(await pipe(fa, S.combine(fb))(), 'b')
  * }
  *
@@ -207,7 +207,7 @@ export const unit: (self: Task<unknown>) => Task<void> = /*#__PURE__*/ functor.u
  * @since 3.0.0
  */
 export const FromIdentity: fromIdentity.FromIdentity<TaskTypeLambda> = {
-  of
+  succeed
 }
 
 /**
@@ -262,7 +262,7 @@ export const zipRightPar: <A>(that: Task<A>) => (self: Task<unknown>) => Task<A>
 export const ApplicativePar: applicative.Applicative<TaskTypeLambda> = {
   map,
   ap: apPar,
-  of
+  succeed
 }
 
 /**
@@ -360,7 +360,7 @@ export const lift3: <A, B, C, D>(f: (a: A, b: B, c: C) => D) => (fa: Task<A>, fb
 export const Applicative: applicative.Applicative<TaskTypeLambda> = {
   map,
   ap,
-  of
+  succeed
 }
 
 /**
@@ -377,7 +377,7 @@ export const tap: <A>(f: (a: A) => Task<unknown>) => (self: Task<A>) => Task<A> 
  */
 export const Monad: monad.Monad<TaskTypeLambda> = {
   map,
-  of,
+  succeed,
   flatMap
 }
 
@@ -445,7 +445,7 @@ export const never: Task<never> = () => new Promise(() => undefined)
  * @category do notation
  * @since 3.0.0
  */
-export const Do: Task<{}> = /*#__PURE__*/ of(_.Do)
+export const Do: Task<{}> = /*#__PURE__*/ succeed(_.Do)
 
 /**
  * @category do notation
@@ -510,7 +510,7 @@ export const bindRightPar: <N extends string, A extends object, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const Zip: Task<readonly []> = /*#__PURE__*/ of(_.Zip)
+export const Zip: Task<readonly []> = /*#__PURE__*/ succeed(_.Zip)
 
 /**
  * @category tuple sequencing

@@ -19,20 +19,20 @@ _.ap(fa)(fab)
 
 // $ExpectType TaskEither<never, number>
 pipe(
-  _.right('a'),
-  _.flatMap(() => _.right(1))
+  _.succeed('a'),
+  _.flatMap(() => _.succeed(1))
 )
 
 // $ExpectType TaskEither<number, number>
 pipe(
-  _.right('a'),
-  _.flatMap(() => _.right(1) as _.TaskEither<number, number>)
+  _.succeed('a'),
+  _.flatMap(() => _.succeed(1) as _.TaskEither<number, number>)
 )
 
 // $ExpectType TaskEither<string | number, number>
 pipe(
-  _.right('a') as _.TaskEither<string, string>,
-  _.flatMap(() => _.right(1) as _.TaskEither<number, number>)
+  _.succeed('a') as _.TaskEither<string, string>,
+  _.flatMap(() => _.succeed(1) as _.TaskEither<number, number>)
 )
 
 //
@@ -44,14 +44,14 @@ pipe(
 //
 
 // $ExpectType Task<string | null>
-pipe(_.right('a'), _.getOrElse(null))
+pipe(_.succeed('a'), _.getOrElse(null))
 
 //
 // getOrElseTask
 //
 
 // $ExpectType Task<string | null>
-pipe(_.right('a'), _.getOrElseTask(T.of(null)))
+pipe(_.succeed('a'), _.getOrElseTask(T.succeed(null)))
 
 //
 // flatMapEitherK
@@ -59,8 +59,8 @@ pipe(_.right('a'), _.getOrElseTask(T.of(null)))
 
 // $ExpectType TaskEither<string | number, number>
 pipe(
-  _.right('a') as _.TaskEither<string, string>,
-  _.flatMapEither(() => E.right(1) as E.Either<number, number>)
+  _.succeed('a') as _.TaskEither<string, string>,
+  _.flatMapEither(() => E.succeed(1) as E.Either<number, number>)
 )
 
 //
@@ -69,8 +69,8 @@ pipe(
 
 // $ExpectType TaskEither<string | number, number>
 pipe(
-  _.right('a') as _.TaskEither<string, string>,
-  _.flatMapIOEither(() => IOE.right(1) as IOE.IOEither<number, number>)
+  _.succeed('a') as _.TaskEither<string, string>,
+  _.flatMapIOEither(() => IOE.succeed(1) as IOE.IOEither<number, number>)
 )
 
 //
@@ -87,10 +87,10 @@ _.taskify(apiForTaskify) // $ExpectType (a: string) => TaskEither<Error, string>
 
 // $ExpectType TaskEither<string | number, { readonly a1: number; readonly a2: string; readonly a3: boolean; }>
 pipe(
-  _.right(1) as _.TaskEither<string, number>,
+  _.succeed(1) as _.TaskEither<string, number>,
   _.bindTo('a1'),
-  _.bind('a2', () => _.right('b')),
-  _.bind('a3', () => _.right(true) as _.TaskEither<number, boolean>)
+  _.bind('a2', () => _.succeed('b')),
+  _.bind('a3', () => _.succeed(true) as _.TaskEither<number, boolean>)
 )
 
 //
@@ -99,10 +99,10 @@ pipe(
 
 // $ExpectType TaskEither<string | number, { readonly a1: number; readonly a2: string; readonly a3: boolean; }>
 pipe(
-  _.right(1) as _.TaskEither<string, number>,
+  _.succeed(1) as _.TaskEither<string, number>,
   _.bindTo('a1'),
-  _.bindRight('a2', _.right('b')),
-  _.bindRight('a3', _.right(true) as _.TaskEither<number, boolean>)
+  _.bindRight('a2', _.succeed('b')),
+  _.bindRight('a3', _.succeed(true) as _.TaskEither<number, boolean>)
 )
 
 //
@@ -112,6 +112,6 @@ pipe(
 // $ExpectType TaskEither<string, { readonly a1: number; readonly a2: string; }>
 pipe(
   _.Do,
-  _.bind('a1', () => _.right(1) as _.TaskEither<string, number>),
-  _.bind('a2', () => _.right('b') as _.TaskEither<string, string>)
+  _.bind('a1', () => _.succeed(1) as _.TaskEither<string, number>),
+  _.bind('a2', () => _.succeed('b') as _.TaskEither<string, string>)
 )

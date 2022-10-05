@@ -23,8 +23,8 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [constructors](#constructors)
-  - [of](#of)
   - [sleep](#sleep)
+  - [succeed](#succeed)
 - [conversions](#conversions)
   - [fromIO](#fromio)
 - [do notation](#do-notation)
@@ -105,16 +105,6 @@ Added in v3.0.0
 
 # constructors
 
-## of
-
-**Signature**
-
-```ts
-export declare const of: <A>(a: A) => Task<A>
-```
-
-Added in v3.0.0
-
 ## sleep
 
 Returns an effect that suspends for the specified `duration` (in millis).
@@ -123,6 +113,16 @@ Returns an effect that suspends for the specified `duration` (in millis).
 
 ```ts
 export declare const sleep: (duration: number) => Task<void>
+```
+
+Added in v3.0.0
+
+## succeed
+
+**Signature**
+
+```ts
+export declare const succeed: <A>(a: A) => Task<A>
 ```
 
 Added in v3.0.0
@@ -359,8 +359,8 @@ import { pipe } from 'fp-ts/Function'
 
 async function test() {
   const S = T.getRaceMonoid<string>()
-  const fa = T.delay(20)(T.of('a'))
-  const fb = T.delay(10)(T.of('b'))
+  const fa = T.delay(20)(T.succeed('a'))
+  const fb = T.delay(10)(T.succeed('b'))
   assert.deepStrictEqual(await pipe(fa, S.combine(fb))(), 'b')
 }
 

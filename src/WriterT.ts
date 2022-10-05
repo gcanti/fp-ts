@@ -64,7 +64,7 @@ export const fromTask =
 export const tell =
   <F extends TypeLambda>(FromIdentity: FromIdentity<F>) =>
   <W, S>(w: W): Kind<WriterT<F, W>, S, unknown, never, never, void> =>
-    FromIdentity.of(writer.tell(w))
+    FromIdentity.succeed(writer.tell(w))
 
 /**
  * @since 3.0.0
@@ -79,10 +79,10 @@ export const map = <F extends TypeLambda>(Functor: Functor<F>) => {
 /**
  * @since 3.0.0
  */
-export const of =
+export const succeed =
   <F extends TypeLambda, W>(FromIdentity: FromIdentity<F>, Monoid: Monoid<W>) =>
   <A, S>(a: A): Kind<WriterT<F, W>, S, unknown, never, never, A> =>
-    FromIdentity.of([Monoid.empty, a])
+    FromIdentity.succeed([Monoid.empty, a])
 
 /**
  * @since 3.0.0

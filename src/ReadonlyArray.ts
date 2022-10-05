@@ -94,7 +94,7 @@ export const fromOption: <A>(fa: Option<A>) => ReadonlyArray<A> = (ma) => (_.isN
  * @category conversions
  * @since 3.0.0
  */
-export const fromEither: <A>(fa: Either<unknown, A>) => ReadonlyArray<A> = (e) => (_.isLeft(e) ? empty : [e.right])
+export const fromEither: <A>(fa: Either<unknown, A>) => ReadonlyArray<A> = (e) => (_.isLeft(e) ? empty : [e.success])
 
 // -------------------------------------------------------------------------------------
 // pattern matching
@@ -841,20 +841,20 @@ export const reverse = <A>(as: ReadonlyArray<A>): ReadonlyArray<A> => (as.length
  * Extracts from a `ReadonlyArray` of `Either`s all the `Right` elements.
  *
  * @example
- * import { rights } from 'fp-ts/ReadonlyArray'
- * import { right, left } from 'fp-ts/Either'
+ * import { successes } from 'fp-ts/ReadonlyArray'
+ * import { succeed, left } from 'fp-ts/Either'
  *
- * assert.deepStrictEqual(rights([right(1), left('foo'), right(2)]), [1, 2])
+ * assert.deepStrictEqual(successes([succeed(1), left('foo'), succeed(2)]), [1, 2])
  *
  * @since 3.0.0
  */
-export const rights = <E, A>(as: ReadonlyArray<Either<E, A>>): ReadonlyArray<A> => {
+export const successes = <E, A>(as: ReadonlyArray<Either<E, A>>): ReadonlyArray<A> => {
   const len = as.length
   const out: Array<A> = []
   for (let i = 0; i < len; i++) {
     const a = as[i]
-    if (_.isRight(a)) {
-      out.push(a.right)
+    if (_.isSuccess(a)) {
+      out.push(a.success)
     }
   }
   return out
@@ -865,9 +865,9 @@ export const rights = <E, A>(as: ReadonlyArray<Either<E, A>>): ReadonlyArray<A> 
  *
  * @example
  * import { lefts } from 'fp-ts/ReadonlyArray'
- * import { left, right } from 'fp-ts/Either'
+ * import { left, succeed } from 'fp-ts/Either'
  *
- * assert.deepStrictEqual(lefts([right(1), left('foo'), right(2)]), ['foo'])
+ * assert.deepStrictEqual(lefts([succeed(1), left('foo'), succeed(2)]), ['foo'])
  *
  * @since 3.0.0
  */
@@ -1204,7 +1204,7 @@ export const difference = <A>(E: Eq<A>): Magma<ReadonlyArray<A>>['combine'] => {
  * @category constructors
  * @since 3.0.0
  */
-export const of: <A>(a: A) => ReadonlyArray<A> = readonlyNonEmptyArray.of
+export const succeed: <A>(a: A) => ReadonlyArray<A> = readonlyNonEmptyArray.succeed
 
 /**
  * @since 3.0.0
@@ -1248,7 +1248,7 @@ export const map: <A, B>(f: (a: A) => B) => (fa: ReadonlyArray<A>) => ReadonlyAr
  * @since 3.0.0
  */
 export const FromIdentity: fromIdentity.FromIdentity<ReadonlyArrayTypeLambda> = {
-  of
+  succeed
 }
 
 /**
@@ -1424,7 +1424,7 @@ export const separate: <A, B>(fe: ReadonlyArray<Either<A, B>>) => readonly [Read
     if (_.isLeft(e)) {
       left.push(e.left)
     } else {
-      right.push(e.right)
+      right.push(e.success)
     }
   }
   return [left, right]
@@ -1453,7 +1453,7 @@ export const partitionMapWithIndex =
       if (_.isLeft(e)) {
         left.push(e.left)
       } else {
-        right.push(e.right)
+        right.push(e.success)
       }
     }
     return [left, right]
@@ -1546,7 +1546,7 @@ export const traverseWithIndex =
   <A, S, R, O, E, B>(
     f: (i: number, a: A) => Kind<F, S, R, O, E, B>
   ): ((ta: ReadonlyArray<A>) => Kind<F, S, R, O, E, ReadonlyArray<B>>) => {
-    return reduceWithIndex<Kind<F, S, R, O, E, ReadonlyArray<B>>, A>(F.of(emptyKind()), (i, fbs, a) =>
+    return reduceWithIndex<Kind<F, S, R, O, E, ReadonlyArray<B>>, A>(F.succeed(emptyKind()), (i, fbs, a) =>
       pipe(
         fbs,
         F.map((bs) => (b: B) => append(b)(bs)),
@@ -1787,7 +1787,7 @@ export const lift3: <A, B, C, D>(
 export const Applicative: applicative.Applicative<ReadonlyArrayTypeLambda> = {
   map,
   ap,
-  of
+  succeed
 }
 
 /**
@@ -1796,7 +1796,7 @@ export const Applicative: applicative.Applicative<ReadonlyArrayTypeLambda> = {
  */
 export const Monad: Monad_<ReadonlyArrayTypeLambda> = {
   map,
-  of,
+  succeed,
   flatMap
 }
 
@@ -2027,7 +2027,7 @@ export const FilterableKind: filterableKind.FilterableKind<ReadonlyArrayTypeLamb
  *   assert.deepStrictEqual(
  *     await pipe(
  *       [-1, 2, 3],
- *       filterKind((n) => T.of(n > 0))
+ *       filterKind((n) => T.succeed(n > 0))
  *     )(),
  *     [2, 3]
  *   )
@@ -2135,7 +2135,7 @@ export const flatMapRecDepthFirst =
       if (_.isLeft(e)) {
         abs.unshift(...f(e.left))
       } else {
-        out.push(e.right)
+        out.push(e.success)
       }
     }
 
@@ -2157,7 +2157,7 @@ export const flatMapRecBreadthFirst =
       if (_.isLeft(e)) {
         f(e.left).forEach((v) => abs.push(v))
       } else {
-        out.push(e.right)
+        out.push(e.success)
       }
     }
 
@@ -2265,7 +2265,7 @@ export const intercalate = <A>(M: Monoid<A>): ((middle: A) => (as: ReadonlyArray
  * @category do notation
  * @since 3.0.0
  */
-export const Do: ReadonlyArray<{}> = /*#__PURE__*/ of(_.Do)
+export const Do: ReadonlyArray<{}> = /*#__PURE__*/ succeed(_.Do)
 
 /**
  * @category do notation
@@ -2319,7 +2319,7 @@ export const bindRight: <N extends string, A extends object, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const Zip: ReadonlyArray<readonly []> = /*#__PURE__*/ of(_.Zip)
+export const Zip: ReadonlyArray<readonly []> = /*#__PURE__*/ succeed(_.Zip)
 
 /**
  * @category tuple sequencing

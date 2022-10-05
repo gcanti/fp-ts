@@ -19,8 +19,7 @@ Added in v3.0.0
   - [asks](#asks)
   - [asksReaderEither](#asksreadereither)
   - [left](#left)
-  - [of](#of)
-  - [right](#right)
+  - [succeed](#succeed)
 - [conversions](#conversions)
   - [fromEither](#fromeither)
   - [fromNullable](#fromnullable)
@@ -183,24 +182,12 @@ export declare const left: <E>(e: E) => ReaderEither<unknown, E, never>
 
 Added in v3.0.0
 
-## of
-
-Alias of `right`.
+## succeed
 
 **Signature**
 
 ```ts
-export declare const of: <A>(a: A) => ReaderEither<unknown, never, A>
-```
-
-Added in v3.0.0
-
-## right
-
-**Signature**
-
-```ts
-export declare const right: <A>(a: A) => ReaderEither<unknown, never, A>
+export declare const succeed: <A>(a: A) => ReaderEither<unknown, never, A>
 ```
 
 Added in v3.0.0
@@ -391,7 +378,7 @@ get all errors you need to provide a way to combine them via a `Semigroup`.
 ```ts
 export declare const getValidatedApplicative: <E>(
   Semigroup: Semigroup<E>
-) => applicative.Applicative<either.ValidatedTypeLambda<ReaderEitherTypeLambda, E>>
+) => applicative.Applicative<either.ValidatedT<ReaderEitherTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -406,7 +393,7 @@ get all errors you need to provide a way to combine them via a `Semigroup`.
 ```ts
 export declare const getValidatedSemigroupKind: <E>(
   Semigroup: Semigroup<E>
-) => semigroupKind.SemigroupKind<either.ValidatedTypeLambda<ReaderEitherTypeLambda, E>>
+) => semigroupKind.SemigroupKind<either.ValidatedT<ReaderEitherTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -649,9 +636,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getCompactable: <E>(
-  onNone: E
-) => Compactable<either.ValidatedTypeLambda<ReaderEitherTypeLambda, E>>
+export declare const getCompactable: <E>(onNone: E) => Compactable<either.ValidatedT<ReaderEitherTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -663,7 +648,7 @@ Added in v3.0.0
 ```ts
 export declare const getFilterable: <E>(
   onEmpty: E
-) => filterable.Filterable<either.ValidatedTypeLambda<ReaderEitherTypeLambda, E>>
+) => filterable.Filterable<either.ValidatedT<ReaderEitherTypeLambda, E>>
 ```
 
 Added in v3.0.0

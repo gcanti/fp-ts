@@ -22,8 +22,7 @@ Added in v3.0.0
   - [orElse](#orelse)
 - [constructors](#constructors)
   - [left](#left)
-  - [of](#of)
-  - [right](#right)
+  - [succeed](#succeed)
 - [conversions](#conversions)
   - [fromEither](#fromeither)
   - [fromIO](#fromio)
@@ -157,24 +156,12 @@ export declare const left: <E>(e: E) => IOEither<E, never>
 
 Added in v3.0.0
 
-## of
-
-Alias of `right`.
+## succeed
 
 **Signature**
 
 ```ts
-export declare const of: <A>(a: A) => IOEither<never, A>
-```
-
-Added in v3.0.0
-
-## right
-
-**Signature**
-
-```ts
-export declare const right: <A>(a: A) => IOEither<never, A>
+export declare const succeed: <A>(a: A) => IOEither<never, A>
 ```
 
 Added in v3.0.0
@@ -355,7 +342,7 @@ get all errors you need to provide a way to combine them via a `Semigroup`.
 ```ts
 export declare const getValidatedApplicative: <E>(
   Semigroup: Semigroup<E>
-) => applicative.Applicative<either.ValidatedTypeLambda<IOEitherTypeLambda, E>>
+) => applicative.Applicative<either.ValidatedT<IOEitherTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -370,7 +357,7 @@ get all errors you need to provide a way to combine them via a `Semigroup`.
 ```ts
 export declare const getValidatedSemigroupKind: <E>(
   Semigroup: Semigroup<E>
-) => semigroupKind.SemigroupKind<either.ValidatedTypeLambda<IOEitherTypeLambda, E>>
+) => semigroupKind.SemigroupKind<either.ValidatedT<IOEitherTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -608,7 +595,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getCompactable: <E>(onNone: E) => Compactable<either.ValidatedTypeLambda<IOEitherTypeLambda, E>>
+export declare const getCompactable: <E>(onNone: E) => Compactable<either.ValidatedT<IOEitherTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -618,9 +605,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFilterable: <E>(
-  onEmpty: E
-) => filterable.Filterable<either.ValidatedTypeLambda<IOEitherTypeLambda, E>>
+export declare const getFilterable: <E>(onEmpty: E) => filterable.Filterable<either.ValidatedT<IOEitherTypeLambda, E>>
 ```
 
 Added in v3.0.0

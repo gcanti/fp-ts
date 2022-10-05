@@ -72,7 +72,7 @@ export const left: <E>(e: E) => ReaderTaskEither<unknown, E, never> = /*#__PURE_
  * @category constructors
  * @since 3.0.0
  */
-export const right: <A>(a: A) => ReaderTaskEither<unknown, never, A> = /*#__PURE__*/ eitherT.right(
+export const succeed: <A>(a: A) => ReaderTaskEither<unknown, never, A> = /*#__PURE__*/ eitherT.succeed(
   readerTask.FromIdentity
 )
 
@@ -81,7 +81,7 @@ export const right: <A>(a: A) => ReaderTaskEither<unknown, never, A> = /*#__PURE
  * @since 3.0.0
  */
 export const fromTaskEither: <E, A>(fa: taskEither.TaskEither<E, A>) => ReaderTaskEither<unknown, E, A> =
-  /*#__PURE__*/ reader.of
+  /*#__PURE__*/ reader.succeed
 
 /**
  * @category conversions
@@ -105,7 +105,7 @@ export const leftTask: <E>(me: Task<E>) => ReaderTaskEither<unknown, E, never> =
  * @category constructors
  * @since 3.0.0
  */
-export const fromReader = <R, A>(ma: Reader<R, A>): ReaderTaskEither<R, never, A> => flow(ma, taskEither.right)
+export const fromReader = <R, A>(ma: Reader<R, A>): ReaderTaskEither<R, never, A> => flow(ma, taskEither.succeed)
 
 /**
  * @category constructors
@@ -171,7 +171,7 @@ export const leftReaderIO: <R, E>(me: ReaderIO<R, E>) => ReaderTaskEither<R, E, 
  * @category conversions
  * @since 3.0.0
  */
-export const fromEither: <E, A>(fa: Either<E, A>) => ReaderTaskEither<unknown, E, A> = readerTask.of
+export const fromEither: <E, A>(fa: Either<E, A>) => ReaderTaskEither<unknown, E, A> = readerTask.succeed
 
 /**
  * @category conversions
@@ -385,14 +385,6 @@ export const mapError: <E, G>(f: (e: E) => G) => <R, A>(self: ReaderTaskEither<R
   /*#__PURE__*/ eitherT.mapError(readerTask.Functor)
 
 /**
- * Alias of `right`.
- *
- * @category constructors
- * @since 3.0.0
- */
-export const of = right
-
-/**
  * @category sequencing
  * @since 3.0.0
  */
@@ -450,7 +442,7 @@ export const getValidatedApplicative = <E>(
 ): applicative.Applicative<ValidatedT<ReaderTaskEitherTypeLambda, E>> => ({
   map,
   ap: apply.apComposition(reader.Apply, taskEither.getValidatedApplicative(Apply, Semigroup)),
-  of
+  succeed
 })
 
 /**
@@ -546,7 +538,7 @@ export const unit: <R, E>(self: ReaderTaskEither<R, E, unknown>) => ReaderTaskEi
  * @since 3.0.0
  */
 export const FromIdentity: fromIdentity.FromIdentity<ReaderTaskEitherTypeLambda> = {
-  of
+  succeed
 }
 
 /**
@@ -663,7 +655,7 @@ export const lift3: <A, B, C, D>(
 export const Applicative: applicative.Applicative<ReaderTaskEitherTypeLambda> = {
   map,
   ap,
-  of
+  succeed
 }
 
 /**
@@ -682,7 +674,7 @@ export const tap: <A, R2, E2>(
  */
 export const Monad: monad.Monad<ReaderTaskEitherTypeLambda> = {
   map,
-  of,
+  succeed,
   flatMap
 }
 
@@ -1010,7 +1002,7 @@ export const bracket: <R1, E1, A, R2, E2, B, R3, E3>(
  * @category do notation
  * @since 3.0.0
  */
-export const Do: ReaderTaskEither<unknown, never, {}> = /*#__PURE__*/ of(_.Do)
+export const Do: ReaderTaskEither<unknown, never, {}> = /*#__PURE__*/ succeed(_.Do)
 
 /**
  * @category do notation
@@ -1071,7 +1063,7 @@ export const bindRight: <N extends string, A extends object, R2, E2, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const Zip: ReaderTaskEither<unknown, never, readonly []> = /*#__PURE__*/ of(_.Zip)
+export const Zip: ReaderTaskEither<unknown, never, readonly []> = /*#__PURE__*/ succeed(_.Zip)
 
 /**
  * @category tuple sequencing

@@ -31,7 +31,7 @@ export interface MonoidKind<F extends TypeLambda> extends SemigroupKind<F> {
 export const guard =
   <F extends TypeLambda>(F: MonoidKind<F>, P: FromIdentity<F>) =>
   <S>(b: boolean): Kind<F, S, unknown, never, never, void> =>
-    b ? P.of(undefined) : F.emptyKind()
+    b ? P.succeed(undefined) : F.emptyKind()
 
 /**
  * @since 3.0.0

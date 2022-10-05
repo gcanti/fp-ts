@@ -17,20 +17,20 @@ _.apPar(fa)(fab)
 
 // $ExpectType ReaderTask<unknown, number>
 pipe(
-  _.of('a'),
-  _.flatMap(() => _.of(1))
+  _.succeed('a'),
+  _.flatMap(() => _.succeed(1))
 )
 
 // $ExpectType ReaderTask<{ b: number; }, number>
 pipe(
-  _.of('a'),
-  _.flatMap(() => _.of(1) as _.ReaderTask<{ b: number }, number>)
+  _.succeed('a'),
+  _.flatMap(() => _.succeed(1) as _.ReaderTask<{ b: number }, number>)
 )
 
 // $ExpectType ReaderTask<{ a: string; } & { b: number; }, number>
 pipe(
-  _.of('a') as _.ReaderTask<{ a: string }, string>,
-  _.flatMap(() => _.of(1) as _.ReaderTask<{ b: number }, number>)
+  _.succeed('a') as _.ReaderTask<{ a: string }, string>,
+  _.flatMap(() => _.succeed(1) as _.ReaderTask<{ b: number }, number>)
 )
 
 //
@@ -50,14 +50,14 @@ interface R2 {
 //
 
 // $ExpectType ReaderTask<R1, boolean>
-_.fromReaderIO(RIO.of(true) as RIO.ReaderIO<R1, boolean>)
+_.fromReaderIO(RIO.succeed(true) as RIO.ReaderIO<R1, boolean>)
 
 //
 // fromReaderIOK
 //
 
 // $ExpectType (a: boolean) => ReaderTask<R1, boolean>
-_.liftReaderIO((a: boolean) => RIO.of(a) as RIO.ReaderIO<R1, boolean>)
+_.liftReaderIO((a: boolean) => RIO.succeed(a) as RIO.ReaderIO<R1, boolean>)
 
 //
 // flatMapReaderIOKW
@@ -65,8 +65,8 @@ _.liftReaderIO((a: boolean) => RIO.of(a) as RIO.ReaderIO<R1, boolean>)
 
 // $ExpectType ReaderTask<R1 & R2, boolean>
 pipe(
-  _.of(1) as _.ReaderTask<R1, number>,
-  _.flatMapReaderIO(() => RIO.of(true) as RIO.ReaderIO<R2, boolean>)
+  _.succeed(1) as _.ReaderTask<R1, number>,
+  _.flatMapReaderIO(() => RIO.succeed(true) as RIO.ReaderIO<R2, boolean>)
 )
 
 //
@@ -75,8 +75,8 @@ pipe(
 
 // $ExpectType ReaderTask<R1, number>
 pipe(
-  _.of(1) as _.ReaderTask<R1, number>,
-  _.flatMapReaderIO(() => RIO.of(1))
+  _.succeed(1) as _.ReaderTask<R1, number>,
+  _.flatMapReaderIO(() => RIO.succeed(1))
 )
 
 //
@@ -87,7 +87,7 @@ pipe(
 pipe(
   _.Do,
   // tslint:disable-next-line: no-unnecessary-type-assertion
-  _.bind('a1', () => _.of(1) as _.ReaderTask<unknown, number>),
+  _.bind('a1', () => _.succeed(1) as _.ReaderTask<unknown, number>),
   // tslint:disable-next-line: no-unnecessary-type-assertion
-  _.bind('a2', () => _.of('b') as _.ReaderTask<unknown, string>)
+  _.bind('a2', () => _.succeed('b') as _.ReaderTask<unknown, string>)
 )

@@ -1,6 +1,6 @@
 import { run } from './run'
 import * as child_process from 'child_process'
-import { left, right } from '../src/Either'
+import { left, succeed } from '../src/Either'
 import type { TaskEither } from '../src/TaskEither'
 
 const DIST = 'dist'
@@ -14,7 +14,7 @@ const exec =
           return resolve(left(err))
         }
 
-        return resolve(right(undefined))
+        return resolve(succeed(undefined))
       })
     })
 

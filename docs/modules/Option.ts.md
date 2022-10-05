@@ -25,10 +25,10 @@ Added in v3.0.0
 
 - [constructors](#constructors)
   - [getLeft](#getleft)
-  - [getRight](#getright)
+  - [getSuccess](#getsuccess)
   - [none](#none)
-  - [of](#of)
   - [some](#some)
+  - [succeed](#succeed)
 - [conversions](#conversions)
   - [fromEither](#fromeither)
   - [fromNullable](#fromnullable)
@@ -158,33 +158,33 @@ export declare const getLeft: <E>(ma: Either<E, unknown>) => Option<E>
 **Example**
 
 ```ts
-import { getLeft, none, some } from 'fp-ts/Option'
-import { right, left } from 'fp-ts/Either'
+import * as O from 'fp-ts/Option'
+import * as E from 'fp-ts/Either'
 
-assert.deepStrictEqual(getLeft(right(1)), none)
-assert.deepStrictEqual(getLeft(left('a')), some('a'))
+assert.deepStrictEqual(O.getLeft(E.succeed(1)), O.none)
+assert.deepStrictEqual(O.getLeft(E.left('a')), O.some('a'))
 ```
 
 Added in v3.0.0
 
-## getRight
+## getSuccess
 
 Returns the `Right` value of an `Either` if possible.
 
 **Signature**
 
 ```ts
-export declare const getRight: <A>(ma: Either<unknown, A>) => Option<A>
+export declare const getSuccess: <A>(ma: Either<unknown, A>) => Option<A>
 ```
 
 **Example**
 
 ```ts
-import { getRight, none, some } from 'fp-ts/Option'
-import { right, left } from 'fp-ts/Either'
+import * as O from 'fp-ts/Option'
+import * as E from 'fp-ts/Either'
 
-assert.deepStrictEqual(getRight(right(1)), some(1))
-assert.deepStrictEqual(getRight(left('a')), none)
+assert.deepStrictEqual(O.getSuccess(E.succeed(1)), O.some(1))
+assert.deepStrictEqual(O.getSuccess(E.left('a')), O.none)
 ```
 
 Added in v3.0.0
@@ -201,16 +201,6 @@ export declare const none: Option<never>
 
 Added in v3.0.0
 
-## of
-
-**Signature**
-
-```ts
-export declare const of: <A>(a: A) => Option<A>
-```
-
-Added in v3.0.0
-
 ## some
 
 Constructs a `Some`. Represents an optional value that exists.
@@ -223,13 +213,23 @@ export declare const some: <A>(a: A) => Option<A>
 
 Added in v3.0.0
 
+## succeed
+
+**Signature**
+
+```ts
+export declare const succeed: <A>(a: A) => Option<A>
+```
+
+Added in v3.0.0
+
 # conversions
 
 ## fromEither
 
 Converts an `Either` to an `Option` discarding the error.
 
-Alias of [getRight](#getright)
+Alias of [getSuccess](#getsuccess)
 
 **Signature**
 

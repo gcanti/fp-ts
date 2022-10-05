@@ -97,10 +97,9 @@ export const map =
   }
 
 /**
- * @category FromIdentity
  * @since 3.0.0
  */
-export const of =
+export const succeed =
   <A, S>(a: A): State<S, A> =>
   (s) =>
     [s, a]
@@ -110,7 +109,7 @@ export const of =
  * @since 3.0.0
  */
 export const FromIdentity: fromIdentity.FromIdentity<StateTypeLambda> = {
-  of
+  succeed
 }
 
 /**
@@ -189,7 +188,7 @@ export const ap: <S, A>(fa: State<S, A>) => <B>(self: State<S, (a: A) => B>) => 
 /**
  * @since 3.0.0
  */
-export const unit = <S>(): State<S, void> => of(undefined)
+export const unit = <S>(): State<S, void> => succeed(undefined)
 
 /**
  * @since 3.0.0
@@ -249,7 +248,7 @@ export const lift3: <A, B, C, D>(
 export const Applicative: applicative.Applicative<StateTypeLambda> = {
   map,
   ap,
-  of
+  succeed
 }
 
 /**
@@ -258,7 +257,7 @@ export const Applicative: applicative.Applicative<StateTypeLambda> = {
  */
 export const Monad: monad.Monad<StateTypeLambda> = {
   map,
-  of,
+  succeed,
   flatMap
 }
 
@@ -402,7 +401,7 @@ export const traverseReadonlyNonEmptyArrayWithIndex =
 export const traverseReadonlyArrayWithIndex = <A, S, B>(f: (index: number, a: A) => State<S, B>) => {
   const g = traverseReadonlyNonEmptyArrayWithIndex(f)
   return (as: ReadonlyArray<A>): State<S, ReadonlyArray<B>> => {
-    return _.isNonEmpty(as) ? g(as) : of(_.Zip)
+    return _.isNonEmpty(as) ? g(as) : succeed(_.Zip)
   }
 }
 

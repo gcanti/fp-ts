@@ -35,4 +35,4 @@ _.stringify(abs)
 _.stringify([...abs])
 
 // $ExpectType Either<unknown, string>
-pipe(E.right('a'), E.tap(_.stringify))
+pipe(E.succeed('a'), E.tap(_.stringify))

@@ -49,7 +49,7 @@ export const fromReader: <R, A>(fa: reader.Reader<R, A>) => ReaderTask<R, A> = /
  * @category conversions
  * @since 3.0.0
  */
-export const fromTask: <A>(fa: Task<A>) => ReaderTask<unknown, A> = /*#__PURE__*/ reader.of
+export const fromTask: <A>(fa: Task<A>) => ReaderTask<unknown, A> = /*#__PURE__*/ reader.succeed
 
 /**
  * @category conversions
@@ -90,7 +90,7 @@ export const apPar: <R2, A>(
  * @category constructors
  * @since 3.0.0
  */
-export const of: <A>(a: A) => ReaderTask<unknown, A> = /*#__PURE__*/ readerT.of(task.FromIdentity)
+export const succeed: <A>(a: A) => ReaderTask<unknown, A> = /*#__PURE__*/ readerT.succeed(task.FromIdentity)
 
 /**
  * @category sequencing
@@ -175,7 +175,7 @@ export const unit: <R>(self: ReaderTask<R, unknown>) => ReaderTask<R, void> = /*
  * @since 3.0.0
  */
 export const FromIdentity: fromIdentity.FromIdentity<ReaderTaskTypeLambda> = {
-  of
+  succeed
 }
 
 /**
@@ -234,7 +234,7 @@ export const zipRightPar: <R, A>(that: ReaderTask<R, A>) => (self: ReaderTask<R,
 export const ApplicativePar: applicative.Applicative<ReaderTaskTypeLambda> = {
   map,
   ap: apPar,
-  of
+  succeed
 }
 
 /**
@@ -341,7 +341,7 @@ export const lift3: <A, B, C, D>(
 export const Applicative: applicative.Applicative<ReaderTaskTypeLambda> = {
   map,
   ap,
-  of
+  succeed
 }
 
 /**
@@ -359,7 +359,7 @@ export const tap: <A, R2>(
  */
 export const Monad: monad.Monad<ReaderTaskTypeLambda> = {
   map,
-  of,
+  succeed,
   flatMap
 }
 
@@ -494,7 +494,7 @@ export const flatMapTask: <A, B>(f: (a: A) => Task<B>) => <R>(self: ReaderTask<R
  * @category do notation
  * @since 3.0.0
  */
-export const Do: ReaderTask<unknown, {}> = /*#__PURE__*/ of(_.Do)
+export const Do: ReaderTask<unknown, {}> = /*#__PURE__*/ succeed(_.Do)
 
 /**
  * @category do notation
@@ -566,7 +566,7 @@ export const bindRightPar: <N extends string, A extends object, R2, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const Zip: ReaderTask<unknown, readonly []> = /*#__PURE__*/ of(_.Zip)
+export const Zip: ReaderTask<unknown, readonly []> = /*#__PURE__*/ succeed(_.Zip)
 
 /**
  * @category tuple sequencing

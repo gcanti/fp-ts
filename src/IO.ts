@@ -57,14 +57,14 @@ export const flatMap: <A, B>(f: (a: A) => IO<B>) => (self: IO<A>) => IO<B> = (f)
  * @category constructors
  * @since 3.0.0
  */
-export const of: <A>(a: A) => IO<A> = constant
+export const succeed: <A>(a: A) => IO<A> = constant
 
 /**
  * @category instances
  * @since 3.0.0
  */
 export const FromIdentity: fromIdentity.FromIdentity<IOTypeLambda> = {
-  of
+  succeed
 }
 
 /**
@@ -136,7 +136,7 @@ export const flatMapRec: <A, B>(f: (a: A) => IO<Either<A, B>>) => (a: A) => IO<B
   while (_.isLeft(e)) {
     e = f(e.left)()
   }
-  return e.right
+  return e.success
 }
 
 /**
@@ -224,7 +224,7 @@ export const lift3: <A, B, C, D>(f: (a: A, b: B, c: C) => D) => (fa: IO<A>, fb: 
 export const Applicative: applicative.Applicative<IOTypeLambda> = {
   map,
   ap,
-  of
+  succeed
 }
 
 /**
@@ -233,7 +233,7 @@ export const Applicative: applicative.Applicative<IOTypeLambda> = {
  */
 export const Monad: monad.Monad<IOTypeLambda> = {
   map,
-  of,
+  succeed,
   flatMap
 }
 
@@ -284,7 +284,7 @@ export const FlattenableRec: flatMapableRec.FlattenableRec<IOTypeLambda> = {
  * @category do notation
  * @since 3.0.0
  */
-export const Do: IO<{}> = /*#__PURE__*/ of(_.Do)
+export const Do: IO<{}> = /*#__PURE__*/ succeed(_.Do)
 
 /**
  * @category do notation
@@ -337,7 +337,7 @@ export const bindRight: <N extends string, A extends object, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const Zip: IO<readonly []> = /*#__PURE__*/ of(_.Zip)
+export const Zip: IO<readonly []> = /*#__PURE__*/ succeed(_.Zip)
 
 /**
  * @category tuple sequencing

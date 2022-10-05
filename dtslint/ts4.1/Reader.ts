@@ -16,20 +16,20 @@ _.ap(fa)(fab)
 
 // $ExpectType Reader<unknown, number>
 pipe(
-  _.of('a'),
-  _.flatMap(() => _.of(1))
+  _.succeed('a'),
+  _.flatMap(() => _.succeed(1))
 )
 
 // $ExpectType Reader<{ b: number; }, number>
 pipe(
-  _.of('a'),
-  _.flatMap(() => _.of(1) as _.Reader<{ b: number }, number>)
+  _.succeed('a'),
+  _.flatMap(() => _.succeed(1) as _.Reader<{ b: number }, number>)
 )
 
 // $ExpectType Reader<{ a: string; } & { b: number; }, number>
 pipe(
-  _.of('a') as _.Reader<{ a: string }, string>,
-  _.flatMap(() => _.of(1) as _.Reader<{ b: number }, number>)
+  _.succeed('a') as _.Reader<{ a: string }, string>,
+  _.flatMap(() => _.succeed(1) as _.Reader<{ b: number }, number>)
 )
 
 //
@@ -43,6 +43,6 @@ pipe(
 // $ExpectType Reader<string, { readonly a1: number; readonly a2: string; }>
 pipe(
   _.Do,
-  _.bind('a1', () => _.of(1) as _.Reader<string, number>),
-  _.bind('a2', () => _.of('b') as _.Reader<string, string>)
+  _.bind('a1', () => _.succeed(1) as _.Reader<string, number>),
+  _.bind('a2', () => _.succeed('b') as _.Reader<string, string>)
 )

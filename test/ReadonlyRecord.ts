@@ -49,7 +49,7 @@ describe('ReadonlyRecord', () => {
     })
 
     it('separate', () => {
-      U.deepStrictEqual(_.separate({ foo: E.left(123), bar: E.right(123) }), [{ foo: 123 }, { bar: 123 }])
+      U.deepStrictEqual(_.separate({ foo: E.left(123), bar: E.succeed(123) }), [{ foo: 123 }, { bar: 123 }])
       // should ignore non own properties
       const o: _.ReadonlyRecord<string, E.Either<string, number>> = Object.create({ a: 1 })
       U.deepStrictEqual(pipe(o, _.separate), [{}, {}])
@@ -89,7 +89,7 @@ describe('ReadonlyRecord', () => {
     })
 
     it('partitionMap', () => {
-      const f = (n: number) => (p(n) ? E.right(n + 1) : E.left(n - 1))
+      const f = (n: number) => (p(n) ? E.succeed(n + 1) : E.left(n - 1))
       U.deepStrictEqual(pipe({}, _.partitionMap(f)), [{}, {}])
       U.deepStrictEqual(pipe({ a: 1, b: 3 }, _.partitionMap(f)), [{ a: 0 }, { b: 4 }])
     })
@@ -111,7 +111,7 @@ describe('ReadonlyRecord', () => {
     })
 
     it('partitionMapWithIndex', () => {
-      const f = _.partitionMapWithIndex((k, a: number) => (a > 1 ? E.right(a) : E.left(k)))
+      const f = _.partitionMapWithIndex((k, a: number) => (a > 1 ? E.succeed(a) : E.left(k)))
       U.deepStrictEqual(pipe({ a: 1, b: 2 }, f), [{ a: 'a' } as const, { b: 2 } as const])
       // should ignore non own properties
       const o: _.ReadonlyRecord<string, number> = Object.create({ a: 1 })
@@ -206,14 +206,14 @@ describe('ReadonlyRecord', () => {
       const W = _.getFilterableKind(S.Ord)
 
       it('filterMapKind', async () => {
-        const filterMapKind = W.filterMapKind(T.ApplicativePar)((n: number) => T.of(p(n) ? O.some(n + 1) : O.none))
+        const filterMapKind = W.filterMapKind(T.ApplicativePar)((n: number) => T.succeed(p(n) ? O.some(n + 1) : O.none))
         U.deepStrictEqual(await pipe({}, filterMapKind)(), {})
         U.deepStrictEqual(await pipe({ a: 1, b: 3 }, filterMapKind)(), { b: 4 })
       })
 
       it('partitionMapKind', async () => {
         const partitionMapKind = W.partitionMapKind(T.ApplicativePar)((n: number) =>
-          T.of(p(n) ? E.right(n + 1) : E.left(n - 1))
+          T.succeed(p(n) ? E.succeed(n + 1) : E.left(n - 1))
         )
         U.deepStrictEqual(await pipe({}, partitionMapKind)(), [{}, {}])
         U.deepStrictEqual(await pipe({ a: 1, b: 3 }, partitionMapKind)(), [{ a: 0 }, { b: 4 }])

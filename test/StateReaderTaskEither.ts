@@ -20,10 +20,6 @@ import * as U from './util'
 const state: unknown = {}
 
 describe('StateReaderTaskEither', () => {
-  it('unit', async () => {
-    U.deepStrictEqual(await _.unit<number>()(0)(null)(), E.right([0, undefined] as const))
-  })
-
   describe('pipeables', () => {
     it('orElse', async () => {
       const assertSemigroupKind = async (
@@ -33,42 +29,42 @@ describe('StateReaderTaskEither', () => {
       ) => {
         U.deepStrictEqual(await pipe(a, _.orElse(b))(undefined)(null)(), expected)
       }
-      await assertSemigroupKind(_.right(1), _.right(2), E.right([undefined, 1]))
-      await assertSemigroupKind(_.right(1), _.left('b'), E.right([undefined, 1]))
-      await assertSemigroupKind(_.left('a'), _.right(2), E.right([undefined, 2]))
+      await assertSemigroupKind(_.succeed(1), _.succeed(2), E.succeed([undefined, 1]))
+      await assertSemigroupKind(_.succeed(1), _.left('b'), E.succeed([undefined, 1]))
+      await assertSemigroupKind(_.left('a'), _.succeed(2), E.succeed([undefined, 2]))
       await assertSemigroupKind(_.left('a'), _.left('b'), E.left('b'))
     })
 
     it('map', async () => {
-      const e = await pipe(_.right('aaa'), _.map(S.size), _.evaluate(state))({})()
-      U.deepStrictEqual(e, E.right(3))
+      const e = await pipe(_.succeed('aaa'), _.map(S.size), _.evaluate(state))({})()
+      U.deepStrictEqual(e, E.succeed(3))
     })
 
     it('ap', async () => {
-      const e = await pipe(_.right(S.size), _.ap(_.right('aaa')), _.evaluate(state))({})()
-      U.deepStrictEqual(e, E.right(3))
+      const e = await pipe(_.succeed(S.size), _.ap(_.succeed('aaa')), _.evaluate(state))({})()
+      U.deepStrictEqual(e, E.succeed(3))
     })
 
     it('flatMap', async () => {
-      const f = (s: string) => (s.length > 2 ? _.right(s.length) : _.right(0))
-      const e = await pipe(_.right('aaa'), _.flatMap(f), _.evaluate(state))({})()
-      U.deepStrictEqual(e, E.right(3))
+      const f = (s: string) => (s.length > 2 ? _.succeed(s.length) : _.succeed(0))
+      const e = await pipe(_.succeed('aaa'), _.flatMap(f), _.evaluate(state))({})()
+      U.deepStrictEqual(e, E.succeed(3))
     })
 
     it('tap', async () => {
-      const f = (s: string) => (s.length > 2 ? _.right(s.length) : _.right(0))
-      const e = await pipe(_.right('aaa'), _.tap(f), _.evaluate(state))({})()
-      U.deepStrictEqual(e, E.right('aaa'))
+      const f = (s: string) => (s.length > 2 ? _.succeed(s.length) : _.succeed(0))
+      const e = await pipe(_.succeed('aaa'), _.tap(f), _.evaluate(state))({})()
+      U.deepStrictEqual(e, E.succeed('aaa'))
     })
 
     it('tap', async () => {
-      const e = await pipe(_.right(_.right('a')), _.flatten, _.evaluate(state))({})()
-      U.deepStrictEqual(e, E.right('a'))
+      const e = await pipe(_.succeed(_.succeed('a')), _.flatten, _.evaluate(state))({})()
+      U.deepStrictEqual(e, E.succeed('a'))
     })
 
     it('mapBoth', async () => {
       const f = _.mapBoth(gt(N.Ord)(2), S.size)
-      U.deepStrictEqual(await pipe(_.right('aaa'), f, _.evaluate(state))({})(), E.right(3))
+      U.deepStrictEqual(await pipe(_.succeed('aaa'), f, _.evaluate(state))({})(), E.succeed(3))
       U.deepStrictEqual(await pipe(_.left(3), f, _.evaluate(state))({})(), E.left(true))
     })
 
@@ -79,14 +75,14 @@ describe('StateReaderTaskEither', () => {
 
     it('fromPredicate', async () => {
       const f = _.liftPredicate((n: number) => n >= 2, 'e')
-      U.deepStrictEqual(await pipe(f(3), _.evaluate(state))({})(), E.right(3))
+      U.deepStrictEqual(await pipe(f(3), _.evaluate(state))({})(), E.succeed(3))
       U.deepStrictEqual(await pipe(f(1), _.evaluate(state))({})(), E.left('e'))
     })
 
     it('filter', async () => {
       const predicate = (n: number) => n > 10
-      U.deepStrictEqual(await pipe(_.right(12), _.filter(predicate, -1), _.evaluate(state))({})(), E.right(12))
-      U.deepStrictEqual(await pipe(_.right(7), _.filter(predicate, -1), _.evaluate(state))({})(), E.left(-1))
+      U.deepStrictEqual(await pipe(_.succeed(12), _.filter(predicate, -1), _.evaluate(state))({})(), E.succeed(12))
+      U.deepStrictEqual(await pipe(_.succeed(7), _.filter(predicate, -1), _.evaluate(state))({})(), E.left(-1))
       U.deepStrictEqual(await pipe(_.left(12), _.filter(predicate, -1), _.evaluate(state))({})(), E.left(12))
     })
   })
@@ -105,9 +101,9 @@ describe('StateReaderTaskEither', () => {
   // -------------------------------------------------------------------------------------
 
   it('run', async () => {
-    const ma = _.right('aaa')
+    const ma = _.succeed('aaa')
     const e = await ma({})({})()
-    U.deepStrictEqual(e, E.right([{}, 'aaa'] as const))
+    U.deepStrictEqual(e, E.succeed([{}, 'aaa'] as const))
   })
 
   it('applicativeReaderTaskEitherSeq', async () => {
@@ -123,20 +119,20 @@ describe('StateReaderTaskEither', () => {
       _.flatMap(() => append('end 2'))
     )
     const sequence = RA.traverse(_.Applicative)(<S, R, E, A>(a: _.StateReaderTaskEither<S, R, E, A>) => a)
-    U.deepStrictEqual(await sequence([t1, t2])({})({})(), E.right([{}, [2, 4]] as const))
+    U.deepStrictEqual(await sequence([t1, t2])({})({})(), E.succeed([{}, [2, 4]] as const))
     U.deepStrictEqual(log, ['start 1', 'end 1', 'start 2', 'end 2'])
   })
 
   it('execute', async () => {
-    const ma = _.right('a')
+    const ma = _.succeed('a')
     const e = await pipe(ma, _.execute(state))({})()
-    U.deepStrictEqual(e, E.right({}))
+    U.deepStrictEqual(e, E.succeed({}))
   })
 
   it('fromState', async () => {
     const s: State<unknown, number> = (s) => [s, 1]
     const e = await pipe(_.fromState(s), _.evaluate(state))({})()
-    U.deepStrictEqual(e, E.right(1))
+    U.deepStrictEqual(e, E.succeed(1))
   })
 
   it('leftState', async () => {
@@ -146,15 +142,15 @@ describe('StateReaderTaskEither', () => {
   })
 
   it('fromReaderTaskEither', async () => {
-    const rte: RTE.ReaderTaskEither<{}, string, number> = RTE.right(1)
+    const rte: RTE.ReaderTaskEither<{}, string, number> = RTE.succeed(1)
     const e = await pipe(_.fromReaderTaskEither(rte), _.evaluate(state))({})()
-    U.deepStrictEqual(e, E.right(1))
+    U.deepStrictEqual(e, E.succeed(1))
   })
 
   it('fromState', async () => {
     const s: State<unknown, number> = (s) => [s, 1]
     const e = await pipe(_.fromState(s), _.evaluate(state))({})()
-    U.deepStrictEqual(e, E.right(1))
+    U.deepStrictEqual(e, E.succeed(1))
   })
 
   it('left', async () => {
@@ -163,58 +159,58 @@ describe('StateReaderTaskEither', () => {
   })
 
   it('fromTask', async () => {
-    const e = await _.fromTask(T.of(1))({})({})()
-    U.deepStrictEqual(e, E.right([{}, 1] as const))
+    const e = await _.fromTask(T.succeed(1))({})({})()
+    U.deepStrictEqual(e, E.succeed([{}, 1] as const))
   })
 
   it('leftTask', async () => {
-    const e = await _.leftTask(T.of(1))({})({})()
+    const e = await _.leftTask(T.succeed(1))({})({})()
     U.deepStrictEqual(e, E.left(1))
   })
 
   it('fromTaskEither', async () => {
-    const e = await _.fromTaskEither(TE.of(1))({})({})()
-    U.deepStrictEqual(e, E.right([{}, 1] as const))
+    const e = await _.fromTaskEither(TE.succeed(1))({})({})()
+    U.deepStrictEqual(e, E.succeed([{}, 1] as const))
   })
 
   it('fromReader', async () => {
-    const e = await _.fromReader(R.of(1))({})({})()
-    U.deepStrictEqual(e, E.right([{}, 1] as const))
+    const e = await _.fromReader(R.succeed(1))({})({})()
+    U.deepStrictEqual(e, E.succeed([{}, 1] as const))
   })
 
   it('leftReader', async () => {
-    const e = await _.leftReader(R.of(1))({})({})()
+    const e = await _.leftReader(R.succeed(1))({})({})()
     U.deepStrictEqual(e, E.left(1))
   })
 
   it('fromIOEither', async () => {
-    const e1 = await _.fromIOEither(IE.right(1))({})({})()
-    U.deepStrictEqual(e1, E.right([{}, 1] as const))
+    const e1 = await _.fromIOEither(IE.succeed(1))({})({})()
+    U.deepStrictEqual(e1, E.succeed([{}, 1] as const))
     const e2 = await _.fromIOEither(IE.left(1))({})({})()
     U.deepStrictEqual(e2, E.left(1))
   })
 
   it('fromEither', async () => {
-    const e1 = await _.fromEither(E.right(1))({})({})()
-    U.deepStrictEqual(e1, E.right([{}, 1] as const))
+    const e1 = await _.fromEither(E.succeed(1))({})({})()
+    U.deepStrictEqual(e1, E.succeed([{}, 1] as const))
     const e2 = await _.fromEither(E.left(1))({})({})()
     U.deepStrictEqual(e2, E.left(1))
   })
 
   it('fromOption', async () => {
     const e1 = await _.fromOption('err')(O.some(1))({})({})()
-    U.deepStrictEqual(e1, E.right([{}, 1] as const))
+    U.deepStrictEqual(e1, E.succeed([{}, 1] as const))
     const e2 = await _.fromOption('err')(O.none)({})({})()
     U.deepStrictEqual(e2, E.left('err'))
   })
 
   it('fromIO', async () => {
-    const e = await _.fromIO(I.of(1))({})({})()
-    U.deepStrictEqual(e, E.right([{}, 1] as const))
+    const e = await _.fromIO(I.succeed(1))({})({})()
+    U.deepStrictEqual(e, E.succeed([{}, 1] as const))
   })
 
   it('leftIO', async () => {
-    const e = await _.leftIO(I.of(1))({})({})()
+    const e = await _.leftIO(I.succeed(1))({})({})()
     U.deepStrictEqual(e, E.left(1))
   })
 
@@ -222,78 +218,78 @@ describe('StateReaderTaskEither', () => {
     const e1 = await _.fromOption('none')(O.none)({})({})()
     U.deepStrictEqual(e1, E.left('none'))
     const e2 = await _.fromOption(() => 'none')(O.some(1))({})({})()
-    U.deepStrictEqual(e2, E.right([{}, 1] as const))
+    U.deepStrictEqual(e2, E.succeed([{}, 1] as const))
   })
 
   it('fromReaderEither', async () => {
     const e1 = await _.fromReaderEither(RE.left('a'))({})({})()
     U.deepStrictEqual(e1, E.left('a'))
-    const e2 = await _.fromReaderEither(RE.right(1))({})({})()
-    U.deepStrictEqual(e2, E.right([{}, 1] as const))
+    const e2 = await _.fromReaderEither(RE.succeed(1))({})({})()
+    U.deepStrictEqual(e2, E.succeed([{}, 1] as const))
   })
 
   it('flatMapEither', async () => {
-    const f = flow(S.size, E.of)
-    const x = await pipe(_.right('a'), _.flatMapEither(f))(undefined)(undefined)()
-    U.deepStrictEqual(x, E.right([undefined, 1] as const))
+    const f = flow(S.size, E.succeed)
+    const x = await pipe(_.succeed('a'), _.flatMapEither(f))(undefined)(undefined)()
+    U.deepStrictEqual(x, E.succeed([undefined, 1] as const))
   })
 
   it('flatMapIOEither', async () => {
-    const f = flow(S.size, IE.of)
-    const x = await pipe(_.right('a'), _.flatMapIOEither(f))(undefined)(undefined)()
-    U.deepStrictEqual(x, E.right([undefined, 1] as const))
+    const f = flow(S.size, IE.succeed)
+    const x = await pipe(_.succeed('a'), _.flatMapIOEither(f))(undefined)(undefined)()
+    U.deepStrictEqual(x, E.succeed([undefined, 1] as const))
   })
 
   it('flatMapTaskEither', async () => {
-    const f = flow(S.size, TE.of)
-    const x = await pipe(_.right('a'), _.flatMapTaskEither(f))(undefined)(undefined)()
-    U.deepStrictEqual(x, E.right([undefined, 1] as const))
+    const f = flow(S.size, TE.succeed)
+    const x = await pipe(_.succeed('a'), _.flatMapTaskEither(f))(undefined)(undefined)()
+    U.deepStrictEqual(x, E.succeed([undefined, 1] as const))
   })
 
   it('flatMapReaderTaskEither', async () => {
-    const f = flow(S.size, RTE.of)
-    const x = await pipe(_.right('a'), _.flatMapReaderTaskEither(f))(undefined)(undefined)()
-    U.deepStrictEqual(x, E.right([undefined, 1] as const))
+    const f = flow(S.size, RTE.succeed)
+    const x = await pipe(_.succeed('a'), _.flatMapReaderTaskEither(f))(undefined)(undefined)()
+    U.deepStrictEqual(x, E.succeed([undefined, 1] as const))
   })
 
   it('put', async () => {
-    U.deepStrictEqual(await _.put(2)(1)({})(), E.right([2, undefined] as const))
+    U.deepStrictEqual(await _.put(2)(1)({})(), E.succeed([2, undefined] as const))
   })
 
   it('get', async () => {
-    U.deepStrictEqual(await _.get()(1)({})(), E.right([1, 1] as const))
+    U.deepStrictEqual(await _.get()(1)({})(), E.succeed([1, 1] as const))
   })
 
   it('modify', async () => {
-    U.deepStrictEqual(await _.modify(U.double)(1)({})(), E.right([2, undefined] as const))
+    U.deepStrictEqual(await _.modify(U.double)(1)({})(), E.succeed([2, undefined] as const))
   })
 
   it('gets', async () => {
-    U.deepStrictEqual(await _.gets(U.double)(1)({})(), E.right([1, 2] as const))
+    U.deepStrictEqual(await _.gets(U.double)(1)({})(), E.succeed([1, 2] as const))
   })
 
   it('do notation', async () => {
     U.deepStrictEqual(
       await pipe(
-        _.right(1),
+        _.succeed(1),
         _.bindTo('a'),
-        _.bind('b', () => _.right('b'))
+        _.bind('b', () => _.succeed('b'))
       )(undefined)(undefined)(),
-      E.right([undefined, { a: 1, b: 'b' }] as const)
+      E.succeed([undefined, { a: 1, b: 'b' }] as const)
     )
   })
 
   it('apS', async () => {
     U.deepStrictEqual(
-      await pipe(_.right(1), _.bindTo('a'), _.bindRight('b', _.right('b')))(undefined)(undefined)(),
-      E.right([undefined, { a: 1, b: 'b' }] as const)
+      await pipe(_.succeed(1), _.bindTo('a'), _.bindRight('b', _.succeed('b')))(undefined)(undefined)(),
+      E.succeed([undefined, { a: 1, b: 'b' }] as const)
     )
   })
 
   it('zipFlatten', async () => {
     U.deepStrictEqual(
-      await pipe(_.right(1), _.tupled, _.zipFlatten(_.right('b')))({})({})(),
-      E.right([{}, [1, 'b']] as const)
+      await pipe(_.succeed(1), _.tupled, _.zipFlatten(_.succeed('b')))({})({})(),
+      E.succeed([{}, [1, 'b']] as const)
     )
   })
 
@@ -303,7 +299,7 @@ describe('StateReaderTaskEither', () => {
         (s) =>
           [s + 1, n * 2]
     )
-    U.deepStrictEqual(await ma(3)(2)({})(), E.right([3, 6] as const))
+    U.deepStrictEqual(await ma(3)(2)({})(), E.succeed([3, 6] as const))
   })
 
   it('flatMapState', async () => {
@@ -312,8 +308,8 @@ describe('StateReaderTaskEither', () => {
         (s) =>
           [s + 1, n * 2]
     )
-    const right: _.StateReaderTaskEither<number, unknown, never, number> = _.right(3)
-    U.deepStrictEqual(await pipe(right, f)(2)({})(), E.right([3, 6] as const))
+    const right: _.StateReaderTaskEither<number, unknown, never, number> = _.succeed(3)
+    U.deepStrictEqual(await pipe(right, f)(2)({})(), E.succeed([3, 6] as const))
     const left: _.StateReaderTaskEither<number, unknown, string, number> = _.left('a')
     U.deepStrictEqual(await pipe(left, f)(2)({})(), E.left('a'))
   })
@@ -323,8 +319,8 @@ describe('StateReaderTaskEither', () => {
       readonly count: number
     }
     const e: Env = { count: 0 }
-    const f = (e: Env) => _.of(e.count + 1)
-    U.deepStrictEqual(await _.asksStateReaderTaskEither(f)({})(e)(), E.right(tuple({}, 1)))
+    const f = (e: Env) => _.succeed(e.count + 1)
+    U.deepStrictEqual(await _.asksStateReaderTaskEither(f)({})(e)(), E.succeed(tuple({}, 1)))
   })
 
   it('local', async () => {
@@ -333,13 +329,13 @@ describe('StateReaderTaskEither', () => {
         _.asks((n: number) => n + 1),
         _.local(S.size)
       )({})('aaa')(),
-      E.right(tuple({}, 4))
+      E.succeed(tuple({}, 4))
     )
   })
 
   it('tapError', async () => {
     const f = _.tapError(() => _.modify((s: number) => s + 1))
-    U.deepStrictEqual(await pipe(_.right<number, number>(1), f)(0)(null)(), E.right([0, 1] as const))
+    U.deepStrictEqual(await pipe(_.succeed<number, number>(1), f)(0)(null)(), E.succeed([0, 1] as const))
     U.deepStrictEqual(await pipe(_.left<string, number>('a'), f)(0)(null)(), E.left('a'))
   })
 
@@ -348,9 +344,9 @@ describe('StateReaderTaskEither', () => {
   // -------------------------------------------------------------------------------------
 
   it('traverseReadonlyArrayWithIndex', async () => {
-    const f = _.traverseReadonlyArrayWithIndex((i, a: string) => (a.length > 0 ? _.right(a + i) : _.left('e')))
-    U.deepStrictEqual(await pipe(RA.empty, f)(undefined)(undefined)(), E.right([undefined, RA.empty] as const))
-    U.deepStrictEqual(await pipe(['a', 'b'], f)(undefined)(undefined)(), E.right([undefined, ['a0', 'b1']] as const))
+    const f = _.traverseReadonlyArrayWithIndex((i, a: string) => (a.length > 0 ? _.succeed(a + i) : _.left('e')))
+    U.deepStrictEqual(await pipe(RA.empty, f)(undefined)(undefined)(), E.succeed([undefined, RA.empty] as const))
+    U.deepStrictEqual(await pipe(['a', 'b'], f)(undefined)(undefined)(), E.succeed([undefined, ['a0', 'b1']] as const))
     U.deepStrictEqual(await pipe(['a', ''], f)(undefined)(undefined)(), E.left('e'))
     const append = (_i: number, n: number): _.StateReaderTaskEither<ReadonlyArray<number>, {}, Error, void> =>
       _.modify((a) => [...a, n])
@@ -360,13 +356,13 @@ describe('StateReaderTaskEither', () => {
         _.traverseReadonlyArrayWithIndex(append),
         _.map(() => undefined)
       )([])({})(),
-      E.right([[1, 2, 3], undefined] as const)
+      E.succeed([[1, 2, 3], undefined] as const)
     )
   })
 
   it('traverseReadonlyNonEmptyArray', async () => {
-    const f = _.traverseReadonlyNonEmptyArray((a: string) => (a.length > 0 ? _.right(a) : _.left('e')))
-    U.deepStrictEqual(await pipe(['a', 'b'], f)(undefined)(undefined)(), E.right([undefined, ['a', 'b']] as const))
+    const f = _.traverseReadonlyNonEmptyArray((a: string) => (a.length > 0 ? _.succeed(a) : _.left('e')))
+    U.deepStrictEqual(await pipe(['a', 'b'], f)(undefined)(undefined)(), E.succeed([undefined, ['a', 'b']] as const))
     U.deepStrictEqual(await pipe(['a', ''], f)(undefined)(undefined)(), E.left('e'))
     const append = (n: number): _.StateReaderTaskEither<ReadonlyArray<number>, {}, Error, void> =>
       _.modify((a) => [...a, n])
@@ -376,7 +372,7 @@ describe('StateReaderTaskEither', () => {
         _.traverseReadonlyNonEmptyArray(append),
         _.map(() => undefined)
       )([])({})(),
-      E.right([[1, 2, 3], undefined] as const)
+      E.succeed([[1, 2, 3], undefined] as const)
     )
   })
 
@@ -394,7 +390,7 @@ describe('StateReaderTaskEither', () => {
       })
     U.deepStrictEqual(
       await pipe([right(1), right(2)], _.sequenceReadonlyArray)(undefined)(undefined)(),
-      E.right([undefined, [1, 2]] as const)
+      E.succeed([undefined, [1, 2]] as const)
     )
     U.deepStrictEqual(await pipe([right(3), left('a')], _.sequenceReadonlyArray)(undefined)(undefined)(), E.left('a'))
     U.deepStrictEqual(await pipe([left('b'), right(4)], _.sequenceReadonlyArray)(undefined)(undefined)(), E.left('b'))

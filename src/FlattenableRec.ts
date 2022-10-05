@@ -25,5 +25,5 @@ export const tailRec =
     while (_.isLeft(v)) {
       v = f(v.left)
     }
-    return v.right
+    return v.success
   }

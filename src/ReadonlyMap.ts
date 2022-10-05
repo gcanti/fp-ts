@@ -261,7 +261,7 @@ export const separate = <K, A, B>(
     if (_.isLeft(ei)) {
       left.set(k, ei.left)
     } else {
-      right.set(k, ei.right)
+      right.set(k, ei.success)
     }
   }
   return [left, right]
@@ -319,7 +319,7 @@ export const partitionMapWithIndex =
       if (_.isLeft(ei)) {
         left.set(k, ei.left)
       } else {
-        right.set(k, ei.right)
+        right.set(k, ei.success)
       }
     }
     return [left, right]
@@ -644,7 +644,7 @@ export const traverseWithIndex: <K>(
   return <F extends TypeLambda>(F: Applicative<F>) =>
     <A, S, R, O, E, B>(f: (k: K, a: A) => Kind<F, S, R, O, E, B>) =>
     (ta: ReadonlyMap<K, A>) => {
-      let fm: Kind<F, S, R, O, E, Map<K, B>> = F.of(new Map())
+      let fm: Kind<F, S, R, O, E, Map<K, B>> = F.succeed(new Map())
       for (const k of keysO(ta)) {
         const a = ta.get(k)!
         fm = pipe(

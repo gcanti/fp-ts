@@ -12,29 +12,29 @@ describe('ReaderIO', () => {
   // -------------------------------------------------------------------------------------
 
   it('map', () => {
-    U.deepStrictEqual(pipe(_.of(1), _.map(U.double))({})(), 2)
+    U.deepStrictEqual(pipe(_.succeed(1), _.map(U.double))({})(), 2)
   })
 
   it('ap', () => {
-    U.deepStrictEqual(pipe(_.of(U.double), _.ap(_.of(1)))({})(), 2)
+    U.deepStrictEqual(pipe(_.succeed(U.double), _.ap(_.succeed(1)))({})(), 2)
   })
 
   it('flatMap', () => {
-    const f = (a: string) => _.of(a.length)
-    U.deepStrictEqual(pipe(_.of('foo'), _.flatMap(f))({})(), 3)
+    const f = (a: string) => _.succeed(a.length)
+    U.deepStrictEqual(pipe(_.succeed('foo'), _.flatMap(f))({})(), 3)
   })
 
   it('tap', () => {
-    const f = (a: string) => _.of(a.length)
-    U.deepStrictEqual(pipe(_.of('foo'), _.tap(f))({})(), 'foo')
+    const f = (a: string) => _.succeed(a.length)
+    U.deepStrictEqual(pipe(_.succeed('foo'), _.tap(f))({})(), 'foo')
   })
 
   it('flatten', () => {
-    U.deepStrictEqual(pipe(_.of(_.of('a')), _.flatten)({ env1: '', env2: '' })(), 'a')
+    U.deepStrictEqual(pipe(_.succeed(_.succeed('a')), _.flatten)({ env1: '', env2: '' })(), 'a')
   })
 
-  it('of', () => {
-    U.deepStrictEqual(_.fromReader(R.of(1))({})(), 1)
+  it('succeed', () => {
+    U.deepStrictEqual(_.fromReader(R.succeed(1))({})(), 1)
   })
 
   it('fromIO', async () => {
@@ -54,7 +54,7 @@ describe('ReaderIO', () => {
   })
 
   it('fromReader', () => {
-    U.deepStrictEqual(_.fromReader(R.of(1))({})(), 1)
+    U.deepStrictEqual(_.fromReader(R.succeed(1))({})(), 1)
   })
 
   // -------------------------------------------------------------------------------------
@@ -72,13 +72,13 @@ describe('ReaderIO', () => {
   })
 
   it('flatMapIO', () => {
-    const f = (s: string) => I.of(s.length)
-    U.deepStrictEqual(pipe(_.of('a'), _.flatMapIO(f))(undefined)(), 1)
+    const f = (s: string) => I.succeed(s.length)
+    U.deepStrictEqual(pipe(_.succeed('a'), _.flatMapIO(f))(undefined)(), 1)
   })
 
   it('liftIO', () => {
-    const f = _.liftIO((s: string) => I.of(s.length))
-    U.deepStrictEqual(pipe(_.of('a'), _.flatMap(f))({})(), 1)
+    const f = _.liftIO((s: string) => I.succeed(s.length))
+    U.deepStrictEqual(pipe(_.succeed('a'), _.flatMap(f))({})(), 1)
   })
 
   // -------------------------------------------------------------------------------------
@@ -88,16 +88,19 @@ describe('ReaderIO', () => {
   it('do notation', () => {
     U.deepStrictEqual(
       pipe(
-        _.of(1),
+        _.succeed(1),
         _.bindTo('a'),
-        _.bind('b', () => _.of('b'))
+        _.bind('b', () => _.succeed('b'))
       )(undefined)(),
       { a: 1, b: 'b' }
     )
   })
 
   it('apS', () => {
-    U.deepStrictEqual(pipe(_.of(1), _.bindTo('a'), _.bindRight('b', _.of('b')))(undefined)(), { a: 1, b: 'b' })
+    U.deepStrictEqual(pipe(_.succeed(1), _.bindTo('a'), _.bindRight('b', _.succeed('b')))(undefined)(), {
+      a: 1,
+      b: 'b'
+    })
   })
 
   // -------------------------------------------------------------------------------------
@@ -105,17 +108,17 @@ describe('ReaderIO', () => {
   // -------------------------------------------------------------------------------------
 
   it('traverseReadonlyNonEmptyArray', () => {
-    const f = _.traverseReadonlyNonEmptyArray((a: string) => _.of(a))
+    const f = _.traverseReadonlyNonEmptyArray((a: string) => _.succeed(a))
     U.deepStrictEqual(pipe(['a', 'b'], f)(null)(), ['a', 'b'])
   })
 
   it('traverseReadonlyArrayWithIndex', () => {
-    const f = _.traverseReadonlyArrayWithIndex((i, a: string) => _.of(a + i))
+    const f = _.traverseReadonlyArrayWithIndex((i, a: string) => _.succeed(a + i))
     U.deepStrictEqual(pipe(RA.empty, f)(null)(), RA.empty)
     U.deepStrictEqual(pipe(['a', 'b'], f)(null)(), ['a0', 'b1'])
   })
 
   it('sequenceReadonlyArray', () => {
-    U.deepStrictEqual(pipe([_.of('a'), _.of('b')], _.sequenceReadonlyArray)(null)(), ['a', 'b'])
+    U.deepStrictEqual(pipe([_.succeed('a'), _.succeed('b')], _.sequenceReadonlyArray)(null)(), ['a', 'b'])
   })
 })

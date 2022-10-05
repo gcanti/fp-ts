@@ -52,7 +52,7 @@ import * as traversable from './Traversable'
 export interface Both<E, A> {
   readonly _tag: 'Both'
   readonly left: E
-  readonly right: A
+  readonly success: A
 }
 
 /**
@@ -83,13 +83,13 @@ export const left = <E>(left: E): These<E, never> => ({ _tag: 'Left', left })
  * @category constructors
  * @since 3.0.0
  */
-export const right = <A>(right: A): These<never, A> => ({ _tag: 'Right', right })
+export const succeed = <A>(success: A): These<never, A> => ({ _tag: 'Right', success })
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const both = <E, A>(left: E, right: A): These<E, A> => ({ _tag: 'Both', left, right })
+export const both = <E, A>(left: E, success: A): These<E, A> => ({ _tag: 'Both', left, success })
 
 /**
  * @example
@@ -109,30 +109,30 @@ export const leftOrBoth =
 
 /**
  * @example
- * import { rightOrBoth, right, both } from 'fp-ts/These'
+ * import { successOrBoth, succeed, both } from 'fp-ts/These'
  * import { none, some } from 'fp-ts/Option'
  *
- * assert.deepStrictEqual(rightOrBoth(1)(none), right(1))
- * assert.deepStrictEqual(rightOrBoth(1)(some('a')), both('a', 1))
+ * assert.deepStrictEqual(successOrBoth(1)(none), succeed(1))
+ * assert.deepStrictEqual(successOrBoth(1)(some('a')), both('a', 1))
  *
  * @category constructors
  * @since 3.0.0
  */
-export const rightOrBoth =
+export const successOrBoth =
   <A>(a: A) =>
   <E>(me: Option<E>): These<E, A> =>
-    _.isNone(me) ? right(a) : both(me.value, a)
+    _.isNone(me) ? succeed(a) : both(me.value, a)
 
 /**
  * Takes a pair of `Option`s and attempts to create a `These` from them
  *
  * @example
- * import { fromOptions, left, right, both } from 'fp-ts/These'
+ * import { fromOptions, left, succeed, both } from 'fp-ts/These'
  * import { none, some } from 'fp-ts/Option'
  *
  * assert.deepStrictEqual(fromOptions(none, none), none)
  * assert.deepStrictEqual(fromOptions(some('a'), none), some(left('a')))
- * assert.deepStrictEqual(fromOptions(none, some(1)), some(right(1)))
+ * assert.deepStrictEqual(fromOptions(none, some(1)), some(succeed(1)))
  * assert.deepStrictEqual(fromOptions(some('a'), some(1)), some(both('a', 1)))
  *
  * @category constructors
@@ -142,7 +142,7 @@ export const fromOptions = <E, A>(fe: Option<E>, fa: Option<A>): Option<These<E,
   _.isNone(fe)
     ? _.isNone(fa)
       ? _.none
-      : _.some(right(fa.value))
+      : _.some(succeed(fa.value))
     : _.isNone(fa)
     ? _.some(left(fe.value))
     : _.some(both(fe.value, fa.value))
@@ -162,16 +162,16 @@ export const match =
       case 'Left':
         return onError(fa.left)
       case 'Right':
-        return onSuccess(fa.right)
+        return onSuccess(fa.success)
       case 'Both':
-        return onBoth(fa.left, fa.right)
+        return onBoth(fa.left, fa.success)
     }
   }
 
 /**
  * @since 3.0.0
  */
-export const swap: <E, A>(fa: These<E, A>) => These<A, E> = match(right, left, (e, a) => both(a, e))
+export const swap: <E, A>(fa: These<E, A>) => These<A, E> = match(succeed, left, (e, a) => both(a, e))
 
 /**
  * Returns `true` if the these is an instance of `Left`, `false` otherwise
@@ -210,28 +210,28 @@ export const isBoth = <E, A>(fa: These<E, A>): fa is Both<E, A> => fa._tag === '
  */
 export const mapBoth: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (self: These<E, A>) => These<G, B> =
   (f, g) => (fa) =>
-    isLeft(fa) ? left(f(fa.left)) : isRight(fa) ? right(g(fa.right)) : both(f(fa.left), g(fa.right))
+    isLeft(fa) ? left(f(fa.left)) : isRight(fa) ? succeed(g(fa.success)) : both(f(fa.left), g(fa.success))
 
 /**
  * @category folding
  * @since 3.0.0
  */
 export const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => <E>(fa: These<E, A>) => B = (b, f) => (fa) =>
-  isLeft(fa) ? b : f(b, fa.right)
+  isLeft(fa) ? b : f(b, fa.success)
 
 /**
  * @category folding
  * @since 3.0.0
  */
 export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: These<E, A>) => M = (M) => (f) => (fa) =>
-  isLeft(fa) ? M.empty : f(fa.right)
+  isLeft(fa) ? M.empty : f(fa.success)
 
 /**
  * @category folding
  * @since 3.0.0
  */
 export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <E>(fa: These<E, A>) => B = (b, f) => (fa) =>
-  isLeft(fa) ? b : f(fa.right, b)
+  isLeft(fa) ? b : f(fa.success, b)
 
 /**
  * @category traversing
@@ -243,19 +243,13 @@ export const traverse: <F extends TypeLambda>(
   f: (a: A) => Kind<F, S, R, O, FE, B>
 ) => <E>(ta: These<E, A>) => Kind<F, S, R, O, FE, These<E, B>> = (F) => (f) => (ta) =>
   isLeft(ta)
-    ? F.of(ta)
+    ? F.succeed(ta)
     : isRight(ta)
-    ? pipe(f(ta.right), F.map(right))
+    ? pipe(f(ta.success), F.map(succeed))
     : pipe(
-        f(ta.right),
+        f(ta.success),
         F.map((b) => both(ta.left, b))
       )
-
-/**
- * @category constructors
- * @since 3.0.0
- */
-export const of: <A>(right: A) => These<never, A> = right
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -268,7 +262,7 @@ export const of: <A>(right: A) => These<never, A> = right
 export const getShow = <E, A>(SE: Show<E>, SA: Show<A>): Show<These<E, A>> => ({
   show: match(
     (l) => `left(${SE.show(l)})`,
-    (a) => `right(${SA.show(a)})`,
+    (a) => `succeed(${SA.show(a)})`,
     (l, a) => `both(${SE.show(l)}, ${SA.show(a)})`
   )
 })
@@ -283,8 +277,8 @@ export const getEq = <E, A>(EE: Eq<E>, EA: Eq<A>): Eq<These<E, A>> =>
       isLeft(self)
         ? isLeft(that) && EE.equals(that.left)(self.left)
         : isRight(self)
-        ? isRight(that) && EA.equals(that.right)(self.right)
-        : isBoth(that) && EE.equals(that.left)(self.left) && EA.equals(that.right)(self.right)
+        ? isRight(that) && EA.equals(that.success)(self.success)
+        : isBoth(that) && EE.equals(that.left)(self.left) && EA.equals(that.success)(self.success)
   )
 
 /**
@@ -297,19 +291,19 @@ export const getSemigroup = <E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigrou
       ? isLeft(that)
         ? left(SE.combine(that.left)(self.left))
         : isRight(that)
-        ? both(self.left, that.right)
-        : both(SE.combine(that.left)(self.left), that.right)
+        ? both(self.left, that.success)
+        : both(SE.combine(that.left)(self.left), that.success)
       : isRight(self)
       ? isLeft(that)
-        ? both(that.left, self.right)
+        ? both(that.left, self.success)
         : isRight(that)
-        ? right(SA.combine(that.right)(self.right))
-        : both(that.left, SA.combine(that.right)(self.right))
+        ? succeed(SA.combine(that.success)(self.success))
+        : both(that.left, SA.combine(that.success)(self.success))
       : isLeft(that)
-      ? both(SE.combine(that.left)(self.left), self.right)
+      ? both(SE.combine(that.left)(self.left), self.success)
       : isRight(that)
-      ? both(self.left, SA.combine(that.right)(self.right))
-      : both(SE.combine(that.left)(self.left), SA.combine(that.right)(self.right))
+      ? both(self.left, SA.combine(that.success)(self.success))
+      : both(SE.combine(that.left)(self.left), SA.combine(that.success)(self.success))
 })
 
 /**
@@ -373,7 +367,7 @@ export const unit: <E>(self: These<E, unknown>) => These<E, void> = /*#__PURE__*
  * @since 3.0.0
  */
 export const FromIdentity: fromIdentity.FromIdentity<TheseTypeLambda> = {
-  of
+  succeed
 }
 
 /**
@@ -393,13 +387,13 @@ export const getApply = <E>(Semigroup: Semigroup<E>): Apply<ValidatedT<TheseType
       ? isLeft(fa)
         ? left(fa.left)
         : isRight(fa)
-        ? right(fab.right(fa.right))
-        : both(fa.left, fab.right(fa.right))
+        ? succeed(fab.success(fa.success))
+        : both(fa.left, fab.success(fa.success))
       : isLeft(fa)
       ? left(Semigroup.combine(fa.left)(fab.left))
       : isRight(fa)
-      ? both(fab.left, fab.right(fa.right))
-      : both(Semigroup.combine(fa.left)(fab.left), fab.right(fa.right))
+      ? both(fab.left, fab.success(fa.success))
+      : both(Semigroup.combine(fa.left)(fab.left), fab.success(fa.success))
 })
 
 /**
@@ -411,7 +405,7 @@ export const getApplicative = <E>(Semigroup: Semigroup<E>): applicative.Applicat
   return {
     map,
     ap: A.ap,
-    of
+    succeed
   }
 }
 
@@ -427,14 +421,14 @@ export const getFlattenable = <E>(S: Semigroup<E>): Flattenable<ValidatedT<These
         return ma
       }
       if (isRight(ma)) {
-        return f(ma.right)
+        return f(ma.success)
       }
-      const fb = f(ma.right)
+      const fb = f(ma.success)
       return isLeft(fb)
         ? left(S.combine(fb.left)(ma.left))
         : isRight(fb)
-        ? both(ma.left, fb.right)
-        : both(S.combine(fb.left)(ma.left), fb.right)
+        ? both(ma.left, fb.success)
+        : both(S.combine(fb.left)(ma.left), fb.success)
     }
 
   return {
@@ -451,7 +445,7 @@ export const getMonad = <E>(S: Semigroup<E>): Monad<ValidatedT<TheseTypeLambda, 
   const C = getFlattenable(S)
   return {
     map,
-    of,
+    succeed,
     flatMap: C.flatMap
   }
 }
@@ -562,34 +556,34 @@ export const elem =
 export const exists =
   <A>(predicate: Predicate<A>) =>
   (ma: These<unknown, A>): boolean =>
-    isLeft(ma) ? false : predicate(ma.right)
+    isLeft(ma) ? false : predicate(ma.success)
 
 /**
  * @example
- * import { toTuple2, left, right, both } from 'fp-ts/These'
+ * import { toTuple2, left, succeed, both } from 'fp-ts/These'
  *
  * const f = toTuple2('a', 1)
  * assert.deepStrictEqual(f(left('b')), ['b', 1])
- * assert.deepStrictEqual(f(right(2)), ['a', 2])
+ * assert.deepStrictEqual(f(succeed(2)), ['a', 2])
  * assert.deepStrictEqual(f(both('b', 2)), ['b', 2])
  *
  * @category conversions
  * @since 3.0.0
  */
 export const toTuple2 =
-  <E, A>(onRight: E, onLeft: A) =>
+  <E, A>(onSuccess: E, onLeft: A) =>
   (fa: These<E, A>): readonly [E, A] =>
-    isLeft(fa) ? [fa.left, onLeft] : isRight(fa) ? [onRight, fa.right] : [fa.left, fa.right]
+    isLeft(fa) ? [fa.left, onLeft] : isRight(fa) ? [onSuccess, fa.success] : [fa.left, fa.success]
 
 /**
  * Returns an `E` value if possible
  *
  * @example
- * import { getLeft, left, right, both } from 'fp-ts/These'
+ * import { getLeft, left, succeed, both } from 'fp-ts/These'
  * import { none, some } from 'fp-ts/Option'
  *
  * assert.deepStrictEqual(getLeft(left('a')), some('a'))
- * assert.deepStrictEqual(getLeft(right(1)), none)
+ * assert.deepStrictEqual(getLeft(succeed(1)), none)
  * assert.deepStrictEqual(getLeft(both('a', 1)), some('a'))
  *
  * @since 3.0.0
@@ -601,27 +595,27 @@ export const getLeft = <E, A>(fa: These<E, A>): Option<E> =>
  * Returns an `A` value if possible
  *
  * @example
- * import { getRight, left, right, both } from 'fp-ts/These'
+ * import { getSuccess, left, succeed, both } from 'fp-ts/These'
  * import { none, some } from 'fp-ts/Option'
  *
- * assert.deepStrictEqual(getRight(left('a')), none)
- * assert.deepStrictEqual(getRight(right(1)), some(1))
- * assert.deepStrictEqual(getRight(both('a', 1)), some(1))
+ * assert.deepStrictEqual(getSuccess(left('a')), none)
+ * assert.deepStrictEqual(getSuccess(succeed(1)), some(1))
+ * assert.deepStrictEqual(getSuccess(both('a', 1)), some(1))
  *
  * @since 3.0.0
  */
-export const getRight = <E, A>(fa: These<E, A>): Option<A> =>
-  isLeft(fa) ? _.none : isRight(fa) ? _.some(fa.right) : _.some(fa.right)
+export const getSuccess = <E, A>(fa: These<E, A>): Option<A> =>
+  isLeft(fa) ? _.none : isRight(fa) ? _.some(fa.success) : _.some(fa.success)
 
 /**
  * Returns the `E` value if and only if the value is constructed with `Left`
  *
  * @example
- * import { getLeftOnly, left, right, both } from 'fp-ts/These'
+ * import { getLeftOnly, left, succeed, both } from 'fp-ts/These'
  * import { none, some } from 'fp-ts/Option'
  *
  * assert.deepStrictEqual(getLeftOnly(left('a')), some('a'))
- * assert.deepStrictEqual(getLeftOnly(right(1)), none)
+ * assert.deepStrictEqual(getLeftOnly(succeed(1)), none)
  * assert.deepStrictEqual(getLeftOnly(both('a', 1)), none)
  *
  * @since 3.0.0
@@ -632,16 +626,16 @@ export const getLeftOnly = <E, A>(fa: These<E, A>): Option<E> => (isLeft(fa) ? _
  * Returns the `A` value if and only if the value is constructed with `Right`
  *
  * @example
- * import { getRightOnly, left, right, both } from 'fp-ts/These'
+ * import { getSuccessOnly, left, succeed, both } from 'fp-ts/These'
  * import { none, some } from 'fp-ts/Option'
  *
- * assert.deepStrictEqual(getRightOnly(left('a')), none)
- * assert.deepStrictEqual(getRightOnly(right(1)), some(1))
- * assert.deepStrictEqual(getRightOnly(both('a', 1)), none)
+ * assert.deepStrictEqual(getSuccessOnly(left('a')), none)
+ * assert.deepStrictEqual(getSuccessOnly(succeed(1)), some(1))
+ * assert.deepStrictEqual(getSuccessOnly(both('a', 1)), none)
  *
  * @since 3.0.0
  */
-export const getRightOnly = <E, A>(fa: These<E, A>): Option<A> => (isRight(fa) ? _.some(fa.right) : _.none)
+export const getSuccessOnly = <E, A>(fa: These<E, A>): Option<A> => (isRight(fa) ? _.some(fa.success) : _.none)
 
 // -------------------------------------------------------------------------------------
 // tuple sequencing
@@ -651,7 +645,7 @@ export const getRightOnly = <E, A>(fa: These<E, A>): Option<A> => (isRight(fa) ?
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const Zip: These<never, readonly []> = /*#__PURE__*/ of(_.Zip)
+export const Zip: These<never, readonly []> = /*#__PURE__*/ succeed(_.Zip)
 
 // -------------------------------------------------------------------------------------
 // array utils
@@ -675,7 +669,7 @@ export const traverseReadonlyNonEmptyArrayWithIndex =
     if (isBoth(t)) {
       e = _.some(t.left)
     }
-    const out: _.NonEmptyArray<B> = [t.right]
+    const out: _.NonEmptyArray<B> = [t.success]
     for (let i = 1; i < as.length; i++) {
       const t = f(i, as[i])
       if (isLeft(t)) {
@@ -684,9 +678,9 @@ export const traverseReadonlyNonEmptyArrayWithIndex =
       if (isBoth(t)) {
         e = _.isNone(e) ? _.some(t.left) : _.some(S.combine(t.left)(e.value))
       }
-      out.push(t.right)
+      out.push(t.success)
     }
-    return _.isNone(e) ? right(out) : both(e.value, out)
+    return _.isNone(e) ? succeed(out) : both(e.value, out)
   }
 
 /**

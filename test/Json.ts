@@ -5,12 +5,12 @@ import * as U from './util'
 
 describe('Json', () => {
   it('parse', () => {
-    U.deepStrictEqual(pipe('{"a":1}', _.parse), E.right({ a: 1 }))
+    U.deepStrictEqual(pipe('{"a":1}', _.parse), E.succeed({ a: 1 }))
     U.deepStrictEqual(pipe('{"a":}', _.parse), E.left(new SyntaxError('Unexpected token } in JSON at position 5')))
   })
 
   it('stringify', () => {
-    U.deepStrictEqual(pipe({ a: 1 }, _.stringify), E.right('{"a":1}'))
+    U.deepStrictEqual(pipe({ a: 1 }, _.stringify), E.succeed('{"a":1}'))
     const circular: any = { ref: null }
     circular.ref = circular
     U.deepStrictEqual(
@@ -26,7 +26,7 @@ describe('Json', () => {
       readonly age: number
     }
     const person: Person = { name: 'Giulio', age: 45 }
-    U.deepStrictEqual(pipe(person, _.stringify), E.right('{"name":"Giulio","age":45}'))
+    U.deepStrictEqual(pipe(person, _.stringify), E.succeed('{"name":"Giulio","age":45}'))
 
     U.deepStrictEqual(_.stringify(undefined as any), E.left(new Error('Converting unsupported structure to JSON')))
   })

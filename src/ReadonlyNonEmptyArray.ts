@@ -703,14 +703,14 @@ export const map: <A, B>(f: (a: A) => B) => (fa: ReadonlyNonEmptyArray<A>) => Re
  * @category constructors
  * @since 3.0.0
  */
-export const of: <A>(a: A) => ReadonlyNonEmptyArray<A> = _.singleton
+export const succeed: <A>(a: A) => ReadonlyNonEmptyArray<A> = _.singleton
 
 /**
  * @category instances
  * @since 3.0.0
  */
 export const FromIdentity: fromIdentity.FromIdentity<ReadonlyNonEmptyArrayTypeLambda> = {
-  of
+  succeed
 }
 
 /**
@@ -930,7 +930,7 @@ export const traverseWithIndex =
   <F extends TypeLambda>(F: apply.Apply<F>) =>
   <A, S, R, O, E, B>(f: (i: number, a: A) => Kind<F, S, R, O, E, B>) =>
   (as: ReadonlyNonEmptyArray<A>): Kind<F, S, R, O, E, ReadonlyNonEmptyArray<B>> => {
-    let out = pipe(f(0, head(as)), F.map(of))
+    let out = pipe(f(0, head(as)), F.map(succeed))
     for (let i = 1; i < as.length; i++) {
       out = pipe(
         out,
@@ -1074,7 +1074,7 @@ export const lift3: <A, B, C, D>(
 export const Applicative: applicative.Applicative<ReadonlyNonEmptyArrayTypeLambda> = {
   map,
   ap,
-  of
+  succeed
 }
 
 /**
@@ -1083,7 +1083,7 @@ export const Applicative: applicative.Applicative<ReadonlyNonEmptyArrayTypeLambd
  */
 export const Monad: monad.Monad<ReadonlyNonEmptyArrayTypeLambda> = {
   map,
-  of,
+  succeed,
   flatMap
 }
 
@@ -1173,7 +1173,7 @@ export const Comonad: comonad.Comonad<ReadonlyNonEmptyArrayTypeLambda> = {
  */
 export const Do: ReadonlyNonEmptyArray<{}> =
   /*#__PURE__*/
-  of(_.Do)
+  succeed(_.Do)
 
 /**
  * @category do notation
@@ -1234,7 +1234,7 @@ export const bindRight: <N extends string, A extends object, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const Zip: ReadonlyNonEmptyArray<readonly []> = /*#__PURE__*/ of(_.Zip)
+export const Zip: ReadonlyNonEmptyArray<readonly []> = /*#__PURE__*/ succeed(_.Zip)
 
 /**
  * @category tuple sequencing

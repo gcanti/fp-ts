@@ -31,14 +31,14 @@ describe('Tree', () => {
   })
 
   it('ap', () => {
-    const fab = _.of(U.double)
+    const fab = _.succeed(U.double)
     const fa = _.make(1, [_.make(2), _.make(3)])
     const expected = _.make(2, [_.make(4), _.make(6)])
     U.deepStrictEqual(pipe(fab, _.ap(fa)), expected)
   })
 
   it('flatMap', () => {
-    const f = flow(U.double, _.of)
+    const f = flow(U.double, _.succeed)
     const fa = _.make(1, [_.make(2), _.make(3)])
     const expected = _.make(2, [_.make(4), _.make(6)])
     U.deepStrictEqual(pipe(fa, _.flatMap(f)), expected)
@@ -118,7 +118,7 @@ describe('Tree', () => {
     U.deepStrictEqual(
       await pipe(
         1,
-        _.unfoldTreeKind(T.Monad, T.ApplyPar)((b) => T.of([b, b < 3 ? [b + 1, b + 2] : []]))
+        _.unfoldTreeKind(T.Monad, T.ApplyPar)((b) => T.succeed([b, b < 3 ? [b + 1, b + 2] : []]))
       )(),
       _.make(1, [_.make(2, [_.make(3), _.make(4)]), _.make(3)])
     )
@@ -212,20 +212,20 @@ describe('Tree', () => {
   it('do notation', () => {
     U.deepStrictEqual(
       pipe(
-        _.of(1),
+        _.succeed(1),
         _.bindTo('a'),
-        _.bind('b', () => _.of('b'))
+        _.bind('b', () => _.succeed('b'))
       ),
       _.make({ a: 1, b: 'b' })
     )
   })
 
   it('apS', () => {
-    U.deepStrictEqual(pipe(_.of(1), _.bindTo('a'), _.bindRight('b', _.of('b'))), _.make({ a: 1, b: 'b' }))
+    U.deepStrictEqual(pipe(_.succeed(1), _.bindTo('a'), _.bindRight('b', _.succeed('b'))), _.make({ a: 1, b: 'b' }))
   })
 
   it('zipFlatten', () => {
-    U.deepStrictEqual(pipe(_.of(1), _.tupled, _.zipFlatten(_.of('b'))), _.make([1, 'b'] as const))
+    U.deepStrictEqual(pipe(_.succeed(1), _.tupled, _.zipFlatten(_.succeed('b'))), _.make([1, 'b'] as const))
   })
 
   it('elem', () => {

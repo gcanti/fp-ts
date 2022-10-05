@@ -157,7 +157,7 @@ export const unfoldForestKind = <F extends TypeLambda>(Monad: monad.Monad<F>, Ap
   return <B, S, R, O, E, A>(f: (b: B) => Kind<F, S, R, O, E, readonly [A, ReadonlyArray<B>]>) => {
     const g = unfoldNonEmptyForestKind_(f)
     return (bs: ReadonlyArray<B>): Kind<F, S, R, O, E, Forest<A>> =>
-      readonlyArray.isNonEmpty(bs) ? g(bs) : Monad.of(readonlyArray.empty)
+      readonlyArray.isNonEmpty(bs) ? g(bs) : Monad.succeed(readonlyArray.empty)
   }
 }
 
@@ -215,14 +215,14 @@ export const map: <A, B>(f: (a: A) => B) => (fa: Tree<A>) => Tree<B> = (f) => (f
  * @category constructors
  * @since 3.0.0
  */
-export const of: <A>(a: A) => Tree<A> = (a) => make(a)
+export const succeed: <A>(a: A) => Tree<A> = (a) => make(a)
 
 /**
  * @category instances
  * @since 3.0.0
  */
 export const FromIdentity: fromIdentity.FromIdentity<TreeTypeLambda> = {
-  of
+  succeed
 }
 
 /**
@@ -491,7 +491,7 @@ export const lift3: <A, B, C, D>(f: (a: A, b: B, c: C) => D) => (fa: Tree<A>, fb
 export const Applicative: applicative.Applicative<TreeTypeLambda> = {
   map,
   ap,
-  of
+  succeed
 }
 
 /**
@@ -500,7 +500,7 @@ export const Applicative: applicative.Applicative<TreeTypeLambda> = {
  */
 export const Monad: monad.Monad<TreeTypeLambda> = {
   map,
-  of,
+  succeed,
   flatMap
 }
 
@@ -611,7 +611,7 @@ export const drawTree = (tree: Tree<string>): string => tree.value + drawForest(
  * @category do notation
  * @since 3.0.0
  */
-export const Do: Tree<{}> = /*#__PURE__*/ of(_.Do)
+export const Do: Tree<{}> = /*#__PURE__*/ succeed(_.Do)
 
 /**
  * @category do notation
@@ -664,7 +664,7 @@ export const bindRight: <N extends string, A extends object, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const Zip: Tree<readonly []> = /*#__PURE__*/ of(_.Zip)
+export const Zip: Tree<readonly []> = /*#__PURE__*/ succeed(_.Zip)
 
 /**
  * @category tuple sequencing

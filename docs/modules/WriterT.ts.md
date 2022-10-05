@@ -26,9 +26,9 @@ Added in v3.0.0
   - [map](#map)
   - [mapBoth](#mapboth)
   - [mapLeft](#mapleft)
-  - [of](#of)
   - [pass](#pass)
   - [snd](#snd)
+  - [succeed](#succeed)
   - [swap](#swap)
   - [tell](#tell)
 
@@ -219,19 +219,6 @@ export declare const mapLeft: <F extends TypeLambda>(
 
 Added in v3.0.0
 
-## of
-
-**Signature**
-
-```ts
-export declare const of: <F extends TypeLambda, W>(
-  FromIdentity: FromIdentity<F>,
-  Monoid: Monoid<W>
-) => <A, S>(a: A) => Kind<F, S, unknown, never, never, Writer<W, A>>
-```
-
-Added in v3.0.0
-
 ## pass
 
 Applies the returned function to the accumulator
@@ -256,6 +243,19 @@ Added in v3.0.0
 export declare const snd: <F extends TypeLambda>(
   Functor: Functor<F>
 ) => <S, R, O, E, A>(self: Kind<F, S, R, O, E, Writer<unknown, A>>) => Kind<F, S, R, O, E, A>
+```
+
+Added in v3.0.0
+
+## succeed
+
+**Signature**
+
+```ts
+export declare const succeed: <F extends TypeLambda, W>(
+  FromIdentity: FromIdentity<F>,
+  Monoid: Monoid<W>
+) => <A, S>(a: A) => Kind<F, S, unknown, never, never, Writer<W, A>>
 ```
 
 Added in v3.0.0

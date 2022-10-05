@@ -69,7 +69,7 @@ export const left: <E, S>(e: E) => StateReaderTaskEither<S, unknown, E, never> =
  * @category constructors
  * @since 3.0.0
  */
-export const right: <A, S>(a: A) => StateReaderTaskEither<S, unknown, never, A> = /*#__PURE__*/ stateT.of(
+export const succeed: <A, S>(a: A) => StateReaderTaskEither<S, unknown, never, A> = /*#__PURE__*/ stateT.succeed(
   readerTaskEither.FromIdentity
 )
 
@@ -146,7 +146,7 @@ export const asksStateReaderTaskEither =
 export const fromEither: <E, A, S>(fa: either.Either<E, A>) => StateReaderTaskEither<S, unknown, E, A> =
   /*#__PURE__*/ either.match(
     (e) => left(e),
-    (a) => right(a)
+    (a) => succeed(a)
   )
 
 /**
@@ -265,19 +265,11 @@ export const map: <A, B>(
 )
 
 /**
- * Alias of `right`.
- *
- * @category constructors
- * @since 3.0.0
- */
-export const of = right
-
-/**
  * @category instances
  * @since 3.0.0
  */
 export const FromIdentity: fromIdentity.FromIdentity<StateReaderTaskEitherTypeLambda> = {
-  of
+  succeed
 }
 
 /**
@@ -380,11 +372,6 @@ export const ap: <S, R2, E2, A>(
 /**
  * @since 3.0.0
  */
-export const unit = <S>(): StateReaderTaskEither<S, unknown, never, void> => of(undefined)
-
-/**
- * @since 3.0.0
- */
 export const flatten: <S, R1, E1, R2, E2, A>(
   mma: StateReaderTaskEither<S, R1, E1, StateReaderTaskEither<S, R2, E2, A>>
 ) => StateReaderTaskEither<S, R1 & R2, E1 | E2, A> = /*#__PURE__*/ flatMap(identity)
@@ -422,6 +409,26 @@ export const flap: <A>(
   a: A
 ) => <S, R, E, B>(fab: StateReaderTaskEither<S, R, E, (a: A) => B>) => StateReaderTaskEither<S, R, E, B> =
   /*#__PURE__*/ functor.flap(Functor)
+
+/**
+ * Maps the success value of this effect to the specified constant value.
+ *
+ * @category mapping
+ * @since 3.0.0
+ */
+export const as: <B>(
+  b: B
+) => <S, R, E>(self: StateReaderTaskEither<S, R, E, unknown>) => StateReaderTaskEither<S, R, E, B> =
+  /*#__PURE__*/ functor.as(Functor)
+
+/**
+ * Returns the effect resulting from mapping the success of this effect to unit.
+ *
+ * @category mapping
+ * @since 3.0.0
+ */
+export const unit: <S, R, E>(self: StateReaderTaskEither<S, R, E, unknown>) => StateReaderTaskEither<S, R, E, void> =
+  /*#__PURE__*/ functor.unit(Functor)
 
 /**
  * @category instances
@@ -466,7 +473,7 @@ export const lift3: <A, B, C, D>(
 export const Applicative: applicative.Applicative<StateReaderTaskEitherTypeLambda> = {
   map,
   ap,
-  of
+  succeed
 }
 
 /**
@@ -562,7 +569,7 @@ export const flatMapState: <A, S, B>(
  */
 export const Monad: monad.Monad<StateReaderTaskEitherTypeLambda> = {
   map,
-  of,
+  succeed,
   flatMap
 }
 
@@ -990,13 +997,13 @@ export const traverseReadonlyNonEmptyArrayWithIndex =
             : f(
                 i + 1,
                 a
-              )(esb.right[0])(r)().then((eb) => {
+              )(esb.success[0])(r)().then((eb) => {
                 if (_.isLeft(eb)) {
                   return eb
                 }
-                const [s, b] = eb.right
-                esb.right[1].push(b)
-                esb.right[0] = s
+                const [s, b] = eb.success
+                esb.success[1].push(b)
+                esb.success[0] = s
                 return esb
               })
         ),
@@ -1013,7 +1020,7 @@ export const traverseReadonlyArrayWithIndex = <A, S, R, E, B>(
   f: (index: number, a: A) => StateReaderTaskEither<S, R, E, B>
 ): ((as: ReadonlyArray<A>) => StateReaderTaskEither<S, R, E, ReadonlyArray<B>>) => {
   const g = traverseReadonlyNonEmptyArrayWithIndex(f)
-  return (as) => (_.isNonEmpty(as) ? g(as) : of(_.Zip))
+  return (as) => (_.isNonEmpty(as) ? g(as) : succeed(_.Zip))
 }
 
 /**

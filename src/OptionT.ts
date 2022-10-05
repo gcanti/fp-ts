@@ -28,7 +28,7 @@ export interface OptionT<F extends TypeLambda> extends TypeLambda {
  */
 export const emptyKind = <F extends TypeLambda>(
   FromIdentity: FromIdentity<F>
-): (<S, A>() => Kind<OptionT<F>, S, unknown, never, never, A>) => constant(FromIdentity.of(_.none))
+): (<S, A>() => Kind<OptionT<F>, S, unknown, never, never, A>) => constant(FromIdentity.succeed(_.none))
 
 /**
  * @since 3.0.0
@@ -36,7 +36,7 @@ export const emptyKind = <F extends TypeLambda>(
 export const some =
   <F extends TypeLambda>(FromIdentity: FromIdentity<F>) =>
   <A, S>(a: A): Kind<OptionT<F>, S, unknown, never, never, A> =>
-    FromIdentity.of(_.some(a))
+    FromIdentity.succeed(_.some(a))
 
 /**
  * @since 3.0.0
@@ -51,7 +51,7 @@ export const fromKind = <F extends TypeLambda>(
 export const fromEither =
   <F extends TypeLambda>(FromIdentity: FromIdentity<F>) =>
   <A, S>(e: Either<unknown, A>): Kind<OptionT<F>, S, unknown, never, never, A> =>
-    FromIdentity.of(option.fromEither(e))
+    FromIdentity.succeed(option.fromEither(e))
 
 /**
  * @since 3.0.0
@@ -92,7 +92,7 @@ export const getOrElseKind =
   <F extends TypeLambda>(Monad: Monad<F>) =>
   <S, R2, O2, E2, B>(onNone: Kind<F, S, R2, O2, E2, B>) =>
   <R1, O1, E1, A>(self: Kind<OptionT<F>, S, R1, O1, E1, A>): Kind<F, S, R1 & R2, O1 | O2, E1 | E2, A | B> =>
-    pipe(self, Monad.flatMap(option.match<Kind<F, S, R2, O2, E2, A | B>, A>(() => onNone, Monad.of)))
+    pipe(self, Monad.flatMap(option.match<Kind<F, S, R2, O2, E2, A | B>, A>(() => onNone, Monad.succeed)))
 
 /**
  * Returns an effect that effectfully "peeks" at the failure of this effect.

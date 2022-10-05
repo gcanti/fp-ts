@@ -75,7 +75,8 @@ export const fromReaderTask: <W>(w: W) => <R, A>(a: ReaderTask<R, A>) => ReaderT
  * @category conversions
  * @since 3.0.0
  */
-export const fromTaskWriter: <W, A>(a: Task<Writer<W, A>>) => ReaderTaskWriter<unknown, W, A> = /*#__PURE__*/ reader.of
+export const fromTaskWriter: <W, A>(a: Task<Writer<W, A>>) => ReaderTaskWriter<unknown, W, A> =
+  /*#__PURE__*/ reader.succeed
 
 /**
  * @category conversions
@@ -113,13 +114,14 @@ export const asksReaderTaskWriter: <R1, R2, W, A>(
  * @category conversions
  * @since 3.0.0
  */
-export const fromWriter = <W, A>(fa: Writer<W, A>): ReaderTaskWriter<unknown, W, A> => readerTask.of(fa)
+export const fromWriter = <W, A>(fa: Writer<W, A>): ReaderTaskWriter<unknown, W, A> => readerTask.succeed(fa)
 
 /**
  * @category conversions
  * @since 3.0.0
  */
-export const fromReaderWriter = <R, W, A>(fa: Reader<R, Writer<W, A>>): ReaderTaskWriter<R, W, A> => flow(fa, task.of)
+export const fromReaderWriter = <R, W, A>(fa: Reader<R, Writer<W, A>>): ReaderTaskWriter<R, W, A> =>
+  flow(fa, task.succeed)
 
 /**
  * @since 3.0.0
@@ -260,7 +262,7 @@ export const flap: <A>(a: A) => <R, E, B>(self: ReaderTaskWriter<R, E, (a: A) =>
  * @since 3.0.0
  */
 export const getFromIdentity = <W>(M: Monoid<W>): FromIdentity<ReaderTaskWriterFFix<W>> => ({
-  of: writerT.of(readerTask.FromIdentity, M)
+  succeed: writerT.succeed(readerTask.FromIdentity, M)
 })
 
 /**
@@ -288,7 +290,7 @@ export const getApplicative = <W>(
   return {
     map,
     ap,
-    of: P.of
+    succeed: P.succeed
   }
 }
 
@@ -312,7 +314,7 @@ export const getMonad = <W>(M: Monoid<W>): Monad<ReaderTaskWriterFFix<W>> => {
   const C = getFlattenable(M)
   return {
     map,
-    of: P.of,
+    succeed: P.succeed,
     flatMap: C.flatMap
   }
 }
@@ -429,7 +431,7 @@ export const traverseReadonlyArrayWithIndex =
   ): ((as: ReadonlyArray<A>) => ReaderTaskWriter<R, W, ReadonlyArray<B>>) => {
     const g = traverseReadonlyNonEmptyArrayWithIndex(Apply, Monoid)(f)
     const P = getFromIdentity(Monoid)
-    return (as) => (_.isNonEmpty(as) ? g(as) : P.of(_.Zip))
+    return (as) => (_.isNonEmpty(as) ? g(as) : P.succeed(_.Zip))
   }
 
 /**

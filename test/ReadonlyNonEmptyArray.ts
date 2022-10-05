@@ -70,8 +70,8 @@ describe('ReadonlyNonEmptyArray', () => {
     U.deepStrictEqual(pipe([1, 2], _.mapWithIndex(add)), [1, 3])
   })
 
-  it('of', () => {
-    U.deepStrictEqual(_.of(1), [1])
+  it('succeed', () => {
+    U.deepStrictEqual(_.succeed(1), [1])
   })
 
   it('ap', () => {
@@ -327,20 +327,20 @@ describe('ReadonlyNonEmptyArray', () => {
   it('do notation', () => {
     U.deepStrictEqual(
       pipe(
-        _.of(1),
+        _.succeed(1),
         _.bindTo('a'),
-        _.bind('b', () => _.of('b'))
+        _.bind('b', () => _.succeed('b'))
       ),
       [{ a: 1, b: 'b' }]
     )
   })
 
   it('apS', () => {
-    U.deepStrictEqual(pipe(_.of(1), _.bindTo('a'), _.bindRight('b', _.of('b'))), [{ a: 1, b: 'b' }])
+    U.deepStrictEqual(pipe(_.succeed(1), _.bindTo('a'), _.bindRight('b', _.succeed('b'))), [{ a: 1, b: 'b' }])
   })
 
   it('zipFlatten', () => {
-    U.deepStrictEqual(pipe(_.of(1), _.tupled, _.zipFlatten(_.of('b'))), [[1, 'b']])
+    U.deepStrictEqual(pipe(_.succeed(1), _.tupled, _.zipFlatten(_.succeed('b'))), [[1, 'b']])
   })
 
   it('zipWith', () => {

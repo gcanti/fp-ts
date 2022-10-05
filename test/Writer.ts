@@ -129,7 +129,7 @@ describe('Writer', () => {
   it('getApplicative', () => {
     const M = _.getApplicative(S.Monoid)
 
-    U.deepStrictEqual(M.of('a'), ['', 'a'])
+    U.deepStrictEqual(M.succeed('a'), ['', 'a'])
 
     const fab: _.Writer<string, (n: number) => number> = ['w1', (n: number) => n * 2]
     const fa: _.Writer<string, number> = ['w2', 1]
@@ -139,7 +139,7 @@ describe('Writer', () => {
   it('getMonad', () => {
     const M = _.getMonad(S.Monoid)
 
-    U.deepStrictEqual(M.of('a'), ['', 'a'])
+    U.deepStrictEqual(M.succeed('a'), ['', 'a'])
 
     const fa: _.Writer<string, number> = ['w1', 1]
     const f = (n: number): _.Writer<string, number> => ['w2', n * 2]
@@ -151,7 +151,7 @@ describe('Writer', () => {
     function seqReq(upper: number): readonly [ReadonlyArray<number>, number] {
       return pipe(
         1,
-        flatMapRec((init) => [[init], init >= upper ? E.right(init) : E.left(init + 1)])
+        flatMapRec((init) => [[init], init >= upper ? E.succeed(init) : E.left(init + 1)])
       )
     }
     const xs = _.fst(seqReq(10000))
@@ -165,8 +165,8 @@ describe('Writer', () => {
   // -------------------------------------------------------------------------------------
 
   it('traverseReadonlyArrayWithIndex', () => {
-    const { of } = _.getFromIdentity(S.Monoid)
-    const f = (i: number, n: number) => of(n + i)
+    const { succeed } = _.getFromIdentity(S.Monoid)
+    const f = (i: number, n: number) => succeed(n + i)
     const standard = RA.traverseWithIndex(_.getApplicative(S.Monoid))(f)
     const optimized = _.traverseReadonlyArrayWithIndex(S.Monoid)(f)
     const assert = (input: ReadonlyArray<number>) => {
@@ -182,8 +182,8 @@ describe('Writer', () => {
   })
 
   it('traverseReadonlyNonEmptyArray', () => {
-    const { of } = _.getFromIdentity(S.Monoid)
-    const f = (n: number) => of(n)
+    const { succeed } = _.getFromIdentity(S.Monoid)
+    const f = (n: number) => succeed(n)
     const standard = RA.traverse(_.getApplicative(S.Monoid))(f)
     const optimized = _.traverseReadonlyNonEmptyArray(S.Monoid)(f)
     const assert = (input: ReadonlyNonEmptyArray<number>) => {
@@ -198,8 +198,8 @@ describe('Writer', () => {
   })
 
   it('sequenceReadonlyArray', () => {
-    const { of } = _.getFromIdentity(S.Monoid)
+    const { succeed } = _.getFromIdentity(S.Monoid)
     const sequenceReadonlyArray = _.sequenceReadonlyArray(S.Monoid)
-    U.deepStrictEqual(pipe([of('a'), of('b')], sequenceReadonlyArray), of(['a', 'b']))
+    U.deepStrictEqual(pipe([succeed('a'), succeed('b')], sequenceReadonlyArray), succeed(['a', 'b']))
   })
 })

@@ -18,7 +18,7 @@ Added in v3.0.0
   - [flatMap](#flatmap)
   - [fromReader](#fromreader)
   - [map](#map)
-  - [of](#of)
+  - [succeed](#succeed)
 
 ---
 
@@ -94,12 +94,12 @@ export declare const map: <F extends TypeLambda>(
 
 Added in v3.0.0
 
-## of
+## succeed
 
 **Signature**
 
 ```ts
-export declare const of: <F extends TypeLambda>(
+export declare const succeed: <F extends TypeLambda>(
   FromIdentity: FromIdentity<F>
 ) => <A, R, S, FR, O, E>(a: A) => Reader<R, Kind<F, S, FR, O, E, A>>
 ```

@@ -28,7 +28,7 @@ export const liftOption = <A, B extends A>(f: (a: A) => Option<B>): Refinement<A
  * @since 3.0.0
  */
 export const liftEither = <A, B extends A>(f: (a: A) => Either<unknown, B>): Refinement<A, B> => {
-  return (a: A): a is B => _.isRight(f(a))
+  return (a: A): a is B => _.isSuccess(f(a))
 }
 
 /**

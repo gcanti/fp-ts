@@ -12,10 +12,10 @@ const as = pipe(RNEA.range(0, 1000))
 
 suite
   .add('RNEA.sequence(_.ApplicativeSeq)', async function () {
-    await pipe(as, RNEA.traverse(_.ApplicativeSeq)(_.of))()
+    await pipe(as, RNEA.traverse(_.ApplicativeSeq)(_.succeed))()
   })
   .add('_.sequenceReadonlyNonEmptyArray', async function () {
-    await pipe(as, _.traverseReadonlyNonEmptyArrayWithIndex(_.of))()
+    await pipe(as, _.traverseReadonlyNonEmptyArrayWithIndex(_.succeed))()
   })
   .on('cycle', function (event: any) {
     // tslint:disable-next-line: no-console

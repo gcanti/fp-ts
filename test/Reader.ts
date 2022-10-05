@@ -11,20 +11,20 @@ interface Env {
 describe('Reader', () => {
   describe('pipeables', () => {
     it('map', () => {
-      U.deepStrictEqual(pipe(_.of(1), _.map(U.double))({}), 2)
+      U.deepStrictEqual(pipe(_.succeed(1), _.map(U.double))({}), 2)
     })
 
     it('ap', () => {
-      U.deepStrictEqual(pipe(_.of(U.double), _.ap(_.of(1)))({}), 2)
+      U.deepStrictEqual(pipe(_.succeed(U.double), _.ap(_.succeed(1)))({}), 2)
     })
 
     it('flatMap', () => {
-      const f = flow(S.size, _.of)
-      U.deepStrictEqual(pipe(_.of('foo'), _.flatMap(f))({}), 3)
+      const f = flow(S.size, _.succeed)
+      U.deepStrictEqual(pipe(_.succeed('foo'), _.flatMap(f))({}), 3)
     })
 
     it('flatMap', () => {
-      U.deepStrictEqual(pipe(_.of(_.of('a')), _.flatten)({}), 'a')
+      U.deepStrictEqual(pipe(_.succeed(_.succeed('a')), _.flatten)({}), 'a')
     })
 
     it('promap', () => {
@@ -41,8 +41,8 @@ describe('Reader', () => {
     })
   })
 
-  it('of', () => {
-    U.deepStrictEqual(_.of(1)({}), 1)
+  it('succeed', () => {
+    U.deepStrictEqual(_.succeed(1)({}), 1)
   })
 
   it('local', () => {
@@ -70,25 +70,25 @@ describe('Reader', () => {
   it('do notation', () => {
     U.deepStrictEqual(
       pipe(
-        _.of(1),
+        _.succeed(1),
         _.bindTo('a'),
-        _.bind('b', () => _.of('b'))
+        _.bind('b', () => _.succeed('b'))
       )(undefined),
       { a: 1, b: 'b' }
     )
   })
 
   it('apS', () => {
-    U.deepStrictEqual(pipe(_.of(1), _.bindTo('a'), _.bindRight('b', _.of('b')))(undefined), { a: 1, b: 'b' })
+    U.deepStrictEqual(pipe(_.succeed(1), _.bindTo('a'), _.bindRight('b', _.succeed('b')))(undefined), { a: 1, b: 'b' })
   })
 
   it('zipFlatten', () => {
-    U.deepStrictEqual(pipe(_.of(1), _.tupled, _.zipFlatten(_.of('b')))({}), [1, 'b'])
+    U.deepStrictEqual(pipe(_.succeed(1), _.tupled, _.zipFlatten(_.succeed('b')))({}), [1, 'b'])
   })
 
   it('asksReader', () => {
     const e: Env = { count: 0 }
-    const f = (e: Env) => _.of(e.count + 1)
+    const f = (e: Env) => _.succeed(e.count + 1)
     U.deepStrictEqual(_.asksReader(f)(e), 1)
   })
 
@@ -97,17 +97,17 @@ describe('Reader', () => {
   // -------------------------------------------------------------------------------------
 
   it('traverseReadonlyArrayWithIndex', () => {
-    const f = _.traverseReadonlyArrayWithIndex((i, a: string) => _.of(a + i))
+    const f = _.traverseReadonlyArrayWithIndex((i, a: string) => _.succeed(a + i))
     U.strictEqual(pipe(RA.empty, f)({}), RA.empty)
     U.deepStrictEqual(pipe(['a', 'b'], f)({}), ['a0', 'b1'])
   })
 
   it('traverseReadonlyNonEmptyArray', () => {
-    const f = _.traverseReadonlyNonEmptyArray((a: string) => _.of(a))
+    const f = _.traverseReadonlyNonEmptyArray((a: string) => _.succeed(a))
     U.deepStrictEqual(pipe(['a', 'b'], f)(null), ['a', 'b'])
   })
 
   it('sequenceReadonlyArray', () => {
-    U.deepStrictEqual(pipe([_.of('a'), _.of('b')], _.sequenceReadonlyArray)(null), ['a', 'b'])
+    U.deepStrictEqual(pipe([_.succeed('a'), _.succeed('b')], _.sequenceReadonlyArray)(null), ['a', 'b'])
   })
 })

@@ -9,7 +9,7 @@ import type { TypeLambda, Kind, TypeClass } from './HKT'
  * @since 3.0.0
  */
 export interface FromIdentity<F extends TypeLambda> extends TypeClass<F> {
-  readonly of: <A, S>(a: A) => Kind<F, S, unknown, never, never, A>
+  readonly succeed: <A, S>(a: A) => Kind<F, S, unknown, never, never, A>
 }
 
 /**
@@ -18,4 +18,4 @@ export interface FromIdentity<F extends TypeLambda> extends TypeClass<F> {
 export const idKind =
   <F extends TypeLambda>(FromIdentity: FromIdentity<F>): CategoryKind<F>['idKind'] =>
   () =>
-    FromIdentity.of
+    FromIdentity.succeed

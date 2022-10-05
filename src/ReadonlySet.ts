@@ -218,8 +218,8 @@ export const separate =
           }
           break
         case 'Right':
-          if (!elemEA(e.right)(right)) {
-            right.add(e.right)
+          if (!elemEA(e.success)(right)) {
+            right.add(e.success)
           }
           break
       }
@@ -317,8 +317,8 @@ export const partitionMap =
           }
           break
         case 'Right':
-          if (!hasC(v.right)(right)) {
-            right.add(v.right)
+          if (!hasC(v.success)(right)) {
+            right.add(v.success)
           }
           break
       }

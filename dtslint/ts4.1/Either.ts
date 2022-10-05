@@ -23,20 +23,20 @@ _.ap(fa)(fab)
 
 // $ExpectType Either<never, number>
 pipe(
-  _.right('a'),
-  _.flatMap(() => _.right(1))
+  _.succeed('a'),
+  _.flatMap(() => _.succeed(1))
 )
 
 // $ExpectType Either<number, number>
 pipe(
-  _.right('a'),
-  _.flatMap(() => _.right(1) as _.Either<number, number>)
+  _.succeed('a'),
+  _.flatMap(() => _.succeed(1) as _.Either<number, number>)
 )
 
 // $ExpectType Either<string | number, number>
 pipe(
-  _.right('a') as _.Either<string, string>,
-  _.flatMap(() => _.right(1) as _.Either<number, number>)
+  _.succeed('a') as _.Either<string, string>,
+  _.flatMap(() => _.succeed(1) as _.Either<number, number>)
 )
 
 // -------------------------------------------------------------------------------------
@@ -114,14 +114,14 @@ pipe(
 //
 
 // $ExpectType string | number
-_.toUnion(_.right(1) as _.Either<number, string>)
+_.toUnion(_.succeed(1) as _.Either<number, string>)
 
 //
 // getOrElse
 //
 
 // $ExpectType string | null
-pipe(_.right('a'), _.getOrElse(null))
+pipe(_.succeed('a'), _.getOrElse(null))
 
 //
 // do notation
@@ -129,10 +129,10 @@ pipe(_.right('a'), _.getOrElse(null))
 
 // $ExpectType Either<string | number, { readonly a1: number; readonly a2: string; readonly a3: boolean; }>
 pipe(
-  _.right(1) as _.Either<string, number>,
+  _.succeed(1) as _.Either<string, number>,
   _.bindTo('a1'),
-  _.bind('a2', () => _.right('b')),
-  _.bind('a3', () => _.right(true) as _.Either<number, boolean>)
+  _.bind('a2', () => _.succeed('b')),
+  _.bind('a3', () => _.succeed(true) as _.Either<number, boolean>)
 )
 
 //
@@ -141,10 +141,10 @@ pipe(
 
 // $ExpectType Either<string | number, { readonly a1: number; readonly a2: string; readonly a3: boolean; }>
 pipe(
-  _.right(1) as _.Either<string, number>,
+  _.succeed(1) as _.Either<string, number>,
   _.bindTo('a1'),
-  _.bindRight('a2', _.right('a3')),
-  _.bindRight('a3', _.right(true) as _.Either<number, boolean>)
+  _.bindRight('a2', _.succeed('a3')),
+  _.bindRight('a3', _.succeed(true) as _.Either<number, boolean>)
 )
 
 //
@@ -154,6 +154,6 @@ pipe(
 // $ExpectType Either<string, { readonly a1: number; readonly a2: string; }>
 pipe(
   _.Do,
-  _.bind('a1', () => _.right(1) as _.Either<string, number>),
-  _.bind('a2', () => _.right('b') as _.Either<string, string>)
+  _.bind('a1', () => _.succeed(1) as _.Either<string, number>),
+  _.bind('a2', () => _.succeed('b') as _.Either<string, string>)
 )

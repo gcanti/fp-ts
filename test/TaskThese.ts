@@ -15,7 +15,7 @@ describe('TaskThese', () => {
   // -------------------------------------------------------------------------------------
 
   it('map', async () => {
-    U.deepStrictEqual(await pipe(_.right(1), _.map(U.double))(), TH.right(2))
+    U.deepStrictEqual(await pipe(_.succeed(1), _.map(U.double))(), TH.succeed(2))
   })
 
   it('mapBoth', async () => {
@@ -23,14 +23,14 @@ describe('TaskThese', () => {
       (e: string) => e + e,
       (a: number) => a + 1
     )
-    U.deepStrictEqual(await pipe(_.right(1), f)(), TH.right(2))
+    U.deepStrictEqual(await pipe(_.succeed(1), f)(), TH.succeed(2))
     U.deepStrictEqual(await pipe(_.left('a'), f)(), TH.left('aa'))
     U.deepStrictEqual(await pipe(_.both('a', 1), f)(), TH.both('aa', 2))
   })
 
   it('mapError', async () => {
     const f = _.mapError((e: string) => e + e)
-    U.deepStrictEqual(await pipe(_.right(1), f)(), TH.right(1))
+    U.deepStrictEqual(await pipe(_.succeed(1), f)(), TH.succeed(1))
     U.deepStrictEqual(await pipe(_.left('a'), f)(), TH.left('aa'))
     U.deepStrictEqual(await pipe(_.both('a', 1), f)(), TH.both('aa', 1))
   })
@@ -52,7 +52,7 @@ describe('TaskThese', () => {
   it('getApplicative', async () => {
     const A = _.getApplicative(T.ApplicativePar, S.Monoid)
     const f = (n: number): number => n * 2
-    U.deepStrictEqual(await pipe(_.right(f), A.ap(_.right(1)))(), TH.right(2))
+    U.deepStrictEqual(await pipe(_.succeed(f), A.ap(_.succeed(1)))(), TH.succeed(2))
   })
 
   describe('getMonad', () => {
@@ -60,15 +60,15 @@ describe('TaskThese', () => {
 
     it('map', async () => {
       const f = (n: number): number => n * 2
-      U.deepStrictEqual(await pipe(_.right(1), M.map(f))(), TH.right(2))
+      U.deepStrictEqual(await pipe(_.succeed(1), M.map(f))(), TH.succeed(2))
       U.deepStrictEqual(await pipe(_.left('a'), M.map(f))(), TH.left('a'))
       U.deepStrictEqual(await pipe(_.both('a', 1), M.map(f))(), TH.both('a', 2))
     })
 
     it('flatMap', async () => {
-      const f = (n: number) => (n > 2 ? _.both(`c`, n * 3) : n > 1 ? _.right(n * 2) : _.left(`b`))
-      U.deepStrictEqual(await pipe(_.right(1), M.flatMap(f))(), TH.left('b'))
-      U.deepStrictEqual(await pipe(_.right(2), M.flatMap(f))(), TH.right(4))
+      const f = (n: number) => (n > 2 ? _.both(`c`, n * 3) : n > 1 ? _.succeed(n * 2) : _.left(`b`))
+      U.deepStrictEqual(await pipe(_.succeed(1), M.flatMap(f))(), TH.left('b'))
+      U.deepStrictEqual(await pipe(_.succeed(2), M.flatMap(f))(), TH.succeed(4))
 
       U.deepStrictEqual(await pipe(_.left('a'), M.flatMap(f))(), TH.left('a'))
 
@@ -83,8 +83,8 @@ describe('TaskThese', () => {
   // -------------------------------------------------------------------------------------
 
   it('right', async () => {
-    const x = await _.right(1)()
-    U.deepStrictEqual(x, TH.right(1))
+    const x = await _.succeed(1)()
+    U.deepStrictEqual(x, TH.succeed(1))
   })
 
   it('left', async () => {
@@ -98,27 +98,27 @@ describe('TaskThese', () => {
   })
 
   it('fromIO', async () => {
-    const x = await _.fromIO(IO.of(1))()
-    U.deepStrictEqual(x, TH.right(1))
+    const x = await _.fromIO(IO.succeed(1))()
+    U.deepStrictEqual(x, TH.succeed(1))
   })
 
   it('leftIO', async () => {
-    const x = await _.leftIO(IO.of('a'))()
+    const x = await _.leftIO(IO.succeed('a'))()
     U.deepStrictEqual(x, TH.left('a'))
   })
 
   it('fromTask', async () => {
-    const x = await _.fromTask(T.of(1))()
-    U.deepStrictEqual(x, TH.right(1))
+    const x = await _.fromTask(T.succeed(1))()
+    U.deepStrictEqual(x, TH.succeed(1))
   })
 
   it('leftTask', async () => {
-    const x = await _.leftTask(T.of('a'))()
+    const x = await _.leftTask(T.succeed('a'))()
     U.deepStrictEqual(x, TH.left('a'))
   })
 
   it('fromEither', async () => {
-    U.deepStrictEqual(await _.fromEither(E.right('a'))(), E.right('a'))
+    U.deepStrictEqual(await _.fromEither(E.succeed('a'))(), E.succeed('a'))
     U.deepStrictEqual(await _.fromEither(E.left('a'))(), E.left('a'))
   })
 
@@ -132,18 +132,18 @@ describe('TaskThese', () => {
       (a) => `right ${a}`,
       (e, a) => `both ${e} ${a}`
     )
-    U.deepStrictEqual(await pipe(_.right(1), match)(), 'right 1')
+    U.deepStrictEqual(await pipe(_.succeed(1), match)(), 'right 1')
     U.deepStrictEqual(await pipe(_.left('a'), match)(), 'left a')
     U.deepStrictEqual(await pipe(_.both('a', 1), match)(), 'both a 1')
   })
 
   it('matchTask', async () => {
     const matchTask = _.matchTask(
-      (e) => T.of(`left ${e}`),
-      (a) => T.of(`right ${a}`),
-      (e, a) => T.of(`both ${e} ${a}`)
+      (e) => T.succeed(`left ${e}`),
+      (a) => T.succeed(`right ${a}`),
+      (e, a) => T.succeed(`both ${e} ${a}`)
     )
-    U.deepStrictEqual(await pipe(_.right(1), matchTask)(), 'right 1')
+    U.deepStrictEqual(await pipe(_.succeed(1), matchTask)(), 'right 1')
     U.deepStrictEqual(await pipe(_.left('a'), matchTask)(), 'left a')
     U.deepStrictEqual(await pipe(_.both('a', 1), matchTask)(), 'both a 1')
   })
@@ -153,8 +153,8 @@ describe('TaskThese', () => {
   // -------------------------------------------------------------------------------------
 
   it('swap', async () => {
-    U.deepStrictEqual(await _.swap(_.right(1))(), TH.left(1))
-    U.deepStrictEqual(await _.swap(_.left('a'))(), TH.right('a'))
+    U.deepStrictEqual(await _.swap(_.succeed(1))(), TH.left(1))
+    U.deepStrictEqual(await _.swap(_.left('a'))(), TH.succeed('a'))
     U.deepStrictEqual(await _.swap(_.both('a', 1))(), TH.both(1, 'a'))
   })
 
@@ -164,16 +164,16 @@ describe('TaskThese', () => {
 
   it('toTuple2', async () => {
     const f = _.toTuple2('b', 2)
-    U.deepStrictEqual(await f(_.right(1))(), ['b', 1])
+    U.deepStrictEqual(await f(_.succeed(1))(), ['b', 1])
     U.deepStrictEqual(await f(_.left('a'))(), ['a', 2])
     U.deepStrictEqual(await f(_.both('a', 1))(), ['a', 1])
   })
 
   it('liftThese', async () => {
-    const g = _.liftThese((n: number) => (n > 0 ? TH.right(n) : n === 0 ? TH.both('zero', n) : TH.left('negative')))
+    const g = _.liftThese((n: number) => (n > 0 ? TH.succeed(n) : n === 0 ? TH.both('zero', n) : TH.left('negative')))
     U.deepStrictEqual(await g(-1)(), TH.left('negative'))
     U.deepStrictEqual(await g(0)(), TH.both('zero', 0))
-    U.deepStrictEqual(await g(1)(), TH.right(1))
+    U.deepStrictEqual(await g(1)(), TH.succeed(1))
   })
 
   // -------------------------------------------------------------------------------------
@@ -183,7 +183,7 @@ describe('TaskThese', () => {
   // --- Par ---
 
   it('traverseReadonlyArrayWithIndexPar', async () => {
-    const f = (i: number, n: number) => (n > 0 ? _.right(n + i) : n === 0 ? _.both('a', 0) : _.left(String(n)))
+    const f = (i: number, n: number) => (n > 0 ? _.succeed(n + i) : n === 0 ? _.both('a', 0) : _.left(String(n)))
     const standard = RA.traverseWithIndex(_.getApplicative(T.ApplicativePar, S.Semigroup))(f)
     const optimized = _.traverseReadonlyArrayWithIndexPar(S.Semigroup)(f)
     const assert = async (input: ReadonlyArray<number>) => {
@@ -199,7 +199,7 @@ describe('TaskThese', () => {
   })
 
   it('traverseReadonlyNonEmptyArrayPar', async () => {
-    const f = (n: number) => (n > 0 ? _.right(n) : n === 0 ? _.both('a', 0) : _.left(String(n)))
+    const f = (n: number) => (n > 0 ? _.succeed(n) : n === 0 ? _.both('a', 0) : _.left(String(n)))
     const standard = RA.traverse(_.getApplicative(T.ApplicativePar, S.Semigroup))(f)
     const optimized = _.traverseReadonlyNonEmptyArrayPar(S.Semigroup)(f)
     const assert = async (input: ReadonlyNonEmptyArray<number>) => {
@@ -226,7 +226,7 @@ describe('TaskThese', () => {
         return s
       })
     const f = _.sequenceReadonlyArrayPar(S.Semigroup)
-    U.deepStrictEqual(await pipe([right(1), right(2)], f)(), E.right([1, 2]))
+    U.deepStrictEqual(await pipe([right(1), right(2)], f)(), E.succeed([1, 2]))
     U.deepStrictEqual(await pipe([right(3), left('a')], f)(), E.left('a'))
     U.deepStrictEqual(await pipe([left('b'), right(4)], f)(), E.left('b'))
     U.deepStrictEqual(log, [1, 2, 3, 'a', 'b', 4])
@@ -235,7 +235,7 @@ describe('TaskThese', () => {
   // --- Seq ---
 
   it('traverseReadonlyArrayWithIndex', async () => {
-    const f = (i: number, n: number) => (n > 0 ? _.right(n + i) : n === 0 ? _.both('a', 0) : _.left(String(n)))
+    const f = (i: number, n: number) => (n > 0 ? _.succeed(n + i) : n === 0 ? _.both('a', 0) : _.left(String(n)))
     const standard = RA.traverseWithIndex(_.getApplicative(T.Applicative, S.Semigroup))(f)
     const optimized = _.traverseReadonlyArrayWithIndex(S.Semigroup)(f)
     const assert = async (input: ReadonlyArray<number>) => {
@@ -251,7 +251,7 @@ describe('TaskThese', () => {
   })
 
   it('traverseReadonlyNonEmptyArray', async () => {
-    const f = (n: number) => (n > 0 ? _.right(n) : n === 0 ? _.both('a', 0) : _.left(String(n)))
+    const f = (n: number) => (n > 0 ? _.succeed(n) : n === 0 ? _.both('a', 0) : _.left(String(n)))
     const standard = RA.traverse(_.getApplicative(T.Applicative, S.Semigroup))(f)
     const optimized = _.traverseReadonlyNonEmptyArray(S.Semigroup)(f)
     const assert = async (input: ReadonlyNonEmptyArray<number>) => {
@@ -278,7 +278,7 @@ describe('TaskThese', () => {
         return s
       })
     const f = _.sequenceReadonlyArray(S.Semigroup)
-    U.deepStrictEqual(await pipe([right(1), right(2)], f)(), E.right([1, 2]))
+    U.deepStrictEqual(await pipe([right(1), right(2)], f)(), E.succeed([1, 2]))
     U.deepStrictEqual(await pipe([right(3), left('a')], f)(), E.left('a'))
     U.deepStrictEqual(await pipe([left('b'), right(4)], f)(), E.left('b'))
     U.deepStrictEqual(log, [1, 2, 3, 'a', 'b'])
