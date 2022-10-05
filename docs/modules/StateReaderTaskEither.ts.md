@@ -1,6 +1,6 @@
 ---
 title: StateReaderTaskEither.ts
-nav_order: 92
+nav_order: 91
 parent: Modules
 ---
 
@@ -75,7 +75,6 @@ Added in v3.0.0
   - [lift3](#lift3)
   - [liftAsync](#liftasync)
   - [liftEither](#lifteither)
-  - [liftIOEither](#liftioeither)
   - [liftNullable](#liftnullable)
   - [liftOption](#liftoption)
   - [liftPredicate](#liftpredicate)
@@ -83,6 +82,7 @@ Added in v3.0.0
   - [liftReaderTaskEither](#liftreadertaskeither)
   - [liftState](#liftstate)
   - [liftSync](#liftsync)
+  - [liftSyncResult](#liftsyncresult)
   - [liftTaskEither](#lifttaskeither)
 - [logging](#logging)
   - [log](#log)
@@ -98,13 +98,13 @@ Added in v3.0.0
 - [sequencing](#sequencing)
   - [flatMap](#flatmap)
   - [flatMapEither](#flatmapeither)
-  - [flatMapIOEither](#flatmapioeither)
   - [flatMapNullable](#flatmapnullable)
   - [flatMapOption](#flatmapoption)
   - [flatMapReader](#flatmapreader)
   - [flatMapReaderTaskEither](#flatmapreadertaskeither)
   - [flatMapState](#flatmapstate)
   - [flatMapSync](#flatmapsync)
+  - [flatMapSyncResult](#flatmapsyncresult)
   - [flatMapTask](#flatmaptask)
   - [flatMapTaskEither](#flatmaptaskeither)
   - [zipLeft](#zipleft)
@@ -420,7 +420,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromSyncEither: <E, A, S>(fa: IOEither<E, A>) => StateReaderTaskEither<S, unknown, E, A>
+export declare const fromSyncEither: <E, A, S>(fa: SyncResult<E, A>) => StateReaderTaskEither<S, unknown, E, A>
 ```
 
 Added in v3.0.0
@@ -794,18 +794,6 @@ export declare const liftEither: <A extends readonly unknown[], E, B>(
 
 Added in v3.0.0
 
-## liftIOEither
-
-**Signature**
-
-```ts
-export declare const liftIOEither: <A extends readonly unknown[], E, B>(
-  f: (...a: A) => IOEither<E, B>
-) => <S>(...a: A) => StateReaderTaskEither<S, unknown, E, B>
-```
-
-Added in v3.0.0
-
 ## liftNullable
 
 **Signature**
@@ -891,6 +879,18 @@ Added in v3.0.0
 export declare const liftSync: <A extends readonly unknown[], B>(
   f: (...a: A) => Sync<B>
 ) => <S>(...a: A) => StateReaderTaskEither<S, unknown, never, B>
+```
+
+Added in v3.0.0
+
+## liftSyncResult
+
+**Signature**
+
+```ts
+export declare const liftSyncResult: <A extends readonly unknown[], E, B>(
+  f: (...a: A) => SyncResult<E, B>
+) => <S>(...a: A) => StateReaderTaskEither<S, unknown, E, B>
 ```
 
 Added in v3.0.0
@@ -1041,18 +1041,6 @@ export declare const flatMapEither: <A, E2, B>(
 
 Added in v3.0.0
 
-## flatMapIOEither
-
-**Signature**
-
-```ts
-export declare const flatMapIOEither: <A, E2, B>(
-  f: (a: A) => IOEither<E2, B>
-) => <S, R, E1>(ma: StateReaderTaskEither<S, R, E1, A>) => StateReaderTaskEither<S, R, E2 | E1, B>
-```
-
-Added in v3.0.0
-
 ## flatMapNullable
 
 **Signature**
@@ -1123,6 +1111,18 @@ Added in v3.0.0
 export declare const flatMapSync: <A, B>(
   f: (a: A) => Sync<B>
 ) => <S, R, E>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
+```
+
+Added in v3.0.0
+
+## flatMapSyncResult
+
+**Signature**
+
+```ts
+export declare const flatMapSyncResult: <A, E2, B>(
+  f: (a: A) => SyncResult<E2, B>
+) => <S, R, E1>(ma: StateReaderTaskEither<S, R, E1, A>) => StateReaderTaskEither<S, R, E2 | E1, B>
 ```
 
 Added in v3.0.0

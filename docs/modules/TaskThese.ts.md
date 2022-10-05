@@ -185,7 +185,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromSyncEither: <E, A>(fa: IOEither<E, A>) => TaskThese<E, A>
+export declare const fromSyncEither: <E, A>(fa: SyncResult<E, A>) => TaskThese<E, A>
 ```
 
 Added in v3.0.0

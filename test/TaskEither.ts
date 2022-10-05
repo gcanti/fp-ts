@@ -1,7 +1,7 @@
 import * as E from '../src/Result'
 import { flow, identity, pipe } from '../src/Function'
 import * as I from '../src/Sync'
-import * as IE from '../src/IOEither'
+import * as IE from '../src/SyncResult'
 import * as N from '../src/number'
 import * as O from '../src/Option'
 import { gt } from '../src/Ord'
@@ -400,9 +400,9 @@ describe('TaskEither', () => {
     U.deepStrictEqual(await pipe(_.succeed('a'), _.flatMapEither(f))(), E.succeed(1))
   })
 
-  it('flatMapIOEither', async () => {
+  it('flatMapSyncResult', async () => {
     const f = flow(S.size, IE.succeed)
-    U.deepStrictEqual(await pipe(_.succeed('a'), _.flatMapIOEither(f))(), E.succeed(1))
+    U.deepStrictEqual(await pipe(_.succeed('a'), _.flatMapSyncResult(f))(), E.succeed(1))
   })
 
   describe('tryCatch', () => {

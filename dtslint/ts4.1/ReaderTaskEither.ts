@@ -3,7 +3,7 @@ import * as RIO from '../../src/ReaderIO'
 import * as RT from '../../src/ReaderTask'
 import * as E from '../../src/Result'
 import * as TE from '../../src/TaskEither'
-import * as IOE from '../../src/IOEither'
+import * as IOE from '../../src/SyncResult'
 import { pipe } from '../../src/Function'
 
 // -------------------------------------------------------------------------------------
@@ -93,13 +93,13 @@ pipe(
 )
 
 //
-// flatMapIOEitherK
+// flatMapSyncResult
 //
 
 // $ExpectType ReaderTaskEither<string, string | number, number>
 pipe(
   _.succeed('a') as _.ReaderTaskEither<string, string, string>,
-  _.flatMapIOEither(() => IOE.succeed(1) as IOE.IOEither<number, number>)
+  _.flatMapSyncResult(() => IOE.succeed(1) as IOE.SyncResult<number, number>)
 )
 
 //

@@ -2,7 +2,7 @@
  * `IOOption<A>` represents a synchronous computation that either yields a value of type `A` or nothing.
  *
  * If you want to represent a synchronous computation that never fails, please see `Sync`.
- * If you want to represent a synchronous computation that may fail, please see `IOEither`.
+ * If you want to represent a synchronous computation that may fail, please see `SyncResult`.
  *
  * @since 3.0.0
  */
@@ -25,7 +25,7 @@ import * as functor from './Functor'
 import type { TypeLambda } from './HKT'
 import * as _ from './internal'
 import * as io from './Sync'
-import type { IOEither } from './IOEither'
+import type { SyncResult } from './SyncResult'
 import type * as monad from './Monad'
 import * as option from './Option'
 import * as optionT from './OptionT'
@@ -95,7 +95,7 @@ export const fromSync: <A>(ma: Sync<A>) => IOOption<A> = /*#__PURE__*/ optionT.f
  * @category conversions
  * @since 3.0.0
  */
-export const fromSyncEither: <A>(ma: IOEither<unknown, A>) => IOOption<A> = /*#__PURE__*/ io.map(option.fromResult)
+export const fromSyncEither: <A>(ma: SyncResult<unknown, A>) => IOOption<A> = /*#__PURE__*/ io.map(option.fromResult)
 
 // -------------------------------------------------------------------------------------
 // pattern matching

@@ -1,7 +1,7 @@
 import * as E from '../src/Result'
 import { pipe } from '../src/Function'
 import * as I from '../src/Sync'
-import * as IE from '../src/IOEither'
+import * as IE from '../src/SyncResult'
 import * as _ from '../src/IOOption'
 import * as O from '../src/Option'
 import * as RA from '../src/ReadonlyArray'

@@ -21,7 +21,7 @@ import * as functor from './Functor'
 import type { TypeLambda } from './HKT'
 import * as _ from './internal'
 import type { Sync } from './Sync'
-import type { IOEither } from './IOEither'
+import type { SyncResult } from './SyncResult'
 import type * as monad from './Monad'
 import * as option from './Option'
 import type { Option } from './Option'
@@ -87,7 +87,7 @@ export const fromAsync: <A>(fa: Async<A>) => TaskOption<A> = /*#__PURE__*/ optio
  * @category conversions
  * @since 3.0.0
  */
-export const fromSyncEither: <A>(fa: IOEither<unknown, A>) => TaskOption<A> = /*#__PURE__*/ flow(
+export const fromSyncEither: <A>(fa: SyncResult<unknown, A>) => TaskOption<A> = /*#__PURE__*/ flow(
   task.fromSync,
   task.map(option.fromResult)
 )

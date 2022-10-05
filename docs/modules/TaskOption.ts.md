@@ -234,7 +234,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromSyncEither: <A>(fa: IOEither<unknown, A>) => TaskOption<A>
+export declare const fromSyncEither: <A>(fa: SyncResult<unknown, A>) => TaskOption<A>
 ```
 
 Added in v3.0.0

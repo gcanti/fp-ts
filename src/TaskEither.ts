@@ -29,7 +29,7 @@ import * as functor from './Functor'
 import type { TypeLambda } from './HKT'
 import * as _ from './internal'
 import type { Sync } from './Sync'
-import type { IOEither } from './IOEither'
+import type { SyncResult } from './SyncResult'
 import type * as monad from './Monad'
 import type { Option } from './Option'
 import * as fromIdentity from './FromIdentity'
@@ -105,7 +105,7 @@ export const fromResult: <E, A>(either: Result<E, A>) => TaskEither<E, A> = task
  * @category conversions
  * @since 3.0.0
  */
-export const fromSyncEither: <E, A>(ioEither: IOEither<E, A>) => TaskEither<E, A> = task.fromSync
+export const fromSyncEither: <E, A>(ioEither: SyncResult<E, A>) => TaskEither<E, A> = task.fromSync
 
 /**
  * @category conversions
@@ -249,17 +249,17 @@ export const flatMapTaskOption = <A, B, E2>(
  * @category lifting
  * @since 3.0.0
  */
-export const liftIOEither = <A extends ReadonlyArray<unknown>, E, B>(
-  f: (...a: A) => IOEither<E, B>
+export const liftSyncResult = <A extends ReadonlyArray<unknown>, E, B>(
+  f: (...a: A) => SyncResult<E, B>
 ): ((...a: A) => TaskEither<E, B>) => flow(f, fromSyncEither)
 
 /**
  * @category sequencing
  * @since 3.0.0
  */
-export const flatMapIOEither = <A, E2, B>(
-  f: (a: A) => IOEither<E2, B>
-): (<E1>(self: TaskEither<E1, A>) => TaskEither<E1 | E2, B>) => flatMap(liftIOEither(f))
+export const flatMapSyncResult = <A, E2, B>(
+  f: (a: A) => SyncResult<E2, B>
+): (<E1>(self: TaskEither<E1, A>) => TaskEither<E1 | E2, B>) => flatMap(liftSyncResult(f))
 
 /**
  * Returns an effect whose success is mapped by the specified `f` function.

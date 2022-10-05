@@ -1,12 +1,12 @@
 ---
-title: IOEither.ts
-nav_order: 54
+title: SyncResult.ts
+nav_order: 97
 parent: Modules
 ---
 
-## IOEither overview
+## SyncResult overview
 
-`IOEither<E, A>` represents a synchronous computation that either yields a value of type `A` or fails yielding an
+`SyncResult<E, A>` represents a synchronous computation that either yields a value of type `A` or fails yielding an
 error of type `E`.
 
 If you want to represent a synchronous computation that never fails, please see `Sync`.
@@ -88,7 +88,7 @@ Added in v3.0.0
   - [mapBoth](#mapboth)
   - [unit](#unit)
 - [model](#model)
-  - [IOEither (interface)](#ioeither-interface)
+  - [SyncResult (interface)](#syncresult-interface)
 - [pattern matching](#pattern-matching)
   - [match](#match)
   - [matchIO](#matchio)
@@ -117,7 +117,7 @@ Added in v3.0.0
   - [zipFlatten](#zipflatten)
   - [zipWith](#zipwith)
 - [type lambdas](#type-lambdas)
-  - [IOEitherTypeLambda (interface)](#ioeithertypelambda-interface)
+  - [SyncResultTypeLambda (interface)](#syncresulttypelambda-interface)
 - [utils](#utils)
   - [ap](#ap)
   - [bracket](#bracket)
@@ -139,7 +139,9 @@ types of kind `* -> *`.
 **Signature**
 
 ```ts
-export declare const orElse: <E2, B>(that: IOEither<E2, B>) => <E1, A>(self: IOEither<E1, A>) => IOEither<E2, B | A>
+export declare const orElse: <E2, B>(
+  that: SyncResult<E2, B>
+) => <E1, A>(self: SyncResult<E1, A>) => SyncResult<E2, B | A>
 ```
 
 Added in v3.0.0
@@ -151,7 +153,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fail: <E>(e: E) => IOEither<E, never>
+export declare const fail: <E>(e: E) => SyncResult<E, never>
 ```
 
 Added in v3.0.0
@@ -161,7 +163,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const succeed: <A>(a: A) => IOEither<never, A>
+export declare const succeed: <A>(a: A) => SyncResult<never, A>
 ```
 
 Added in v3.0.0
@@ -173,7 +175,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const failSync: <E>(me: io.Sync<E>) => IOEither<E, never>
+export declare const failSync: <E>(me: io.Sync<E>) => SyncResult<E, never>
 ```
 
 Added in v3.0.0
@@ -183,7 +185,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromNullable: <E>(onNullable: E) => <A>(a: A) => IOEither<E, NonNullable<A>>
+export declare const fromNullable: <E>(onNullable: E) => <A>(a: A) => SyncResult<E, NonNullable<A>>
 ```
 
 Added in v3.0.0
@@ -193,7 +195,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromOption: <E>(onNone: E) => <A>(fa: Option<A>) => IOEither<E, A>
+export declare const fromOption: <E>(onNone: E) => <A>(fa: Option<A>) => SyncResult<E, A>
 ```
 
 Added in v3.0.0
@@ -203,7 +205,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromResult: <E, A>(fa: either.Result<E, A>) => IOEither<E, A>
+export declare const fromResult: <E, A>(fa: either.Result<E, A>) => SyncResult<E, A>
 ```
 
 Added in v3.0.0
@@ -213,7 +215,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromSync: <A>(ma: io.Sync<A>) => IOEither<never, A>
+export declare const fromSync: <A>(ma: io.Sync<A>) => SyncResult<never, A>
 ```
 
 Added in v3.0.0
@@ -225,7 +227,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Do: IOEither<never, {}>
+export declare const Do: SyncResult<never, {}>
 ```
 
 Added in v3.0.0
@@ -237,8 +239,8 @@ Added in v3.0.0
 ```ts
 export declare const bind: <N extends string, A extends object, E2, B>(
   name: Exclude<N, keyof A>,
-  f: (a: A) => IOEither<E2, B>
-) => <E1>(self: IOEither<E1, A>) => IOEither<E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+  f: (a: A) => SyncResult<E2, B>
+) => <E1>(self: SyncResult<E1, A>) => SyncResult<E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -252,8 +254,8 @@ A variant of `bind` that sequentially ignores the scope.
 ```ts
 export declare const bindRight: <N extends string, A extends object, E2, B>(
   name: Exclude<N, keyof A>,
-  fb: IOEither<E2, B>
-) => <E1>(self: IOEither<E1, A>) => IOEither<E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+  fb: SyncResult<E2, B>
+) => <E1>(self: SyncResult<E1, A>) => SyncResult<E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -265,7 +267,7 @@ Added in v3.0.0
 ```ts
 export declare const bindTo: <N extends string>(
   name: N
-) => <E, A>(self: IOEither<E, A>) => IOEither<E, { readonly [K in N]: A }>
+) => <E, A>(self: SyncResult<E, A>) => SyncResult<E, { readonly [K in N]: A }>
 ```
 
 Added in v3.0.0
@@ -278,7 +280,7 @@ Added in v3.0.0
 export declare const let: <N extends string, A extends object, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
-) => <E>(self: IOEither<E, A>) => IOEither<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => <E>(self: SyncResult<E, A>) => SyncResult<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -293,8 +295,8 @@ Recovers from all errors.
 
 ```ts
 export declare const catchAll: <E1, E2, B>(
-  onError: (e: E1) => IOEither<E2, B>
-) => <A>(ma: IOEither<E1, A>) => IOEither<E2, B | A>
+  onError: (e: E1) => SyncResult<E2, B>
+) => <A>(ma: SyncResult<E1, A>) => SyncResult<E2, B | A>
 ```
 
 Added in v3.0.0
@@ -307,7 +309,9 @@ one that may depend on the error produced by this one.
 **Signature**
 
 ```ts
-export declare const flatMapError: <E1, E2>(f: (e: E1) => io.Sync<E2>) => <A>(self: IOEither<E1, A>) => IOEither<E2, A>
+export declare const flatMapError: <E1, E2>(
+  f: (e: E1) => io.Sync<E2>
+) => <A>(self: SyncResult<E1, A>) => SyncResult<E2, A>
 ```
 
 Added in v3.0.0
@@ -317,7 +321,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getOrElse: <B>(onError: B) => <A>(self: IOEither<unknown, A>) => io.Sync<B | A>
+export declare const getOrElse: <B>(onError: B) => <A>(self: SyncResult<unknown, A>) => io.Sync<B | A>
 ```
 
 Added in v3.0.0
@@ -327,7 +331,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getOrElseIO: <B>(onError: io.Sync<B>) => <A>(self: IOEither<unknown, A>) => io.Sync<B | A>
+export declare const getOrElseIO: <B>(onError: io.Sync<B>) => <A>(self: SyncResult<unknown, A>) => io.Sync<B | A>
 ```
 
 Added in v3.0.0
@@ -342,7 +346,7 @@ get all errors you need to provide a way to combine them via a `Semigroup`.
 ```ts
 export declare const getValidatedApplicative: <E>(
   Semigroup: Semigroup<E>
-) => applicative.Applicative<either.ValidatedT<IOEitherTypeLambda, E>>
+) => applicative.Applicative<either.ValidatedT<SyncResultTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -357,7 +361,7 @@ get all errors you need to provide a way to combine them via a `Semigroup`.
 ```ts
 export declare const getValidatedSemigroupKind: <E>(
   Semigroup: Semigroup<E>
-) => semigroupKind.SemigroupKind<either.ValidatedT<IOEitherTypeLambda, E>>
+) => semigroupKind.SemigroupKind<either.ValidatedT<SyncResultTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -370,7 +374,7 @@ function. This can be used to lift a "smaller" error into a "larger" error.
 **Signature**
 
 ```ts
-export declare const mapError: <E, G>(f: (e: E) => G) => <A>(self: IOEither<E, A>) => IOEither<G, A>
+export declare const mapError: <E, G>(f: (e: E) => G) => <A>(self: SyncResult<E, A>) => SyncResult<G, A>
 ```
 
 Added in v3.0.0
@@ -383,8 +387,8 @@ Returns an effect that effectfully "peeks" at the failure of this effect.
 
 ```ts
 export declare const tapError: <E1, E2>(
-  onError: (e: E1) => IOEither<E2, unknown>
-) => <A>(self: IOEither<E1, A>) => IOEither<E1 | E2, A>
+  onError: (e: E1) => SyncResult<E2, unknown>
+) => <A>(self: SyncResult<E1, A>) => SyncResult<E1 | E2, A>
 ```
 
 Added in v3.0.0
@@ -396,7 +400,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const compact: <E>(onNone: E) => <A>(self: IOEither<E, Option<A>>) => IOEither<E, A>
+export declare const compact: <E>(onNone: E) => <A>(self: SyncResult<E, Option<A>>) => SyncResult<E, A>
 ```
 
 Added in v3.0.0
@@ -408,9 +412,9 @@ Added in v3.0.0
 ```ts
 export declare const filter: {
   <C extends A, B extends A, E2, A = C>(refinement: Refinement<A, B>, onFalse: E2): <E1>(
-    ma: IOEither<E1, C>
-  ) => IOEither<E2 | E1, B>
-  <B extends A, E2, A = B>(predicate: Predicate<A>, onFalse: E2): <E1>(mb: IOEither<E1, B>) => IOEither<E2 | E1, B>
+    ma: SyncResult<E1, C>
+  ) => SyncResult<E2 | E1, B>
+  <B extends A, E2, A = B>(predicate: Predicate<A>, onFalse: E2): <E1>(mb: SyncResult<E1, B>) => SyncResult<E2 | E1, B>
 }
 ```
 
@@ -421,7 +425,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const filterMap: <A, B, E>(f: (a: A) => Option<B>, onNone: E) => (self: IOEither<E, A>) => IOEither<E, B>
+export declare const filterMap: <A, B, E>(
+  f: (a: A) => Option<B>,
+  onNone: E
+) => (self: SyncResult<E, A>) => SyncResult<E, B>
 ```
 
 Added in v3.0.0
@@ -433,11 +440,11 @@ Added in v3.0.0
 ```ts
 export declare const partition: {
   <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: E): (
-    self: IOEither<E, C>
-  ) => readonly [IOEither<E, C>, IOEither<E, B>]
+    self: SyncResult<E, C>
+  ) => readonly [SyncResult<E, C>, SyncResult<E, B>]
   <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: E): (
-    self: IOEither<E, B>
-  ) => readonly [IOEither<E, B>, IOEither<E, B>]
+    self: SyncResult<E, B>
+  ) => readonly [SyncResult<E, B>, SyncResult<E, B>]
 }
 ```
 
@@ -451,7 +458,7 @@ Added in v3.0.0
 export declare const partitionMap: <A, B, C, E>(
   f: (a: A) => either.Result<B, C>,
   onEmpty: E
-) => (self: IOEither<E, A>) => readonly [IOEither<E, B>, IOEither<E, C>]
+) => (self: SyncResult<E, A>) => readonly [SyncResult<E, B>, SyncResult<E, C>]
 ```
 
 Added in v3.0.0
@@ -463,7 +470,7 @@ Added in v3.0.0
 ```ts
 export declare const separate: <E>(
   onEmpty: E
-) => <A, B>(self: IOEither<E, either.Result<A, B>>) => readonly [IOEither<E, A>, IOEither<E, B>]
+) => <A, B>(self: SyncResult<E, either.Result<A, B>>) => readonly [SyncResult<E, A>, SyncResult<E, B>]
 ```
 
 Added in v3.0.0
@@ -475,7 +482,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Applicative: applicative.Applicative<IOEitherTypeLambda>
+export declare const Applicative: applicative.Applicative<SyncResultTypeLambda>
 ```
 
 Added in v3.0.0
@@ -485,7 +492,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Apply: apply.Apply<IOEitherTypeLambda>
+export declare const Apply: apply.Apply<SyncResultTypeLambda>
 ```
 
 Added in v3.0.0
@@ -495,7 +502,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Bifunctor: bifunctor.Bifunctor<IOEitherTypeLambda>
+export declare const Bifunctor: bifunctor.Bifunctor<SyncResultTypeLambda>
 ```
 
 Added in v3.0.0
@@ -505,7 +512,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const CategoryKind: categoryKind.CategoryKind<IOEitherTypeLambda>
+export declare const CategoryKind: categoryKind.CategoryKind<SyncResultTypeLambda>
 ```
 
 Added in v3.0.0
@@ -515,7 +522,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ComposableKind: composableKind.ComposableKind<IOEitherTypeLambda>
+export declare const ComposableKind: composableKind.ComposableKind<SyncResultTypeLambda>
 ```
 
 Added in v3.0.0
@@ -525,7 +532,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Flattenable: flattenable.Flattenable<IOEitherTypeLambda>
+export declare const Flattenable: flattenable.Flattenable<SyncResultTypeLambda>
 ```
 
 Added in v3.0.0
@@ -535,7 +542,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromIdentity: fromIdentity.FromIdentity<IOEitherTypeLambda>
+export declare const FromIdentity: fromIdentity.FromIdentity<SyncResultTypeLambda>
 ```
 
 Added in v3.0.0
@@ -545,7 +552,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromResult: fromResult_.FromResult<IOEitherTypeLambda>
+export declare const FromResult: fromResult_.FromResult<SyncResultTypeLambda>
 ```
 
 Added in v3.0.0
@@ -555,7 +562,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromSync: fromSync_.FromSync<IOEitherTypeLambda>
+export declare const FromSync: fromSync_.FromSync<SyncResultTypeLambda>
 ```
 
 Added in v3.0.0
@@ -565,7 +572,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: functor.Functor<IOEitherTypeLambda>
+export declare const Functor: functor.Functor<SyncResultTypeLambda>
 ```
 
 Added in v3.0.0
@@ -575,7 +582,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: monad.Monad<IOEitherTypeLambda>
+export declare const Monad: monad.Monad<SyncResultTypeLambda>
 ```
 
 Added in v3.0.0
@@ -585,7 +592,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const SemigroupKind: semigroupKind.SemigroupKind<IOEitherTypeLambda>
+export declare const SemigroupKind: semigroupKind.SemigroupKind<SyncResultTypeLambda>
 ```
 
 Added in v3.0.0
@@ -595,7 +602,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getCompactable: <E>(onNone: E) => Compactable<either.ValidatedT<IOEitherTypeLambda, E>>
+export declare const getCompactable: <E>(onNone: E) => Compactable<either.ValidatedT<SyncResultTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -605,7 +612,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFilterable: <E>(onEmpty: E) => filterable.Filterable<either.ValidatedT<IOEitherTypeLambda, E>>
+export declare const getFilterable: <E>(onEmpty: E) => filterable.Filterable<either.ValidatedT<SyncResultTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -614,19 +621,19 @@ Added in v3.0.0
 
 ## fromThrowable
 
-Constructs a new `IOEither` from a function that performs a side effect and might throw.
+Constructs a new `SyncResult` from a function that performs a side effect and might throw.
 
 **Signature**
 
 ```ts
-export declare const fromThrowable: <A, E>(f: () => A, onThrow: (error: unknown) => E) => IOEither<E, A>
+export declare const fromThrowable: <A, E>(f: () => A, onThrow: (error: unknown) => E) => SyncResult<E, A>
 ```
 
 Added in v3.0.0
 
 ## liftThrowable
 
-Lifts a function that may throw to one returning a `IOEither`.
+Lifts a function that may throw to one returning a `SyncResult`.
 
 **Signature**
 
@@ -634,7 +641,7 @@ Lifts a function that may throw to one returning a `IOEither`.
 export declare const liftThrowable: <A extends readonly unknown[], B, E>(
   f: (...a: A) => B,
   onThrow: (error: unknown) => E
-) => (...a: A) => IOEither<E, B>
+) => (...a: A) => SyncResult<E, B>
 ```
 
 Added in v3.0.0
@@ -644,7 +651,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const toUnion: <E, A>(fa: IOEither<E, A>) => io.Sync<E | A>
+export declare const toUnion: <E, A>(fa: SyncResult<E, A>) => io.Sync<E | A>
 ```
 
 Added in v3.0.0
@@ -653,28 +660,28 @@ Added in v3.0.0
 
 ## lift2
 
-Lifts a binary function into `IOEither`.
+Lifts a binary function into `SyncResult`.
 
 **Signature**
 
 ```ts
 export declare const lift2: <A, B, C>(
   f: (a: A, b: B) => C
-) => <E1, E2>(fa: IOEither<E1, A>, fb: IOEither<E2, B>) => IOEither<E1 | E2, C>
+) => <E1, E2>(fa: SyncResult<E1, A>, fb: SyncResult<E2, B>) => SyncResult<E1 | E2, C>
 ```
 
 Added in v3.0.0
 
 ## lift3
 
-Lifts a ternary function into `IOEither`.
+Lifts a ternary function into `SyncResult`.
 
 **Signature**
 
 ```ts
 export declare const lift3: <A, B, C, D>(
   f: (a: A, b: B, c: C) => D
-) => <E1, E2, E3>(fa: IOEither<E1, A>, fb: IOEither<E2, B>, fc: IOEither<E3, C>) => IOEither<E1 | E2 | E3, D>
+) => <E1, E2, E3>(fa: SyncResult<E1, A>, fb: SyncResult<E2, B>, fc: SyncResult<E3, C>) => SyncResult<E1 | E2 | E3, D>
 ```
 
 Added in v3.0.0
@@ -686,7 +693,7 @@ Added in v3.0.0
 ```ts
 export declare const liftEither: <A extends readonly unknown[], E, B>(
   f: (...a: A) => either.Result<E, B>
-) => (...a: A) => IOEither<E, B>
+) => (...a: A) => SyncResult<E, B>
 ```
 
 Added in v3.0.0
@@ -699,7 +706,7 @@ Added in v3.0.0
 export declare const liftNullable: <A extends readonly unknown[], B, E>(
   f: (...a: A) => B | null | undefined,
   onNullable: E
-) => (...a: A) => IOEither<E, NonNullable<B>>
+) => (...a: A) => SyncResult<E, NonNullable<B>>
 ```
 
 Added in v3.0.0
@@ -712,7 +719,7 @@ Added in v3.0.0
 export declare const liftOption: <A extends readonly unknown[], B, E>(
   f: (...a: A) => Option<B>,
   onNone: E
-) => (...a: A) => IOEither<E, B>
+) => (...a: A) => SyncResult<E, B>
 ```
 
 Added in v3.0.0
@@ -723,8 +730,8 @@ Added in v3.0.0
 
 ```ts
 export declare const liftPredicate: {
-  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: E): (c: C) => IOEither<E, B>
-  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: E): (b: B) => IOEither<E, B>
+  <C extends A, B extends A, E, A = C>(refinement: Refinement<A, B>, onFalse: E): (c: C) => SyncResult<E, B>
+  <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: E): (b: B) => SyncResult<E, B>
 }
 ```
 
@@ -737,7 +744,7 @@ Added in v3.0.0
 ```ts
 export declare const liftSync: <A extends readonly unknown[], B>(
   f: (...a: A) => io.Sync<B>
-) => (...a: A) => IOEither<never, B>
+) => (...a: A) => SyncResult<never, B>
 ```
 
 Added in v3.0.0
@@ -749,7 +756,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const log: (...x: ReadonlyArray<unknown>) => IOEither<never, void>
+export declare const log: (...x: ReadonlyArray<unknown>) => SyncResult<never, void>
 ```
 
 Added in v3.0.0
@@ -759,7 +766,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const logError: (...x: ReadonlyArray<unknown>) => IOEither<never, void>
+export declare const logError: (...x: ReadonlyArray<unknown>) => SyncResult<never, void>
 ```
 
 Added in v3.0.0
@@ -773,7 +780,7 @@ Maps the success value of this effect to the specified constant value.
 **Signature**
 
 ```ts
-export declare const as: <B>(b: B) => <E>(self: IOEither<E, unknown>) => IOEither<E, B>
+export declare const as: <B>(b: B) => <E>(self: SyncResult<E, unknown>) => SyncResult<E, B>
 ```
 
 Added in v3.0.0
@@ -783,7 +790,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const flap: <A>(a: A) => <E, B>(fab: IOEither<E, (a: A) => B>) => IOEither<E, B>
+export declare const flap: <A>(a: A) => <E, B>(fab: SyncResult<E, (a: A) => B>) => SyncResult<E, B>
 ```
 
 Added in v3.0.0
@@ -795,7 +802,7 @@ Returns an effect whose success is mapped by the specified `f` function.
 **Signature**
 
 ```ts
-export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: IOEither<E, A>) => IOEither<E, B>
+export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: SyncResult<E, A>) => SyncResult<E, B>
 ```
 
 Added in v3.0.0
@@ -808,7 +815,10 @@ the specified pair of functions, `f` and `g`.
 **Signature**
 
 ```ts
-export declare const mapBoth: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (self: IOEither<E, A>) => IOEither<G, B>
+export declare const mapBoth: <E, G, A, B>(
+  f: (e: E) => G,
+  g: (a: A) => B
+) => (self: SyncResult<E, A>) => SyncResult<G, B>
 ```
 
 Added in v3.0.0
@@ -820,19 +830,19 @@ Returns the effect resulting from mapping the success of this effect to unit.
 **Signature**
 
 ```ts
-export declare const unit: <E>(self: IOEither<E, unknown>) => IOEither<E, void>
+export declare const unit: <E>(self: SyncResult<E, unknown>) => SyncResult<E, void>
 ```
 
 Added in v3.0.0
 
 # model
 
-## IOEither (interface)
+## SyncResult (interface)
 
 **Signature**
 
 ```ts
-export interface IOEither<E, A> extends Sync<Result<E, A>> {}
+export interface SyncResult<E, A> extends Sync<Result<E, A>> {}
 ```
 
 Added in v3.0.0
@@ -847,7 +857,7 @@ Added in v3.0.0
 export declare const match: <E, B, A, C = B>(
   onError: (e: E) => B,
   onSuccess: (a: A) => C
-) => (ma: IOEither<E, A>) => io.Sync<B | C>
+) => (ma: SyncResult<E, A>) => io.Sync<B | C>
 ```
 
 Added in v3.0.0
@@ -860,7 +870,7 @@ Added in v3.0.0
 export declare const matchIO: <E, B, A, C = B>(
   onError: (e: E) => io.Sync<B>,
   onSuccess: (a: A) => io.Sync<C>
-) => (ma: IOEither<E, A>) => io.Sync<B | C>
+) => (ma: SyncResult<E, A>) => io.Sync<B | C>
 ```
 
 Added in v3.0.0
@@ -873,8 +883,8 @@ Added in v3.0.0
 
 ```ts
 export declare const flatMap: <A, E2, B>(
-  f: (a: A) => IOEither<E2, B>
-) => <E1>(self: IOEither<E1, A>) => IOEither<E2 | E1, B>
+  f: (a: A) => SyncResult<E2, B>
+) => <E1>(self: SyncResult<E1, A>) => SyncResult<E2 | E1, B>
 ```
 
 Added in v3.0.0
@@ -886,7 +896,7 @@ Added in v3.0.0
 ```ts
 export declare const flatMapEither: <A, E2, B>(
   f: (a: A) => either.Result<E2, B>
-) => <E1>(ma: IOEither<E1, A>) => IOEither<E2 | E1, B>
+) => <E1>(ma: SyncResult<E1, A>) => SyncResult<E2 | E1, B>
 ```
 
 Added in v3.0.0
@@ -899,7 +909,7 @@ Added in v3.0.0
 export declare const flatMapNullable: <A, B, E2>(
   f: (a: A) => B | null | undefined,
   onNullable: E2
-) => <E1>(self: IOEither<E1, A>) => IOEither<E2 | E1, NonNullable<B>>
+) => <E1>(self: SyncResult<E1, A>) => SyncResult<E2 | E1, NonNullable<B>>
 ```
 
 Added in v3.0.0
@@ -912,7 +922,7 @@ Added in v3.0.0
 export declare const flatMapOption: <A, B, E2>(
   f: (a: A) => Option<B>,
   onNone: E2
-) => <E1>(self: IOEither<E1, A>) => IOEither<E2 | E1, B>
+) => <E1>(self: SyncResult<E1, A>) => SyncResult<E2 | E1, B>
 ```
 
 Added in v3.0.0
@@ -922,7 +932,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const flatMapSync: <A, B>(f: (a: A) => io.Sync<B>) => <E>(self: IOEither<E, A>) => IOEither<E, B>
+export declare const flatMapSync: <A, B>(f: (a: A) => io.Sync<B>) => <E>(self: SyncResult<E, A>) => SyncResult<E, B>
 ```
 
 Added in v3.0.0
@@ -936,8 +946,8 @@ produced by the effect.
 
 ```ts
 export declare const zipLeft: <E2>(
-  that: IOEither<E2, unknown>
-) => <E1, A>(self: IOEither<E1, A>) => IOEither<E2 | E1, A>
+  that: SyncResult<E2, unknown>
+) => <E1, A>(self: SyncResult<E1, A>) => SyncResult<E2 | E1, A>
 ```
 
 Added in v3.0.0
@@ -950,8 +960,8 @@ A variant of `flatMap` that ignores the value produced by this effect.
 
 ```ts
 export declare const zipRight: <E2, A>(
-  that: IOEither<E2, A>
-) => <E1>(self: IOEither<E1, unknown>) => IOEither<E2 | E1, A>
+  that: SyncResult<E2, A>
+) => <E1>(self: SyncResult<E1, unknown>) => SyncResult<E2 | E1, A>
 ```
 
 Added in v3.0.0
@@ -965,7 +975,7 @@ Equivalent to `ReadonlyArray#sequence(Applicative)`.
 **Signature**
 
 ```ts
-export declare const sequenceReadonlyArray: <E, A>(arr: readonly IOEither<E, A>[]) => IOEither<E, readonly A[]>
+export declare const sequenceReadonlyArray: <E, A>(arr: readonly SyncResult<E, A>[]) => SyncResult<E, readonly A[]>
 ```
 
 Added in v3.0.0
@@ -977,7 +987,7 @@ Equivalent to `ReadonlyArray#sequence(ApplicativePar)`.
 **Signature**
 
 ```ts
-export declare const sequenceReadonlyArrayPar: <E, A>(arr: readonly IOEither<E, A>[]) => IOEither<E, readonly A[]>
+export declare const sequenceReadonlyArrayPar: <E, A>(arr: readonly SyncResult<E, A>[]) => SyncResult<E, readonly A[]>
 ```
 
 Added in v3.0.0
@@ -990,8 +1000,8 @@ Equivalent to `ReadonlyArray#traverse(Applicative)`.
 
 ```ts
 export declare const traverseReadonlyArray: <A, E, B>(
-  f: (a: A) => IOEither<E, B>
-) => (as: readonly A[]) => IOEither<E, readonly B[]>
+  f: (a: A) => SyncResult<E, B>
+) => (as: readonly A[]) => SyncResult<E, readonly B[]>
 ```
 
 Added in v3.0.0
@@ -1004,8 +1014,8 @@ Equivalent to `ReadonlyArray#traverse(ApplicativePar)`.
 
 ```ts
 export declare const traverseReadonlyArrayPar: <A, E, B>(
-  f: (a: A) => IOEither<E, B>
-) => (as: readonly A[]) => IOEither<E, readonly B[]>
+  f: (a: A) => SyncResult<E, B>
+) => (as: readonly A[]) => SyncResult<E, readonly B[]>
 ```
 
 Added in v3.0.0
@@ -1018,8 +1028,8 @@ Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
 
 ```ts
 export declare const traverseReadonlyArrayWithIndex: <A, E, B>(
-  f: (index: number, a: A) => IOEither<E, B>
-) => (as: readonly A[]) => IOEither<E, readonly B[]>
+  f: (index: number, a: A) => SyncResult<E, B>
+) => (as: readonly A[]) => SyncResult<E, readonly B[]>
 ```
 
 Added in v3.0.0
@@ -1032,8 +1042,8 @@ Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativePar)`.
 
 ```ts
 export declare const traverseReadonlyArrayWithIndexPar: <A, E, B>(
-  f: (index: number, a: A) => IOEither<E, B>
-) => (as: readonly A[]) => IOEither<E, readonly B[]>
+  f: (index: number, a: A) => SyncResult<E, B>
+) => (as: readonly A[]) => SyncResult<E, readonly B[]>
 ```
 
 Added in v3.0.0
@@ -1046,8 +1056,8 @@ Equivalent to `ReadonlyNonEmptyArray#traverse(Apply)`.
 
 ```ts
 export declare const traverseReadonlyNonEmptyArray: <A, E, B>(
-  f: (a: A) => IOEither<E, B>
-) => (as: readonly [A, ...A[]]) => IOEither<E, readonly [B, ...B[]]>
+  f: (a: A) => SyncResult<E, B>
+) => (as: readonly [A, ...A[]]) => SyncResult<E, readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0
@@ -1060,8 +1070,8 @@ Equivalent to `ReadonlyNonEmptyArray#traverse(ApplyPar)`.
 
 ```ts
 export declare const traverseReadonlyNonEmptyArrayPar: <A, E, B>(
-  f: (a: A) => IOEither<E, B>
-) => (as: readonly [A, ...A[]]) => IOEither<E, readonly [B, ...B[]]>
+  f: (a: A) => SyncResult<E, B>
+) => (as: readonly [A, ...A[]]) => SyncResult<E, readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0
@@ -1074,8 +1084,8 @@ Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Apply)`.
 
 ```ts
 export declare const traverseReadonlyNonEmptyArrayWithIndex: <A, E, B>(
-  f: (index: number, a: A) => IOEither<E, B>
-) => (as: readonly [A, ...A[]]) => IOEither<E, readonly [B, ...B[]]>
+  f: (index: number, a: A) => SyncResult<E, B>
+) => (as: readonly [A, ...A[]]) => SyncResult<E, readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0
@@ -1088,8 +1098,8 @@ Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplyPar)`.
 
 ```ts
 export declare const traverseReadonlyNonEmptyArrayWithIndexPar: <A, E, B>(
-  f: (index: number, a: A) => IOEither<E, B>
-) => (as: readonly [A, ...A[]]) => IOEither<E, readonly [B, ...B[]]>
+  f: (index: number, a: A) => SyncResult<E, B>
+) => (as: readonly [A, ...A[]]) => SyncResult<E, readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0
@@ -1101,7 +1111,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Zip: IOEither<never, readonly []>
+export declare const Zip: SyncResult<never, readonly []>
 ```
 
 Added in v3.0.0
@@ -1111,7 +1121,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const tupled: <E, A>(self: IOEither<E, A>) => IOEither<E, readonly [A]>
+export declare const tupled: <E, A>(self: SyncResult<E, A>) => SyncResult<E, readonly [A]>
 ```
 
 Added in v3.0.0
@@ -1124,8 +1134,8 @@ Sequentially zips this effect with the specified effect.
 
 ```ts
 export declare const zipFlatten: <E2, B>(
-  fb: IOEither<E2, B>
-) => <E1, A extends readonly unknown[]>(self: IOEither<E1, A>) => IOEither<E2 | E1, readonly [...A, B]>
+  fb: SyncResult<E2, B>
+) => <E1, A extends readonly unknown[]>(self: SyncResult<E1, A>) => SyncResult<E2 | E1, readonly [...A, B]>
 ```
 
 Added in v3.0.0
@@ -1138,22 +1148,22 @@ Sequentially zips this effect with the specified effect using the specified comb
 
 ```ts
 export declare const zipWith: <E2, B, A, C>(
-  that: IOEither<E2, B>,
+  that: SyncResult<E2, B>,
   f: (a: A, b: B) => C
-) => <E1>(self: IOEither<E1, A>) => IOEither<E2 | E1, C>
+) => <E1>(self: SyncResult<E1, A>) => SyncResult<E2 | E1, C>
 ```
 
 Added in v3.0.0
 
 # type lambdas
 
-## IOEitherTypeLambda (interface)
+## SyncResultTypeLambda (interface)
 
 **Signature**
 
 ```ts
-export interface IOEitherTypeLambda extends TypeLambda {
-  readonly type: IOEither<this['Out2'], this['Out1']>
+export interface SyncResultTypeLambda extends TypeLambda {
+  readonly type: SyncResult<this['Out2'], this['Out1']>
 }
 ```
 
@@ -1167,8 +1177,8 @@ Added in v3.0.0
 
 ```ts
 export declare const ap: <E2, A>(
-  fa: IOEither<E2, A>
-) => <E1, B>(self: IOEither<E1, (a: A) => B>) => IOEither<E2 | E1, B>
+  fa: SyncResult<E2, A>
+) => <E1, B>(self: SyncResult<E1, (a: A) => B>) => SyncResult<E2 | E1, B>
 ```
 
 Added in v3.0.0
@@ -1184,10 +1194,10 @@ whether the body action throws (\*) or returns.
 
 ```ts
 export declare const bracket: <E1, A, E2, B, E3>(
-  acquire: IOEither<E1, A>,
-  use: (a: A) => IOEither<E2, B>,
-  release: (a: A, e: either.Result<E2, B>) => IOEither<E3, void>
-) => IOEither<E1 | E2 | E3, B>
+  acquire: SyncResult<E1, A>,
+  use: (a: A) => SyncResult<E2, B>,
+  release: (a: A, e: either.Result<E2, B>) => SyncResult<E3, void>
+) => SyncResult<E1 | E2 | E3, B>
 ```
 
 Added in v3.0.0
@@ -1198,8 +1208,8 @@ Added in v3.0.0
 
 ```ts
 export declare const composeKind: <B, E2, C>(
-  bfc: (b: B) => IOEither<E2, C>
-) => <A, E1>(afb: (a: A) => IOEither<E1, B>) => (a: A) => IOEither<E2 | E1, C>
+  bfc: (b: B) => SyncResult<E2, C>
+) => <A, E1>(afb: (a: A) => SyncResult<E1, B>) => (a: A) => SyncResult<E2 | E1, C>
 ```
 
 Added in v3.0.0
@@ -1209,7 +1219,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const flatten: <E1, E2, A>(mma: IOEither<E1, IOEither<E2, A>>) => IOEither<E1 | E2, A>
+export declare const flatten: <E1, E2, A>(mma: SyncResult<E1, SyncResult<E2, A>>) => SyncResult<E1 | E2, A>
 ```
 
 Added in v3.0.0
@@ -1219,7 +1229,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const idKind: <A>() => (a: A) => IOEither<never, A>
+export declare const idKind: <A>() => (a: A) => SyncResult<never, A>
 ```
 
 Added in v3.0.0
@@ -1229,7 +1239,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const swap: <E, A>(ma: IOEither<E, A>) => IOEither<A, E>
+export declare const swap: <E, A>(ma: SyncResult<E, A>) => SyncResult<A, E>
 ```
 
 Added in v3.0.0
@@ -1242,8 +1252,8 @@ Returns an effect that effectfully "peeks" at the success of this effect.
 
 ```ts
 export declare const tap: <A, E2>(
-  f: (a: A) => IOEither<E2, unknown>
-) => <E1>(self: IOEither<E1, A>) => IOEither<E2 | E1, A>
+  f: (a: A) => SyncResult<E2, unknown>
+) => <E1>(self: SyncResult<E1, A>) => SyncResult<E2 | E1, A>
 ```
 
 Added in v3.0.0

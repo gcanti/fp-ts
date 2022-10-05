@@ -4,11 +4,8 @@ import * as path from 'path'
 import * as _ from '../src'
 
 const getExportName = (name: string): string => {
-  if (name === 'HKT' || name === 'IO') {
+  if (name === 'HKT') {
     return name.toLowerCase()
-  }
-  if (name === 'IOEither') {
-    return 'ioEither'
   }
   if (name === 'IOOption') {
     return 'ioOption'

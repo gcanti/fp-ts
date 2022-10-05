@@ -15,7 +15,7 @@ import * as functor from './Functor'
 import type { TypeLambda } from './HKT'
 import * as _ from './internal'
 import type { Sync } from './Sync'
-import type { IOEither } from './IOEither'
+import type { SyncResult } from './SyncResult'
 import type { Monad } from './Monad'
 import type { Option } from './Option'
 import type * as fromIdentity from './FromIdentity'
@@ -93,7 +93,7 @@ export const leftIO: <E>(me: Sync<E>) => TaskThese<E, never> = /*#__PURE__*/ flo
  * @category conversions
  * @since 3.0.0
  */
-export const fromSyncEither: <E, A>(fa: IOEither<E, A>) => TaskThese<E, A> = /*#__PURE__*/ task.fromSync
+export const fromSyncEither: <E, A>(fa: SyncResult<E, A>) => TaskThese<E, A> = /*#__PURE__*/ task.fromSync
 
 /**
  * @category conversions

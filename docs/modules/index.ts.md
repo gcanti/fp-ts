@@ -18,7 +18,6 @@ Added in v3.0.0
   - [date](#date)
   - [endomorphism](#endomorphism)
   - [identity](#identity)
-  - [ioEither](#ioeither)
   - [ioOption](#iooption)
   - [option](#option)
   - [reader](#reader)
@@ -38,6 +37,7 @@ Added in v3.0.0
   - [stateReaderTaskEither](#statereadertaskeither)
   - [store](#store)
   - [sync](#sync)
+  - [syncResult](#syncresult)
   - [taskEither](#taskeither)
   - [taskOption](#taskoption)
   - [taskThese](#taskthese)
@@ -176,16 +176,6 @@ Added in v3.0.0
 
 ```ts
 export declare const identity: typeof identity
-```
-
-Added in v3.0.0
-
-## ioEither
-
-**Signature**
-
-```ts
-export declare const ioEither: typeof ioEither
 ```
 
 Added in v3.0.0
@@ -376,6 +366,16 @@ Added in v3.0.0
 
 ```ts
 export declare const sync: typeof sync
+```
+
+Added in v3.0.0
+
+## syncResult
+
+**Signature**
+
+```ts
+export declare const syncResult: typeof syncResult
 ```
 
 Added in v3.0.0

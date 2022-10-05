@@ -1,6 +1,6 @@
 ---
 title: Sync.ts
-nav_order: 97
+nav_order: 96
 parent: Modules
 ---
 
@@ -15,7 +15,7 @@ interface Sync<A> {
 `Sync<A>` represents a non-deterministic synchronous computation that can cause side effects, yields a value of
 type `A` and **never fails**.
 
-If you want to represent a synchronous computation that may fail, please see `IOEither`.
+If you want to represent a synchronous computation that may fail, please see `SyncResult`.
 If you want to represent a synchronous computation that may yield nothing, please see `IOOption`.
 
 Added in v3.0.0

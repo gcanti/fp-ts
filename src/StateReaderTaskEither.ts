@@ -22,7 +22,7 @@ import * as functor from './Functor'
 import type { TypeLambda } from './HKT'
 import * as _ from './internal'
 import type { Sync } from './Sync'
-import type { IOEither } from './IOEither'
+import type { SyncResult } from './SyncResult'
 import type * as monad from './Monad'
 import type { Option } from './Option'
 import * as fromIdentity from './FromIdentity'
@@ -160,7 +160,7 @@ export const fromAsyncEither: <E, A, S>(fa: TaskEither<E, A>) => StateReaderTask
  * @category conversions
  * @since 3.0.0
  */
-export const fromSyncEither: <E, A, S>(fa: IOEither<E, A>) => StateReaderTaskEither<S, unknown, E, A> = (ma) =>
+export const fromSyncEither: <E, A, S>(fa: SyncResult<E, A>) => StateReaderTaskEither<S, unknown, E, A> = (ma) =>
   fromReaderTaskEither(readerTaskEither.fromSyncEither(ma))
 
 /**
@@ -192,9 +192,9 @@ export const local =
  * @category lifting
  * @since 3.0.0
  */
-export const liftIOEither =
+export const liftSyncResult =
   <A extends ReadonlyArray<unknown>, E, B>(
-    f: (...a: A) => IOEither<E, B>
+    f: (...a: A) => SyncResult<E, B>
   ): (<S>(...a: A) => StateReaderTaskEither<S, unknown, E, B>) =>
   (...a) =>
     fromSyncEither(f(...a))
@@ -203,10 +203,10 @@ export const liftIOEither =
  * @category sequencing
  * @since 3.0.0
  */
-export const flatMapIOEither =
-  <A, E2, B>(f: (a: A) => IOEither<E2, B>) =>
+export const flatMapSyncResult =
+  <A, E2, B>(f: (a: A) => SyncResult<E2, B>) =>
   <S, R, E1>(ma: StateReaderTaskEither<S, R, E1, A>): StateReaderTaskEither<S, R, E1 | E2, B> =>
-    pipe(ma, flatMap<A, S, R, E2, B>(liftIOEither(f)))
+    pipe(ma, flatMap<A, S, R, E2, B>(liftSyncResult(f)))
 
 /**
  * @category lifting

@@ -1,6 +1,6 @@
 ---
 title: IOOption.ts
-nav_order: 55
+nav_order: 54
 parent: Modules
 ---
 
@@ -9,7 +9,7 @@ parent: Modules
 `IOOption<A>` represents a synchronous computation that either yields a value of type `A` or nothing.
 
 If you want to represent a synchronous computation that never fails, please see `Sync`.
-If you want to represent a synchronous computation that may fail, please see `IOEither`.
+If you want to represent a synchronous computation that may fail, please see `SyncResult`.
 
 Added in v3.0.0
 
@@ -195,7 +195,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromSyncEither: <A>(ma: IOEither<unknown, A>) => IOOption<A>
+export declare const fromSyncEither: <A>(ma: SyncResult<unknown, A>) => IOOption<A>
 ```
 
 Added in v3.0.0

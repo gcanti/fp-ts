@@ -1,7 +1,7 @@
 import * as E from '../src/Result'
 import { flow, identity, pipe, SK } from '../src/Function'
 import * as I from '../src/Sync'
-import * as _ from '../src/IOEither'
+import * as _ from '../src/SyncResult'
 import * as N from '../src/number'
 import * as O from '../src/Option'
 import { gt } from '../src/Ord'
@@ -10,15 +10,15 @@ import * as S from '../src/string'
 import * as U from './util'
 import * as writer from '../src/Writer'
 
-describe('IOEither', () => {
+describe('SyncResult', () => {
   // -------------------------------------------------------------------------------------
   // type class members
   // -------------------------------------------------------------------------------------
 
   it('orElse', () => {
     const assertSemigroupKind = (
-      a: _.IOEither<string, number>,
-      b: _.IOEither<string, number>,
+      a: _.SyncResult<string, number>,
+      b: _.SyncResult<string, number>,
       expected: E.Result<string, number>
     ) => {
       U.deepStrictEqual(pipe(a, _.orElse(b))(), expected)
@@ -40,7 +40,7 @@ describe('IOEither', () => {
   })
 
   it('tap', () => {
-    const f = (a: string): _.IOEither<string, number> => (a.length > 2 ? _.succeed(a.length) : _.fail('foo'))
+    const f = (a: string): _.SyncResult<string, number> => (a.length > 2 ? _.succeed(a.length) : _.fail('foo'))
     U.deepStrictEqual(pipe(_.succeed('foo'), _.tap(f))(), E.succeed('foo'))
     U.deepStrictEqual(pipe(_.succeed('a'), _.tap(f))(), E.fail('foo'))
   })
@@ -231,7 +231,7 @@ describe('IOEither', () => {
       const f = (n: number) => (p(n) ? E.succeed(n + 1) : E.fail(n - 1))
 
       const assertPartition = <E, B, C>(
-        [feb, fec]: readonly [_.IOEither<E, B>, _.IOEither<E, C>],
+        [feb, fec]: readonly [_.SyncResult<E, B>, _.SyncResult<E, C>],
         [eb, ec]: readonly [E.Result<E, B>, E.Result<E, C>]
       ) => {
         U.deepStrictEqual(feb(), eb)
@@ -385,12 +385,12 @@ describe('IOEither', () => {
     U.deepStrictEqual(pipe(RA.empty, _.traverseReadonlyArrayWithIndexPar(SK))(), E.succeed(RA.empty))
 
     const log: Array<number | string> = []
-    const right = (n: number): _.IOEither<string, number> =>
+    const right = (n: number): _.SyncResult<string, number> =>
       _.fromSync(() => {
         log.push(n)
         return n
       })
-    const left = (s: string): _.IOEither<string, number> =>
+    const left = (s: string): _.SyncResult<string, number> =>
       _.failSync(() => {
         log.push(s)
         return s
@@ -420,12 +420,12 @@ describe('IOEither', () => {
     U.deepStrictEqual(pipe(RA.empty, _.traverseReadonlyArrayWithIndex(SK))(), E.succeed(RA.empty))
 
     const log: Array<number | string> = []
-    const right = (n: number): _.IOEither<string, number> =>
+    const right = (n: number): _.SyncResult<string, number> =>
       _.fromSync(() => {
         log.push(n)
         return n
       })
-    const left = (s: string): _.IOEither<string, number> =>
+    const left = (s: string): _.SyncResult<string, number> =>
       _.failSync(() => {
         log.push(s)
         return s

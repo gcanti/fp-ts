@@ -1,7 +1,7 @@
 import * as _ from '../../src/TaskEither'
 import * as T from '../../src/Async'
 import * as E from '../../src/Result'
-import * as IOE from '../../src/IOEither'
+import * as IOE from '../../src/SyncResult'
 import { pipe } from '../../src/Function'
 
 // -------------------------------------------------------------------------------------
@@ -64,13 +64,13 @@ pipe(
 )
 
 //
-// flatMapIOEitherK
+// flatMapSyncResultK
 //
 
 // $ExpectType TaskEither<string | number, number>
 pipe(
   _.succeed('a') as _.TaskEither<string, string>,
-  _.flatMapIOEither(() => IOE.succeed(1) as IOE.IOEither<number, number>)
+  _.flatMapSyncResult(() => IOE.succeed(1) as IOE.SyncResult<number, number>)
 )
 
 //

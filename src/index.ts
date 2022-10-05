@@ -53,7 +53,6 @@ import * as heytingAlgebra from './HeytingAlgebra'
 import * as hkt from './HKT'
 import * as identity from './Identity'
 import * as invariant from './Invariant'
-import * as ioEither from './IOEither'
 import * as ioOption from './IOOption'
 import * as joinSemilattice from './JoinSemilattice'
 import * as json from './Json'
@@ -97,6 +96,7 @@ import * as store from './Store'
 import * as string from './string'
 import * as struct from './struct'
 import * as sync from './Sync'
+import * as syncResult from './SyncResult'
 import * as taskEither from './TaskEither'
 import * as taskOption from './TaskOption'
 import * as taskThese from './TaskThese'
@@ -368,11 +368,6 @@ export {
    * @category data types
    * @since 3.0.0
    */
-  ioEither,
-  /**
-   * @category data types
-   * @since 3.0.0
-   */
   ioOption,
   /**
    * @category type classes
@@ -577,6 +572,11 @@ export {
    * @since 3.0.0
    */
   sync,
+  /**
+   * @category data types
+   * @since 3.0.0
+   */
+  syncResult,
   /**
    * @category data types
    * @since 3.0.0
