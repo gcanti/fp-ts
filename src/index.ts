@@ -4,6 +4,7 @@
 
 import * as applicative from './Applicative'
 import * as apply from './Apply'
+import * as async from './Async'
 import * as bifunctor from './Bifunctor'
 import * as boolean from './boolean'
 import * as booleanAlgebra from './BooleanAlgebra'
@@ -96,7 +97,6 @@ import * as store from './Store'
 import * as string from './string'
 import * as struct from './struct'
 import * as sync from './Sync'
-import * as task from './Task'
 import * as taskEither from './TaskEither'
 import * as taskOption from './TaskOption'
 import * as taskThese from './TaskThese'
@@ -123,6 +123,11 @@ export {
    * @since 3.0.0
    */
   apply,
+  /**
+   * @category data types
+   * @since 3.0.0
+   */
+  async,
   /**
    * @category type classes
    * @since 3.0.0
@@ -572,11 +577,6 @@ export {
    * @since 3.0.0
    */
   sync,
-  /**
-   * @category data types
-   * @since 3.0.0
-   */
-  task,
   /**
    * @category data types
    * @since 3.0.0

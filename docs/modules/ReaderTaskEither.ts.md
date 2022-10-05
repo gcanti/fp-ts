@@ -1,6 +1,6 @@
 ---
 title: ReaderTaskEither.ts
-nav_order: 76
+nav_order: 77
 parent: Modules
 ---
 
@@ -19,11 +19,11 @@ Added in v3.0.0
   - [asks](#asks)
   - [asksReaderTaskEither](#asksreadertaskeither)
   - [fail](#fail)
+  - [failAsync](#failasync)
   - [failReader](#failreader)
   - [failReaderIO](#failreaderio)
   - [failReaderTask](#failreadertask)
   - [failSync](#failsync)
-  - [failTask](#failtask)
   - [fromIO](#fromio)
   - [fromReader](#fromreader)
   - [fromReaderEither](#fromreadereither)
@@ -82,6 +82,7 @@ Added in v3.0.0
 - [lifting](#lifting)
   - [lift2](#lift2)
   - [lift3](#lift3)
+  - [liftAsync](#liftasync)
   - [liftEither](#lifteither)
   - [liftIOEither](#liftioeither)
   - [liftNullable](#liftnullable)
@@ -92,7 +93,6 @@ Added in v3.0.0
   - [liftReaderIO](#liftreaderio)
   - [liftReaderTask](#liftreadertask)
   - [liftSync](#liftsync)
-  - [liftTask](#lifttask)
   - [liftTaskEither](#lifttaskeither)
 - [logging](#logging)
   - [log](#log)
@@ -219,6 +219,16 @@ export declare const fail: <E>(e: E) => ReaderTaskEither<unknown, E, never>
 
 Added in v3.0.0
 
+## failAsync
+
+**Signature**
+
+```ts
+export declare const failAsync: <E>(me: task.Async<E>) => ReaderTaskEither<unknown, E, never>
+```
+
+Added in v3.0.0
+
 ## failReader
 
 **Signature**
@@ -255,16 +265,6 @@ Added in v3.0.0
 
 ```ts
 export declare const failSync: <E>(me: Sync<E>) => ReaderTaskEither<unknown, E, never>
-```
-
-Added in v3.0.0
-
-## failTask
-
-**Signature**
-
-```ts
-export declare const failTask: <E>(me: task.Task<E>) => ReaderTaskEither<unknown, E, never>
 ```
 
 Added in v3.0.0
@@ -388,7 +388,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromTask: <A>(ma: task.Task<A>) => ReaderTaskEither<unknown, never, A>
+export declare const fromTask: <A>(ma: task.Async<A>) => ReaderTaskEither<unknown, never, A>
 ```
 
 Added in v3.0.0
@@ -888,6 +888,18 @@ export declare const lift3: <A, B, C, D>(
 
 Added in v3.0.0
 
+## liftAsync
+
+**Signature**
+
+```ts
+export declare const liftAsync: <A extends readonly unknown[], B>(
+  f: (...a: A) => task.Async<B>
+) => (...a: A) => ReaderTaskEither<unknown, never, B>
+```
+
+Added in v3.0.0
+
 ## liftEither
 
 **Signature**
@@ -1008,18 +1020,6 @@ Added in v3.0.0
 ```ts
 export declare const liftSync: <A extends readonly unknown[], B>(
   f: (...a: A) => Sync<B>
-) => (...a: A) => ReaderTaskEither<unknown, never, B>
-```
-
-Added in v3.0.0
-
-## liftTask
-
-**Signature**
-
-```ts
-export declare const liftTask: <A extends readonly unknown[], B>(
-  f: (...a: A) => task.Task<B>
 ) => (...a: A) => ReaderTaskEither<unknown, never, B>
 ```
 
@@ -1295,7 +1295,7 @@ Added in v3.0.0
 
 ```ts
 export declare const flatMapTask: <A, B>(
-  f: (a: A) => task.Task<B>
+  f: (a: A) => task.Async<B>
 ) => <R, E>(self: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
 ```
 

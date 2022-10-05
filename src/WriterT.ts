@@ -15,7 +15,7 @@ import type { Sync } from './Sync'
 import type { Monoid } from './Monoid'
 import type { FromIdentity } from './FromIdentity'
 import type { Semigroup } from './Semigroup'
-import type { Task } from './Task'
+import type { Async } from './Async'
 import type { Writer } from './Writer'
 import * as writer from './Writer'
 
@@ -52,7 +52,7 @@ export const fromIO =
 export const fromTask =
   <F extends TypeLambda>(Functor: Functor<F>, FromTask: FromTask<F>) =>
   <W>(w: W) =>
-  <A, S>(fa: Task<A>): Kind<WriterT<F, W>, S, unknown, never, never, A> =>
+  <A, S>(fa: Async<A>): Kind<WriterT<F, W>, S, unknown, never, never, A> =>
     pipe(
       FromTask.fromTask<A, S>(fa),
       Functor.map((a) => [w, a])

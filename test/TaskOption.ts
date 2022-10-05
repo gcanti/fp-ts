@@ -3,10 +3,10 @@ import { pipe } from '../src/Function'
 import * as O from '../src/Option'
 import * as RA from '../src/ReadonlyArray'
 import * as S from '../src/string'
-import * as T from '../src/Task'
+import * as T from '../src/Async'
 import * as TE from '../src/TaskEither'
 import * as _ from '../src/TaskOption'
-import { assertTask } from './Task'
+import { assertTask } from './Async'
 import * as U from './util'
 
 const a: _.TaskOption<string> = pipe(_.succeed<string>('a'), T.delay(100))

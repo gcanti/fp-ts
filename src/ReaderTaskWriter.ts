@@ -24,8 +24,8 @@ import type { ReaderTask } from './ReaderTask'
 import * as readonlyNonEmptyArray from './ReadonlyNonEmptyArray'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import type { Semigroup } from './Semigroup'
-import type { Task } from './Task'
-import * as task from './Task'
+import type { Async } from './Async'
+import * as task from './Async'
 import type { Writer } from './Writer'
 import * as writerT from './WriterT'
 
@@ -33,7 +33,7 @@ import * as writerT from './WriterT'
  * @category model
  * @since 3.0.0
  */
-export interface ReaderTaskWriter<R, W, A> extends Reader<R, Task<Writer<W, A>>> {}
+export interface ReaderTaskWriter<R, W, A> extends Reader<R, Async<Writer<W, A>>> {}
 
 // -------------------------------------------------------------------------------------
 // type lambdas
@@ -75,7 +75,7 @@ export const fromReaderTask: <W>(w: W) => <R, A>(a: ReaderTask<R, A>) => ReaderT
  * @category conversions
  * @since 3.0.0
  */
-export const fromTaskWriter: <W, A>(a: Task<Writer<W, A>>) => ReaderTaskWriter<unknown, W, A> =
+export const fromTaskWriter: <W, A>(a: Async<Writer<W, A>>) => ReaderTaskWriter<unknown, W, A> =
   /*#__PURE__*/ reader.succeed
 
 /**
@@ -91,7 +91,7 @@ export const fromIO: <W>(w: W) => <A>(fa: Sync<A>) => ReaderTaskWriter<unknown, 
  * @category conversions
  * @since 3.0.0
  */
-export const fromTask: <W>(w: W) => <A>(fa: Task<A>) => ReaderTaskWriter<unknown, W, A> =
+export const fromTask: <W>(w: W) => <A>(fa: Async<A>) => ReaderTaskWriter<unknown, W, A> =
   /*#__PURE__*/ writerT.fromTask(readerTask.Functor, readerTask.FromTask)
 
 /**
@@ -160,7 +160,7 @@ export const swap: <R, W, A>(self: ReaderTaskWriter<R, W, A>) => ReaderTaskWrite
  */
 export const liftTaskWriter =
   <A extends ReadonlyArray<unknown>, W, B>(
-    f: (...a: A) => Task<Writer<W, B>>
+    f: (...a: A) => Async<Writer<W, B>>
   ): ((...a: A) => ReaderTaskWriter<unknown, W, B>) =>
   (...a) =>
     fromTaskWriter(f(...a))

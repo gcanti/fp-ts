@@ -1,5 +1,5 @@
 import * as _ from '../../src/TaskOption'
-import * as T from '../../src/Task'
+import * as T from '../../src/Async'
 import { pipe } from '../../src/Function'
 
 declare const n: number
@@ -44,21 +44,21 @@ pipe(
 // getOrElse
 //
 
-// $ExpectType Task<string | null>
+// $ExpectType Async<string | null>
 pipe(_.some('a'), _.getOrElse(null))
 
 //
 // getOrElseTask
 //
 
-// $ExpectType Task<string | null>
+// $ExpectType Async<string | null>
 pipe(_.some('a'), _.getOrElseTask(T.succeed(null)))
 
 //
 // match
 //
 
-// $ExpectType Task<number | boolean>
+// $ExpectType Async<number | boolean>
 pipe(
   _.some('a'),
   _.match(
@@ -71,7 +71,7 @@ pipe(
 // matchTask
 //
 
-// $ExpectType Task<number | boolean>
+// $ExpectType Async<number | boolean>
 pipe(
   _.some('a'),
   _.matchTask(

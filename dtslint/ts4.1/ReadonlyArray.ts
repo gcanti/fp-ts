@@ -3,14 +3,14 @@ import { pipe } from '../../src/Function'
 import * as N from '../../src/number'
 import type { Ord } from '../../src/Ord'
 import * as E from '../../src/Result'
-import * as T from '../../src/Task'
+import * as T from '../../src/Async'
 
 declare const n: number
 declare const sn: string | number
 declare const isString: (u: unknown) => u is string
 declare const predicate: (sn: string | number) => boolean
 declare const sns: ReadonlyArray<string | number>
-declare const predicateK: (sn: string | number) => T.Task<boolean>
+declare const predicateK: (sn: string | number) => T.Async<boolean>
 declare const ns: ReadonlyArray<number>
 
 declare const rus: ReadonlyArray<unknown>
@@ -50,10 +50,10 @@ pipe(
 // filterKind
 // -------------------------------------------------------------------------------------
 
-// $ExpectType Task<readonly (string | number)[]>
+// $ExpectType Async<readonly (string | number)[]>
 pipe(sns, _.filterKind(T.ApplicativePar)(predicateK))
 
-// $ExpectType Task<readonly number[]>
+// $ExpectType Async<readonly number[]>
 pipe(ns, _.filterKind(T.ApplicativePar)(predicateK))
 
 pipe(

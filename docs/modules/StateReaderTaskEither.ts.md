@@ -1,6 +1,6 @@
 ---
 title: StateReaderTaskEither.ts
-nav_order: 91
+nav_order: 92
 parent: Modules
 ---
 
@@ -73,6 +73,7 @@ Added in v3.0.0
 - [lifting](#lifting)
   - [lift2](#lift2)
   - [lift3](#lift3)
+  - [liftAsync](#liftasync)
   - [liftEither](#lifteither)
   - [liftIOEither](#liftioeither)
   - [liftNullable](#liftnullable)
@@ -82,7 +83,6 @@ Added in v3.0.0
   - [liftReaderTaskEither](#liftreadertaskeither)
   - [liftState](#liftstate)
   - [liftSync](#liftsync)
-  - [liftTask](#lifttask)
   - [liftTaskEither](#lifttaskeither)
 - [logging](#logging)
   - [log](#log)
@@ -246,7 +246,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromTask: <A, S>(ma: Task<A>) => StateReaderTaskEither<S, unknown, never, A>
+export declare const fromTask: <A, S>(ma: Async<A>) => StateReaderTaskEither<S, unknown, never, A>
 ```
 
 Added in v3.0.0
@@ -310,7 +310,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const leftTask: <E, S>(me: Task<E>) => StateReaderTaskEither<S, unknown, E, never>
+export declare const leftTask: <E, S>(me: Async<E>) => StateReaderTaskEither<S, unknown, E, never>
 ```
 
 Added in v3.0.0
@@ -770,6 +770,18 @@ export declare const lift3: <A, B, C, D>(
 
 Added in v3.0.0
 
+## liftAsync
+
+**Signature**
+
+```ts
+export declare const liftAsync: <A extends readonly unknown[], B>(
+  f: (...a: A) => Async<B>
+) => <S>(...a: A) => StateReaderTaskEither<S, unknown, never, B>
+```
+
+Added in v3.0.0
+
 ## liftEither
 
 **Signature**
@@ -878,18 +890,6 @@ Added in v3.0.0
 ```ts
 export declare const liftSync: <A extends readonly unknown[], B>(
   f: (...a: A) => Sync<B>
-) => <S>(...a: A) => StateReaderTaskEither<S, unknown, never, B>
-```
-
-Added in v3.0.0
-
-## liftTask
-
-**Signature**
-
-```ts
-export declare const liftTask: <A extends readonly unknown[], B>(
-  f: (...a: A) => Task<B>
 ) => <S>(...a: A) => StateReaderTaskEither<S, unknown, never, B>
 ```
 
@@ -1133,7 +1133,7 @@ Added in v3.0.0
 
 ```ts
 export declare const flatMapTask: <A, B>(
-  f: (a: A) => Task<B>
+  f: (a: A) => Async<B>
 ) => <S, R, E>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
 ```
 

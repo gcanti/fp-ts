@@ -1,8 +1,8 @@
 /**
- * `Task<A>` represents an asynchronous computation that yields a value of type `A` and **never fails**.
+ * `Async<A>` represents an asynchronous computation that yields a value of type `A` and **never fails**.
  *
  * ```ts
- * interface Task<A> {
+ * interface Async<A> {
  *   (): Promise<A>
  * }
  * ```
@@ -32,7 +32,7 @@ import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
  * @category model
  * @since 3.0.0
  */
-export interface Task<A> {
+export interface Async<A> {
   (): Promise<A>
 }
 
@@ -43,7 +43,7 @@ export interface Task<A> {
  * @since 3.0.0
  */
 export const sleep =
-  (duration: number): Task<void> =>
+  (duration: number): Async<void> =>
   () =>
     new Promise((resolve) => {
       setTimeout(() => {
@@ -55,19 +55,19 @@ export const sleep =
  * @category conversions
  * @since 3.0.0
  */
-export const fromIO: <A>(fa: Sync<A>) => Task<A> = (ma) => () => Promise.resolve().then(ma)
+export const fromIO: <A>(fa: Sync<A>) => Async<A> = (ma) => () => Promise.resolve().then(ma)
 
 /**
  * Returns an effect that is delayed from this effect by the specified `duration` (in millis).
  *
  * @example
  * import { pipe } from 'fp-ts/Function'
- * import * as T from 'fp-ts/Task'
+ * import * as T from 'fp-ts/Async'
  *
  * async function test() {
  *   const log: Array<string> = []
  *
- *   const append = (message: string): T.Task<void> =>
+ *   const append = (message: string): T.Async<void> =>
  *     T.fromIO(() => {
  *       log.push(message)
  *     })
@@ -87,7 +87,7 @@ export const fromIO: <A>(fa: Sync<A>) => Task<A> = (ma) => () => Promise.resolve
  */
 export const delay =
   (duration: number) =>
-  <A>(self: Task<A>): Task<A> =>
+  <A>(self: Async<A>): Async<A> =>
     pipe(
       sleep(duration),
       flatMap(() => self)
@@ -101,26 +101,26 @@ export const delay =
  * @category mapping
  * @since 3.0.0
  */
-export const map: <A, B>(f: (a: A) => B) => (fa: Task<A>) => Task<B> = (f) => (fa) => () =>
+export const map: <A, B>(f: (a: A) => B) => (fa: Async<A>) => Async<B> = (f) => (fa) => () =>
   Promise.resolve().then(fa).then(f)
 
 /**
  * @since 3.0.0
  */
-export const apPar: <A>(fa: Task<A>) => <B>(fab: Task<(a: A) => B>) => Task<B> = (fa) => (fab) => () =>
+export const apPar: <A>(fa: Async<A>) => <B>(fab: Async<(a: A) => B>) => Async<B> = (fa) => (fab) => () =>
   Promise.all([Promise.resolve().then(fab), Promise.resolve().then(fa)]).then(([f, a]) => f(a))
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const succeed: <A>(a: A) => Task<A> = (a) => () => Promise.resolve(a)
+export const succeed: <A>(a: A) => Async<A> = (a) => () => Promise.resolve(a)
 
 /**
  * @category sequencing
  * @since 3.0.0
  */
-export const flatMap: <A, B>(f: (a: A) => Task<B>) => (self: Task<A>) => Task<B> = (f) => (self) => () =>
+export const flatMap: <A, B>(f: (a: A) => Async<B>) => (self: Async<A>) => Async<B> = (f) => (self) => () =>
   Promise.resolve()
     .then(self)
     .then((a) => f(a)())
@@ -128,7 +128,7 @@ export const flatMap: <A, B>(f: (a: A) => Task<B>) => (self: Task<A>) => Task<B>
 /**
  * @since 3.0.0
  */
-export const flatten: <A>(mma: Task<Task<A>>) => Task<A> = /*#__PURE__*/ flatMap(identity)
+export const flatten: <A>(mma: Async<Async<A>>) => Async<A> = /*#__PURE__*/ flatMap(identity)
 
 // -------------------------------------------------------------------------------------
 // type lambdas
@@ -139,7 +139,7 @@ export const flatten: <A>(mma: Task<Task<A>>) => Task<A> = /*#__PURE__*/ flatMap
  * @since 3.0.0
  */
 export interface TaskTypeLambda extends TypeLambda {
-  readonly type: Task<this['Out1']>
+  readonly type: Async<this['Out1']>
 }
 
 // -------------------------------------------------------------------------------------
@@ -152,7 +152,7 @@ export interface TaskTypeLambda extends TypeLambda {
  * Note: uses `Promise.race` internally.
  *
  * @example
- * import * as T from 'fp-ts/Task'
+ * import * as T from 'fp-ts/Async'
  * import { pipe } from 'fp-ts/Function'
  *
  * async function test() {
@@ -167,7 +167,7 @@ export interface TaskTypeLambda extends TypeLambda {
  * @category instances
  * @since 3.0.0
  */
-export const getRaceMonoid = <A>(): Monoid<Task<A>> => ({
+export const getRaceMonoid = <A>(): Monoid<Async<A>> => ({
   combine: (that) => (self) => () => Promise.race([Promise.resolve().then(self), Promise.resolve().then(that)]),
   empty: never
 })
@@ -184,7 +184,7 @@ export const Functor: functor.Functor<TaskTypeLambda> = {
  * @category mapping
  * @since 3.0.0
  */
-export const flap: <A>(a: A) => <B>(fab: Task<(a: A) => B>) => Task<B> = /*#__PURE__*/ functor.flap(Functor)
+export const flap: <A>(a: A) => <B>(fab: Async<(a: A) => B>) => Async<B> = /*#__PURE__*/ functor.flap(Functor)
 
 /**
  * Maps the success value of this effect to the specified constant value.
@@ -192,7 +192,7 @@ export const flap: <A>(a: A) => <B>(fab: Task<(a: A) => B>) => Task<B> = /*#__PU
  * @category mapping
  * @since 3.0.0
  */
-export const as: <B>(b: B) => (self: Task<unknown>) => Task<B> = /*#__PURE__*/ functor.as(Functor)
+export const as: <B>(b: B) => (self: Async<unknown>) => Async<B> = /*#__PURE__*/ functor.as(Functor)
 
 /**
  * Returns the effect resulting from mapping the success of this effect to unit.
@@ -200,7 +200,7 @@ export const as: <B>(b: B) => (self: Task<unknown>) => Task<B> = /*#__PURE__*/ f
  * @category mapping
  * @since 3.0.0
  */
-export const unit: (self: Task<unknown>) => Task<void> = /*#__PURE__*/ functor.unit(Functor)
+export const unit: (self: Async<unknown>) => Async<void> = /*#__PURE__*/ functor.unit(Functor)
 
 /**
  * @category instances
@@ -220,22 +220,23 @@ export const ApplyPar: apply.Apply<TaskTypeLambda> = {
 }
 
 /**
- * Lifts a binary function into `Task` in parallel.
+ * Lifts a binary function into `Async` in parallel.
  *
  * @category lifting
  * @since 3.0.0
  */
-export const lift2Par: <A, B, C>(f: (a: A, b: B) => C) => (fa: Task<A>, fb: Task<B>) => Task<C> =
+export const lift2Par: <A, B, C>(f: (a: A, b: B) => C) => (fa: Async<A>, fb: Async<B>) => Async<C> =
   /*#__PURE__*/ apply.lift2(ApplyPar)
 
 /**
- * Lifts a ternary function into `Task` in parallel.
+ * Lifts a ternary function into `Async` in parallel.
  *
  * @category lifting
  * @since 3.0.0
  */
-export const lift3Par: <A, B, C, D>(f: (a: A, b: B, c: C) => D) => (fa: Task<A>, fb: Task<B>, fc: Task<C>) => Task<D> =
-  /*#__PURE__*/ apply.lift3(ApplyPar)
+export const lift3Par: <A, B, C, D>(
+  f: (a: A, b: B, c: C) => D
+) => (fa: Async<A>, fb: Async<B>, fc: Async<C>) => Async<D> = /*#__PURE__*/ apply.lift3(ApplyPar)
 
 /**
  * Combine two effectful actions, keeping only the result of the first.
@@ -243,7 +244,7 @@ export const lift3Par: <A, B, C, D>(f: (a: A, b: B, c: C) => D) => (fa: Task<A>,
  * @category sequencing
  * @since 3.0.0
  */
-export const zipLeftPar: (that: Task<unknown>) => <A>(self: Task<A>) => Task<A> =
+export const zipLeftPar: (that: Async<unknown>) => <A>(self: Async<A>) => Async<A> =
   /*#__PURE__*/ apply.zipLeftPar(ApplyPar)
 
 /**
@@ -252,7 +253,7 @@ export const zipLeftPar: (that: Task<unknown>) => <A>(self: Task<A>) => Task<A> 
  * @category sequencing
  * @since 3.0.0
  */
-export const zipRightPar: <A>(that: Task<A>) => (self: Task<unknown>) => Task<A> =
+export const zipRightPar: <A>(that: Async<A>) => (self: Async<unknown>) => Async<A> =
   /*#__PURE__*/ apply.zipRightPar(ApplyPar)
 
 /**
@@ -277,7 +278,7 @@ export const Flattenable: flattenable.Flattenable<TaskTypeLambda> = {
 /**
  * @since 3.0.0
  */
-export const composeKind: <B, C>(bfc: (b: B) => Task<C>) => <A>(afb: (a: A) => Task<B>) => (a: A) => Task<C> =
+export const composeKind: <B, C>(bfc: (b: B) => Async<C>) => <A>(afb: (a: A) => Async<B>) => (a: A) => Async<C> =
   /*#__PURE__*/ flattenable.composeKind(Flattenable)
 
 /**
@@ -291,7 +292,7 @@ export const ComposableKind: composableKind.ComposableKind<TaskTypeLambda> = {
 /**
  * @since 3.0.0
  */
-export const idKind: <A>() => (a: A) => Task<A> = /*#__PURE__*/ fromIdentity.idKind(FromIdentity)
+export const idKind: <A>() => (a: A) => Async<A> = /*#__PURE__*/ fromIdentity.idKind(FromIdentity)
 
 /**
  * @category instances
@@ -309,7 +310,7 @@ export const CategoryKind: categoryKind.CategoryKind<TaskTypeLambda> = {
  * @category sequencing
  * @since 3.0.0
  */
-export const zipLeft: (that: Task<unknown>) => <A>(self: Task<A>) => Task<A> =
+export const zipLeft: (that: Async<unknown>) => <A>(self: Async<A>) => Async<A> =
   /*#__PURE__*/ flattenable.zipLeft(Flattenable)
 
 /**
@@ -318,13 +319,14 @@ export const zipLeft: (that: Task<unknown>) => <A>(self: Task<A>) => Task<A> =
  * @category sequencing
  * @since 3.0.0
  */
-export const zipRight: <A>(that: Task<A>) => (self: Task<unknown>) => Task<A> =
+export const zipRight: <A>(that: Async<A>) => (self: Async<unknown>) => Async<A> =
   /*#__PURE__*/ flattenable.zipRight(Flattenable)
 
 /**
  * @since 3.0.0
  */
-export const ap: <A>(fa: Task<A>) => <B>(self: Task<(a: A) => B>) => Task<B> = /*#__PURE__*/ flattenable.ap(Flattenable)
+export const ap: <A>(fa: Async<A>) => <B>(self: Async<(a: A) => B>) => Async<B> =
+  /*#__PURE__*/ flattenable.ap(Flattenable)
 
 /**
  * @category instances
@@ -336,21 +338,21 @@ export const Apply: apply.Apply<TaskTypeLambda> = {
 }
 
 /**
- * Lifts a binary function into `Task`.
+ * Lifts a binary function into `Async`.
  *
  * @category lifting
  * @since 3.0.0
  */
-export const lift2: <A, B, C>(f: (a: A, b: B) => C) => (fa: Task<A>, fb: Task<B>) => Task<C> =
+export const lift2: <A, B, C>(f: (a: A, b: B) => C) => (fa: Async<A>, fb: Async<B>) => Async<C> =
   /*#__PURE__*/ apply.lift2(Apply)
 
 /**
- * Lifts a ternary function into `Task`.
+ * Lifts a ternary function into `Async`.
  *
  * @category lifting
  * @since 3.0.0
  */
-export const lift3: <A, B, C, D>(f: (a: A, b: B, c: C) => D) => (fa: Task<A>, fb: Task<B>, fc: Task<C>) => Task<D> =
+export const lift3: <A, B, C, D>(f: (a: A, b: B, c: C) => D) => (fa: Async<A>, fb: Async<B>, fc: Async<C>) => Async<D> =
   /*#__PURE__*/ apply.lift3(Apply)
 
 /**
@@ -368,7 +370,7 @@ export const Applicative: applicative.Applicative<TaskTypeLambda> = {
  *
  * @since 3.0.0
  */
-export const tap: <A>(f: (a: A) => Task<unknown>) => (self: Task<A>) => Task<A> =
+export const tap: <A>(f: (a: A) => Async<unknown>) => (self: Async<A>) => Async<A> =
   /*#__PURE__*/ flattenable.tap(Flattenable)
 
 /**
@@ -397,26 +399,26 @@ export const FromIO: fromIO_.FromIO<TaskTypeLambda> = {
  * @category logging
  * @since 3.0.0
  */
-export const log: (...x: ReadonlyArray<unknown>) => Task<void> = /*#__PURE__*/ fromIO_.log(FromIO)
+export const log: (...x: ReadonlyArray<unknown>) => Async<void> = /*#__PURE__*/ fromIO_.log(FromIO)
 
 /**
  * @category logging
  * @since 3.0.0
  */
-export const logError: (...x: ReadonlyArray<unknown>) => Task<void> = /*#__PURE__*/ fromIO_.logError(FromIO)
+export const logError: (...x: ReadonlyArray<unknown>) => Async<void> = /*#__PURE__*/ fromIO_.logError(FromIO)
 
 /**
  * @category lifting
  * @since 3.0.0
  */
-export const liftSync: <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Sync<B>) => (...a: A) => Task<B> =
+export const liftSync: <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Sync<B>) => (...a: A) => Async<B> =
   /*#__PURE__*/ fromIO_.liftSync(FromIO)
 
 /**
  * @category sequencing
  * @since 3.0.0
  */
-export const flatMapSync: <A, B>(f: (a: A) => Sync<B>) => (self: Task<A>) => Task<B> =
+export const flatMapSync: <A, B>(f: (a: A) => Sync<B>) => (self: Async<A>) => Async<B> =
   /*#__PURE__*/ fromIO_.flatMapSync(FromIO, Flattenable)
 
 /**
@@ -429,11 +431,11 @@ export const FromTask: fromTask_.FromTask<TaskTypeLambda> = {
 }
 
 /**
- * A `Task` that never completes.
+ * An `Async` that never completes.
  *
  * @since 3.0.0
  */
-export const never: Task<never> = () => new Promise(() => undefined)
+export const never: Async<never> = () => new Promise(() => undefined)
 
 // -------------------------------------------------------------------------------------
 // do notation
@@ -443,19 +445,19 @@ export const never: Task<never> = () => new Promise(() => undefined)
  * @category do notation
  * @since 3.0.0
  */
-export const Do: Task<{}> = /*#__PURE__*/ succeed(_.Do)
+export const Do: Async<{}> = /*#__PURE__*/ succeed(_.Do)
 
 /**
  * @category do notation
  * @since 3.0.0
  */
-export const bindTo: <N extends string>(name: N) => <A>(self: Task<A>) => Task<{ readonly [K in N]: A }> =
+export const bindTo: <N extends string>(name: N) => <A>(self: Async<A>) => Async<{ readonly [K in N]: A }> =
   /*#__PURE__*/ functor.bindTo(Functor)
 
 const let_: <N extends string, A extends object, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
-) => (self: Task<A>) => Task<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
+) => (self: Async<A>) => Async<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
   /*#__PURE__*/ functor.let(Functor)
 
 export {
@@ -472,8 +474,8 @@ export {
  */
 export const bind: <N extends string, A extends object, B>(
   name: Exclude<N, keyof A>,
-  f: (a: A) => Task<B>
-) => (self: Task<A>) => Task<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
+  f: (a: A) => Async<B>
+) => (self: Async<A>) => Async<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
   /*#__PURE__*/ flattenable.bind(Flattenable)
 
 /**
@@ -484,8 +486,8 @@ export const bind: <N extends string, A extends object, B>(
  */
 export const bindRight: <N extends string, A extends object, B>(
   name: Exclude<N, keyof A>,
-  fb: Task<B>
-) => (self: Task<A>) => Task<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
+  fb: Async<B>
+) => (self: Async<A>) => Async<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
   /*#__PURE__*/ apply.bindRight(Apply)
 
 /**
@@ -496,8 +498,8 @@ export const bindRight: <N extends string, A extends object, B>(
  */
 export const bindRightPar: <N extends string, A extends object, B>(
   name: Exclude<N, keyof A>,
-  fb: Task<B>
-) => (self: Task<A>) => Task<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
+  fb: Async<B>
+) => (self: Async<A>) => Async<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
   /*#__PURE__*/ apply.bindRight(ApplyPar)
 
 // -------------------------------------------------------------------------------------
@@ -508,13 +510,13 @@ export const bindRightPar: <N extends string, A extends object, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const Zip: Task<readonly []> = /*#__PURE__*/ succeed(_.Zip)
+export const Zip: Async<readonly []> = /*#__PURE__*/ succeed(_.Zip)
 
 /**
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const tupled: <A>(self: Task<A>) => Task<readonly [A]> = /*#__PURE__*/ functor.tupled(Functor)
+export const tupled: <A>(self: Async<A>) => Async<readonly [A]> = /*#__PURE__*/ functor.tupled(Functor)
 
 /**
  * Sequentially zips this effect with the specified effect.
@@ -523,8 +525,8 @@ export const tupled: <A>(self: Task<A>) => Task<readonly [A]> = /*#__PURE__*/ fu
  * @since 3.0.0
  */
 export const zipFlatten: <B>(
-  fb: Task<B>
-) => <A extends ReadonlyArray<unknown>>(self: Task<A>) => Task<readonly [...A, B]> =
+  fb: Async<B>
+) => <A extends ReadonlyArray<unknown>>(self: Async<A>) => Async<readonly [...A, B]> =
   /*#__PURE__*/ apply.zipFlatten(Apply)
 
 /**
@@ -534,8 +536,8 @@ export const zipFlatten: <B>(
  * @since 3.0.0
  */
 export const zipFlattenPar: <B>(
-  fb: Task<B>
-) => <A extends ReadonlyArray<unknown>>(self: Task<A>) => Task<readonly [...A, B]> =
+  fb: Async<B>
+) => <A extends ReadonlyArray<unknown>>(self: Async<A>) => Async<readonly [...A, B]> =
   /*#__PURE__*/ apply.zipFlatten(ApplyPar)
 
 /**
@@ -544,7 +546,7 @@ export const zipFlattenPar: <B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const zipWith: <B, A, C>(that: Task<B>, f: (a: A, b: B) => C) => (self: Task<A>) => Task<C> =
+export const zipWith: <B, A, C>(that: Async<B>, f: (a: A, b: B) => C) => (self: Async<A>) => Async<C> =
   /*#__PURE__*/ apply.zipWith(Apply)
 
 /**
@@ -553,7 +555,7 @@ export const zipWith: <B, A, C>(that: Task<B>, f: (a: A, b: B) => C) => (self: T
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const zipWithPar: <B, A, C>(that: Task<B>, f: (a: A, b: B) => C) => (self: Task<A>) => Task<C> =
+export const zipWithPar: <B, A, C>(that: Async<B>, f: (a: A, b: B) => C) => (self: Async<A>) => Async<C> =
   /*#__PURE__*/ apply.zipWith(ApplyPar)
 
 // -------------------------------------------------------------------------------------
@@ -569,8 +571,8 @@ export const zipWithPar: <B, A, C>(that: Task<B>, f: (a: A, b: B) => C) => (self
  * @since 3.0.0
  */
 export const traverseReadonlyNonEmptyArrayWithIndexPar =
-  <A, B>(f: (index: number, a: A) => Task<B>) =>
-  (as: ReadonlyNonEmptyArray<A>): Task<ReadonlyNonEmptyArray<B>> =>
+  <A, B>(f: (index: number, a: A) => Async<B>) =>
+  (as: ReadonlyNonEmptyArray<A>): Async<ReadonlyNonEmptyArray<B>> =>
   () =>
     Promise.all(as.map((a, i) => Promise.resolve().then(() => f(i, a)()))) as any
 
@@ -581,8 +583,8 @@ export const traverseReadonlyNonEmptyArrayWithIndexPar =
  * @since 3.0.0
  */
 export const traverseReadonlyArrayWithIndexPar = <A, B>(
-  f: (index: number, a: A) => Task<B>
-): ((as: ReadonlyArray<A>) => Task<ReadonlyArray<B>>) => {
+  f: (index: number, a: A) => Async<B>
+): ((as: ReadonlyArray<A>) => Async<ReadonlyArray<B>>) => {
   const g = traverseReadonlyNonEmptyArrayWithIndexPar(f)
   return (as) => (_.isNonEmpty(as) ? g(as) : Zip)
 }
@@ -594,8 +596,8 @@ export const traverseReadonlyArrayWithIndexPar = <A, B>(
  * @since 3.0.0
  */
 export const traverseReadonlyNonEmptyArrayPar = <A, B>(
-  f: (a: A) => Task<B>
-): ((as: ReadonlyNonEmptyArray<A>) => Task<ReadonlyNonEmptyArray<B>>) => {
+  f: (a: A) => Async<B>
+): ((as: ReadonlyNonEmptyArray<A>) => Async<ReadonlyNonEmptyArray<B>>) => {
   return traverseReadonlyNonEmptyArrayWithIndexPar(flow(SK, f))
 }
 
@@ -606,8 +608,8 @@ export const traverseReadonlyNonEmptyArrayPar = <A, B>(
  * @since 3.0.0
  */
 export const traverseReadonlyArrayPar = <A, B>(
-  f: (a: A) => Task<B>
-): ((as: ReadonlyArray<A>) => Task<ReadonlyArray<B>>) => {
+  f: (a: A) => Async<B>
+): ((as: ReadonlyArray<A>) => Async<ReadonlyArray<B>>) => {
   return traverseReadonlyArrayWithIndexPar(flow(SK, f))
 }
 
@@ -617,7 +619,7 @@ export const traverseReadonlyArrayPar = <A, B>(
  * @category traversing
  * @since 3.0.0
  */
-export const sequenceReadonlyArrayPar: <A>(arr: ReadonlyArray<Task<A>>) => Task<ReadonlyArray<A>> =
+export const sequenceReadonlyArrayPar: <A>(arr: ReadonlyArray<Async<A>>) => Async<ReadonlyArray<A>> =
   /*#__PURE__*/ traverseReadonlyArrayPar(identity)
 
 // --- Seq ---
@@ -629,8 +631,8 @@ export const sequenceReadonlyArrayPar: <A>(arr: ReadonlyArray<Task<A>>) => Task<
  * @since 3.0.0
  */
 export const traverseReadonlyNonEmptyArrayWithIndex =
-  <A, B>(f: (index: number, a: A) => Task<B>) =>
-  (as: ReadonlyNonEmptyArray<A>): Task<ReadonlyNonEmptyArray<B>> =>
+  <A, B>(f: (index: number, a: A) => Async<B>) =>
+  (as: ReadonlyNonEmptyArray<A>): Async<ReadonlyNonEmptyArray<B>> =>
   () =>
     _.tail(as).reduce<Promise<_.NonEmptyArray<B>>>(
       (acc, a, i) =>
@@ -654,8 +656,8 @@ export const traverseReadonlyNonEmptyArrayWithIndex =
  * @since 3.0.0
  */
 export const traverseReadonlyArrayWithIndex = <A, B>(
-  f: (index: number, a: A) => Task<B>
-): ((as: ReadonlyArray<A>) => Task<ReadonlyArray<B>>) => {
+  f: (index: number, a: A) => Async<B>
+): ((as: ReadonlyArray<A>) => Async<ReadonlyArray<B>>) => {
   const g = traverseReadonlyNonEmptyArrayWithIndex(f)
   return (as) => (_.isNonEmpty(as) ? g(as) : Zip)
 }
@@ -667,8 +669,8 @@ export const traverseReadonlyArrayWithIndex = <A, B>(
  * @since 3.0.0
  */
 export const traverseReadonlyNonEmptyArray = <A, B>(
-  f: (a: A) => Task<B>
-): ((as: ReadonlyNonEmptyArray<A>) => Task<ReadonlyNonEmptyArray<B>>) => {
+  f: (a: A) => Async<B>
+): ((as: ReadonlyNonEmptyArray<A>) => Async<ReadonlyNonEmptyArray<B>>) => {
   return traverseReadonlyNonEmptyArrayWithIndex(flow(SK, f))
 }
 
@@ -679,8 +681,8 @@ export const traverseReadonlyNonEmptyArray = <A, B>(
  * @since 3.0.0
  */
 export const traverseReadonlyArray = <A, B>(
-  f: (a: A) => Task<B>
-): ((as: ReadonlyArray<A>) => Task<ReadonlyArray<B>>) => {
+  f: (a: A) => Async<B>
+): ((as: ReadonlyArray<A>) => Async<ReadonlyArray<B>>) => {
   return traverseReadonlyArrayWithIndex(flow(SK, f))
 }
 
@@ -690,5 +692,5 @@ export const traverseReadonlyArray = <A, B>(
  * @category traversing
  * @since 3.0.0
  */
-export const sequenceReadonlyArray: <A>(arr: ReadonlyArray<Task<A>>) => Task<ReadonlyArray<A>> =
+export const sequenceReadonlyArray: <A>(arr: ReadonlyArray<Async<A>>) => Async<ReadonlyArray<A>> =
   /*#__PURE__*/ traverseReadonlyArray(identity)

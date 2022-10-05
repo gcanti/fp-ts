@@ -23,8 +23,8 @@ import type { Predicate } from './Predicate'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import type { Refinement } from './Refinement'
 import type { Semigroup } from './Semigroup'
-import * as task from './Task'
-import type { Task } from './Task'
+import * as task from './Async'
+import type { Async } from './Async'
 import * as these from './These'
 import type { These } from './These'
 import * as theseT from './TheseT'
@@ -33,7 +33,7 @@ import * as theseT from './TheseT'
  * @category model
  * @since 3.0.0
  */
-export interface TaskThese<E, A> extends Task<These<E, A>> {}
+export interface TaskThese<E, A> extends Async<These<E, A>> {}
 
 // -------------------------------------------------------------------------------------
 // type lambdas
@@ -69,13 +69,13 @@ export const both: <E, A>(e: E, a: A) => TaskThese<E, A> = /*#__PURE__*/ theseT.
  * @category conversions
  * @since 3.0.0
  */
-export const fromTask: <A>(ma: Task<A>) => TaskThese<never, A> = /*#__PURE__*/ theseT.fromKind(task.Functor)
+export const fromTask: <A>(ma: Async<A>) => TaskThese<never, A> = /*#__PURE__*/ theseT.fromKind(task.Functor)
 
 /**
  * @category conversions
  * @since 3.0.0
  */
-export const leftTask: <E>(me: Task<E>) => TaskThese<E, never> = /*#__PURE__*/ theseT.leftKind(task.Functor)
+export const leftTask: <E>(me: Async<E>) => TaskThese<E, never> = /*#__PURE__*/ theseT.leftKind(task.Functor)
 
 /**
  * @category conversions
@@ -119,22 +119,22 @@ export const match: <E, B, A, C = B, D = B>(
   onError: (e: E) => B,
   onSuccess: (a: A) => C,
   onBoth: (e: E, a: A) => D
-) => (self: TaskThese<E, A>) => Task<B | C | D> = /*#__PURE__*/ theseT.match(task.Functor)
+) => (self: TaskThese<E, A>) => Async<B | C | D> = /*#__PURE__*/ theseT.match(task.Functor)
 
 /**
  * @category pattern matching
  * @since 3.0.0
  */
 export const matchTask: <E, B, A, C = B, D = B>(
-  onError: (e: E) => Task<B>,
-  onSuccess: (a: A) => Task<C>,
-  onBoth: (e: E, a: A) => Task<D>
-) => (self: TaskThese<E, A>) => Task<B | C | D> = /*#__PURE__*/ theseT.matchKind(task.Monad)
+  onError: (e: E) => Async<B>,
+  onSuccess: (a: A) => Async<C>,
+  onBoth: (e: E, a: A) => Async<D>
+) => (self: TaskThese<E, A>) => Async<B | C | D> = /*#__PURE__*/ theseT.matchKind(task.Monad)
 
 /**
  * @since 3.0.0
  */
-export const swap: <E, A>(self: Task<these.These<E, A>>) => Task<these.These<A, E>> = /*#__PURE__*/ theseT.swap(
+export const swap: <E, A>(self: Async<these.These<E, A>>) => Async<these.These<A, E>> = /*#__PURE__*/ theseT.swap(
   task.Functor
 )
 
@@ -399,14 +399,14 @@ export const sleep: (duration: number) => TaskThese<never, void> = /*#__PURE__*/
  * @category lifting
  * @since 3.0.0
  */
-export const liftTask: <A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => Task<B>
-) => (...a: A) => TaskThese<never, B> = /*#__PURE__*/ fromTask_.liftTask(FromTask)
+export const liftAsync: <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => Async<B>
+) => (...a: A) => TaskThese<never, B> = /*#__PURE__*/ fromTask_.liftAsync(FromTask)
 
 /**
  * @since 3.0.0
  */
-export const toTuple2: <E, A>(e: E, a: A) => (fa: TaskThese<E, A>) => Task<readonly [E, A]> =
+export const toTuple2: <E, A>(e: E, a: A) => (fa: TaskThese<E, A>) => Async<readonly [E, A]> =
   /*#__PURE__*/ theseT.toTuple2(task.Functor)
 
 // -------------------------------------------------------------------------------------

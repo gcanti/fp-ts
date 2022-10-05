@@ -5,7 +5,7 @@ import * as O from '../src/Option'
 import * as _ from '../src/Tree'
 import * as U from './util'
 import * as N from '../src/number'
-import * as T from '../src/Task'
+import * as T from '../src/Async'
 
 describe('Tree', () => {
   // -------------------------------------------------------------------------------------

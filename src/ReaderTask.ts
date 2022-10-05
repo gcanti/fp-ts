@@ -20,15 +20,15 @@ import * as reader from './Reader'
 import type { ReaderIO } from './ReaderIO'
 import * as readerT from './ReaderT'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
-import * as task from './Task'
-import type { Task } from './Task'
+import * as task from './Async'
+import type { Async } from './Async'
 
 /**
  * @category model
  * @since 3.0.0
  */
 export interface ReaderTask<R, A> {
-  (r: R): Task<A>
+  (r: R): Async<A>
 }
 
 /**
@@ -49,7 +49,7 @@ export const fromReader: <R, A>(fa: reader.Reader<R, A>) => ReaderTask<R, A> = /
  * @category conversions
  * @since 3.0.0
  */
-export const fromTask: <A>(fa: Task<A>) => ReaderTask<unknown, A> = /*#__PURE__*/ reader.succeed
+export const fromTask: <A>(fa: Async<A>) => ReaderTask<unknown, A> = /*#__PURE__*/ reader.succeed
 
 /**
  * @category conversions
@@ -475,15 +475,15 @@ export const delay: (duration: number) => <R, A>(self: ReaderTask<R, A>) => Read
  * @category lifting
  * @since 3.0.0
  */
-export const liftTask: <A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => Task<B>
-) => (...a: A) => ReaderTask<unknown, B> = /*#__PURE__*/ fromTask_.liftTask(FromTask)
+export const liftAsync: <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => Async<B>
+) => (...a: A) => ReaderTask<unknown, B> = /*#__PURE__*/ fromTask_.liftAsync(FromTask)
 
 /**
  * @category sequencing
  * @since 3.0.0
  */
-export const flatMapTask: <A, B>(f: (a: A) => Task<B>) => <R>(self: ReaderTask<R, A>) => ReaderTask<R, B> =
+export const flatMapTask: <A, B>(f: (a: A) => Async<B>) => <R>(self: ReaderTask<R, A>) => ReaderTask<R, B> =
   /*#__PURE__*/ fromTask_.flatMapTask(FromTask, Flattenable)
 
 // -------------------------------------------------------------------------------------

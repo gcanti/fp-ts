@@ -3,14 +3,14 @@ import * as I from '../src/Sync'
 import * as RA from '../src/ReadonlyArray'
 // import * as RNEA from '../src/ReadonlyNonEmptyArray'
 import * as S from '../src/string'
-import * as _ from '../src/Task'
+import * as _ from '../src/Async'
 import * as U from './util'
 
 export const assertTask =
-  <A, B>(a: _.Task<A>, b: _.Task<B>, expectedLog: ReadonlyArray<A | B>) =>
-  async <C>(f: (a: _.Task<A>, b: _.Task<B>) => _.Task<C>, expected: C) => {
+  <A, B>(a: _.Async<A>, b: _.Async<B>, expectedLog: ReadonlyArray<A | B>) =>
+  async <C>(f: (a: _.Async<A>, b: _.Async<B>) => _.Async<C>, expected: C) => {
     const log: Array<A | B> = []
-    const withLog: <X extends A | B>(ma: _.Task<X>) => _.Task<X> = _.tap((x) =>
+    const withLog: <X extends A | B>(ma: _.Async<X>) => _.Async<X> = _.tap((x) =>
       _.fromIO(() => {
         log.push(x)
       })
@@ -26,7 +26,7 @@ const b = _.succeed('b')
 const assertPar = assertTask(a, b, ['b', 'a'])
 const assertSeq = assertTask(a, b, ['a', 'b'])
 
-describe('Task', () => {
+describe('Async', () => {
   // -------------------------------------------------------------------------------------
   // safety
   // -------------------------------------------------------------------------------------
@@ -169,7 +169,7 @@ describe('Task', () => {
 
   it('sequenceReadonlyArrayPar', async () => {
     const log: Array<number> = []
-    const append = (n: number): _.Task<number> =>
+    const append = (n: number): _.Async<number> =>
       _.delay(n % 2 === 0 ? 5 : 10)(
         _.fromIO(() => {
           log.push(n)
@@ -196,7 +196,7 @@ describe('Task', () => {
 
   it('sequenceReadonlyArray', async () => {
     const log: Array<number> = []
-    const append = (n: number): _.Task<number> =>
+    const append = (n: number): _.Async<number> =>
       _.delay(n % 2 === 0 ? 1 : 2)(
         _.fromIO(() => {
           log.push(n)

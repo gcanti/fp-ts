@@ -1,12 +1,12 @@
 ---
 title: FromTask.ts
-nav_order: 40
+nav_order: 41
 parent: Modules
 ---
 
 ## FromTask overview
 
-Lift a computation from the `Task` monad.
+Lift a computation from the `Async` monad.
 
 Added in v3.0.0
 
@@ -17,7 +17,7 @@ Added in v3.0.0
 - [constructors](#constructors)
   - [sleep](#sleep)
 - [lifting](#lifting)
-  - [liftTask](#lifttask)
+  - [liftAsync](#liftasync)
 - [model](#model)
   - [FromTask (interface)](#fromtask-interface)
 - [sequencing](#sequencing)
@@ -45,14 +45,14 @@ Added in v3.0.0
 
 # lifting
 
-## liftTask
+## liftAsync
 
 **Signature**
 
 ```ts
-export declare const liftTask: <F extends TypeLambda>(
+export declare const liftAsync: <F extends TypeLambda>(
   F: FromTask<F>
-) => <A extends readonly unknown[], B>(f: (...a: A) => Task<B>) => <S>(...a: A) => Kind<F, S, unknown, never, never, B>
+) => <A extends readonly unknown[], B>(f: (...a: A) => Async<B>) => <S>(...a: A) => Kind<F, S, unknown, never, never, B>
 ```
 
 Added in v3.0.0
@@ -65,7 +65,7 @@ Added in v3.0.0
 
 ```ts
 export interface FromTask<F extends TypeLambda> extends FromIO<F> {
-  readonly fromTask: <A, S>(fa: Task<A>) => Kind<F, S, unknown, never, never, A>
+  readonly fromTask: <A, S>(fa: Async<A>) => Kind<F, S, unknown, never, never, A>
 }
 ```
 
@@ -81,7 +81,7 @@ Added in v3.0.0
 export declare const flatMapTask: <M extends TypeLambda>(
   F: FromTask<M>,
   M: Flattenable<M>
-) => <A, B>(f: (a: A) => Task<B>) => <S, R, O, E>(self: Kind<M, S, R, O, E, A>) => Kind<M, S, R, O, E, B>
+) => <A, B>(f: (a: A) => Async<B>) => <S, R, O, E>(self: Kind<M, S, R, O, E, A>) => Kind<M, S, R, O, E, B>
 ```
 
 Added in v3.0.0

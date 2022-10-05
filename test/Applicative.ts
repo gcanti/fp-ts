@@ -1,7 +1,7 @@
 import * as _ from '../src/Applicative'
 import * as E from '../src/Result'
 import { pipe } from '../src/Function'
-import * as T from '../src/Task'
+import * as T from '../src/Async'
 import * as TE from '../src/TaskEither'
 import { deepStrictEqual } from './util'
 import * as S from '../src/string'
@@ -21,7 +21,7 @@ describe('Applicative', () => {
         )
       )
     const left = (s: string, millis: number): TE.TaskEither<string, string> =>
-      TE.failTask(
+      TE.failAsync(
         T.delay(millis)(
           T.fromIO(() => {
             log.push(s)

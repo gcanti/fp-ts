@@ -1,6 +1,6 @@
 ---
 title: ReaderTaskWriter.ts
-nav_order: 77
+nav_order: 78
 parent: Modules
 ---
 
@@ -146,7 +146,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromTask: <W>(w: W) => <A>(fa: Task<A>) => ReaderTaskWriter<unknown, W, A>
+export declare const fromTask: <W>(w: W) => <A>(fa: Async<A>) => ReaderTaskWriter<unknown, W, A>
 ```
 
 Added in v3.0.0
@@ -156,7 +156,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromTaskWriter: <W, A>(a: Task<Writer<W, A>>) => ReaderTaskWriter<unknown, W, A>
+export declare const fromTaskWriter: <W, A>(a: Async<Writer<W, A>>) => ReaderTaskWriter<unknown, W, A>
 ```
 
 Added in v3.0.0
@@ -355,7 +355,7 @@ Added in v3.0.0
 
 ```ts
 export declare const liftTaskWriter: <A extends readonly unknown[], W, B>(
-  f: (...a: A) => Task<Writer<W, B>>
+  f: (...a: A) => Async<Writer<W, B>>
 ) => (...a: A) => ReaderTaskWriter<unknown, W, B>
 ```
 
@@ -410,7 +410,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface ReaderTaskWriter<R, W, A> extends Reader<R, Task<Writer<W, A>>> {}
+export interface ReaderTaskWriter<R, W, A> extends Reader<R, Async<Writer<W, A>>> {}
 ```
 
 Added in v3.0.0

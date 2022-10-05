@@ -11,7 +11,7 @@ import * as Ord from '../src/Ord'
 import type { Predicate } from '../src/Predicate'
 import * as _ from '../src/ReadonlyArray'
 import * as S from '../src/string'
-import * as T from '../src/Task'
+import * as T from '../src/Async'
 import { tuple } from '../src/tuple'
 import * as U from './util'
 

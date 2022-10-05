@@ -2020,7 +2020,7 @@ export const FilterableKind: filterableKind.FilterableKind<ReadonlyArrayTypeLamb
  * @example
  * import { pipe } from 'fp-ts/Function'
  * import * as RA from 'fp-ts/ReadonlyArray'
- * import * as T from 'fp-ts/Task'
+ * import * as T from 'fp-ts/Async'
  *
  * const filterKind = RA.filterKind(T.ApplicativePar)
  * async function test() {

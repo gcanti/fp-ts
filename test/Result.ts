@@ -5,7 +5,7 @@ import * as O from '../src/Option'
 import { gt } from '../src/Ord'
 import * as RA from '../src/ReadonlyArray'
 import * as S from '../src/string'
-import * as T from '../src/Task'
+import * as T from '../src/Async'
 import * as U from './util'
 
 describe('Result', () => {

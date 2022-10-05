@@ -7,7 +7,7 @@ import * as O from '../src/Option'
 import * as RA from '../src/ReadonlyArray'
 import * as _ from '../src/ReadonlyRecord'
 import * as S from '../src/string'
-import * as T from '../src/Task'
+import * as T from '../src/Async'
 import * as U from './util'
 
 const p = (n: number) => n > 2

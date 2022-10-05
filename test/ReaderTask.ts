@@ -5,7 +5,7 @@ import * as RIO from '../src/ReaderIO'
 import * as _ from '../src/ReaderTask'
 import * as RA from '../src/ReadonlyArray'
 import * as S from '../src/string'
-import * as T from '../src/Task'
+import * as T from '../src/Async'
 import * as U from './util'
 
 describe('ReaderTask', () => {
@@ -95,7 +95,7 @@ describe('ReaderTask', () => {
   })
 
   it('liftTask', async () => {
-    const f = _.liftTask(flow(S.size, T.succeed))
+    const f = _.liftAsync(flow(S.size, T.succeed))
     U.deepStrictEqual(await pipe(_.succeed('a'), _.flatMap(f))({})(), 1)
   })
 

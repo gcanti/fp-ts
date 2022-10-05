@@ -1,6 +1,6 @@
 ---
 title: index.ts
-nav_order: 50
+nav_order: 51
 parent: Modules
 ---
 
@@ -13,6 +13,7 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [data types](#data-types)
+  - [async](#async)
   - [const](#const)
   - [date](#date)
   - [endomorphism](#endomorphism)
@@ -37,7 +38,6 @@ Added in v3.0.0
   - [stateReaderTaskEither](#statereadertaskeither)
   - [store](#store)
   - [sync](#sync)
-  - [task](#task)
   - [taskEither](#taskeither)
   - [taskOption](#taskoption)
   - [taskThese](#taskthese)
@@ -129,6 +129,16 @@ Added in v3.0.0
 ---
 
 # data types
+
+## async
+
+**Signature**
+
+```ts
+export declare const async: typeof async
+```
+
+Added in v3.0.0
 
 ## const
 
@@ -366,16 +376,6 @@ Added in v3.0.0
 
 ```ts
 export declare const sync: typeof sync
-```
-
-Added in v3.0.0
-
-## task
-
-**Signature**
-
-```ts
-export declare const task: typeof task
 ```
 
 Added in v3.0.0

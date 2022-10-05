@@ -30,15 +30,15 @@ import * as fromIdentity from './FromIdentity'
 import type { Predicate } from './Predicate'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import type { Refinement } from './Refinement'
-import * as task from './Task'
-import type { Task } from './Task'
+import * as task from './Async'
+import type { Async } from './Async'
 import type { TaskEither } from './TaskEither'
 
 /**
  * @category model
  * @since 3.0.0
  */
-export interface TaskOption<A> extends Task<Option<A>> {}
+export interface TaskOption<A> extends Async<Option<A>> {}
 
 /**
  * @since 3.0.0
@@ -81,7 +81,7 @@ export const fromIO: <A>(fa: Sync<A>) => TaskOption<A> = (ma) => fromTask(task.f
  * @category conversions
  * @since 3.0.0
  */
-export const fromTask: <A>(fa: Task<A>) => TaskOption<A> = /*#__PURE__*/ optionT.fromKind(task.Functor)
+export const fromTask: <A>(fa: Async<A>) => TaskOption<A> = /*#__PURE__*/ optionT.fromKind(task.Functor)
 
 /**
  * @category conversions
@@ -108,7 +108,7 @@ export const fromTaskEither: <A>(fa: TaskEither<unknown, A>) => TaskOption<A> = 
  * @category pattern matching
  * @since 3.0.0
  */
-export const match: <B, A, C = B>(onNone: LazyArg<B>, onSome: (a: A) => C) => (ma: TaskOption<A>) => Task<B | C> =
+export const match: <B, A, C = B>(onNone: LazyArg<B>, onSome: (a: A) => C) => (ma: TaskOption<A>) => Async<B | C> =
   /*#__PURE__*/ optionT.match(task.Functor)
 
 /**
@@ -116,15 +116,15 @@ export const match: <B, A, C = B>(onNone: LazyArg<B>, onSome: (a: A) => C) => (m
  * @since 3.0.0
  */
 export const matchTask: <B, A, C = B>(
-  onNone: LazyArg<Task<B>>,
-  onSome: (a: A) => Task<C>
-) => (ma: TaskOption<A>) => Task<B | C> = /*#__PURE__*/ optionT.matchKind(task.Monad)
+  onNone: LazyArg<Async<B>>,
+  onSome: (a: A) => Async<C>
+) => (ma: TaskOption<A>) => Async<B | C> = /*#__PURE__*/ optionT.matchKind(task.Monad)
 
 /**
  * @category error handling
  * @since 3.0.0
  */
-export const getOrElse: <B>(onNone: B) => <A>(self: TaskOption<A>) => Task<A | B> = /*#__PURE__*/ optionT.getOrElse(
+export const getOrElse: <B>(onNone: B) => <A>(self: TaskOption<A>) => Async<A | B> = /*#__PURE__*/ optionT.getOrElse(
   task.Functor
 )
 
@@ -132,7 +132,7 @@ export const getOrElse: <B>(onNone: B) => <A>(self: TaskOption<A>) => Task<A | B
  * @category error handling
  * @since 3.0.0
  */
-export const getOrElseTask: <B>(onNone: Task<B>) => <A>(self: TaskOption<A>) => Task<A | B> =
+export const getOrElseTask: <B>(onNone: Async<B>) => <A>(self: TaskOption<A>) => Async<A | B> =
   /*#__PURE__*/ optionT.getOrElseKind(task.Monad)
 
 /**
@@ -574,14 +574,14 @@ export const delay: (duration: number) => <A>(self: TaskOption<A>) => TaskOption
  * @category lifting
  * @since 3.0.0
  */
-export const liftTask: <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Task<B>) => (...a: A) => TaskOption<B> =
-  /*#__PURE__*/ fromTask_.liftTask(FromTask)
+export const liftAsync: <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Async<B>) => (...a: A) => TaskOption<B> =
+  /*#__PURE__*/ fromTask_.liftAsync(FromTask)
 
 /**
  * @category sequencing
  * @since 3.0.0
  */
-export const flatMapTask: <A, B>(f: (a: A) => Task<B>) => (self: TaskOption<A>) => TaskOption<B> =
+export const flatMapTask: <A, B>(f: (a: A) => Async<B>) => (self: TaskOption<A>) => TaskOption<B> =
   /*#__PURE__*/ fromTask_.flatMapTask(FromTask, Flattenable)
 
 /**

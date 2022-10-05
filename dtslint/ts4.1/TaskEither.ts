@@ -1,5 +1,5 @@
 import * as _ from '../../src/TaskEither'
-import * as T from '../../src/Task'
+import * as T from '../../src/Async'
 import * as E from '../../src/Result'
 import * as IOE from '../../src/IOEither'
 import { pipe } from '../../src/Function'
@@ -43,14 +43,14 @@ pipe(
 // getOrElse
 //
 
-// $ExpectType Task<string | null>
+// $ExpectType Async<string | null>
 pipe(_.succeed('a'), _.getOrElse(null))
 
 //
 // getOrElseTask
 //
 
-// $ExpectType Task<string | null>
+// $ExpectType Async<string | null>
 pipe(_.succeed('a'), _.getOrElseTask(T.succeed(null)))
 
 //

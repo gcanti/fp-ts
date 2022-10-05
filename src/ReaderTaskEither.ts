@@ -35,8 +35,8 @@ import type { ReaderTask } from './ReaderTask'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import type { Refinement } from './Refinement'
 import type { Semigroup } from './Semigroup'
-import type * as task from './Task'
-import type { Task } from './Task'
+import type * as task from './Async'
+import type { Async } from './Async'
 import * as taskEither from './TaskEither'
 import type { TaskEither } from './TaskEither'
 
@@ -87,7 +87,7 @@ export const fromTaskEither: <E, A>(fa: taskEither.TaskEither<E, A>) => ReaderTa
  * @category conversions
  * @since 3.0.0
  */
-export const fromTask: <A>(ma: Task<A>) => ReaderTaskEither<unknown, never, A> = /*#__PURE__*/ flow(
+export const fromTask: <A>(ma: Async<A>) => ReaderTaskEither<unknown, never, A> = /*#__PURE__*/ flow(
   taskEither.fromTask,
   fromTaskEither
 )
@@ -96,8 +96,8 @@ export const fromTask: <A>(ma: Task<A>) => ReaderTaskEither<unknown, never, A> =
  * @category constructors
  * @since 3.0.0
  */
-export const failTask: <E>(me: Task<E>) => ReaderTaskEither<unknown, E, never> = /*#__PURE__*/ flow(
-  taskEither.failTask,
+export const failAsync: <E>(me: Async<E>) => ReaderTaskEither<unknown, E, never> = /*#__PURE__*/ flow(
+  taskEither.failAsync,
   fromTaskEither
 )
 
@@ -753,16 +753,16 @@ export const delay: (duration: number) => <R, E, A>(self: ReaderTaskEither<R, E,
  * @category lifting
  * @since 3.0.0
  */
-export const liftTask: <A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => Task<B>
-) => (...a: A) => ReaderTaskEither<unknown, never, B> = /*#__PURE__*/ fromTask_.liftTask(FromTask)
+export const liftAsync: <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => Async<B>
+) => (...a: A) => ReaderTaskEither<unknown, never, B> = /*#__PURE__*/ fromTask_.liftAsync(FromTask)
 
 /**
  * @category sequencing
  * @since 3.0.0
  */
 export const flatMapTask: <A, B>(
-  f: (a: A) => Task<B>
+  f: (a: A) => Async<B>
 ) => <R, E>(self: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = /*#__PURE__*/ fromTask_.flatMapTask(
   FromTask,
   Flattenable

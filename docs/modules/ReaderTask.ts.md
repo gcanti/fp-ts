@@ -1,6 +1,6 @@
 ---
 title: ReaderTask.ts
-nav_order: 75
+nav_order: 76
 parent: Modules
 ---
 
@@ -49,10 +49,10 @@ Added in v3.0.0
   - [lift2Par](#lift2par)
   - [lift3](#lift3)
   - [lift3Par](#lift3par)
+  - [liftAsync](#liftasync)
   - [liftReader](#liftreader)
   - [liftReaderIO](#liftreaderio)
   - [liftSync](#liftsync)
-  - [liftTask](#lifttask)
 - [logging](#logging)
   - [log](#log)
   - [logError](#logerror)
@@ -200,7 +200,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromTask: <A>(fa: task.Task<A>) => ReaderTask<unknown, A>
+export declare const fromTask: <A>(fa: task.Async<A>) => ReaderTask<unknown, A>
 ```
 
 Added in v3.0.0
@@ -475,6 +475,18 @@ export declare const lift3Par: <A, B, C, D>(
 
 Added in v3.0.0
 
+## liftAsync
+
+**Signature**
+
+```ts
+export declare const liftAsync: <A extends readonly unknown[], B>(
+  f: (...a: A) => task.Async<B>
+) => (...a: A) => ReaderTask<unknown, B>
+```
+
+Added in v3.0.0
+
 ## liftReader
 
 **Signature**
@@ -506,18 +518,6 @@ Added in v3.0.0
 ```ts
 export declare const liftSync: <A extends readonly unknown[], B>(
   f: (...a: A) => Sync<B>
-) => (...a: A) => ReaderTask<unknown, B>
-```
-
-Added in v3.0.0
-
-## liftTask
-
-**Signature**
-
-```ts
-export declare const liftTask: <A extends readonly unknown[], B>(
-  f: (...a: A) => task.Task<B>
 ) => (...a: A) => ReaderTask<unknown, B>
 ```
 
@@ -599,7 +599,7 @@ Added in v3.0.0
 
 ```ts
 export interface ReaderTask<R, A> {
-  (r: R): Task<A>
+  (r: R): Async<A>
 }
 ```
 
@@ -658,7 +658,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const flatMapTask: <A, B>(f: (a: A) => task.Task<B>) => <R>(self: ReaderTask<R, A>) => ReaderTask<R, B>
+export declare const flatMapTask: <A, B>(f: (a: A) => task.Async<B>) => <R>(self: ReaderTask<R, A>) => ReaderTask<R, B>
 ```
 
 Added in v3.0.0

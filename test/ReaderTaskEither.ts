@@ -13,7 +13,7 @@ import * as _ from '../src/ReaderTaskEither'
 import * as RA from '../src/ReadonlyArray'
 import * as writer from '../src/Writer'
 import * as S from '../src/string'
-import * as T from '../src/Task'
+import * as T from '../src/Async'
 import * as TE from '../src/TaskEither'
 import * as U from './util'
 import * as FilterableModule from '../src/Filterable'
@@ -116,7 +116,7 @@ describe('ReaderTaskEither', () => {
   })
 
   it('leftTask', async () => {
-    U.deepStrictEqual(await _.failTask(T.succeed(1))({})(), E.fail(1))
+    U.deepStrictEqual(await _.failAsync(T.succeed(1))({})(), E.fail(1))
   })
 
   it('fromTask', async () => {

@@ -1,11 +1,11 @@
-import * as _ from '../../src/Task'
+import * as _ from '../../src/Async'
 import { pipe } from '../../src/Function'
 
 //
 // Do
 //
 
-// $ExpectType Task<{ readonly a1: number; readonly a2: string; }>
+// $ExpectType Async<{ readonly a1: number; readonly a2: string; }>
 pipe(
   _.Do,
   _.bind('a1', () => _.succeed(1)),

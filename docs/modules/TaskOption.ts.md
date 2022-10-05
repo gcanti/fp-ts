@@ -67,12 +67,12 @@ Added in v3.0.0
 - [lifting](#lifting)
   - [lift2](#lift2)
   - [lift3](#lift3)
+  - [liftAsync](#liftasync)
   - [liftEither](#lifteither)
   - [liftNullable](#liftnullable)
   - [liftOption](#liftoption)
   - [liftPredicate](#liftpredicate)
   - [liftSync](#liftsync)
-  - [liftTask](#lifttask)
   - [liftTaskEither](#lifttaskeither)
 - [mapping](#mapping)
   - [as](#as)
@@ -224,7 +224,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromTask: <A>(fa: task.Task<A>) => TaskOption<A>
+export declare const fromTask: <A>(fa: task.Async<A>) => TaskOption<A>
 ```
 
 Added in v3.0.0
@@ -333,7 +333,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getOrElse: <B>(onNone: B) => <A>(self: TaskOption<A>) => task.Task<B | A>
+export declare const getOrElse: <B>(onNone: B) => <A>(self: TaskOption<A>) => task.Async<B | A>
 ```
 
 Added in v3.0.0
@@ -343,7 +343,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getOrElseTask: <B>(onNone: task.Task<B>) => <A>(self: TaskOption<A>) => task.Task<B | A>
+export declare const getOrElseTask: <B>(onNone: task.Async<B>) => <A>(self: TaskOption<A>) => task.Async<B | A>
 ```
 
 Added in v3.0.0
@@ -650,6 +650,18 @@ export declare const lift3: <A, B, C, D>(
 
 Added in v3.0.0
 
+## liftAsync
+
+**Signature**
+
+```ts
+export declare const liftAsync: <A extends readonly unknown[], B>(
+  f: (...a: A) => task.Async<B>
+) => (...a: A) => TaskOption<B>
+```
+
+Added in v3.0.0
+
 ## liftEither
 
 **Signature**
@@ -705,18 +717,6 @@ Added in v3.0.0
 
 ```ts
 export declare const liftSync: <A extends readonly unknown[], B>(f: (...a: A) => Sync<B>) => (...a: A) => TaskOption<B>
-```
-
-Added in v3.0.0
-
-## liftTask
-
-**Signature**
-
-```ts
-export declare const liftTask: <A extends readonly unknown[], B>(
-  f: (...a: A) => task.Task<B>
-) => (...a: A) => TaskOption<B>
 ```
 
 Added in v3.0.0
@@ -788,7 +788,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface TaskOption<A> extends Task<Option<A>> {}
+export interface TaskOption<A> extends Async<Option<A>> {}
 ```
 
 Added in v3.0.0
@@ -803,7 +803,7 @@ Added in v3.0.0
 export declare const match: <B, A, C = B>(
   onNone: LazyArg<B>,
   onSome: (a: A) => C
-) => (ma: TaskOption<A>) => task.Task<B | C>
+) => (ma: TaskOption<A>) => task.Async<B | C>
 ```
 
 Added in v3.0.0
@@ -814,9 +814,9 @@ Added in v3.0.0
 
 ```ts
 export declare const matchTask: <B, A, C = B>(
-  onNone: LazyArg<task.Task<B>>,
-  onSome: (a: A) => task.Task<C>
-) => (ma: TaskOption<A>) => task.Task<B | C>
+  onNone: LazyArg<task.Async<B>>,
+  onSome: (a: A) => task.Async<C>
+) => (ma: TaskOption<A>) => task.Async<B | C>
 ```
 
 Added in v3.0.0
@@ -870,7 +870,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const flatMapTask: <A, B>(f: (a: A) => task.Task<B>) => (self: TaskOption<A>) => TaskOption<B>
+export declare const flatMapTask: <A, B>(f: (a: A) => task.Async<B>) => (self: TaskOption<A>) => TaskOption<B>
 ```
 
 Added in v3.0.0

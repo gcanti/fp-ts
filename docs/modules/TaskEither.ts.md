@@ -11,7 +11,7 @@ interface TaskEither<E, A> extends Task<Either<E, A>> {}
 ```
 
 `TaskEither<E, A>` represents an asynchronous computation that either yields a value of type `A` or fails yielding an
-error of type `E`. If you want to represent an asynchronous computation that never fails, please see `Task`.
+error of type `E`. If you want to represent an asynchronous computation that never fails, please see `Async`.
 
 Added in v3.0.0
 
@@ -24,8 +24,8 @@ Added in v3.0.0
   - [sleep](#sleep)
   - [succeed](#succeed)
 - [conversions](#conversions)
+  - [failAsync](#failasync)
   - [failSync](#failsync)
-  - [failTask](#failtask)
   - [fromEither](#fromeither)
   - [fromIO](#fromio)
   - [fromIOEither](#fromioeither)
@@ -80,13 +80,13 @@ Added in v3.0.0
 - [lifting](#lifting)
   - [lift2](#lift2)
   - [lift3](#lift3)
+  - [liftAsync](#liftasync)
   - [liftEither](#lifteither)
   - [liftIOEither](#liftioeither)
   - [liftNullable](#liftnullable)
   - [liftOption](#liftoption)
   - [liftPredicate](#liftpredicate)
   - [liftSync](#liftsync)
-  - [liftTask](#lifttask)
   - [liftTaskOption](#lifttaskoption)
 - [logging](#logging)
   - [log](#log)
@@ -179,22 +179,22 @@ Added in v3.0.0
 
 # conversions
 
+## failAsync
+
+**Signature**
+
+```ts
+export declare const failAsync: <E>(task: task.Async<E>) => TaskEither<E, never>
+```
+
+Added in v3.0.0
+
 ## failSync
 
 **Signature**
 
 ```ts
 export declare const failSync: <E>(io: Sync<E>) => TaskEither<E, never>
-```
-
-Added in v3.0.0
-
-## failTask
-
-**Signature**
-
-```ts
-export declare const failTask: <E>(task: task.Task<E>) => TaskEither<E, never>
 ```
 
 Added in v3.0.0
@@ -254,7 +254,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromTask: <A>(task: task.Task<A>) => TaskEither<never, A>
+export declare const fromTask: <A>(task: task.Async<A>) => TaskEither<never, A>
 ```
 
 Added in v3.0.0
@@ -274,7 +274,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const toUnion: <E, A>(fa: TaskEither<E, A>) => task.Task<E | A>
+export declare const toUnion: <E, A>(fa: TaskEither<E, A>) => task.Async<E | A>
 ```
 
 Added in v3.0.0
@@ -385,7 +385,7 @@ one that may depend on the error produced by this one.
 
 ```ts
 export declare const flatMapError: <E1, E2>(
-  f: (e: E1) => task.Task<E2>
+  f: (e: E1) => task.Async<E2>
 ) => <A>(self: TaskEither<E1, A>) => TaskEither<E2, A>
 ```
 
@@ -396,7 +396,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getOrElse: <B>(onError: B) => <A>(self: TaskEither<unknown, A>) => task.Task<B | A>
+export declare const getOrElse: <B>(onError: B) => <A>(self: TaskEither<unknown, A>) => task.Async<B | A>
 ```
 
 Added in v3.0.0
@@ -406,7 +406,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getOrElseTask: <B>(onError: task.Task<B>) => <A>(self: TaskEither<unknown, A>) => task.Task<B | A>
+export declare const getOrElseTask: <B>(
+  onError: task.Async<B>
+) => <A>(self: TaskEither<unknown, A>) => task.Async<B | A>
 ```
 
 Added in v3.0.0
@@ -867,6 +869,18 @@ export declare const lift3: <A, B, C, D>(
 
 Added in v3.0.0
 
+## liftAsync
+
+**Signature**
+
+```ts
+export declare const liftAsync: <A extends readonly unknown[], B>(
+  f: (...a: A) => task.Async<B>
+) => (...a: A) => TaskEither<never, B>
+```
+
+Added in v3.0.0
+
 ## liftEither
 
 **Signature**
@@ -937,18 +951,6 @@ Added in v3.0.0
 ```ts
 export declare const liftSync: <A extends readonly unknown[], B>(
   f: (...a: A) => Sync<B>
-) => (...a: A) => TaskEither<never, B>
-```
-
-Added in v3.0.0
-
-## liftTask
-
-**Signature**
-
-```ts
-export declare const liftTask: <A extends readonly unknown[], B>(
-  f: (...a: A) => task.Task<B>
 ) => (...a: A) => TaskEither<never, B>
 ```
 
@@ -1059,7 +1061,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface TaskEither<E, A> extends Task<Result<E, A>> {}
+export interface TaskEither<E, A> extends Async<Result<E, A>> {}
 ```
 
 Added in v3.0.0
@@ -1074,7 +1076,7 @@ Added in v3.0.0
 export declare const match: <E, B, A, C = B>(
   onError: (e: E) => B,
   onSuccess: (a: A) => C
-) => (task: TaskEither<E, A>) => task.Task<B | C>
+) => (task: TaskEither<E, A>) => task.Async<B | C>
 ```
 
 Added in v3.0.0
@@ -1085,9 +1087,9 @@ Added in v3.0.0
 
 ```ts
 export declare const matchTask: <E, B, A, C = B>(
-  onError: (e: E) => task.Task<B>,
-  onSuccess: (a: A) => task.Task<C>
-) => (self: TaskEither<E, A>) => task.Task<B | C>
+  onError: (e: E) => task.Async<B>,
+  onSuccess: (a: A) => task.Async<C>
+) => (self: TaskEither<E, A>) => task.Async<B | C>
 ```
 
 Added in v3.0.0
@@ -1171,7 +1173,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const flatMapTask: <A, B>(f: (a: A) => task.Task<B>) => <E>(self: TaskEither<E, A>) => TaskEither<E, B>
+export declare const flatMapTask: <A, B>(f: (a: A) => task.Async<B>) => <E>(self: TaskEither<E, A>) => TaskEither<E, B>
 ```
 
 Added in v3.0.0

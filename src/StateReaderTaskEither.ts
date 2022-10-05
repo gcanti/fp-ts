@@ -36,7 +36,7 @@ import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import type { Refinement } from './Refinement'
 import type { State } from './State'
 import * as stateT from './StateT'
-import type { Task } from './Task'
+import type { Async } from './Async'
 import type { TaskEither } from './TaskEither'
 
 /**
@@ -77,15 +77,15 @@ export const succeed: <A, S>(a: A) => StateReaderTaskEither<S, unknown, never, A
  * @category constructors
  * @since 3.0.0
  */
-export const fromTask = <A, S>(ma: Task<A>): StateReaderTaskEither<S, unknown, never, A> =>
+export const fromTask = <A, S>(ma: Async<A>): StateReaderTaskEither<S, unknown, never, A> =>
   fromReaderTaskEither(readerTaskEither.fromTask(ma))
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const leftTask = <E, S>(me: Task<E>): StateReaderTaskEither<S, unknown, E, never> =>
-  fromReaderTaskEither(readerTaskEither.failTask(me))
+export const leftTask = <E, S>(me: Async<E>): StateReaderTaskEither<S, unknown, E, never> =>
+  fromReaderTaskEither(readerTaskEither.failAsync(me))
 
 /**
  * @category constructors
@@ -674,16 +674,16 @@ export const delay: (
  * @category lifting
  * @since 3.0.0
  */
-export const liftTask: <A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => Task<B>
-) => <S>(...a: A) => StateReaderTaskEither<S, unknown, never, B> = /*#__PURE__*/ fromTask_.liftTask(FromTask)
+export const liftAsync: <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => Async<B>
+) => <S>(...a: A) => StateReaderTaskEither<S, unknown, never, B> = /*#__PURE__*/ fromTask_.liftAsync(FromTask)
 
 /**
  * @category sequencing
  * @since 3.0.0
  */
 export const flatMapTask: <A, B>(
-  f: (a: A) => Task<B>
+  f: (a: A) => Async<B>
 ) => <S, R, E>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> =
   /*#__PURE__*/ fromTask_.flatMapTask(FromTask, Flattenable)
 

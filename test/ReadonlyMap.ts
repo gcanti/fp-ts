@@ -13,7 +13,7 @@ import type { Refinement } from '../src/Refinement'
 import * as Se from '../src/Semigroup'
 import * as Sh from '../src/Show'
 import * as S from '../src/string'
-import * as T from '../src/Task'
+import * as T from '../src/Async'
 import * as U from './util'
 
 interface User {

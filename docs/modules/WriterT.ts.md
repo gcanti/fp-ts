@@ -129,7 +129,7 @@ Added in v3.0.0
 export declare const fromTask: <F extends TypeLambda>(
   Functor: Functor<F>,
   FromTask: FromTask<F>
-) => <W>(w: W) => <A, S>(fa: Task<A>) => Kind<F, S, unknown, never, never, Writer<W, A>>
+) => <W>(w: W) => <A, S>(fa: Async<A>) => Kind<F, S, unknown, never, never, Writer<W, A>>
 ```
 
 Added in v3.0.0

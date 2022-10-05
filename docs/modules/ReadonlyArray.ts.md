@@ -1,6 +1,6 @@
 ---
 title: ReadonlyArray.ts
-nav_order: 78
+nav_order: 79
 parent: Modules
 ---
 
@@ -1819,7 +1819,7 @@ export declare const filterKind: <F extends TypeLambda>(
 ```ts
 import { pipe } from 'fp-ts/Function'
 import * as RA from 'fp-ts/ReadonlyArray'
-import * as T from 'fp-ts/Task'
+import * as T from 'fp-ts/Async'
 
 const filterKind = RA.filterKind(T.ApplicativePar)
 async function test() {

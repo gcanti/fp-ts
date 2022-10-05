@@ -1,15 +1,15 @@
 ---
-title: Task.ts
-nav_order: 97
+title: Async.ts
+nav_order: 3
 parent: Modules
 ---
 
-## Task overview
+## Async overview
 
-`Task<A>` represents an asynchronous computation that yields a value of type `A` and **never fails**.
+`Async<A>` represents an asynchronous computation that yields a value of type `A` and **never fails**.
 
 ```ts
-interface Task<A> {
+interface Async<A> {
   (): Promise<A>
 }
 ```
@@ -63,7 +63,7 @@ Added in v3.0.0
   - [map](#map)
   - [unit](#unit)
 - [model](#model)
-  - [Task (interface)](#task-interface)
+  - [Async (interface)](#async-interface)
 - [sequencing](#sequencing)
   - [flatMap](#flatmap)
   - [flatMapSync](#flatmapsync)
@@ -112,7 +112,7 @@ Returns an effect that suspends for the specified `duration` (in millis).
 **Signature**
 
 ```ts
-export declare const sleep: (duration: number) => Task<void>
+export declare const sleep: (duration: number) => Async<void>
 ```
 
 Added in v3.0.0
@@ -122,7 +122,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const succeed: <A>(a: A) => Task<A>
+export declare const succeed: <A>(a: A) => Async<A>
 ```
 
 Added in v3.0.0
@@ -134,7 +134,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromIO: <A>(fa: Sync<A>) => Task<A>
+export declare const fromIO: <A>(fa: Sync<A>) => Async<A>
 ```
 
 Added in v3.0.0
@@ -146,7 +146,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Do: Task<{}>
+export declare const Do: Async<{}>
 ```
 
 Added in v3.0.0
@@ -158,8 +158,8 @@ Added in v3.0.0
 ```ts
 export declare const bind: <N extends string, A extends object, B>(
   name: Exclude<N, keyof A>,
-  f: (a: A) => Task<B>
-) => (self: Task<A>) => Task<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+  f: (a: A) => Async<B>
+) => (self: Async<A>) => Async<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -173,8 +173,8 @@ A variant of `bind` that sequentially ignores the scope.
 ```ts
 export declare const bindRight: <N extends string, A extends object, B>(
   name: Exclude<N, keyof A>,
-  fb: Task<B>
-) => (self: Task<A>) => Task<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+  fb: Async<B>
+) => (self: Async<A>) => Async<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -188,8 +188,8 @@ A variant of `bind` that ignores the scope in parallel.
 ```ts
 export declare const bindRightPar: <N extends string, A extends object, B>(
   name: Exclude<N, keyof A>,
-  fb: Task<B>
-) => (self: Task<A>) => Task<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+  fb: Async<B>
+) => (self: Async<A>) => Async<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -199,7 +199,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bindTo: <N extends string>(name: N) => <A>(self: Task<A>) => Task<{ readonly [K in N]: A }>
+export declare const bindTo: <N extends string>(name: N) => <A>(self: Async<A>) => Async<{ readonly [K in N]: A }>
 ```
 
 Added in v3.0.0
@@ -212,7 +212,7 @@ Added in v3.0.0
 export declare const let: <N extends string, A extends object, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
-) => (self: Task<A>) => Task<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => (self: Async<A>) => Async<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -348,13 +348,13 @@ Note: uses `Promise.race` internally.
 **Signature**
 
 ```ts
-export declare const getRaceMonoid: <A>() => Monoid<Task<A>>
+export declare const getRaceMonoid: <A>() => Monoid<Async<A>>
 ```
 
 **Example**
 
 ```ts
-import * as T from 'fp-ts/Task'
+import * as T from 'fp-ts/Async'
 import { pipe } from 'fp-ts/Function'
 
 async function test() {
@@ -373,52 +373,52 @@ Added in v3.0.0
 
 ## lift2
 
-Lifts a binary function into `Task`.
+Lifts a binary function into `Async`.
 
 **Signature**
 
 ```ts
-export declare const lift2: <A, B, C>(f: (a: A, b: B) => C) => (fa: Task<A>, fb: Task<B>) => Task<C>
+export declare const lift2: <A, B, C>(f: (a: A, b: B) => C) => (fa: Async<A>, fb: Async<B>) => Async<C>
 ```
 
 Added in v3.0.0
 
 ## lift2Par
 
-Lifts a binary function into `Task` in parallel.
+Lifts a binary function into `Async` in parallel.
 
 **Signature**
 
 ```ts
-export declare const lift2Par: <A, B, C>(f: (a: A, b: B) => C) => (fa: Task<A>, fb: Task<B>) => Task<C>
+export declare const lift2Par: <A, B, C>(f: (a: A, b: B) => C) => (fa: Async<A>, fb: Async<B>) => Async<C>
 ```
 
 Added in v3.0.0
 
 ## lift3
 
-Lifts a ternary function into `Task`.
+Lifts a ternary function into `Async`.
 
 **Signature**
 
 ```ts
 export declare const lift3: <A, B, C, D>(
   f: (a: A, b: B, c: C) => D
-) => (fa: Task<A>, fb: Task<B>, fc: Task<C>) => Task<D>
+) => (fa: Async<A>, fb: Async<B>, fc: Async<C>) => Async<D>
 ```
 
 Added in v3.0.0
 
 ## lift3Par
 
-Lifts a ternary function into `Task` in parallel.
+Lifts a ternary function into `Async` in parallel.
 
 **Signature**
 
 ```ts
 export declare const lift3Par: <A, B, C, D>(
   f: (a: A, b: B, c: C) => D
-) => (fa: Task<A>, fb: Task<B>, fc: Task<C>) => Task<D>
+) => (fa: Async<A>, fb: Async<B>, fc: Async<C>) => Async<D>
 ```
 
 Added in v3.0.0
@@ -428,7 +428,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const liftSync: <A extends readonly unknown[], B>(f: (...a: A) => Sync<B>) => (...a: A) => Task<B>
+export declare const liftSync: <A extends readonly unknown[], B>(f: (...a: A) => Sync<B>) => (...a: A) => Async<B>
 ```
 
 Added in v3.0.0
@@ -440,7 +440,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const log: (...x: ReadonlyArray<unknown>) => Task<void>
+export declare const log: (...x: ReadonlyArray<unknown>) => Async<void>
 ```
 
 Added in v3.0.0
@@ -450,7 +450,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const logError: (...x: ReadonlyArray<unknown>) => Task<void>
+export declare const logError: (...x: ReadonlyArray<unknown>) => Async<void>
 ```
 
 Added in v3.0.0
@@ -464,7 +464,7 @@ Maps the success value of this effect to the specified constant value.
 **Signature**
 
 ```ts
-export declare const as: <B>(b: B) => (self: Task<unknown>) => Task<B>
+export declare const as: <B>(b: B) => (self: Async<unknown>) => Async<B>
 ```
 
 Added in v3.0.0
@@ -474,7 +474,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const flap: <A>(a: A) => <B>(fab: Task<(a: A) => B>) => Task<B>
+export declare const flap: <A>(a: A) => <B>(fab: Async<(a: A) => B>) => Async<B>
 ```
 
 Added in v3.0.0
@@ -484,7 +484,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const map: <A, B>(f: (a: A) => B) => (fa: Task<A>) => Task<B>
+export declare const map: <A, B>(f: (a: A) => B) => (fa: Async<A>) => Async<B>
 ```
 
 Added in v3.0.0
@@ -496,19 +496,19 @@ Returns the effect resulting from mapping the success of this effect to unit.
 **Signature**
 
 ```ts
-export declare const unit: (self: Task<unknown>) => Task<void>
+export declare const unit: (self: Async<unknown>) => Async<void>
 ```
 
 Added in v3.0.0
 
 # model
 
-## Task (interface)
+## Async (interface)
 
 **Signature**
 
 ```ts
-export interface Task<A> {
+export interface Async<A> {
   (): Promise<A>
 }
 ```
@@ -522,7 +522,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const flatMap: <A, B>(f: (a: A) => Task<B>) => (self: Task<A>) => Task<B>
+export declare const flatMap: <A, B>(f: (a: A) => Async<B>) => (self: Async<A>) => Async<B>
 ```
 
 Added in v3.0.0
@@ -532,7 +532,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const flatMapSync: <A, B>(f: (a: A) => Sync<B>) => (self: Task<A>) => Task<B>
+export declare const flatMapSync: <A, B>(f: (a: A) => Sync<B>) => (self: Async<A>) => Async<B>
 ```
 
 Added in v3.0.0
@@ -545,7 +545,7 @@ produced by the effect.
 **Signature**
 
 ```ts
-export declare const zipLeft: (that: Task<unknown>) => <A>(self: Task<A>) => Task<A>
+export declare const zipLeft: (that: Async<unknown>) => <A>(self: Async<A>) => Async<A>
 ```
 
 Added in v3.0.0
@@ -557,7 +557,7 @@ Combine two effectful actions, keeping only the result of the first.
 **Signature**
 
 ```ts
-export declare const zipLeftPar: (that: Task<unknown>) => <A>(self: Task<A>) => Task<A>
+export declare const zipLeftPar: (that: Async<unknown>) => <A>(self: Async<A>) => Async<A>
 ```
 
 Added in v3.0.0
@@ -569,7 +569,7 @@ A variant of `flatMap` that ignores the value produced by this effect.
 **Signature**
 
 ```ts
-export declare const zipRight: <A>(that: Task<A>) => (self: Task<unknown>) => Task<A>
+export declare const zipRight: <A>(that: Async<A>) => (self: Async<unknown>) => Async<A>
 ```
 
 Added in v3.0.0
@@ -581,7 +581,7 @@ Combine two effectful actions, keeping only the result of the second.
 **Signature**
 
 ```ts
-export declare const zipRightPar: <A>(that: Task<A>) => (self: Task<unknown>) => Task<A>
+export declare const zipRightPar: <A>(that: Async<A>) => (self: Async<unknown>) => Async<A>
 ```
 
 Added in v3.0.0
@@ -595,7 +595,7 @@ Equivalent to `ReadonlyArray#sequence(Applicative)`.
 **Signature**
 
 ```ts
-export declare const sequenceReadonlyArray: <A>(arr: readonly Task<A>[]) => Task<readonly A[]>
+export declare const sequenceReadonlyArray: <A>(arr: readonly Async<A>[]) => Async<readonly A[]>
 ```
 
 Added in v3.0.0
@@ -607,7 +607,7 @@ Equivalent to `ReadonlyArray#sequence(ApplicativePar)`.
 **Signature**
 
 ```ts
-export declare const sequenceReadonlyArrayPar: <A>(arr: readonly Task<A>[]) => Task<readonly A[]>
+export declare const sequenceReadonlyArrayPar: <A>(arr: readonly Async<A>[]) => Async<readonly A[]>
 ```
 
 Added in v3.0.0
@@ -619,7 +619,7 @@ Equivalent to `ReadonlyArray#traverse(Applicative)`.
 **Signature**
 
 ```ts
-export declare const traverseReadonlyArray: <A, B>(f: (a: A) => Task<B>) => (as: readonly A[]) => Task<readonly B[]>
+export declare const traverseReadonlyArray: <A, B>(f: (a: A) => Async<B>) => (as: readonly A[]) => Async<readonly B[]>
 ```
 
 Added in v3.0.0
@@ -631,7 +631,9 @@ Equivalent to `ReadonlyArray#traverse(ApplicativePar)`.
 **Signature**
 
 ```ts
-export declare const traverseReadonlyArrayPar: <A, B>(f: (a: A) => Task<B>) => (as: readonly A[]) => Task<readonly B[]>
+export declare const traverseReadonlyArrayPar: <A, B>(
+  f: (a: A) => Async<B>
+) => (as: readonly A[]) => Async<readonly B[]>
 ```
 
 Added in v3.0.0
@@ -644,8 +646,8 @@ Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
 
 ```ts
 export declare const traverseReadonlyArrayWithIndex: <A, B>(
-  f: (index: number, a: A) => Task<B>
-) => (as: readonly A[]) => Task<readonly B[]>
+  f: (index: number, a: A) => Async<B>
+) => (as: readonly A[]) => Async<readonly B[]>
 ```
 
 Added in v3.0.0
@@ -658,8 +660,8 @@ Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativePar)`.
 
 ```ts
 export declare const traverseReadonlyArrayWithIndexPar: <A, B>(
-  f: (index: number, a: A) => Task<B>
-) => (as: readonly A[]) => Task<readonly B[]>
+  f: (index: number, a: A) => Async<B>
+) => (as: readonly A[]) => Async<readonly B[]>
 ```
 
 Added in v3.0.0
@@ -672,8 +674,8 @@ Equivalent to `ReadonlyNonEmptyArray#traverse(Apply)`.
 
 ```ts
 export declare const traverseReadonlyNonEmptyArray: <A, B>(
-  f: (a: A) => Task<B>
-) => (as: readonly [A, ...A[]]) => Task<readonly [B, ...B[]]>
+  f: (a: A) => Async<B>
+) => (as: readonly [A, ...A[]]) => Async<readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0
@@ -686,8 +688,8 @@ Equivalent to `ReadonlyNonEmptyArray#traverse(ApplyPar)`.
 
 ```ts
 export declare const traverseReadonlyNonEmptyArrayPar: <A, B>(
-  f: (a: A) => Task<B>
-) => (as: readonly [A, ...A[]]) => Task<readonly [B, ...B[]]>
+  f: (a: A) => Async<B>
+) => (as: readonly [A, ...A[]]) => Async<readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0
@@ -700,8 +702,8 @@ Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Apply)`.
 
 ```ts
 export declare const traverseReadonlyNonEmptyArrayWithIndex: <A, B>(
-  f: (index: number, a: A) => Task<B>
-) => (as: readonly [A, ...A[]]) => Task<readonly [B, ...B[]]>
+  f: (index: number, a: A) => Async<B>
+) => (as: readonly [A, ...A[]]) => Async<readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0
@@ -714,8 +716,8 @@ Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplyPar)`.
 
 ```ts
 export declare const traverseReadonlyNonEmptyArrayWithIndexPar: <A, B>(
-  f: (index: number, a: A) => Task<B>
-) => (as: readonly [A, ...A[]]) => Task<readonly [B, ...B[]]>
+  f: (index: number, a: A) => Async<B>
+) => (as: readonly [A, ...A[]]) => Async<readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0
@@ -727,7 +729,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Zip: Task<readonly []>
+export declare const Zip: Async<readonly []>
 ```
 
 Added in v3.0.0
@@ -737,7 +739,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const tupled: <A>(self: Task<A>) => Task<readonly [A]>
+export declare const tupled: <A>(self: Async<A>) => Async<readonly [A]>
 ```
 
 Added in v3.0.0
@@ -750,8 +752,8 @@ Sequentially zips this effect with the specified effect.
 
 ```ts
 export declare const zipFlatten: <B>(
-  fb: Task<B>
-) => <A extends readonly unknown[]>(self: Task<A>) => Task<readonly [...A, B]>
+  fb: Async<B>
+) => <A extends readonly unknown[]>(self: Async<A>) => Async<readonly [...A, B]>
 ```
 
 Added in v3.0.0
@@ -764,8 +766,8 @@ Zips this effect with the specified effect in parallel.
 
 ```ts
 export declare const zipFlattenPar: <B>(
-  fb: Task<B>
-) => <A extends readonly unknown[]>(self: Task<A>) => Task<readonly [...A, B]>
+  fb: Async<B>
+) => <A extends readonly unknown[]>(self: Async<A>) => Async<readonly [...A, B]>
 ```
 
 Added in v3.0.0
@@ -777,7 +779,7 @@ Sequentially zips this effect with the specified effect using the specified comb
 **Signature**
 
 ```ts
-export declare const zipWith: <B, A, C>(that: Task<B>, f: (a: A, b: B) => C) => (self: Task<A>) => Task<C>
+export declare const zipWith: <B, A, C>(that: Async<B>, f: (a: A, b: B) => C) => (self: Async<A>) => Async<C>
 ```
 
 Added in v3.0.0
@@ -789,7 +791,7 @@ Zips this effect with the specified effect using the specified combiner function
 **Signature**
 
 ```ts
-export declare const zipWithPar: <B, A, C>(that: Task<B>, f: (a: A, b: B) => C) => (self: Task<A>) => Task<C>
+export declare const zipWithPar: <B, A, C>(that: Async<B>, f: (a: A, b: B) => C) => (self: Async<A>) => Async<C>
 ```
 
 Added in v3.0.0
@@ -802,7 +804,7 @@ Added in v3.0.0
 
 ```ts
 export interface TaskTypeLambda extends TypeLambda {
-  readonly type: Task<this['Out1']>
+  readonly type: Async<this['Out1']>
 }
 ```
 
@@ -815,7 +817,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ap: <A>(fa: Task<A>) => <B>(self: Task<(a: A) => B>) => Task<B>
+export declare const ap: <A>(fa: Async<A>) => <B>(self: Async<(a: A) => B>) => Async<B>
 ```
 
 Added in v3.0.0
@@ -825,7 +827,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const apPar: <A>(fa: Task<A>) => <B>(fab: Task<(a: A) => B>) => Task<B>
+export declare const apPar: <A>(fa: Async<A>) => <B>(fab: Async<(a: A) => B>) => Async<B>
 ```
 
 Added in v3.0.0
@@ -835,7 +837,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const composeKind: <B, C>(bfc: (b: B) => Task<C>) => <A>(afb: (a: A) => Task<B>) => (a: A) => Task<C>
+export declare const composeKind: <B, C>(bfc: (b: B) => Async<C>) => <A>(afb: (a: A) => Async<B>) => (a: A) => Async<C>
 ```
 
 Added in v3.0.0
@@ -847,19 +849,19 @@ Returns an effect that is delayed from this effect by the specified `duration` (
 **Signature**
 
 ```ts
-export declare const delay: (duration: number) => <A>(self: Task<A>) => Task<A>
+export declare const delay: (duration: number) => <A>(self: Async<A>) => Async<A>
 ```
 
 **Example**
 
 ```ts
 import { pipe } from 'fp-ts/Function'
-import * as T from 'fp-ts/Task'
+import * as T from 'fp-ts/Async'
 
 async function test() {
   const log: Array<string> = []
 
-  const append = (message: string): T.Task<void> =>
+  const append = (message: string): T.Async<void> =>
     T.fromIO(() => {
       log.push(message)
     })
@@ -883,7 +885,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const flatten: <A>(mma: Task<Task<A>>) => Task<A>
+export declare const flatten: <A>(mma: Async<Async<A>>) => Async<A>
 ```
 
 Added in v3.0.0
@@ -893,19 +895,19 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const idKind: <A>() => (a: A) => Task<A>
+export declare const idKind: <A>() => (a: A) => Async<A>
 ```
 
 Added in v3.0.0
 
 ## never
 
-A `Task` that never completes.
+An `Async` that never completes.
 
 **Signature**
 
 ```ts
-export declare const never: Task<never>
+export declare const never: Async<never>
 ```
 
 Added in v3.0.0
@@ -917,7 +919,7 @@ Returns an effect that effectfully "peeks" at the success of this effect.
 **Signature**
 
 ```ts
-export declare const tap: <A>(f: (a: A) => Task<unknown>) => (self: Task<A>) => Task<A>
+export declare const tap: <A>(f: (a: A) => Async<unknown>) => (self: Async<A>) => Async<A>
 ```
 
 Added in v3.0.0

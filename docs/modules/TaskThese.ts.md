@@ -42,12 +42,12 @@ Added in v3.0.0
   - [getFlattenable](#getflattenable)
   - [getMonad](#getmonad)
 - [lifting](#lifting)
+  - [liftAsync](#liftasync)
   - [liftEither](#lifteither)
   - [liftNullable](#liftnullable)
   - [liftOption](#liftoption)
   - [liftPredicate](#liftpredicate)
   - [liftSync](#liftsync)
-  - [liftTask](#lifttask)
   - [liftThese](#liftthese)
 - [logging](#logging)
   - [log](#log)
@@ -185,7 +185,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromTask: <A>(ma: task.Task<A>) => TaskThese<never, A>
+export declare const fromTask: <A>(ma: task.Async<A>) => TaskThese<never, A>
 ```
 
 Added in v3.0.0
@@ -215,7 +215,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const leftTask: <E>(me: task.Task<E>) => TaskThese<E, never>
+export declare const leftTask: <E>(me: task.Async<E>) => TaskThese<E, never>
 ```
 
 Added in v3.0.0
@@ -355,6 +355,18 @@ Added in v3.0.0
 
 # lifting
 
+## liftAsync
+
+**Signature**
+
+```ts
+export declare const liftAsync: <A extends readonly unknown[], B>(
+  f: (...a: A) => task.Async<B>
+) => (...a: A) => TaskThese<never, B>
+```
+
+Added in v3.0.0
+
 ## liftEither
 
 **Signature**
@@ -414,18 +426,6 @@ Added in v3.0.0
 export declare const liftSync: <A extends readonly unknown[], B>(
   f: (...a: A) => Sync<B>
 ) => <E>(...a: A) => TaskThese<E, B>
-```
-
-Added in v3.0.0
-
-## liftTask
-
-**Signature**
-
-```ts
-export declare const liftTask: <A extends readonly unknown[], B>(
-  f: (...a: A) => task.Task<B>
-) => (...a: A) => TaskThese<never, B>
 ```
 
 Added in v3.0.0
@@ -532,7 +532,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface TaskThese<E, A> extends Task<These<E, A>> {}
+export interface TaskThese<E, A> extends Async<These<E, A>> {}
 ```
 
 Added in v3.0.0
@@ -548,7 +548,7 @@ export declare const match: <E, B, A, C = B, D = B>(
   onError: (e: E) => B,
   onSuccess: (a: A) => C,
   onBoth: (e: E, a: A) => D
-) => (self: TaskThese<E, A>) => task.Task<B | C | D>
+) => (self: TaskThese<E, A>) => task.Async<B | C | D>
 ```
 
 Added in v3.0.0
@@ -559,10 +559,10 @@ Added in v3.0.0
 
 ```ts
 export declare const matchTask: <E, B, A, C = B, D = B>(
-  onError: (e: E) => task.Task<B>,
-  onSuccess: (a: A) => task.Task<C>,
-  onBoth: (e: E, a: A) => task.Task<D>
-) => (self: TaskThese<E, A>) => task.Task<B | C | D>
+  onError: (e: E) => task.Async<B>,
+  onSuccess: (a: A) => task.Async<C>,
+  onBoth: (e: E, a: A) => task.Async<D>
+) => (self: TaskThese<E, A>) => task.Async<B | C | D>
 ```
 
 Added in v3.0.0
@@ -746,7 +746,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const swap: <E, A>(self: task.Task<these.These<E, A>>) => task.Task<these.These<A, E>>
+export declare const swap: <E, A>(self: task.Async<these.These<E, A>>) => task.Async<these.These<A, E>>
 ```
 
 Added in v3.0.0
@@ -756,7 +756,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const toTuple2: <E, A>(e: E, a: A) => (fa: TaskThese<E, A>) => task.Task<readonly [E, A]>
+export declare const toTuple2: <E, A>(e: E, a: A) => (fa: TaskThese<E, A>) => task.Async<readonly [E, A]>
 ```
 
 Added in v3.0.0

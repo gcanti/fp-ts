@@ -4,7 +4,7 @@
  * ```
  *
  * `TaskEither<E, A>` represents an asynchronous computation that either yields a value of type `A` or fails yielding an
- * error of type `E`. If you want to represent an asynchronous computation that never fails, please see `Task`.
+ * error of type `E`. If you want to represent an asynchronous computation that never fails, please see `Async`.
  *
  * @since 3.0.0
  */
@@ -37,15 +37,15 @@ import type { Predicate } from './Predicate'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import type { Refinement } from './Refinement'
 import type { Semigroup } from './Semigroup'
-import * as task from './Task'
-import type { Task } from './Task'
+import * as task from './Async'
+import type { Async } from './Async'
 import type { TaskOption } from './TaskOption'
 
 /**
  * @category model
  * @since 3.0.0
  */
-export interface TaskEither<E, A> extends Task<Result<E, A>> {}
+export interface TaskEither<E, A> extends Async<Result<E, A>> {}
 
 // -------------------------------------------------------------------------------------
 // type lambdas
@@ -75,13 +75,13 @@ export const succeed: <A>(a: A) => TaskEither<never, A> = /*#__PURE__*/ eitherT.
  * @category conversions
  * @since 3.0.0
  */
-export const fromTask: <A>(task: Task<A>) => TaskEither<never, A> = /*#__PURE__*/ eitherT.fromKind(task.Functor)
+export const fromTask: <A>(task: Async<A>) => TaskEither<never, A> = /*#__PURE__*/ eitherT.fromKind(task.Functor)
 
 /**
  * @category conversions
  * @since 3.0.0
  */
-export const failTask: <E>(task: Task<E>) => TaskEither<E, never> = /*#__PURE__*/ eitherT.failKind(task.Functor)
+export const failAsync: <E>(task: Async<E>) => TaskEither<E, never> = /*#__PURE__*/ eitherT.failKind(task.Functor)
 
 /**
  * @category conversions
@@ -93,7 +93,7 @@ export const fromIO: <A>(io: Sync<A>) => TaskEither<never, A> = /*#__PURE__*/ fl
  * @category conversions
  * @since 3.0.0
  */
-export const failSync: <E>(io: Sync<E>) => TaskEither<E, never> = /*#__PURE__*/ flow(task.fromIO, failTask)
+export const failSync: <E>(io: Sync<E>) => TaskEither<E, never> = /*#__PURE__*/ flow(task.fromIO, failAsync)
 
 /**
  * @category conversions
@@ -118,7 +118,7 @@ export const fromTaskOption: <E>(onNone: E) => <A>(self: TaskOption<A>) => TaskE
  * @category conversions
  * @since 3.0.0
  */
-export const toUnion: <E, A>(fa: TaskEither<E, A>) => Task<E | A> = /*#__PURE__*/ eitherT.toUnion(task.Functor)
+export const toUnion: <E, A>(fa: TaskEither<E, A>) => Async<E | A> = /*#__PURE__*/ eitherT.toUnion(task.Functor)
 
 /**
  * @category pattern matching
@@ -127,29 +127,29 @@ export const toUnion: <E, A>(fa: TaskEither<E, A>) => Task<E | A> = /*#__PURE__*
 export const match: <E, B, A, C = B>(
   onError: (e: E) => B,
   onSuccess: (a: A) => C
-) => (task: TaskEither<E, A>) => Task<B | C> = /*#__PURE__*/ eitherT.match(task.Functor)
+) => (task: TaskEither<E, A>) => Async<B | C> = /*#__PURE__*/ eitherT.match(task.Functor)
 
 /**
  * @category pattern matching
  * @since 3.0.0
  */
 export const matchTask: <E, B, A, C = B>(
-  onError: (e: E) => Task<B>,
-  onSuccess: (a: A) => Task<C>
-) => (self: TaskEither<E, A>) => Task<B | C> = /*#__PURE__*/ eitherT.matchKind(task.Monad)
+  onError: (e: E) => Async<B>,
+  onSuccess: (a: A) => Async<C>
+) => (self: TaskEither<E, A>) => Async<B | C> = /*#__PURE__*/ eitherT.matchKind(task.Monad)
 
 /**
  * @category error handling
  * @since 3.0.0
  */
-export const getOrElse: <B>(onError: B) => <A>(self: TaskEither<unknown, A>) => Task<A | B> =
+export const getOrElse: <B>(onError: B) => <A>(self: TaskEither<unknown, A>) => Async<A | B> =
   /*#__PURE__*/ eitherT.getOrElse(task.Functor)
 
 /**
  * @category error handling
  * @since 3.0.0
  */
-export const getOrElseTask: <B>(onError: Task<B>) => <A>(self: TaskEither<unknown, A>) => Task<A | B> =
+export const getOrElseTask: <B>(onError: Async<B>) => <A>(self: TaskEither<unknown, A>) => Async<A | B> =
   /*#__PURE__*/ eitherT.getOrElseKind(task.Monad)
 
 /**
@@ -306,7 +306,7 @@ export const flatMap: <A, E2, B>(
  * @category error handling
  * @since 3.0.0
  */
-export const flatMapError: <E1, E2>(f: (e: E1) => Task<E2>) => <A>(self: TaskEither<E1, A>) => TaskEither<E2, A> =
+export const flatMapError: <E1, E2>(f: (e: E1) => Async<E2>) => <A>(self: TaskEither<E1, A>) => TaskEither<E2, A> =
   /*#__PURE__*/ eitherT.flatMapError(task.Monad)
 
 /**
@@ -688,15 +688,15 @@ export const delay: (duration: number) => <E, A>(self: TaskEither<E, A>) => Task
  * @category lifting
  * @since 3.0.0
  */
-export const liftTask: <A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => Task<B>
-) => (...a: A) => TaskEither<never, B> = /*#__PURE__*/ fromTask_.liftTask(FromTask)
+export const liftAsync: <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => Async<B>
+) => (...a: A) => TaskEither<never, B> = /*#__PURE__*/ fromTask_.liftAsync(FromTask)
 
 /**
  * @category sequencing
  * @since 3.0.0
  */
-export const flatMapTask: <A, B>(f: (a: A) => Task<B>) => <E>(self: TaskEither<E, A>) => TaskEither<E, B> =
+export const flatMapTask: <A, B>(f: (a: A) => Async<B>) => <E>(self: TaskEither<E, A>) => TaskEither<E, B> =
   /*#__PURE__*/ fromTask_.flatMapTask(FromTask, Flattenable)
 
 /**

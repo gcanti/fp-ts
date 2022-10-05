@@ -3,7 +3,7 @@ import { pipe } from '../../src/Function'
 import * as RNEA from '../../src/ReadonlyNonEmptyArray'
 import * as _ from '../../src/TaskThese'
 import * as S from '../../src/string'
-import * as T from '../../src/Task'
+import * as T from '../../src/Async'
 
 /*
 RNEA.traverse(_.getApplicative(T.ApplicativePar, S.Semigroup)) x 324 ops/sec ±8.10% (59 runs sampled)

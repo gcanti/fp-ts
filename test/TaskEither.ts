@@ -8,10 +8,10 @@ import { gt } from '../src/Ord'
 import * as RA from '../src/ReadonlyArray'
 import * as writer from '../src/Writer'
 import * as S from '../src/string'
-import * as T from '../src/Task'
+import * as T from '../src/Async'
 import * as _ from '../src/TaskEither'
 import * as TO from '../src/TaskOption'
-import { assertTask } from './Task'
+import { assertTask } from './Async'
 import * as U from './util'
 
 const a: _.TaskEither<string, string> = pipe(_.succeed('a'), T.delay(100))
