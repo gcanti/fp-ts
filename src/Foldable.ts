@@ -11,9 +11,9 @@ import type { Monoid } from './Monoid'
  * @since 3.0.0
  */
 export interface Foldable<F extends TypeLambda> extends TypeClass<F> {
-  readonly reduce: <B, A>(b: B, f: (b: B, a: A) => B) => <S, R, O, E>(self: Kind<F, S, R, O, E, A>) => B
-  readonly foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <S, R, O, E>(self: Kind<F, S, R, O, E, A>) => M
-  readonly reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <S, R, O, E>(self: Kind<F, S, R, O, E, A>) => B
+  readonly reduce: <B, A>(b: B, f: (b: B, a: A) => B) => <S>(self: Kind<F, S, never, unknown, unknown, A>) => B
+  readonly foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <S>(self: Kind<F, S, never, unknown, unknown, A>) => M
+  readonly reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <S>(self: Kind<F, S, never, unknown, unknown, A>) => B
 }
 
 /**
@@ -28,7 +28,7 @@ export const reduceComposition =
   ): (<B, A>(
     b: B,
     f: (b: B, a: A) => B
-  ) => <FS, FR, FO, FE, GS, GR, GO, GE>(fga: Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, A>>) => B) =>
+  ) => <FS, GS>(fga: Kind<F, FS, never, unknown, unknown, Kind<G, GS, never, unknown, unknown, A>>) => B) =>
   (b, f) =>
     FoldableF.reduce(b, (b, ga) => pipe(ga, FoldableG.reduce(b, f)))
 
@@ -44,7 +44,7 @@ export const foldMapComposition = <F extends TypeLambda, G extends TypeLambda>(
   M: Monoid<M>
 ) => <A>(
   f: (a: A) => M
-) => <FS, FR, FO, FE, GS, GR, GO, GE>(fga: Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, A>>) => M) => {
+) => <FS, GS>(fga: Kind<F, FS, never, unknown, unknown, Kind<G, GS, never, unknown, unknown, A>>) => M) => {
   return (M) => (f) => FoldableF.foldMap(M)(FoldableG.foldMap(M)(f))
 }
 
@@ -59,7 +59,7 @@ export const reduceRightComposition = <F extends TypeLambda, G extends TypeLambd
 ): (<B, A>(
   b: B,
   f: (a: A, b: B) => B
-) => <FS, FR, FO, FE, GS, GR, GO, GE>(fga: Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, A>>) => B) => {
+) => <FS, GS>(fga: Kind<F, FS, never, unknown, unknown, Kind<G, GS, never, unknown, unknown, A>>) => B) => {
   return (b, f) => FoldableF.reduceRight(b, (ga, b) => FoldableG.reduceRight(b, f)(ga))
 }
 
@@ -83,7 +83,7 @@ export const reduceRightComposition = <F extends TypeLambda, G extends TypeLambd
  */
 export const toReadonlyArray =
   <F extends TypeLambda>(Foldable: Foldable<F>) =>
-  <S, R, O, E, A>(self: Kind<F, S, R, O, E, A>): ReadonlyArray<A> => {
+  <S, A>(self: Kind<F, S, never, unknown, unknown, A>): ReadonlyArray<A> => {
     return pipe(
       self,
       Foldable.reduce([], (acc: Array<A>, a: A) => {
@@ -113,10 +113,10 @@ export function reduceKind<F extends TypeLambda>(
   FoldableF: Foldable<F>
 ): <G extends TypeLambda>(
   FlattenableG: Flattenable<G>
-) => <GS, GR, GO, GE, B, A>(
-  mb: Kind<G, GS, GR, GO, GE, B>,
-  f: (b: B, a: A) => Kind<G, GS, GR, GO, GE, B>
-) => <FS, FR, FO, FE>(self: Kind<F, FS, FR, FO, FE, A>) => Kind<G, GS, GR, GO, GE, B> {
+) => <S, R, O, E, B, A>(
+  mb: Kind<G, S, R, O, E, B>,
+  f: (b: B, a: A) => Kind<G, S, R, O, E, B>
+) => <FS>(self: Kind<F, FS, never, unknown, unknown, A>) => Kind<G, S, R, O, E, B> {
   return (FlattenableG) => (mb, f) =>
     FoldableF.reduce(mb, (mb, a) =>
       pipe(
@@ -145,7 +145,7 @@ export const intercalate =
   <F extends TypeLambda>(Foldable: Foldable<F>) =>
   <M>(Monoid: Monoid<M>) =>
   (separator: M) =>
-  <S, R, O, E>(fm: Kind<F, S, R, O, E, M>): M => {
+  <S>(fm: Kind<F, S, never, unknown, unknown, M>): M => {
     const go = ([init, acc]: readonly [boolean, M], m: M): readonly [boolean, M] =>
       init ? [false, m] : [false, pipe(acc, Monoid.combine(separator), Monoid.combine(m))]
     return pipe(fm, Foldable.reduce([true, Monoid.empty], go))[1]
