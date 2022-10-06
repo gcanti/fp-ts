@@ -29,7 +29,7 @@ Added in v3.0.0
 
 ## toReadonlyArray
 
-Converts a `Foldable` into a read-only array.
+Converts a `Foldable` into a `ReadonlyArray`.
 
 **Signature**
 
@@ -81,7 +81,7 @@ export declare const foldMapComposition: <F extends TypeLambda, G extends TypeLa
   FoldableF: Foldable<F>,
   FoldableG: Foldable<G>
 ) => <M>(
-  M: Monoid<M>
+  Monoid: Monoid<M>
 ) => <A>(
   f: (a: A) => M
 ) => <FS, GS>(fga: Kind<F, FS, never, unknown, unknown, Kind<G, GS, never, unknown, unknown, A>>) => M
@@ -136,19 +136,19 @@ Added in v3.0.0
 
 ## reduceKind
 
-Similar to 'reduce', but the result is encapsulated in a monad.
+Similar to 'reduce', but the result is encapsulated in a `Flattenable`.
 
-Note: this function is not generally stack-safe, e.g., for monads which build up thunks a la `Sync`.
+Note: this function is not generally stack-safe, e.g., for type constructors which build up thunks a la `Sync`.
 
 **Signature**
 
 ```ts
-export declare function reduceKind<F extends TypeLambda>(
-  FoldableF: Foldable<F>
-): <G extends TypeLambda>(
-  FlattenableG: Flattenable<G>
+export declare const reduceKind: <F extends TypeLambda>(
+  Foldable: Foldable<F>
+) => <G extends TypeLambda>(
+  Flattenable: Flattenable<G>
 ) => <S, R, O, E, B, A>(
-  mb: Kind<G, S, R, O, E, B>,
+  gb: Kind<G, S, R, O, E, B>,
   f: (b: B, a: A) => Kind<G, S, R, O, E, B>
 ) => <FS>(self: Kind<F, FS, never, unknown, unknown, A>) => Kind<G, S, R, O, E, B>
 ```

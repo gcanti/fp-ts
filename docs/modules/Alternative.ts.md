@@ -70,8 +70,12 @@ Returns an effect that runs each of the specified effects in order until one of 
 
 ```ts
 export declare const firstSuccessOf: <F extends TypeLambda>(
-  Alternative: Alternative<F>
-) => <S, R, O, E, A>(as: readonly Kind<F, S, R, O, E, A>[]) => Kind<F, S, R, O, E, A>
+  Foldable: Foldable<F>
+) => <G extends TypeLambda>(
+  Alternative: Alternative<G>
+) => <FS, S, R, O, E, A>(
+  effects: Kind<F, FS, never, unknown, unknown, Kind<G, S, R, O, E, A>>
+) => Kind<G, S, R, O, E, A>
 ```
 
 Added in v3.0.0
