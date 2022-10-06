@@ -52,4 +52,4 @@ export type Kind<F extends TypeLambda, InOut1, In1, Out3, Out2, Out1> = F extend
 /**
  * @since 3.0.0
  */
-export type HKD<F extends TypeLambda, A> = Kind<F, F['InOut1'], F['In1'], F['Out3'], F['Out2'], A>
+export type HKD<F extends TypeLambda, A> = Kind<F, <S>(_: S) => S, unknown, never, never, A>
