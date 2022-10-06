@@ -426,8 +426,8 @@ describe('ReaderAsyncResult', () => {
     U.deepStrictEqual(await pipe(['a', ''], f)(undefined)(), E.fail('e'))
   })
 
-  it('traverseReadonlyNonEmptyArrayPar', async () => {
-    const f = _.traverseReadonlyNonEmptyArrayPar((a: string) => (a.length > 0 ? _.succeed(a) : _.fail('e')))
+  it('traverseNonEmptyReadonlyArrayPar', async () => {
+    const f = _.traverseNonEmptyReadonlyArrayPar((a: string) => (a.length > 0 ? _.succeed(a) : _.fail('e')))
     U.deepStrictEqual(await pipe(['a', 'b'], f)(undefined)(), E.succeed(['a', 'b'] as const))
     U.deepStrictEqual(await pipe(['a', ''], f)(undefined)(), E.fail('e'))
   })
@@ -459,8 +459,8 @@ describe('ReaderAsyncResult', () => {
     U.deepStrictEqual(await pipe(['a', ''], f)(undefined)(), E.fail('e'))
   })
 
-  it('traverseReadonlyNonEmptyArray', async () => {
-    const f = _.traverseReadonlyNonEmptyArray((a: string) => (a.length > 0 ? _.succeed(a) : _.fail('e')))
+  it('traverseNonEmptyReadonlyArray', async () => {
+    const f = _.traverseNonEmptyReadonlyArray((a: string) => (a.length > 0 ? _.succeed(a) : _.fail('e')))
     U.deepStrictEqual(await pipe(['a', 'b'], f)(undefined)(), E.succeed(['a', 'b'] as const))
     U.deepStrictEqual(await pipe(['a', ''], f)(undefined)(), E.fail('e'))
   })

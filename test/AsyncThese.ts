@@ -198,10 +198,10 @@ describe('AsyncThese', () => {
     await assert(RA.empty)
   })
 
-  it('traverseReadonlyNonEmptyArrayPar', async () => {
+  it('traverseNonEmptyReadonlyArrayPar', async () => {
     const f = (n: number) => (n > 0 ? _.succeed(n) : n === 0 ? _.both('a', 0) : _.fail(String(n)))
     const standard = RA.traverse(_.getApplicative(T.ApplicativePar, S.Semigroup))(f)
-    const optimized = _.traverseReadonlyNonEmptyArrayPar(S.Semigroup)(f)
+    const optimized = _.traverseNonEmptyReadonlyArrayPar(S.Semigroup)(f)
     const assert = async (input: NonEmptyReadonlyArray<number>) => {
       U.deepStrictEqual(await standard(input)(), await optimized(input)())
     }
@@ -250,10 +250,10 @@ describe('AsyncThese', () => {
     await assert(RA.empty)
   })
 
-  it('traverseReadonlyNonEmptyArray', async () => {
+  it('traverseNonEmptyReadonlyArray', async () => {
     const f = (n: number) => (n > 0 ? _.succeed(n) : n === 0 ? _.both('a', 0) : _.fail(String(n)))
     const standard = RA.traverse(_.getApplicative(T.Applicative, S.Semigroup))(f)
-    const optimized = _.traverseReadonlyNonEmptyArray(S.Semigroup)(f)
+    const optimized = _.traverseNonEmptyReadonlyArray(S.Semigroup)(f)
     const assert = async (input: NonEmptyReadonlyArray<number>) => {
       U.deepStrictEqual(await standard(input)(), await optimized(input)())
     }

@@ -301,10 +301,10 @@ describe('These', () => {
     assert(RA.empty)
   })
 
-  it('traverseReadonlyNonEmptyArray', () => {
+  it('traverseNonEmptyReadonlyArray', () => {
     const f = (n: number) => (n > 0 ? _.succeed(n) : n === 0 ? _.both('a', 0) : _.fail(String(n)))
     const standard = RA.traverse(_.getApplicative(S.Semigroup))(f)
-    const optimized = _.traverseReadonlyNonEmptyArray(S.Semigroup)(f)
+    const optimized = _.traverseNonEmptyReadonlyArray(S.Semigroup)(f)
     const assert = (input: NonEmptyReadonlyArray<number>) => {
       U.deepStrictEqual(standard(input), optimized(input))
     }

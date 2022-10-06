@@ -181,11 +181,11 @@ describe('Writer', () => {
     assert(RA.empty)
   })
 
-  it('traverseReadonlyNonEmptyArray', () => {
+  it('traverseNonEmptyReadonlyArray', () => {
     const { succeed } = _.getFromIdentity(S.Monoid)
     const f = (n: number) => succeed(n)
     const standard = RA.traverse(_.getApplicative(S.Monoid))(f)
-    const optimized = _.traverseReadonlyNonEmptyArray(S.Monoid)(f)
+    const optimized = _.traverseNonEmptyReadonlyArray(S.Monoid)(f)
     const assert = (input: NonEmptyReadonlyArray<number>) => {
       U.deepStrictEqual(standard(input), optimized(input))
     }

@@ -227,8 +227,8 @@ describe('AsyncOption', () => {
     U.deepStrictEqual(await pipe(['a', ''], f)(), O.none)
   })
 
-  it('traverseReadonlyNonEmptyArrayPar', async () => {
-    const f = _.traverseReadonlyNonEmptyArrayPar((a: string) => (a.length > 0 ? _.some(a) : _.none))
+  it('traverseNonEmptyReadonlyArrayPar', async () => {
+    const f = _.traverseNonEmptyReadonlyArrayPar((a: string) => (a.length > 0 ? _.some(a) : _.none))
     U.deepStrictEqual(await pipe(['a', 'b'], f)(), O.some(['a', 'b'] as const))
     U.deepStrictEqual(await pipe(['a', ''], f)(), O.none)
   })
@@ -263,8 +263,8 @@ describe('AsyncOption', () => {
     U.deepStrictEqual(await pipe(['a', ''], f)(), O.none)
   })
 
-  it('traverseReadonlyNonEmptyArray', async () => {
-    const f = _.traverseReadonlyNonEmptyArray((a: string) => (a.length > 0 ? _.some(a) : _.none))
+  it('traverseNonEmptyReadonlyArray', async () => {
+    const f = _.traverseNonEmptyReadonlyArray((a: string) => (a.length > 0 ? _.some(a) : _.none))
     U.deepStrictEqual(await pipe(['a', 'b'], f)(), O.some(['a', 'b'] as const))
     U.deepStrictEqual(await pipe(['a', ''], f)(), O.none)
   })

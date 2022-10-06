@@ -13,7 +13,7 @@ import * as S from '../src/string'
 import { tuple } from '../src/tuple'
 import * as U from './util'
 
-describe('ReadonlyNonEmptyArray', () => {
+describe('NonEmptyReadonlyArray', () => {
   it('traverseWithIndex', () => {
     U.deepStrictEqual(
       pipe(

@@ -451,8 +451,8 @@ describe('Option', () => {
     U.deepStrictEqual(pipe(['a', ''], f), _.none)
   })
 
-  it('traverseReadonlyNonEmptyArray', () => {
-    const f = _.traverseReadonlyNonEmptyArray((a: string) => (a.length > 0 ? _.some(a) : _.none))
+  it('traverseNonEmptyReadonlyArray', () => {
+    const f = _.traverseNonEmptyReadonlyArray((a: string) => (a.length > 0 ? _.some(a) : _.none))
     U.deepStrictEqual(pipe(['a', 'b'], f), _.some(['a', 'b'] as const))
     U.deepStrictEqual(pipe(['a', ''], f), _.none)
   })

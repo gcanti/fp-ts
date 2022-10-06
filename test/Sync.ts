@@ -93,8 +93,8 @@ describe('Sync', () => {
   // array utils
   // -------------------------------------------------------------------------------------
 
-  it('traverseReadonlyNonEmptyArray', () => {
-    const f = _.traverseReadonlyNonEmptyArray((a: string) => _.succeed(a))
+  it('traverseNonEmptyReadonlyArray', () => {
+    const f = _.traverseNonEmptyReadonlyArray((a: string) => _.succeed(a))
     U.deepStrictEqual(pipe(['a', 'b'], f)(), ['a', 'b'])
   })
 

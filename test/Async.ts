@@ -1,7 +1,7 @@
 import { flow, pipe } from '../src/Function'
 import * as I from '../src/Sync'
 import * as RA from '../src/ReadonlyArray'
-// import * as RNEA from '../src/ReadonlyNonEmptyArray'
+// import * as RNEA from '../src/NonEmptyReadonlyArray'
 import * as S from '../src/string'
 import * as _ from '../src/Async'
 import * as U from './util'
@@ -162,8 +162,8 @@ describe('Async', () => {
     U.deepStrictEqual(await pipe(['a', 'b'], f)(), ['a0', 'b1'])
   })
 
-  it('traverseReadonlyNonEmptyArrayPar', async () => {
-    const f = _.traverseReadonlyNonEmptyArrayPar((a: string) => _.succeed(a))
+  it('traverseNonEmptyReadonlyArrayPar', async () => {
+    const f = _.traverseNonEmptyReadonlyArrayPar((a: string) => _.succeed(a))
     U.deepStrictEqual(await pipe(['a', 'b'], f)(), ['a', 'b'])
   })
 
@@ -189,8 +189,8 @@ describe('Async', () => {
     U.deepStrictEqual(await pipe(['a', 'b'], f)(), ['a0', 'b1'])
   })
 
-  it('traverseReadonlyNonEmptyArray', async () => {
-    const f = _.traverseReadonlyNonEmptyArray((a: string) => _.succeed(a))
+  it('traverseNonEmptyReadonlyArray', async () => {
+    const f = _.traverseNonEmptyReadonlyArray((a: string) => _.succeed(a))
     U.deepStrictEqual(await pipe(['a', 'b'], f)(), ['a', 'b'])
   })
 

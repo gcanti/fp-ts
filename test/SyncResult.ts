@@ -361,8 +361,8 @@ describe('SyncResult', () => {
 
   // --- Par ---
 
-  it('traverseReadonlyNonEmptyArrayPar', () => {
-    const f = _.traverseReadonlyNonEmptyArrayPar((a: string) => (a.length > 0 ? _.succeed(a) : _.fail('e')))
+  it('traverseNonEmptyReadonlyArrayPar', () => {
+    const f = _.traverseNonEmptyReadonlyArrayPar((a: string) => (a.length > 0 ? _.succeed(a) : _.fail('e')))
     U.deepStrictEqual(pipe(['a', 'b'], f)(), E.succeed(['a', 'b'] as const))
     U.deepStrictEqual(pipe(['a', ''], f)(), E.fail('e'))
   })
@@ -403,8 +403,8 @@ describe('SyncResult', () => {
 
   // --- Seq ---
 
-  it('traverseReadonlyNonEmptyArray', () => {
-    const f = _.traverseReadonlyNonEmptyArray((a: string) => (a.length > 0 ? _.succeed(a) : _.fail('e')))
+  it('traverseNonEmptyReadonlyArray', () => {
+    const f = _.traverseNonEmptyReadonlyArray((a: string) => (a.length > 0 ? _.succeed(a) : _.fail('e')))
     U.deepStrictEqual(pipe(['a', 'b'], f)(), E.succeed(['a', 'b'] as const))
     U.deepStrictEqual(pipe(['a', ''], f)(), E.fail('e'))
   })

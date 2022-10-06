@@ -228,11 +228,11 @@ describe('ReaderAsyncWriter', () => {
     assert(RA.empty)
   })
 
-  it('traverseReadonlyNonEmptyArray', async () => {
+  it('traverseNonEmptyReadonlyArray', async () => {
     const { succeed } = _.getFromIdentity(S.Monoid)
     const f = (n: number) => succeed(n)
     const standard = RA.traverse(_.getApplicative(RT.ApplicativePar, S.Monoid))(f)
-    const optimized = _.traverseReadonlyNonEmptyArray(RT.ApplicativePar, S.Monoid)(f)
+    const optimized = _.traverseNonEmptyReadonlyArray(RT.ApplicativePar, S.Monoid)(f)
     const assert = async (input: NonEmptyReadonlyArray<number>) => {
       U.deepStrictEqual(await standard(input)(null)(), await optimized(input)(null)())
     }

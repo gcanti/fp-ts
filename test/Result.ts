@@ -542,8 +542,8 @@ describe('Result', () => {
   // array utils
   // -------------------------------------------------------------------------------------
 
-  it('traverseReadonlyNonEmptyArray', () => {
-    const f = _.traverseReadonlyNonEmptyArray((a: string) => (a.length > 0 ? _.succeed(a) : _.fail('e')))
+  it('traverseNonEmptyReadonlyArray', () => {
+    const f = _.traverseNonEmptyReadonlyArray((a: string) => (a.length > 0 ? _.succeed(a) : _.fail('e')))
     U.deepStrictEqual(pipe(['a', 'b'], f), _.succeed(['a', 'b'] as const))
     U.deepStrictEqual(pipe(['a', ''], f), _.fail('e'))
   })

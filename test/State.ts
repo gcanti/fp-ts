@@ -86,8 +86,8 @@ describe('State', () => {
       U.deepStrictEqual(pipe(input, f)({}), [{}, ['a0', 'b1']])
     })
 
-    it('traverseReadonlyNonEmptyArray', () => {
-      const f = _.traverseReadonlyNonEmptyArray((a: string) => _.succeed(a))
+    it('traverseNonEmptyReadonlyArray', () => {
+      const f = _.traverseNonEmptyReadonlyArray((a: string) => _.succeed(a))
       U.deepStrictEqual(pipe(input, f)({}), [{}, ['a', 'b']])
     })
 

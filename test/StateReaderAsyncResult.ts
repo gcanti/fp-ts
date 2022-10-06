@@ -360,8 +360,8 @@ describe('StateReaderAsyncResult', () => {
     )
   })
 
-  it('traverseReadonlyNonEmptyArray', async () => {
-    const f = _.traverseReadonlyNonEmptyArray((a: string) => (a.length > 0 ? _.succeed(a) : _.fail('e')))
+  it('traverseNonEmptyReadonlyArray', async () => {
+    const f = _.traverseNonEmptyReadonlyArray((a: string) => (a.length > 0 ? _.succeed(a) : _.fail('e')))
     U.deepStrictEqual(await pipe(['a', 'b'], f)(undefined)(undefined)(), E.succeed([undefined, ['a', 'b']] as const))
     U.deepStrictEqual(await pipe(['a', ''], f)(undefined)(undefined)(), E.fail('e'))
     const append = (n: number): _.StateReaderAsyncResult<ReadonlyArray<number>, {}, Error, void> =>
@@ -369,7 +369,7 @@ describe('StateReaderAsyncResult', () => {
     U.deepStrictEqual(
       await pipe(
         [1, 2, 3],
-        _.traverseReadonlyNonEmptyArray(append),
+        _.traverseNonEmptyReadonlyArray(append),
         _.map(() => undefined)
       )([])({})(),
       E.succeed([[1, 2, 3], undefined] as const)
