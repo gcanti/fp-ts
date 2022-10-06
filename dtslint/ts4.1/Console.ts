@@ -1,27 +1,27 @@
 import * as _ from '../../src/Console'
 import { pipe } from '../../src/Function'
-import * as TE from '../../src/AsyncResult'
+import * as AR from '../../src/AsyncResult'
 
 // $ExpectType AsyncResult<never, string>
 pipe(
-  TE.succeed('a'),
-  TE.tap((a) => TE.fromSync(_.error(a)))
+  AR.succeed('a'),
+  AR.tap((a) => AR.fromSync(_.error(a)))
 )
 
 // $ExpectType AsyncResult<never, string>
 pipe(
-  TE.succeed('a'),
-  TE.tap((a) => TE.fromSync(_.info(a)))
+  AR.succeed('a'),
+  AR.tap((a) => AR.fromSync(_.info(a)))
 )
 
 // $ExpectType AsyncResult<never, string>
 pipe(
-  TE.succeed('a'),
-  TE.tap((a) => TE.fromSync(_.log(a)))
+  AR.succeed('a'),
+  AR.tap((a) => AR.fromSync(_.log(a)))
 )
 
 // $ExpectType AsyncResult<never, string>
 pipe(
-  TE.succeed('a'),
-  TE.tap((a) => TE.fromSync(_.warn(a)))
+  AR.succeed('a'),
+  AR.tap((a) => AR.fromSync(_.warn(a)))
 )

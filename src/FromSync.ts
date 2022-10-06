@@ -51,7 +51,7 @@ export const flatMapSync =
  */
 export const log =
   <M extends TypeLambda>(FromSync: FromSync<M>) =>
-  <S>(...x: ReadonlyArray<unknown>): Kind<M, S, unknown, never, never, void> =>
+  <A extends ReadonlyArray<unknown>, S>(...x: A): Kind<M, S, unknown, never, never, void> =>
     FromSync.fromSync(console.log(...x))
 
 /**
@@ -60,5 +60,5 @@ export const log =
  */
 export const logError =
   <M extends TypeLambda>(FromSync: FromSync<M>) =>
-  <S>(...x: ReadonlyArray<unknown>): Kind<M, S, unknown, never, never, void> =>
+  <A extends ReadonlyArray<unknown>, S>(...x: A): Kind<M, S, unknown, never, never, void> =>
     FromSync.fromSync(console.error(...x))

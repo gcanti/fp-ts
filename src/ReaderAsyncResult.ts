@@ -688,14 +688,14 @@ export const FromSync: fromSync_.FromSync<ReaderAsyncResultTypeLambda> = {
  * @category logging
  * @since 3.0.0
  */
-export const log: (...x: ReadonlyArray<unknown>) => ReaderAsyncResult<unknown, never, void> =
+export const log: <A extends ReadonlyArray<unknown>>(...x: A) => ReaderAsyncResult<unknown, never, void> =
   /*#__PURE__*/ fromSync_.log(FromSync)
 
 /**
  * @category logging
  * @since 3.0.0
  */
-export const logError: (...x: ReadonlyArray<unknown>) => ReaderAsyncResult<unknown, never, void> =
+export const logError: <A extends ReadonlyArray<unknown>>(...x: A) => ReaderAsyncResult<unknown, never, void> =
   /*#__PURE__*/ fromSync_.logError(FromSync)
 
 /**

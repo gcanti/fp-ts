@@ -367,7 +367,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const log: (...x: ReadonlyArray<unknown>) => ReaderSync<unknown, void>
+export declare const log: <A extends readonly unknown[]>(...x: A) => ReaderSync<unknown, void>
 ```
 
 Added in v3.0.0
@@ -377,7 +377,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const logError: (...x: ReadonlyArray<unknown>) => ReaderSync<unknown, void>
+export declare const logError: <A extends readonly unknown[]>(...x: A) => ReaderSync<unknown, void>
 ```
 
 Added in v3.0.0

@@ -260,13 +260,14 @@ export const FromSync: fromSync_.FromSync<SyncTypeLambda> = {
  * @category logging
  * @since 3.0.0
  */
-export const log: (...x: ReadonlyArray<unknown>) => Sync<void> = /*#__PURE__*/ fromSync_.log(FromSync)
+export const log: <A extends ReadonlyArray<unknown>>(...x: A) => Sync<void> = /*#__PURE__*/ fromSync_.log(FromSync)
 
 /**
  * @category logging
  * @since 3.0.0
  */
-export const logError: (...x: ReadonlyArray<unknown>) => Sync<void> = /*#__PURE__*/ fromSync_.logError(FromSync)
+export const logError: <A extends ReadonlyArray<unknown>>(...x: A) => Sync<void> =
+  /*#__PURE__*/ fromSync_.logError(FromSync)
 
 /**
  * @category instances

@@ -738,7 +738,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const log: (...x: ReadonlyArray<unknown>) => SyncResult<never, void>
+export declare const log: <A extends readonly unknown[]>(...x: A) => SyncResult<never, void>
 ```
 
 Added in v3.0.0
@@ -748,7 +748,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const logError: (...x: ReadonlyArray<unknown>) => SyncResult<never, void>
+export declare const logError: <A extends readonly unknown[]>(...x: A) => SyncResult<never, void>
 ```
 
 Added in v3.0.0

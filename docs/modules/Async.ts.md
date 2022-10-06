@@ -440,7 +440,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const log: (...x: ReadonlyArray<unknown>) => Async<void>
+export declare const log: <A extends readonly unknown[]>(...x: A) => Async<void>
 ```
 
 Added in v3.0.0
@@ -450,7 +450,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const logError: (...x: ReadonlyArray<unknown>) => Async<void>
+export declare const logError: <A extends readonly unknown[]>(...x: A) => Async<void>
 ```
 
 Added in v3.0.0
