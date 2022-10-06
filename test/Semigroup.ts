@@ -15,6 +15,7 @@ describe('Semigroup', () => {
 
   it('combineAll', () => {
     U.deepStrictEqual(_.combineAll(string.Monoid)('')(['a', 'b', 'c']), 'abc')
+    U.deepStrictEqual(_.combineAll(string.Monoid)('')(new Set(['a', 'b', 'c'])), 'abc')
   })
 
   it('min', () => {

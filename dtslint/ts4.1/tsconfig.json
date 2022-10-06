@@ -10,7 +10,8 @@
     "noUnusedLocals": false,
     "noUnusedParameters": false,
     "noFallthroughCasesInSwitch": true,
-    "target": "es5",
+    "moduleResolution": "node",
+    "target": "es2015",
     "lib": ["es2015"]
   }
 }

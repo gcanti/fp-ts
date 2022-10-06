@@ -20,6 +20,7 @@ import { identity } from './Function'
 import * as _ from './internal'
 import type { Magma } from './Magma'
 import * as magma from './Magma'
+import type { Ord } from './Ord'
 import * as ord from './Ord'
 
 /**
@@ -43,8 +44,8 @@ export interface Semigroup<S> extends Magma<S> {}
  * @category constructors
  * @since 3.0.0
  */
-export const min = <S>(O: ord.Ord<S>): Semigroup<S> => ({
-  combine: ord.min(O)
+export const min = <S>(Ord: Ord<S>): Semigroup<S> => ({
+  combine: ord.min(Ord)
 })
 
 /**
@@ -62,8 +63,8 @@ export const min = <S>(O: ord.Ord<S>): Semigroup<S> => ({
  * @category constructors
  * @since 3.0.0
  */
-export const max = <S>(O: ord.Ord<S>): Semigroup<S> => ({
-  combine: ord.max(O)
+export const max = <S>(Ord: Ord<S>): Semigroup<S> => ({
+  combine: ord.max(Ord)
 })
 
 /**
@@ -86,7 +87,7 @@ export const constant = <S>(s: S): Semigroup<S> => ({
  *
  * @since 3.0.0
  */
-export const reverse: <S>(S: Semigroup<S>) => Semigroup<S> = magma.reverse
+export const reverse: <S>(Semigroup: Semigroup<S>) => Semigroup<S> = magma.reverse
 
 /**
  * Given a struct of semigroups returns a semigroup for the struct.
@@ -165,8 +166,8 @@ export const tuple = <S extends ReadonlyArray<unknown>>(
  */
 export const intercalate =
   <S>(middle: S): Endomorphism<Semigroup<S>> =>
-  (S) => ({
-    combine: (that) => (self) => S.combine(S.combine(that)(middle))(self)
+  (Semigroup) => ({
+    combine: (that) => (self) => Semigroup.combine(Semigroup.combine(that)(middle))(self)
   })
 
 // -------------------------------------------------------------------------------------
@@ -221,4 +222,5 @@ export const last = <S>(): Semigroup<S> => ({
  *
  * @since 3.0.0
  */
-export const combineAll: <S>(S: Semigroup<S>) => (startWith: S) => (elements: ReadonlyArray<S>) => S = magma.combineAll
+export const combineAll: <S>(Semigroup: Semigroup<S>) => (startWith: S) => (collection: Iterable<S>) => S =
+  magma.combineAll

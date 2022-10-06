@@ -15,6 +15,7 @@ describe('Monoid', () => {
 
   it('combineAll', () => {
     U.deepStrictEqual(_.combineAll(N.MonoidSum)([1, 2, 3]), 6)
+    U.deepStrictEqual(_.combineAll(N.MonoidSum)(new Set([1, 2, 3])), 6)
   })
 
   it('min', () => {

@@ -50,7 +50,7 @@ The `empty` value is the `bottom` value.
 **Signature**
 
 ```ts
-export declare const max: <A>(B: Bounded<A>) => Monoid<A>
+export declare const max: <A>(Bounded: Bounded<A>) => Monoid<A>
 ```
 
 **Example**
@@ -76,7 +76,7 @@ The `empty` value is the `top` value.
 **Signature**
 
 ```ts
-export declare const min: <A>(B: Bounded<A>) => Monoid<A>
+export declare const min: <A>(Bounded: Bounded<A>) => Monoid<A>
 ```
 
 **Example**
@@ -100,7 +100,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface Monoid<A> extends semigroup.Semigroup<A> {
+export interface Monoid<A> extends Semigroup<A> {
   readonly empty: A
 }
 ```
@@ -118,7 +118,7 @@ If `as` is empty, return the monoid `empty` value.
 **Signature**
 
 ```ts
-export declare const combineAll: <A>(M: Monoid<A>) => (as: readonly A[]) => A
+export declare const combineAll: <A>(Monoid: Monoid<A>) => (collection: Iterable<A>) => A
 ```
 
 **Example**
@@ -140,7 +140,7 @@ The dual of a `Monoid`, obtained by swapping the arguments of `combine`.
 **Signature**
 
 ```ts
-export declare const reverse: <A>(M: Monoid<A>) => Monoid<A>
+export declare const reverse: <A>(Monoid: Monoid<A>) => Monoid<A>
 ```
 
 **Example**

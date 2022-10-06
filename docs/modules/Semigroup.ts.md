@@ -63,7 +63,7 @@ Get a semigroup where `combine` will return the maximum, based on the provided o
 **Signature**
 
 ```ts
-export declare const max: <S>(O: ord.Ord<S>) => Semigroup<S>
+export declare const max: <S>(Ord: Ord<S>) => Semigroup<S>
 ```
 
 **Example**
@@ -87,7 +87,7 @@ Get a semigroup where `combine` will return the minimum, based on the provided o
 **Signature**
 
 ```ts
-export declare const min: <S>(O: ord.Ord<S>) => Semigroup<S>
+export declare const min: <S>(Ord: Ord<S>) => Semigroup<S>
 ```
 
 **Example**
@@ -171,7 +171,7 @@ If `as` is empty, return the provided `startWith` value.
 **Signature**
 
 ```ts
-export declare const combineAll: <S>(S: Semigroup<S>) => (startWith: S) => (elements: readonly S[]) => S
+export declare const combineAll: <S>(Semigroup: Semigroup<S>) => (startWith: S) => (collection: Iterable<S>) => S
 ```
 
 **Example**
@@ -220,7 +220,7 @@ The dual of a `Semigroup`, obtained by swapping the arguments of `combine`.
 **Signature**
 
 ```ts
-export declare const reverse: <S>(S: Semigroup<S>) => Semigroup<S>
+export declare const reverse: <S>(Semigroup: Semigroup<S>) => Semigroup<S>
 ```
 
 **Example**

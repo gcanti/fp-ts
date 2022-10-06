@@ -17,13 +17,14 @@
  */
 import type { Bounded } from './Bounded'
 import * as _ from './internal'
+import type { Semigroup } from './Semigroup'
 import * as semigroup from './Semigroup'
 
 /**
  * @category model
  * @since 3.0.0
  */
-export interface Monoid<A> extends semigroup.Semigroup<A> {
+export interface Monoid<A> extends Semigroup<A> {
   readonly empty: A
 }
 
@@ -44,9 +45,9 @@ export interface Monoid<A> extends semigroup.Semigroup<A> {
  * @category constructors
  * @since 3.0.0
  */
-export const min = <A>(B: Bounded<A>): Monoid<A> => ({
-  combine: semigroup.min(B).combine,
-  empty: B.top
+export const min = <A>(Bounded: Bounded<A>): Monoid<A> => ({
+  combine: semigroup.min(Bounded).combine,
+  empty: Bounded.top
 })
 
 /**
@@ -66,9 +67,9 @@ export const min = <A>(B: Bounded<A>): Monoid<A> => ({
  * @category constructors
  * @since 3.0.0
  */
-export const max = <A>(B: Bounded<A>): Monoid<A> => ({
-  combine: semigroup.max(B).combine,
-  empty: B.bottom
+export const max = <A>(Bounded: Bounded<A>): Monoid<A> => ({
+  combine: semigroup.max(Bounded).combine,
+  empty: Bounded.bottom
 })
 
 /**
@@ -84,9 +85,9 @@ export const max = <A>(B: Bounded<A>): Monoid<A> => ({
  *
  * @since 3.0.0
  */
-export const reverse = <A>(M: Monoid<A>): Monoid<A> => ({
-  combine: semigroup.reverse(M).combine,
-  empty: M.empty
+export const reverse = <A>(Monoid: Monoid<A>): Monoid<A> => ({
+  combine: semigroup.reverse(Monoid).combine,
+  empty: Monoid.empty
 })
 
 /**
@@ -164,4 +165,5 @@ export const tuple = <A extends ReadonlyArray<unknown>>(
  *
  * @since 3.0.0
  */
-export const combineAll = <A>(M: Monoid<A>): ((as: ReadonlyArray<A>) => A) => semigroup.combineAll(M)(M.empty)
+export const combineAll = <A>(Monoid: Monoid<A>): ((collection: Iterable<A>) => A) =>
+  semigroup.combineAll(Monoid)(Monoid.empty)

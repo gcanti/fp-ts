@@ -29,8 +29,8 @@ export interface Magma<S> {
  *
  * @since 3.0.0
  */
-export const reverse = <S>(M: Magma<S>): Magma<S> => ({
-  combine: (that) => (self) => M.combine(self)(that)
+export const reverse = <S>(Magma: Magma<S>): Magma<S> => ({
+  combine: (that) => (self) => Magma.combine(self)(that)
 })
 
 /**
@@ -38,8 +38,8 @@ export const reverse = <S>(M: Magma<S>): Magma<S> => ({
  */
 export const filterFirst =
   <S>(predicate: Predicate<S>) =>
-  (M: Magma<S>): Magma<S> => ({
-    combine: (that) => (self) => predicate(self) ? M.combine(that)(self) : that
+  (Magma: Magma<S>): Magma<S> => ({
+    combine: (that) => (self) => predicate(self) ? Magma.combine(that)(self) : that
   })
 
 /**
@@ -47,8 +47,8 @@ export const filterFirst =
  */
 export const filterSecond =
   <S>(predicate: Predicate<S>) =>
-  (M: Magma<S>): Magma<S> => ({
-    combine: (that) => (self) => predicate(that) ? M.combine(that)(self) : self
+  (Magma: Magma<S>): Magma<S> => ({
+    combine: (that) => (self) => predicate(that) ? Magma.combine(that)(self) : self
   })
 
 /**
@@ -56,8 +56,8 @@ export const filterSecond =
  */
 export const endo =
   <S>(f: Endomorphism<S>) =>
-  (M: Magma<S>): Magma<S> => ({
-    combine: (that) => (self) => M.combine(f(that))(f(self))
+  (Magma: Magma<S>): Magma<S> => ({
+    combine: (that) => (self) => Magma.combine(f(that))(f(self))
   })
 
 /**
@@ -76,7 +76,12 @@ export const endo =
  * @since 3.0.0
  */
 export const combineAll =
-  <S>(M: Magma<S>) =>
+  <S>(Magma: Magma<S>) =>
   (startWith: S) =>
-  (elements: ReadonlyArray<S>): S =>
-    elements.reduce((a, acc) => M.combine(acc)(a), startWith)
+  (collection: Iterable<S>): S => {
+    let out: S = startWith
+    for (const s of collection) {
+      out = Magma.combine(s)(out)
+    }
+    return out
+  }
