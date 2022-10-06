@@ -20,7 +20,7 @@ import type { Monad } from './Monad'
 import type { Option } from './Option'
 import type * as fromIdentity from './FromIdentity'
 import type { Predicate } from './Predicate'
-import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
+import type { NonEmptyReadonlyArray } from './NonEmptyReadonlyArray'
 import type { Refinement } from './Refinement'
 import type { Semigroup } from './Semigroup'
 import * as async from './Async'
@@ -423,18 +423,18 @@ export const Zip: AsyncThese<never, readonly []> = /*#__PURE__*/ succeed(_.empty
 // --- Par ---
 
 /**
- * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(getApply(T.ApplyPar, S))`.
+ * Equivalent to `NonEmptyReadonlyArray#traverseWithIndex(getApply(T.ApplyPar, S))`.
  *
  * @category traversing
  * @since 3.0.0
  */
-export const traverseReadonlyNonEmptyArrayWithIndexPar = <E>(
+export const traverseNonEmptyReadonlyArrayWithIndexPar = <E>(
   S: Semigroup<E>
 ): (<A, B>(
   f: (index: number, a: A) => AsyncThese<E, B>
-) => (as: ReadonlyNonEmptyArray<A>) => AsyncThese<E, ReadonlyNonEmptyArray<B>>) => {
-  const g = these.traverseReadonlyNonEmptyArrayWithIndex(S)
-  return (f) => flow(async.traverseReadonlyNonEmptyArrayWithIndexPar(f), async.map(g(SK)))
+) => (as: NonEmptyReadonlyArray<A>) => AsyncThese<E, NonEmptyReadonlyArray<B>>) => {
+  const g = these.traverseNonEmptyReadonlyArrayWithIndex(S)
+  return (f) => flow(async.traverseNonEmptyReadonlyArrayWithIndexPar(f), async.map(g(SK)))
 }
 
 /**
@@ -446,22 +446,22 @@ export const traverseReadonlyNonEmptyArrayWithIndexPar = <E>(
 export const traverseReadonlyArrayWithIndexPar =
   <E>(S: Semigroup<E>) =>
   <A, B>(f: (index: number, a: A) => AsyncThese<E, B>): ((as: ReadonlyArray<A>) => AsyncThese<E, ReadonlyArray<B>>) => {
-    const g = traverseReadonlyNonEmptyArrayWithIndexPar(S)(f)
+    const g = traverseNonEmptyReadonlyArrayWithIndexPar(S)(f)
     return (as) => (_.isNonEmpty(as) ? g(as) : Zip)
   }
 
 /**
- * Equivalent to `ReadonlyNonEmptyArray#traverse(getApply(T.ApplyPar, S))`.
+ * Equivalent to `NonEmptyReadonlyArray#traverse(getApply(T.ApplyPar, S))`.
  *
  * @category traversing
  * @since 3.0.0
  */
-export const traverseReadonlyNonEmptyArrayPar = <E>(S: Semigroup<E>) => {
-  const traverseReadonlyNonEmptyArrayWithIndexS = traverseReadonlyNonEmptyArrayWithIndexPar(S)
+export const traverseNonEmptyReadonlyArrayPar = <E>(S: Semigroup<E>) => {
+  const traverseNonEmptyReadonlyArrayWithIndexS = traverseNonEmptyReadonlyArrayWithIndexPar(S)
   return <A, B>(
     f: (a: A) => AsyncThese<E, B>
-  ): ((as: ReadonlyNonEmptyArray<A>) => AsyncThese<E, ReadonlyNonEmptyArray<B>>) => {
-    return traverseReadonlyNonEmptyArrayWithIndexS(flow(SK, f))
+  ): ((as: NonEmptyReadonlyArray<A>) => AsyncThese<E, NonEmptyReadonlyArray<B>>) => {
+    return traverseNonEmptyReadonlyArrayWithIndexS(flow(SK, f))
   }
 }
 
@@ -492,15 +492,15 @@ export const sequenceReadonlyArrayPar = <E>(
 // --- Seq ---
 
 /**
- * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(getApply(T.Apply, S))`.
+ * Equivalent to `NonEmptyReadonlyArray#traverseWithIndex(getApply(T.Apply, S))`.
  *
  * @category traversing
  * @since 3.0.0
  */
-export const traverseReadonlyNonEmptyArrayWithIndex =
+export const traverseNonEmptyReadonlyArrayWithIndex =
   <E>(S: Semigroup<E>) =>
   <A, B>(f: (index: number, a: A) => AsyncThese<E, B>) =>
-  (as: ReadonlyNonEmptyArray<A>): AsyncThese<E, ReadonlyNonEmptyArray<B>> =>
+  (as: NonEmptyReadonlyArray<A>): AsyncThese<E, NonEmptyReadonlyArray<B>> =>
   () =>
     _.tail(as).reduce<Promise<These<E, _.NonEmptyArray<B>>>>(
       (acc, a, i) =>
@@ -534,22 +534,22 @@ export const traverseReadonlyNonEmptyArrayWithIndex =
 export const traverseReadonlyArrayWithIndex =
   <E>(S: Semigroup<E>) =>
   <A, B>(f: (index: number, a: A) => AsyncThese<E, B>): ((as: ReadonlyArray<A>) => AsyncThese<E, ReadonlyArray<B>>) => {
-    const g = traverseReadonlyNonEmptyArrayWithIndex(S)(f)
+    const g = traverseNonEmptyReadonlyArrayWithIndex(S)(f)
     return (as) => (_.isNonEmpty(as) ? g(as) : Zip)
   }
 
 /**
- * Equivalent to `ReadonlyNonEmptyArray#traverse(getApply(T.Apply, S))`.
+ * Equivalent to `NonEmptyReadonlyArray#traverse(getApply(T.Apply, S))`.
  *
  * @category traversing
  * @since 3.0.0
  */
-export const traverseReadonlyNonEmptyArray = <E>(S: Semigroup<E>) => {
-  const traverseReadonlyNonEmptyArrayWithIndexS = traverseReadonlyNonEmptyArrayWithIndex(S)
+export const traverseNonEmptyReadonlyArray = <E>(S: Semigroup<E>) => {
+  const traverseNonEmptyReadonlyArrayWithIndexS = traverseNonEmptyReadonlyArrayWithIndex(S)
   return <A, B>(
     f: (a: A) => AsyncThese<E, B>
-  ): ((as: ReadonlyNonEmptyArray<A>) => AsyncThese<E, ReadonlyNonEmptyArray<B>>) => {
-    return traverseReadonlyNonEmptyArrayWithIndexS(flow(SK, f))
+  ): ((as: NonEmptyReadonlyArray<A>) => AsyncThese<E, NonEmptyReadonlyArray<B>>) => {
+    return traverseNonEmptyReadonlyArrayWithIndexS(flow(SK, f))
   }
 }
 

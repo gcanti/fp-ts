@@ -10,7 +10,7 @@ import { tuple } from '../src/tuple'
 import * as U from './util'
 import * as S from '../src/string'
 import * as RA from '../src/ReadonlyArray'
-import type { ReadonlyNonEmptyArray } from '../src/ReadonlyNonEmptyArray'
+import type { NonEmptyReadonlyArray } from '../src/NonEmptyReadonlyArray'
 
 const make = <W, A, R = unknown>(w: W, a: A): _.ReaderAsyncWriter<R, W, A> => RT.succeed([w, a])
 
@@ -233,7 +233,7 @@ describe('ReaderAsyncWriter', () => {
     const f = (n: number) => succeed(n)
     const standard = RA.traverse(_.getApplicative(RT.ApplicativePar, S.Monoid))(f)
     const optimized = _.traverseReadonlyNonEmptyArray(RT.ApplicativePar, S.Monoid)(f)
-    const assert = async (input: ReadonlyNonEmptyArray<number>) => {
+    const assert = async (input: NonEmptyReadonlyArray<number>) => {
       U.deepStrictEqual(await standard(input)(null)(), await optimized(input)(null)())
     }
     assert([1, 2, 3])

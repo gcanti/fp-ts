@@ -1,21 +1,21 @@
 ---
-title: ReadonlyNonEmptyArray.ts
-nav_order: 81
+title: NonEmptyReadonlyArray.ts
+nav_order: 64
 parent: Modules
 ---
 
-## ReadonlyNonEmptyArray overview
+## NonEmptyReadonlyArray overview
 
 Data structure which represents non-empty readonly arrays.
 
 ```ts
-export type ReadonlyNonEmptyArray<A> = ReadonlyArray<A> & {
+export type NonEmptyReadonlyArray<A> = ReadonlyArray<A> & {
   readonly 0: A
 }
 ```
 
-Note that you don't need any conversion, a `ReadonlyNonEmptyArray` is a `ReadonlyArray`,
-so all `ReadonlyArray`'s APIs can be used with a `ReadonlyNonEmptyArray` without further ado.
+Note that you don't need any conversion, a `NonEmptyReadonlyArray` is a `ReadonlyArray`,
+so all `ReadonlyArray`'s APIs can be used with a `NonEmptyReadonlyArray` without further ado.
 
 Added in v3.0.0
 
@@ -72,7 +72,7 @@ Added in v3.0.0
   - [map](#map)
   - [unit](#unit)
 - [model](#model)
-  - [ReadonlyNonEmptyArray (type alias)](#readonlynonemptyarray-type-alias)
+  - [NonEmptyReadonlyArray (type alias)](#nonemptyreadonlyarray-type-alias)
 - [pattern matching](#pattern-matching)
   - [matchLeft](#matchleft)
   - [matchRight](#matchright)
@@ -90,7 +90,7 @@ Added in v3.0.0
   - [tupled](#tupled)
   - [zipFlatten](#zipflatten)
 - [type lambdas](#type-lambdas)
-  - [ReadonlyNonEmptyArrayTypeLambda (interface)](#readonlynonemptyarraytypelambda-interface)
+  - [NonEmptyReadonlyArrayTypeLambda (interface)](#nonemptyreadonlyarraytypelambda-interface)
 - [utils](#utils)
   - [ap](#ap)
   - [chop](#chop)
@@ -157,7 +157,7 @@ Added in v3.0.0
 
 ## fromReadonlyArray
 
-Builds a `ReadonlyNonEmptyArray` from an array returning `none` if `as` is an empty array.
+Builds a `NonEmptyReadonlyArray` from an array returning `none` if `as` is an empty array.
 
 **Signature**
 
@@ -169,7 +169,7 @@ Added in v3.0.0
 
 ## makeBy
 
-Return a `ReadonlyNonEmptyArray` of length `n` with element `i` initialized with `f(i)`.
+Return a `NonEmptyReadonlyArray` of length `n` with element `i` initialized with `f(i)`.
 
 **Note**. `n` is normalized to a natural number.
 
@@ -182,7 +182,7 @@ export declare const makeBy: <A>(f: (i: number) => A) => (n: number) => readonly
 **Example**
 
 ```ts
-import { makeBy } from 'fp-ts/ReadonlyNonEmptyArray'
+import { makeBy } from 'fp-ts/NonEmptyReadonlyArray'
 import { pipe } from 'fp-ts/Function'
 
 const double = (n: number): number => n * 2
@@ -193,7 +193,7 @@ Added in v3.0.0
 
 ## range
 
-Create a `ReadonlyNonEmptyArray` containing a range of integers, including both endpoints.
+Create a `NonEmptyReadonlyArray` containing a range of integers, including both endpoints.
 
 **Signature**
 
@@ -204,7 +204,7 @@ export declare const range: (start: number, end: number) => readonly [number, ..
 **Example**
 
 ```ts
-import { range } from 'fp-ts/ReadonlyNonEmptyArray'
+import { range } from 'fp-ts/NonEmptyReadonlyArray'
 
 assert.deepStrictEqual(range(1, 5), [1, 2, 3, 4, 5])
 ```
@@ -213,7 +213,7 @@ Added in v3.0.0
 
 ## replicate
 
-Create a `ReadonlyNonEmptyArray` containing a value repeated the specified number of times.
+Create a `NonEmptyReadonlyArray` containing a value repeated the specified number of times.
 
 **Note**. `n` is normalized to a natural number.
 
@@ -226,7 +226,7 @@ export declare const replicate: <A>(a: A) => (n: number) => readonly [A, ...A[]]
 **Example**
 
 ```ts
-import { replicate } from 'fp-ts/ReadonlyNonEmptyArray'
+import { replicate } from 'fp-ts/NonEmptyReadonlyArray'
 import { pipe } from 'fp-ts/Function'
 
 assert.deepStrictEqual(pipe(3, replicate('a')), ['a', 'a', 'a'])
@@ -402,7 +402,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Alt: alt.Alt<ReadonlyNonEmptyArrayTypeLambda>
+export declare const Alt: alt.Alt<NonEmptyReadonlyArrayTypeLambda>
 ```
 
 Added in v3.0.0
@@ -412,7 +412,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Applicative: applicative.Applicative<ReadonlyNonEmptyArrayTypeLambda>
+export declare const Applicative: applicative.Applicative<NonEmptyReadonlyArrayTypeLambda>
 ```
 
 Added in v3.0.0
@@ -422,7 +422,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Apply: apply.Apply<ReadonlyNonEmptyArrayTypeLambda>
+export declare const Apply: apply.Apply<NonEmptyReadonlyArrayTypeLambda>
 ```
 
 Added in v3.0.0
@@ -432,7 +432,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const CategoryKind: kleisliCategory.KleisliCategory<ReadonlyNonEmptyArrayTypeLambda>
+export declare const CategoryKind: kleisliCategory.KleisliCategory<NonEmptyReadonlyArrayTypeLambda>
 ```
 
 Added in v3.0.0
@@ -442,7 +442,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Comonad: comonad.Comonad<ReadonlyNonEmptyArrayTypeLambda>
+export declare const Comonad: comonad.Comonad<NonEmptyReadonlyArrayTypeLambda>
 ```
 
 Added in v3.0.0
@@ -452,7 +452,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Flattenable: flattenable.Flattenable<ReadonlyNonEmptyArrayTypeLambda>
+export declare const Flattenable: flattenable.Flattenable<NonEmptyReadonlyArrayTypeLambda>
 ```
 
 Added in v3.0.0
@@ -462,7 +462,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Foldable: foldable.Foldable<ReadonlyNonEmptyArrayTypeLambda>
+export declare const Foldable: foldable.Foldable<NonEmptyReadonlyArrayTypeLambda>
 ```
 
 Added in v3.0.0
@@ -472,7 +472,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FoldableWithIndex: foldableWithIndex.FoldableWithIndex<ReadonlyNonEmptyArrayTypeLambda, number>
+export declare const FoldableWithIndex: foldableWithIndex.FoldableWithIndex<NonEmptyReadonlyArrayTypeLambda, number>
 ```
 
 Added in v3.0.0
@@ -482,7 +482,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromIdentity: fromIdentity.FromIdentity<ReadonlyNonEmptyArrayTypeLambda>
+export declare const FromIdentity: fromIdentity.FromIdentity<NonEmptyReadonlyArrayTypeLambda>
 ```
 
 Added in v3.0.0
@@ -492,7 +492,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: functor.Functor<ReadonlyNonEmptyArrayTypeLambda>
+export declare const Functor: functor.Functor<NonEmptyReadonlyArrayTypeLambda>
 ```
 
 Added in v3.0.0
@@ -502,7 +502,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FunctorWithIndex: functorWithIndex.FunctorWithIndex<ReadonlyNonEmptyArrayTypeLambda, number>
+export declare const FunctorWithIndex: functorWithIndex.FunctorWithIndex<NonEmptyReadonlyArrayTypeLambda, number>
 ```
 
 Added in v3.0.0
@@ -512,7 +512,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const KleisliComposable: kleisliComposable.KleisliComposable<ReadonlyNonEmptyArrayTypeLambda>
+export declare const KleisliComposable: kleisliComposable.KleisliComposable<NonEmptyReadonlyArrayTypeLambda>
 ```
 
 Added in v3.0.0
@@ -522,7 +522,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: monad.Monad<ReadonlyNonEmptyArrayTypeLambda>
+export declare const Monad: monad.Monad<NonEmptyReadonlyArrayTypeLambda>
 ```
 
 Added in v3.0.0
@@ -532,7 +532,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Traversable: traversable.Traversable<ReadonlyNonEmptyArrayTypeLambda>
+export declare const Traversable: traversable.Traversable<NonEmptyReadonlyArrayTypeLambda>
 ```
 
 Added in v3.0.0
@@ -543,7 +543,7 @@ Added in v3.0.0
 
 ```ts
 export declare const TraversableWithIndex: traversableWithIndex.TraversableWithIndex<
-  ReadonlyNonEmptyArrayTypeLambda,
+  NonEmptyReadonlyArrayTypeLambda,
   number
 >
 ```
@@ -584,7 +584,7 @@ Added in v3.0.0
 
 ## lift2
 
-Lifts a binary function into `ReadonlyNonEmptyArray`.
+Lifts a binary function into `NonEmptyReadonlyArray`.
 
 **Signature**
 
@@ -598,7 +598,7 @@ Added in v3.0.0
 
 ## lift3
 
-Lifts a ternary function into `ReadonlyNonEmptyArray`.
+Lifts a ternary function into `NonEmptyReadonlyArray`.
 
 **Signature**
 
@@ -660,12 +660,12 @@ Added in v3.0.0
 
 # model
 
-## ReadonlyNonEmptyArray (type alias)
+## NonEmptyReadonlyArray (type alias)
 
 **Signature**
 
 ```ts
-export type ReadonlyNonEmptyArray<A> = readonly [A, ...Array<A>]
+export type NonEmptyReadonlyArray<A> = readonly [A, ...Array<A>]
 ```
 
 Added in v3.0.0
@@ -709,7 +709,7 @@ export declare const unappend: <A>(as: readonly [A, ...A[]]) => readonly [readon
 **Example**
 
 ```ts
-import { unappend } from 'fp-ts/ReadonlyNonEmptyArray'
+import { unappend } from 'fp-ts/NonEmptyReadonlyArray'
 
 assert.deepStrictEqual(unappend([1, 2, 3, 4]), [[1, 2, 3], 4])
 ```
@@ -729,7 +729,7 @@ export declare const unprepend: <A>(as: readonly [A, ...A[]]) => readonly [A, re
 **Example**
 
 ```ts
-import { unprepend } from 'fp-ts/ReadonlyNonEmptyArray'
+import { unprepend } from 'fp-ts/NonEmptyReadonlyArray'
 
 assert.deepStrictEqual(unprepend([1, 2, 3, 4]), [1, [2, 3, 4]])
 ```
@@ -751,7 +751,7 @@ export declare const flatMap: <A, B>(
 **Example**
 
 ```ts
-import * as RNEA from 'fp-ts/ReadonlyNonEmptyArray'
+import * as RNEA from 'fp-ts/NonEmptyReadonlyArray'
 import { pipe } from 'fp-ts/Function'
 
 assert.deepStrictEqual(
@@ -864,13 +864,13 @@ Added in v3.0.0
 
 # type lambdas
 
-## ReadonlyNonEmptyArrayTypeLambda (interface)
+## NonEmptyReadonlyArrayTypeLambda (interface)
 
 **Signature**
 
 ```ts
-export interface ReadonlyNonEmptyArrayTypeLambda extends TypeLambda {
-  readonly type: ReadonlyNonEmptyArray<this['Out1']>
+export interface NonEmptyReadonlyArrayTypeLambda extends TypeLambda {
+  readonly type: NonEmptyReadonlyArray<this['Out1']>
 }
 ```
 
@@ -892,9 +892,9 @@ Added in v3.0.0
 
 ## chop
 
-A useful recursion pattern for processing a `ReadonlyNonEmptyArray` to produce a new `ReadonlyNonEmptyArray`, often used for "chopping" up the input
-`ReadonlyNonEmptyArray`. Typically `chop` is called with some function that will consume an initial prefix of the `ReadonlyNonEmptyArray` and produce a
-value and the tail of the `ReadonlyNonEmptyArray`.
+A useful recursion pattern for processing a `NonEmptyReadonlyArray` to produce a new `NonEmptyReadonlyArray`, often used for "chopping" up the input
+`NonEmptyReadonlyArray`. Typically `chop` is called with some function that will consume an initial prefix of the `NonEmptyReadonlyArray` and produce a
+value and the tail of the `NonEmptyReadonlyArray`.
 
 **Signature**
 
@@ -908,8 +908,8 @@ Added in v3.0.0
 
 ## chunksOf
 
-Splits a `ReadonlyNonEmptyArray` into length-`n` pieces. The last piece will be shorter if `n` does not evenly divide the length of
-the `ReadonlyNonEmptyArray`.
+Splits a `NonEmptyReadonlyArray` into length-`n` pieces. The last piece will be shorter if `n` does not evenly divide the length of
+the `NonEmptyReadonlyArray`.
 
 **Signature**
 
@@ -945,7 +945,7 @@ Added in v3.0.0
 
 ## comprehension
 
-`ReadonlyNonEmptyArray` comprehension.
+`NonEmptyReadonlyArray` comprehension.
 
 ```
 [ f(x, y, ...) | x ← xs, y ← ys, ... ]
@@ -956,31 +956,31 @@ Added in v3.0.0
 ```ts
 export declare function comprehension<A, B, C, D, R>(
   input: readonly [
-    ReadonlyNonEmptyArray<A>,
-    ReadonlyNonEmptyArray<B>,
-    ReadonlyNonEmptyArray<C>,
-    ReadonlyNonEmptyArray<D>
+    NonEmptyReadonlyArray<A>,
+    NonEmptyReadonlyArray<B>,
+    NonEmptyReadonlyArray<C>,
+    NonEmptyReadonlyArray<D>
   ],
   f: (a: A, b: B, c: C, d: D) => R
-): ReadonlyNonEmptyArray<R>
+): NonEmptyReadonlyArray<R>
 export declare function comprehension<A, B, C, R>(
-  input: readonly [ReadonlyNonEmptyArray<A>, ReadonlyNonEmptyArray<B>, ReadonlyNonEmptyArray<C>],
+  input: readonly [NonEmptyReadonlyArray<A>, NonEmptyReadonlyArray<B>, NonEmptyReadonlyArray<C>],
   f: (a: A, b: B, c: C) => R
-): ReadonlyNonEmptyArray<R>
+): NonEmptyReadonlyArray<R>
 export declare function comprehension<A, B, R>(
-  input: readonly [ReadonlyNonEmptyArray<A>, ReadonlyNonEmptyArray<B>],
+  input: readonly [NonEmptyReadonlyArray<A>, NonEmptyReadonlyArray<B>],
   f: (a: A, b: B) => R
-): ReadonlyNonEmptyArray<R>
+): NonEmptyReadonlyArray<R>
 export declare function comprehension<A, R>(
-  input: readonly [ReadonlyNonEmptyArray<A>],
+  input: readonly [NonEmptyReadonlyArray<A>],
   f: (a: A) => R
-): ReadonlyNonEmptyArray<R>
+): NonEmptyReadonlyArray<R>
 ```
 
 **Example**
 
 ```ts
-import { comprehension } from 'fp-ts/ReadonlyNonEmptyArray'
+import { comprehension } from 'fp-ts/NonEmptyReadonlyArray'
 import { tuple } from 'fp-ts/tuple'
 
 assert.deepStrictEqual(
@@ -1010,11 +1010,11 @@ Added in v3.0.0
 
 ```ts
 export declare function concat<B>(
-  that: ReadonlyNonEmptyArray<B>
-): <A>(self: ReadonlyArray<A>) => ReadonlyNonEmptyArray<A | B>
+  that: NonEmptyReadonlyArray<B>
+): <A>(self: ReadonlyArray<A>) => NonEmptyReadonlyArray<A | B>
 export declare function concat<B>(
   that: ReadonlyArray<B>
-): <A>(self: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A | B>
+): <A>(self: NonEmptyReadonlyArray<A>) => NonEmptyReadonlyArray<A | B>
 ```
 
 Added in v3.0.0
@@ -1102,7 +1102,7 @@ export declare const group: <B>(
 **Example**
 
 ```ts
-import { group } from 'fp-ts/ReadonlyNonEmptyArray'
+import { group } from 'fp-ts/NonEmptyReadonlyArray'
 import * as N from 'fp-ts/number'
 
 assert.deepStrictEqual(group(N.Eq)([1, 2, 1, 1]), [[1], [2], [1, 1]])
@@ -1126,7 +1126,7 @@ export declare const groupBy: <A>(
 **Example**
 
 ```ts
-import { groupBy } from 'fp-ts/ReadonlyNonEmptyArray'
+import { groupBy } from 'fp-ts/NonEmptyReadonlyArray'
 
 assert.deepStrictEqual(groupBy((s: string) => String(s.length))(['foo', 'bar', 'foobar']), {
   '3': ['foo', 'bar'],
@@ -1169,7 +1169,7 @@ export declare const init: <A>(as: readonly [A, ...A[]]) => readonly A[]
 **Example**
 
 ```ts
-import { init } from 'fp-ts/ReadonlyNonEmptyArray'
+import { init } from 'fp-ts/NonEmptyReadonlyArray'
 
 assert.deepStrictEqual(init([1, 2, 3]), [1, 2])
 assert.deepStrictEqual(init([1]), [])
@@ -1179,7 +1179,7 @@ Added in v3.0.0
 
 ## intercalate
 
-Places an element in between members of a `ReadonlyNonEmptyArray`, then folds the results using the provided `Semigroup`.
+Places an element in between members of a `NonEmptyReadonlyArray`, then folds the results using the provided `Semigroup`.
 
 **Signature**
 
@@ -1191,7 +1191,7 @@ export declare const intercalate: <A>(S: semigroup.Semigroup<A>) => (middle: A) 
 
 ```ts
 import * as S from 'fp-ts/string'
-import { intercalate } from 'fp-ts/ReadonlyNonEmptyArray'
+import { intercalate } from 'fp-ts/NonEmptyReadonlyArray'
 
 assert.deepStrictEqual(intercalate(S.Semigroup)('-')(['a', 'b', 'c']), 'a-b-c')
 ```
@@ -1211,7 +1211,7 @@ export declare const intersperse: <A>(middle: A) => (as: readonly [A, ...A[]]) =
 **Example**
 
 ```ts
-import { intersperse } from 'fp-ts/ReadonlyNonEmptyArray'
+import { intersperse } from 'fp-ts/NonEmptyReadonlyArray'
 import { pipe } from 'fp-ts/Function'
 
 assert.deepStrictEqual(pipe([1, 2, 3, 4], intersperse(9)), [1, 9, 2, 9, 3, 9, 4])
@@ -1251,7 +1251,7 @@ Added in v3.0.0
 
 ## modifyAt
 
-Apply a function to the element at the specified index, creating a new `ReadonlyNonEmptyArray`, or returning `None` if the index is out
+Apply a function to the element at the specified index, creating a new `NonEmptyReadonlyArray`, or returning `None` if the index is out
 of bounds.
 
 **Signature**
@@ -1267,7 +1267,7 @@ Added in v3.0.0
 
 ## modifyHead
 
-Apply a function to the head, creating a new `ReadonlyNonEmptyArray`.
+Apply a function to the head, creating a new `NonEmptyReadonlyArray`.
 
 **Signature**
 
@@ -1279,7 +1279,7 @@ Added in v3.0.0
 
 ## modifyLast
 
-Apply a function to the last element, creating a new `ReadonlyNonEmptyArray`.
+Apply a function to the last element, creating a new `NonEmptyReadonlyArray`.
 
 **Signature**
 
@@ -1294,7 +1294,7 @@ Added in v3.0.0
 Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
 types of kind `* -> *`.
 
-In case of `ReadonlyNonEmptyArray` concatenates the inputs into a single array.
+In case of `NonEmptyReadonlyArray` concatenates the inputs into a single array.
 
 **Signature**
 
@@ -1307,7 +1307,7 @@ export declare const orElse: <B>(
 **Example**
 
 ```ts
-import * as RNEA from 'fp-ts/ReadonlyNonEmptyArray'
+import * as RNEA from 'fp-ts/NonEmptyReadonlyArray'
 import { pipe } from 'fp-ts/Function'
 
 assert.deepStrictEqual(pipe([1, 2, 3] as const, RNEA.orElse([4, 5])), [1, 2, 3, 4, 5])
@@ -1328,7 +1328,7 @@ export declare const prependAll: <A>(middle: A) => (as: readonly [A, ...A[]]) =>
 **Example**
 
 ```ts
-import { prependAll } from 'fp-ts/ReadonlyNonEmptyArray'
+import { prependAll } from 'fp-ts/NonEmptyReadonlyArray'
 import { pipe } from 'fp-ts/Function'
 
 assert.deepStrictEqual(pipe([1, 2, 3, 4], prependAll(9)), [9, 1, 9, 2, 9, 3, 9, 4])
@@ -1348,7 +1348,7 @@ Added in v3.0.0
 
 ## rotate
 
-Rotate a `ReadonlyNonEmptyArray` by `n` steps.
+Rotate a `NonEmptyReadonlyArray` by `n` steps.
 
 **Signature**
 
@@ -1359,7 +1359,7 @@ export declare const rotate: (n: number) => <A>(as: readonly [A, ...A[]]) => rea
 **Example**
 
 ```ts
-import { rotate } from 'fp-ts/ReadonlyNonEmptyArray'
+import { rotate } from 'fp-ts/NonEmptyReadonlyArray'
 
 assert.deepStrictEqual(rotate(2)([1, 2, 3, 4, 5]), [4, 5, 1, 2, 3])
 assert.deepStrictEqual(rotate(-2)([1, 2, 3, 4, 5]), [3, 4, 5, 1, 2])
@@ -1369,7 +1369,7 @@ Added in v3.0.0
 
 ## sort
 
-Sort the elements of a `ReadonlyNonEmptyArray` in increasing order, creating a new `ReadonlyNonEmptyArray`.
+Sort the elements of a `NonEmptyReadonlyArray` in increasing order, creating a new `NonEmptyReadonlyArray`.
 
 **Signature**
 
@@ -1381,7 +1381,7 @@ Added in v3.0.0
 
 ## sortBy
 
-Sort the elements of a `ReadonlyNonEmptyArray` in increasing order, where elements are compared using first `ords[0]`, then `ords[1]`,
+Sort the elements of a `NonEmptyReadonlyArray` in increasing order, where elements are compared using first `ords[0]`, then `ords[1]`,
 etc...
 
 **Signature**
@@ -1395,7 +1395,7 @@ export declare const sortBy: <B>(
 **Example**
 
 ```ts
-import * as RNEA from 'fp-ts/ReadonlyNonEmptyArray'
+import * as RNEA from 'fp-ts/NonEmptyReadonlyArray'
 import { contramap } from 'fp-ts/Ord'
 import * as S from 'fp-ts/string'
 import * as N from 'fp-ts/number'
@@ -1418,7 +1418,7 @@ const byAge = pipe(
 
 const sortByNameByAge = RNEA.sortBy([byName, byAge])
 
-const persons: RNEA.ReadonlyNonEmptyArray<Person> = [
+const persons: RNEA.NonEmptyReadonlyArray<Person> = [
   { name: 'a', age: 1 },
   { name: 'b', age: 3 },
   { name: 'c', age: 2 },
@@ -1437,7 +1437,7 @@ Added in v3.0.0
 
 ## splitAt
 
-Splits a `ReadonlyNonEmptyArray` into two pieces, the first piece has max `n` elements.
+Splits a `NonEmptyReadonlyArray` into two pieces, the first piece has max `n` elements.
 
 **Signature**
 
@@ -1528,7 +1528,7 @@ Added in v3.0.0
 
 ## uniq
 
-Remove duplicates from a `ReadonlyNonEmptyArray`, keeping the first occurrence of an element.
+Remove duplicates from a `NonEmptyReadonlyArray`, keeping the first occurrence of an element.
 
 **Signature**
 
@@ -1539,7 +1539,7 @@ export declare const uniq: <A>(E: eq.Eq<A>) => (as: readonly [A, ...A[]]) => rea
 **Example**
 
 ```ts
-import { uniq } from 'fp-ts/ReadonlyNonEmptyArray'
+import { uniq } from 'fp-ts/NonEmptyReadonlyArray'
 import * as N from 'fp-ts/number'
 
 assert.deepStrictEqual(uniq(N.Eq)([1, 2, 1]), [1, 2])
@@ -1561,7 +1561,7 @@ Added in v3.0.0
 
 ## updateAt
 
-Change the element at the specified index, creating a new `ReadonlyNonEmptyArray`, or returning `None` if the index is out of bounds.
+Change the element at the specified index, creating a new `NonEmptyReadonlyArray`, or returning `None` if the index is out of bounds.
 
 **Signature**
 
@@ -1573,7 +1573,7 @@ Added in v3.0.0
 
 ## updateHead
 
-Change the head, creating a new `ReadonlyNonEmptyArray`.
+Change the head, creating a new `NonEmptyReadonlyArray`.
 
 **Signature**
 
@@ -1585,7 +1585,7 @@ Added in v3.0.0
 
 ## updateLast
 
-Change the last element, creating a new `ReadonlyNonEmptyArray`.
+Change the last element, creating a new `NonEmptyReadonlyArray`.
 
 **Signature**
 

@@ -38,7 +38,7 @@ import type { Monoid } from './Monoid'
 import * as ord from './Ord'
 import * as fromIdentity from './FromIdentity'
 import type { Predicate } from './Predicate'
-import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
+import type { NonEmptyReadonlyArray } from './NonEmptyReadonlyArray'
 import type { Refinement } from './Refinement'
 import type { Semigroup } from './Semigroup'
 import type { Show } from './Show'
@@ -1176,14 +1176,14 @@ export const zipWith: <B, A, C>(that: Option<B>, f: (a: A, b: B) => C) => (self:
 // -------------------------------------------------------------------------------------
 
 /**
- * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Apply)`.
+ * Equivalent to `NonEmptyReadonlyArray#traverseWithIndex(Apply)`.
  *
  * @category traversing
  * @since 3.0.0
  */
-export const traverseReadonlyNonEmptyArrayWithIndex =
+export const traverseNonEmptyReadonlyArrayWithIndex =
   <A, B>(f: (index: number, a: A) => Option<B>) =>
-  (as: ReadonlyNonEmptyArray<A>): Option<ReadonlyNonEmptyArray<B>> => {
+  (as: NonEmptyReadonlyArray<A>): Option<NonEmptyReadonlyArray<B>> => {
     const o = f(0, _.head(as))
     if (isNone(o)) {
       return none
@@ -1208,20 +1208,20 @@ export const traverseReadonlyNonEmptyArrayWithIndex =
 export const traverseReadonlyArrayWithIndex = <A, B>(
   f: (index: number, a: A) => Option<B>
 ): ((as: ReadonlyArray<A>) => Option<ReadonlyArray<B>>) => {
-  const g = traverseReadonlyNonEmptyArrayWithIndex(f)
+  const g = traverseNonEmptyReadonlyArrayWithIndex(f)
   return (as) => (_.isNonEmpty(as) ? g(as) : Zip)
 }
 
 /**
- * Equivalent to `ReadonlyNonEmptyArray#traverse(Apply)`.
+ * Equivalent to `NonEmptyReadonlyArray#traverse(Apply)`.
  *
  * @category traversing
  * @since 3.0.0
  */
-export const traverseReadonlyNonEmptyArray = <A, B>(
+export const traverseNonEmptyReadonlyArray = <A, B>(
   f: (a: A) => Option<B>
-): ((as: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<B>>) => {
-  return traverseReadonlyNonEmptyArrayWithIndex(flow(SK, f))
+): ((as: NonEmptyReadonlyArray<A>) => Option<NonEmptyReadonlyArray<B>>) => {
+  return traverseNonEmptyReadonlyArrayWithIndex(flow(SK, f))
 }
 
 /**

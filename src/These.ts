@@ -39,7 +39,7 @@ import type { Monoid } from './Monoid'
 import type { Option } from './Option'
 import type * as fromIdentity from './FromIdentity'
 import type { Predicate } from './Predicate'
-import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
+import type { NonEmptyReadonlyArray } from './NonEmptyReadonlyArray'
 import type { Refinement } from './Refinement'
 import type { Semigroup } from './Semigroup'
 import type { Show } from './Show'
@@ -648,15 +648,15 @@ export const Zip: These<never, readonly []> = /*#__PURE__*/ succeed(_.emptyReado
 // -------------------------------------------------------------------------------------
 
 /**
- * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(getApply(S))`.
+ * Equivalent to `NonEmptyReadonlyArray#traverseWithIndex(getApply(S))`.
  *
  * @category traversing
  * @since 3.0.0
  */
-export const traverseReadonlyNonEmptyArrayWithIndex =
+export const traverseNonEmptyReadonlyArrayWithIndex =
   <E>(S: Semigroup<E>) =>
   <A, B>(f: (index: number, a: A) => These<E, B>) =>
-  (as: ReadonlyNonEmptyArray<A>): These<E, ReadonlyNonEmptyArray<B>> => {
+  (as: NonEmptyReadonlyArray<A>): These<E, NonEmptyReadonlyArray<B>> => {
     let e: Option<E> = _.none
     const t = f(0, _.head(as))
     if (isFailure(t)) {
@@ -688,20 +688,20 @@ export const traverseReadonlyNonEmptyArrayWithIndex =
 export const traverseReadonlyArrayWithIndex =
   <E>(S: Semigroup<E>) =>
   <A, B>(f: (index: number, a: A) => These<E, B>): ((as: ReadonlyArray<A>) => These<E, ReadonlyArray<B>>) => {
-    const g = traverseReadonlyNonEmptyArrayWithIndex(S)(f)
+    const g = traverseNonEmptyReadonlyArrayWithIndex(S)(f)
     return (as) => (_.isNonEmpty(as) ? g(as) : Zip)
   }
 
 /**
- * Equivalent to `ReadonlyNonEmptyArray#traverse(getApply(S))`.
+ * Equivalent to `NonEmptyReadonlyArray#traverse(getApply(S))`.
  *
  * @category traversing
  * @since 3.0.0
  */
-export const traverseReadonlyNonEmptyArray = <E>(S: Semigroup<E>) => {
-  const traverseReadonlyNonEmptyArrayWithIndexS = traverseReadonlyNonEmptyArrayWithIndex(S)
-  return <A, B>(f: (a: A) => These<E, B>): ((as: ReadonlyNonEmptyArray<A>) => These<E, ReadonlyNonEmptyArray<B>>) => {
-    return traverseReadonlyNonEmptyArrayWithIndexS(flow(SK, f))
+export const traverseNonEmptyReadonlyArray = <E>(S: Semigroup<E>) => {
+  const traverseNonEmptyReadonlyArrayWithIndexS = traverseNonEmptyReadonlyArrayWithIndex(S)
+  return <A, B>(f: (a: A) => These<E, B>): ((as: NonEmptyReadonlyArray<A>) => These<E, NonEmptyReadonlyArray<B>>) => {
+    return traverseNonEmptyReadonlyArrayWithIndexS(flow(SK, f))
   }
 }
 

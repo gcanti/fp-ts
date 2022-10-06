@@ -64,6 +64,7 @@ import * as magma from './Magma'
 import * as meetSemilattice from './MeetSemilattice'
 import * as monad from './Monad'
 import * as monoid from './Monoid'
+import * as nonEmptyReadonlyArray from './NonEmptyReadonlyArray'
 import * as number from './number'
 import * as option from './Option'
 import * as optionT from './OptionT'
@@ -81,7 +82,6 @@ import * as readerSync from './ReaderSync'
 import * as readerT from './ReaderT'
 import * as readonlyArray from './ReadonlyArray'
 import * as readonlyMap from './ReadonlyMap'
-import * as readonlyNonEmptyArray from './ReadonlyNonEmptyArray'
 import * as readonlyRecord from './ReadonlyRecord'
 import * as readonlySet from './ReadonlySet'
 import * as refinement from './Refinement'
@@ -409,6 +409,11 @@ export {
    */
   monoid,
   /**
+   * @category data types
+   * @since 3.0.0
+   */
+  nonEmptyReadonlyArray,
+  /**
    * @since 3.0.0
    */
   number,
@@ -489,11 +494,6 @@ export {
    * @since 3.0.0
    */
   readonlyMap,
-  /**
-   * @category data types
-   * @since 3.0.0
-   */
-  readonlyNonEmptyArray,
   /**
    * @category data types
    * @since 3.0.0

@@ -21,6 +21,7 @@ Added in v3.0.0
   - [date](#date)
   - [endomorphism](#endomorphism)
   - [identity](#identity)
+  - [nonEmptyReadonlyArray](#nonemptyreadonlyarray)
   - [option](#option)
   - [reader](#reader)
   - [readerAsync](#readerasync)
@@ -30,7 +31,6 @@ Added in v3.0.0
   - [readerSync](#readersync)
   - [readonlyArray](#readonlyarray)
   - [readonlyMap](#readonlymap)
-  - [readonlyNonEmptyArray](#readonlynonemptyarray)
   - [readonlyRecord](#readonlyrecord)
   - [readonlySet](#readonlyset)
   - [refinement](#refinement)
@@ -210,6 +210,16 @@ export declare const identity: typeof identity
 
 Added in v3.0.0
 
+## nonEmptyReadonlyArray
+
+**Signature**
+
+```ts
+export declare const nonEmptyReadonlyArray: typeof nonEmptyReadonlyArray
+```
+
+Added in v3.0.0
+
 ## option
 
 **Signature**
@@ -296,16 +306,6 @@ Added in v3.0.0
 
 ```ts
 export declare const readonlyMap: typeof readonlyMap
-```
-
-Added in v3.0.0
-
-## readonlyNonEmptyArray
-
-**Signature**
-
-```ts
-export declare const readonlyNonEmptyArray: typeof readonlyNonEmptyArray
 ```
 
 Added in v3.0.0

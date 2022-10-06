@@ -450,7 +450,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export type NonEmptyForest<A> = ReadonlyNonEmptyArray<Tree<A>>
+export type NonEmptyForest<A> = NonEmptyReadonlyArray<Tree<A>>
 ```
 
 Added in v3.0.0
@@ -680,7 +680,7 @@ Added in v3.0.0
 
 ## unfoldNonEmptyForest
 
-Build a (possibly infinite) forest from a `ReadonlyNonEmptyArray` of seed values in breadth-first order.
+Build a (possibly infinite) forest from a `NonEmptyReadonlyArray` of seed values in breadth-first order.
 
 **Signature**
 

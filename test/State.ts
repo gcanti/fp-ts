@@ -2,7 +2,7 @@ import { pipe } from '../src/Function'
 import * as _ from '../src/State'
 import * as U from './util'
 import * as RA from '../src/ReadonlyArray'
-import type { ReadonlyNonEmptyArray } from '../src/ReadonlyNonEmptyArray'
+import type { NonEmptyReadonlyArray } from '../src/NonEmptyReadonlyArray'
 import { tuple } from '../src/tuple'
 
 describe('State', () => {
@@ -78,7 +78,7 @@ describe('State', () => {
   })
 
   describe('array utils', () => {
-    const input: ReadonlyNonEmptyArray<string> = ['a', 'b']
+    const input: NonEmptyReadonlyArray<string> = ['a', 'b']
 
     it('traverseReadonlyArrayWithIndex', () => {
       const f = _.traverseReadonlyArrayWithIndex((i, a: string) => _.succeed(a + i))

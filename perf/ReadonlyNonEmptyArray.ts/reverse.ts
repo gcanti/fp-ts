@@ -1,5 +1,5 @@
 import * as Benchmark from 'benchmark'
-import * as _ from '../../src/ReadonlyNonEmptyArray'
+import * as _ from '../../src/NonEmptyReadonlyArray'
 
 /*
 snoc x 11,443,076 ops/sec ±1.78% (85 runs sampled)
@@ -8,7 +8,7 @@ snoc2 x 40,554,861 ops/sec ±1.52% (84 runs sampled)
 
 const suite = new Benchmark.Suite()
 
-export const reverse2 = <A>(as: _.ReadonlyNonEmptyArray<A>): _.ReadonlyNonEmptyArray<A> => as.slice().reverse() as any
+export const reverse2 = <A>(as: _.NonEmptyReadonlyArray<A>): _.NonEmptyReadonlyArray<A> => as.slice().reverse() as any
 
 suite
   .add('reverse', function () {

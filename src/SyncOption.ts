@@ -31,7 +31,7 @@ import * as option from './Option'
 import * as optionT from './OptionT'
 import * as fromIdentity from './FromIdentity'
 import type { Predicate } from './Predicate'
-import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
+import type { NonEmptyReadonlyArray } from './NonEmptyReadonlyArray'
 import type { Refinement } from './Refinement'
 import type { Sync } from './Sync'
 import type { Option } from './Option'
@@ -648,15 +648,15 @@ export const zipWith: <B, A, C>(that: SyncOption<B>, f: (a: A, b: B) => C) => (s
 // -------------------------------------------------------------------------------------
 
 /**
- * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Apply)`.
+ * Equivalent to `NonEmptyReadonlyArray#traverseWithIndex(Apply)`.
  *
  * @category traversing
  * @since 3.0.0
  */
-export const traverseReadonlyNonEmptyArrayWithIndex = <A, B>(
+export const traverseNonEmptyReadonlyArrayWithIndex = <A, B>(
   f: (index: number, a: A) => SyncOption<B>
-): ((as: ReadonlyNonEmptyArray<A>) => SyncOption<ReadonlyNonEmptyArray<B>>) =>
-  flow(sync.traverseReadonlyNonEmptyArrayWithIndex(f), sync.map(option.traverseReadonlyNonEmptyArrayWithIndex(SK)))
+): ((as: NonEmptyReadonlyArray<A>) => SyncOption<NonEmptyReadonlyArray<B>>) =>
+  flow(sync.traverseNonEmptyReadonlyArrayWithIndex(f), sync.map(option.traverseNonEmptyReadonlyArrayWithIndex(SK)))
 
 /**
  * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
@@ -667,20 +667,20 @@ export const traverseReadonlyNonEmptyArrayWithIndex = <A, B>(
 export const traverseReadonlyArrayWithIndex = <A, B>(
   f: (index: number, a: A) => SyncOption<B>
 ): ((as: ReadonlyArray<A>) => SyncOption<ReadonlyArray<B>>) => {
-  const g = traverseReadonlyNonEmptyArrayWithIndex(f)
+  const g = traverseNonEmptyReadonlyArrayWithIndex(f)
   return (as) => (_.isNonEmpty(as) ? g(as) : Zip)
 }
 
 /**
- * Equivalent to `ReadonlyNonEmptyArray#traverse(Apply)`.
+ * Equivalent to `NonEmptyReadonlyArray#traverse(Apply)`.
  *
  * @category traversing
  * @since 3.0.0
  */
-export const traverseReadonlyNonEmptyArray = <A, B>(
+export const traverseNonEmptyReadonlyArray = <A, B>(
   f: (a: A) => SyncOption<B>
-): ((as: ReadonlyNonEmptyArray<A>) => SyncOption<ReadonlyNonEmptyArray<B>>) => {
-  return traverseReadonlyNonEmptyArrayWithIndex(flow(SK, f))
+): ((as: NonEmptyReadonlyArray<A>) => SyncOption<NonEmptyReadonlyArray<B>>) => {
+  return traverseNonEmptyReadonlyArrayWithIndex(flow(SK, f))
 }
 
 /**

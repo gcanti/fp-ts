@@ -7,7 +7,7 @@ import type * as semigroup from './Semigroup'
 import type * as ord from './Ord'
 import type * as show_ from './Show'
 import type { Refinement } from './Refinement'
-import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
+import type { NonEmptyReadonlyArray } from './NonEmptyReadonlyArray'
 import * as _ from './internal'
 
 // -------------------------------------------------------------------------------------
@@ -239,7 +239,7 @@ export const size = (s: string): number => s.length
  */
 export const split =
   (separator: string | RegExp) =>
-  (s: string): ReadonlyNonEmptyArray<string> => {
+  (s: string): NonEmptyReadonlyArray<string> => {
     const out = s.split(separator)
     return _.isNonEmpty(out) ? out : [s]
   }

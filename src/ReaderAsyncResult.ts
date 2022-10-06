@@ -32,7 +32,7 @@ import type { ReaderResult } from './ReaderResult'
 import type { ReaderSync } from './ReaderSync'
 import * as readerAsync from './ReaderAsync'
 import type { ReaderAsync } from './ReaderAsync'
-import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
+import type { NonEmptyReadonlyArray } from './NonEmptyReadonlyArray'
 import type { Refinement } from './Refinement'
 import type { Semigroup } from './Semigroup'
 import type * as async from './Async'
@@ -1097,17 +1097,17 @@ export const zipWith: <R2, E2, B, A, C>(
 // --- Par ---
 
 /**
- * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplyPar)`.
+ * Equivalent to `NonEmptyReadonlyArray#traverseWithIndex(ApplyPar)`.
  *
  * @category traversing
  * @since 3.0.0
  */
-export const traverseReadonlyNonEmptyArrayWithIndexPar = <A, R, E, B>(
+export const traverseNonEmptyReadonlyArrayWithIndexPar = <A, R, E, B>(
   f: (index: number, a: A) => ReaderAsyncResult<R, E, B>
-): ((as: ReadonlyNonEmptyArray<A>) => ReaderAsyncResult<R, E, ReadonlyNonEmptyArray<B>>) =>
+): ((as: NonEmptyReadonlyArray<A>) => ReaderAsyncResult<R, E, NonEmptyReadonlyArray<B>>) =>
   flow(
-    reader.traverseReadonlyNonEmptyArrayWithIndex(f),
-    reader.map(asyncResult.traverseReadonlyNonEmptyArrayWithIndexPar(SK))
+    reader.traverseNonEmptyReadonlyArrayWithIndex(f),
+    reader.map(asyncResult.traverseNonEmptyReadonlyArrayWithIndexPar(SK))
   )
 
 /**
@@ -1119,20 +1119,20 @@ export const traverseReadonlyNonEmptyArrayWithIndexPar = <A, R, E, B>(
 export const traverseReadonlyArrayWithIndexPar = <A, R, E, B>(
   f: (index: number, a: A) => ReaderAsyncResult<R, E, B>
 ): ((as: ReadonlyArray<A>) => ReaderAsyncResult<R, E, ReadonlyArray<B>>) => {
-  const g = traverseReadonlyNonEmptyArrayWithIndexPar(f)
+  const g = traverseNonEmptyReadonlyArrayWithIndexPar(f)
   return (as) => (_.isNonEmpty(as) ? g(as) : Zip)
 }
 
 /**
- * Equivalent to `ReadonlyNonEmptyArray#traverse(ApplyPar)`.
+ * Equivalent to `NonEmptyReadonlyArray#traverse(ApplyPar)`.
  *
  * @category traversing
  * @since 3.0.0
  */
-export const traverseReadonlyNonEmptyArrayPar = <A, R, E, B>(
+export const traverseNonEmptyReadonlyArrayPar = <A, R, E, B>(
   f: (a: A) => ReaderAsyncResult<R, E, B>
-): ((as: ReadonlyNonEmptyArray<A>) => ReaderAsyncResult<R, E, ReadonlyNonEmptyArray<B>>) => {
-  return traverseReadonlyNonEmptyArrayWithIndexPar(flow(SK, f))
+): ((as: NonEmptyReadonlyArray<A>) => ReaderAsyncResult<R, E, NonEmptyReadonlyArray<B>>) => {
+  return traverseNonEmptyReadonlyArrayWithIndexPar(flow(SK, f))
 }
 
 /**
@@ -1160,17 +1160,17 @@ export const sequenceReadonlyArrayPar: <R, E, A>(
 // --- Seq ---
 
 /**
- * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Apply)`.
+ * Equivalent to `NonEmptyReadonlyArray#traverseWithIndex(Apply)`.
  *
  * @category traversing
  * @since 3.0.0
  */
-export const traverseReadonlyNonEmptyArrayWithIndex = <A, R, E, B>(
+export const traverseNonEmptyReadonlyArrayWithIndex = <A, R, E, B>(
   f: (index: number, a: A) => ReaderAsyncResult<R, E, B>
-): ((as: ReadonlyNonEmptyArray<A>) => ReaderAsyncResult<R, E, ReadonlyNonEmptyArray<B>>) =>
+): ((as: NonEmptyReadonlyArray<A>) => ReaderAsyncResult<R, E, NonEmptyReadonlyArray<B>>) =>
   flow(
-    reader.traverseReadonlyNonEmptyArrayWithIndex(f),
-    reader.map(asyncResult.traverseReadonlyNonEmptyArrayWithIndex(SK))
+    reader.traverseNonEmptyReadonlyArrayWithIndex(f),
+    reader.map(asyncResult.traverseNonEmptyReadonlyArrayWithIndex(SK))
   )
 
 /**
@@ -1182,20 +1182,20 @@ export const traverseReadonlyNonEmptyArrayWithIndex = <A, R, E, B>(
 export const traverseReadonlyArrayWithIndex = <A, R, E, B>(
   f: (index: number, a: A) => ReaderAsyncResult<R, E, B>
 ): ((as: ReadonlyArray<A>) => ReaderAsyncResult<R, E, ReadonlyArray<B>>) => {
-  const g = traverseReadonlyNonEmptyArrayWithIndex(f)
+  const g = traverseNonEmptyReadonlyArrayWithIndex(f)
   return (as) => (_.isNonEmpty(as) ? g(as) : Zip)
 }
 
 /**
- * Equivalent to `ReadonlyNonEmptyArray#traverse(Apply)`.
+ * Equivalent to `NonEmptyReadonlyArray#traverse(Apply)`.
  *
  * @category traversing
  * @since 3.0.0
  */
-export const traverseReadonlyNonEmptyArray = <A, R, E, B>(
+export const traverseNonEmptyReadonlyArray = <A, R, E, B>(
   f: (a: A) => ReaderAsyncResult<R, E, B>
-): ((as: ReadonlyNonEmptyArray<A>) => ReaderAsyncResult<R, E, ReadonlyNonEmptyArray<B>>) => {
-  return traverseReadonlyNonEmptyArrayWithIndex(flow(SK, f))
+): ((as: NonEmptyReadonlyArray<A>) => ReaderAsyncResult<R, E, NonEmptyReadonlyArray<B>>) => {
+  return traverseNonEmptyReadonlyArrayWithIndex(flow(SK, f))
 }
 
 /**

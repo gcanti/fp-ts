@@ -1,6 +1,6 @@
 ---
 title: Random.ts
-nav_order: 71
+nav_order: 72
 parent: Modules
 ---
 
@@ -50,7 +50,7 @@ Added in v3.0.0
 
 ## randomElem
 
-Returns a random element of a `ReadonlyNonEmptyArray`.
+Returns a random element of a `NonEmptyReadonlyArray`.
 
 **Signature**
 

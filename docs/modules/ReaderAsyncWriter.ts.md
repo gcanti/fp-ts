@@ -1,6 +1,6 @@
 ---
 title: ReaderAsyncWriter.ts
-nav_order: 75
+nav_order: 76
 parent: Modules
 ---
 
@@ -52,10 +52,10 @@ Added in v3.0.0
   - [ReaderAsyncWriter (interface)](#readerasyncwriter-interface)
 - [traversing](#traversing)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
+  - [traverseNonEmptyReadonlyArray](#traversenonemptyreadonlyarray)
+  - [traverseNonEmptyReadonlyArrayWithIndex](#traversenonemptyreadonlyarraywithindex)
   - [traverseReadonlyArray](#traversereadonlyarray)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
-  - [traverseReadonlyNonEmptyArray](#traversereadonlynonemptyarray)
-  - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
 - [tuple sequencing](#tuple-sequencing)
   - [tupled](#tupled)
 - [type lambdas](#type-lambdas)
@@ -448,6 +448,40 @@ export declare const sequenceReadonlyArray: <W>(
 
 Added in v3.0.0
 
+## traverseNonEmptyReadonlyArray
+
+Equivalent to `NonEmptyReadonlyArray#traverse(getApply(Apply, Semigroup))`.
+
+**Signature**
+
+```ts
+export declare const traverseNonEmptyReadonlyArray: <W>(
+  Apply: Apply<readerAsync.ReaderAsyncTypeLambda>,
+  Semigroup: Semigroup<W>
+) => <A, R, B>(
+  f: (a: A) => ReaderAsyncWriter<R, W, B>
+) => (as: readonly [A, ...A[]]) => ReaderAsyncWriter<R, W, readonly [B, ...B[]]>
+```
+
+Added in v3.0.0
+
+## traverseNonEmptyReadonlyArrayWithIndex
+
+Equivalent to `NonEmptyReadonlyArray#traverseWithIndex(getApply(Apply, Semigroup))`.
+
+**Signature**
+
+```ts
+export declare const traverseNonEmptyReadonlyArrayWithIndex: <W>(
+  Apply: Apply<readerAsync.ReaderAsyncTypeLambda>,
+  Semigroup: Semigroup<W>
+) => <A, R, B>(
+  f: (index: number, a: A) => ReaderAsyncWriter<R, W, B>
+) => (as: readonly [A, ...A[]]) => ReaderAsyncWriter<R, W, readonly [B, ...B[]]>
+```
+
+Added in v3.0.0
+
 ## traverseReadonlyArray
 
 Equivalent to `ReadonlyArray#traverse(getApplicative(A, M))`.
@@ -476,40 +510,6 @@ export declare const traverseReadonlyArrayWithIndex: <W>(
 ) => <A, R, B>(
   f: (index: number, a: A) => ReaderAsyncWriter<R, W, B>
 ) => (as: readonly A[]) => ReaderAsyncWriter<R, W, readonly B[]>
-```
-
-Added in v3.0.0
-
-## traverseReadonlyNonEmptyArray
-
-Equivalent to `ReadonlyNonEmptyArray#traverse(getApply(Apply, Semigroup))`.
-
-**Signature**
-
-```ts
-export declare const traverseReadonlyNonEmptyArray: <W>(
-  Apply: Apply<readerAsync.ReaderAsyncTypeLambda>,
-  Semigroup: Semigroup<W>
-) => <A, R, B>(
-  f: (a: A) => ReaderAsyncWriter<R, W, B>
-) => (as: readonly [A, ...A[]]) => ReaderAsyncWriter<R, W, readonly [B, ...B[]]>
-```
-
-Added in v3.0.0
-
-## traverseReadonlyNonEmptyArrayWithIndex
-
-Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(getApply(Apply, Semigroup))`.
-
-**Signature**
-
-```ts
-export declare const traverseReadonlyNonEmptyArrayWithIndex: <W>(
-  Apply: Apply<readerAsync.ReaderAsyncTypeLambda>,
-  Semigroup: Semigroup<W>
-) => <A, R, B>(
-  f: (index: number, a: A) => ReaderAsyncWriter<R, W, B>
-) => (as: readonly [A, ...A[]]) => ReaderAsyncWriter<R, W, readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0

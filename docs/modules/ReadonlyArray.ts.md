@@ -1,6 +1,6 @@
 ---
 title: ReadonlyArray.ts
-nav_order: 79
+nav_order: 80
 parent: Modules
 ---
 
@@ -233,7 +233,7 @@ Added in v3.0.0
 
 ## append
 
-Append an element to the end of a `ReadonlyArray`, creating a new `ReadonlyNonEmptyArray`.
+Append an element to the end of a `ReadonlyArray`, creating a new `NonEmptyReadonlyArray`.
 
 **Signature**
 
@@ -337,7 +337,7 @@ Added in v3.0.0
 
 ## prepend
 
-Prepend an element to the front of a `ReadonlyArray`, creating a new `ReadonlyNonEmptyArray`.
+Prepend an element to the front of a `ReadonlyArray`, creating a new `NonEmptyReadonlyArray`.
 
 **Signature**
 

@@ -14,7 +14,7 @@ import * as _ from './internal'
 import type * as monad from './Monad'
 import * as fromIdentity from './FromIdentity'
 import type * as profunctor from './Profunctor'
-import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
+import type { NonEmptyReadonlyArray } from './NonEmptyReadonlyArray'
 
 /**
  * @category model
@@ -378,14 +378,14 @@ export const zipWith: <R2, B, A, C>(
 // -------------------------------------------------------------------------------------
 
 /**
- * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Apply)`.
+ * Equivalent to `NonEmptyReadonlyArray#traverseWithIndex(Apply)`.
  *
  * @category traversing
  * @since 3.0.0
  */
-export const traverseReadonlyNonEmptyArrayWithIndex =
+export const traverseNonEmptyReadonlyArrayWithIndex =
   <A, R, B>(f: (index: number, a: A) => Reader<R, B>) =>
-  (as: ReadonlyNonEmptyArray<A>): Reader<R, ReadonlyNonEmptyArray<B>> =>
+  (as: NonEmptyReadonlyArray<A>): Reader<R, NonEmptyReadonlyArray<B>> =>
   (r) => {
     const out: _.NonEmptyArray<B> = [f(0, _.head(as))(r)]
     for (let i = 1; i < as.length; i++) {
@@ -403,20 +403,20 @@ export const traverseReadonlyNonEmptyArrayWithIndex =
 export const traverseReadonlyArrayWithIndex = <A, R, B>(
   f: (index: number, a: A) => Reader<R, B>
 ): ((as: ReadonlyArray<A>) => Reader<R, ReadonlyArray<B>>) => {
-  const g = traverseReadonlyNonEmptyArrayWithIndex(f)
+  const g = traverseNonEmptyReadonlyArrayWithIndex(f)
   return (as) => (_.isNonEmpty(as) ? g(as) : Zip)
 }
 
 /**
- * Equivalent to `ReadonlyNonEmptyArray#traverse(Apply)`.
+ * Equivalent to `NonEmptyReadonlyArray#traverse(Apply)`.
  *
  * @category traversing
  * @since 3.0.0
  */
-export const traverseReadonlyNonEmptyArray = <A, R, B>(
+export const traverseNonEmptyReadonlyArray = <A, R, B>(
   f: (a: A) => Reader<R, B>
-): ((as: ReadonlyNonEmptyArray<A>) => Reader<R, ReadonlyNonEmptyArray<B>>) => {
-  return traverseReadonlyNonEmptyArrayWithIndex(flow(SK, f))
+): ((as: NonEmptyReadonlyArray<A>) => Reader<R, NonEmptyReadonlyArray<B>>) => {
+  return traverseNonEmptyReadonlyArrayWithIndex(flow(SK, f))
 }
 
 /**

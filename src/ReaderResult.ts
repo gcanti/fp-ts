@@ -23,7 +23,7 @@ import type { Option } from './Option'
 import * as fromIdentity from './FromIdentity'
 import type { Predicate } from './Predicate'
 import * as reader from './Reader'
-import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
+import type { NonEmptyReadonlyArray } from './NonEmptyReadonlyArray'
 import type { Refinement } from './Refinement'
 import type { Semigroup } from './Semigroup'
 
@@ -807,15 +807,15 @@ export const bracket: <R, E, A, B>(
 // -------------------------------------------------------------------------------------
 
 /**
- * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Apply)`.
+ * Equivalent to `NonEmptyReadonlyArray#traverseWithIndex(Apply)`.
  *
  * @category traversing
  * @since 3.0.0
  */
-export const traverseReadonlyNonEmptyArrayWithIndex = <A, R, E, B>(
+export const traverseNonEmptyReadonlyArrayWithIndex = <A, R, E, B>(
   f: (index: number, a: A) => ReaderResult<R, E, B>
-): ((as: ReadonlyNonEmptyArray<A>) => ReaderResult<R, E, ReadonlyNonEmptyArray<B>>) =>
-  flow(reader.traverseReadonlyNonEmptyArrayWithIndex(f), reader.map(result.traverseReadonlyNonEmptyArrayWithIndex(SK)))
+): ((as: NonEmptyReadonlyArray<A>) => ReaderResult<R, E, NonEmptyReadonlyArray<B>>) =>
+  flow(reader.traverseNonEmptyReadonlyArrayWithIndex(f), reader.map(result.traverseNonEmptyReadonlyArrayWithIndex(SK)))
 
 /**
  * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
@@ -826,20 +826,20 @@ export const traverseReadonlyNonEmptyArrayWithIndex = <A, R, E, B>(
 export const traverseReadonlyArrayWithIndex = <A, R, E, B>(
   f: (index: number, a: A) => ReaderResult<R, E, B>
 ): ((as: ReadonlyArray<A>) => ReaderResult<R, E, ReadonlyArray<B>>) => {
-  const g = traverseReadonlyNonEmptyArrayWithIndex(f)
+  const g = traverseNonEmptyReadonlyArrayWithIndex(f)
   return (as) => (_.isNonEmpty(as) ? g(as) : Zip)
 }
 
 /**
- * Equivalent to `ReadonlyNonEmptyArray#traverse(Apply)`.
+ * Equivalent to `NonEmptyReadonlyArray#traverse(Apply)`.
  *
  * @category traversing
  * @since 3.0.0
  */
-export const traverseReadonlyNonEmptyArray = <A, R, E, B>(
+export const traverseNonEmptyReadonlyArray = <A, R, E, B>(
   f: (a: A) => ReaderResult<R, E, B>
-): ((as: ReadonlyNonEmptyArray<A>) => ReaderResult<R, E, ReadonlyNonEmptyArray<B>>) => {
-  return traverseReadonlyNonEmptyArrayWithIndex(flow(SK, f))
+): ((as: NonEmptyReadonlyArray<A>) => ReaderResult<R, E, NonEmptyReadonlyArray<B>>) => {
+  return traverseNonEmptyReadonlyArrayWithIndex(flow(SK, f))
 }
 
 /**

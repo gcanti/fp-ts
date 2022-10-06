@@ -66,14 +66,14 @@ Added in v3.0.0
 - [traversing](#traversing)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
   - [sequenceReadonlyArrayPar](#sequencereadonlyarraypar)
+  - [traverseNonEmptyReadonlyArray](#traversenonemptyreadonlyarray)
+  - [traverseNonEmptyReadonlyArrayPar](#traversenonemptyreadonlyarraypar)
+  - [traverseNonEmptyReadonlyArrayWithIndex](#traversenonemptyreadonlyarraywithindex)
+  - [traverseNonEmptyReadonlyArrayWithIndexPar](#traversenonemptyreadonlyarraywithindexpar)
   - [traverseReadonlyArray](#traversereadonlyarray)
   - [traverseReadonlyArrayPar](#traversereadonlyarraypar)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
   - [traverseReadonlyArrayWithIndexPar](#traversereadonlyarraywithindexpar)
-  - [traverseReadonlyNonEmptyArray](#traversereadonlynonemptyarray)
-  - [traverseReadonlyNonEmptyArrayPar](#traversereadonlynonemptyarraypar)
-  - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
-  - [traverseReadonlyNonEmptyArrayWithIndexPar](#traversereadonlynonemptyarraywithindexpar)
 - [tuple sequencing](#tuple-sequencing)
   - [Zip](#zip)
 - [type lambdas](#type-lambdas)
@@ -600,6 +600,66 @@ export declare const sequenceReadonlyArrayPar: <E>(
 
 Added in v3.0.0
 
+## traverseNonEmptyReadonlyArray
+
+Equivalent to `NonEmptyReadonlyArray#traverse(getApply(T.Apply, S))`.
+
+**Signature**
+
+```ts
+export declare const traverseNonEmptyReadonlyArray: <E>(
+  S: Semigroup<E>
+) => <A, B>(f: (a: A) => AsyncThese<E, B>) => (as: readonly [A, ...A[]]) => AsyncThese<E, readonly [B, ...B[]]>
+```
+
+Added in v3.0.0
+
+## traverseNonEmptyReadonlyArrayPar
+
+Equivalent to `NonEmptyReadonlyArray#traverse(getApply(T.ApplyPar, S))`.
+
+**Signature**
+
+```ts
+export declare const traverseNonEmptyReadonlyArrayPar: <E>(
+  S: Semigroup<E>
+) => <A, B>(f: (a: A) => AsyncThese<E, B>) => (as: readonly [A, ...A[]]) => AsyncThese<E, readonly [B, ...B[]]>
+```
+
+Added in v3.0.0
+
+## traverseNonEmptyReadonlyArrayWithIndex
+
+Equivalent to `NonEmptyReadonlyArray#traverseWithIndex(getApply(T.Apply, S))`.
+
+**Signature**
+
+```ts
+export declare const traverseNonEmptyReadonlyArrayWithIndex: <E>(
+  S: Semigroup<E>
+) => <A, B>(
+  f: (index: number, a: A) => AsyncThese<E, B>
+) => (as: readonly [A, ...A[]]) => AsyncThese<E, readonly [B, ...B[]]>
+```
+
+Added in v3.0.0
+
+## traverseNonEmptyReadonlyArrayWithIndexPar
+
+Equivalent to `NonEmptyReadonlyArray#traverseWithIndex(getApply(T.ApplyPar, S))`.
+
+**Signature**
+
+```ts
+export declare const traverseNonEmptyReadonlyArrayWithIndexPar: <E>(
+  S: Semigroup<E>
+) => <A, B>(
+  f: (index: number, a: A) => AsyncThese<E, B>
+) => (as: readonly [A, ...A[]]) => AsyncThese<E, readonly [B, ...B[]]>
+```
+
+Added in v3.0.0
+
 ## traverseReadonlyArray
 
 Equivalent to `ReadonlyArray#traverse(getApplicative(T.Applicative, S))`.
@@ -652,66 +712,6 @@ Equivalent to `ReadonlyArray#traverseWithIndex(getApplicative(T.ApplicativePar, 
 export declare const traverseReadonlyArrayWithIndexPar: <E>(
   S: Semigroup<E>
 ) => <A, B>(f: (index: number, a: A) => AsyncThese<E, B>) => (as: readonly A[]) => AsyncThese<E, readonly B[]>
-```
-
-Added in v3.0.0
-
-## traverseReadonlyNonEmptyArray
-
-Equivalent to `ReadonlyNonEmptyArray#traverse(getApply(T.Apply, S))`.
-
-**Signature**
-
-```ts
-export declare const traverseReadonlyNonEmptyArray: <E>(
-  S: Semigroup<E>
-) => <A, B>(f: (a: A) => AsyncThese<E, B>) => (as: readonly [A, ...A[]]) => AsyncThese<E, readonly [B, ...B[]]>
-```
-
-Added in v3.0.0
-
-## traverseReadonlyNonEmptyArrayPar
-
-Equivalent to `ReadonlyNonEmptyArray#traverse(getApply(T.ApplyPar, S))`.
-
-**Signature**
-
-```ts
-export declare const traverseReadonlyNonEmptyArrayPar: <E>(
-  S: Semigroup<E>
-) => <A, B>(f: (a: A) => AsyncThese<E, B>) => (as: readonly [A, ...A[]]) => AsyncThese<E, readonly [B, ...B[]]>
-```
-
-Added in v3.0.0
-
-## traverseReadonlyNonEmptyArrayWithIndex
-
-Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(getApply(T.Apply, S))`.
-
-**Signature**
-
-```ts
-export declare const traverseReadonlyNonEmptyArrayWithIndex: <E>(
-  S: Semigroup<E>
-) => <A, B>(
-  f: (index: number, a: A) => AsyncThese<E, B>
-) => (as: readonly [A, ...A[]]) => AsyncThese<E, readonly [B, ...B[]]>
-```
-
-Added in v3.0.0
-
-## traverseReadonlyNonEmptyArrayWithIndexPar
-
-Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(getApply(T.ApplyPar, S))`.
-
-**Signature**
-
-```ts
-export declare const traverseReadonlyNonEmptyArrayWithIndexPar: <E>(
-  S: Semigroup<E>
-) => <A, B>(
-  f: (index: number, a: A) => AsyncThese<E, B>
-) => (as: readonly [A, ...A[]]) => AsyncThese<E, readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0

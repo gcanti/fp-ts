@@ -2,7 +2,7 @@ import * as E from '../src/Result'
 import { pipe } from '../src/Function'
 import * as IO from '../src/Sync'
 import * as RA from '../src/ReadonlyArray'
-import type { ReadonlyNonEmptyArray } from '../src/ReadonlyNonEmptyArray'
+import type { NonEmptyReadonlyArray } from '../src/NonEmptyReadonlyArray'
 import * as S from '../src/string'
 import * as T from '../src/Async'
 import * as _ from '../src/AsyncThese'
@@ -202,7 +202,7 @@ describe('AsyncThese', () => {
     const f = (n: number) => (n > 0 ? _.succeed(n) : n === 0 ? _.both('a', 0) : _.fail(String(n)))
     const standard = RA.traverse(_.getApplicative(T.ApplicativePar, S.Semigroup))(f)
     const optimized = _.traverseReadonlyNonEmptyArrayPar(S.Semigroup)(f)
-    const assert = async (input: ReadonlyNonEmptyArray<number>) => {
+    const assert = async (input: NonEmptyReadonlyArray<number>) => {
       U.deepStrictEqual(await standard(input)(), await optimized(input)())
     }
     await assert([1, 2, 3])
@@ -254,7 +254,7 @@ describe('AsyncThese', () => {
     const f = (n: number) => (n > 0 ? _.succeed(n) : n === 0 ? _.both('a', 0) : _.fail(String(n)))
     const standard = RA.traverse(_.getApplicative(T.Applicative, S.Semigroup))(f)
     const optimized = _.traverseReadonlyNonEmptyArray(S.Semigroup)(f)
-    const assert = async (input: ReadonlyNonEmptyArray<number>) => {
+    const assert = async (input: NonEmptyReadonlyArray<number>) => {
       U.deepStrictEqual(await standard(input)(), await optimized(input)())
     }
     await assert([1, 2, 3])

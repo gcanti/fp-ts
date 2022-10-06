@@ -16,8 +16,8 @@ import * as _ from './internal'
 import type { Monad } from './Monad'
 import type { Monoid } from './Monoid'
 import type { FromIdentity } from './FromIdentity'
-import * as readonlyNonEmptyArrayModule from './ReadonlyNonEmptyArray'
-import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
+import * as nonEmptyReadonlyArrayModule from './NonEmptyReadonlyArray'
+import type { NonEmptyReadonlyArray } from './NonEmptyReadonlyArray'
 import type { Semigroup } from './Semigroup'
 import type * as composable from './Composable'
 import type * as traversable from './Traversable'
@@ -388,17 +388,17 @@ export function getFlattenableRec<W>(M: Monoid<W>): FlattenableRec<WriterFFix<W>
 // -------------------------------------------------------------------------------------
 
 /**
- * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(getApply(M))`.
+ * Equivalent to `NonEmptyReadonlyArray#traverseWithIndex(getApply(M))`.
  *
  * @category traversing
  * @since 3.0.0
  */
-export const traverseReadonlyNonEmptyArrayWithIndex =
+export const traverseNonEmptyReadonlyArrayWithIndex =
   <W>(S: Semigroup<W>) =>
   <A, B>(f: (index: number, a: A) => Writer<W, B>) =>
-  (as: ReadonlyNonEmptyArray<A>): Writer<W, ReadonlyNonEmptyArray<B>> => {
+  (as: NonEmptyReadonlyArray<A>): Writer<W, NonEmptyReadonlyArray<B>> => {
     // TODO
-    return readonlyNonEmptyArrayModule.traverseWithIndex(getApply(S))(f)(as)
+    return nonEmptyReadonlyArrayModule.traverseWithIndex(getApply(S))(f)(as)
   }
 
 /**
@@ -410,20 +410,20 @@ export const traverseReadonlyNonEmptyArrayWithIndex =
 export const traverseReadonlyArrayWithIndex =
   <W>(M: Monoid<W>) =>
   <A, B>(f: (index: number, a: A) => Writer<W, B>): ((as: ReadonlyArray<A>) => Writer<W, ReadonlyArray<B>>) => {
-    const g = traverseReadonlyNonEmptyArrayWithIndex(M)(f)
+    const g = traverseNonEmptyReadonlyArrayWithIndex(M)(f)
     return (as) => (_.isNonEmpty(as) ? g(as) : [M.empty, _.emptyReadonlyArray])
   }
 
 /**
- * Equivalent to `ReadonlyNonEmptyArray#traverse(getApply(S))`.
+ * Equivalent to `NonEmptyReadonlyArray#traverse(getApply(S))`.
  *
  * @category traversing
  * @since 3.0.0
  */
-export const traverseReadonlyNonEmptyArray = <W>(S: Semigroup<W>) => {
-  const traverseReadonlyNonEmptyArrayWithIndexS = traverseReadonlyNonEmptyArrayWithIndex(S)
-  return <A, B>(f: (a: A) => Writer<W, B>): ((as: ReadonlyNonEmptyArray<A>) => Writer<W, ReadonlyNonEmptyArray<B>>) => {
-    return traverseReadonlyNonEmptyArrayWithIndexS(flow(SK, f))
+export const traverseNonEmptyReadonlyArray = <W>(S: Semigroup<W>) => {
+  const traverseNonEmptyReadonlyArrayWithIndexS = traverseNonEmptyReadonlyArrayWithIndex(S)
+  return <A, B>(f: (a: A) => Writer<W, B>): ((as: NonEmptyReadonlyArray<A>) => Writer<W, NonEmptyReadonlyArray<B>>) => {
+    return traverseNonEmptyReadonlyArrayWithIndexS(flow(SK, f))
   }
 }
 

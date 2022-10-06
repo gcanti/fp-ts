@@ -2,7 +2,7 @@ import * as E from '../src/Result'
 import { identity, pipe } from '../src/Function'
 import * as O from '../src/Option'
 import * as RA from '../src/ReadonlyArray'
-import type { ReadonlyNonEmptyArray } from '../src/ReadonlyNonEmptyArray'
+import type { NonEmptyReadonlyArray } from '../src/NonEmptyReadonlyArray'
 import * as S from '../src/string'
 import * as _ from '../src/Writer'
 import * as U from './util'
@@ -186,7 +186,7 @@ describe('Writer', () => {
     const f = (n: number) => succeed(n)
     const standard = RA.traverse(_.getApplicative(S.Monoid))(f)
     const optimized = _.traverseReadonlyNonEmptyArray(S.Monoid)(f)
-    const assert = (input: ReadonlyNonEmptyArray<number>) => {
+    const assert = (input: NonEmptyReadonlyArray<number>) => {
       U.deepStrictEqual(standard(input), optimized(input))
     }
     assert([1, 2, 3])

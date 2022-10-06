@@ -39,10 +39,10 @@ Added in v3.0.0
   - [sequence](#sequence)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
   - [traverse](#traverse)
+  - [traverseNonEmptyReadonlyArray](#traversenonemptyreadonlyarray)
+  - [traverseNonEmptyReadonlyArrayWithIndex](#traversenonemptyreadonlyarraywithindex)
   - [traverseReadonlyArray](#traversereadonlyarray)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
-  - [traverseReadonlyNonEmptyArray](#traversereadonlynonemptyarray)
-  - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
 - [type lambdas](#type-lambdas)
   - [WriterFComposable (interface)](#writerfcomposable-interface)
   - [WriterFFix (interface)](#writerffix-interface)
@@ -304,6 +304,34 @@ export declare const traverse: <F extends TypeLambda>(
 
 Added in v3.0.0
 
+## traverseNonEmptyReadonlyArray
+
+Equivalent to `NonEmptyReadonlyArray#traverse(getApply(S))`.
+
+**Signature**
+
+```ts
+export declare const traverseNonEmptyReadonlyArray: <W>(
+  S: Semigroup<W>
+) => <A, B>(f: (a: A) => Writer<W, B>) => (as: readonly [A, ...A[]]) => Writer<W, readonly [B, ...B[]]>
+```
+
+Added in v3.0.0
+
+## traverseNonEmptyReadonlyArrayWithIndex
+
+Equivalent to `NonEmptyReadonlyArray#traverseWithIndex(getApply(M))`.
+
+**Signature**
+
+```ts
+export declare const traverseNonEmptyReadonlyArrayWithIndex: <W>(
+  S: Semigroup<W>
+) => <A, B>(f: (index: number, a: A) => Writer<W, B>) => (as: readonly [A, ...A[]]) => Writer<W, readonly [B, ...B[]]>
+```
+
+Added in v3.0.0
+
 ## traverseReadonlyArray
 
 Equivalent to `ReadonlyArray#traverse(getApplicative(M))`.
@@ -328,34 +356,6 @@ Equivalent to `ReadonlyArray#traverseWithIndex(getApplicative(M))`.
 export declare const traverseReadonlyArrayWithIndex: <W>(
   M: Monoid<W>
 ) => <A, B>(f: (index: number, a: A) => Writer<W, B>) => (as: readonly A[]) => Writer<W, readonly B[]>
-```
-
-Added in v3.0.0
-
-## traverseReadonlyNonEmptyArray
-
-Equivalent to `ReadonlyNonEmptyArray#traverse(getApply(S))`.
-
-**Signature**
-
-```ts
-export declare const traverseReadonlyNonEmptyArray: <W>(
-  S: Semigroup<W>
-) => <A, B>(f: (a: A) => Writer<W, B>) => (as: readonly [A, ...A[]]) => Writer<W, readonly [B, ...B[]]>
-```
-
-Added in v3.0.0
-
-## traverseReadonlyNonEmptyArrayWithIndex
-
-Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(getApply(M))`.
-
-**Signature**
-
-```ts
-export declare const traverseReadonlyNonEmptyArrayWithIndex: <W>(
-  S: Semigroup<W>
-) => <A, B>(f: (index: number, a: A) => Writer<W, B>) => (as: readonly [A, ...A[]]) => Writer<W, readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0

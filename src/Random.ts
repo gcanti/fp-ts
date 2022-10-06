@@ -3,7 +3,7 @@
  */
 import * as sync from './Sync'
 import { pipe } from './Function'
-import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
+import type { NonEmptyReadonlyArray } from './NonEmptyReadonlyArray'
 import type { Sync } from './Sync'
 
 /**
@@ -52,11 +52,11 @@ export const randomBool: Sync<boolean> =
   )
 
 /**
- * Returns a random element of a `ReadonlyNonEmptyArray`.
+ * Returns a random element of a `NonEmptyReadonlyArray`.
  *
  * @since 3.0.0
  */
-export const randomElem = <A>(as: ReadonlyNonEmptyArray<A>): Sync<A> =>
+export const randomElem = <A>(as: NonEmptyReadonlyArray<A>): Sync<A> =>
   pipe(
     randomInt(0, as.length - 1),
     sync.map((i) => as[i])

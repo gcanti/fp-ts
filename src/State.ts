@@ -14,7 +14,7 @@ import type { TypeLambda } from './HKT'
 import * as _ from './internal'
 import type * as monad from './Monad'
 import * as fromIdentity from './FromIdentity'
-import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
+import type { NonEmptyReadonlyArray } from './NonEmptyReadonlyArray'
 
 /**
  * @category model
@@ -369,14 +369,14 @@ export const zipWith: <S, B, A, C>(that: State<S, B>, f: (a: A, b: B) => C) => (
 // -------------------------------------------------------------------------------------
 
 /**
- * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Apply)`.
+ * Equivalent to `NonEmptyReadonlyArray#traverseWithIndex(Apply)`.
  *
  * @category traversing
  * @since 3.0.0
  */
-export const traverseReadonlyNonEmptyArrayWithIndex =
+export const traverseNonEmptyReadonlyArrayWithIndex =
   <A, S, B>(f: (index: number, a: A) => State<S, B>) =>
-  (as: ReadonlyNonEmptyArray<A>): State<S, ReadonlyNonEmptyArray<B>> => {
+  (as: NonEmptyReadonlyArray<A>): State<S, NonEmptyReadonlyArray<B>> => {
     return (s) => {
       const [s2, b] = f(0, _.head(as))(s)
       const bs: _.NonEmptyArray<B> = [b]
@@ -397,22 +397,22 @@ export const traverseReadonlyNonEmptyArrayWithIndex =
  * @since 3.0.0
  */
 export const traverseReadonlyArrayWithIndex = <A, S, B>(f: (index: number, a: A) => State<S, B>) => {
-  const g = traverseReadonlyNonEmptyArrayWithIndex(f)
+  const g = traverseNonEmptyReadonlyArrayWithIndex(f)
   return (as: ReadonlyArray<A>): State<S, ReadonlyArray<B>> => {
     return _.isNonEmpty(as) ? g(as) : succeed(_.emptyReadonlyArray)
   }
 }
 
 /**
- * Equivalent to `ReadonlyNonEmptyArray#traverse(Apply)`.
+ * Equivalent to `NonEmptyReadonlyArray#traverse(Apply)`.
  *
  * @category traversing
  * @since 3.0.0
  */
-export const traverseReadonlyNonEmptyArray = <A, S, B>(
+export const traverseNonEmptyReadonlyArray = <A, S, B>(
   f: (a: A) => State<S, B>
-): ((as: ReadonlyNonEmptyArray<A>) => State<S, ReadonlyNonEmptyArray<B>>) => {
-  return traverseReadonlyNonEmptyArrayWithIndex(flow(SK, f))
+): ((as: NonEmptyReadonlyArray<A>) => State<S, NonEmptyReadonlyArray<B>>) => {
+  return traverseNonEmptyReadonlyArrayWithIndex(flow(SK, f))
 }
 
 /**

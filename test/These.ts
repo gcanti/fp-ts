@@ -2,7 +2,7 @@ import { identity, pipe } from '../src/Function'
 import * as N from '../src/number'
 import * as O from '../src/Option'
 import * as RA from '../src/ReadonlyArray'
-import type { ReadonlyNonEmptyArray } from '../src/ReadonlyNonEmptyArray'
+import type { NonEmptyReadonlyArray } from '../src/NonEmptyReadonlyArray'
 import * as S from '../src/string'
 import * as _ from '../src/These'
 import * as U from './util'
@@ -305,7 +305,7 @@ describe('These', () => {
     const f = (n: number) => (n > 0 ? _.succeed(n) : n === 0 ? _.both('a', 0) : _.fail(String(n)))
     const standard = RA.traverse(_.getApplicative(S.Semigroup))(f)
     const optimized = _.traverseReadonlyNonEmptyArray(S.Semigroup)(f)
-    const assert = (input: ReadonlyNonEmptyArray<number>) => {
+    const assert = (input: NonEmptyReadonlyArray<number>) => {
       U.deepStrictEqual(standard(input), optimized(input))
     }
     assert([1, 2, 3])

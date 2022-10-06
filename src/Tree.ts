@@ -27,8 +27,8 @@ import type { Predicate } from './Predicate'
 import * as readonlyArray from './ReadonlyArray'
 import type { Show } from './Show'
 import type * as traversable from './Traversable'
-import * as readonlyNonEmptyArray from './ReadonlyNonEmptyArray'
-import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
+import * as nonEmptyReadonlyArray from './NonEmptyReadonlyArray'
+import type { NonEmptyReadonlyArray } from './NonEmptyReadonlyArray'
 
 /**
  * @category model
@@ -40,7 +40,7 @@ export interface Forest<A> extends ReadonlyArray<Tree<A>> {}
  * @category model
  * @since 3.0.0
  */
-export type NonEmptyForest<A> = ReadonlyNonEmptyArray<Tree<A>>
+export type NonEmptyForest<A> = NonEmptyReadonlyArray<Tree<A>>
 
 /**
  * @category model
@@ -89,14 +89,14 @@ export const unfoldTree =
   }
 
 /**
- * Build a (possibly infinite) forest from a `ReadonlyNonEmptyArray` of seed values in breadth-first order.
+ * Build a (possibly infinite) forest from a `NonEmptyReadonlyArray` of seed values in breadth-first order.
  *
  * @category unfolding
  * @since 3.0.0
  */
 export const unfoldNonEmptyForest = <B, A>(
   f: (b: B) => readonly [A, ReadonlyArray<B>]
-): ((bs: ReadonlyNonEmptyArray<B>) => NonEmptyForest<A>) => readonlyNonEmptyArray.map(unfoldTree(f))
+): ((bs: NonEmptyReadonlyArray<B>) => NonEmptyForest<A>) => nonEmptyReadonlyArray.map(unfoldTree(f))
 
 /**
  * Build a (possibly infinite) forest from a `ReadonlyArray` of seed values in breadth-first order.
@@ -139,10 +139,10 @@ export const unfoldTreeKind = <F extends TypeLambda>(Monad: monad.Monad<F>, Appl
  * @since 3.0.0
  */
 export const unfoldNonEmptyForestKind = <F extends TypeLambda>(Monad: monad.Monad<F>, Apply: apply.Apply<F>) => {
-  const traverse = readonlyNonEmptyArray.traverse(Apply)
+  const traverse = nonEmptyReadonlyArray.traverse(Apply)
   return <B, S, R, O, E, A>(
     f: (b: B) => Kind<F, S, R, O, E, readonly [A, ReadonlyArray<B>]>
-  ): ((bs: ReadonlyNonEmptyArray<B>) => Kind<F, S, R, O, E, NonEmptyForest<A>>) =>
+  ): ((bs: NonEmptyReadonlyArray<B>) => Kind<F, S, R, O, E, NonEmptyForest<A>>) =>
     traverse(unfoldTreeKind(Monad, Apply)(f))
 }
 
@@ -368,7 +368,7 @@ export const traverse: <F extends TypeLambda>(
 >(
   F: apply.Apply<F>
 ) => {
-  const traverseF = readonlyNonEmptyArray.traverse(F)
+  const traverseF = nonEmptyReadonlyArray.traverse(F)
   const out =
     <A, S, R, O, E, B>(f: (a: A) => Kind<F, S, R, O, E, B>) =>
     (ta: Tree<A>): Kind<F, S, R, O, E, Tree<B>> => {

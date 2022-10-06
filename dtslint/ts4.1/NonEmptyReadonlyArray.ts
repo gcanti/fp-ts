@@ -1,12 +1,12 @@
-import * as _ from '../../src/ReadonlyNonEmptyArray'
+import * as _ from '../../src/NonEmptyReadonlyArray'
 import { pipe } from '../../src/Function'
 import type { Ord } from '../../src/Ord'
 import type { Eq } from '../../src/Eq'
 
 declare const ras: ReadonlyArray<string>
-declare const rneas: _.ReadonlyNonEmptyArray<string>
-declare const rnens: _.ReadonlyNonEmptyArray<number>
-declare const rnetns: _.ReadonlyNonEmptyArray<[number, string]>
+declare const rneas: _.NonEmptyReadonlyArray<string>
+declare const rnens: _.NonEmptyReadonlyArray<number>
+declare const rnetns: _.NonEmptyReadonlyArray<[number, string]>
 
 //
 // zip
@@ -49,7 +49,7 @@ interface X {
 }
 
 declare const xs: ReadonlyArray<X>
-declare const nexs: _.ReadonlyNonEmptyArray<X>
+declare const nexs: _.NonEmptyReadonlyArray<X>
 
 _.sort(ordSubX)(nexs) // $ExpectType readonly [X, ...X[]]
 pipe(nexs, _.sort(ordSubX)) // $ExpectType readonly [X, ...X[]]

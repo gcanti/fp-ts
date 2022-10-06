@@ -1,6 +1,6 @@
 ---
 title: ReaderAsync.ts
-nav_order: 73
+nav_order: 74
 parent: Modules
 ---
 
@@ -76,14 +76,14 @@ Added in v3.0.0
 - [traversing](#traversing)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
   - [sequenceReadonlyArrayPar](#sequencereadonlyarraypar)
+  - [traverseNonEmptyReadonlyArray](#traversenonemptyreadonlyarray)
+  - [traverseNonEmptyReadonlyArrayPar](#traversenonemptyreadonlyarraypar)
+  - [traverseNonEmptyReadonlyArrayWithIndex](#traversenonemptyreadonlyarraywithindex)
+  - [traverseNonEmptyReadonlyArrayWithIndexPar](#traversenonemptyreadonlyarraywithindexpar)
   - [traverseReadonlyArray](#traversereadonlyarray)
   - [traverseReadonlyArrayPar](#traversereadonlyarraypar)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
   - [traverseReadonlyArrayWithIndexPar](#traversereadonlyarraywithindexpar)
-  - [traverseReadonlyNonEmptyArray](#traversereadonlynonemptyarray)
-  - [traverseReadonlyNonEmptyArrayPar](#traversereadonlynonemptyarraypar)
-  - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
-  - [traverseReadonlyNonEmptyArrayWithIndexPar](#traversereadonlynonemptyarraywithindexpar)
 - [tuple sequencing](#tuple-sequencing)
   - [Zip](#zip)
   - [tupled](#tupled)
@@ -762,6 +762,62 @@ export declare const sequenceReadonlyArrayPar: <R, A>(arr: readonly ReaderAsync<
 
 Added in v3.0.0
 
+## traverseNonEmptyReadonlyArray
+
+Equivalent to `NonEmptyReadonlyArray#traverse(Apply)`.
+
+**Signature**
+
+```ts
+export declare const traverseNonEmptyReadonlyArray: <A, R, B>(
+  f: (a: A) => ReaderAsync<R, B>
+) => (as: readonly [A, ...A[]]) => ReaderAsync<R, readonly [B, ...B[]]>
+```
+
+Added in v3.0.0
+
+## traverseNonEmptyReadonlyArrayPar
+
+Equivalent to `NonEmptyReadonlyArray#traverse(ApplyPar)`.
+
+**Signature**
+
+```ts
+export declare const traverseNonEmptyReadonlyArrayPar: <A, R, B>(
+  f: (a: A) => ReaderAsync<R, B>
+) => (as: readonly [A, ...A[]]) => ReaderAsync<R, readonly [B, ...B[]]>
+```
+
+Added in v3.0.0
+
+## traverseNonEmptyReadonlyArrayWithIndex
+
+Equivalent to `NonEmptyReadonlyArray#traverseWithIndex(Apply)`.
+
+**Signature**
+
+```ts
+export declare const traverseNonEmptyReadonlyArrayWithIndex: <A, R, B>(
+  f: (index: number, a: A) => ReaderAsync<R, B>
+) => (as: readonly [A, ...A[]]) => ReaderAsync<R, readonly [B, ...B[]]>
+```
+
+Added in v3.0.0
+
+## traverseNonEmptyReadonlyArrayWithIndexPar
+
+Equivalent to `NonEmptyReadonlyArray#traverseWithIndex(ApplyPar)`.
+
+**Signature**
+
+```ts
+export declare const traverseNonEmptyReadonlyArrayWithIndexPar: <A, R, B>(
+  f: (index: number, a: A) => ReaderAsync<R, B>
+) => (as: readonly [A, ...A[]]) => ReaderAsync<R, readonly [B, ...B[]]>
+```
+
+Added in v3.0.0
+
 ## traverseReadonlyArray
 
 Equivalent to `ReadonlyArray#traverse(Applicative)`.
@@ -814,62 +870,6 @@ Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativePar)`.
 export declare const traverseReadonlyArrayWithIndexPar: <A, R, B>(
   f: (index: number, a: A) => ReaderAsync<R, B>
 ) => (as: readonly A[]) => ReaderAsync<R, readonly B[]>
-```
-
-Added in v3.0.0
-
-## traverseReadonlyNonEmptyArray
-
-Equivalent to `ReadonlyNonEmptyArray#traverse(Apply)`.
-
-**Signature**
-
-```ts
-export declare const traverseReadonlyNonEmptyArray: <A, R, B>(
-  f: (a: A) => ReaderAsync<R, B>
-) => (as: readonly [A, ...A[]]) => ReaderAsync<R, readonly [B, ...B[]]>
-```
-
-Added in v3.0.0
-
-## traverseReadonlyNonEmptyArrayPar
-
-Equivalent to `ReadonlyNonEmptyArray#traverse(ApplyPar)`.
-
-**Signature**
-
-```ts
-export declare const traverseReadonlyNonEmptyArrayPar: <A, R, B>(
-  f: (a: A) => ReaderAsync<R, B>
-) => (as: readonly [A, ...A[]]) => ReaderAsync<R, readonly [B, ...B[]]>
-```
-
-Added in v3.0.0
-
-## traverseReadonlyNonEmptyArrayWithIndex
-
-Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Apply)`.
-
-**Signature**
-
-```ts
-export declare const traverseReadonlyNonEmptyArrayWithIndex: <A, R, B>(
-  f: (index: number, a: A) => ReaderAsync<R, B>
-) => (as: readonly [A, ...A[]]) => ReaderAsync<R, readonly [B, ...B[]]>
-```
-
-Added in v3.0.0
-
-## traverseReadonlyNonEmptyArrayWithIndexPar
-
-Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplyPar)`.
-
-**Signature**
-
-```ts
-export declare const traverseReadonlyNonEmptyArrayWithIndexPar: <A, R, B>(
-  f: (index: number, a: A) => ReaderAsync<R, B>
-) => (as: readonly [A, ...A[]]) => ReaderAsync<R, readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0

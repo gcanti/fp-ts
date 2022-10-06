@@ -34,7 +34,7 @@ import type { Option } from './Option'
 import * as ord from './Ord'
 import * as fromIdentity from './FromIdentity'
 import type { Predicate } from './Predicate'
-import * as readonlyNonEmptyArray from './ReadonlyNonEmptyArray'
+import * as nonEmptyReadonlyArray from './NonEmptyReadonlyArray'
 import type { Refinement } from './Refinement'
 import type { Semigroup } from './Semigroup'
 import type { Show } from './Show'
@@ -42,7 +42,7 @@ import * as traversable from './Traversable'
 import type * as traversableWithIndex from './TraversableWithIndex'
 import type * as unfoldable from './Unfoldable'
 import * as traversableFilterable from './TraversableFilterable'
-import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
+import type { NonEmptyReadonlyArray } from './NonEmptyReadonlyArray'
 import type { Ord } from './Ord'
 import type { Eq } from './Eq'
 
@@ -64,7 +64,7 @@ import type { Eq } from './Eq'
 export const makeBy =
   <A>(f: (i: number) => A) =>
   (n: number): ReadonlyArray<A> =>
-    n <= 0 ? empty : readonlyNonEmptyArray.makeBy(f)(n)
+    n <= 0 ? empty : nonEmptyReadonlyArray.makeBy(f)(n)
 
 /**
  * Create a `ReadonlyArray` containing a value repeated the specified number of times.
@@ -105,7 +105,7 @@ export const fromResult: <A>(fa: Result<unknown, A>) => ReadonlyArray<A> = (e) =
  * @since 3.0.0
  */
 export const match =
-  <B, A, C = B>(onEmpty: LazyArg<B>, onNonEmpty: (as: ReadonlyNonEmptyArray<A>) => C) =>
+  <B, A, C = B>(onEmpty: LazyArg<B>, onNonEmpty: (as: NonEmptyReadonlyArray<A>) => C) =>
   (as: ReadonlyArray<A>): B | C =>
     isNonEmpty(as) ? onNonEmpty(as) : onEmpty()
 
@@ -124,7 +124,7 @@ export const match =
 export const matchLeft =
   <B, A, C = B>(onEmpty: LazyArg<B>, onNonEmpty: (head: A, tail: ReadonlyArray<A>) => C) =>
   (as: ReadonlyArray<A>): B | C =>
-    isNonEmpty(as) ? onNonEmpty(readonlyNonEmptyArray.head(as), readonlyNonEmptyArray.tail(as)) : onEmpty()
+    isNonEmpty(as) ? onNonEmpty(nonEmptyReadonlyArray.head(as), nonEmptyReadonlyArray.tail(as)) : onEmpty()
 
 /**
  * Break a `ReadonlyArray` into its initial elements and the last element.
@@ -135,7 +135,7 @@ export const matchLeft =
 export const matchRight =
   <B, A, C = B>(onEmpty: LazyArg<B>, onNonEmpty: (init: ReadonlyArray<A>, last: A) => C) =>
   (as: ReadonlyArray<A>): B | C =>
-    isNonEmpty(as) ? onNonEmpty(readonlyNonEmptyArray.init(as), readonlyNonEmptyArray.last(as)) : onEmpty()
+    isNonEmpty(as) ? onNonEmpty(nonEmptyReadonlyArray.init(as), nonEmptyReadonlyArray.last(as)) : onEmpty()
 
 /**
  * `ReadonlyArray` comprehension.
@@ -186,8 +186,8 @@ export function comprehension<A, R>(
   const go = (as: ReadonlyArray<A>, input: ReadonlyArray<ReadonlyArray<A>>): ReadonlyArray<R> =>
     isNonEmpty(input)
       ? pipe(
-          readonlyNonEmptyArray.head(input),
-          flatMap((head) => go(append(head)(as), readonlyNonEmptyArray.tail(input)))
+          nonEmptyReadonlyArray.head(input),
+          flatMap((head) => go(append(head)(as), nonEmptyReadonlyArray.tail(input)))
         )
       : g(...as)
       ? [f(...as)]
@@ -215,7 +215,7 @@ export const concat =
  */
 export const scanLeft =
   <B, A>(b: B, f: (b: B, a: A) => B) =>
-  (as: ReadonlyArray<A>): ReadonlyNonEmptyArray<B> => {
+  (as: ReadonlyArray<A>): NonEmptyReadonlyArray<B> => {
     const len = as.length
     const out = new Array(len + 1) as [B, ...Array<B>]
     out[0] = b
@@ -237,7 +237,7 @@ export const scanLeft =
  */
 export const scanRight =
   <B, A>(b: B, f: (a: A, b: B) => B) =>
-  (as: ReadonlyArray<A>): ReadonlyNonEmptyArray<B> => {
+  (as: ReadonlyArray<A>): NonEmptyReadonlyArray<B> => {
     const len = as.length
     const out = new Array(len + 1) as [B, ...Array<B>]
     out[len] = b
@@ -265,7 +265,7 @@ export const isEmpty = <A>(as: ReadonlyArray<A>): as is readonly [] => as.length
  * @category refinements
  * @since 3.0.0
  */
-export const isNonEmpty: <A>(as: ReadonlyArray<A>) => as is ReadonlyNonEmptyArray<A> = _.isNonEmpty
+export const isNonEmpty: <A>(as: ReadonlyArray<A>) => as is NonEmptyReadonlyArray<A> = _.isNonEmpty
 
 /**
  * Calculate the number of elements in a `ReadonlyArray`.
@@ -279,7 +279,7 @@ export const size = <A>(as: ReadonlyArray<A>): number => as.length
  *
  * @since 3.0.0
  */
-export const isOutOfBound: <A>(i: number, as: ReadonlyArray<A>) => boolean = readonlyNonEmptyArray.isOutOfBound
+export const isOutOfBound: <A>(i: number, as: ReadonlyArray<A>) => boolean = nonEmptyReadonlyArray.isOutOfBound
 
 /**
  * This function provides a safe way to read a value at a particular index from a `ReadonlyArray`
@@ -300,7 +300,7 @@ export const lookup =
     isOutOfBound(i, as) ? _.none : _.some(as[i])
 
 /**
- * Prepend an element to the front of a `ReadonlyArray`, creating a new `ReadonlyNonEmptyArray`.
+ * Prepend an element to the front of a `ReadonlyArray`, creating a new `NonEmptyReadonlyArray`.
  *
  * @example
  * import { prepend } from 'fp-ts/ReadonlyArray'
@@ -311,11 +311,11 @@ export const lookup =
  * @category constructors
  * @since 3.0.0
  */
-export const prepend: <B>(head: B) => <A>(tail: ReadonlyArray<A>) => ReadonlyNonEmptyArray<A | B> =
-  readonlyNonEmptyArray.prepend
+export const prepend: <B>(head: B) => <A>(tail: ReadonlyArray<A>) => NonEmptyReadonlyArray<A | B> =
+  nonEmptyReadonlyArray.prepend
 
 /**
- * Append an element to the end of a `ReadonlyArray`, creating a new `ReadonlyNonEmptyArray`.
+ * Append an element to the end of a `ReadonlyArray`, creating a new `NonEmptyReadonlyArray`.
  *
  * @example
  * import { append } from 'fp-ts/ReadonlyArray'
@@ -326,8 +326,8 @@ export const prepend: <B>(head: B) => <A>(tail: ReadonlyArray<A>) => ReadonlyNon
  * @category constructors
  * @since 3.0.0
  */
-export const append: <B>(end: B) => <A>(init: ReadonlyArray<A>) => ReadonlyNonEmptyArray<A | B> =
-  readonlyNonEmptyArray.append
+export const append: <B>(end: B) => <A>(init: ReadonlyArray<A>) => NonEmptyReadonlyArray<A | B> =
+  nonEmptyReadonlyArray.append
 
 /**
  * Get the first element of a `ReadonlyArray`, or `None` if the `ReadonlyArray` is empty.
@@ -342,7 +342,7 @@ export const append: <B>(end: B) => <A>(init: ReadonlyArray<A>) => ReadonlyNonEm
  * @since 3.0.0
  */
 export const head = <A>(as: ReadonlyArray<A>): Option<A> =>
-  isNonEmpty(as) ? _.some(readonlyNonEmptyArray.head(as)) : _.none
+  isNonEmpty(as) ? _.some(nonEmptyReadonlyArray.head(as)) : _.none
 
 /**
  * Get the last element in a `ReadonlyArray`, or `None` if the `ReadonlyArray` is empty.
@@ -357,7 +357,7 @@ export const head = <A>(as: ReadonlyArray<A>): Option<A> =>
  * @since 3.0.0
  */
 export const last = <A>(as: ReadonlyArray<A>): Option<A> =>
-  isNonEmpty(as) ? _.some(readonlyNonEmptyArray.last(as)) : _.none
+  isNonEmpty(as) ? _.some(nonEmptyReadonlyArray.last(as)) : _.none
 
 /**
  * Get all but the first element of a `ReadonlyArray`, creating a new `ReadonlyArray`, or `None` if the `ReadonlyArray` is empty.
@@ -372,7 +372,7 @@ export const last = <A>(as: ReadonlyArray<A>): Option<A> =>
  * @since 3.0.0
  */
 export const tail = <A>(as: ReadonlyArray<A>): Option<ReadonlyArray<A>> =>
-  isNonEmpty(as) ? _.some(readonlyNonEmptyArray.tail(as)) : _.none
+  isNonEmpty(as) ? _.some(nonEmptyReadonlyArray.tail(as)) : _.none
 
 /**
  * Get all but the last element of a `ReadonlyArray`, creating a new `ReadonlyArray`, or `None` if the `ReadonlyArray` is empty.
@@ -387,7 +387,7 @@ export const tail = <A>(as: ReadonlyArray<A>): Option<ReadonlyArray<A>> =>
  * @since 3.0.0
  */
 export const init = <A>(as: ReadonlyArray<A>): Option<ReadonlyArray<A>> =>
-  isNonEmpty(as) ? _.some(readonlyNonEmptyArray.init(as)) : _.none
+  isNonEmpty(as) ? _.some(nonEmptyReadonlyArray.init(as)) : _.none
 
 /**
  * Keep only a max number of elements from the start of an `ReadonlyArray`, creating a new `ReadonlyArray`.
@@ -745,12 +745,12 @@ export const findLastIndex =
  */
 export const insertAt =
   <A>(i: number, a: A) =>
-  (as: ReadonlyArray<A>): Option<ReadonlyNonEmptyArray<A>> => {
+  (as: ReadonlyArray<A>): Option<NonEmptyReadonlyArray<A>> => {
     if (i < 0 || i > as.length) {
       return _.none
     }
     if (isNonEmpty(as)) {
-      const out = _.fromReadonlyNonEmptyArray(as)
+      const out = _.fromNonEmptyReadonlyArray(as)
       out.splice(i, 0, a)
       return _.some(out)
     }
@@ -969,7 +969,7 @@ export const unzip = <A, B>(as: ReadonlyArray<readonly [A, B]>): readonly [Reado
  * @since 3.0.0
  */
 export const prependAll = <A>(middle: A): ((as: ReadonlyArray<A>) => ReadonlyArray<A>) => {
-  const f = readonlyNonEmptyArray.prependAll(middle)
+  const f = nonEmptyReadonlyArray.prependAll(middle)
   return (as) => (isNonEmpty(as) ? f(as) : as)
 }
 
@@ -985,7 +985,7 @@ export const prependAll = <A>(middle: A): ((as: ReadonlyArray<A>) => ReadonlyArr
  * @since 3.0.0
  */
 export const intersperse = <A>(middle: A): ((as: ReadonlyArray<A>) => ReadonlyArray<A>) => {
-  const f = readonlyNonEmptyArray.intersperse(middle)
+  const f = nonEmptyReadonlyArray.intersperse(middle)
   return (as) => (isNonEmpty(as) ? f(as) : as)
 }
 
@@ -1001,7 +1001,7 @@ export const intersperse = <A>(middle: A): ((as: ReadonlyArray<A>) => ReadonlyAr
  * @since 3.0.0
  */
 export const rotate = (n: number): (<A>(as: ReadonlyArray<A>) => ReadonlyArray<A>) => {
-  const f = readonlyNonEmptyArray.rotate(n)
+  const f = nonEmptyReadonlyArray.rotate(n)
   return (as) => (isNonEmpty(as) ? f(as) : as)
 }
 
@@ -1045,7 +1045,7 @@ export const elem =
  * @since 3.0.0
  */
 export const uniq = <A>(E: Eq<A>): ((as: ReadonlyArray<A>) => ReadonlyArray<A>) => {
-  const f = readonlyNonEmptyArray.uniq(E)
+  const f = nonEmptyReadonlyArray.uniq(E)
   return (as) => (isNonEmpty(as) ? f(as) : as)
 }
 
@@ -1080,7 +1080,7 @@ export const uniq = <A>(E: Eq<A>): ((as: ReadonlyArray<A>) => ReadonlyArray<A>) 
  * @since 3.0.0
  */
 export const sortBy = <B>(ords: ReadonlyArray<Ord<B>>): (<A extends B>(as: ReadonlyArray<A>) => ReadonlyArray<A>) => {
-  const f = readonlyNonEmptyArray.sortBy(ords)
+  const f = nonEmptyReadonlyArray.sortBy(ords)
   return (as) => (isNonEmpty(as) ? f(as) : as)
 }
 
@@ -1103,9 +1103,9 @@ export const sortBy = <B>(ords: ReadonlyArray<Ord<B>>): (<A extends B>(as: Reado
  * @since 3.0.0
  */
 export const chop = <A, B>(
-  f: (as: ReadonlyNonEmptyArray<A>) => readonly [B, ReadonlyArray<A>]
+  f: (as: NonEmptyReadonlyArray<A>) => readonly [B, ReadonlyArray<A>]
 ): ((as: ReadonlyArray<A>) => ReadonlyArray<B>) => {
-  const g = readonlyNonEmptyArray.chop(f)
+  const g = nonEmptyReadonlyArray.chop(f)
   return (as) => (isNonEmpty(as) ? g(as) : empty)
 }
 
@@ -1122,7 +1122,7 @@ export const chop = <A, B>(
 export const splitAt =
   (n: number) =>
   <A>(as: ReadonlyArray<A>): readonly [ReadonlyArray<A>, ReadonlyArray<A>] =>
-    n >= 1 && isNonEmpty(as) ? readonlyNonEmptyArray.splitAt(n)(as) : isEmpty(as) ? [as, empty] : [empty, as]
+    n >= 1 && isNonEmpty(as) ? nonEmptyReadonlyArray.splitAt(n)(as) : isEmpty(as) ? [as, empty] : [empty, as]
 
 /**
  * Splits a `ReadonlyArray` into length-`n` pieces. The last piece will be shorter if `n` does not evenly divide the length of
@@ -1142,8 +1142,8 @@ export const splitAt =
  *
  * @since 3.0.0
  */
-export const chunksOf = (n: number): (<A>(as: ReadonlyArray<A>) => ReadonlyArray<ReadonlyNonEmptyArray<A>>) => {
-  const f = readonlyNonEmptyArray.chunksOf(n)
+export const chunksOf = (n: number): (<A>(as: ReadonlyArray<A>) => ReadonlyArray<NonEmptyReadonlyArray<A>>) => {
+  const f = nonEmptyReadonlyArray.chunksOf(n)
   return (as) => (isNonEmpty(as) ? f(as) : empty)
 }
 
@@ -1160,7 +1160,7 @@ export const chunksOf = (n: number): (<A>(as: ReadonlyArray<A>) => ReadonlyArray
  * @since 3.0.0
  */
 export const union = <A>(E: Eq<A>): Semigroup<ReadonlyArray<A>>['combine'] => {
-  const unionE = readonlyNonEmptyArray.union(E)
+  const unionE = nonEmptyReadonlyArray.union(E)
   return (that) => (self) => isNonEmpty(self) && isNonEmpty(that) ? unionE(that)(self) : isNonEmpty(self) ? self : that
 }
 
@@ -1204,7 +1204,7 @@ export const difference = <A>(E: Eq<A>): Magma<ReadonlyArray<A>>['combine'] => {
  * @category constructors
  * @since 3.0.0
  */
-export const succeed: <A>(a: A) => ReadonlyArray<A> = readonlyNonEmptyArray.succeed
+export const succeed: <A>(a: A) => ReadonlyArray<A> = nonEmptyReadonlyArray.succeed
 
 /**
  * @since 3.0.0
@@ -2223,7 +2223,7 @@ export function every<A>(predicate: Predicate<A>): Predicate<ReadonlyArray<A>> {
  */
 export const some =
   <A>(predicate: Predicate<A>) =>
-  (as: ReadonlyArray<A>): as is ReadonlyNonEmptyArray<A> =>
+  (as: ReadonlyArray<A>): as is NonEmptyReadonlyArray<A> =>
     as.some(predicate)
 
 /**
@@ -2245,7 +2245,7 @@ export const exists = some
  * @since 3.0.0
  */
 export const intercalate = <A>(M: Monoid<A>): ((middle: A) => (as: ReadonlyArray<A>) => A) => {
-  const intercalateM = readonlyNonEmptyArray.intercalate(M)
+  const intercalateM = nonEmptyReadonlyArray.intercalate(M)
   return (middle) => match(() => M.empty, intercalateM(middle))
 }
 

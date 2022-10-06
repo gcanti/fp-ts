@@ -31,7 +31,7 @@ import type * as monad from './Monad'
 import type { Option } from './Option'
 import * as fromIdentity from './FromIdentity'
 import type { Predicate } from './Predicate'
-import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
+import type { NonEmptyReadonlyArray } from './NonEmptyReadonlyArray'
 import type { Refinement } from './Refinement'
 import type { Semigroup } from './Semigroup'
 
@@ -781,15 +781,15 @@ export const zipWith: <E2, B, A, C>(
 // --- Par ---
 
 /**
- * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplyPar)`.
+ * Equivalent to `NonEmptyReadonlyArray#traverseWithIndex(ApplyPar)`.
  *
  * @category traversing
  * @since 3.0.0
  */
-export const traverseReadonlyNonEmptyArrayWithIndexPar: <A, E, B>(
+export const traverseNonEmptyReadonlyArrayWithIndexPar: <A, E, B>(
   f: (index: number, a: A) => SyncResult<E, B>
-) => (as: ReadonlyNonEmptyArray<A>) => SyncResult<E, ReadonlyNonEmptyArray<B>> = (f) =>
-  flow(sync.traverseReadonlyNonEmptyArrayWithIndex(f), sync.map(result.traverseReadonlyNonEmptyArrayWithIndex(SK)))
+) => (as: NonEmptyReadonlyArray<A>) => SyncResult<E, NonEmptyReadonlyArray<B>> = (f) =>
+  flow(sync.traverseNonEmptyReadonlyArrayWithIndex(f), sync.map(result.traverseNonEmptyReadonlyArrayWithIndex(SK)))
 
 /**
  * Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativePar)`.
@@ -800,20 +800,20 @@ export const traverseReadonlyNonEmptyArrayWithIndexPar: <A, E, B>(
 export const traverseReadonlyArrayWithIndexPar = <A, E, B>(
   f: (index: number, a: A) => SyncResult<E, B>
 ): ((as: ReadonlyArray<A>) => SyncResult<E, ReadonlyArray<B>>) => {
-  const g = traverseReadonlyNonEmptyArrayWithIndexPar(f)
+  const g = traverseNonEmptyReadonlyArrayWithIndexPar(f)
   return (as) => (_.isNonEmpty(as) ? g(as) : Zip)
 }
 
 /**
- * Equivalent to `ReadonlyNonEmptyArray#traverse(ApplyPar)`.
+ * Equivalent to `NonEmptyReadonlyArray#traverse(ApplyPar)`.
  *
  * @category traversing
  * @since 3.0.0
  */
-export const traverseReadonlyNonEmptyArrayPar = <A, E, B>(
+export const traverseNonEmptyReadonlyArrayPar = <A, E, B>(
   f: (a: A) => SyncResult<E, B>
-): ((as: ReadonlyNonEmptyArray<A>) => SyncResult<E, ReadonlyNonEmptyArray<B>>) => {
-  return traverseReadonlyNonEmptyArrayWithIndexPar(flow(SK, f))
+): ((as: NonEmptyReadonlyArray<A>) => SyncResult<E, NonEmptyReadonlyArray<B>>) => {
+  return traverseNonEmptyReadonlyArrayWithIndexPar(flow(SK, f))
 }
 
 /**
@@ -840,14 +840,14 @@ export const sequenceReadonlyArrayPar: <E, A>(arr: ReadonlyArray<SyncResult<E, A
 // --- Seq ---
 
 /**
- * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Apply)`.
+ * Equivalent to `NonEmptyReadonlyArray#traverseWithIndex(Apply)`.
  *
  * @category traversing
  * @since 3.0.0
  */
-export const traverseReadonlyNonEmptyArrayWithIndex =
+export const traverseNonEmptyReadonlyArrayWithIndex =
   <A, E, B>(f: (index: number, a: A) => SyncResult<E, B>) =>
-  (as: ReadonlyNonEmptyArray<A>): SyncResult<E, ReadonlyNonEmptyArray<B>> =>
+  (as: NonEmptyReadonlyArray<A>): SyncResult<E, NonEmptyReadonlyArray<B>> =>
   () => {
     const e = f(0, _.head(as))()
     if (_.isFailure(e)) {
@@ -873,20 +873,20 @@ export const traverseReadonlyNonEmptyArrayWithIndex =
 export const traverseReadonlyArrayWithIndex = <A, E, B>(
   f: (index: number, a: A) => SyncResult<E, B>
 ): ((as: ReadonlyArray<A>) => SyncResult<E, ReadonlyArray<B>>) => {
-  const g = traverseReadonlyNonEmptyArrayWithIndex(f)
+  const g = traverseNonEmptyReadonlyArrayWithIndex(f)
   return (as) => (_.isNonEmpty(as) ? g(as) : Zip)
 }
 
 /**
- * Equivalent to `ReadonlyNonEmptyArray#traverse(Apply)`.
+ * Equivalent to `NonEmptyReadonlyArray#traverse(Apply)`.
  *
  * @category traversing
  * @since 3.0.0
  */
-export const traverseReadonlyNonEmptyArray = <A, E, B>(
+export const traverseNonEmptyReadonlyArray = <A, E, B>(
   f: (a: A) => SyncResult<E, B>
-): ((as: ReadonlyNonEmptyArray<A>) => SyncResult<E, ReadonlyNonEmptyArray<B>>) => {
-  return traverseReadonlyNonEmptyArrayWithIndex(flow(SK, f))
+): ((as: NonEmptyReadonlyArray<A>) => SyncResult<E, NonEmptyReadonlyArray<B>>) => {
+  return traverseNonEmptyReadonlyArrayWithIndex(flow(SK, f))
 }
 
 /**

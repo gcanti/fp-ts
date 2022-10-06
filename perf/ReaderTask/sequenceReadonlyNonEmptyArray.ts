@@ -1,7 +1,7 @@
 import * as Benchmark from 'benchmark'
 import { pipe } from '../../src/Function'
 import * as _ from '../../src/ReaderAsync'
-import * as RNEA from '../../src/ReadonlyNonEmptyArray'
+import * as RNEA from '../../src/NonEmptyReadonlyArray'
 
 /*
  RNEA.sequence(_.ApplicativeSeq) x 255 ops/sec ±6.38% (35 runs sampled)

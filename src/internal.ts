@@ -4,7 +4,7 @@
 import type { Result, Failure, Success } from './Result'
 import { identity } from './Function'
 import type { None, Option, Some } from './Option'
-import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
+import type { NonEmptyReadonlyArray } from './NonEmptyReadonlyArray'
 import type { Reader } from './Reader'
 
 // -------------------------------------------------------------------------------------
@@ -61,20 +61,20 @@ export const eitherFromNullable =
     a == null ? fail(onNullable) : succeed(a as NonNullable<A>)
 
 // -------------------------------------------------------------------------------------
-// ReadonlyNonEmptyArray
+// NonEmptyReadonlyArray
 // -------------------------------------------------------------------------------------
 
 /** @internal */
 export const singleton = <A>(a: A): NonEmptyArray<A> => [a]
 
 /** @internal */
-export const isNonEmpty = <A>(as: ReadonlyArray<A>): as is ReadonlyNonEmptyArray<A> => as.length > 0
+export const isNonEmpty = <A>(as: ReadonlyArray<A>): as is NonEmptyReadonlyArray<A> => as.length > 0
 
 /** @internal */
-export const head = <A>(as: ReadonlyNonEmptyArray<A>): A => as[0]
+export const head = <A>(as: NonEmptyReadonlyArray<A>): A => as[0]
 
 /** @internal */
-export const tail = <A>(as: ReadonlyNonEmptyArray<A>): ReadonlyArray<A> => as.slice(1)
+export const tail = <A>(as: NonEmptyReadonlyArray<A>): ReadonlyArray<A> => as.slice(1)
 
 // -------------------------------------------------------------------------------------
 // empty
@@ -117,4 +117,4 @@ export const ask: <R>() => Reader<R, R> = () => identity
 export type NonEmptyArray<A> = [A, ...Array<A>]
 
 /** @internal */
-export const fromReadonlyNonEmptyArray = <A>(as: ReadonlyNonEmptyArray<A>): NonEmptyArray<A> => [head(as), ...tail(as)]
+export const fromNonEmptyReadonlyArray = <A>(as: NonEmptyReadonlyArray<A>): NonEmptyArray<A> => [head(as), ...tail(as)]

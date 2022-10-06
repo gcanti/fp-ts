@@ -21,8 +21,8 @@ import type { Reader } from './Reader'
 import * as reader from './Reader'
 import * as readerAsync from './ReaderAsync'
 import type { ReaderAsync } from './ReaderAsync'
-import * as readonlyNonEmptyArray from './ReadonlyNonEmptyArray'
-import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
+import * as nonEmptyReadonlyArray from './NonEmptyReadonlyArray'
+import type { NonEmptyReadonlyArray } from './NonEmptyReadonlyArray'
 import type { Semigroup } from './Semigroup'
 import type { Async } from './Async'
 import * as async from './Async'
@@ -407,17 +407,17 @@ export const tupled: <R, E, A>(self: ReaderAsyncWriter<R, E, A>) => ReaderAsyncW
 // -------------------------------------------------------------------------------------
 
 /**
- * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(getApply(Apply, Semigroup))`.
+ * Equivalent to `NonEmptyReadonlyArray#traverseWithIndex(getApply(Apply, Semigroup))`.
  *
  * @category traversing
  * @since 3.0.0
  */
-export const traverseReadonlyNonEmptyArrayWithIndex =
+export const traverseNonEmptyReadonlyArrayWithIndex =
   <W>(Apply: Apply<readerAsync.ReaderAsyncTypeLambda>, Semigroup: Semigroup<W>) =>
   <A, R, B>(f: (index: number, a: A) => ReaderAsyncWriter<R, W, B>) =>
-  (as: ReadonlyNonEmptyArray<A>): ReaderAsyncWriter<R, W, ReadonlyNonEmptyArray<B>> => {
+  (as: NonEmptyReadonlyArray<A>): ReaderAsyncWriter<R, W, NonEmptyReadonlyArray<B>> => {
     // TODO
-    return readonlyNonEmptyArray.traverseWithIndex(getApply(Apply, Semigroup))(f)(as)
+    return nonEmptyReadonlyArray.traverseWithIndex(getApply(Apply, Semigroup))(f)(as)
   }
 
 /**
@@ -431,26 +431,26 @@ export const traverseReadonlyArrayWithIndex =
   <A, R, B>(
     f: (index: number, a: A) => ReaderAsyncWriter<R, W, B>
   ): ((as: ReadonlyArray<A>) => ReaderAsyncWriter<R, W, ReadonlyArray<B>>) => {
-    const g = traverseReadonlyNonEmptyArrayWithIndex(Apply, Monoid)(f)
+    const g = traverseNonEmptyReadonlyArrayWithIndex(Apply, Monoid)(f)
     const P = getFromIdentity(Monoid)
     return (as) => (_.isNonEmpty(as) ? g(as) : P.succeed(_.emptyReadonlyArray))
   }
 
 /**
- * Equivalent to `ReadonlyNonEmptyArray#traverse(getApply(Apply, Semigroup))`.
+ * Equivalent to `NonEmptyReadonlyArray#traverse(getApply(Apply, Semigroup))`.
  *
  * @category traversing
  * @since 3.0.0
  */
-export const traverseReadonlyNonEmptyArray = <W>(
+export const traverseNonEmptyReadonlyArray = <W>(
   Apply: Apply<readerAsync.ReaderAsyncTypeLambda>,
   Semigroup: Semigroup<W>
 ) => {
-  const traverseReadonlyNonEmptyArrayWithIndexAM = traverseReadonlyNonEmptyArrayWithIndex(Apply, Semigroup)
+  const traverseNonEmptyReadonlyArrayWithIndexAM = traverseNonEmptyReadonlyArrayWithIndex(Apply, Semigroup)
   return <A, R, B>(
     f: (a: A) => ReaderAsyncWriter<R, W, B>
-  ): ((as: ReadonlyNonEmptyArray<A>) => ReaderAsyncWriter<R, W, ReadonlyNonEmptyArray<B>>) => {
-    return traverseReadonlyNonEmptyArrayWithIndexAM(flow(SK, f))
+  ): ((as: NonEmptyReadonlyArray<A>) => ReaderAsyncWriter<R, W, NonEmptyReadonlyArray<B>>) => {
+    return traverseNonEmptyReadonlyArrayWithIndexAM(flow(SK, f))
   }
 }
 

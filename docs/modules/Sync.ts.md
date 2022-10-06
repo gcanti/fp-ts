@@ -63,10 +63,10 @@ Added in v3.0.0
   - [zipRight](#zipright)
 - [traversing](#traversing)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
+  - [traverseNonEmptyReadonlyArray](#traversenonemptyreadonlyarray)
+  - [traverseNonEmptyReadonlyArrayWithIndex](#traversenonemptyreadonlyarraywithindex)
   - [traverseReadonlyArray](#traversereadonlyarray)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
-  - [traverseReadonlyNonEmptyArray](#traversereadonlynonemptyarray)
-  - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
 - [tuple sequencing](#tuple-sequencing)
   - [Zip](#zip)
   - [tupled](#tupled)
@@ -433,6 +433,34 @@ export declare const sequenceReadonlyArray: <A>(arr: readonly Sync<A>[]) => Sync
 
 Added in v3.0.0
 
+## traverseNonEmptyReadonlyArray
+
+Equivalent to `NonEmptyReadonlyArray#traverse(Apply)`.
+
+**Signature**
+
+```ts
+export declare const traverseNonEmptyReadonlyArray: <A, B>(
+  f: (a: A) => Sync<B>
+) => (as: readonly [A, ...A[]]) => Sync<readonly [B, ...B[]]>
+```
+
+Added in v3.0.0
+
+## traverseNonEmptyReadonlyArrayWithIndex
+
+Equivalent to `NonEmptyReadonlyArray#traverseWithIndex(Apply)`.
+
+**Signature**
+
+```ts
+export declare const traverseNonEmptyReadonlyArrayWithIndex: <A, B>(
+  f: (index: number, a: A) => Sync<B>
+) => (as: readonly [A, ...A[]]) => Sync<readonly [B, ...B[]]>
+```
+
+Added in v3.0.0
+
 ## traverseReadonlyArray
 
 Equivalent to `ReadonlyArray#traverse(Applicative)`.
@@ -455,34 +483,6 @@ Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
 export declare const traverseReadonlyArrayWithIndex: <A, B>(
   f: (index: number, a: A) => Sync<B>
 ) => (as: readonly A[]) => Sync<readonly B[]>
-```
-
-Added in v3.0.0
-
-## traverseReadonlyNonEmptyArray
-
-Equivalent to `ReadonlyNonEmptyArray#traverse(Apply)`.
-
-**Signature**
-
-```ts
-export declare const traverseReadonlyNonEmptyArray: <A, B>(
-  f: (a: A) => Sync<B>
-) => (as: readonly [A, ...A[]]) => Sync<readonly [B, ...B[]]>
-```
-
-Added in v3.0.0
-
-## traverseReadonlyNonEmptyArrayWithIndex
-
-Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Apply)`.
-
-**Signature**
-
-```ts
-export declare const traverseReadonlyNonEmptyArrayWithIndex: <A, B>(
-  f: (index: number, a: A) => Sync<B>
-) => (as: readonly [A, ...A[]]) => Sync<readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0
