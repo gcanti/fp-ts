@@ -27,9 +27,12 @@ export interface Alt<F extends TypeLambda> extends TypeClass<F> {
 }
 
 /**
+ * Returns an effect that runs the first effect and in case of failure, runs
+ * each of the specified effects in order until one of them succeeds.
+ *
  * @since 3.0.0
  */
-export const orElseAll =
+export const firstSuccessOf =
   <F extends TypeLambda>(F: Alt<F>) =>
   <S, R, O, E, A>(startWith: Kind<F, S, R, O, E, A>) =>
   (as: ReadonlyArray<Kind<F, S, R, O, E, A>>): Kind<F, S, R, O, E, A> =>

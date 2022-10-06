@@ -28,7 +28,7 @@ Added in v3.0.0
 - [model](#model)
   - [Alt (interface)](#alt-interface)
 - [utils](#utils)
-  - [orElseAll](#orelseall)
+  - [firstSuccessOf](#firstsuccessof)
 
 ---
 
@@ -50,12 +50,15 @@ Added in v3.0.0
 
 # utils
 
-## orElseAll
+## firstSuccessOf
+
+Returns an effect that runs the first effect and in case of failure, runs
+each of the specified effects in order until one of them succeeds.
 
 **Signature**
 
 ```ts
-export declare const orElseAll: <F extends TypeLambda>(
+export declare const firstSuccessOf: <F extends TypeLambda>(
   F: Alt<F>
 ) => <S, R, O, E, A>(
   startWith: Kind<F, S, R, O, E, A>

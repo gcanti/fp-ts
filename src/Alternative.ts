@@ -33,10 +33,12 @@ export const guard =
     b ? P.succeed(undefined) : F.emptyKind()
 
 /**
+ * Returns an effect that runs each of the specified effects in order until one of them succeeds.
+ *
  * @since 3.0.0
  */
-export const orElseAll = <F extends TypeLambda>(F: Alternative<F>) => {
-  const firstSuccessOf_ = alt.orElseAll(F)
+export const firstSuccessOf = <F extends TypeLambda>(F: Alternative<F>) => {
+  const firstSuccessOf_ = alt.firstSuccessOf(F)
   return <S, R, O, E, A>(as: ReadonlyArray<Kind<F, S, R, O, E, A>>): Kind<F, S, R, O, E, A> => {
     return firstSuccessOf_<S, R, O, E, A>(F.emptyKind())(as)
   }

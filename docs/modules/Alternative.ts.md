@@ -25,8 +25,8 @@ Added in v3.0.0
 - [model](#model)
   - [Alternative (interface)](#alternative-interface)
 - [utils](#utils)
+  - [firstSuccessOf](#firstsuccessof)
   - [guard](#guard)
-  - [orElseAll](#orelseall)
 
 ---
 
@@ -46,6 +46,20 @@ Added in v3.0.0
 
 # utils
 
+## firstSuccessOf
+
+Returns an effect that runs each of the specified effects in order until one of them succeeds.
+
+**Signature**
+
+```ts
+export declare const firstSuccessOf: <F extends TypeLambda>(
+  F: Alternative<F>
+) => <S, R, O, E, A>(as: readonly Kind<F, S, R, O, E, A>[]) => Kind<F, S, R, O, E, A>
+```
+
+Added in v3.0.0
+
 ## guard
 
 **Signature**
@@ -55,18 +69,6 @@ export declare const guard: <F extends TypeLambda>(
   F: Alternative<F>,
   P: FromIdentity<F>
 ) => <S>(b: boolean) => Kind<F, S, unknown, never, never, void>
-```
-
-Added in v3.0.0
-
-## orElseAll
-
-**Signature**
-
-```ts
-export declare const orElseAll: <F extends TypeLambda>(
-  F: Alternative<F>
-) => <S, R, O, E, A>(as: readonly Kind<F, S, R, O, E, A>[]) => Kind<F, S, R, O, E, A>
 ```
 
 Added in v3.0.0
