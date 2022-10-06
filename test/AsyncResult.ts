@@ -48,17 +48,17 @@ describe('AsyncResult', () => {
   // -------------------------------------------------------------------------------------
 
   it('orElse', async () => {
-    const assertSemigroupKind = async (
+    const assertAlt = async (
       a: _.AsyncResult<string, number>,
       b: _.AsyncResult<string, number>,
       expected: E.Result<string, number>
     ) => {
       U.deepStrictEqual(await pipe(a, _.orElse(b))(), expected)
     }
-    await assertSemigroupKind(_.succeed(1), _.succeed(2), E.succeed(1))
-    await assertSemigroupKind(_.succeed(1), _.fail('b'), E.succeed(1))
-    await assertSemigroupKind(_.fail('a'), _.succeed(2), E.succeed(2))
-    await assertSemigroupKind(_.fail('a'), _.fail('b'), E.fail('b'))
+    await assertAlt(_.succeed(1), _.succeed(2), E.succeed(1))
+    await assertAlt(_.succeed(1), _.fail('b'), E.succeed(1))
+    await assertAlt(_.fail('a'), _.succeed(2), E.succeed(2))
+    await assertAlt(_.fail('a'), _.fail('b'), E.fail('b'))
   })
 
   it('map', async () => {
@@ -175,18 +175,18 @@ describe('AsyncResult', () => {
   })
 
   it('getSemigroupKAsyncValidation', async () => {
-    const A = _.getValidatedSemigroupKind(S.Semigroup)
-    const assertSemigroupKind = async (
+    const A = _.getValidatedAlt(S.Semigroup)
+    const assertAlt = async (
       a: _.AsyncResult<string, number>,
       b: _.AsyncResult<string, number>,
       expected: E.Result<string, number>
     ) => {
       U.deepStrictEqual(await pipe(a, A.orElse(b))(), expected)
     }
-    await assertSemigroupKind(_.succeed(1), _.succeed(2), E.succeed(1))
-    await assertSemigroupKind(_.succeed(1), _.fail('b'), E.succeed(1))
-    await assertSemigroupKind(_.fail('a'), _.succeed(2), E.succeed(2))
-    await assertSemigroupKind(_.fail('a'), _.fail('b'), E.fail('ab'))
+    await assertAlt(_.succeed(1), _.succeed(2), E.succeed(1))
+    await assertAlt(_.succeed(1), _.fail('b'), E.succeed(1))
+    await assertAlt(_.fail('a'), _.succeed(2), E.succeed(2))
+    await assertAlt(_.fail('a'), _.fail('b'), E.fail('ab'))
   })
 
   describe('getCompactable', () => {

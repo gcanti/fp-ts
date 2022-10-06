@@ -1,6 +1,6 @@
 ---
 title: BoundedJoinSemilattice.ts
-nav_order: 12
+nav_order: 14
 parent: Modules
 ---
 

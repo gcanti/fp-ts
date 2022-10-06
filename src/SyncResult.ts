@@ -7,7 +7,7 @@
  *
  * @since 3.0.0
  */
-import type * as semigroupKind from './SemigroupKind'
+import type * as alt from './Alt'
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
 import type * as bifunctor from './Bifunctor'
@@ -250,15 +250,13 @@ export const getValidatedApplicative = <E>(
 })
 
 /**
- * The default [`SemigroupKind`](#semigroupkind) instance returns the last error, if you want to
+ * The default [`Alt`](#semigroupkind) instance returns the last error, if you want to
  * get all errors you need to provide a way to combine them via a `Semigroup`.
  *
  * @category error handling
  * @since 3.0.0
  */
-export const getValidatedSemigroupKind = <E>(
-  Semigroup: Semigroup<E>
-): semigroupKind.SemigroupKind<result.ValidatedT<SyncResultTypeLambda, E>> => {
+export const getValidatedAlt = <E>(Semigroup: Semigroup<E>): alt.Alt<result.ValidatedT<SyncResultTypeLambda, E>> => {
   return {
     orElse: resultT.getValidatedOrElse(sync.Monad, Semigroup)
   }
@@ -487,7 +485,7 @@ export const tapError: <E1, E2>(
  * @category instances
  * @since 3.0.0
  */
-export const SemigroupKind: semigroupKind.SemigroupKind<SyncResultTypeLambda> = {
+export const Alt: alt.Alt<SyncResultTypeLambda> = {
   orElse
 }
 

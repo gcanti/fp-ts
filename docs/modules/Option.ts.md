@@ -1,6 +1,6 @@
 ---
 title: Option.ts
-nav_order: 64
+nav_order: 65
 parent: Modules
 ---
 
@@ -63,6 +63,8 @@ Added in v3.0.0
 - [instance operations](#instance-operations)
   - [orElse](#orelse)
 - [instances](#instances)
+  - [Alt](#alt)
+  - [Alternative](#alternative)
   - [Applicative](#applicative)
   - [Apply](#apply)
   - [CategoryKind](#categorykind)
@@ -77,8 +79,6 @@ Added in v3.0.0
   - [Functor](#functor)
   - [KleisliComposable](#kleislicomposable)
   - [Monad](#monad)
-  - [MonoidKind](#monoidkind)
-  - [SemigroupKind](#semigroupkind)
   - [Traversable](#traversable)
   - [TraversableFilterable](#traversablefilterable)
   - [getEq](#geteq)
@@ -621,6 +621,26 @@ Added in v3.0.0
 
 # instances
 
+## Alt
+
+**Signature**
+
+```ts
+export declare const Alt: alt.Alt<OptionTypeLambda>
+```
+
+Added in v3.0.0
+
+## Alternative
+
+**Signature**
+
+```ts
+export declare const Alternative: monoidKind.Alternative<OptionTypeLambda>
+```
+
+Added in v3.0.0
+
 ## Applicative
 
 **Signature**
@@ -757,26 +777,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Monad: monad.Monad<OptionTypeLambda>
-```
-
-Added in v3.0.0
-
-## MonoidKind
-
-**Signature**
-
-```ts
-export declare const MonoidKind: monoidKind.MonoidKind<OptionTypeLambda>
-```
-
-Added in v3.0.0
-
-## SemigroupKind
-
-**Signature**
-
-```ts
-export declare const SemigroupKind: semigroupKind.SemigroupKind<OptionTypeLambda>
 ```
 
 Added in v3.0.0

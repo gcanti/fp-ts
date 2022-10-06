@@ -49,6 +49,8 @@ Added in v3.0.0
   - [partitionMap](#partitionmap)
   - [separate](#separate)
 - [instances](#instances)
+  - [Alt](#alt)
+  - [Alternative](#alternative)
   - [Applicative](#applicative)
   - [Apply](#apply)
   - [CategoryKind](#categorykind)
@@ -62,8 +64,6 @@ Added in v3.0.0
   - [Functor](#functor)
   - [KleisliComposable](#kleislicomposable)
   - [Monad](#monad)
-  - [MonoidKind](#monoidkind)
-  - [SemigroupKind](#semigroupkind)
 - [lifting](#lifting)
   - [lift2](#lift2)
   - [lift3](#lift3)
@@ -415,6 +415,26 @@ Added in v3.0.0
 
 # instances
 
+## Alt
+
+**Signature**
+
+```ts
+export declare const Alt: alt.Alt<SyncOptionTypeLambda>
+```
+
+Added in v3.0.0
+
+## Alternative
+
+**Signature**
+
+```ts
+export declare const Alternative: monoidKind.Alternative<SyncOptionTypeLambda>
+```
+
+Added in v3.0.0
+
 ## Applicative
 
 **Signature**
@@ -541,26 +561,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Monad: monad.Monad<SyncOptionTypeLambda>
-```
-
-Added in v3.0.0
-
-## MonoidKind
-
-**Signature**
-
-```ts
-export declare const MonoidKind: monoidKind.MonoidKind<SyncOptionTypeLambda>
-```
-
-Added in v3.0.0
-
-## SemigroupKind
-
-**Signature**
-
-```ts
-export declare const SemigroupKind: semigroupKind.SemigroupKind<SyncOptionTypeLambda>
 ```
 
 Added in v3.0.0

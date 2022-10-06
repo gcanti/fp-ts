@@ -1,6 +1,6 @@
 ---
 title: ReadonlyNonEmptyArray.ts
-nav_order: 80
+nav_order: 81
 parent: Modules
 ---
 
@@ -47,6 +47,7 @@ Added in v3.0.0
   - [reduceRightWithIndex](#reducerightwithindex)
   - [reduceWithIndex](#reducewithindex)
 - [instances](#instances)
+  - [Alt](#alt)
   - [Applicative](#applicative)
   - [Apply](#apply)
   - [CategoryKind](#categorykind)
@@ -59,7 +60,6 @@ Added in v3.0.0
   - [FunctorWithIndex](#functorwithindex-1)
   - [KleisliComposable](#kleislicomposable)
   - [Monad](#monad)
-  - [SemigroupKind](#semigroupkind)
   - [Traversable](#traversable)
   - [TraversableWithIndex](#traversablewithindex)
   - [getEq](#geteq)
@@ -426,6 +426,16 @@ Added in v3.0.0
 
 # instances
 
+## Alt
+
+**Signature**
+
+```ts
+export declare const Alt: alt.Alt<ReadonlyNonEmptyArrayTypeLambda>
+```
+
+Added in v3.0.0
+
 ## Applicative
 
 **Signature**
@@ -542,16 +552,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Monad: monad.Monad<ReadonlyNonEmptyArrayTypeLambda>
-```
-
-Added in v3.0.0
-
-## SemigroupKind
-
-**Signature**
-
-```ts
-export declare const SemigroupKind: semigroupKind.SemigroupKind<ReadonlyNonEmptyArrayTypeLambda>
 ```
 
 Added in v3.0.0

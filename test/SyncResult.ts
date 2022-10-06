@@ -16,17 +16,17 @@ describe('SyncResult', () => {
   // -------------------------------------------------------------------------------------
 
   it('orElse', () => {
-    const assertSemigroupKind = (
+    const assertAlt = (
       a: _.SyncResult<string, number>,
       b: _.SyncResult<string, number>,
       expected: E.Result<string, number>
     ) => {
       U.deepStrictEqual(pipe(a, _.orElse(b))(), expected)
     }
-    assertSemigroupKind(_.succeed(1), _.succeed(2), E.succeed(1))
-    assertSemigroupKind(_.succeed(1), _.fail('b'), E.succeed(1))
-    assertSemigroupKind(_.fail('a'), _.succeed(2), E.succeed(2))
-    assertSemigroupKind(_.fail('a'), _.fail('b'), E.fail('b'))
+    assertAlt(_.succeed(1), _.succeed(2), E.succeed(1))
+    assertAlt(_.succeed(1), _.fail('b'), E.succeed(1))
+    assertAlt(_.fail('a'), _.succeed(2), E.succeed(2))
+    assertAlt(_.fail('a'), _.fail('b'), E.fail('b'))
   })
 
   it('map', () => {
@@ -199,7 +199,7 @@ describe('SyncResult', () => {
   })
 
   it('getSemigroupKIOValidation', () => {
-    const A = _.getValidatedSemigroupKind(S.Monoid)
+    const A = _.getValidatedAlt(S.Monoid)
     U.deepStrictEqual(pipe(_.fail('a'), A.orElse(_.fail('b')))(), E.fail('ab'))
   })
 

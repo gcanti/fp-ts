@@ -6,8 +6,8 @@
  *
  * @since 3.0.0
  */
-import type * as semigroupKind from './SemigroupKind'
-import * as monoidKind from './MonoidKind'
+import type * as alt from './Alt'
+import * as monoidKind from './Alternative'
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
 import type * as kleisliCategory from './KleisliCategory'
@@ -361,7 +361,7 @@ export const tapError: (onNone: SyncOption<unknown>) => <A>(self: SyncOption<A>)
  * @category instances
  * @since 3.0.0
  */
-export const SemigroupKind: semigroupKind.SemigroupKind<SyncOptionTypeLambda> = {
+export const Alt: alt.Alt<SyncOptionTypeLambda> = {
   orElse
 }
 
@@ -369,7 +369,7 @@ export const SemigroupKind: semigroupKind.SemigroupKind<SyncOptionTypeLambda> = 
  * @category instances
  * @since 3.0.0
  */
-export const MonoidKind: monoidKind.MonoidKind<SyncOptionTypeLambda> = {
+export const Alternative: monoidKind.Alternative<SyncOptionTypeLambda> = {
   orElse,
   emptyKind: emptyKind
 }
@@ -378,7 +378,7 @@ export const MonoidKind: monoidKind.MonoidKind<SyncOptionTypeLambda> = {
  * @category do notation
  * @since 3.0.0
  */
-export const guard: (b: boolean) => SyncOption<void> = /*#__PURE__*/ monoidKind.guard(MonoidKind, FromIdentity)
+export const guard: (b: boolean) => SyncOption<void> = /*#__PURE__*/ monoidKind.guard(Alternative, FromIdentity)
 
 /**
  * @category instances

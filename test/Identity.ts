@@ -40,7 +40,7 @@ describe('Identity', () => {
     })
 
     it('orElse', () => {
-      const assertSemigroupKind = (a: _.Identity<number>, b: _.Identity<number>, expected: number) => {
+      const assertAlt = (a: _.Identity<number>, b: _.Identity<number>, expected: number) => {
         U.deepStrictEqual(
           pipe(
             a,
@@ -49,7 +49,7 @@ describe('Identity', () => {
           expected
         )
       }
-      assertSemigroupKind(1, 2, 1)
+      assertAlt(1, 2, 1)
     })
 
     it('extract', () => {

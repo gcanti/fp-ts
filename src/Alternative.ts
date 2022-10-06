@@ -1,7 +1,7 @@
 /**
  * TODO: description
  *
- * `MonoidK` instances should satisfy the following laws in addition to the `SemigroupKind` laws:
+ * `MonoidK` instances should satisfy the following laws in addition to the `Alt` laws:
  *
  * 1. Left identity: `emptyKind |> orElse(fa) <-> fa`
  * 2. Right identity: `fa |> orElse(emptyKind) <-> fa`
@@ -11,8 +11,8 @@
  *
  * @since 3.0.0
  */
-import * as semigroupKind from './SemigroupKind'
-import type { SemigroupKind } from './SemigroupKind'
+import * as alt from './Alt'
+import type { Alt } from './Alt'
 import type { TypeLambda, Kind } from './HKT'
 import type { FromIdentity } from './FromIdentity'
 
@@ -20,25 +20,24 @@ import type { FromIdentity } from './FromIdentity'
  * @category model
  * @since 3.0.0
  */
-export interface MonoidKind<F extends TypeLambda> extends SemigroupKind<F> {
+export interface Alternative<F extends TypeLambda> extends Alt<F> {
   readonly emptyKind: <S>() => Kind<F, S, unknown, never, never, never>
 }
 
 /**
- * @category constructors
  * @since 3.0.0
  */
 export const guard =
-  <F extends TypeLambda>(F: MonoidKind<F>, P: FromIdentity<F>) =>
+  <F extends TypeLambda>(F: Alternative<F>, P: FromIdentity<F>) =>
   <S>(b: boolean): Kind<F, S, unknown, never, never, void> =>
     b ? P.succeed(undefined) : F.emptyKind()
 
 /**
  * @since 3.0.0
  */
-export const orElseAll = <F extends TypeLambda>(F: MonoidKind<F>) => {
-  const combineKAllF = semigroupKind.orElseAll(F)
+export const orElseAll = <F extends TypeLambda>(F: Alternative<F>) => {
+  const firstSuccessOf_ = alt.orElseAll(F)
   return <S, R, O, E, A>(as: ReadonlyArray<Kind<F, S, R, O, E, A>>): Kind<F, S, R, O, E, A> => {
-    return combineKAllF<S, R, O, E, A>(F.emptyKind())(as)
+    return firstSuccessOf_<S, R, O, E, A>(F.emptyKind())(as)
   }
 }

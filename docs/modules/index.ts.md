@@ -1,6 +1,6 @@
 ---
 title: index.ts
-nav_order: 50
+nav_order: 52
 parent: Modules
 ---
 
@@ -53,6 +53,8 @@ Added in v3.0.0
   - [theseT](#theset)
   - [writerT](#writert)
 - [type classes](#type-classes)
+  - [alt](#alt)
+  - [alternative](#alternative)
   - [applicative](#applicative)
   - [apply](#apply)
   - [bifunctor](#bifunctor)
@@ -99,12 +101,10 @@ Added in v3.0.0
   - [meetSemilattice](#meetsemilattice)
   - [monad](#monad)
   - [monoid](#monoid)
-  - [monoidKind](#monoidkind)
   - [ord](#ord)
   - [profunctor](#profunctor)
   - [ring](#ring)
   - [semigroup](#semigroup)
-  - [semigroupKind](#semigroupkind)
   - [semiring](#semiring)
   - [show](#show)
   - [traversable](#traversable)
@@ -513,6 +513,26 @@ export declare const writerT: typeof writerT
 Added in v3.0.0
 
 # type classes
+
+## alt
+
+**Signature**
+
+```ts
+export declare const alt: typeof alt
+```
+
+Added in v3.0.0
+
+## alternative
+
+**Signature**
+
+```ts
+export declare const alternative: typeof alternative
+```
+
+Added in v3.0.0
 
 ## applicative
 
@@ -974,16 +994,6 @@ export declare const monoid: typeof monoid
 
 Added in v3.0.0
 
-## monoidKind
-
-**Signature**
-
-```ts
-export declare const monoidKind: typeof monoidKind
-```
-
-Added in v3.0.0
-
 ## ord
 
 **Signature**
@@ -1020,16 +1030,6 @@ Added in v3.0.0
 
 ```ts
 export declare const semigroup: typeof semigroup
-```
-
-Added in v3.0.0
-
-## semigroupKind
-
-**Signature**
-
-```ts
-export declare const semigroupKind: typeof semigroupKind
 ```
 
 Added in v3.0.0

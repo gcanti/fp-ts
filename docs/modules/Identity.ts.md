@@ -1,6 +1,6 @@
 ---
 title: Identity.ts
-nav_order: 49
+nav_order: 51
 parent: Modules
 ---
 
@@ -25,6 +25,7 @@ Added in v3.0.0
   - [bindTo](#bindto)
   - [let](#let)
 - [instances](#instances)
+  - [Alt](#alt)
   - [Applicative](#applicative)
   - [Apply](#apply)
   - [CategoryKind](#categorykind)
@@ -37,7 +38,6 @@ Added in v3.0.0
   - [Functor](#functor)
   - [KleisliComposable](#kleislicomposable)
   - [Monad](#monad)
-  - [SemigroupKind](#semigroupkind)
   - [Traversable](#traversable)
   - [getEq](#geteq)
   - [getShow](#getshow)
@@ -157,6 +157,16 @@ Added in v3.0.0
 
 # instances
 
+## Alt
+
+**Signature**
+
+```ts
+export declare const Alt: alt.Alt<IdentityTypeLambda>
+```
+
+Added in v3.0.0
+
 ## Applicative
 
 **Signature**
@@ -273,16 +283,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Monad: monad.Monad<IdentityTypeLambda>
-```
-
-Added in v3.0.0
-
-## SemigroupKind
-
-**Signature**
-
-```ts
-export declare const SemigroupKind: semigroupKind.SemigroupKind<IdentityTypeLambda>
 ```
 
 Added in v3.0.0

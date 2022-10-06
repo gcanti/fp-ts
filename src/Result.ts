@@ -15,7 +15,7 @@
  */
 import type * as kleisliCategory from './KleisliCategory'
 import type * as kleisliComposable from './KleisliComposable'
-import type * as semigroupKind from './SemigroupKind'
+import type * as alt from './Alt'
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
 import * as bifunctor from './Bifunctor'
@@ -968,12 +968,12 @@ export const sequence: <F extends TypeLambda>(
  * @category instances
  * @since 3.0.0
  */
-export const SemigroupKind: semigroupKind.SemigroupKind<ResultTypeLambda> = {
+export const Alt: alt.Alt<ResultTypeLambda> = {
   orElse
 }
 
 /**
- * The default [`SemigroupKind`](#semigroupkind) instance returns the last error, if you want to
+ * The default [`Alt`](#semigroupkind) instance returns the last error, if you want to
  * get all errors you need to provide a way to combine them via a `Semigroup`.
  *
  * @example
@@ -996,19 +996,17 @@ export const SemigroupKind: semigroupKind.SemigroupKind<ResultTypeLambda> = {
  *
  * assert.deepStrictEqual(parse(true), E.fail('not a number')) // <= last error
  *
- * const SemigroupKind = E.getValidatedSemigroupKind(pipe(string.Semigroup, S.intercalate(', ')))
+ * const Alt = E.getValidatedAlt(pipe(string.Semigroup, S.intercalate(', ')))
  *
  * const parseAll = (u: unknown): E.Result<string, string | number> =>
- *   pipe(parseString(u), SemigroupKind.orElse(parseNumber(u) as E.Result<string, string | number>))
+ *   pipe(parseString(u), Alt.orElse(parseNumber(u) as E.Result<string, string | number>))
  *
  * assert.deepStrictEqual(parseAll(true), E.fail('not a string, not a number')) // <= all errors
  *
  * @category error handling
  * @since 3.0.0
  */
-export const getValidatedSemigroupKind = <E>(
-  Semigroup: Semigroup<E>
-): semigroupKind.SemigroupKind<ValidatedT<ResultTypeLambda, E>> => ({
+export const getValidatedAlt = <E>(Semigroup: Semigroup<E>): alt.Alt<ValidatedT<ResultTypeLambda, E>> => ({
   orElse: (that) => (self) => {
     if (isSuccess(self)) {
       return self

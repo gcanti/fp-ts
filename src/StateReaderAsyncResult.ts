@@ -3,7 +3,7 @@
  */
 import type * as kleisliCategory from './KleisliCategory'
 import type * as kleisliComposable from './KleisliComposable'
-import type * as semigroupKind from './SemigroupKind'
+import type * as alt from './Alt'
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
 import * as bifunctor from './Bifunctor'
@@ -496,7 +496,7 @@ export const mapError: <E, G>(
  * @category instances
  * @since 3.0.0
  */
-export const SemigroupKind: semigroupKind.SemigroupKind<StateReaderAsyncResultTypeLambda> = {
+export const Alt: alt.Alt<StateReaderAsyncResultTypeLambda> = {
   orElse
 }
 

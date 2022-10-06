@@ -80,13 +80,13 @@ describe('Option', () => {
     })
 
     it('orElse', () => {
-      const assertSemigroupKind = (a: _.Option<number>, b: _.Option<number>, expected: _.Option<number>) => {
+      const assertAlt = (a: _.Option<number>, b: _.Option<number>, expected: _.Option<number>) => {
         U.deepStrictEqual(pipe(a, _.orElse(b)), expected)
       }
-      assertSemigroupKind(_.some(1), _.some(2), _.some(1))
-      assertSemigroupKind(_.some(1), _.none, _.some(1))
-      assertSemigroupKind(_.none, _.some(2), _.some(2))
-      assertSemigroupKind(_.none, _.none, _.none)
+      assertAlt(_.some(1), _.some(2), _.some(1))
+      assertAlt(_.some(1), _.none, _.some(1))
+      assertAlt(_.none, _.some(2), _.some(2))
+      assertAlt(_.none, _.none, _.none)
     })
 
     it('extend', () => {

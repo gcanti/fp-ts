@@ -7,7 +7,7 @@
  */
 import type * as kleisliCategory from './KleisliCategory'
 import type * as kleisliComposable from './KleisliComposable'
-import type * as semigroupKind from './SemigroupKind'
+import type * as alt from './Alt'
 import * as apply from './Apply'
 import type * as applicative from './Applicative'
 import * as flattenable from './Flattenable'
@@ -341,7 +341,7 @@ export const orElse: <B>(that: Identity<B>) => <A>(self: Identity<A>) => Identit
  * @category instances
  * @since 3.0.0
  */
-export const SemigroupKind: semigroupKind.SemigroupKind<IdentityTypeLambda> = {
+export const Alt: alt.Alt<IdentityTypeLambda> = {
   orElse
 }
 

@@ -22,17 +22,17 @@ const state: unknown = {}
 describe('StateReaderAsyncResult', () => {
   describe('pipeables', () => {
     it('orElse', async () => {
-      const assertSemigroupKind = async (
+      const assertAlt = async (
         a: _.StateReaderAsyncResult<undefined, null, string, number>,
         b: _.StateReaderAsyncResult<undefined, null, string, number>,
         expected: E.Result<string, readonly [undefined, number]>
       ) => {
         U.deepStrictEqual(await pipe(a, _.orElse(b))(undefined)(null)(), expected)
       }
-      await assertSemigroupKind(_.succeed(1), _.succeed(2), E.succeed([undefined, 1]))
-      await assertSemigroupKind(_.succeed(1), _.fail('b'), E.succeed([undefined, 1]))
-      await assertSemigroupKind(_.fail('a'), _.succeed(2), E.succeed([undefined, 2]))
-      await assertSemigroupKind(_.fail('a'), _.fail('b'), E.fail('b'))
+      await assertAlt(_.succeed(1), _.succeed(2), E.succeed([undefined, 1]))
+      await assertAlt(_.succeed(1), _.fail('b'), E.succeed([undefined, 1]))
+      await assertAlt(_.fail('a'), _.succeed(2), E.succeed([undefined, 2]))
+      await assertAlt(_.fail('a'), _.fail('b'), E.fail('b'))
     })
 
     it('map', async () => {

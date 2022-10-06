@@ -55,6 +55,7 @@ Added in v3.0.0
   - [partition](#partition)
   - [partitionMap](#partitionmap)
 - [instances](#instances)
+  - [Alt](#alt)
   - [Applicative](#applicative)
   - [Apply](#apply)
   - [Bifunctor](#bifunctor)
@@ -69,7 +70,6 @@ Added in v3.0.0
   - [Functor](#functor)
   - [KleisliComposable](#kleislicomposable)
   - [Monad](#monad)
-  - [SemigroupKind](#semigroupkind)
 - [lifting](#lifting)
   - [lift2](#lift2)
   - [lift3](#lift3)
@@ -583,6 +583,16 @@ Added in v3.0.0
 
 # instances
 
+## Alt
+
+**Signature**
+
+```ts
+export declare const Alt: alt.Alt<StateReaderAsyncResultTypeLambda>
+```
+
+Added in v3.0.0
+
 ## Applicative
 
 **Signature**
@@ -719,16 +729,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Monad: monad.Monad<StateReaderAsyncResultTypeLambda>
-```
-
-Added in v3.0.0
-
-## SemigroupKind
-
-**Signature**
-
-```ts
-export declare const SemigroupKind: semigroupKind.SemigroupKind<StateReaderAsyncResultTypeLambda>
 ```
 
 Added in v3.0.0

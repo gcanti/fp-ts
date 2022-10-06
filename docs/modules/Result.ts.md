@@ -1,6 +1,6 @@
 ---
 title: Result.ts
-nav_order: 84
+nav_order: 85
 parent: Modules
 ---
 
@@ -43,8 +43,8 @@ Added in v3.0.0
 - [error handling](#error-handling)
   - [catchAll](#catchall)
   - [getOrElse](#getorelse)
+  - [getValidatedAlt](#getvalidatedalt)
   - [getValidatedApplicative](#getvalidatedapplicative)
-  - [getValidatedSemigroupKind](#getvalidatedsemigroupkind)
   - [mapError](#maperror)
   - [orElse](#orelse)
   - [tapError](#taperror)
@@ -62,6 +62,7 @@ Added in v3.0.0
   - [reduce](#reduce)
   - [reduceRight](#reduceright)
 - [instances](#instances)
+  - [Alt](#alt)
   - [Applicative](#applicative)
   - [Apply](#apply)
   - [Bifunctor](#bifunctor)
@@ -75,7 +76,6 @@ Added in v3.0.0
   - [Functor](#functor)
   - [KleisliComposable](#kleislicomposable)
   - [Monad](#monad)
-  - [SemigroupKind](#semigroupkind)
   - [Traversable](#traversable)
   - [getCompactable](#getcompactable)
   - [getEq](#geteq)
@@ -363,6 +363,46 @@ assert.deepStrictEqual(pipe(E.fail('error'), E.getOrElse(0)), 0)
 
 Added in v3.0.0
 
+## getValidatedAlt
+
+The default [`Alt`](#semigroupkind) instance returns the last error, if you want to
+get all errors you need to provide a way to combine them via a `Semigroup`.
+
+**Signature**
+
+```ts
+export declare const getValidatedAlt: <E>(Semigroup: Semigroup<E>) => alt.Alt<ValidatedT<ResultTypeLambda, E>>
+```
+
+**Example**
+
+```ts
+import * as E from 'fp-ts/Result'
+import { pipe } from 'fp-ts/Function'
+import * as S from 'fp-ts/Semigroup'
+import * as string from 'fp-ts/string'
+
+const parseString = (u: unknown): E.Result<string, string> =>
+  typeof u === 'string' ? E.succeed(u) : E.fail('not a string')
+
+const parseNumber = (u: unknown): E.Result<string, number> =>
+  typeof u === 'number' ? E.succeed(u) : E.fail('not a number')
+
+const parse = (u: unknown): E.Result<string, string | number> =>
+  pipe(parseString(u), E.orElse<string, string | number>(parseNumber(u)))
+
+assert.deepStrictEqual(parse(true), E.fail('not a number')) // <= last error
+
+const Alt = E.getValidatedAlt(pipe(string.Semigroup, S.intercalate(', ')))
+
+const parseAll = (u: unknown): E.Result<string, string | number> =>
+  pipe(parseString(u), Alt.orElse(parseNumber(u) as E.Result<string, string | number>))
+
+assert.deepStrictEqual(parseAll(true), E.fail('not a string, not a number')) // <= all errors
+```
+
+Added in v3.0.0
+
 ## getValidatedApplicative
 
 The default [`Applicative`](#applicative) instance returns the first error, if you want to
@@ -409,48 +449,6 @@ const parsePersonAll = (input: Record<string, unknown>): E.Result<string, Person
   pipe(E.Do, bindRight('name', parseString(input.name)), bindRight('age', parseNumber(input.age)))
 
 assert.deepStrictEqual(parsePersonAll({}), E.fail('not a string, not a number')) // <= all errors
-```
-
-Added in v3.0.0
-
-## getValidatedSemigroupKind
-
-The default [`SemigroupKind`](#semigroupkind) instance returns the last error, if you want to
-get all errors you need to provide a way to combine them via a `Semigroup`.
-
-**Signature**
-
-```ts
-export declare const getValidatedSemigroupKind: <E>(
-  Semigroup: Semigroup<E>
-) => semigroupKind.SemigroupKind<ValidatedT<ResultTypeLambda, E>>
-```
-
-**Example**
-
-```ts
-import * as E from 'fp-ts/Result'
-import { pipe } from 'fp-ts/Function'
-import * as S from 'fp-ts/Semigroup'
-import * as string from 'fp-ts/string'
-
-const parseString = (u: unknown): E.Result<string, string> =>
-  typeof u === 'string' ? E.succeed(u) : E.fail('not a string')
-
-const parseNumber = (u: unknown): E.Result<string, number> =>
-  typeof u === 'number' ? E.succeed(u) : E.fail('not a number')
-
-const parse = (u: unknown): E.Result<string, string | number> =>
-  pipe(parseString(u), E.orElse<string, string | number>(parseNumber(u)))
-
-assert.deepStrictEqual(parse(true), E.fail('not a number')) // <= last error
-
-const SemigroupKind = E.getValidatedSemigroupKind(pipe(string.Semigroup, S.intercalate(', ')))
-
-const parseAll = (u: unknown): E.Result<string, string | number> =>
-  pipe(parseString(u), SemigroupKind.orElse(parseNumber(u) as E.Result<string, string | number>))
-
-assert.deepStrictEqual(parseAll(true), E.fail('not a string, not a number')) // <= all errors
 ```
 
 Added in v3.0.0
@@ -736,6 +734,16 @@ Added in v3.0.0
 
 # instances
 
+## Alt
+
+**Signature**
+
+```ts
+export declare const Alt: alt.Alt<ResultTypeLambda>
+```
+
+Added in v3.0.0
+
 ## Applicative
 
 **Signature**
@@ -862,16 +870,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Monad: monad.Monad<ResultTypeLambda>
-```
-
-Added in v3.0.0
-
-## SemigroupKind
-
-**Signature**
-
-```ts
-export declare const SemigroupKind: semigroupKind.SemigroupKind<ResultTypeLambda>
 ```
 
 Added in v3.0.0

@@ -1,14 +1,14 @@
 ---
-title: MonoidKind.ts
-nav_order: 62
+title: Alternative.ts
+nav_order: 2
 parent: Modules
 ---
 
-## MonoidKind overview
+## Alternative overview
 
 TODO: description
 
-`MonoidK` instances should satisfy the following laws in addition to the `SemigroupKind` laws:
+`MonoidK` instances should satisfy the following laws in addition to the `Alt` laws:
 
 1. Left identity: `emptyKind |> orElse(fa) <-> fa`
 2. Right identity: `fa |> orElse(emptyKind) <-> fa`
@@ -22,38 +22,22 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [constructors](#constructors)
-  - [guard](#guard)
 - [model](#model)
-  - [MonoidKind (interface)](#monoidkind-interface)
+  - [Alternative (interface)](#alternative-interface)
 - [utils](#utils)
+  - [guard](#guard)
   - [orElseAll](#orelseall)
 
 ---
 
-# constructors
-
-## guard
-
-**Signature**
-
-```ts
-export declare const guard: <F extends TypeLambda>(
-  F: MonoidKind<F>,
-  P: FromIdentity<F>
-) => <S>(b: boolean) => Kind<F, S, unknown, never, never, void>
-```
-
-Added in v3.0.0
-
 # model
 
-## MonoidKind (interface)
+## Alternative (interface)
 
 **Signature**
 
 ```ts
-export interface MonoidKind<F extends TypeLambda> extends SemigroupKind<F> {
+export interface Alternative<F extends TypeLambda> extends Alt<F> {
   readonly emptyKind: <S>() => Kind<F, S, unknown, never, never, never>
 }
 ```
@@ -62,13 +46,26 @@ Added in v3.0.0
 
 # utils
 
+## guard
+
+**Signature**
+
+```ts
+export declare const guard: <F extends TypeLambda>(
+  F: Alternative<F>,
+  P: FromIdentity<F>
+) => <S>(b: boolean) => Kind<F, S, unknown, never, never, void>
+```
+
+Added in v3.0.0
+
 ## orElseAll
 
 **Signature**
 
 ```ts
 export declare const orElseAll: <F extends TypeLambda>(
-  F: MonoidKind<F>
+  F: Alternative<F>
 ) => <S, R, O, E, A>(as: readonly Kind<F, S, R, O, E, A>[]) => Kind<F, S, R, O, E, A>
 ```
 

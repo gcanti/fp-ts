@@ -90,17 +90,17 @@ describe('Result', () => {
 
   describe('pipeables', () => {
     it('orElse', () => {
-      const assertSemigroupKind = (
+      const assertAlt = (
         a: _.Result<string, number>,
         b: _.Result<string, number>,
         expected: _.Result<string, number>
       ) => {
         U.deepStrictEqual(pipe(a, _.orElse(b)), expected)
       }
-      assertSemigroupKind(_.succeed(1), _.succeed(2), _.succeed(1))
-      assertSemigroupKind(_.succeed(1), _.fail('b'), _.succeed(1))
-      assertSemigroupKind(_.fail('a'), _.succeed(2), _.succeed(2))
-      assertSemigroupKind(_.fail('a'), _.fail('b'), _.fail('b'))
+      assertAlt(_.succeed(1), _.succeed(2), _.succeed(1))
+      assertAlt(_.succeed(1), _.fail('b'), _.succeed(1))
+      assertAlt(_.fail('a'), _.succeed(2), _.succeed(2))
+      assertAlt(_.fail('a'), _.fail('b'), _.fail('b'))
     })
 
     it('map', () => {
@@ -426,7 +426,7 @@ describe('Result', () => {
   })
 
   it('getSemigroupKValidation', () => {
-    const A = _.getValidatedSemigroupKind(S.Monoid)
+    const A = _.getValidatedAlt(S.Monoid)
     U.deepStrictEqual(pipe(_.fail('a'), A.orElse(_.fail('b'))), _.fail('ab'))
     U.deepStrictEqual(pipe(_.succeed(1), A.orElse(_.fail('b'))), _.succeed(1))
     U.deepStrictEqual(pipe(_.fail('a'), A.orElse(_.succeed(2))), _.succeed(2))

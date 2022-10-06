@@ -57,17 +57,17 @@ describe('ReaderAsyncResult', () => {
     })
 
     it('orElse', async () => {
-      const assertSemigroupKind = async (
+      const assertAlt = async (
         a: _.ReaderAsyncResult<null, string, number>,
         b: _.ReaderAsyncResult<null, string, number>,
         expected: E.Result<string, number>
       ) => {
         U.deepStrictEqual(await pipe(a, _.orElse(b))(null)(), expected)
       }
-      await assertSemigroupKind(_.succeed(1), _.succeed(2), E.succeed(1))
-      await assertSemigroupKind(_.succeed(1), _.fail('b'), E.succeed(1))
-      await assertSemigroupKind(_.fail('a'), _.succeed(2), E.succeed(2))
-      await assertSemigroupKind(_.fail('a'), _.fail('b'), E.fail('b'))
+      await assertAlt(_.succeed(1), _.succeed(2), E.succeed(1))
+      await assertAlt(_.succeed(1), _.fail('b'), E.succeed(1))
+      await assertAlt(_.fail('a'), _.succeed(2), E.succeed(2))
+      await assertAlt(_.fail('a'), _.fail('b'), E.fail('b'))
     })
 
     it('fromPredicate', async () => {
@@ -233,7 +233,7 @@ describe('ReaderAsyncResult', () => {
   })
 
   it('getSemigroupKReaderAsyncValidation', async () => {
-    const A = _.getValidatedSemigroupKind(S.Semigroup)
+    const A = _.getValidatedAlt(S.Semigroup)
     U.deepStrictEqual(await pipe(_.fail('a'), A.orElse(_.fail('b')))(null)(), E.fail('ab'))
   })
 

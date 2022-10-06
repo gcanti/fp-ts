@@ -2,6 +2,8 @@
  * @since 3.0.0
  */
 
+import * as alt from './Alt'
+import * as alternative from './Alternative'
 import * as applicative from './Applicative'
 import * as apply from './Apply'
 import * as async from './Async'
@@ -62,7 +64,6 @@ import * as magma from './Magma'
 import * as meetSemilattice from './MeetSemilattice'
 import * as monad from './Monad'
 import * as monoid from './Monoid'
-import * as monoidKind from './MonoidKind'
 import * as number from './number'
 import * as option from './Option'
 import * as optionT from './OptionT'
@@ -88,7 +89,6 @@ import * as result from './Result'
 import * as resultT from './ResultT'
 import * as ring from './Ring'
 import * as semigroup from './Semigroup'
-import * as semigroupKind from './SemigroupKind'
 import * as semiring from './Semiring'
 import * as show from './Show'
 import * as state from './State'
@@ -113,6 +113,16 @@ import * as writer from './Writer'
 import * as writerT from './WriterT'
 
 export {
+  /**
+   * @category type classes
+   * @since 3.0.0
+   */
+  alt,
+  /**
+   * @category type classes
+   * @since 3.0.0
+   */
+  alternative,
   /**
    * @category type classes
    * @since 3.0.0
@@ -399,11 +409,6 @@ export {
    */
   monoid,
   /**
-   * @category type classes
-   * @since 3.0.0
-   */
-  monoidKind,
-  /**
    * @since 3.0.0
    */
   number,
@@ -524,11 +529,6 @@ export {
    * @since 3.0.0
    */
   semigroup,
-  /**
-   * @category type classes
-   * @since 3.0.0
-   */
-  semigroupKind,
   /**
    * @category type classes
    * @since 3.0.0

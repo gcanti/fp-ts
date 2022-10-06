@@ -14,17 +14,17 @@ describe('ReaderResult', () => {
     })
 
     it('orElse', () => {
-      const assertSemigroupKind = (
+      const assertAlt = (
         a: _.ReaderResult<null, string, number>,
         b: _.ReaderResult<null, string, number>,
         expected: E.Result<string, number>
       ) => {
         U.deepStrictEqual(pipe(a, _.orElse(b))(null), expected)
       }
-      assertSemigroupKind(_.succeed(1), _.succeed(2), E.succeed(1))
-      assertSemigroupKind(_.succeed(1), _.fail('b'), E.succeed(1))
-      assertSemigroupKind(_.fail('a'), _.succeed(2), E.succeed(2))
-      assertSemigroupKind(_.fail('a'), _.fail('b'), E.fail('b'))
+      assertAlt(_.succeed(1), _.succeed(2), E.succeed(1))
+      assertAlt(_.succeed(1), _.fail('b'), E.succeed(1))
+      assertAlt(_.fail('a'), _.succeed(2), E.succeed(2))
+      assertAlt(_.fail('a'), _.fail('b'), E.fail('b'))
     })
 
     it('ap', () => {
@@ -130,7 +130,7 @@ describe('ReaderResult', () => {
   })
 
   it('getSemigroupKReaderValidation', () => {
-    const A = _.getValidatedSemigroupKind(S.Monoid)
+    const A = _.getValidatedAlt(S.Monoid)
     U.deepStrictEqual(pipe(_.fail('a'), A.orElse(_.fail('b')))(null), E.fail('ab'))
   })
 

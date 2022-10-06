@@ -3,8 +3,8 @@
  */
 import type * as kleisliCategory from './KleisliCategory'
 import type * as kleisliComposable from './KleisliComposable'
-import type * as semigroupKind from './SemigroupKind'
-import * as monoidKind from './MonoidKind'
+import type * as alt from './Alt'
+import * as monoidKind from './Alternative'
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
 import * as flattenable from './Flattenable'
@@ -1842,7 +1842,7 @@ export const Unfoldable: unfoldable.Unfoldable<ReadonlyArrayTypeLambda> = {
  * @category instances
  * @since 3.0.0
  */
-export const SemigroupKind: semigroupKind.SemigroupKind<ReadonlyArrayTypeLambda> = {
+export const Alt: alt.Alt<ReadonlyArrayTypeLambda> = {
   orElse
 }
 
@@ -1850,7 +1850,7 @@ export const SemigroupKind: semigroupKind.SemigroupKind<ReadonlyArrayTypeLambda>
  * @category instances
  * @since 3.0.0
  */
-export const MonoidKind: monoidKind.MonoidKind<ReadonlyArrayTypeLambda> = {
+export const Alternative: monoidKind.Alternative<ReadonlyArrayTypeLambda> = {
   orElse,
   emptyKind: emptyKind
 }
@@ -1859,7 +1859,7 @@ export const MonoidKind: monoidKind.MonoidKind<ReadonlyArrayTypeLambda> = {
  * @category do notation
  * @since 3.0.0
  */
-export const guard: (b: boolean) => ReadonlyArray<void> = /*#__PURE__*/ monoidKind.guard(MonoidKind, FromIdentity)
+export const guard: (b: boolean) => ReadonlyArray<void> = /*#__PURE__*/ monoidKind.guard(Alternative, FromIdentity)
 
 /**
  * @category instances

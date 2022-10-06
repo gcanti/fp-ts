@@ -1,6 +1,6 @@
 ---
 title: AsyncOption.ts
-nav_order: 4
+nav_order: 6
 parent: Modules
 ---
 
@@ -45,6 +45,8 @@ Added in v3.0.0
   - [partitionMap](#partitionmap)
   - [separate](#separate)
 - [instances](#instances)
+  - [Alt](#alt)
+  - [Alternative](#alternative)
   - [Applicative](#applicative)
   - [Apply](#apply)
   - [CategoryKind](#categorykind)
@@ -59,8 +61,6 @@ Added in v3.0.0
   - [Functor](#functor)
   - [KleisliComposable](#kleislicomposable)
   - [Monad](#monad)
-  - [MonoidKind](#monoidkind)
-  - [SemigroupKind](#semigroupkind)
 - [interop](#interop)
   - [fromRejectable](#fromrejectable)
   - [liftRejectable](#liftrejectable)
@@ -434,6 +434,26 @@ Added in v3.0.0
 
 # instances
 
+## Alt
+
+**Signature**
+
+```ts
+export declare const Alt: alt.Alt<AsyncOptionTypeLambda>
+```
+
+Added in v3.0.0
+
+## Alternative
+
+**Signature**
+
+```ts
+export declare const Alternative: monoidKind.Alternative<AsyncOptionTypeLambda>
+```
+
+Added in v3.0.0
+
 ## Applicative
 
 **Signature**
@@ -570,26 +590,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Monad: monad.Monad<AsyncOptionTypeLambda>
-```
-
-Added in v3.0.0
-
-## MonoidKind
-
-**Signature**
-
-```ts
-export declare const MonoidKind: monoidKind.MonoidKind<AsyncOptionTypeLambda>
-```
-
-Added in v3.0.0
-
-## SemigroupKind
-
-**Signature**
-
-```ts
-export declare const SemigroupKind: semigroupKind.SemigroupKind<AsyncOptionTypeLambda>
 ```
 
 Added in v3.0.0

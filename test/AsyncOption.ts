@@ -37,17 +37,13 @@ describe('AsyncOption', () => {
   })
 
   it('orElse', async () => {
-    const assertSemigroupKind = async (
-      a: _.AsyncOption<number>,
-      b: _.AsyncOption<number>,
-      expected: O.Option<number>
-    ) => {
+    const assertAlt = async (a: _.AsyncOption<number>, b: _.AsyncOption<number>, expected: O.Option<number>) => {
       U.deepStrictEqual(await pipe(a, _.orElse(b))(), expected)
     }
-    await assertSemigroupKind(_.some(1), _.some(2), O.some(1))
-    await assertSemigroupKind(_.some(1), _.none, O.some(1))
-    await assertSemigroupKind(_.none, _.some(2), O.some(2))
-    await assertSemigroupKind(_.none, _.none, O.none)
+    await assertAlt(_.some(1), _.some(2), O.some(1))
+    await assertAlt(_.some(1), _.none, O.some(1))
+    await assertAlt(_.none, _.some(2), O.some(2))
+    await assertAlt(_.none, _.none, O.none)
   })
 
   it('emptyKind', async () => {

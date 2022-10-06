@@ -12,8 +12,8 @@
  *
  * @since 3.0.0
  */
-import type * as semigroupKind from './SemigroupKind'
-import * as monoidKind from './MonoidKind'
+import type * as alt from './Alt'
+import * as monoidKind from './Alternative'
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
 import type * as kleisliCategory from './KleisliCategory'
@@ -847,7 +847,7 @@ export const Foldable: foldable.Foldable<OptionTypeLambda> = {
  * @category instances
  * @since 3.0.0
  */
-export const SemigroupKind: semigroupKind.SemigroupKind<OptionTypeLambda> = {
+export const Alt: alt.Alt<OptionTypeLambda> = {
   orElse
 }
 
@@ -855,7 +855,7 @@ export const SemigroupKind: semigroupKind.SemigroupKind<OptionTypeLambda> = {
  * @category instances
  * @since 3.0.0
  */
-export const MonoidKind: monoidKind.MonoidKind<OptionTypeLambda> = {
+export const Alternative: monoidKind.Alternative<OptionTypeLambda> = {
   orElse,
   emptyKind: emptyKind
 }
@@ -864,7 +864,7 @@ export const MonoidKind: monoidKind.MonoidKind<OptionTypeLambda> = {
  * @category do notation
  * @since 3.0.0
  */
-export const guard: (b: boolean) => Option<void> = /*#__PURE__*/ monoidKind.guard(MonoidKind, FromIdentity)
+export const guard: (b: boolean) => Option<void> = /*#__PURE__*/ monoidKind.guard(Alternative, FromIdentity)
 
 /**
  * @category instances

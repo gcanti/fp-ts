@@ -1,6 +1,6 @@
 ---
 title: AsyncResult.ts
-nav_order: 5
+nav_order: 7
 parent: Modules
 ---
 
@@ -45,8 +45,8 @@ Added in v3.0.0
   - [flatMapError](#flatmaperror)
   - [getOrElse](#getorelse)
   - [getOrElseAsync](#getorelseasync)
+  - [getValidatedAlt](#getvalidatedalt)
   - [getValidatedApplicative](#getvalidatedapplicative)
-  - [getValidatedSemigroupKind](#getvalidatedsemigroupkind)
   - [mapError](#maperror)
   - [orElse](#orelse)
   - [tapError](#taperror)
@@ -58,6 +58,7 @@ Added in v3.0.0
   - [partitionMap](#partitionmap)
   - [separate](#separate)
 - [instances](#instances)
+  - [Alt](#alt)
   - [Applicative](#applicative)
   - [Apply](#apply)
   - [Bifunctor](#bifunctor)
@@ -70,7 +71,6 @@ Added in v3.0.0
   - [Functor](#functor)
   - [KleisliComposable](#kleislicomposable)
   - [Monad](#monad)
-  - [SemigroupKind](#semigroupkind)
   - [getCompactable](#getcompactable)
   - [getFilterable](#getfilterable)
 - [interop](#interop)
@@ -417,6 +417,21 @@ export declare const getOrElseAsync: <B>(
 
 Added in v3.0.0
 
+## getValidatedAlt
+
+The default [`Alt`](#semigroupkind) instance returns the last error, if you want to
+get all errors you need to provide a way to combine them via a `Semigroup`.
+
+**Signature**
+
+```ts
+export declare const getValidatedAlt: <E>(
+  Semigroup: Semigroup<E>
+) => alt.Alt<result.ValidatedT<AsyncResultTypeLambda, E>>
+```
+
+Added in v3.0.0
+
 ## getValidatedApplicative
 
 The default [`Applicative`](#applicative) instance returns the first error, if you want to
@@ -429,21 +444,6 @@ export declare const getValidatedApplicative: <E>(
   Apply: apply.Apply<async.AsyncTypeLambda>,
   Semigroup: Semigroup<E>
 ) => applicative.Applicative<result.ValidatedT<AsyncResultTypeLambda, E>>
-```
-
-Added in v3.0.0
-
-## getValidatedSemigroupKind
-
-The default [`SemigroupKind`](#semigroupkind) instance returns the last error, if you want to
-get all errors you need to provide a way to combine them via a `Semigroup`.
-
-**Signature**
-
-```ts
-export declare const getValidatedSemigroupKind: <E>(
-  Semigroup: Semigroup<E>
-) => semigroupKind.SemigroupKind<result.ValidatedT<AsyncResultTypeLambda, E>>
 ```
 
 Added in v3.0.0
@@ -594,6 +594,16 @@ Added in v3.0.0
 
 # instances
 
+## Alt
+
+**Signature**
+
+```ts
+export declare const Alt: alt.Alt<AsyncResultTypeLambda>
+```
+
+Added in v3.0.0
+
 ## Applicative
 
 **Signature**
@@ -710,16 +720,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Monad: monad.Monad<AsyncResultTypeLambda>
-```
-
-Added in v3.0.0
-
-## SemigroupKind
-
-**Signature**
-
-```ts
-export declare const SemigroupKind: semigroupKind.SemigroupKind<AsyncResultTypeLambda>
 ```
 
 Added in v3.0.0
