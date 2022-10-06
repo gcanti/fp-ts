@@ -415,10 +415,6 @@ export const flatten: <R1, E1, R2, E2, A>(
 ) => ReaderAsyncResult<R1 & R2, E1 | E2, A> = /*#__PURE__*/ flatMap(identity)
 
 /**
- * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
- * types of kind `* -> *`.
- *
- * @category SemigroupK
  * @since 3.0.0
  */
 export const orElse: <R2, E2, B>(
@@ -1000,7 +996,7 @@ export const bracket: <R1, E1, A, R2, E2, B, R3, E3>(
  * @category do notation
  * @since 3.0.0
  */
-export const Do: ReaderAsyncResult<unknown, never, {}> = /*#__PURE__*/ succeed(_.Do)
+export const Do: ReaderAsyncResult<unknown, never, {}> = /*#__PURE__*/ succeed(_.emptyReadonlyRecord)
 
 /**
  * @category do notation
@@ -1061,7 +1057,7 @@ export const bindRight: <N extends string, A extends object, R2, E2, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const Zip: ReaderAsyncResult<unknown, never, readonly []> = /*#__PURE__*/ succeed(_.Zip)
+export const Zip: ReaderAsyncResult<unknown, never, readonly []> = /*#__PURE__*/ succeed(_.emptyReadonlyArray)
 
 /**
  * @category tuple sequencing

@@ -134,7 +134,6 @@ Added in v3.0.0
   - [composeKleisli](#composekleisli)
   - [duplicate](#duplicate)
   - [elem](#elem)
-  - [emptyKind](#emptykind)
   - [exists](#exists)
   - [extend](#extend)
   - [flatten](#flatten)
@@ -636,7 +635,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Alternative: monoidKind.Alternative<OptionTypeLambda>
+export declare const Alternative: alternative.Alternative<OptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -1523,16 +1522,6 @@ import { pipe } from 'fp-ts/Function'
 assert.strictEqual(pipe(O.some(1), O.elem(N.Eq)(1)), true)
 assert.strictEqual(pipe(O.some(1), O.elem(N.Eq)(2)), false)
 assert.strictEqual(pipe(O.none, O.elem(N.Eq)(1)), false)
-```
-
-Added in v3.0.0
-
-## emptyKind
-
-**Signature**
-
-```ts
-export declare const emptyKind: <A>() => Option<A>
 ```
 
 Added in v3.0.0

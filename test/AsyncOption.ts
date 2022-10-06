@@ -46,10 +46,6 @@ describe('AsyncOption', () => {
     await assertAlt(_.none, _.none, O.none)
   })
 
-  it('emptyKind', async () => {
-    U.deepStrictEqual(await _.emptyKind()(), O.none)
-  })
-
   it('fromSync', async () => {
     U.deepStrictEqual(await _.fromSync(() => 1)(), O.some(1))
   })

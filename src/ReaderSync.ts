@@ -359,7 +359,7 @@ export const flatMapReader: <A, R2, B>(
  * @category do notation
  * @since 3.0.0
  */
-export const Do: ReaderSync<unknown, {}> = /*#__PURE__*/ succeed(_.Do)
+export const Do: ReaderSync<unknown, {}> = /*#__PURE__*/ succeed(_.emptyReadonlyRecord)
 
 /**
  * @category do notation
@@ -417,7 +417,7 @@ export const bindRight: <N extends string, A extends object, R2, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const Zip: ReaderSync<unknown, readonly []> = /*#__PURE__*/ succeed(_.Zip)
+export const Zip: ReaderSync<unknown, readonly []> = /*#__PURE__*/ succeed(_.emptyReadonlyArray)
 
 /**
  * @category tuple sequencing

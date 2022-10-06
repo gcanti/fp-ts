@@ -636,8 +636,6 @@ Added in v3.0.0
 
 ## empty
 
-An empty `ReadonlyRecord`.
-
 **Signature**
 
 ```ts

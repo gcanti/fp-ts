@@ -81,10 +81,16 @@ export const tail = <A>(as: ReadonlyNonEmptyArray<A>): ReadonlyArray<A> => as.sl
 // -------------------------------------------------------------------------------------
 
 /** @internal */
-export const Zip: readonly [] = []
+export const emptyReadonlyArray: readonly [] = []
 
 /** @internal */
-export const Do: {} = {}
+export const emptyReadonlyRecord: {} = {}
+
+/** @internal */
+export const emptyReadonlyMap = new Map<never, never>()
+
+/** @internal */
+export const emptyReadonlySet = new Set<never>()
 
 // -------------------------------------------------------------------------------------
 // Record

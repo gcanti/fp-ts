@@ -221,10 +221,6 @@ describe('Option', () => {
     U.deepStrictEqual(pipe(_.some(1), _.toResult('e')), E.succeed(1))
   })
 
-  it('emptyKind', () => {
-    U.deepStrictEqual(_.emptyKind(), _.none)
-  })
-
   it('match', () => {
     const f = () => 'none'
     const g = (s: string) => `some${s.length}`

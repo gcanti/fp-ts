@@ -4,7 +4,7 @@
 import type * as kleisliCategory from './KleisliCategory'
 import type * as kleisliComposable from './KleisliComposable'
 import type * as alt from './Alt'
-import * as monoidKind from './Alternative'
+import * as alternative from './Alternative'
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
 import * as flattenable from './Flattenable'
@@ -1209,7 +1209,7 @@ export const succeed: <A>(a: A) => ReadonlyArray<A> = readonlyNonEmptyArray.succ
 /**
  * @since 3.0.0
  */
-export const emptyKind: <A>() => ReadonlyArray<A> = () => empty
+export const empty: ReadonlyArray<never> = _.emptyReadonlyArray
 
 /**
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
@@ -1229,7 +1229,6 @@ export const emptyKind: <A>() => ReadonlyArray<A> = () => empty
  *   [1, 2, 3, 4, 5]
  * )
  *
- * @category SemigroupK
  * @since 3.0.0
  */
 export const orElse =
@@ -1549,7 +1548,7 @@ export const traverseWithIndex =
   <A, S, R, O, E, B>(
     f: (i: number, a: A) => Kind<F, S, R, O, E, B>
   ): ((ta: ReadonlyArray<A>) => Kind<F, S, R, O, E, ReadonlyArray<B>>) => {
-    return reduceWithIndex<Kind<F, S, R, O, E, ReadonlyArray<B>>, A>(F.succeed(emptyKind()), (i, fbs, a) =>
+    return reduceWithIndex<Kind<F, S, R, O, E, ReadonlyArray<B>>, A>(F.succeed(empty), (i, fbs, a) =>
       pipe(
         fbs,
         F.map((bs) => (b: B) => append(b)(bs)),
@@ -1614,7 +1613,7 @@ export const getUnionSemigroup = <A>(E: Eq<A>): Semigroup<ReadonlyArray<A>> => (
  */
 export const getUnionMonoid = <A>(E: Eq<A>): Monoid<ReadonlyArray<A>> => ({
   combine: getUnionSemigroup(E).combine,
-  empty
+  empty: empty
 })
 
 /**
@@ -1658,7 +1657,7 @@ export const getSemigroup = <A>(): Semigroup<ReadonlyArray<A>> => ({
  */
 export const getMonoid = <A>(): Monoid<ReadonlyArray<A>> => ({
   combine: getSemigroup<A>().combine,
-  empty
+  empty: empty
 })
 
 /**
@@ -1850,16 +1849,16 @@ export const Alt: alt.Alt<ReadonlyArrayTypeLambda> = {
  * @category instances
  * @since 3.0.0
  */
-export const Alternative: monoidKind.Alternative<ReadonlyArrayTypeLambda> = {
+export const Alternative: alternative.Alternative<ReadonlyArrayTypeLambda> = {
   orElse,
-  emptyKind: emptyKind
+  none: () => empty
 }
 
 /**
  * @category do notation
  * @since 3.0.0
  */
-export const guard: (b: boolean) => ReadonlyArray<void> = /*#__PURE__*/ monoidKind.guard(Alternative, FromIdentity)
+export const guard: (b: boolean) => ReadonlyArray<void> = /*#__PURE__*/ alternative.guard(Alternative, FromIdentity)
 
 /**
  * @category instances
@@ -2189,13 +2188,6 @@ export const FlattenableRecBreadthFirst: flattenableRec.FlattenableRec<ReadonlyA
 }
 
 /**
- * An empty `ReadonlyArray`.
- *
- * @since 3.0.0
- */
-export const empty: ReadonlyArray<never> = _.Zip
-
-/**
  * Check if a predicate holds true for every `ReadonlyArray` member.
  *
  * @example
@@ -2265,7 +2257,7 @@ export const intercalate = <A>(M: Monoid<A>): ((middle: A) => (as: ReadonlyArray
  * @category do notation
  * @since 3.0.0
  */
-export const Do: ReadonlyArray<{}> = /*#__PURE__*/ succeed(_.Do)
+export const Do: ReadonlyArray<{}> = /*#__PURE__*/ succeed(_.emptyReadonlyRecord)
 
 /**
  * @category do notation
@@ -2319,7 +2311,7 @@ export const bindRight: <N extends string, A extends object, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const Zip: ReadonlyArray<readonly []> = /*#__PURE__*/ succeed(_.Zip)
+export const Zip: ReadonlyArray<readonly []> = empty
 
 /**
  * @category tuple sequencing

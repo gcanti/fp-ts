@@ -13,7 +13,7 @@
  * @since 3.0.0
  */
 import type * as alt from './Alt'
-import * as monoidKind from './Alternative'
+import * as alternative from './Alternative'
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
 import type * as kleisliCategory from './KleisliCategory'
@@ -585,11 +585,6 @@ export const orElse = <B>(that: Option<B>): (<A>(self: Option<A>) => Option<A | 
 /**
  * @since 3.0.0
  */
-export const emptyKind: <A>() => Option<A> = () => none
-
-/**
- * @since 3.0.0
- */
 export const extend: <A, B>(f: (wa: Option<A>) => B) => (wa: Option<A>) => Option<B> = (f) => (wa) =>
   isNone(wa) ? none : some(f(wa))
 
@@ -855,16 +850,16 @@ export const Alt: alt.Alt<OptionTypeLambda> = {
  * @category instances
  * @since 3.0.0
  */
-export const Alternative: monoidKind.Alternative<OptionTypeLambda> = {
+export const Alternative: alternative.Alternative<OptionTypeLambda> = {
   orElse,
-  emptyKind: emptyKind
+  none: () => none
 }
 
 /**
  * @category do notation
  * @since 3.0.0
  */
-export const guard: (b: boolean) => Option<void> = /*#__PURE__*/ monoidKind.guard(Alternative, FromIdentity)
+export const guard: (b: boolean) => Option<void> = /*#__PURE__*/ alternative.guard(Alternative, FromIdentity)
 
 /**
  * @category instances
@@ -1095,7 +1090,7 @@ export const exists =
  * @category do notation
  * @since 3.0.0
  */
-export const Do: Option<{}> = /*#__PURE__*/ succeed(_.Do)
+export const Do: Option<{}> = /*#__PURE__*/ succeed(_.emptyReadonlyRecord)
 
 /**
  * @category do notation
@@ -1148,7 +1143,7 @@ export const bindRight: <N extends string, A extends object, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const Zip: Option<readonly []> = /*#__PURE__*/ succeed(_.Zip)
+export const Zip: Option<readonly []> = /*#__PURE__*/ succeed(_.emptyReadonlyArray)
 
 /**
  * @category tuple sequencing

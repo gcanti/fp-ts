@@ -60,7 +60,7 @@ Added in v3.0.0
   - [deleteAt](#deleteat)
   - [difference](#difference)
   - [elem](#elem)
-  - [emptyKind](#emptykind)
+  - [empty](#empty)
   - [filterMap](#filtermap)
   - [foldMap](#foldmap)
   - [foldMapWithIndex](#foldmapwithindex)
@@ -578,12 +578,12 @@ export declare const elem: <A>(E: eq.Eq<A>) => (a: A) => <K>(m: ReadonlyMap<K, A
 
 Added in v3.0.0
 
-## emptyKind
+## empty
 
 **Signature**
 
 ```ts
-export declare const emptyKind: <K>() => ReadonlyMap<K, never>
+export declare const empty: <K>() => ReadonlyMap<K, never>
 ```
 
 Added in v3.0.0

@@ -376,7 +376,6 @@ export const flatten: <S, R1, E1, R2, E2, A>(
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
  * types of kind `* -> *`.
  *
- * @category SemigroupK
  * @since 3.0.0
  */
 export const orElse =
@@ -1017,7 +1016,7 @@ export const traverseReadonlyArrayWithIndex = <A, S, R, E, B>(
   f: (index: number, a: A) => StateReaderAsyncResult<S, R, E, B>
 ): ((as: ReadonlyArray<A>) => StateReaderAsyncResult<S, R, E, ReadonlyArray<B>>) => {
   const g = traverseReadonlyNonEmptyArrayWithIndex(f)
-  return (as) => (_.isNonEmpty(as) ? g(as) : succeed(_.Zip))
+  return (as) => (_.isNonEmpty(as) ? g(as) : succeed(_.emptyReadonlyArray))
 }
 
 /**

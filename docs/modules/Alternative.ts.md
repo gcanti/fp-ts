@@ -8,13 +8,13 @@ parent: Modules
 
 TODO: description
 
-`MonoidK` instances should satisfy the following laws in addition to the `Alt` laws:
+`Alternative` instances should satisfy the following laws in addition to the `Alt` laws:
 
-1. Left identity: `emptyKind |> orElse(fa) <-> fa`
-2. Right identity: `fa |> orElse(emptyKind) <-> fa`
-3. Annihilation1: `emptyKind |> map(f) <-> emptyKind`
+1. Left identity: `none |> orElse(fa) <-> fa`
+2. Right identity: `fa |> orElse(none) <-> fa`
+3. Annihilation1: `none |> map(f) <-> none`
 4. Distributivity: `fab |> orElse(gab) |> ap(fa) <-> fab |> ap(fa) |> orElse(gab |> A.ap(fa))`
-5. Annihilation2: `emptyKind |> ap(fa) <-> emptyKind`
+5. Annihilation2: `none |> ap(fa) <-> none`
 
 Added in v3.0.0
 
@@ -22,13 +22,29 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [do notation](#do-notation)
+  - [guard](#guard)
 - [model](#model)
   - [Alternative (interface)](#alternative-interface)
 - [utils](#utils)
   - [firstSuccessOf](#firstsuccessof)
-  - [guard](#guard)
 
 ---
+
+# do notation
+
+## guard
+
+**Signature**
+
+```ts
+export declare const guard: <F extends TypeLambda>(
+  Alternative: Alternative<F>,
+  FromIdentity: FromIdentity<F>
+) => <S>(b: boolean) => Kind<F, S, unknown, never, never, void>
+```
+
+Added in v3.0.0
 
 # model
 
@@ -38,7 +54,7 @@ Added in v3.0.0
 
 ```ts
 export interface Alternative<F extends TypeLambda> extends Alt<F> {
-  readonly emptyKind: <S>() => Kind<F, S, unknown, never, never, never>
+  readonly none: <S>() => Kind<F, S, unknown, never, never, never>
 }
 ```
 
@@ -54,21 +70,8 @@ Returns an effect that runs each of the specified effects in order until one of 
 
 ```ts
 export declare const firstSuccessOf: <F extends TypeLambda>(
-  F: Alternative<F>
+  Alternative: Alternative<F>
 ) => <S, R, O, E, A>(as: readonly Kind<F, S, R, O, E, A>[]) => Kind<F, S, R, O, E, A>
-```
-
-Added in v3.0.0
-
-## guard
-
-**Signature**
-
-```ts
-export declare const guard: <F extends TypeLambda>(
-  F: Alternative<F>,
-  P: FromIdentity<F>
-) => <S>(b: boolean) => Kind<F, S, unknown, never, never, void>
 ```
 
 Added in v3.0.0

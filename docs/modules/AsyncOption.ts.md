@@ -115,7 +115,6 @@ Added in v3.0.0
   - [ap](#ap)
   - [composeKleisli](#composekleisli)
   - [delay](#delay)
-  - [emptyKind](#emptykind)
   - [flatten](#flatten)
   - [idKleisli](#idkleisli)
   - [orElse](#orelse)
@@ -449,7 +448,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Alternative: monoidKind.Alternative<AsyncOptionTypeLambda>
+export declare const Alternative: alternative.Alternative<AsyncOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -1149,16 +1148,6 @@ Returns an effect that is delayed from this effect by the specified `duration` (
 
 ```ts
 export declare const delay: (duration: number) => <A>(self: AsyncOption<A>) => AsyncOption<A>
-```
-
-Added in v3.0.0
-
-## emptyKind
-
-**Signature**
-
-```ts
-export declare const emptyKind: <A>() => AsyncOption<A>
 ```
 
 Added in v3.0.0

@@ -39,10 +39,6 @@ describe('SyncOption', () => {
     U.deepStrictEqual(pipe(_.none, _.orElse(_.none))(), O.none)
   })
 
-  it('emptyKind', () => {
-    U.deepStrictEqual(_.emptyKind()(), O.none)
-  })
-
   it('fromSync', () => {
     U.deepStrictEqual(_.fromSync(() => 1)(), O.some(1))
   })

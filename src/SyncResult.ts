@@ -224,7 +224,6 @@ export const flatten: <E1, E2, A>(mma: SyncResult<E1, SyncResult<E2, A>>) => Syn
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
  * types of kind `* -> *`.
  *
- * @category SemigroupK
  * @since 3.0.0
  */
 export const orElse: <E2, B>(that: SyncResult<E2, B>) => <E1, A>(self: SyncResult<E1, A>) => SyncResult<E2, A | B> =
@@ -686,7 +685,7 @@ export const bracket: <E1, A, E2, B, E3>(
  * @category do notation
  * @since 3.0.0
  */
-export const Do: SyncResult<never, {}> = /*#__PURE__*/ succeed(_.Do)
+export const Do: SyncResult<never, {}> = /*#__PURE__*/ succeed(_.emptyReadonlyRecord)
 
 /**
  * @category do notation
@@ -744,7 +743,7 @@ export const bindRight: <N extends string, A extends object, E2, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const Zip: SyncResult<never, readonly []> = /*#__PURE__*/ succeed(_.Zip)
+export const Zip: SyncResult<never, readonly []> = /*#__PURE__*/ succeed(_.emptyReadonlyArray)
 
 /**
  * @category tuple sequencing

@@ -414,7 +414,7 @@ export const toTuple2: <E, A>(e: E, a: A) => (fa: AsyncThese<E, A>) => Async<rea
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const Zip: AsyncThese<never, readonly []> = /*#__PURE__*/ succeed(_.Zip)
+export const Zip: AsyncThese<never, readonly []> = /*#__PURE__*/ succeed(_.emptyReadonlyArray)
 
 // -------------------------------------------------------------------------------------
 // array utils

@@ -505,7 +505,7 @@ export const flatMapAsync: <A, B>(f: (a: A) => Async<B>) => <R>(self: ReaderAsyn
  * @category do notation
  * @since 3.0.0
  */
-export const Do: ReaderAsync<unknown, {}> = /*#__PURE__*/ succeed(_.Do)
+export const Do: ReaderAsync<unknown, {}> = /*#__PURE__*/ succeed(_.emptyReadonlyRecord)
 
 /**
  * @category do notation
@@ -577,7 +577,7 @@ export const bindRightPar: <N extends string, A extends object, R2, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const Zip: ReaderAsync<unknown, readonly []> = /*#__PURE__*/ succeed(_.Zip)
+export const Zip: ReaderAsync<unknown, readonly []> = /*#__PURE__*/ succeed(_.emptyReadonlyArray)
 
 /**
  * @category tuple sequencing

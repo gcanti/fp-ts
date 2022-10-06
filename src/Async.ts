@@ -443,7 +443,7 @@ export const never: Async<never> = () => new Promise(() => undefined)
  * @category do notation
  * @since 3.0.0
  */
-export const Do: Async<{}> = /*#__PURE__*/ succeed(_.Do)
+export const Do: Async<{}> = /*#__PURE__*/ succeed(_.emptyReadonlyRecord)
 
 /**
  * @category do notation
@@ -508,7 +508,7 @@ export const bindRightPar: <N extends string, A extends object, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const Zip: Async<readonly []> = /*#__PURE__*/ succeed(_.Zip)
+export const Zip: Async<readonly []> = /*#__PURE__*/ succeed(_.emptyReadonlyArray)
 
 /**
  * @category tuple sequencing

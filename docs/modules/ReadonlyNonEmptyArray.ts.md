@@ -25,8 +25,6 @@ Added in v3.0.0
 
 - [FunctorWithIndex](#functorwithindex)
   - [mapWithIndex](#mapwithindex)
-- [SemigroupK](#semigroupk)
-  - [orElse](#orelse)
 - [constructors](#constructors)
   - [fromReadonlyArray](#fromreadonlyarray)
   - [makeBy](#makeby)
@@ -120,6 +118,7 @@ Added in v3.0.0
   - [modifyAt](#modifyat)
   - [modifyHead](#modifyhead)
   - [modifyLast](#modifylast)
+  - [orElse](#orelse)
   - [prependAll](#prependall)
   - [reverse](#reverse)
   - [rotate](#rotate)
@@ -153,34 +152,6 @@ export declare const mapWithIndex: <A, B>(
 ```
 
 Added in v3.0.0
-
-# SemigroupK
-
-## orElse
-
-Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
-types of kind `* -> *`.
-
-In case of `ReadonlyNonEmptyArray` concatenates the inputs into a single array.
-
-**Signature**
-
-```ts
-export declare const orElse: <B>(
-  that: readonly [B, ...B[]]
-) => <A>(self: readonly [A, ...A[]]) => readonly [B | A, ...(B | A)[]]
-```
-
-**Example**
-
-```ts
-import * as RNEA from 'fp-ts/ReadonlyNonEmptyArray'
-import { pipe } from 'fp-ts/Function'
-
-assert.deepStrictEqual(pipe([1, 2, 3] as const, RNEA.orElse([4, 5])), [1, 2, 3, 4, 5])
-```
-
-Added in v3.0.2
 
 # constructors
 
@@ -1317,6 +1288,32 @@ export declare const modifyLast: <A>(f: Endomorphism<A>) => (as: readonly [A, ..
 ```
 
 Added in v3.0.0
+
+## orElse
+
+Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
+types of kind `* -> *`.
+
+In case of `ReadonlyNonEmptyArray` concatenates the inputs into a single array.
+
+**Signature**
+
+```ts
+export declare const orElse: <B>(
+  that: readonly [B, ...B[]]
+) => <A>(self: readonly [A, ...A[]]) => readonly [B | A, ...(B | A)[]]
+```
+
+**Example**
+
+```ts
+import * as RNEA from 'fp-ts/ReadonlyNonEmptyArray'
+import { pipe } from 'fp-ts/Function'
+
+assert.deepStrictEqual(pipe([1, 2, 3] as const, RNEA.orElse([4, 5])), [1, 2, 3, 4, 5])
+```
+
+Added in v3.0.2
 
 ## prependAll
 

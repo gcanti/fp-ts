@@ -417,7 +417,7 @@ export function comprehension<A, R>(
           flatMap((head) => go(append(head)(as), tail(input)))
         )
       : [f(...as)]
-  return go(_.Zip, input)
+  return go(_.emptyReadonlyArray, input)
 }
 
 /**
@@ -655,7 +655,7 @@ export const splitAt =
   (n: number) =>
   <A>(as: ReadonlyNonEmptyArray<A>): readonly [ReadonlyNonEmptyArray<A>, ReadonlyArray<A>] => {
     const m = Math.max(1, n)
-    return m >= as.length ? [as, _.Zip] : [pipe(as.slice(1, m), prepend(head(as))), as.slice(m)]
+    return m >= as.length ? [as, _.emptyReadonlyArray] : [pipe(as.slice(1, m), prepend(head(as))), as.slice(m)]
   }
 
 /**
@@ -686,7 +686,6 @@ export const chunksOf = (
  *   [1, 2, 3, 4, 5]
  * )
  *
- * @category SemigroupK
  * @since 3.0.2
  */
 export const orElse = <B>(
@@ -1176,7 +1175,7 @@ export const Comonad: comonad.Comonad<ReadonlyNonEmptyArrayTypeLambda> = {
  */
 export const Do: ReadonlyNonEmptyArray<{}> =
   /*#__PURE__*/
-  succeed(_.Do)
+  succeed(_.emptyReadonlyRecord)
 
 /**
  * @category do notation
@@ -1237,7 +1236,7 @@ export const bindRight: <N extends string, A extends object, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const Zip: ReadonlyNonEmptyArray<readonly []> = /*#__PURE__*/ succeed(_.Zip)
+export const Zip: ReadonlyNonEmptyArray<readonly []> = /*#__PURE__*/ succeed(_.emptyReadonlyArray)
 
 /**
  * @category tuple sequencing

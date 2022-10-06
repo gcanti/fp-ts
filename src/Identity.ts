@@ -353,7 +353,7 @@ export const Alt: alt.Alt<IdentityTypeLambda> = {
  * @category do notation
  * @since 3.0.0
  */
-export const Do: Identity<{}> = /*#__PURE__*/ succeed(_.Do)
+export const Do: Identity<{}> = /*#__PURE__*/ succeed(_.emptyReadonlyRecord)
 
 /**
  * @category do notation
@@ -405,7 +405,7 @@ export const bindRight: <N extends string, A extends object, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const Zip: Identity<readonly []> = /*#__PURE__*/ succeed(_.Zip)
+export const Zip: Identity<readonly []> = /*#__PURE__*/ succeed(_.emptyReadonlyArray)
 
 /**
  * @category tuple sequencing

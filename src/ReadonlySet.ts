@@ -365,7 +365,7 @@ export const getUnionSemigroup = <A>(E: Eq<A>): Semigroup<ReadonlySet<A>> => ({
  */
 export const getUnionMonoid = <A>(E: Eq<A>): Monoid<ReadonlySet<A>> => ({
   combine: getUnionSemigroup(E).combine,
-  empty
+  empty: empty
 })
 
 /**
@@ -389,7 +389,7 @@ export const getDifferenceMagma = <A>(E: Eq<A>): Magma<ReadonlySet<A>> => ({
  *
  * @since 3.0.0
  */
-export const empty: ReadonlySet<never> = new Set()
+export const empty: ReadonlySet<never> = _.emptyReadonlySet
 
 /**
  * Test whether a `ReadonlySet` is empty.

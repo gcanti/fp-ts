@@ -108,7 +108,6 @@ Added in v3.0.0
 - [utils](#utils)
   - [ap](#ap)
   - [composeKleisli](#composekleisli)
-  - [emptyKind](#emptykind)
   - [flatten](#flatten)
   - [idKleisli](#idkleisli)
   - [orElse](#orelse)
@@ -430,7 +429,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Alternative: monoidKind.Alternative<SyncOptionTypeLambda>
+export declare const Alternative: alternative.Alternative<SyncOptionTypeLambda>
 ```
 
 Added in v3.0.0
@@ -988,16 +987,6 @@ Added in v3.0.0
 export declare const composeKleisli: <B, C>(
   bfc: (b: B) => SyncOption<C>
 ) => <A>(afb: (a: A) => SyncOption<B>) => (a: A) => SyncOption<C>
-```
-
-Added in v3.0.0
-
-## emptyKind
-
-**Signature**
-
-```ts
-export declare const emptyKind: <A>() => SyncOption<A>
 ```
 
 Added in v3.0.0

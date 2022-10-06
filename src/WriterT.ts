@@ -137,7 +137,7 @@ export const mapLeft =
     return Functor.map(writer.mapLeft(f))
   }
 
-// TODO: orElse, emptyKind, fromResult, fromReader, fromState, reduce, foldMap, reduceRight, traverse, contramap
+// TODO: orElse, none, fromResult, fromReader, fromState, reduce, foldMap, reduceRight, traverse, contramap
 
 /**
  * @since 3.0.0

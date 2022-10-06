@@ -67,7 +67,7 @@ export interface TreeTypeLambda extends TypeLambda {
  * @category constructors
  * @since 3.0.0
  */
-export const make = <A>(value: A, forest: Forest<A> = readonlyArray.empty): Tree<A> => ({
+export const make = <A>(value: A, forest: Forest<A> = _.emptyReadonlyArray): Tree<A> => ({
   value,
   forest
 })
@@ -107,7 +107,7 @@ export const unfoldNonEmptyForest = <B, A>(
 export const unfoldForest =
   <B, A>(f: (b: B) => readonly [A, ReadonlyArray<B>]) =>
   (bs: ReadonlyArray<B>): Forest<A> =>
-    readonlyArray.isNonEmpty(bs) ? pipe(bs, unfoldNonEmptyForest(f)) : readonlyArray.empty
+    readonlyArray.isNonEmpty(bs) ? pipe(bs, unfoldNonEmptyForest(f)) : _.emptyReadonlyArray
 
 /**
  * Monadic tree builder, in depth-first order.
@@ -157,7 +157,7 @@ export const unfoldForestKind = <F extends TypeLambda>(Monad: monad.Monad<F>, Ap
   return <B, S, R, O, E, A>(f: (b: B) => Kind<F, S, R, O, E, readonly [A, ReadonlyArray<B>]>) => {
     const g = unfoldNonEmptyForestKind_(f)
     return (bs: ReadonlyArray<B>): Kind<F, S, R, O, E, Forest<A>> =>
-      readonlyArray.isNonEmpty(bs) ? g(bs) : Monad.succeed(readonlyArray.empty)
+      readonlyArray.isNonEmpty(bs) ? g(bs) : Monad.succeed(_.emptyReadonlyArray)
   }
 }
 
@@ -606,7 +606,7 @@ export const drawTree = (tree: Tree<string>): string => tree.value + drawForest(
  * @category do notation
  * @since 3.0.0
  */
-export const Do: Tree<{}> = /*#__PURE__*/ succeed(_.Do)
+export const Do: Tree<{}> = /*#__PURE__*/ succeed(_.emptyReadonlyRecord)
 
 /**
  * @category do notation
@@ -659,7 +659,7 @@ export const bindRight: <N extends string, A extends object, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const Zip: Tree<readonly []> = /*#__PURE__*/ succeed(_.Zip)
+export const Zip: Tree<readonly []> = /*#__PURE__*/ succeed(_.emptyReadonlyArray)
 
 /**
  * @category tuple sequencing

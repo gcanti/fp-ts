@@ -913,7 +913,7 @@ export const bracket: <E1, A, E2, B, E3>(
  * @category do notation
  * @since 3.0.0
  */
-export const Do: AsyncResult<never, {}> = /*#__PURE__*/ succeed(_.Do)
+export const Do: AsyncResult<never, {}> = /*#__PURE__*/ succeed(_.emptyReadonlyRecord)
 
 /**
  * @category do notation
@@ -971,7 +971,7 @@ export const bindRight: <N extends string, A extends object, E2, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const Zip: AsyncResult<never, readonly []> = /*#__PURE__*/ succeed(_.Zip)
+export const Zip: AsyncResult<never, readonly []> = /*#__PURE__*/ succeed(_.emptyReadonlyArray)
 
 /**
  * @category tuple sequencing

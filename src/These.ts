@@ -641,7 +641,7 @@ export const getSuccessOnly = <E, A>(fa: These<E, A>): Option<A> => (isSuccess(f
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const Zip: These<never, readonly []> = /*#__PURE__*/ succeed(_.Zip)
+export const Zip: These<never, readonly []> = /*#__PURE__*/ succeed(_.emptyReadonlyArray)
 
 // -------------------------------------------------------------------------------------
 // array utils

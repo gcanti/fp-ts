@@ -15,8 +15,6 @@ Added in v3.0.0
 - [FlattenableRec](#flattenablerec)
   - [flatMapRecBreadthFirst](#flatmaprecbreadthfirst)
   - [flatMapRecDepthFirst](#flatmaprecdepthfirst)
-- [SemigroupK](#semigroupk)
-  - [orElse](#orelse)
 - [TraversableWithIndex](#traversablewithindex)
   - [traverseWithIndex](#traversewithindex)
 - [constructors](#constructors)
@@ -138,7 +136,6 @@ Added in v3.0.0
   - [duplicate](#duplicate)
   - [elem](#elem)
   - [empty](#empty)
-  - [emptyKind](#emptykind)
   - [every](#every)
   - [exists](#exists)
   - [extend](#extend)
@@ -164,6 +161,7 @@ Added in v3.0.0
   - [lookup](#lookup)
   - [mapWithIndex](#mapwithindex)
   - [modifyAt](#modifyat)
+  - [orElse](#orelse)
   - [prependAll](#prependall)
   - [reverse](#reverse)
   - [rotate](#rotate)
@@ -211,32 +209,6 @@ Added in v3.0.0
 
 ```ts
 export declare const flatMapRecDepthFirst: <A, B>(f: (a: A) => readonly Result<A, B>[]) => (a: A) => readonly B[]
-```
-
-Added in v3.0.0
-
-# SemigroupK
-
-## orElse
-
-Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
-types of kind `* -> *`.
-
-In case of `ReadonlyArray` concatenates the inputs into a single array.
-
-**Signature**
-
-```ts
-export declare const orElse: <B>(that: readonly B[]) => <A>(self: readonly A[]) => readonly (B | A)[]
-```
-
-**Example**
-
-```ts
-import * as RA from 'fp-ts/ReadonlyArray'
-import { pipe } from 'fp-ts/Function'
-
-assert.deepStrictEqual(pipe([1, 2, 3], RA.orElse([4, 5])), [1, 2, 3, 4, 5])
 ```
 
 Added in v3.0.0
@@ -757,7 +729,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Alternative: monoidKind.Alternative<ReadonlyArrayTypeLambda>
+export declare const Alternative: alternative.Alternative<ReadonlyArrayTypeLambda>
 ```
 
 Added in v3.0.0
@@ -1722,22 +1694,10 @@ Added in v3.0.0
 
 ## empty
 
-An empty `ReadonlyArray`.
-
 **Signature**
 
 ```ts
 export declare const empty: readonly never[]
-```
-
-Added in v3.0.0
-
-## emptyKind
-
-**Signature**
-
-```ts
-export declare const emptyKind: <A>() => readonly A[]
 ```
 
 Added in v3.0.0
@@ -2259,6 +2219,30 @@ import { some, none } from 'fp-ts/Option'
 const double = (x: number): number => x * 2
 assert.deepStrictEqual(modifyAt(1, double)([1, 2, 3]), some([1, 4, 3]))
 assert.deepStrictEqual(modifyAt(1, double)([]), none)
+```
+
+Added in v3.0.0
+
+## orElse
+
+Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
+types of kind `* -> *`.
+
+In case of `ReadonlyArray` concatenates the inputs into a single array.
+
+**Signature**
+
+```ts
+export declare const orElse: <B>(that: readonly B[]) => <A>(self: readonly A[]) => readonly (B | A)[]
+```
+
+**Example**
+
+```ts
+import * as RA from 'fp-ts/ReadonlyArray'
+import { pipe } from 'fp-ts/Function'
+
+assert.deepStrictEqual(pipe([1, 2, 3], RA.orElse([4, 5])), [1, 2, 3, 4, 5])
 ```
 
 Added in v3.0.0

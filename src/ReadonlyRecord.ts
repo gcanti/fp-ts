@@ -520,7 +520,7 @@ export function getMonoid<A>(S: Semigroup<A>): Monoid<ReadonlyRecord<string, A>>
       }
       return r
     },
-    empty
+    empty: empty
   }
 }
 
@@ -717,7 +717,7 @@ export const getUnionSemigroup = <A>(S: Semigroup<A>): Semigroup<ReadonlyRecord<
  */
 export const getUnionMonoid = <A>(S: Semigroup<A>): Monoid<ReadonlyRecord<string, A>> => ({
   combine: getUnionSemigroup(S).combine,
-  empty
+  empty: empty
 })
 
 /**
@@ -850,11 +850,9 @@ export const lookup =
     _.has.call(r, k) ? _.some(r[k]) : _.none
 
 /**
- * An empty `ReadonlyRecord`.
- *
  * @since 3.0.0
  */
-export const empty: ReadonlyRecord<string, never> = _.Do
+export const empty: ReadonlyRecord<string, never> = _.emptyReadonlyRecord
 
 /**
  * @since 3.0.0

@@ -16,7 +16,6 @@ Added in v3.0.0
   - [OptionT (interface)](#optiont-interface)
   - [ap](#ap)
   - [catchAll](#catchall)
-  - [emptyKind](#emptykind)
   - [flatMap](#flatmap)
   - [fromKind](#fromkind)
   - [fromResult](#fromresult)
@@ -25,6 +24,7 @@ Added in v3.0.0
   - [map](#map)
   - [match](#match)
   - [matchKind](#matchkind)
+  - [none](#none)
   - [orElse](#orelse)
   - [some](#some)
   - [tapError](#taperror)
@@ -73,18 +73,6 @@ export declare const catchAll: <F extends TypeLambda>(
 ) => <S, R2, O2, E2, B>(
   that: LazyArg<Kind<F, S, R2, O2, E2, Option<B>>>
 ) => <R1, O1, E1, A>(self: Kind<F, S, R1, O1, E1, Option<A>>) => Kind<F, S, R1 & R2, O2 | O1, E2 | E1, Option<B | A>>
-```
-
-Added in v3.0.0
-
-## emptyKind
-
-**Signature**
-
-```ts
-export declare const emptyKind: <F extends TypeLambda>(
-  FromIdentity: FromIdentity<F>
-) => <S, A>() => Kind<F, S, unknown, never, never, Option<A>>
 ```
 
 Added in v3.0.0
@@ -195,6 +183,18 @@ export declare const matchKind: <F extends TypeLambda>(
 ) => <R1, O1, E1>(
   self: Kind<F, S, R1, O1, E1, Option<A>>
 ) => Kind<F, S, R1 & R2 & R3, O2 | O3 | O1, E2 | E3 | E1, B | C>
+```
+
+Added in v3.0.0
+
+## none
+
+**Signature**
+
+```ts
+export declare const none: <F extends TypeLambda>(
+  FromIdentity: FromIdentity<F>
+) => <S>() => Kind<F, S, unknown, never, never, Option<never>>
 ```
 
 Added in v3.0.0

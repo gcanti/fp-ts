@@ -1229,7 +1229,7 @@ export const exists =
  * @category do notation
  * @since 3.0.0
  */
-export const Do: Result<never, {}> = /*#__PURE__*/ succeed(_.Do)
+export const Do: Result<never, {}> = /*#__PURE__*/ succeed(_.emptyReadonlyRecord)
 
 /**
  * @category do notation
@@ -1282,7 +1282,7 @@ export const bindRight: <N extends string, A extends object, E2, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const Zip: Result<never, readonly []> = /*#__PURE__*/ succeed(_.Zip)
+export const Zip: Result<never, readonly []> = /*#__PURE__*/ succeed(_.emptyReadonlyArray)
 
 /**
  * @category tuple sequencing

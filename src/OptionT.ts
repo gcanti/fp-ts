@@ -26,9 +26,9 @@ export interface OptionT<F extends TypeLambda> extends TypeLambda {
 /**
  * @since 3.0.0
  */
-export const emptyKind = <F extends TypeLambda>(
+export const none = <F extends TypeLambda>(
   FromIdentity: FromIdentity<F>
-): (<S, A>() => Kind<OptionT<F>, S, unknown, never, never, A>) => constant(FromIdentity.succeed(_.none))
+): (<S>() => Kind<OptionT<F>, S, unknown, never, never, never>) => constant(FromIdentity.succeed(_.none))
 
 /**
  * @since 3.0.0
@@ -145,7 +145,7 @@ export const flatMap =
   <F extends TypeLambda>(Monad: Monad<F>) =>
   <A, S, R, O, E, B>(f: (a: A) => Kind<OptionT<F>, S, R, O, E, B>) =>
   (self: Kind<OptionT<F>, S, R, O, E, A>): Kind<OptionT<F>, S, R, O, E, B> =>
-    pipe(self, Monad.flatMap<Option<A>, S, R, O, E, Option<B>>(option.match(() => emptyKind(Monad)(), f)))
+    pipe(self, Monad.flatMap<Option<A>, S, R, O, E, Option<B>>(option.match(() => none(Monad)(), f)))
 
 /**
  * Lazy version of `orElse`.

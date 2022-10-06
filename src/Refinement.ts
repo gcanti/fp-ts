@@ -68,7 +68,7 @@ export const and =
 /**
  * @since 3.0.0
  */
-export const emptyKind = <A, B extends A>(): Refinement<A, B> => {
+export const empty = <A, B extends A>(): Refinement<A, B> => {
   return (_): _ is B => false
 }
 

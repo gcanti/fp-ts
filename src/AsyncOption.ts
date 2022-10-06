@@ -4,7 +4,7 @@
 import type * as kleisliCategory from './KleisliCategory'
 import type * as kleisliComposable from './KleisliComposable'
 import type * as alt from './Alt'
-import * as monoidKind from './Alternative'
+import * as alternative from './Alternative'
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
 import * as flattenable from './Flattenable'
@@ -41,15 +41,10 @@ import type { AsyncResult } from './AsyncResult'
 export interface AsyncOption<A> extends Async<Option<A>> {}
 
 /**
- * @since 3.0.0
- */
-export const emptyKind: <A>() => AsyncOption<A> = /*#__PURE__*/ optionT.emptyKind(async.FromIdentity)
-
-/**
  * @category constructors
  * @since 3.0.0
  */
-export const none: AsyncOption<never> = /*#__PURE__*/ emptyKind()
+export const none: AsyncOption<never> = /*#__PURE__*/ optionT.none(async.FromIdentity)()
 
 /**
  * @category constructors
@@ -75,7 +70,7 @@ export const fromResult: <A>(fa: Result<unknown, A>) => AsyncOption<A> = /*#__PU
  * @category conversions
  * @since 3.0.0
  */
-export const fromSync: <A>(fa: Sync<A>) => AsyncOption<A> = (ma) => fromAsync(async.fromSync(ma))
+export const fromSync: <A>(fa: Sync<A>) => AsyncOption<A> = (fa) => fromAsync(async.fromSync(fa))
 
 /**
  * @category conversions
@@ -425,16 +420,16 @@ export const Alt: alt.Alt<AsyncOptionTypeLambda> = {
  * @category instances
  * @since 3.0.0
  */
-export const Alternative: monoidKind.Alternative<AsyncOptionTypeLambda> = {
+export const Alternative: alternative.Alternative<AsyncOptionTypeLambda> = {
   orElse,
-  emptyKind: emptyKind
+  none: () => none
 }
 
 /**
  * @category do notation
  * @since 3.0.0
  */
-export const guard: (b: boolean) => AsyncOption<void> = /*#__PURE__*/ monoidKind.guard(Alternative, FromIdentity)
+export const guard: (b: boolean) => AsyncOption<void> = /*#__PURE__*/ alternative.guard(Alternative, FromIdentity)
 
 /**
  * @category instances
@@ -639,7 +634,7 @@ export const partition: {
  * @category do notation
  * @since 3.0.0
  */
-export const Do: AsyncOption<{}> = /*#__PURE__*/ succeed(_.Do)
+export const Do: AsyncOption<{}> = /*#__PURE__*/ succeed(_.emptyReadonlyRecord)
 
 /**
  * @category do notation
@@ -692,7 +687,7 @@ export const bindRight: <N extends string, A extends object, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const Zip: AsyncOption<readonly []> = /*#__PURE__*/ succeed(_.Zip)
+export const Zip: AsyncOption<readonly []> = /*#__PURE__*/ succeed(_.emptyReadonlyArray)
 
 /**
  * @category tuple sequencing

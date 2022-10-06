@@ -21,7 +21,7 @@ Added in v3.0.0
   - [Refinement (interface)](#refinement-interface)
   - [and](#and)
   - [compose](#compose)
-  - [emptyKind](#emptykind)
+  - [empty](#empty)
   - [not](#not)
   - [or](#or)
 
@@ -102,12 +102,12 @@ export declare const compose: <A, B extends A, C extends B>(
 
 Added in v3.0.0
 
-## emptyKind
+## empty
 
 **Signature**
 
 ```ts
-export declare const emptyKind: <A, B extends A>() => Refinement<A, B>
+export declare const empty: <A, B extends A>() => Refinement<A, B>
 ```
 
 Added in v3.0.0

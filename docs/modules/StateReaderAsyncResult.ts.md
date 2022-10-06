@@ -12,8 +12,6 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [SemigroupK](#semigroupk)
-  - [orElse](#orelse)
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
@@ -130,26 +128,10 @@ Added in v3.0.0
   - [flatten](#flatten)
   - [idKleisli](#idkleisli)
   - [local](#local)
+  - [orElse](#orelse)
   - [tap](#tap)
 
 ---
-
-# SemigroupK
-
-## orElse
-
-Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
-types of kind `* -> *`.
-
-**Signature**
-
-```ts
-export declare const orElse: <S, R2, E2, B>(
-  that: StateReaderAsyncResult<S, R2, E2, B>
-) => <R1, E1, A>(self: StateReaderAsyncResult<S, R1, E1, A>) => StateReaderAsyncResult<S, R1 & R2, E2, B | A>
-```
-
-Added in v3.0.0
 
 # constructors
 
@@ -1414,6 +1396,21 @@ Changes the value of the local context during the execution of the action `ma` (
 export declare const local: <R2, R1>(
   f: (r2: R2) => R1
 ) => <S, E, A>(ma: StateReaderAsyncResult<S, R1, E, A>) => StateReaderAsyncResult<S, R2, E, A>
+```
+
+Added in v3.0.0
+
+## orElse
+
+Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
+types of kind `* -> *`.
+
+**Signature**
+
+```ts
+export declare const orElse: <S, R2, E2, B>(
+  that: StateReaderAsyncResult<S, R2, E2, B>
+) => <R1, E1, A>(self: StateReaderAsyncResult<S, R1, E1, A>) => StateReaderAsyncResult<S, R1 & R2, E2, B | A>
 ```
 
 Added in v3.0.0

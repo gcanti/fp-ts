@@ -18,8 +18,6 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [SemigroupK](#semigroupk)
-  - [orElse](#orelse)
 - [constructors](#constructors)
   - [fail](#fail)
   - [succeed](#succeed)
@@ -124,27 +122,11 @@ Added in v3.0.0
   - [composeKleisli](#composekleisli)
   - [flatten](#flatten)
   - [idKleisli](#idkleisli)
+  - [orElse](#orelse)
   - [swap](#swap)
   - [tap](#tap)
 
 ---
-
-# SemigroupK
-
-## orElse
-
-Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
-types of kind `* -> *`.
-
-**Signature**
-
-```ts
-export declare const orElse: <E2, B>(
-  that: SyncResult<E2, B>
-) => <E1, A>(self: SyncResult<E1, A>) => SyncResult<E2, B | A>
-```
-
-Added in v3.0.0
 
 # constructors
 
@@ -1230,6 +1212,21 @@ Added in v3.0.0
 
 ```ts
 export declare const idKleisli: <A>() => (a: A) => SyncResult<never, A>
+```
+
+Added in v3.0.0
+
+## orElse
+
+Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
+types of kind `* -> *`.
+
+**Signature**
+
+```ts
+export declare const orElse: <E2, B>(
+  that: SyncResult<E2, B>
+) => <E1, A>(self: SyncResult<E1, A>) => SyncResult<E2, B | A>
 ```
 
 Added in v3.0.0
