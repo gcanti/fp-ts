@@ -200,7 +200,7 @@ describe('SyncResult', () => {
 
   it('getSemigroupKIOValidation', () => {
     const A = _.getValidatedSemigroupKind(S.Monoid)
-    U.deepStrictEqual(pipe(_.fail('a'), A.combineKind(_.fail('b')))(), E.fail('ab'))
+    U.deepStrictEqual(pipe(_.fail('a'), A.orElse(_.fail('b')))(), E.fail('ab'))
   })
 
   describe('getCompactable', () => {

@@ -8,12 +8,12 @@ parent: Modules
 
 TODO: description
 
-`MonoidK` instances should satisfy the following laws in addition to the `SemigroupK` laws:
+`MonoidK` instances should satisfy the following laws in addition to the `SemigroupKind` laws:
 
-1. Left identity: `emptyKind |> combineKind(fa) <-> fa`
-2. Right identity: `fa |> combineKind(emptyKind) <-> fa`
+1. Left identity: `emptyKind |> orElse(fa) <-> fa`
+2. Right identity: `fa |> orElse(emptyKind) <-> fa`
 3. Annihilation1: `emptyKind |> map(f) <-> emptyKind`
-4. Distributivity: `fab |> combineKind(gab) |> ap(fa) <-> fab |> ap(fa) |> combineKind(gab |> A.ap(fa))`
+4. Distributivity: `fab |> orElse(gab) |> ap(fa) <-> fab |> ap(fa) |> orElse(gab |> A.ap(fa))`
 5. Annihilation2: `emptyKind |> ap(fa) <-> emptyKind`
 
 Added in v3.0.0
@@ -27,7 +27,7 @@ Added in v3.0.0
 - [model](#model)
   - [MonoidKind (interface)](#monoidkind-interface)
 - [utils](#utils)
-  - [combineKindAll](#combinekindall)
+  - [orElseAll](#orelseall)
 
 ---
 
@@ -62,12 +62,12 @@ Added in v3.0.0
 
 # utils
 
-## combineKindAll
+## orElseAll
 
 **Signature**
 
 ```ts
-export declare const combineKindAll: <F extends TypeLambda>(
+export declare const orElseAll: <F extends TypeLambda>(
   F: MonoidKind<F>
 ) => <S, R, O, E, A>(as: readonly Kind<F, S, R, O, E, A>[]) => Kind<F, S, R, O, E, A>
 ```

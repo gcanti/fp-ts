@@ -131,7 +131,7 @@ describe('ReaderResult', () => {
 
   it('getSemigroupKReaderValidation', () => {
     const A = _.getValidatedSemigroupKind(S.Monoid)
-    U.deepStrictEqual(pipe(_.fail('a'), A.combineKind(_.fail('b')))(null), E.fail('ab'))
+    U.deepStrictEqual(pipe(_.fail('a'), A.orElse(_.fail('b')))(null), E.fail('ab'))
   })
 
   it('flatMapResult', () => {

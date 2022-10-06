@@ -342,7 +342,7 @@ export const orElse: <B>(that: Identity<B>) => <A>(self: Identity<A>) => Identit
  * @since 3.0.0
  */
 export const SemigroupKind: semigroupKind.SemigroupKind<IdentityTypeLambda> = {
-  combineKind: orElse
+  orElse
 }
 
 // -------------------------------------------------------------------------------------

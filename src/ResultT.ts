@@ -171,7 +171,7 @@ export const mapError =
 /**
  * @since 3.0.0
  */
-export const getValidatedCombineKind =
+export const getValidatedOrElse =
   <F extends TypeLambda, E>(Monad: Monad<F>, Semigroup: Semigroup<E>) =>
   <S, R2, O2, FE2, B>(that: Kind<ResultT<F, E>, S, R2, O2, FE2, B>) =>
   <R1, O1, FE1, A>(

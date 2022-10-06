@@ -848,7 +848,7 @@ export const Foldable: foldable.Foldable<OptionTypeLambda> = {
  * @since 3.0.0
  */
 export const SemigroupKind: semigroupKind.SemigroupKind<OptionTypeLambda> = {
-  combineKind: orElse
+  orElse
 }
 
 /**
@@ -856,7 +856,7 @@ export const SemigroupKind: semigroupKind.SemigroupKind<OptionTypeLambda> = {
  * @since 3.0.0
  */
 export const MonoidKind: monoidKind.MonoidKind<OptionTypeLambda> = {
-  combineKind: orElse,
+  orElse,
   emptyKind: emptyKind
 }
 

@@ -260,7 +260,7 @@ export const getValidatedSemigroupKind = <E>(
   Semigroup: Semigroup<E>
 ): semigroupKind.SemigroupKind<result.ValidatedT<SyncResultTypeLambda, E>> => {
   return {
-    combineKind: resultT.getValidatedCombineKind(sync.Monad, Semigroup)
+    orElse: resultT.getValidatedOrElse(sync.Monad, Semigroup)
   }
 }
 
@@ -488,7 +488,7 @@ export const tapError: <E1, E2>(
  * @since 3.0.0
  */
 export const SemigroupKind: semigroupKind.SemigroupKind<SyncResultTypeLambda> = {
-  combineKind: orElse
+  orElse
 }
 
 /**

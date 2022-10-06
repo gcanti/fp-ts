@@ -1153,7 +1153,7 @@ export const TraversableWithIndex: traversableWithIndex.TraversableWithIndex<Rea
  * @since 3.0.0
  */
 export const SemigroupKind: semigroupKind.SemigroupKind<ReadonlyNonEmptyArrayTypeLambda> = {
-  combineKind: orElse
+  orElse
 }
 
 /**

@@ -969,7 +969,7 @@ export const sequence: <F extends TypeLambda>(
  * @since 3.0.0
  */
 export const SemigroupKind: semigroupKind.SemigroupKind<ResultTypeLambda> = {
-  combineKind: orElse
+  orElse
 }
 
 /**
@@ -999,7 +999,7 @@ export const SemigroupKind: semigroupKind.SemigroupKind<ResultTypeLambda> = {
  * const SemigroupKind = E.getValidatedSemigroupKind(pipe(string.Semigroup, S.intercalate(', ')))
  *
  * const parseAll = (u: unknown): E.Result<string, string | number> =>
- *   pipe(parseString(u), SemigroupKind.combineKind(parseNumber(u) as E.Result<string, string | number>))
+ *   pipe(parseString(u), SemigroupKind.orElse(parseNumber(u) as E.Result<string, string | number>))
  *
  * assert.deepStrictEqual(parseAll(true), E.fail('not a string, not a number')) // <= all errors
  *
@@ -1009,7 +1009,7 @@ export const SemigroupKind: semigroupKind.SemigroupKind<ResultTypeLambda> = {
 export const getValidatedSemigroupKind = <E>(
   Semigroup: Semigroup<E>
 ): semigroupKind.SemigroupKind<ValidatedT<ResultTypeLambda, E>> => ({
-  combineKind: (that) => (self) => {
+  orElse: (that) => (self) => {
     if (isSuccess(self)) {
       return self
     }

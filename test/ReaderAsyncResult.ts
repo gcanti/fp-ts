@@ -234,7 +234,7 @@ describe('ReaderAsyncResult', () => {
 
   it('getSemigroupKReaderAsyncValidation', async () => {
     const A = _.getValidatedSemigroupKind(S.Semigroup)
-    U.deepStrictEqual(await pipe(_.fail('a'), A.combineKind(_.fail('b')))(null)(), E.fail('ab'))
+    U.deepStrictEqual(await pipe(_.fail('a'), A.orElse(_.fail('b')))(null)(), E.fail('ab'))
   })
 
   describe('bracket', () => {

@@ -362,7 +362,7 @@ export const tapError: (onNone: SyncOption<unknown>) => <A>(self: SyncOption<A>)
  * @since 3.0.0
  */
 export const SemigroupKind: semigroupKind.SemigroupKind<SyncOptionTypeLambda> = {
-  combineKind: orElse
+  orElse
 }
 
 /**
@@ -370,7 +370,7 @@ export const SemigroupKind: semigroupKind.SemigroupKind<SyncOptionTypeLambda> = 
  * @since 3.0.0
  */
 export const MonoidKind: monoidKind.MonoidKind<SyncOptionTypeLambda> = {
-  combineKind: orElse,
+  orElse,
   emptyKind: emptyKind
 }
 

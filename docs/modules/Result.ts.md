@@ -448,7 +448,7 @@ assert.deepStrictEqual(parse(true), E.fail('not a number')) // <= last error
 const SemigroupKind = E.getValidatedSemigroupKind(pipe(string.Semigroup, S.intercalate(', ')))
 
 const parseAll = (u: unknown): E.Result<string, string | number> =>
-  pipe(parseString(u), SemigroupKind.combineKind(parseNumber(u) as E.Result<string, string | number>))
+  pipe(parseString(u), SemigroupKind.orElse(parseNumber(u) as E.Result<string, string | number>))
 
 assert.deepStrictEqual(parseAll(true), E.fail('not a string, not a number')) // <= all errors
 ```

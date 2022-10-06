@@ -1843,7 +1843,7 @@ export const Unfoldable: unfoldable.Unfoldable<ReadonlyArrayTypeLambda> = {
  * @since 3.0.0
  */
 export const SemigroupKind: semigroupKind.SemigroupKind<ReadonlyArrayTypeLambda> = {
-  combineKind: orElse
+  orElse
 }
 
 /**
@@ -1851,7 +1851,7 @@ export const SemigroupKind: semigroupKind.SemigroupKind<ReadonlyArrayTypeLambda>
  * @since 3.0.0
  */
 export const MonoidKind: monoidKind.MonoidKind<ReadonlyArrayTypeLambda> = {
-  combineKind: orElse,
+  orElse,
   emptyKind: emptyKind
 }
 

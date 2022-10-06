@@ -497,7 +497,7 @@ export const mapError: <E, G>(
  * @since 3.0.0
  */
 export const SemigroupKind: semigroupKind.SemigroupKind<StateReaderAsyncResultTypeLambda> = {
-  combineKind: orElse
+  orElse
 }
 
 /**

@@ -418,7 +418,7 @@ export const Monad: monad.Monad<AsyncOptionTypeLambda> = {
  * @since 3.0.0
  */
 export const SemigroupKind: semigroupKind.SemigroupKind<AsyncOptionTypeLambda> = {
-  combineKind: orElse
+  orElse
 }
 
 /**
@@ -426,7 +426,7 @@ export const SemigroupKind: semigroupKind.SemigroupKind<AsyncOptionTypeLambda> =
  * @since 3.0.0
  */
 export const MonoidKind: monoidKind.MonoidKind<AsyncOptionTypeLambda> = {
-  combineKind: orElse,
+  orElse,
   emptyKind: emptyKind
 }
 

@@ -347,7 +347,7 @@ export const getValidatedSemigroupKind = <E>(
   Semigroup: Semigroup<E>
 ): semigroupKind.SemigroupKind<result.ValidatedT<ReaderResultTypeLambda, E>> => {
   return {
-    combineKind: resultT.getValidatedCombineKind(reader.Monad, Semigroup)
+    orElse: resultT.getValidatedOrElse(reader.Monad, Semigroup)
   }
 }
 
@@ -509,7 +509,7 @@ export const Bifunctor: bifunctor.Bifunctor<ReaderResultTypeLambda> = {
  * @since 3.0.0
  */
 export const SemigroupKind: semigroupKind.SemigroupKind<ReaderResultTypeLambda> = {
-  combineKind: orElse
+  orElse
 }
 
 /**

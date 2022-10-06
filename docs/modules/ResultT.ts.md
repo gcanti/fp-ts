@@ -25,7 +25,7 @@ Added in v3.0.0
   - [fromKind](#fromkind)
   - [getOrElse](#getorelse)
   - [getOrElseKind](#getorelsekind)
-  - [getValidatedCombineKind](#getvalidatedcombinekind)
+  - [getValidatedOrElse](#getvalidatedorelse)
   - [map](#map)
   - [mapBoth](#mapboth)
   - [mapError](#maperror)
@@ -213,12 +213,12 @@ export declare const getOrElseKind: <F extends TypeLambda>(
 
 Added in v3.0.0
 
-## getValidatedCombineKind
+## getValidatedOrElse
 
 **Signature**
 
 ```ts
-export declare const getValidatedCombineKind: <F extends TypeLambda, E>(
+export declare const getValidatedOrElse: <F extends TypeLambda, E>(
   Monad: Monad<F>,
   Semigroup: Semigroup<E>
 ) => <S, R2, O2, FE2, B>(

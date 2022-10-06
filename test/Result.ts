@@ -427,9 +427,9 @@ describe('Result', () => {
 
   it('getSemigroupKValidation', () => {
     const A = _.getValidatedSemigroupKind(S.Monoid)
-    U.deepStrictEqual(pipe(_.fail('a'), A.combineKind(_.fail('b'))), _.fail('ab'))
-    U.deepStrictEqual(pipe(_.succeed(1), A.combineKind(_.fail('b'))), _.succeed(1))
-    U.deepStrictEqual(pipe(_.fail('a'), A.combineKind(_.succeed(2))), _.succeed(2))
+    U.deepStrictEqual(pipe(_.fail('a'), A.orElse(_.fail('b'))), _.fail('ab'))
+    U.deepStrictEqual(pipe(_.succeed(1), A.orElse(_.fail('b'))), _.succeed(1))
+    U.deepStrictEqual(pipe(_.fail('a'), A.orElse(_.succeed(2))), _.succeed(2))
   })
 
   it('fromOption', () => {
