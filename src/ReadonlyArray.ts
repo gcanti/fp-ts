@@ -1488,6 +1488,7 @@ export const traverse: <F extends TypeLambda>(
 }
 
 /**
+ * @category traversing
  * @since 3.0.0
  */
 export const traverseWithIndex =

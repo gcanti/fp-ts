@@ -109,6 +109,7 @@ Added in v3.0.0
 - [traversing](#traversing)
   - [sequence](#sequence)
   - [traverse](#traverse)
+  - [traverseWithIndex](#traversewithindex)
 - [tuple sequencing](#tuple-sequencing)
   - [Zip](#zip)
   - [tupled](#tupled)
@@ -174,7 +175,6 @@ Added in v3.0.0
   - [tap](#tap)
   - [traverseFilter](#traversefilter)
   - [traversePartition](#traversepartition)
-  - [traverseWithIndex](#traversewithindex)
   - [unfold](#unfold)
   - [union](#union)
   - [uniq](#uniq)
@@ -1318,6 +1318,20 @@ Added in v3.0.0
 export declare const traverse: <F extends TypeLambda>(
   F: applicative.Applicative<F>
 ) => <A, S, R, O, E, B>(f: (a: A) => Kind<F, S, R, O, E, B>) => (as: readonly A[]) => Kind<F, S, R, O, E, readonly B[]>
+```
+
+Added in v3.0.0
+
+## traverseWithIndex
+
+**Signature**
+
+```ts
+export declare const traverseWithIndex: <F extends TypeLambda>(
+  F: applicative.Applicative<F>
+) => <A, S, R, O, E, B>(
+  f: (i: number, a: A) => Kind<F, S, R, O, E, B>
+) => (ta: readonly A[]) => Kind<F, S, R, O, E, readonly B[]>
 ```
 
 Added in v3.0.0
@@ -2647,20 +2661,6 @@ export declare const traversePartition: <F extends TypeLambda>(
 ) => <B extends A, S, R, O, E, A = B>(
   predicate: (a: A) => Kind<F, S, R, O, E, boolean>
 ) => (self: readonly B[]) => Kind<F, S, R, O, E, readonly [readonly B[], readonly B[]]>
-```
-
-Added in v3.0.0
-
-## traverseWithIndex
-
-**Signature**
-
-```ts
-export declare const traverseWithIndex: <F extends TypeLambda>(
-  F: applicative.Applicative<F>
-) => <A, S, R, O, E, B>(
-  f: (i: number, a: A) => Kind<F, S, R, O, E, B>
-) => (ta: readonly A[]) => Kind<F, S, R, O, E, readonly B[]>
 ```
 
 Added in v3.0.0

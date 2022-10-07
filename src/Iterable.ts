@@ -1,6 +1,7 @@
 /**
  * @since 3.0.0
  */
+import type * as applicative from './Applicative'
 import type { Flattenable } from './Flattenable'
 import { pipe } from './Function'
 import type { Kind, TypeLambda } from './HKT'
@@ -127,6 +128,69 @@ export const filterMap =
       }
     }
   }
+
+/**
+ * @since 3.0.0
+ */
+export const append =
+  <B>(end: B) =>
+  <A>(self: Iterable<A>): Iterable<A | B> => {
+    return {
+      *[Symbol.iterator]() {
+        yield* self
+        yield end
+      }
+    }
+  }
+
+/**
+ * @category traversing
+ * @since 3.0.0
+ */
+export const traverseWithIndex =
+  <F extends TypeLambda>(Applicative: applicative.Applicative<F>) =>
+  <I, A, S, R, O, E, B>(f: (i: I, a: A) => Kind<F, S, R, O, E, B>) =>
+  (self: Iterable<readonly [I, A]>): Kind<F, S, R, O, E, Iterable<B>> => {
+    return pipe(
+      self,
+      reduceWithIndex<Kind<F, S, R, O, E, Iterable<B>>, I, A>(Applicative.succeed(empty), (i, fbs, a) =>
+        pipe(
+          fbs,
+          Applicative.map((bs) => (b: B) => append(b)(bs)),
+          Applicative.ap(f(i, a))
+        )
+      )
+    )
+  }
+
+/**
+ * @since 3.0.0
+ */
+export const toEntries = <A>(self: Iterable<A>): Iterable<readonly [number, A]> => {
+  return {
+    *[Symbol.iterator]() {
+      let i = -1
+      for (const a of self) {
+        i++
+        yield [i, a]
+      }
+    }
+  }
+}
+
+/**
+ * @category traversing
+ * @since 3.0.0
+ */
+export const traverse = <F extends TypeLambda>(Applicative: applicative.Applicative<F>) => {
+  const traverseWithIndex_ = traverseWithIndex(Applicative)
+  return <A, S, R, O, E, B>(f: (a: A) => Kind<F, S, R, O, E, B>) =>
+    (self: Iterable<A>): Kind<F, S, R, O, E, Iterable<B>> =>
+      pipe(
+        toEntries(self),
+        traverseWithIndex_((_, a) => f(a))
+      )
+}
 
 /**
  * Fold a data structure, accumulating values in some `Monoid`, combining adjacent elements

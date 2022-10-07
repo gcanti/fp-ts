@@ -112,4 +112,25 @@ describe('Iterable', () => {
       O.some(3)
     )
   })
+
+  it('traverseWithIndex', () => {
+    U.deepStrictEqual(
+      pipe(
+        ['a', 'bb'],
+        _.toEntries,
+        _.traverseWithIndex(O.Applicative)((i, s) => (s.length >= 1 ? O.some(s + i) : O.none)),
+        O.map(Array.from)
+      ),
+      O.some(['a0', 'bb1'])
+    )
+    U.deepStrictEqual(
+      pipe(
+        ['a', 'bb'],
+        _.toEntries,
+        _.traverseWithIndex(O.Applicative)((i, s) => (s.length > 1 ? O.some(s + i) : O.none)),
+        O.map(Array.from)
+      ),
+      O.none
+    )
+  })
 })

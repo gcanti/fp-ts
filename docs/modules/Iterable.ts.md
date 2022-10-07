@@ -26,9 +26,14 @@ Added in v3.0.0
   - [reduceWithIndex](#reducewithindex)
 - [mapping](#mapping)
   - [map](#map)
+- [traversing](#traversing)
+  - [traverse](#traverse)
+  - [traverseWithIndex](#traversewithindex)
 - [utils](#utils)
+  - [append](#append)
   - [empty](#empty)
   - [intercalate](#intercalate)
+  - [toEntries](#toentries)
 
 ---
 
@@ -176,7 +181,45 @@ export declare const map: <A, B>(f: (a: A) => B) => (self: Iterable<A>) => Itera
 
 Added in v3.0.0
 
+# traversing
+
+## traverse
+
+**Signature**
+
+```ts
+export declare const traverse: <F extends TypeLambda>(
+  Applicative: applicative.Applicative<F>
+) => <A, S, R, O, E, B>(f: (a: A) => Kind<F, S, R, O, E, B>) => (self: Iterable<A>) => Kind<F, S, R, O, E, Iterable<B>>
+```
+
+Added in v3.0.0
+
+## traverseWithIndex
+
+**Signature**
+
+```ts
+export declare const traverseWithIndex: <F extends TypeLambda>(
+  Applicative: applicative.Applicative<F>
+) => <I, A, S, R, O, E, B>(
+  f: (i: I, a: A) => Kind<F, S, R, O, E, B>
+) => (self: Iterable<readonly [I, A]>) => Kind<F, S, R, O, E, Iterable<B>>
+```
+
+Added in v3.0.0
+
 # utils
+
+## append
+
+**Signature**
+
+```ts
+export declare const append: <B>(end: B) => <A>(self: Iterable<A>) => Iterable<B | A>
+```
+
+Added in v3.0.0
 
 ## empty
 
@@ -209,6 +252,16 @@ import { pipe } from 'fp-ts/Function'
 
 const tree = T.make('a', [T.make('b'), T.make('c'), T.make('d')])
 assert.strictEqual(pipe(tree, T.toIterable, intercalate(Monoid)('|')), 'a|b|c|d')
+```
+
+Added in v3.0.0
+
+## toEntries
+
+**Signature**
+
+```ts
+export declare const toEntries: <A>(self: Iterable<A>) => Iterable<readonly [number, A]>
 ```
 
 Added in v3.0.0
