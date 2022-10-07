@@ -1115,6 +1115,7 @@ export const tap: <A>(
  * @since 3.0.0
  */
 export const Foldable: foldable.Foldable<NonEmptyReadonlyArrayTypeLambda> = {
+  toIterable: identity,
   reduce,
   foldMap,
   reduceRight

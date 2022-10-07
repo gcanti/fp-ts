@@ -16,7 +16,7 @@ import type * as comonad from './Comonad'
 import type { Result } from './Result'
 import type { Eq } from './Eq'
 import type * as extendable from './Extendable'
-import type * as foldable from './Foldable'
+import * as foldable from './Foldable'
 import { flow, identity } from './Function'
 import * as functor from './Functor'
 import type { TypeLambda, Kind } from './HKT'
@@ -296,10 +296,17 @@ export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Identity<
 export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (fa: Identity<A>) => B = (b, f) => (fa) => f(fa, b)
 
 /**
+ * @category conversions
+ * @since 3.0.0
+ */
+export const toIterable: <A>(self: Identity<A>) => Iterable<A> = foldable.succeed
+
+/**
  * @category instances
  * @since 3.0.0
  */
 export const Foldable: foldable.Foldable<IdentityTypeLambda> = {
+  toIterable,
   reduce,
   foldMap,
   reduceRight

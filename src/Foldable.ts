@@ -5,16 +5,119 @@ import type { Flattenable } from './Flattenable'
 import { pipe } from './Function'
 import type { TypeLambda, Kind, TypeClass } from './HKT'
 import type { Monoid } from './Monoid'
+import type { Option } from './Option'
+import * as _ from './internal'
 
 /**
  * @category model
  * @since 3.0.0
  */
 export interface Foldable<F extends TypeLambda> extends TypeClass<F> {
+  readonly toIterable: <S, R, O, E, A>(self: Kind<F, S, R, O, E, A>) => Iterable<A>
   readonly reduce: <B, A>(b: B, f: (b: B, a: A) => B) => <S>(self: Kind<F, S, never, unknown, unknown, A>) => B
   readonly foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <S>(self: Kind<F, S, never, unknown, unknown, A>) => M
   readonly reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <S>(self: Kind<F, S, never, unknown, unknown, A>) => B
 }
+
+/**
+ * @since 3.0.0
+ */
+export const empty: Iterable<never> = {
+  *[Symbol.iterator](): Iterator<never> {
+    // eslint-disable-next-line no-empty
+  }
+}
+
+/**
+ * @since 3.0.0
+ */
+export const succeed = <A>(a: A): Iterable<A> => {
+  return {
+    *[Symbol.iterator](): Iterator<A> {
+      yield a
+    }
+  }
+}
+
+/**
+ * @since 3.0.0
+ */
+export const map =
+  <A, B>(f: (a: A) => B) =>
+  (self: Iterable<A>): Iterable<B> => {
+    return {
+      *[Symbol.iterator]() {
+        for (const a of self) {
+          yield f(a)
+        }
+      }
+    }
+  }
+
+/**
+ * @since 3.0.0
+ */
+export const reduce =
+  <B, A>(b: B, f: (b: B, a: A) => B) =>
+  (self: Iterable<A>): B => {
+    let out: B = b
+    for (const a of self) {
+      out = f(out, a)
+    }
+    return out
+  }
+
+/**
+ * @since 3.0.0
+ */
+export const foldMap =
+  <M>(Monoid: Monoid<M>) =>
+  <A>(f: (a: A) => M): ((self: Iterable<A>) => M) =>
+    reduce(Monoid.empty, (b, a) => Monoid.combine(f(a))(b))
+
+/**
+ * @since 3.0.0
+ */
+export const filterMap =
+  <A, B>(f: (a: A) => Option<B>) =>
+  (self: Iterable<A>): Iterable<B> => {
+    return {
+      *[Symbol.iterator]() {
+        for (const a of self) {
+          const o = f(a)
+          if (_.isSome(o)) {
+            yield o.value
+          }
+        }
+      }
+    }
+  }
+
+/**
+ * Fold a data structure, accumulating values in some `Monoid`, combining adjacent elements
+ * using the specified separator.
+ *
+ * @example
+ * import { intercalate } from 'fp-ts/Foldable'
+ * import { Monoid } from 'fp-ts/string'
+ * import * as T from 'fp-ts/Tree'
+ * import { pipe } from 'fp-ts/Function'
+ *
+ * const tree = T.make('a', [T.make('b'), T.make('c'), T.make('d')])
+ * assert.strictEqual(pipe(tree, T.toIterable, intercalate(Monoid)('|')), 'a|b|c|d')
+ *
+ * @since 3.0.0
+ */
+export const intercalate =
+  <M>(Monoid: Monoid<M>) =>
+  (separator: M) =>
+  (self: Iterable<M>): M => {
+    const go = ([init, acc]: readonly [boolean, M], m: M): readonly [boolean, M] =>
+      init ? [false, m] : [false, pipe(acc, Monoid.combine(separator), Monoid.combine(m))]
+    return pipe(self, reduce([true, Monoid.empty], go))[1]
+  }
+
+// -------------------------------
 
 /**
  * Returns a default `reduce` composition.
@@ -58,36 +161,6 @@ export const reduceRightComposition =
   ): (<FS, GS>(fga: Kind<F, FS, never, unknown, unknown, Kind<G, GS, never, unknown, unknown, A>>) => B) =>
     FoldableF.reduceRight(b, (ga, b) => FoldableG.reduceRight(b, f)(ga))
 
-// -------------------------------------------------------------------------------------
-// conversions
-// -------------------------------------------------------------------------------------
-
-/**
- * Converts a `Foldable` into a `ReadonlyArray`.
- *
- * @example
- * import { toReadonlyArray } from 'fp-ts/Foldable'
- * import { Foldable, make } from 'fp-ts/Tree'
- * import { pipe } from 'fp-ts/Function'
- *
- * const tree = make(1, [make(2), make(3), make(4)])
- * assert.deepStrictEqual(pipe(tree, toReadonlyArray(Foldable)), [1, 2, 3, 4])
- *
- * @category conversions
- * @since 3.0.0
- */
-export const toReadonlyArray =
-  <F extends TypeLambda>(Foldable: Foldable<F>) =>
-  <S, A>(self: Kind<F, S, never, unknown, unknown, A>): ReadonlyArray<A> => {
-    return pipe(
-      self,
-      Foldable.reduce([], (acc: Array<A>, a: A) => {
-        acc.push(a)
-        return acc
-      })
-    )
-  }
-
 /**
  * Similar to 'reduce', but the result is encapsulated in a `Flattenable`.
  *
@@ -117,28 +190,3 @@ export const reduceKind =
         Flattenable.flatMap((b) => f(b, a))
       )
     )
-
-/**
- * Fold a data structure, accumulating values in some `Monoid`, combining adjacent elements
- * using the specified separator.
- *
- * @example
- * import { intercalate } from 'fp-ts/Foldable'
- * import { Monoid } from 'fp-ts/string'
- * import * as T from 'fp-ts/Tree'
- * import { pipe } from 'fp-ts/Function'
- *
- * const tree = T.make('a', [T.make('b'), T.make('c'), T.make('d')])
- * assert.strictEqual(pipe(tree, intercalate(T.Foldable)(Monoid)('|')), 'a|b|c|d')
- *
- * @since 3.0.0
- */
-export const intercalate =
-  <F extends TypeLambda>(Foldable: Foldable<F>) =>
-  <M>(Monoid: Monoid<M>) =>
-  (separator: M) =>
-  <S>(fm: Kind<F, S, never, unknown, unknown, M>): M => {
-    const go = ([init, acc]: readonly [boolean, M], m: M): readonly [boolean, M] =>
-      init ? [false, m] : [false, pipe(acc, Monoid.combine(separator), Monoid.combine(m))]
-    return pipe(fm, Foldable.reduce([true, Monoid.empty], go))[1]
-  }

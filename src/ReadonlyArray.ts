@@ -1942,6 +1942,7 @@ export const partitionWithIndex: {
  * @since 3.0.0
  */
 export const Foldable: foldable.Foldable<ReadonlyArrayTypeLambda> = {
+  toIterable: identity,
   reduce,
   foldMap,
   reduceRight

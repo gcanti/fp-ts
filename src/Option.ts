@@ -24,7 +24,7 @@ import type { Result } from './Result'
 import * as eq from './Eq'
 import type * as extendable from './Extendable'
 import * as filterable from './Filterable'
-import type * as foldable from './Foldable'
+import * as foldable from './Foldable'
 import * as fromOption_ from './FromOption'
 import * as fromResult_ from './FromResult'
 import type { LazyArg } from './Function'
@@ -829,10 +829,17 @@ export const tap: <A>(f: (a: A) => Option<unknown>) => (self: Option<A>) => Opti
   /*#__PURE__*/ flattenable.tap(Flattenable)
 
 /**
+ * @category conversions
+ * @since 3.0.0
+ */
+export const toIterable: <A>(self: Option<A>) => Iterable<A> = match(() => foldable.empty, foldable.succeed)
+
+/**
  * @category instances
  * @since 3.0.0
  */
 export const Foldable: foldable.Foldable<OptionTypeLambda> = {
+  toIterable,
   reduce,
   foldMap,
   reduceRight

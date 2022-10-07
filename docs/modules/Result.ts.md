@@ -30,6 +30,7 @@ Added in v3.0.0
 - [conversions](#conversions)
   - [fromNullable](#fromnullable)
   - [fromOption](#fromoption)
+  - [toIterable](#toiterable)
   - [toNull](#tonull)
   - [toOption](#tooption)
   - [toUndefined](#toundefined)
@@ -216,6 +217,16 @@ import * as O from 'fp-ts/Option'
 
 assert.deepStrictEqual(pipe(O.some(1), E.fromOption('error')), E.succeed(1))
 assert.deepStrictEqual(pipe(O.none, E.fromOption('error')), E.fail('error'))
+```
+
+Added in v3.0.0
+
+## toIterable
+
+**Signature**
+
+```ts
+export declare const toIterable: <A>(self: Result<unknown, A>) => Iterable<A>
 ```
 
 Added in v3.0.0

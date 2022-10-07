@@ -20,6 +20,10 @@ Added in v3.0.0
 - [constructors](#constructors)
   - [fromFoldable](#fromfoldable)
   - [singleton](#singleton)
+- [conversions](#conversions)
+  - [collect](#collect)
+  - [keys](#keys)
+  - [values](#values)
 - [filtering](#filtering)
   - [compact](#compact)
   - [filter](#filter)
@@ -59,7 +63,6 @@ Added in v3.0.0
 - [type lambdas](#type-lambdas)
   - [ReadonlyRecordTypeLambda (interface)](#readonlyrecordtypelambda-interface)
 - [utils](#utils)
-  - [collect](#collect)
   - [deleteAt](#deleteat)
   - [difference](#difference)
   - [elem](#elem)
@@ -74,7 +77,6 @@ Added in v3.0.0
   - [intersection](#intersection)
   - [isEmpty](#isempty)
   - [isSubrecord](#issubrecord)
-  - [keys](#keys)
   - [lookup](#lookup)
   - [modifyAt](#modifyat)
   - [partitionMap](#partitionmap)
@@ -164,6 +166,55 @@ Create a `ReadonlyRecord` from one key/value pair.
 
 ```ts
 export declare const singleton: <A>(k: string, a: A) => Readonly<Record<string, A>>
+```
+
+Added in v3.0.0
+
+# conversions
+
+## collect
+
+Map a `ReadonlyRecord` into an `ReadonlyArray`.
+
+**Signature**
+
+```ts
+export declare const collect: (
+  O: Ord<string>
+) => <K extends string, A, B>(f: (k: K, a: A) => B) => (r: Readonly<Record<K, A>>) => readonly B[]
+```
+
+**Example**
+
+```ts
+import { collect } from 'fp-ts/ReadonlyRecord'
+import * as S from 'fp-ts/string'
+
+const x: { a: string; b: boolean } = { a: 'foo', b: false }
+assert.deepStrictEqual(collect(S.Ord)((key, val) => ({ key: key, value: val }))(x), [
+  { key: 'a', value: 'foo' },
+  { key: 'b', value: false },
+])
+```
+
+Added in v3.0.0
+
+## keys
+
+**Signature**
+
+```ts
+export declare const keys: (O: Ord<string>) => <K extends string>(r: Readonly<Record<K, unknown>>) => readonly K[]
+```
+
+Added in v3.0.0
+
+## values
+
+**Signature**
+
+```ts
+export declare const values: (O: Ord<string>) => <A>(self: Readonly<Record<string, A>>) => readonly A[]
 ```
 
 Added in v3.0.0
@@ -569,33 +620,6 @@ Added in v3.0.0
 
 # utils
 
-## collect
-
-Map a `ReadonlyRecord` into an `ReadonlyArray`.
-
-**Signature**
-
-```ts
-export declare const collect: (
-  O: Ord<string>
-) => <K extends string, A, B>(f: (k: K, a: A) => B) => (r: Readonly<Record<K, A>>) => readonly B[]
-```
-
-**Example**
-
-```ts
-import { collect } from 'fp-ts/ReadonlyRecord'
-import * as S from 'fp-ts/string'
-
-const x: { a: string; b: boolean } = { a: 'foo', b: false }
-assert.deepStrictEqual(collect(S.Ord)((key, val) => ({ key: key, value: val }))(x), [
-  { key: 'a', value: 'foo' },
-  { key: 'b', value: false },
-])
-```
-
-Added in v3.0.0
-
 ## deleteAt
 
 Delete the element at the specified key, creating a new `ReadonlyRecord`, or returning `None` if the key doesn't exist.
@@ -783,16 +807,6 @@ Test whether one `ReadonlyRecord` contains all of the keys and values contained 
 export declare const isSubrecord: <A>(
   E: eq.Eq<A>
 ) => (that: Readonly<Record<string, A>>) => (self: Readonly<Record<string, A>>) => boolean
-```
-
-Added in v3.0.0
-
-## keys
-
-**Signature**
-
-```ts
-export declare const keys: (O: Ord<string>) => <K extends string>(r: Readonly<Record<K, unknown>>) => readonly K[]
 ```
 
 Added in v3.0.0

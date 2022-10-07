@@ -17,12 +17,10 @@ import type { Eq } from './Eq'
 import type { Predicate } from './Predicate'
 
 /**
- * Create a `ReadonlySet` from one element.
- *
  * @category constructors
  * @since 3.0.0
  */
-export const singleton = <A>(a: A): ReadonlySet<A> => new Set([a])
+export const succeed = <A>(a: A): ReadonlySet<A> => new Set([a])
 
 /**
  * Create a `ReadonlySet` from a `ReadonlyArray`.

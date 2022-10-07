@@ -12,45 +12,22 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [conversions](#conversions)
-  - [toReadonlyArray](#toreadonlyarray)
 - [model](#model)
   - [Foldable (interface)](#foldable-interface)
 - [utils](#utils)
+  - [empty](#empty)
+  - [filterMap](#filtermap)
+  - [foldMap](#foldmap)
   - [foldMapComposition](#foldmapcomposition)
   - [intercalate](#intercalate)
+  - [map](#map)
+  - [reduce](#reduce)
   - [reduceComposition](#reducecomposition)
   - [reduceKind](#reducekind)
   - [reduceRightComposition](#reducerightcomposition)
+  - [succeed](#succeed)
 
 ---
-
-# conversions
-
-## toReadonlyArray
-
-Converts a `Foldable` into a `ReadonlyArray`.
-
-**Signature**
-
-```ts
-export declare const toReadonlyArray: <F extends TypeLambda>(
-  Foldable: Foldable<F>
-) => <S, A>(self: Kind<F, S, never, unknown, unknown, A>) => readonly A[]
-```
-
-**Example**
-
-```ts
-import { toReadonlyArray } from 'fp-ts/Foldable'
-import { Foldable, make } from 'fp-ts/Tree'
-import { pipe } from 'fp-ts/Function'
-
-const tree = make(1, [make(2), make(3), make(4)])
-assert.deepStrictEqual(pipe(tree, toReadonlyArray(Foldable)), [1, 2, 3, 4])
-```
-
-Added in v3.0.0
 
 # model
 
@@ -60,6 +37,7 @@ Added in v3.0.0
 
 ```ts
 export interface Foldable<F extends TypeLambda> extends TypeClass<F> {
+  readonly toIterable: <S, R, O, E, A>(self: Kind<F, S, R, O, E, A>) => Iterable<A>
   readonly reduce: <B, A>(b: B, f: (b: B, a: A) => B) => <S>(self: Kind<F, S, never, unknown, unknown, A>) => B
   readonly foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <S>(self: Kind<F, S, never, unknown, unknown, A>) => M
   readonly reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <S>(self: Kind<F, S, never, unknown, unknown, A>) => B
@@ -69,6 +47,36 @@ export interface Foldable<F extends TypeLambda> extends TypeClass<F> {
 Added in v3.0.0
 
 # utils
+
+## empty
+
+**Signature**
+
+```ts
+export declare const empty: Iterable<never>
+```
+
+Added in v3.0.0
+
+## filterMap
+
+**Signature**
+
+```ts
+export declare const filterMap: <A, B>(f: (a: A) => Option<B>) => (self: Iterable<A>) => Iterable<B>
+```
+
+Added in v3.0.0
+
+## foldMap
+
+**Signature**
+
+```ts
+export declare const foldMap: <M>(Monoid: Monoid<M>) => <A>(f: (a: A) => M) => (self: Iterable<A>) => M
+```
+
+Added in v3.0.0
 
 ## foldMapComposition
 
@@ -97,9 +105,7 @@ using the specified separator.
 **Signature**
 
 ```ts
-export declare const intercalate: <F extends TypeLambda>(
-  Foldable: Foldable<F>
-) => <M>(Monoid: Monoid<M>) => (separator: M) => <S>(fm: Kind<F, S, never, unknown, unknown, M>) => M
+export declare const intercalate: <M>(Monoid: Monoid<M>) => (separator: M) => (self: Iterable<M>) => M
 ```
 
 **Example**
@@ -111,7 +117,27 @@ import * as T from 'fp-ts/Tree'
 import { pipe } from 'fp-ts/Function'
 
 const tree = T.make('a', [T.make('b'), T.make('c'), T.make('d')])
-assert.strictEqual(pipe(tree, intercalate(T.Foldable)(Monoid)('|')), 'a|b|c|d')
+assert.strictEqual(pipe(tree, T.toIterable, intercalate(Monoid)('|')), 'a|b|c|d')
+```
+
+Added in v3.0.0
+
+## map
+
+**Signature**
+
+```ts
+export declare const map: <A, B>(f: (a: A) => B) => (self: Iterable<A>) => Iterable<B>
+```
+
+Added in v3.0.0
+
+## reduce
+
+**Signature**
+
+```ts
+export declare const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => (self: Iterable<A>) => B
 ```
 
 Added in v3.0.0
@@ -187,6 +213,16 @@ export declare const reduceRightComposition: <F extends TypeLambda, G extends Ty
   b: B,
   f: (a: A, b: B) => B
 ) => <FS, GS>(fga: Kind<F, FS, never, unknown, unknown, Kind<G, GS, never, unknown, unknown, A>>) => B
+```
+
+Added in v3.0.0
+
+## succeed
+
+**Signature**
+
+```ts
+export declare const succeed: <A>(a: A) => Iterable<A>
 ```
 
 Added in v3.0.0

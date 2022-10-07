@@ -202,6 +202,7 @@ export function mapWithIndex<A, B>(
 }
 
 /**
+ * @category conversions
  * @since 3.0.0
  */
 export const keys =
@@ -548,10 +549,18 @@ export const FunctorWithIndex: functorWithIndex.FunctorWithIndex<ReadonlyRecordT
 }
 
 /**
+ * @category conversions
+ * @since 3.0.0
+ */
+export const values = (O: Ord<string>): (<A>(self: ReadonlyRecord<string, A>) => ReadonlyArray<A>) =>
+  collect(O)((_, a) => a)
+
+/**
  * @category instances
  * @since 3.0.0
  */
 export const getFoldable = (O: Ord<string>): Foldable<ReadonlyRecordTypeLambda> => ({
+  toIterable: values(O),
   reduce: reduce(O),
   foldMap: foldMap(O),
   reduceRight: reduceRight(O)
@@ -770,6 +779,7 @@ export const isEmpty = <A>(r: ReadonlyRecord<string, A>): r is ReadonlyRecord<st
  *   [{key: 'a', value: 'foo'}, {key: 'b', value: false}]
  * )
  *
+ * @category conversions
  * @since 3.0.0
  */
 export const collect = (

@@ -32,6 +32,7 @@ Added in v3.0.0
 - [conversions](#conversions)
   - [fromNullable](#fromnullable)
   - [fromResult](#fromresult)
+  - [toIterable](#toiterable)
   - [toNull](#tonull)
   - [toResult](#toresult)
   - [toUndefined](#toundefined)
@@ -257,6 +258,16 @@ Alias of [getSuccess](#getsuccess)
 
 ```ts
 export declare const fromResult: <A>(ma: Result<unknown, A>) => Option<A>
+```
+
+Added in v3.0.0
+
+## toIterable
+
+**Signature**
+
+```ts
+export declare const toIterable: <A>(self: Option<A>) => Iterable<A>
 ```
 
 Added in v3.0.0

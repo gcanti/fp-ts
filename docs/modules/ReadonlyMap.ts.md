@@ -20,6 +20,10 @@ Added in v3.0.0
 - [constructors](#constructors)
   - [fromFoldable](#fromfoldable)
   - [singleton](#singleton)
+- [conversions](#conversions)
+  - [collect](#collect)
+  - [keys](#keys)
+  - [values](#values)
 - [filtering](#filtering)
   - [compact](#compact)
   - [filter](#filter)
@@ -56,7 +60,6 @@ Added in v3.0.0
   - [ReadonlyMapTypeLambda (interface)](#readonlymaptypelambda-interface)
   - [ReadonlyMapTypeLambdaFix (interface)](#readonlymaptypelambdafix-interface)
 - [utils](#utils)
-  - [collect](#collect)
   - [deleteAt](#deleteat)
   - [difference](#difference)
   - [elem](#elem)
@@ -69,7 +72,6 @@ Added in v3.0.0
   - [intersection](#intersection)
   - [isEmpty](#isempty)
   - [isSubmap](#issubmap)
-  - [keys](#keys)
   - [lookup](#lookup)
   - [lookupWithKey](#lookupwithkey)
   - [member](#member)
@@ -87,7 +89,6 @@ Added in v3.0.0
   - [union](#union)
   - [updateAt](#updateat)
   - [upsertAt](#upsertat)
-  - [values](#values)
 
 ---
 
@@ -140,7 +141,7 @@ specified `Magma` to combine values for duplicate keys, and the specified `f` to
 
 ```ts
 export declare function fromFoldable<F extends TypeLambda>(
-  F: Foldable<F>
+  Foldable: Foldable<F>
 ): <K, B>(
   E: Eq<K>,
   M: Magma<B>
@@ -157,6 +158,42 @@ Create a `ReadonlyMap` from one key/value pair.
 
 ```ts
 export declare const singleton: <K, A>(k: K, a: A) => ReadonlyMap<K, A>
+```
+
+Added in v3.0.0
+
+# conversions
+
+## collect
+
+**Signature**
+
+```ts
+export declare const collect: <K>(O: Ord<K>) => <A, B>(f: (k: K, a: A) => B) => (m: ReadonlyMap<K, A>) => readonly B[]
+```
+
+Added in v3.0.0
+
+## keys
+
+Get a sorted `ReadonlyArray` of the keys contained in a `ReadonlyMap`.
+
+**Signature**
+
+```ts
+export declare const keys: <K>(O: Ord<K>) => <A>(m: ReadonlyMap<K, A>) => readonly K[]
+```
+
+Added in v3.0.0
+
+## values
+
+Get a sorted `ReadonlyArray` of the values contained in a `ReadonlyMap`.
+
+**Signature**
+
+```ts
+export declare const values: <A>(O: Ord<A>) => <K>(m: ReadonlyMap<K, A>) => readonly A[]
 ```
 
 Added in v3.0.0
@@ -530,16 +567,6 @@ Added in v3.0.0
 
 # utils
 
-## collect
-
-**Signature**
-
-```ts
-export declare const collect: <K>(O: Ord<K>) => <A, B>(f: (k: K, a: A) => B) => (m: ReadonlyMap<K, A>) => readonly B[]
-```
-
-Added in v3.0.0
-
 ## deleteAt
 
 Delete the element at the specified key, creating a new `ReadonlyMap`, or returning `None` if the key doesn't exist.
@@ -680,18 +707,6 @@ export declare const isSubmap: <K, A>(
   EK: eq.Eq<K>,
   SA: eq.Eq<A>
 ) => (that: ReadonlyMap<K, A>) => (self: ReadonlyMap<K, A>) => boolean
-```
-
-Added in v3.0.0
-
-## keys
-
-Get a sorted `ReadonlyArray` of the keys contained in a `ReadonlyMap`.
-
-**Signature**
-
-```ts
-export declare const keys: <K>(O: Ord<K>) => <A>(m: ReadonlyMap<K, A>) => readonly K[]
 ```
 
 Added in v3.0.0
@@ -909,18 +924,6 @@ Insert or replace a key/value pair in a `ReadonlyMap`.
 
 ```ts
 export declare const upsertAt: <K>(E: eq.Eq<K>) => <A>(k: K, a: A) => (m: ReadonlyMap<K, A>) => ReadonlyMap<K, A>
-```
-
-Added in v3.0.0
-
-## values
-
-Get a sorted `ReadonlyArray` of the values contained in a `ReadonlyMap`.
-
-**Signature**
-
-```ts
-export declare const values: <A>(O: Ord<A>) => <K>(m: ReadonlyMap<K, A>) => readonly A[]
 ```
 
 Added in v3.0.0

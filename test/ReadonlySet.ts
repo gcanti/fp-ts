@@ -62,7 +62,7 @@ describe('ReadonlySet', () => {
   })
 
   it('filter', () => {
-    deepStrictEqual(_.filter(gte2)(new Set([1, 2, 3])), new Set([2, 3]))
+    deepStrictEqual(_.filter(gte2)(new Set([1, 2, 3])), new Set([2, 3] as const))
 
     // refinements
     const isNumber = (u: string | number): u is number => typeof u === 'number'
@@ -74,7 +74,10 @@ describe('ReadonlySet', () => {
     deepStrictEqual(_.partition(() => true)(new Set([])), [new Set([]), new Set([])])
     deepStrictEqual(_.partition(() => true)(new Set([1])), [new Set([]), new Set([1])])
     deepStrictEqual(_.partition(() => false)(new Set([1])), [new Set([1]), new Set([])])
-    deepStrictEqual(_.partition((n: number) => n % 2 === 0)(new Set([1, 2, 3, 4])), [new Set([1, 3]), new Set([2, 4])])
+    deepStrictEqual(_.partition((n: number) => n % 2 === 0)(new Set([1, 2, 3, 4])), [
+      new Set([1, 3] as const),
+      new Set([2, 4] as const)
+    ])
 
     // refinements
     const isNumber = (u: string | number): u is number => typeof u === 'number'
@@ -139,7 +142,7 @@ describe('ReadonlySet', () => {
   })
 
   it('singleton', () => {
-    deepStrictEqual(_.singleton(1), new Set([1]))
+    deepStrictEqual(_.succeed(1), new Set([1]))
   })
 
   it('insert', () => {

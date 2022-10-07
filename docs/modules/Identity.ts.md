@@ -18,6 +18,8 @@ Added in v3.0.0
 
 - [constructors](#constructors)
   - [succeed](#succeed)
+- [conversions](#conversions)
+  - [toIterable](#toiterable)
 - [do notation](#do-notation)
   - [Do](#do)
   - [bind](#bind)
@@ -88,6 +90,18 @@ Added in v3.0.0
 
 ```ts
 export declare const succeed: <A>(a: A) => A
+```
+
+Added in v3.0.0
+
+# conversions
+
+## toIterable
+
+**Signature**
+
+```ts
+export declare const toIterable: <A>(self: A) => Iterable<A>
 ```
 
 Added in v3.0.0

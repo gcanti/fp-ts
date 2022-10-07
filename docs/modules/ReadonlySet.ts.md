@@ -16,7 +16,7 @@ Added in v3.0.0
   - [flatMap](#flatmap)
 - [constructors](#constructors)
   - [fromReadonlyArray](#fromreadonlyarray)
-  - [singleton](#singleton)
+  - [succeed](#succeed)
 - [filtering](#filtering)
   - [compact](#compact)
   - [separate](#separate)
@@ -82,14 +82,12 @@ export declare const fromReadonlyArray: <A>(E: eq.Eq<A>) => (as: readonly A[]) =
 
 Added in v3.0.0
 
-## singleton
-
-Create a `ReadonlySet` from one element.
+## succeed
 
 **Signature**
 
 ```ts
-export declare const singleton: <A>(a: A) => ReadonlySet<A>
+export declare const succeed: <A>(a: A) => ReadonlySet<A>
 ```
 
 Added in v3.0.0

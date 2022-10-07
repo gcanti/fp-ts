@@ -67,7 +67,7 @@ export const singleton = <K, A>(k: K, a: A): ReadonlyMap<K, A> => new Map([[k, a
  * @since 3.0.0
  */
 export function fromFoldable<F extends TypeLambda>(
-  F: Foldable<F>
+  Foldable: Foldable<F>
 ): <K, B>(
   E: Eq<K>,
   M: Magma<B>
@@ -75,7 +75,7 @@ export function fromFoldable<F extends TypeLambda>(
   return <K, B>(E: Eq<K>, M: Magma<B>) => {
     const lookupWithKeyE = lookupWithKey(E)
     return <A>(f: (a: A) => readonly [K, B]) =>
-      F.reduce<Map<K, B>, A>(new Map<K, B>(), (out, a) => {
+      Foldable.reduce<Map<K, B>, A>(new Map<K, B>(), (out, a) => {
         const [k, b] = f(a)
         const oka = lookupWithKeyE(k)(out)
         if (_.isSome(oka)) {
@@ -518,6 +518,7 @@ export const reduceRight: <K>(O: Ord<K>) => <B, A>(b: B, f: (a: A, b: B) => B) =
  */
 export const getFoldable = <K>(O: Ord<K>): Foldable<ReadonlyMapTypeLambdaFix<K>> => {
   return {
+    toIterable: collect(O)((_, a) => a),
     reduce: reduce(O),
     foldMap: foldMap(O),
     reduceRight: reduceRight(O)
@@ -801,6 +802,7 @@ export const elem =
 /**
  * Get a sorted `ReadonlyArray` of the keys contained in a `ReadonlyMap`.
  *
+ * @category conversions
  * @since 3.0.0
  */
 export const keys =
@@ -811,6 +813,7 @@ export const keys =
 /**
  * Get a sorted `ReadonlyArray` of the values contained in a `ReadonlyMap`.
  *
+ * @category conversions
  * @since 3.0.0
  */
 export const values =
@@ -819,6 +822,7 @@ export const values =
     Array.from(m.values()).sort((self, that) => O.compare(that)(self))
 
 /**
+ * @category conversions
  * @since 3.0.0
  */
 export const collect = <K>(O: Ord<K>): (<A, B>(f: (k: K, a: A) => B) => (m: ReadonlyMap<K, A>) => ReadonlyArray<B>) => {
