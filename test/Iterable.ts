@@ -2,10 +2,14 @@ import { pipe } from '../src/Function'
 import * as _ from '../src/Iterable'
 import * as number from '../src/number'
 import * as O from '../src/Option'
-import * as S from '../src/string'
+import * as string from '../src/string'
 import * as U from './util'
 
 describe('Iterable', () => {
+  it('empty', () => {
+    U.deepStrictEqual(Array.from(_.empty), [])
+  })
+
   it('map', () => {
     U.deepStrictEqual(
       Array.from(
@@ -28,6 +32,45 @@ describe('Iterable', () => {
     )
   })
 
+  it('reduceWithIndex', () => {
+    U.deepStrictEqual(
+      pipe(
+        new Map([
+          ['a', 'c'],
+          ['b', 'd']
+        ]),
+        _.reduceWithIndex('-', (k, b, a) => b + k + a)
+      ),
+      '-acbd'
+    )
+  })
+
+  it('foldMapWithIndex', () => {
+    U.deepStrictEqual(
+      pipe(
+        new Map([
+          ['a', 'c'],
+          ['b', 'd']
+        ]),
+        _.foldMapWithIndex(string.Monoid)((k, a) => k + a)
+      ),
+      'acbd'
+    )
+  })
+
+  it('reduceRightWithIndex', () => {
+    U.deepStrictEqual(
+      pipe(
+        new Map([
+          ['a', 'c'],
+          ['b', 'd']
+        ]),
+        _.reduceRightWithIndex('-', (k, a, b) => b + k + a)
+      ),
+      '-bdac'
+    )
+  })
+
   it('filterMap', () => {
     U.deepStrictEqual(
       Array.from(
@@ -41,7 +84,7 @@ describe('Iterable', () => {
   })
 
   it('intercalate', () => {
-    const intercalate = _.intercalate(S.Monoid)
+    const intercalate = _.intercalate(string.Monoid)
     U.deepStrictEqual(pipe(['a', 'b', 'c'], intercalate(',')), 'a,b,c')
   })
 

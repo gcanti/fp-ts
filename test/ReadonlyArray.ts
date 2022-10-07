@@ -168,16 +168,6 @@ describe('ReadonlyArray', () => {
       U.deepStrictEqual(pipe([], _.filterMap(f)), [])
     })
 
-    it('foldMapWithIndex', () => {
-      U.deepStrictEqual(
-        pipe(
-          ['a', 'b'],
-          _.foldMapWithIndex(S.Monoid)((i, a) => i + a)
-        ),
-        '0a1b'
-      )
-    })
-
     it('filterMapWithIndex', () => {
       const f = (i: number, n: number) => ((i + n) % 2 === 0 ? O.none : O.some(n))
       U.deepStrictEqual(pipe([1, 2, 4], _.filterMapWithIndex(f)), [1, 2])
@@ -242,26 +232,6 @@ describe('ReadonlyArray', () => {
           _.partitionWithIndex((i, n) => i + n > 2)
         ),
         [[1], [2]]
-      )
-    })
-
-    it('reduceWithIndex', () => {
-      U.deepStrictEqual(
-        pipe(
-          ['a', 'b'],
-          _.reduceWithIndex('', (i, b, a) => b + i + a)
-        ),
-        '0a1b'
-      )
-    })
-
-    it('reduceRightWithIndex', () => {
-      U.deepStrictEqual(
-        pipe(
-          ['a', 'b'],
-          _.reduceRightWithIndex('', (i, a, b) => b + i + a)
-        ),
-        '1b0a'
       )
     })
 

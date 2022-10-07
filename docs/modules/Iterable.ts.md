@@ -12,30 +12,39 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [utils](#utils)
-  - [empty](#empty)
+- [constructors](#constructors)
+  - [succeed](#succeed)
+- [filtering](#filtering)
   - [filterMap](#filtermap)
+- [folding](#folding)
   - [foldMap](#foldmap)
-  - [intercalate](#intercalate)
-  - [map](#map)
+  - [foldMapWithIndex](#foldmapwithindex)
   - [reduce](#reduce)
   - [reduceKind](#reducekind)
   - [reduceRight](#reduceright)
-  - [succeed](#succeed)
+  - [reduceRightWithIndex](#reducerightwithindex)
+  - [reduceWithIndex](#reducewithindex)
+- [mapping](#mapping)
+  - [map](#map)
+- [utils](#utils)
+  - [empty](#empty)
+  - [intercalate](#intercalate)
 
 ---
 
-# utils
+# constructors
 
-## empty
+## succeed
 
 **Signature**
 
 ```ts
-export declare const empty: Iterable<never>
+export declare const succeed: <A>(a: A) => Iterable<A>
 ```
 
 Added in v3.0.0
+
+# filtering
 
 ## filterMap
 
@@ -47,6 +56,8 @@ export declare const filterMap: <A, B>(f: (a: A) => Option<B>) => (self: Iterabl
 
 Added in v3.0.0
 
+# folding
+
 ## foldMap
 
 **Signature**
@@ -57,37 +68,14 @@ export declare const foldMap: <M>(Monoid: Monoid<M>) => <A>(f: (a: A) => M) => (
 
 Added in v3.0.0
 
-## intercalate
-
-Fold a data structure, accumulating values in some `Monoid`, combining adjacent elements
-using the specified separator.
+## foldMapWithIndex
 
 **Signature**
 
 ```ts
-export declare const intercalate: <M>(Monoid: Monoid<M>) => (separator: M) => (self: Iterable<M>) => M
-```
-
-**Example**
-
-```ts
-import { intercalate } from 'fp-ts/Iterable'
-import { Monoid } from 'fp-ts/string'
-import * as T from 'fp-ts/Tree'
-import { pipe } from 'fp-ts/Function'
-
-const tree = T.make('a', [T.make('b'), T.make('c'), T.make('d')])
-assert.strictEqual(pipe(tree, T.toIterable, intercalate(Monoid)('|')), 'a|b|c|d')
-```
-
-Added in v3.0.0
-
-## map
-
-**Signature**
-
-```ts
-export declare const map: <A, B>(f: (a: A) => B) => (self: Iterable<A>) => Iterable<B>
+export declare const foldMapWithIndex: <M>(
+  Monoid: Monoid<M>
+) => <I, A>(f: (i: I, a: A) => M) => (self: Iterable<readonly [I, A]>) => M
 ```
 
 Added in v3.0.0
@@ -150,12 +138,77 @@ export declare const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (self: I
 
 Added in v3.0.0
 
-## succeed
+## reduceRightWithIndex
 
 **Signature**
 
 ```ts
-export declare const succeed: <A>(a: A) => Iterable<A>
+export declare const reduceRightWithIndex: <B, I, A>(
+  b: B,
+  f: (i: I, a: A, b: B) => B
+) => (self: Iterable<readonly [I, A]>) => B
+```
+
+Added in v3.0.0
+
+## reduceWithIndex
+
+**Signature**
+
+```ts
+export declare const reduceWithIndex: <B, I, A>(
+  b: B,
+  f: (i: I, b: B, a: A) => B
+) => (self: Iterable<readonly [I, A]>) => B
+```
+
+Added in v3.0.0
+
+# mapping
+
+## map
+
+**Signature**
+
+```ts
+export declare const map: <A, B>(f: (a: A) => B) => (self: Iterable<A>) => Iterable<B>
+```
+
+Added in v3.0.0
+
+# utils
+
+## empty
+
+**Signature**
+
+```ts
+export declare const empty: Iterable<never>
+```
+
+Added in v3.0.0
+
+## intercalate
+
+Fold a data structure, accumulating values in some `Monoid`, combining adjacent elements
+using the specified separator.
+
+**Signature**
+
+```ts
+export declare const intercalate: <M>(Monoid: Monoid<M>) => (separator: M) => (self: Iterable<M>) => M
+```
+
+**Example**
+
+```ts
+import { intercalate } from 'fp-ts/Iterable'
+import { Monoid } from 'fp-ts/string'
+import * as T from 'fp-ts/Tree'
+import { pipe } from 'fp-ts/Function'
+
+const tree = T.make('a', [T.make('b'), T.make('c'), T.make('d')])
+assert.strictEqual(pipe(tree, T.toIterable, intercalate(Monoid)('|')), 'a|b|c|d')
 ```
 
 Added in v3.0.0

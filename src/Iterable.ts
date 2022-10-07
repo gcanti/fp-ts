@@ -12,23 +12,25 @@ import type { Option } from './Option'
  * @since 3.0.0
  */
 export const empty: Iterable<never> = {
-  *[Symbol.iterator](): Iterator<never> {
+  *[Symbol.iterator]() {
     // eslint-disable-next-line no-empty
   }
 }
 
 /**
+ * @category constructors
  * @since 3.0.0
  */
 export const succeed = <A>(a: A): Iterable<A> => {
   return {
-    *[Symbol.iterator](): Iterator<A> {
+    *[Symbol.iterator]() {
       yield a
     }
   }
 }
 
 /**
+ * @category mapping
  * @since 3.0.0
  */
 export const map =
@@ -44,6 +46,7 @@ export const map =
   }
 
 /**
+ * @category folding
  * @since 3.0.0
  */
 export const reduce =
@@ -57,6 +60,7 @@ export const reduce =
   }
 
 /**
+ * @category folding
  * @since 3.0.0
  */
 export const foldMap =
@@ -65,6 +69,7 @@ export const foldMap =
     reduce(Monoid.empty, (b, a) => Monoid.combine(f(a))(b))
 
 /**
+ * @category folding
  * @since 3.0.0
  */
 export const reduceRight =
@@ -73,6 +78,39 @@ export const reduceRight =
     Array.from(self).reduceRight((b, a) => f(a, b), b)
 
 /**
+ * @category folding
+ * @since 3.0.0
+ */
+export const reduceWithIndex =
+  <B, I, A>(b: B, f: (i: I, b: B, a: A) => B) =>
+  (self: Iterable<readonly [I, A]>): B => {
+    let out: B = b
+    for (const [i, a] of self) {
+      out = f(i, out, a)
+    }
+    return out
+  }
+
+/**
+ * @category folding
+ * @since 3.0.0
+ */
+export const foldMapWithIndex =
+  <M>(Monoid: Monoid<M>) =>
+  <I, A>(f: (i: I, a: A) => M): ((self: Iterable<readonly [I, A]>) => M) =>
+    reduceWithIndex(Monoid.empty, (i, b, a) => Monoid.combine(f(i, a))(b))
+
+/**
+ * @category folding
+ * @since 3.0.0
+ */
+export const reduceRightWithIndex =
+  <B, I, A>(b: B, f: (i: I, a: A, b: B) => B) =>
+  (self: Iterable<readonly [I, A]>): B =>
+    Array.from(self).reduceRight((b, [i, a]) => f(i, a, b), b)
+
+/**
+ * @category filtering
  * @since 3.0.0
  */
 export const filterMap =
@@ -114,8 +152,6 @@ export const intercalate =
     return pipe(self, reduce([true, Monoid.empty], go))[1]
   }
 
-// -------------------------------
-
 /**
  * Similar to 'reduce', but the result is encapsulated in a `Flattenable`.
  *
@@ -130,6 +166,7 @@ export const intercalate =
  * const tree = T.make(1, [T.make(2), T.make(3), T.make(4)])
  * assert.deepStrictEqual(pipe(tree, T.toIterable, reduceKind(Flattenable)(some(0), (b, a) => (a > 2 ? some(b + a) : some(b)))), some(7))
  *
+ * @category folding
  * @since 3.0.0
  */
 export const reduceKind =

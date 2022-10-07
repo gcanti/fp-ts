@@ -105,19 +105,6 @@ _.map((n: number) => n > 2)(l1) // $ExpectType Readonly<Record<"a", boolean>>
 _.map((n: number) => n > 2)(d1) // $ExpectType Readonly<Record<string, boolean>>
 _.map((n: number) => n > 2)(r1) // $ExpectType Readonly<Record<"a1" | "a2", boolean>>
 
-//
-// reduceWithIndex
-//
-
-_.reduceWithIndex(S.Ord)('', (k: string, _n) => k)(d1) // $ExpectType string
-_.reduceWithIndex(S.Ord)('', (k: 'a1' | 'a2', _n) => k)(r1) // $ExpectType string
-
-_.foldMapWithIndex(S.Ord)(S.Monoid)((k: string, _n) => k)(d1) // $ExpectType string
-_.foldMapWithIndex(S.Ord)(S.Monoid)((k: 'a1' | 'a2', _n) => k)(r1) // $ExpectType string
-
-_.reduceRightWithIndex(S.Ord)('', (k: string, _n, _b) => k)(d1) // $ExpectType string
-_.reduceRightWithIndex(S.Ord)('', (k: 'a1' | 'a2', _n, _b) => k)(r1) // $ExpectType string
-
 _.traverseWithIndex(S.Ord)(O.Applicative)((_k, n: number) => O.some(n))(d1) // $ExpectType Option<Readonly<Record<string, number>>>
 _.traverseWithIndex(S.Ord)(O.Applicative)((_k: 'a1' | 'a2', n: number) => O.some(n))(r1) // $ExpectType Option<Readonly<Record<"a1" | "a2", number>>>
 

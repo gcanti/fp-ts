@@ -861,35 +861,6 @@ export const foldMap =
     fa.slice(1).reduce((s, a) => S.combine(f(a))(s), f(fa[0]))
 
 /**
- * @category folding
- * @since 3.0.0
- */
-export const reduceWithIndex: <B, A>(b: B, f: (i: number, b: B, a: A) => B) => (fa: NonEmptyReadonlyArray<A>) => B =
-  (b, f) => (as) =>
-    as.reduce((b, a, i) => f(i, b, a), b)
-
-/**
- * **Note**. The constraint is relaxed: a `Semigroup` instead of a `Monoid`.
- *
- * @category folding
- * @since 3.0.0
- */
-export const foldMapWithIndex =
-  <S>(S: Semigroup<S>) =>
-  <A>(f: (i: number, a: A) => S) =>
-  (fa: NonEmptyReadonlyArray<A>): S =>
-    fa.slice(1).reduce((s, a, i) => S.combine(f(i + 1, a))(s), f(0, fa[0]))
-
-/**
- * @category folding
- * @since 3.0.0
- */
-export const reduceRightWithIndex: <B, A>(
-  b: B,
-  f: (i: number, a: A, b: B) => B
-) => (fa: NonEmptyReadonlyArray<A>) => B = (b, f) => (as) => as.reduceRight((b, a, i) => f(i, a, b), b)
-
-/**
  * @category traversing
  * @since 3.0.0
  */
@@ -1106,13 +1077,25 @@ export const Foldable: foldable.Foldable<NonEmptyReadonlyArrayTypeLambda> = {
 }
 
 /**
+ * @category folding
+ * @since 3.0.0
+ */
+export const toEntries = <A>(self: NonEmptyReadonlyArray<A>): Iterable<readonly [number, A]> => {
+  return {
+    *[Symbol.iterator]() {
+      for (let i = 0; i < self.length; i++) {
+        yield [i, self[i]]
+      }
+    }
+  }
+}
+
+/**
  * @category instances
  * @since 3.0.0
  */
 export const FoldableWithIndex: foldableWithIndex.FoldableWithIndex<NonEmptyReadonlyArrayTypeLambda, number> = {
-  reduceWithIndex,
-  foldMapWithIndex,
-  reduceRightWithIndex
+  toEntries
 }
 
 /**

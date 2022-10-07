@@ -486,53 +486,19 @@ export const getFoldable = <K>(O: Ord<K>): foldable.Foldable<ReadonlyMapTypeLamb
 }
 
 /**
+ * @category folding
  * @since 3.0.0
  */
-export const reduceWithIndex: <K>(
-  O: Ord<K>
-) => <B, A>(b: B, f: (i: K, b: B, a: A) => B) => (fa: ReadonlyMap<K, A>) => B = (O) => {
-  const keysO = keys(O)
-  return (b, f) => (m) => {
-    let out = b
-    for (const k of keysO(m)) {
-      out = f(k, out, m.get(k)!)
+export const toEntries = <K>(O: Ord<K>) => {
+  const keys_ = keys(O)
+  return <A>(self: ReadonlyMap<K, A>): Iterable<readonly [K, A]> => {
+    return {
+      *[Symbol.iterator]() {
+        for (const k of keys_(self)) {
+          yield [k, self.get(k)!]
+        }
+      }
     }
-    return out
-  }
-}
-
-/**
- * @since 3.0.0
- */
-export const foldMapWithIndex: <K>(
-  O: Ord<K>
-) => <M>(M: Monoid<M>) => <A>(f: (i: K, a: A) => M) => (fa: ReadonlyMap<K, A>) => M = (O) => {
-  const keysO = keys(O)
-  return (M) => (f) => (m) => {
-    let out = M.empty
-    for (const k of keysO(m)) {
-      out = M.combine(f(k, m.get(k)!))(out)
-    }
-    return out
-  }
-}
-
-/**
- * @since 3.0.0
- */
-export const reduceRightWithIndex: <K>(
-  O: Ord<K>
-) => <B, A>(b: B, f: (i: K, a: A, b: B) => B) => (fa: ReadonlyMap<K, A>) => B = (O) => {
-  const keysO = keys(O)
-  return (b, f) => (m) => {
-    let out = b
-    const ks = keysO(m)
-    const len = ks.length
-    for (let i = len - 1; i >= 0; i--) {
-      const k = ks[i]
-      out = f(k, m.get(k)!, out)
-    }
-    return out
   }
 }
 
@@ -542,9 +508,7 @@ export const reduceRightWithIndex: <K>(
  */
 export const getFoldableWithIndex = <K>(O: Ord<K>): FoldableWithIndex<ReadonlyMapTypeLambdaFix<K>, K> => {
   return {
-    reduceWithIndex: reduceWithIndex(O),
-    foldMapWithIndex: foldMapWithIndex(O),
-    reduceRightWithIndex: reduceRightWithIndex(O)
+    toEntries: toEntries(O)
   }
 }
 

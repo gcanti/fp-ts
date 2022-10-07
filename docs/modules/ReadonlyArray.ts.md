@@ -15,8 +15,6 @@ Added in v3.0.0
 - [FlattenableRec](#flattenablerec)
   - [flatMapRecBreadthFirst](#flatmaprecbreadthfirst)
   - [flatMapRecDepthFirst](#flatmaprecdepthfirst)
-- [TraversableWithIndex](#traversablewithindex)
-  - [traverseWithIndex](#traversewithindex)
 - [constructors](#constructors)
   - [append](#append)
   - [comprehension](#comprehension)
@@ -49,9 +47,7 @@ Added in v3.0.0
   - [traverseFilterMap](#traversefiltermap)
   - [traversePartitionMap](#traversepartitionmap)
 - [folding](#folding)
-  - [foldMapWithIndex](#foldmapwithindex)
-  - [reduceRightWithIndex](#reducerightwithindex)
-  - [reduceWithIndex](#reducewithindex)
+  - [toEntries](#toentries)
 - [instances](#instances)
   - [Alt](#alt)
   - [Alternative](#alternative)
@@ -76,7 +72,7 @@ Added in v3.0.0
   - [Monad](#monad)
   - [Traversable](#traversable)
   - [TraversableFilterable](#traversablefilterable)
-  - [TraversableWithIndex](#traversablewithindex-1)
+  - [TraversableWithIndex](#traversablewithindex)
   - [Unfoldable](#unfoldable)
   - [getDifferenceMagma](#getdifferencemagma)
   - [getEq](#geteq)
@@ -178,6 +174,7 @@ Added in v3.0.0
   - [tap](#tap)
   - [traverseFilter](#traversefilter)
   - [traversePartition](#traversepartition)
+  - [traverseWithIndex](#traversewithindex)
   - [unfold](#unfold)
   - [union](#union)
   - [uniq](#uniq)
@@ -206,22 +203,6 @@ Added in v3.0.0
 
 ```ts
 export declare const flatMapRecDepthFirst: <A, B>(f: (a: A) => readonly Result<A, B>[]) => (a: A) => readonly B[]
-```
-
-Added in v3.0.0
-
-# TraversableWithIndex
-
-## traverseWithIndex
-
-**Signature**
-
-```ts
-export declare const traverseWithIndex: <F extends TypeLambda>(
-  F: applicative.Applicative<F>
-) => <A, S, R, O, E, B>(
-  f: (i: number, a: A) => Kind<F, S, R, O, E, B>
-) => (ta: readonly A[]) => Kind<F, S, R, O, E, readonly B[]>
 ```
 
 Added in v3.0.0
@@ -649,32 +630,12 @@ Added in v3.0.0
 
 # folding
 
-## foldMapWithIndex
+## toEntries
 
 **Signature**
 
 ```ts
-export declare const foldMapWithIndex: <M>(M: Monoid<M>) => <A>(f: (i: number, a: A) => M) => (fa: readonly A[]) => M
-```
-
-Added in v3.0.0
-
-## reduceRightWithIndex
-
-**Signature**
-
-```ts
-export declare const reduceRightWithIndex: <B, A>(b: B, f: (i: number, a: A, b: B) => B) => (fa: readonly A[]) => B
-```
-
-Added in v3.0.0
-
-## reduceWithIndex
-
-**Signature**
-
-```ts
-export declare const reduceWithIndex: <B, A>(b: B, f: (i: number, b: B, a: A) => B) => (fa: readonly A[]) => B
+export declare const toEntries: <A>(self: readonly A[]) => Iterable<readonly [number, A]>
 ```
 
 Added in v3.0.0
@@ -2686,6 +2647,20 @@ export declare const traversePartition: <F extends TypeLambda>(
 ) => <B extends A, S, R, O, E, A = B>(
   predicate: (a: A) => Kind<F, S, R, O, E, boolean>
 ) => (self: readonly B[]) => Kind<F, S, R, O, E, readonly [readonly B[], readonly B[]]>
+```
+
+Added in v3.0.0
+
+## traverseWithIndex
+
+**Signature**
+
+```ts
+export declare const traverseWithIndex: <F extends TypeLambda>(
+  F: applicative.Applicative<F>
+) => <A, S, R, O, E, B>(
+  f: (i: number, a: A) => Kind<F, S, R, O, E, B>
+) => (ta: readonly A[]) => Kind<F, S, R, O, E, readonly B[]>
 ```
 
 Added in v3.0.0

@@ -33,6 +33,8 @@ Added in v3.0.0
   - [separate](#separate)
   - [traverseFilterMap](#traversefiltermap)
   - [traversePartitionMap](#traversepartitionmap)
+- [folding](#folding)
+  - [toEntries](#toentries)
 - [instances](#instances)
   - [Compactable](#compactable)
   - [Filterable](#filterable)
@@ -65,7 +67,6 @@ Added in v3.0.0
   - [elem](#elem)
   - [empty](#empty)
   - [filterMap](#filtermap)
-  - [foldMapWithIndex](#foldmapwithindex)
   - [getDifferenceMagma](#getdifferencemagma)
   - [insertAt](#insertat)
   - [intersection](#intersection)
@@ -77,8 +78,6 @@ Added in v3.0.0
   - [modifyAt](#modifyat)
   - [partitionMap](#partitionmap)
   - [pop](#pop)
-  - [reduceRightWithIndex](#reducerightwithindex)
-  - [reduceWithIndex](#reducewithindex)
   - [size](#size)
   - [toReadonlyArray](#toreadonlyarray)
   - [toUnfoldable](#tounfoldable)
@@ -305,6 +304,18 @@ export declare const traversePartitionMap: <K>(
 ) => <A, S, R, O, E, B, C>(
   f: (a: A) => Kind<F, S, R, O, E, Result<B, C>>
 ) => (wa: ReadonlyMap<K, A>) => Kind<F, S, R, O, E, readonly [ReadonlyMap<K, B>, ReadonlyMap<K, C>]>
+```
+
+Added in v3.0.0
+
+# folding
+
+## toEntries
+
+**Signature**
+
+```ts
+export declare const toEntries: <K>(O: Ord<K>) => <A>(self: ReadonlyMap<K, A>) => Iterable<readonly [K, A]>
 ```
 
 Added in v3.0.0
@@ -620,18 +631,6 @@ export declare const filterMap: <A, B>(f: (a: A) => option.Option<B>) => <K>(fa:
 
 Added in v3.0.0
 
-## foldMapWithIndex
-
-**Signature**
-
-```ts
-export declare const foldMapWithIndex: <K>(
-  O: Ord<K>
-) => <M>(M: Monoid<M>) => <A>(f: (i: K, a: A) => M) => (fa: ReadonlyMap<K, A>) => M
-```
-
-Added in v3.0.0
-
 ## getDifferenceMagma
 
 **Signature**
@@ -772,30 +771,6 @@ or returning `None` if the key doesn't exist.
 export declare const pop: <K>(
   E: eq.Eq<K>
 ) => (k: K) => <A>(m: ReadonlyMap<K, A>) => option.Option<readonly [A, ReadonlyMap<K, A>]>
-```
-
-Added in v3.0.0
-
-## reduceRightWithIndex
-
-**Signature**
-
-```ts
-export declare const reduceRightWithIndex: <K>(
-  O: Ord<K>
-) => <B, A>(b: B, f: (i: K, a: A, b: B) => B) => (fa: ReadonlyMap<K, A>) => B
-```
-
-Added in v3.0.0
-
-## reduceWithIndex
-
-**Signature**
-
-```ts
-export declare const reduceWithIndex: <K>(
-  O: Ord<K>
-) => <B, A>(b: B, f: (i: K, b: B, a: A) => B) => (fa: ReadonlyMap<K, A>) => B
 ```
 
 Added in v3.0.0

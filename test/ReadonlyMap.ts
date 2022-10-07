@@ -797,58 +797,6 @@ describe('ReadonlyMap', () => {
     })
   })
 
-  describe('getFoldableWithIndex', () => {
-    const FWI = _.getFoldableWithIndex(ordUser)
-    it('reduceWithIndex', () => {
-      U.deepStrictEqual(
-        pipe(
-          new Map<User, string>([
-            [{ id: 'k1' }, 'a'],
-            [{ id: 'k2' }, 'b']
-          ]),
-          FWI.reduceWithIndex('', (k, b, a) => b + k.id + a)
-        ),
-        'k1ak2b'
-      )
-      U.deepStrictEqual(
-        pipe(
-          new Map<User, string>([
-            [{ id: 'k2' }, 'b'],
-            [{ id: 'k1' }, 'a']
-          ]),
-          FWI.reduceWithIndex('', (k, b, a) => b + k.id + a)
-        ),
-        'k1ak2b'
-      )
-    })
-
-    it('foldMapWithIndex', () => {
-      U.deepStrictEqual(
-        pipe(
-          new Map<User, string>([
-            [{ id: 'k1' }, 'a'],
-            [{ id: 'k2' }, 'b']
-          ]),
-          FWI.foldMapWithIndex(S.Monoid)((k, a) => k.id + a)
-        ),
-        'k1ak2b'
-      )
-    })
-
-    it('reduceRightWithIndex', () => {
-      U.deepStrictEqual(
-        pipe(
-          new Map<User, string>([
-            [{ id: 'k1' }, 'a'],
-            [{ id: 'k2' }, 'b']
-          ]),
-          FWI.reduceRightWithIndex('', (k, a, b) => b + k.id + a)
-        ),
-        'k2bk1a'
-      )
-    })
-  })
-
   describe('getTraversableWithIndex', () => {
     it('traverseWithIndex', () => {
       const TWI = _.getTraversableWithIndex(ordUser)

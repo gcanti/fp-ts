@@ -23,6 +23,22 @@ export interface Filterable<F extends TypeLambda> extends TypeClass<F> {
 }
 
 /**
+ * Returns a default `filterMap` composition.
+ *
+ * @since 3.0.0
+ */
+export const filterMapComposition = <F extends TypeLambda, G extends TypeLambda>(
+  FunctorF: Functor<F>,
+  FilterableG: Filterable<G>
+): (<A, B>(
+  f: (a: A) => Option<B>
+) => <FS, FR, FO, FE, GS, GR, GO, GE>(
+  self: Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, A>>
+) => Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, B>>) => {
+  return (f) => FunctorF.map(FilterableG.filterMap(f))
+}
+
+/**
  * Returns a default `filter` implementation.
  *
  * @since 3.0.0
@@ -76,20 +92,4 @@ export const partition: <F extends TypeLambda>(
     predicate: Predicate<A>
   ): (<S, R, O, E>(self: Kind<F, S, R, O, E, B>) => readonly [Kind<F, S, R, O, E, B>, Kind<F, S, R, O, E, B>]) =>
     partitionMap_((b) => (predicate(b) ? _.succeed(b) : _.fail(b)))
-}
-
-/**
- * Returns a default `filterMap` composition.
- *
- * @since 3.0.0
- */
-export const filterMapComposition = <F extends TypeLambda, G extends TypeLambda>(
-  FunctorF: Functor<F>,
-  FilterableG: Filterable<G>
-): (<A, B>(
-  f: (a: A) => Option<B>
-) => <FS, FR, FO, FE, GS, GR, GO, GE>(
-  self: Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, A>>
-) => Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, B>>) => {
-  return (f) => FunctorF.map(FilterableG.filterMap(f))
 }

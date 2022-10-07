@@ -39,9 +39,7 @@ Added in v3.0.0
   - [let](#let)
 - [folding](#folding)
   - [foldMap](#foldmap)
-  - [foldMapWithIndex](#foldmapwithindex)
-  - [reduceRightWithIndex](#reducerightwithindex)
-  - [reduceWithIndex](#reducewithindex)
+  - [toEntries](#toentries)
 - [instances](#instances)
   - [Alt](#alt)
   - [Applicative](#applicative)
@@ -336,39 +334,12 @@ export declare const foldMap: <S>(S: semigroup.Semigroup<S>) => <A>(f: (a: A) =>
 
 Added in v3.0.0
 
-## foldMapWithIndex
-
-**Note**. The constraint is relaxed: a `Semigroup` instead of a `Monoid`.
+## toEntries
 
 **Signature**
 
 ```ts
-export declare const foldMapWithIndex: <S>(
-  S: semigroup.Semigroup<S>
-) => <A>(f: (i: number, a: A) => S) => (fa: readonly [A, ...A[]]) => S
-```
-
-Added in v3.0.0
-
-## reduceRightWithIndex
-
-**Signature**
-
-```ts
-export declare const reduceRightWithIndex: <B, A>(
-  b: B,
-  f: (i: number, a: A, b: B) => B
-) => (fa: readonly [A, ...A[]]) => B
-```
-
-Added in v3.0.0
-
-## reduceWithIndex
-
-**Signature**
-
-```ts
-export declare const reduceWithIndex: <B, A>(b: B, f: (i: number, b: B, a: A) => B) => (fa: readonly [A, ...A[]]) => B
+export declare const toEntries: <A>(self: readonly [A, ...A[]]) => Iterable<readonly [number, A]>
 ```
 
 Added in v3.0.0

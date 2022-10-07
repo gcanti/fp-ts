@@ -133,7 +133,7 @@ describe('Ord', () => {
   })
 
   it('trivial', () => {
-    const toReadonlyArray = RR.toReadonlyArray(_.trivial)
+    const toReadonlyArray = RR.toEntries(_.trivial)
     U.deepStrictEqual(toReadonlyArray({ a: 1, b: 2 }), [
       ['a', 1],
       ['b', 2]

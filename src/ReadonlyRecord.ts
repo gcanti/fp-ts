@@ -28,7 +28,6 @@ import type * as traversable from './Traversable'
 import type * as traversableWithIndex from './TraversableWithIndex'
 import type { Unfoldable } from './Unfoldable'
 import * as traversableFilterable from './TraversableFilterable'
-import * as string from './string'
 import type { Eq } from './Eq'
 import type { Option } from './Option'
 
@@ -205,57 +204,6 @@ export const keys =
   (O: Ord<string>) =>
   <K extends string>(r: ReadonlyRecord<K, unknown>): ReadonlyArray<K> =>
     (Object.keys(r) as Array<K>).sort((self, that) => O.compare(that)(self))
-
-/**
- * @since 3.0.0
- */
-export const reduceWithIndex = (
-  O: Ord<string>
-): (<B, K extends string, A>(b: B, f: (k: K, b: B, a: A) => B) => (r: ReadonlyRecord<K, A>) => B) => {
-  const keysO = keys(O)
-  return (b, f) => (r) => {
-    let out = b
-    for (const k of keysO(r)) {
-      out = f(k, out, r[k])
-    }
-    return out
-  }
-}
-
-/**
- * @since 3.0.0
- */
-export const foldMapWithIndex = (
-  O: Ord<string>
-): (<M>(M: Monoid<M>) => <K extends string, A>(f: (k: K, a: A) => M) => (r: ReadonlyRecord<K, A>) => M) => {
-  const keysO = keys(O)
-  return (M) => (f) => (r) => {
-    let out = M.empty
-    for (const k of keysO(r)) {
-      out = M.combine(f(k, r[k]))(out)
-    }
-    return out
-  }
-}
-
-/**
- * @since 3.0.0
- */
-export const reduceRightWithIndex = (
-  O: Ord<string>
-): (<B, K extends string, A>(b: B, f: (k: K, a: A, b: B) => B) => (r: ReadonlyRecord<K, A>) => B) => {
-  const keysO = keys(O)
-  return (b, f) => (r) => {
-    let out = b
-    const ks = keysO(r)
-    const len = ks.length
-    for (let i = len - 1; i >= 0; i--) {
-      const k = ks[i]
-      out = f(k, r[k], out)
-    }
-    return out
-  }
-}
 
 /**
  * @since 3.0.0
@@ -535,9 +483,7 @@ export const getFoldable = (O: Ord<string>): foldable.Foldable<ReadonlyRecordTyp
 export const getFoldableWithIndex = (
   O: Ord<string>
 ): foldableWithIndex.FoldableWithIndex<ReadonlyRecordTypeLambda, string> => ({
-  reduceWithIndex: reduceWithIndex(O),
-  foldMapWithIndex: foldMapWithIndex(O),
-  reduceRightWithIndex: reduceRightWithIndex(O)
+  toEntries: toEntries(O)
 })
 
 /**
@@ -759,15 +705,6 @@ export const collect = (
 }
 
 /**
- * Get a sorted `ReadonlyArray` of the key/value pairs contained in a `ReadonlyRecord`.
- *
- * @since 3.0.0
- */
-export const toReadonlyArray = (
-  O: Ord<string>
-): (<K extends string, A>(r: ReadonlyRecord<K, A>) => ReadonlyArray<readonly [K, A]>) => collect(O)((k, a) => [k, a])
-
-/**
  * Unfolds a `ReadonlyRecord` into a data structure of key/value pairs.
  *
  * @since 3.0.0
@@ -777,7 +714,7 @@ export function toUnfoldable(
 ): <F extends TypeLambda>(
   U: Unfoldable<F>
 ) => <K extends string, A, S, R, O, E>(r: ReadonlyRecord<K, A>) => Kind<F, S, R, O, E, readonly [K, A]> {
-  const toReadonlyArrayO = toReadonlyArray(O)
+  const toReadonlyArrayO = toEntries(O)
   return (U) => (r) => {
     const as = toReadonlyArrayO(r)
     const len = as.length
@@ -956,12 +893,15 @@ export const difference =
  *
  * @example
  * import { toEntries } from 'fp-ts/ReadonlyRecord'
+ * import * as string from 'fp-ts/string'
  *
- * assert.deepStrictEqual(toEntries({ a: 1, b: 2 }), [['a', 1], ['b', 2]])
+ * assert.deepStrictEqual(toEntries(string.Ord)({ a: 1, b: 2 }), [['a', 1], ['b', 2]])
  *
  * @since 3.0.0
  */
-export const toEntries = toReadonlyArray(string.Ord)
+export const toEntries = (
+  O: Ord<string>
+): (<K extends string, A>(r: ReadonlyRecord<K, A>) => ReadonlyArray<readonly [K, A]>) => collect(O)((k, a) => [k, a])
 
 /**
  * Converts a `ReadonlyArray` of `[key, value]` tuples into a `ReadonlyRecord`.

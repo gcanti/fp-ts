@@ -226,36 +226,6 @@ describe('NonEmptyReadonlyArray', () => {
     )
   })
 
-  it('reduceWithIndex', () => {
-    U.deepStrictEqual(
-      pipe(
-        ['a', 'b'],
-        _.reduceWithIndex('', (i, b, a) => b + i + a)
-      ),
-      '0a1b'
-    )
-  })
-
-  it('foldMapWithIndex', () => {
-    U.deepStrictEqual(
-      pipe(
-        ['a', 'b'] as _.NonEmptyReadonlyArray<string>,
-        _.foldMapWithIndex(S.Monoid)((i, a) => i + a)
-      ),
-      '0a1b'
-    )
-  })
-
-  it('reduceRightWithIndex', () => {
-    U.deepStrictEqual(
-      pipe(
-        ['a', 'b'],
-        _.reduceRightWithIndex('', (i, a, b) => b + i + a)
-      ),
-      '1b0a'
-    )
-  })
-
   it('prepend', () => {
     U.deepStrictEqual(_.prepend(1)([2, 3, 4]), [1, 2, 3, 4])
   })
@@ -288,12 +258,6 @@ describe('NonEmptyReadonlyArray', () => {
     const f = _.foldMap(N.SemigroupSum)((s: string) => s.length)
     U.deepStrictEqual(f(['a']), 1)
     U.deepStrictEqual(f(['a', 'bb']), 3)
-  })
-
-  it('foldMapWithIndex', () => {
-    const f = _.foldMapWithIndex(N.SemigroupSum)((i: number, s: string) => s.length + i)
-    U.deepStrictEqual(f(['a']), 1)
-    U.deepStrictEqual(f(['a', 'bb']), 4)
   })
 
   it('fromReadonlyArray', () => {

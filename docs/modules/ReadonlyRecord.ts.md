@@ -67,7 +67,6 @@ Added in v3.0.0
   - [empty](#empty)
   - [every](#every)
   - [filterMap](#filtermap)
-  - [foldMapWithIndex](#foldmapwithindex)
   - [fromEntries](#fromentries)
   - [has](#has)
   - [insertAt](#insertat)
@@ -78,12 +77,9 @@ Added in v3.0.0
   - [modifyAt](#modifyat)
   - [partitionMap](#partitionmap)
   - [pop](#pop)
-  - [reduceRightWithIndex](#reducerightwithindex)
-  - [reduceWithIndex](#reducewithindex)
   - [size](#size)
   - [some](#some)
   - [toEntries](#toentries)
-  - [toReadonlyArray](#toreadonlyarray)
   - [toUnfoldable](#tounfoldable)
   - [traverse](#traverse)
   - [traverseWithIndex](#traversewithindex)
@@ -673,18 +669,6 @@ export declare const filterMap: <A, B>(
 
 Added in v3.0.0
 
-## foldMapWithIndex
-
-**Signature**
-
-```ts
-export declare const foldMapWithIndex: (
-  O: Ord<string>
-) => <M>(M: Monoid<M>) => <K extends string, A>(f: (k: K, a: A) => M) => (r: Readonly<Record<K, A>>) => M
-```
-
-Added in v3.0.0
-
 ## fromEntries
 
 Converts a `ReadonlyArray` of `[key, value]` tuples into a `ReadonlyRecord`.
@@ -833,30 +817,6 @@ export declare const pop: (
 
 Added in v3.0.0
 
-## reduceRightWithIndex
-
-**Signature**
-
-```ts
-export declare const reduceRightWithIndex: (
-  O: Ord<string>
-) => <B, K extends string, A>(b: B, f: (k: K, a: A, b: B) => B) => (r: Readonly<Record<K, A>>) => B
-```
-
-Added in v3.0.0
-
-## reduceWithIndex
-
-**Signature**
-
-```ts
-export declare const reduceWithIndex: (
-  O: Ord<string>
-) => <B, K extends string, A>(b: B, f: (k: K, b: B, a: A) => B) => (r: Readonly<Record<K, A>>) => B
-```
-
-Added in v3.0.0
-
 ## size
 
 Calculate the number of key/value pairs in a `ReadonlyRecord`.
@@ -886,32 +846,21 @@ Converts a `ReadonlyRecord` into a `ReadonlyArray` of `[key, value]` tuples.
 **Signature**
 
 ```ts
-export declare const toEntries: <K extends string, A>(r: Readonly<Record<K, A>>) => readonly (readonly [K, A])[]
+export declare const toEntries: (
+  O: Ord<string>
+) => <K extends string, A>(r: Readonly<Record<K, A>>) => readonly (readonly [K, A])[]
 ```
 
 **Example**
 
 ```ts
 import { toEntries } from 'fp-ts/ReadonlyRecord'
+import * as string from 'fp-ts/string'
 
-assert.deepStrictEqual(toEntries({ a: 1, b: 2 }), [
+assert.deepStrictEqual(toEntries(string.Ord)({ a: 1, b: 2 }), [
   ['a', 1],
   ['b', 2],
 ])
-```
-
-Added in v3.0.0
-
-## toReadonlyArray
-
-Get a sorted `ReadonlyArray` of the key/value pairs contained in a `ReadonlyRecord`.
-
-**Signature**
-
-```ts
-export declare const toReadonlyArray: (
-  O: Ord<string>
-) => <K extends string, A>(r: Readonly<Record<K, A>>) => readonly (readonly [K, A])[]
 ```
 
 Added in v3.0.0
