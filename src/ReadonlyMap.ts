@@ -8,7 +8,7 @@ import type { Endomorphism } from './Endomorphism'
 import * as eq from './Eq'
 import * as filterable from './Filterable'
 import * as filterableWithIndex from './FilterableWithIndex'
-import type { Foldable } from './Foldable'
+import * as foldable from './Foldable'
 import type { FoldableWithIndex } from './FoldableWithIndex'
 import { flow, identity, pipe } from './Function'
 import * as functor from './Functor'
@@ -60,32 +60,25 @@ export interface ReadonlyMapTypeLambdaFix<K> extends TypeLambda {
 export const singleton = <K, A>(k: K, a: A): ReadonlyMap<K, A> => new Map([[k, a]])
 
 /**
- * Create a `ReadonlyRecord` from a `Foldable` collection of key/value pairs, using the
+ * Create a `ReadonlyMap` from a `Iterable` collection of key/value pairs, using the
  * specified `Magma` to combine values for duplicate keys, and the specified `f` to map to key/value pairs.
  *
  * @category constructors
  * @since 3.0.0
  */
-export function fromFoldable<F extends TypeLambda>(
-  Foldable: Foldable<F>
-): <K, B>(
-  E: Eq<K>,
-  M: Magma<B>
-) => <A>(f: (a: A) => readonly [K, B]) => <S, R, O, E>(fka: Kind<F, S, R, O, E, A>) => ReadonlyMap<K, B> {
-  return <K, B>(E: Eq<K>, M: Magma<B>) => {
-    const lookupWithKeyE = lookupWithKey(E)
-    return <A>(f: (a: A) => readonly [K, B]) =>
-      Foldable.reduce<Map<K, B>, A>(new Map<K, B>(), (out, a) => {
-        const [k, b] = f(a)
-        const oka = lookupWithKeyE(k)(out)
-        if (_.isSome(oka)) {
-          out.set(oka.value[0], M.combine(b)(oka.value[1]))
-        } else {
-          out.set(k, b)
-        }
-        return out
-      })
-  }
+export const fromIterable = <K, B>(E: Eq<K>, M: Magma<B>) => {
+  const lookupWithKey_ = lookupWithKey(E)
+  return <A>(f: (a: A) => readonly [K, B]): ((self: Iterable<A>) => ReadonlyMap<K, B>) =>
+    foldable.reduce<Map<K, B>, A>(new Map<K, B>(), (out, a) => {
+      const [k, b] = f(a)
+      const oka = lookupWithKey_(k)(out)
+      if (_.isSome(oka)) {
+        out.set(oka.value[0], M.combine(b)(oka.value[1]))
+      } else {
+        out.set(k, b)
+      }
+      return out
+    })
 }
 
 /**
@@ -482,46 +475,12 @@ export const partitionWithIndex: {
 } = /*#__PURE__*/ filterableWithIndex.partitionWithIndex(FilterableWithIndex_)
 
 /**
- * @since 3.0.0
- */
-export const reduce: <K>(O: Ord<K>) => <B, A>(b: B, f: (b: B, a: A) => B) => (fa: ReadonlyMap<K, A>) => B = (O) => {
-  const reduceWithIndexO = reduceWithIndex(O)
-  return (b, f) => reduceWithIndexO(b, (_, b, a) => f(b, a))
-}
-
-/**
- * @since 3.0.0
- */
-export const foldMap: <K>(O: Ord<K>) => <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: ReadonlyMap<K, A>) => M = (
-  O
-) => {
-  const foldMapWithIndexO = foldMapWithIndex(O)
-  return (M) => {
-    const foldMapWithIndexOM = foldMapWithIndexO(M)
-    return (f) => foldMapWithIndexOM((_, a) => f(a))
-  }
-}
-
-/**
- * @since 3.0.0
- */
-export const reduceRight: <K>(O: Ord<K>) => <B, A>(b: B, f: (a: A, b: B) => B) => (fa: ReadonlyMap<K, A>) => B = (
-  O
-) => {
-  const reduceRightWithIndexO = reduceRightWithIndex(O)
-  return (b, f) => reduceRightWithIndexO(b, (_, b, a) => f(b, a))
-}
-
-/**
  * @category instances
  * @since 3.0.0
  */
-export const getFoldable = <K>(O: Ord<K>): Foldable<ReadonlyMapTypeLambdaFix<K>> => {
+export const getFoldable = <K>(O: Ord<K>): foldable.Foldable<ReadonlyMapTypeLambdaFix<K>> => {
   return {
-    toIterable: collect(O)((_, a) => a),
-    reduce: reduce(O),
-    foldMap: foldMap(O),
-    reduceRight: reduceRight(O)
+    toIterable: collect(O)((_, a) => a)
   }
 }
 
@@ -810,6 +769,7 @@ export const keys =
   <A>(m: ReadonlyMap<K, A>): ReadonlyArray<K> =>
     Array.from(m.keys()).sort((self, that) => O.compare(that)(self))
 
+// TODO: this lookes weird, should require an `Ord<K>`
 /**
  * Get a sorted `ReadonlyArray` of the values contained in a `ReadonlyMap`.
  *

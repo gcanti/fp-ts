@@ -172,7 +172,7 @@ pipe(r1, _.elem(N.Eq)(1)) // $ExpectType boolean
 // $ExpectType Readonly<Record<string, string>>
 pipe(
   ['a', 'b'] as const,
-  _.fromFoldable(A.Foldable)(S.Semigroup)((s: 'a' | 'b' | 'c') => [s, s])
+  _.fromIterable(S.Semigroup)((s: 'a' | 'b' | 'c') => [s, s])
 )
 
 //

@@ -14,7 +14,7 @@
  *
  * @since 3.0.0
  */
-import type { Foldable } from './Foldable'
+import * as foldable from './Foldable'
 import type { Kind, TypeClass, TypeLambda } from './HKT'
 
 /**
@@ -34,9 +34,8 @@ export interface Alt<F extends TypeLambda> extends TypeClass<F> {
  * @since 3.0.0
  */
 export const firstSuccessOf =
-  <F extends TypeLambda>(Foldable: Foldable<F>) =>
   <G extends TypeLambda>(Alt: Alt<G>) =>
   <S, R, O, E, A>(
     startWith: Kind<G, S, R, O, E, A>
-  ): (<FS>(effects: Kind<F, FS, never, unknown, unknown, Kind<G, S, R, O, E, A>>) => Kind<G, S, R, O, E, A>) =>
-    Foldable.reduce(startWith, (acc, a) => Alt.orElse(a)(acc))
+  ): ((iterable: Iterable<Kind<G, S, R, O, E, A>>) => Kind<G, S, R, O, E, A>) =>
+    foldable.reduce(startWith, (acc, ga) => Alt.orElse(ga)(acc))

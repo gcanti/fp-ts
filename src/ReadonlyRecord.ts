@@ -8,7 +8,7 @@ import type { Endomorphism } from './Endomorphism'
 import * as eq from './Eq'
 import * as filterable from './Filterable'
 import * as filterableWithIndex from './FilterableWithIndex'
-import type { Foldable } from './Foldable'
+import * as foldable from './Foldable'
 import type * as foldableWithIndex from './FoldableWithIndex'
 import { identity, pipe } from './Function'
 import * as functor from './Functor'
@@ -58,25 +58,20 @@ export interface ReadonlyRecordTypeLambda extends TypeLambda {
 export const singleton = <A>(k: string, a: A): ReadonlyRecord<string, A> => ({ [k]: a })
 
 /**
- * Create a `ReadonlyRecord` from a `Foldable` collection of key/value pairs, using the
+ * Create a `ReadonlyRecord` from a `Iterable` collection of key/value pairs, using the
  * specified `Magma` to combine values for duplicate keys, and the specified `f` to map to key/value pairs.
  *
  * @category constructors
  * @since 3.0.0
  */
-export function fromFoldable<F extends TypeLambda>(
-  F: Foldable<F>
-): <B>(
-  M: Magma<B>
-) => <A>(f: (a: A) => readonly [string, B]) => <S, R, O, E>(r: Kind<F, S, R, O, E, A>) => ReadonlyRecord<string, B> {
-  return <B>(M: Magma<B>) =>
-    <A>(f: (a: A) => readonly [string, B]) =>
-      F.reduce<Record<string, B>, A>({}, (r, a) => {
-        const [k, b] = f(a)
-        r[k] = _.has.call(r, k) ? M.combine(b)(r[k]) : b
-        return r
-      })
-}
+export const fromIterable =
+  <B>(M: Magma<B>) =>
+  <A>(f: (a: A) => readonly [string, B]): ((self: Iterable<A>) => ReadonlyRecord<string, B>) =>
+    foldable.reduce<Record<string, B>, A>({}, (r, a) => {
+      const [k, b] = f(a)
+      r[k] = _.has.call(r, k) ? M.combine(b)(r[k]) : b
+      return r
+    })
 
 /**
  * Insert an element at the specified key, creating a new `ReadonlyRecord`, or returning `None` if the key already exists.
@@ -389,38 +384,6 @@ export const partitionMap: <A, B, C>(
   partitionMapWithIndex((_, a) => f(a))
 
 /**
- * @since 3.0.0
- */
-export const reduce = (O: Ord<string>): (<B, A>(b: B, f: (b: B, a: A) => B) => (r: ReadonlyRecord<string, A>) => B) => {
-  const reduceWithIndexO = reduceWithIndex(O)
-  return (b, f) => reduceWithIndexO(b, (_, b, a) => f(b, a))
-}
-
-/**
- * @since 3.0.0
- */
-export const foldMap = (
-  O: Ord<string>
-): (<M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (r: ReadonlyRecord<string, A>) => M) => {
-  const foldMapWithIndexO = foldMapWithIndex(O)
-  return (M) => {
-    const foldMapWithIndexOM = foldMapWithIndexO(M)
-    return (f) => foldMapWithIndexOM((_, a) => f(a))
-  }
-}
-
-/**
- * @category folding
- * @since 3.0.0
- */
-export const reduceRight = (
-  O: Ord<string>
-): (<B, A>(b: B, f: (a: A, b: B) => B) => (r: ReadonlyRecord<string, A>) => B) => {
-  const reduceRightWithIndexO = reduceRightWithIndex(O)
-  return (b, f) => reduceRightWithIndexO(b, (_, b, a) => f(b, a))
-}
-
-/**
  * @category filtering
  * @since 3.0.0
  */
@@ -548,6 +511,7 @@ export const FunctorWithIndex: functorWithIndex.FunctorWithIndex<ReadonlyRecordT
   mapWithIndex
 }
 
+// TODO: modify return type to Iterable<A>
 /**
  * @category conversions
  * @since 3.0.0
@@ -559,11 +523,8 @@ export const values = (O: Ord<string>): (<A>(self: ReadonlyRecord<string, A>) =>
  * @category instances
  * @since 3.0.0
  */
-export const getFoldable = (O: Ord<string>): Foldable<ReadonlyRecordTypeLambda> => ({
-  toIterable: values(O),
-  reduce: reduce(O),
-  foldMap: foldMap(O),
-  reduceRight: reduceRight(O)
+export const getFoldable = (O: Ord<string>): foldable.Foldable<ReadonlyRecordTypeLambda> => ({
+  toIterable: values(O)
 })
 
 /**

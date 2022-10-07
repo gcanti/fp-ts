@@ -1,5 +1,5 @@
 import * as E from '../src/Result'
-import { identity, pipe } from '../src/Function'
+import { pipe } from '../src/Function'
 import * as N from '../src/number'
 import * as _ from '../src/Option'
 import * as RA from '../src/ReadonlyArray'
@@ -93,34 +93,6 @@ describe('Option', () => {
       const f = _.getOrElse(() => 0)
       U.deepStrictEqual(pipe(_.some(2), _.extend(f)), _.some(2))
       U.deepStrictEqual(pipe(_.none, _.extend(f)), _.none)
-    })
-
-    it('reduce', () => {
-      U.deepStrictEqual(
-        pipe(
-          _.none,
-          _.reduce(2, (b, a) => b + a)
-        ),
-        2
-      )
-      U.deepStrictEqual(
-        pipe(
-          _.some(3),
-          _.reduce(2, (b, a) => b + a)
-        ),
-        5
-      )
-    })
-
-    it('foldMap', () => {
-      U.deepStrictEqual(pipe(_.some('a'), _.foldMap(S.Monoid)(identity)), 'a')
-      U.deepStrictEqual(pipe(_.none, _.foldMap(S.Monoid)(identity)), '')
-    })
-
-    it('reduceRight', () => {
-      const f = (a: string, acc: string) => acc + a
-      U.deepStrictEqual(pipe(_.some('a'), _.reduceRight('', f)), 'a')
-      U.deepStrictEqual(pipe(_.none, _.reduceRight('', f)), '')
     })
 
     it('compact', () => {

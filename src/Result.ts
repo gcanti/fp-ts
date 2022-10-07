@@ -33,7 +33,6 @@ import * as functor from './Functor'
 import type { TypeLambda, Kind } from './HKT'
 import * as _ from './internal'
 import type * as monad from './Monad'
-import type { Monoid } from './Monoid'
 import type { Option } from './Option'
 import * as fromIdentity from './FromIdentity'
 import type { Predicate } from './Predicate'
@@ -396,84 +395,6 @@ export const extend: <E, A, B>(f: (wa: Result<E, A>) => B) => (wa: Result<E, A>)
  * @since 3.0.0
  */
 export const duplicate: <E, A>(ma: Result<E, A>) => Result<E, Result<E, A>> = /*#__PURE__*/ extend(identity)
-
-/**
- * Left-associative fold of a structure.
- *
- * @example
- * import { pipe } from 'fp-ts/Function'
- * import * as E from 'fp-ts/Result'
- *
- * const startWith = 'prefix'
- * const combine = (a: string, b: string) => `${a}:${b}`
- *
- * assert.deepStrictEqual(
- *   pipe(E.succeed('a'), E.reduce(startWith, combine)),
- *   'prefix:a',
- * )
- *
- * assert.deepStrictEqual(
- *   pipe(E.fail('e'), E.reduce(startWith, combine)),
- *   'prefix',
- * )
- *
- * @category folding
- * @since 3.0.0
- */
-export const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => <E>(fa: Result<E, A>) => B = (b, f) => (fa) =>
-  isFailure(fa) ? b : f(b, fa.success)
-
-/**
- * Map each element of the structure to a monoid, and combine the results.
- *
- * @example
- * import { pipe } from 'fp-ts/Function';
- * import * as E from 'fp-ts/Result'
- * import { Monoid } from 'fp-ts/string'
- *
- * const yell = (a: string) => `${a}!`
- *
- * assert.deepStrictEqual(
- *   pipe(E.succeed('a'), E.foldMap(Monoid)(yell)),
- *   'a!',
- * )
- *
- * assert.deepStrictEqual(
- *   pipe(E.fail('e'), E.foldMap(Monoid)(yell)),
- *   Monoid.empty,
- * )
- *
- * @category folding
- * @since 3.0.0
- */
-export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: Result<E, A>) => M = (M) => (f) => (fa) =>
-  isFailure(fa) ? M.empty : f(fa.success)
-
-/**
- * Right-associative fold of a structure.
- *
- * @example
- * import { pipe } from 'fp-ts/Function'
- * import * as E from 'fp-ts/Result'
- *
- * const startWith = 'postfix'
- * const combine = (a: string, b: string) => `${a}:${b}`
- *
- * assert.deepStrictEqual(
- *   pipe(E.succeed('a'), E.reduceRight(startWith, combine)),
- *   'a:postfix',
- * )
- *
- * assert.deepStrictEqual(
- *   pipe(E.fail('e'), E.reduceRight(startWith, combine)),
- *   'postfix',
- * )
- *
- * @category folding
- * @since 3.0.0
- */
-export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <E>(fa: Result<E, A>) => B = (b, f) => (fa) =>
-  isFailure(fa) ? b : f(fa.success, b)
 
 /**
  * Map each element of a structure to an action, evaluate these actions from left to right, and collect the results.
@@ -948,10 +869,7 @@ export const toIterable: <A>(self: Result<unknown, A>) => Iterable<A> = match(()
  * @since 3.0.0
  */
 export const Foldable: foldable.Foldable<ResultTypeLambda> = {
-  toIterable,
-  reduce,
-  foldMap,
-  reduceRight
+  toIterable
 }
 
 /**

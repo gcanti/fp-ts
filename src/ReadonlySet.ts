@@ -1,7 +1,7 @@
 /**
  * @since 3.0.0
  */
-import type { Result } from './Result'
+import type { Eq } from './Eq'
 import * as eq from './Eq'
 import { identity } from './Function'
 import * as _ from './internal'
@@ -9,12 +9,12 @@ import type { Magma } from './Magma'
 import type { Monoid } from './Monoid'
 import type { Option } from './Option'
 import type { Ord } from './Ord'
+import type { Predicate } from './Predicate'
 import * as predicate from './Predicate'
 import type { Refinement } from './Refinement'
+import type { Result } from './Result'
 import type { Semigroup } from './Semigroup'
 import type { Show } from './Show'
-import type { Eq } from './Eq'
-import type { Predicate } from './Predicate'
 
 /**
  * @category constructors
@@ -463,40 +463,12 @@ export const elem =
   }
 
 /**
+ * @category conversions
  * @since 3.0.0
  */
-export const reduce = <A>(O: Ord<A>): (<B>(b: B, f: (b: B, a: A) => B) => (fa: ReadonlySet<A>) => B) => {
-  const toReadonlyArrayO = toReadonlyArray(O)
-  return (b, f) => (fa) => toReadonlyArrayO(fa).reduce(f, b)
-}
-
-/**
- * @since 3.0.0
- */
-export const foldMap =
+export const toIterable =
   <A>(O: Ord<A>) =>
-  <M>(M: Monoid<M>): ((f: (a: A) => M) => (fa: ReadonlySet<A>) => M) => {
-    const toReadonlyArrayO = toReadonlyArray(O)
-    return (f) => (fa) => toReadonlyArrayO(fa).reduce((b, a) => M.combine(f(a))(b), M.empty)
-  }
-
-/**
- * @since 3.0.0
- */
-export const reduceRight = <A>(O: Ord<A>): (<B>(b: B, f: (a: A, b: B) => B) => (fa: ReadonlySet<A>) => B) => {
-  const toReadonlyArrayO = toReadonlyArray(O)
-  return (b, f) => (fa) => toReadonlyArrayO(fa).reduceRight((b, a) => f(a, b), b)
-}
-
-/**
- * Get a sorted `ReadonlyArray` of the values contained in a `ReadonlySet`.
- *
- * @since 3.0.0
- */
-export const toReadonlyArray =
-  <A>(O: Ord<A>) =>
-  (s: ReadonlySet<A>): ReadonlyArray<A> => {
-    const out: Array<A> = []
-    s.forEach((e) => out.push(e))
+  (self: ReadonlySet<A>): Iterable<A> => {
+    const out = Array.from(self.values())
     return out.sort((self, that) => O.compare(that)(self))
   }

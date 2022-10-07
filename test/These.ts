@@ -1,4 +1,4 @@
-import { identity, pipe } from '../src/Function'
+import { pipe } from '../src/Function'
 import * as N from '../src/number'
 import * as O from '../src/Option'
 import * as RA from '../src/ReadonlyArray'
@@ -30,43 +30,6 @@ describe('These', () => {
     U.deepStrictEqual(pipe(_.fail('a'), f), _.fail(1))
     U.deepStrictEqual(pipe(_.succeed(2), f), _.succeed(2))
     U.deepStrictEqual(pipe(_.both('foo', 1), f), _.both(3, 1))
-  })
-
-  it('reduce', () => {
-    U.deepStrictEqual(
-      pipe(
-        _.fail('b'),
-        _.reduce('a', (b, a) => b + a)
-      ),
-      'a'
-    )
-    U.deepStrictEqual(
-      pipe(
-        _.succeed('b'),
-        _.reduce('a', (b, a) => b + a)
-      ),
-      'ab'
-    )
-    U.deepStrictEqual(
-      pipe(
-        _.both(1, 'b'),
-        _.reduce('a', (b, a) => b + a)
-      ),
-      'ab'
-    )
-  })
-
-  it('foldMap', () => {
-    U.deepStrictEqual(pipe(_.succeed('a'), _.foldMap(S.Monoid)(identity)), 'a')
-    U.deepStrictEqual(pipe(_.fail(1), _.foldMap(S.Monoid)(identity)), '')
-    U.deepStrictEqual(pipe(_.both(1, 'a'), _.foldMap(S.Monoid)(identity)), 'a')
-  })
-
-  it('reduceRight', () => {
-    const f = (a: string, acc: string) => acc + a
-    U.deepStrictEqual(pipe(_.succeed('a'), _.reduceRight('', f)), 'a')
-    U.deepStrictEqual(pipe(_.fail(1), _.reduceRight('', f)), '')
-    U.deepStrictEqual(pipe(_.both(1, 'a'), _.reduceRight('', f)), 'a')
   })
 
   it('traverse', () => {

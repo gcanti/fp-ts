@@ -1485,22 +1485,6 @@ export const foldMapWithIndex: <M>(M: Monoid<M>) => <A>(f: (i: number, a: A) => 
  * @category folding
  * @since 3.0.0
  */
-export const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => (fa: ReadonlyArray<A>) => B = (b, f) =>
-  reduceWithIndex(b, (_, b, a) => f(b, a))
-
-/**
- * @category folding
- * @since 3.0.0
- */
-export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: ReadonlyArray<A>) => M = (M) => {
-  const foldMapWithIndexM = foldMapWithIndex(M)
-  return (f) => foldMapWithIndexM((_, a) => f(a))
-}
-
-/**
- * @category folding
- * @since 3.0.0
- */
 export const reduceWithIndex: <B, A>(b: B, f: (i: number, b: B, a: A) => B) => (fa: ReadonlyArray<A>) => B =
   (b, f) => (fa) => {
     const len = fa.length
@@ -1510,13 +1494,6 @@ export const reduceWithIndex: <B, A>(b: B, f: (i: number, b: B, a: A) => B) => (
     }
     return r
   }
-
-/**
- * @category folding
- * @since 3.0.0
- */
-export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (fa: ReadonlyArray<A>) => B = (b, f) =>
-  reduceRightWithIndex(b, (_, a, b) => f(a, b))
 
 /**
  * @category folding
@@ -1942,10 +1919,7 @@ export const partitionWithIndex: {
  * @since 3.0.0
  */
 export const Foldable: foldable.Foldable<ReadonlyArrayTypeLambda> = {
-  toIterable: identity,
-  reduce,
-  foldMap,
-  reduceRight
+  toIterable: identity
 }
 
 /**

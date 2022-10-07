@@ -15,6 +15,7 @@ import * as Sh from '../src/Show'
 import * as S from '../src/string'
 import * as T from '../src/Async'
 import * as U from './util'
+import * as foldable from '../src/Foldable'
 
 interface User {
   readonly id: string
@@ -179,7 +180,7 @@ describe('ReadonlyMap', () => {
   it('fromFoldable', () => {
     const a1 = new Map<User, number>([[{ id: 'a' }, 1]])
     const a2 = new Map<User, number>([[{ id: 'a' }, 2]])
-    const fromFoldableS1 = _.fromFoldable(RA.Foldable)(eqUser, Se.first<number>())<readonly [User, number]>(identity)
+    const fromFoldableS1 = _.fromIterable(eqUser, Se.first<number>())<readonly [User, number]>(identity)
     U.deepStrictEqual(fromFoldableS1([[{ id: 'a' }, 1]]), a1)
     U.deepStrictEqual(
       fromFoldableS1([
@@ -188,7 +189,7 @@ describe('ReadonlyMap', () => {
       ]),
       a1
     )
-    const fromFoldableS2 = _.fromFoldable(RA.Foldable)(eqUser, Se.last<number>())<readonly [User, number]>(identity)
+    const fromFoldableS2 = _.fromIterable(eqUser, Se.last<number>())<readonly [User, number]>(identity)
     U.deepStrictEqual(
       fromFoldableS2([
         [{ id: 'a' }, 1],
@@ -740,6 +741,7 @@ describe('ReadonlyMap', () => {
 
   describe('getFoldable', () => {
     const F = _.getFoldable(ordUser)
+
     it('reduce', () => {
       U.deepStrictEqual(
         pipe(
@@ -747,17 +749,20 @@ describe('ReadonlyMap', () => {
             [{ id: 'k1' }, 'a'],
             [{ id: 'k2' }, 'b']
           ]),
-          F.reduce('', (b, a) => b + a)
+          F.toIterable,
+          foldable.reduce('', (b, a) => b + a)
         ),
         'ab'
       )
+
       U.deepStrictEqual(
         pipe(
           new Map<User, string>([
             [{ id: 'k2' }, 'b'],
             [{ id: 'k1' }, 'a']
           ]),
-          F.reduce('', (b, a) => b + a)
+          F.toIterable,
+          foldable.reduce('', (b, a) => b + a)
         ),
         'ab'
       )
@@ -770,21 +775,22 @@ describe('ReadonlyMap', () => {
             [{ id: 'a' }, 'a'],
             [{ id: 'a' }, 'b']
           ]),
-          F.foldMap(S.Monoid)(identity)
+          F.toIterable,
+          foldable.foldMap(S.Monoid)(identity)
         ),
         'ab'
       )
     })
 
     it('reduceRight', () => {
-      const f = (a: string, acc: string) => acc + a
       U.deepStrictEqual(
         pipe(
           new Map<User, string>([
             [{ id: 'a' }, 'a'],
             [{ id: 'b' }, 'b']
           ]),
-          F.reduceRight('', f)
+          F.toIterable,
+          foldable.reduceRight('', (a, acc) => acc + a)
         ),
         'ba'
       )

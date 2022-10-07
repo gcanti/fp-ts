@@ -9,6 +9,7 @@ import * as _ from '../src/ReadonlyRecord'
 import * as S from '../src/string'
 import * as T from '../src/Async'
 import * as U from './util'
+import * as foldable from '../src/Foldable'
 
 const p = (n: number) => n > 2
 
@@ -25,19 +26,19 @@ describe('ReadonlyRecord', () => {
       const F = _.getFoldable(S.Ord)
 
       it('reduce', () => {
-        const f = F.reduce('', (b, a) => b + a)
-        U.deepStrictEqual(pipe({ k1: 'a', k2: 'b' }, f), 'ab')
-        U.deepStrictEqual(pipe({ k2: 'b', k1: 'a' }, f), 'ab')
+        const f = foldable.reduce('', (b, a) => b + a)
+        U.deepStrictEqual(pipe({ k1: 'a', k2: 'b' }, F.toIterable, f), 'ab')
+        U.deepStrictEqual(pipe({ k2: 'b', k1: 'a' }, F.toIterable, f), 'ab')
       })
 
       it('foldMap', () => {
-        const f = F.foldMap(S.Monoid)
-        U.deepStrictEqual(pipe({ a: 'a', b: 'b' }, f(identity)), 'ab')
+        const f = foldable.foldMap(S.Monoid)
+        U.deepStrictEqual(pipe({ a: 'a', b: 'b' }, F.toIterable, f(identity)), 'ab')
       })
 
       it('reduceRight', () => {
-        const f = F.reduceRight('', (a: string, acc: string) => acc + a)
-        U.deepStrictEqual(pipe({ a: 'a', b: 'b' }, f), 'ba')
+        const f = foldable.reduceRight('', (a: string, acc: string) => acc + a)
+        U.deepStrictEqual(pipe({ a: 'a', b: 'b' }, F.toIterable, f), 'ba')
       })
     })
 
@@ -372,7 +373,7 @@ describe('ReadonlyRecord', () => {
   })
 
   it('fromFoldable', () => {
-    const f = _.fromFoldable(RA.Foldable)(N.SemigroupSum)((s: string) => [s, s.length])
+    const f = _.fromIterable(N.SemigroupSum)((s: string) => [s, s.length])
     assert.deepStrictEqual(f(['a', 'bb', 'bb']), { a: 1, bb: 4 })
   })
 

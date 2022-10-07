@@ -1,5 +1,5 @@
 import * as N from '../src/number'
-import { identity, pipe } from '../src/Function'
+import { pipe } from '../src/Function'
 import * as _ from '../src/Identity'
 import * as S from '../src/string'
 import * as O from '../src/Option'
@@ -18,25 +18,6 @@ describe('Identity', () => {
 
     it('flatMap', () => {
       U.deepStrictEqual(pipe(1, _.flatMap(U.double)), 2)
-    })
-
-    it('reduce', () => {
-      U.deepStrictEqual(
-        pipe(
-          'b',
-          _.reduce('a', (b, a) => b + a)
-        ),
-        'ab'
-      )
-    })
-
-    it('foldMap', () => {
-      U.deepStrictEqual(pipe('a', _.foldMap(S.Monoid)(identity)), 'a')
-    })
-
-    it('reduceRight', () => {
-      const f = (a: string, acc: string) => acc + a
-      U.deepStrictEqual(pipe('a', _.reduceRight('', f)), 'a')
     })
 
     it('orElse', () => {

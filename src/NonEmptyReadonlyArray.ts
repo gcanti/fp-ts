@@ -847,13 +847,7 @@ export const mapWithIndex: <A, B>(
     return out
   }
 
-/**
- * @category folding
- * @since 3.0.0
- */
-export const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => (fa: NonEmptyReadonlyArray<A>) => B = (b, f) =>
-  reduceWithIndex(b, (_, b, a) => f(b, a))
-
+// TODO
 /**
  * **Note**. The constraint is relaxed: a `Semigroup` instead of a `Monoid`.
  *
@@ -885,13 +879,6 @@ export const foldMapWithIndex =
   <A>(f: (i: number, a: A) => S) =>
   (fa: NonEmptyReadonlyArray<A>): S =>
     fa.slice(1).reduce((s, a, i) => S.combine(f(i + 1, a))(s), f(0, fa[0]))
-
-/**
- * @category folding
- * @since 3.0.0
- */
-export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (fa: NonEmptyReadonlyArray<A>) => B = (b, f) =>
-  reduceRightWithIndex(b, (_, b, a) => f(b, a))
 
 /**
  * @category folding
@@ -1115,10 +1102,7 @@ export const tap: <A>(
  * @since 3.0.0
  */
 export const Foldable: foldable.Foldable<NonEmptyReadonlyArrayTypeLambda> = {
-  toIterable: identity,
-  reduce,
-  foldMap,
-  reduceRight
+  toIterable: identity
 }
 
 /**

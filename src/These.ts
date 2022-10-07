@@ -35,7 +35,6 @@ import * as functor from './Functor'
 import type { TypeLambda, Kind } from './HKT'
 import * as _ from './internal'
 import type { Monad } from './Monad'
-import type { Monoid } from './Monoid'
 import type { Option } from './Option'
 import type * as fromIdentity from './FromIdentity'
 import type { Predicate } from './Predicate'
@@ -207,27 +206,6 @@ export const isBoth = <E, A>(fa: These<E, A>): fa is Both<E, A> => fa._tag === '
 export const mapBoth: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (self: These<E, A>) => These<G, B> =
   (f, g) => (fa) =>
     isFailure(fa) ? fail(f(fa.failure)) : isSuccess(fa) ? succeed(g(fa.success)) : both(f(fa.failure), g(fa.success))
-
-/**
- * @category folding
- * @since 3.0.0
- */
-export const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => <E>(fa: These<E, A>) => B = (b, f) => (fa) =>
-  isFailure(fa) ? b : f(b, fa.success)
-
-/**
- * @category folding
- * @since 3.0.0
- */
-export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: These<E, A>) => M = (M) => (f) => (fa) =>
-  isFailure(fa) ? M.empty : f(fa.success)
-
-/**
- * @category folding
- * @since 3.0.0
- */
-export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <E>(fa: These<E, A>) => B = (b, f) => (fa) =>
-  isFailure(fa) ? b : f(fa.success, b)
 
 /**
  * @category traversing
@@ -526,10 +504,7 @@ export const toIterable: <E, A>(self: These<E, A>) => Iterable<A> = match(
  * @since 3.0.0
  */
 export const Foldable: foldable.Foldable<TheseTypeLambda> = {
-  toIterable,
-  reduce,
-  foldMap,
-  reduceRight
+  toIterable
 }
 
 /**

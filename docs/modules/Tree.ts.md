@@ -31,10 +31,6 @@ Added in v3.0.0
   - [bindRight](#bindright)
   - [bindTo](#bindto)
   - [let](#let)
-- [folding](#folding)
-  - [foldMap](#foldmap)
-  - [reduce](#reduce)
-  - [reduceRight](#reduceright)
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply)
@@ -203,38 +199,6 @@ export declare const let: <N extends string, A extends object, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
 ) => (self: Tree<A>) => Tree<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
-```
-
-Added in v3.0.0
-
-# folding
-
-## foldMap
-
-**Signature**
-
-```ts
-export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Tree<A>) => M
-```
-
-Added in v3.0.0
-
-## reduce
-
-**Signature**
-
-```ts
-export declare const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => (fa: Tree<A>) => B
-```
-
-Added in v3.0.0
-
-## reduceRight
-
-**Signature**
-
-```ts
-export declare const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (fa: Tree<A>) => B
 ```
 
 Added in v3.0.0

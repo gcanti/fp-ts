@@ -18,7 +18,7 @@ Added in v3.0.0
 - [FunctorWithIndex](#functorwithindex)
   - [mapWithIndex](#mapwithindex)
 - [constructors](#constructors)
-  - [fromFoldable](#fromfoldable)
+  - [fromIterable](#fromiterable)
   - [singleton](#singleton)
 - [conversions](#conversions)
   - [collect](#collect)
@@ -33,8 +33,6 @@ Added in v3.0.0
   - [separate](#separate)
   - [traverseFilterMap](#traversefiltermap)
   - [traversePartitionMap](#traversepartitionmap)
-- [folding](#folding)
-  - [reduceRight](#reduceright)
 - [instances](#instances)
   - [Compactable](#compactable)
   - [Filterable](#filterable)
@@ -69,7 +67,6 @@ Added in v3.0.0
   - [empty](#empty)
   - [every](#every)
   - [filterMap](#filtermap)
-  - [foldMap](#foldmap)
   - [foldMapWithIndex](#foldmapwithindex)
   - [fromEntries](#fromentries)
   - [has](#has)
@@ -81,7 +78,6 @@ Added in v3.0.0
   - [modifyAt](#modifyat)
   - [partitionMap](#partitionmap)
   - [pop](#pop)
-  - [reduce](#reduce)
   - [reduceRightWithIndex](#reducerightwithindex)
   - [reduceWithIndex](#reducewithindex)
   - [size](#size)
@@ -141,19 +137,17 @@ Added in v3.0.0
 
 # constructors
 
-## fromFoldable
+## fromIterable
 
-Create a `ReadonlyRecord` from a `Foldable` collection of key/value pairs, using the
+Create a `ReadonlyRecord` from a `Iterable` collection of key/value pairs, using the
 specified `Magma` to combine values for duplicate keys, and the specified `f` to map to key/value pairs.
 
 **Signature**
 
 ```ts
-export declare function fromFoldable<F extends TypeLambda>(
-  F: Foldable<F>
-): <B>(
+export declare const fromIterable: <B>(
   M: Magma<B>
-) => <A>(f: (a: A) => readonly [string, B]) => <S, R, O, E>(r: Kind<F, S, R, O, E, A>) => ReadonlyRecord<string, B>
+) => <A>(f: (a: A) => readonly [string, B]) => (self: Iterable<A>) => Readonly<Record<string, B>>
 ```
 
 Added in v3.0.0
@@ -343,20 +337,6 @@ export declare const traversePartitionMap: (
 
 Added in v3.0.0
 
-# folding
-
-## reduceRight
-
-**Signature**
-
-```ts
-export declare const reduceRight: (
-  O: Ord<string>
-) => <B, A>(b: B, f: (a: A, b: B) => B) => (r: Readonly<Record<string, A>>) => B
-```
-
-Added in v3.0.0
-
 # instances
 
 ## Compactable
@@ -434,7 +414,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFoldable: (O: Ord<string>) => Foldable<ReadonlyRecordTypeLambda>
+export declare const getFoldable: (O: Ord<string>) => foldable.Foldable<ReadonlyRecordTypeLambda>
 ```
 
 Added in v3.0.0
@@ -693,18 +673,6 @@ export declare const filterMap: <A, B>(
 
 Added in v3.0.0
 
-## foldMap
-
-**Signature**
-
-```ts
-export declare const foldMap: (
-  O: Ord<string>
-) => <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (r: Readonly<Record<string, A>>) => M
-```
-
-Added in v3.0.0
-
 ## foldMapWithIndex
 
 **Signature**
@@ -861,18 +829,6 @@ or returning `None` if the key doesn't exist.
 export declare const pop: (
   k: string
 ) => <A>(r: Readonly<Record<string, A>>) => option.Option<readonly [A, Readonly<Record<string, A>>]>
-```
-
-Added in v3.0.0
-
-## reduce
-
-**Signature**
-
-```ts
-export declare const reduce: (
-  O: Ord<string>
-) => <B, A>(b: B, f: (b: B, a: A) => B) => (r: Readonly<Record<string, A>>) => B
 ```
 
 Added in v3.0.0

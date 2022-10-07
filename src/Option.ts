@@ -594,27 +594,6 @@ export const extend: <A, B>(f: (wa: Option<A>) => B) => (wa: Option<A>) => Optio
 export const duplicate: <A>(ma: Option<A>) => Option<Option<A>> = /*#__PURE__*/ extend(identity)
 
 /**
- * @category folding
- * @since 3.0.0
- */
-export const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => (fa: Option<A>) => B = (b, f) => (fa) =>
-  isNone(fa) ? b : f(b, fa.value)
-
-/**
- * @category folding
- * @since 3.0.0
- */
-export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Option<A>) => M = (M) => (f) => (fa) =>
-  isNone(fa) ? M.empty : f(fa.value)
-
-/**
- * @category folding
- * @since 3.0.0
- */
-export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (fa: Option<A>) => B = (b, f) => (fa) =>
-  isNone(fa) ? b : f(fa.value, b)
-
-/**
  * @category filtering
  * @since 3.0.0
  */
@@ -839,10 +818,7 @@ export const toIterable: <A>(self: Option<A>) => Iterable<A> = match(() => folda
  * @since 3.0.0
  */
 export const Foldable: foldable.Foldable<OptionTypeLambda> = {
-  toIterable,
-  reduce,
-  foldMap,
-  reduceRight
+  toIterable
 }
 
 /**

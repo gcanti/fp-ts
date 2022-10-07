@@ -22,7 +22,6 @@ import * as functor from './Functor'
 import type { TypeLambda, Kind } from './HKT'
 import * as _ from './internal'
 import type * as monad from './Monad'
-import type { Monoid } from './Monoid'
 import * as fromIdentity from './FromIdentity'
 import type { Show } from './Show'
 import * as traversable from './Traversable'
@@ -281,21 +280,6 @@ export const Comonad: comonad.Comonad<IdentityTypeLambda> = {
 }
 
 /**
- * @since 3.0.0
- */
-export const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => (fa: Identity<A>) => B = (b, f) => (fa) => f(b, fa)
-
-/**
- * @since 3.0.0
- */
-export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Identity<A>) => M = () => (f) => (fa) => f(fa)
-
-/**
- * @since 3.0.0
- */
-export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (fa: Identity<A>) => B = (b, f) => (fa) => f(fa, b)
-
-/**
  * @category conversions
  * @since 3.0.0
  */
@@ -306,10 +290,7 @@ export const toIterable: <A>(self: Identity<A>) => Iterable<A> = foldable.succee
  * @since 3.0.0
  */
 export const Foldable: foldable.Foldable<IdentityTypeLambda> = {
-  toIterable,
-  reduce,
-  foldMap,
-  reduceRight
+  toIterable
 }
 
 /**

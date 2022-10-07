@@ -49,10 +49,7 @@ Added in v3.0.0
   - [traverseFilterMap](#traversefiltermap)
   - [traversePartitionMap](#traversepartitionmap)
 - [folding](#folding)
-  - [foldMap](#foldmap)
   - [foldMapWithIndex](#foldmapwithindex)
-  - [reduce](#reduce)
-  - [reduceRight](#reduceright)
   - [reduceRightWithIndex](#reducerightwithindex)
   - [reduceWithIndex](#reducewithindex)
 - [instances](#instances)
@@ -652,42 +649,12 @@ Added in v3.0.0
 
 # folding
 
-## foldMap
-
-**Signature**
-
-```ts
-export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: readonly A[]) => M
-```
-
-Added in v3.0.0
-
 ## foldMapWithIndex
 
 **Signature**
 
 ```ts
 export declare const foldMapWithIndex: <M>(M: Monoid<M>) => <A>(f: (i: number, a: A) => M) => (fa: readonly A[]) => M
-```
-
-Added in v3.0.0
-
-## reduce
-
-**Signature**
-
-```ts
-export declare const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => (fa: readonly A[]) => B
-```
-
-Added in v3.0.0
-
-## reduceRight
-
-**Signature**
-
-```ts
-export declare const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (fa: readonly A[]) => B
 ```
 
 Added in v3.0.0

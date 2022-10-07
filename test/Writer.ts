@@ -1,5 +1,5 @@
 import * as E from '../src/Result'
-import { identity, pipe } from '../src/Function'
+import { pipe } from '../src/Function'
 import * as O from '../src/Option'
 import * as RA from '../src/ReadonlyArray'
 import type { NonEmptyReadonlyArray } from '../src/NonEmptyReadonlyArray'
@@ -80,30 +80,6 @@ describe('Writer', () => {
 
   it('duplicate', () => {
     U.deepStrictEqual(pipe(['w', 'a'] as const, _.duplicate), ['w', ['w', 'a']])
-  })
-
-  it('reduce', () => {
-    U.deepStrictEqual(
-      pipe(
-        ['w', 'b'] as const,
-        _.reduce('a', (acc, a) => acc + a)
-      ),
-      'ab'
-    )
-  })
-
-  it('foldMap', () => {
-    U.deepStrictEqual(pipe(['w', 'a'] as const, _.foldMap(S.Monoid)(identity)), 'a')
-  })
-
-  it('reduceRight', () => {
-    U.deepStrictEqual(
-      pipe(
-        ['w', 'b'] as const,
-        _.reduceRight('a', (acc, a) => acc + a)
-      ),
-      'ba'
-    )
   })
 
   it('traverse', () => {

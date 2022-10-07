@@ -103,23 +103,8 @@ describe('NonEmptyReadonlyArray', () => {
     U.deepStrictEqual(_.max(N.Ord)([1]), 1)
   })
 
-  it('reduce', () => {
-    U.deepStrictEqual(
-      pipe(
-        ['a', 'b'],
-        _.reduce('', (b, a) => b + a)
-      ),
-      'ab'
-    )
-  })
-
   it('foldMap', () => {
-    U.deepStrictEqual(pipe(['a', 'b', 'c'] as _.NonEmptyReadonlyArray<string>, _.foldMap(S.Monoid)(identity)), 'abc')
-  })
-
-  it('reduceRight', () => {
-    const f = (a: string, acc: string) => acc + a
-    U.deepStrictEqual(pipe(['a', 'b', 'c'], _.reduceRight('', f)), 'cba')
+    U.deepStrictEqual(pipe(['a', 'b', 'c'] as _.NonEmptyReadonlyArray<string>, _.foldMap(S.Semigroup)(identity)), 'abc')
   })
 
   it('fromReadonlyArray', () => {

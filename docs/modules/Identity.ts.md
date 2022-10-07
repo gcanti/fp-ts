@@ -74,11 +74,8 @@ Added in v3.0.0
   - [extend](#extend)
   - [extract](#extract)
   - [flatten](#flatten)
-  - [foldMap](#foldmap)
   - [idKleisli](#idkleisli)
   - [orElse](#orelse)
-  - [reduce](#reduce)
-  - [reduceRight](#reduceright)
 
 ---
 
@@ -610,16 +607,6 @@ export declare const flatten: <A>(mma: A) => A
 
 Added in v3.0.0
 
-## foldMap
-
-**Signature**
-
-```ts
-export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: A) => M
-```
-
-Added in v3.0.0
-
 ## idKleisli
 
 **Signature**
@@ -636,26 +623,6 @@ Added in v3.0.0
 
 ```ts
 export declare const orElse: <B>(that: B) => <A>(self: A) => B | A
-```
-
-Added in v3.0.0
-
-## reduce
-
-**Signature**
-
-```ts
-export declare const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => (fa: A) => B
-```
-
-Added in v3.0.0
-
-## reduceRight
-
-**Signature**
-
-```ts
-export declare const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (fa: A) => B
 ```
 
 Added in v3.0.0

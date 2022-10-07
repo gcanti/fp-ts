@@ -57,10 +57,6 @@ Added in v3.0.0
   - [traverseFilterMap](#traversefiltermap)
   - [traversePartition](#traversepartition)
   - [traversePartitionMap](#traversepartitionmap)
-- [folding](#folding)
-  - [foldMap](#foldmap)
-  - [reduce](#reduce)
-  - [reduceRight](#reduceright)
 - [instance operations](#instance-operations)
   - [orElse](#orelse)
 - [instances](#instances)
@@ -557,38 +553,6 @@ export declare const traversePartitionMap: <F extends TypeLambda>(
 ) => <A, S, R, O, E, B, C>(
   f: (a: A) => Kind<F, S, R, O, E, Result<B, C>>
 ) => (wa: Option<A>) => Kind<F, S, R, O, E, readonly [Option<B>, Option<C>]>
-```
-
-Added in v3.0.0
-
-# folding
-
-## foldMap
-
-**Signature**
-
-```ts
-export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Option<A>) => M
-```
-
-Added in v3.0.0
-
-## reduce
-
-**Signature**
-
-```ts
-export declare const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => (fa: Option<A>) => B
-```
-
-Added in v3.0.0
-
-## reduceRight
-
-**Signature**
-
-```ts
-export declare const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (fa: Option<A>) => B
 ```
 
 Added in v3.0.0

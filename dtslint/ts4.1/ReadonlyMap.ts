@@ -1,5 +1,4 @@
 import * as _ from '../../src/ReadonlyMap'
-import * as RA from '../../src/ReadonlyArray'
 import * as N from '../../src/number'
 import * as S from '../../src/string'
 import { pipe } from '../../src/Function'
@@ -57,7 +56,7 @@ pipe(new Map([['a', 1]]), _.isSubmap(S.Eq, N.Eq)(new Map([['a', 1]]))) // $Expec
 // $ExpectType ReadonlyMap<string, string>
 pipe(
   ['a', 'b'] as const,
-  _.fromFoldable(RA.Foldable)(S.Eq, S.Semigroup)((s: 'a' | 'b' | 'c') => [s, s])
+  _.fromIterable(S.Eq, S.Semigroup)((s: 'a' | 'b' | 'c') => [s, s])
 )
 
 // -------------------------------------------------------------------------------------

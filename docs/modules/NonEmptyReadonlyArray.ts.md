@@ -40,8 +40,6 @@ Added in v3.0.0
 - [folding](#folding)
   - [foldMap](#foldmap)
   - [foldMapWithIndex](#foldmapwithindex)
-  - [reduce](#reduce)
-  - [reduceRight](#reduceright)
   - [reduceRightWithIndex](#reducerightwithindex)
   - [reduceWithIndex](#reducewithindex)
 - [instances](#instances)
@@ -348,26 +346,6 @@ Added in v3.0.0
 export declare const foldMapWithIndex: <S>(
   S: semigroup.Semigroup<S>
 ) => <A>(f: (i: number, a: A) => S) => (fa: readonly [A, ...A[]]) => S
-```
-
-Added in v3.0.0
-
-## reduce
-
-**Signature**
-
-```ts
-export declare const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => (fa: readonly [A, ...A[]]) => B
-```
-
-Added in v3.0.0
-
-## reduceRight
-
-**Signature**
-
-```ts
-export declare const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (fa: readonly [A, ...A[]]) => B
 ```
 
 Added in v3.0.0

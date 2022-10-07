@@ -14,10 +14,24 @@ import * as _ from './internal'
  */
 export interface Foldable<F extends TypeLambda> extends TypeClass<F> {
   readonly toIterable: <S, R, O, E, A>(self: Kind<F, S, R, O, E, A>) => Iterable<A>
-  readonly reduce: <B, A>(b: B, f: (b: B, a: A) => B) => <S>(self: Kind<F, S, never, unknown, unknown, A>) => B
-  readonly foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <S>(self: Kind<F, S, never, unknown, unknown, A>) => M
-  readonly reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <S>(self: Kind<F, S, never, unknown, unknown, A>) => B
 }
+
+/**
+ * Returns a default `toIterable` composition.
+ *
+ * @since 3.0.0
+ */
+export const toIterableComposition =
+  <F extends TypeLambda, G extends TypeLambda>(FoldableF: Foldable<F>, FoldableG: Foldable<G>) =>
+  <FS, FR, FO, FE, GS, GR, GO, GE, A>(self: Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, A>>): Iterable<A> => {
+    return {
+      *[Symbol.iterator]() {
+        for (const ga of FoldableF.toIterable(self)) {
+          yield* FoldableG.toIterable(ga)
+        }
+      }
+    }
+  }
 
 /**
  * @since 3.0.0
@@ -78,6 +92,14 @@ export const foldMap =
 /**
  * @since 3.0.0
  */
+export const reduceRight =
+  <B, A>(b: B, f: (a: A, b: B) => B) =>
+  (self: Iterable<A>): B =>
+    Array.from(self).reduceRight((b, a) => f(a, b), b)
+
+/**
+ * @since 3.0.0
+ */
 export const filterMap =
   <A, B>(f: (a: A) => Option<B>) =>
   (self: Iterable<A>): Iterable<B> => {
@@ -120,48 +142,6 @@ export const intercalate =
 // -------------------------------
 
 /**
- * Returns a default `reduce` composition.
- *
- * @since 3.0.0
- */
-export const reduceComposition =
-  <F extends TypeLambda, G extends TypeLambda>(FoldableF: Foldable<F>, FoldableG: Foldable<G>) =>
-  <B, A>(
-    b: B,
-    f: (b: B, a: A) => B
-  ): (<FS, GS>(fga: Kind<F, FS, never, unknown, unknown, Kind<G, GS, never, unknown, unknown, A>>) => B) =>
-    FoldableF.reduce(b, (b, ga) => pipe(ga, FoldableG.reduce(b, f)))
-
-/**
- * Returns a default `foldMap` composition.
- *
- * @since 3.0.0
- */
-export const foldMapComposition =
-  <F extends TypeLambda, G extends TypeLambda>(FoldableF: Foldable<F>, FoldableG: Foldable<G>) =>
-  <M>(Monoid: Monoid<M>) => {
-    const foldMapF = FoldableF.foldMap(Monoid)
-    const foldMapG = FoldableG.foldMap(Monoid)
-    return <A>(
-      f: (a: A) => M
-    ): (<FS, GS>(fga: Kind<F, FS, never, unknown, unknown, Kind<G, GS, never, unknown, unknown, A>>) => M) =>
-      foldMapF(foldMapG(f))
-  }
-
-/**
- * Returns a default `reduceRight` composition.
- *
- * @since 3.0.0
- */
-export const reduceRightComposition =
-  <F extends TypeLambda, G extends TypeLambda>(FoldableF: Foldable<F>, FoldableG: Foldable<G>) =>
-  <B, A>(
-    b: B,
-    f: (a: A, b: B) => B
-  ): (<FS, GS>(fga: Kind<F, FS, never, unknown, unknown, Kind<G, GS, never, unknown, unknown, A>>) => B) =>
-    FoldableF.reduceRight(b, (ga, b) => FoldableG.reduceRight(b, f)(ga))
-
-/**
  * Similar to 'reduce', but the result is encapsulated in a `Flattenable`.
  *
  * Note: this function is not generally stack-safe, e.g., for type constructors which build up thunks a la `Sync`.
@@ -169,24 +149,23 @@ export const reduceRightComposition =
  * @example
  * import { reduceKind } from 'fp-ts/Foldable'
  * import { Flattenable, some } from 'fp-ts/Option'
- * import { make, Foldable } from 'fp-ts/Tree'
+ * import * as T from 'fp-ts/Tree'
  * import { pipe } from 'fp-ts/Function'
  *
- * const tree = make(1, [make(2), make(3), make(4)])
- * assert.deepStrictEqual(pipe(tree, reduceKind(Foldable)(Flattenable)(some(0), (b, a) => (a > 2 ? some(b + a) : some(b)))), some(7))
+ * const tree = T.make(1, [T.make(2), T.make(3), T.make(4)])
+ * assert.deepStrictEqual(pipe(tree, T.toIterable, reduceKind(Flattenable)(some(0), (b, a) => (a > 2 ? some(b + a) : some(b)))), some(7))
  *
  * @since 3.0.0
  */
 export const reduceKind =
-  <F extends TypeLambda>(Foldable: Foldable<F>) =>
-  <G extends TypeLambda>(Flattenable: Flattenable<G>) =>
+  <F extends TypeLambda>(Flattenable: Flattenable<F>) =>
   <S, R, O, E, B, A>(
-    gb: Kind<G, S, R, O, E, B>,
-    f: (b: B, a: A) => Kind<G, S, R, O, E, B>
-  ): (<FS>(self: Kind<F, FS, never, unknown, unknown, A>) => Kind<G, S, R, O, E, B>) =>
-    Foldable.reduce(gb, (gb, a) =>
+    fb: Kind<F, S, R, O, E, B>,
+    f: (b: B, a: A) => Kind<F, S, R, O, E, B>
+  ): ((self: Iterable<A>) => Kind<F, S, R, O, E, B>) =>
+    reduce(fb, (fb, a) =>
       pipe(
-        gb,
+        fb,
         Flattenable.flatMap((b) => f(b, a))
       )
     )

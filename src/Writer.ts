@@ -186,31 +186,6 @@ export const extract: <W, A>(self: Writer<W, A>) => A = snd
 export const duplicate: <W, A>(self: Writer<W, A>) => Writer<W, Writer<W, A>> = /*#__PURE__*/ extend(identity)
 
 /**
- * @since 3.0.0
- */
-export const reduce =
-  <B, A>(b: B, f: (b: B, a: A) => B) =>
-  <W>(self: Writer<W, A>): B =>
-    f(b, snd(self))
-
-/**
- * @since 3.0.0
- */
-export const foldMap =
-  <M>(_M: Monoid<M>) =>
-  <A>(f: (a: A) => M) =>
-  <W>(self: Writer<W, A>): M =>
-    f(snd(self))
-
-/**
- * @since 3.0.0
- */
-export const reduceRight =
-  <B, A>(b: B, f: (a: A, b: B) => B) =>
-  <W>(self: Writer<W, A>): B =>
-    f(snd(self), b)
-
-/**
  * @category traversing
  * @since 3.0.0
  */
@@ -279,10 +254,7 @@ export const toIterable: <A>(self: Writer<unknown, A>) => Iterable<A> = /*#__PUR
  * @since 3.0.0
  */
 export const Foldable: foldable.Foldable<WriterTypeLambda> = {
-  toIterable,
-  reduce,
-  foldMap,
-  reduceRight
+  toIterable
 }
 
 /**

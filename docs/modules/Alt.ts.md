@@ -58,13 +58,11 @@ each of the specified effects in order until one of them succeeds.
 **Signature**
 
 ```ts
-export declare const firstSuccessOf: <F extends TypeLambda>(
-  Foldable: Foldable<F>
-) => <G extends TypeLambda>(
+export declare const firstSuccessOf: <G extends TypeLambda>(
   Alt: Alt<G>
 ) => <S, R, O, E, A>(
   startWith: Kind<G, S, R, O, E, A>
-) => <FS>(effects: Kind<F, FS, never, unknown, unknown, Kind<G, S, R, O, E, A>>) => Kind<G, S, R, O, E, A>
+) => (iterable: Iterable<Kind<G, S, R, O, E, A>>) => Kind<G, S, R, O, E, A>
 ```
 
 Added in v3.0.0

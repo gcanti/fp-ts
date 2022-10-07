@@ -55,13 +55,10 @@ Added in v3.0.0
   - [duplicate](#duplicate)
   - [extend](#extend)
   - [extract](#extract)
-  - [foldMap](#foldmap)
   - [fst](#fst)
   - [listen](#listen)
   - [listens](#listens)
   - [pass](#pass)
-  - [reduce](#reduce)
-  - [reduceRight](#reduceright)
   - [snd](#snd)
   - [swap](#swap)
 
@@ -466,16 +463,6 @@ export declare const extract: <W, A>(self: Writer<W, A>) => A
 
 Added in v3.0.0
 
-## foldMap
-
-**Signature**
-
-```ts
-export declare const foldMap: <M>(_M: Monoid<M>) => <A>(f: (a: A) => M) => <W>(self: Writer<W, A>) => M
-```
-
-Added in v3.0.0
-
 ## fst
 
 **Signature**
@@ -518,26 +505,6 @@ Applies the returned function to the accumulator
 
 ```ts
 export declare const pass: <W, A>(self: Writer<W, readonly [A, (w: W) => W]>) => Writer<W, A>
-```
-
-Added in v3.0.0
-
-## reduce
-
-**Signature**
-
-```ts
-export declare const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => <W>(self: Writer<W, A>) => B
-```
-
-Added in v3.0.0
-
-## reduceRight
-
-**Signature**
-
-```ts
-export declare const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <W>(self: Writer<W, A>) => B
 ```
 
 Added in v3.0.0

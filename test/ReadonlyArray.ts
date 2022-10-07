@@ -136,11 +136,6 @@ describe('ReadonlyArray', () => {
       U.deepStrictEqual(pipe([1, 2, 3, 4], _.extend(identity)), [[1, 2, 3, 4], [2, 3, 4], [3, 4], [4]])
     })
 
-    it('foldMap', () => {
-      U.deepStrictEqual(pipe(['a', 'b', 'c'], _.foldMap(S.Monoid)(identity)), 'abc')
-      U.deepStrictEqual(pipe([], _.foldMap(S.Monoid)(identity)), '')
-    })
-
     it('compact', () => {
       U.deepStrictEqual(_.compact([]), [])
       U.deepStrictEqual(_.compact([O.some(1), O.some(2), O.some(3)]), [1, 2, 3])
@@ -250,16 +245,6 @@ describe('ReadonlyArray', () => {
       )
     })
 
-    it('reduce', () => {
-      U.deepStrictEqual(
-        pipe(
-          ['a', 'b', 'c'],
-          _.reduce('', (acc, a) => acc + a)
-        ),
-        'abc'
-      )
-    })
-
     it('reduceWithIndex', () => {
       U.deepStrictEqual(
         pipe(
@@ -268,15 +253,6 @@ describe('ReadonlyArray', () => {
         ),
         '0a1b'
       )
-    })
-
-    it('reduceRight', () => {
-      const as: ReadonlyArray<string> = ['a', 'b', 'c']
-      const b = ''
-      const f = (a: string, acc: string) => acc + a
-      U.deepStrictEqual(pipe(as, _.reduceRight(b, f)), 'cba')
-      const x2: ReadonlyArray<string> = []
-      U.deepStrictEqual(pipe(x2, _.reduceRight(b, f)), '')
     })
 
     it('reduceRightWithIndex', () => {

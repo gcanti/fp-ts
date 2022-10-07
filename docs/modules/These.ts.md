@@ -44,10 +44,6 @@ Added in v3.0.0
   - [toTuple2](#totuple2)
 - [error handling](#error-handling)
   - [mapError](#maperror)
-- [folding](#folding)
-  - [foldMap](#foldmap)
-  - [reduce](#reduce)
-  - [reduceRight](#reduceright)
 - [instances](#instances)
   - [Bifunctor](#bifunctor)
   - [Foldable](#foldable)
@@ -266,38 +262,6 @@ function. This can be used to lift a "smaller" error into a "larger" error.
 
 ```ts
 export declare const mapError: <E, G>(f: (e: E) => G) => <A>(self: These<E, A>) => These<G, A>
-```
-
-Added in v3.0.0
-
-# folding
-
-## foldMap
-
-**Signature**
-
-```ts
-export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: These<E, A>) => M
-```
-
-Added in v3.0.0
-
-## reduce
-
-**Signature**
-
-```ts
-export declare const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => <E>(fa: These<E, A>) => B
-```
-
-Added in v3.0.0
-
-## reduceRight
-
-**Signature**
-
-```ts
-export declare const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <E>(fa: These<E, A>) => B
 ```
 
 Added in v3.0.0

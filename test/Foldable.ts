@@ -1,5 +1,5 @@
 import * as _ from '../src/Foldable'
-import { identity, pipe } from '../src/Function'
+import { pipe } from '../src/Function'
 import * as S from '../src/string'
 import * as O from '../src/Option'
 import * as RA from '../src/ReadonlyArray'
@@ -7,6 +7,11 @@ import * as U from './util'
 import * as number from '../src/number'
 
 describe('Foldable', () => {
+  it('toIterableComposition', () => {
+    const toIterableComposition = _.toIterableComposition(RA.Foldable, O.Foldable)
+    U.deepStrictEqual(Array.from(pipe([O.some('a'), O.none, O.some('c')], toIterableComposition)), ['a', 'c'])
+  })
+
   it('map', () => {
     U.deepStrictEqual(
       Array.from(
@@ -47,7 +52,7 @@ describe('Foldable', () => {
   })
 
   it('reduceKind', () => {
-    const f = _.reduceKind(RA.Foldable)(O.Flattenable)
+    const f = _.reduceKind(O.Flattenable)
     U.deepStrictEqual(
       pipe(
         [],
@@ -68,33 +73,6 @@ describe('Foldable', () => {
         f(O.some(1), (b, a) => O.some(b + a))
       ),
       O.some(3)
-    )
-  })
-
-  it('reduce', () => {
-    const reduce = _.reduceComposition(RA.Foldable, O.Foldable)
-    U.deepStrictEqual(
-      pipe(
-        [O.some('a'), O.none, O.some('b')],
-        reduce('c', (b, a) => b + a)
-      ),
-      'cab'
-    )
-  })
-
-  it('foldMap', () => {
-    const foldMap = _.foldMapComposition(RA.Foldable, O.Foldable)
-    U.deepStrictEqual(pipe([O.some('a'), O.none, O.some('b')], foldMap(S.Monoid)(identity)), 'ab')
-  })
-
-  it('reduceRight', () => {
-    const reduceRight = _.reduceRightComposition(RA.Foldable, O.Foldable)
-    U.deepStrictEqual(
-      pipe(
-        [O.some('a'), O.none, O.some('b')],
-        reduceRight('c', (b, a) => b + a)
-      ),
-      'abc'
     )
   })
 })

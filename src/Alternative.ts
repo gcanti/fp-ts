@@ -13,7 +13,6 @@
  */
 import type { Alt } from './Alt'
 import * as alt from './Alt'
-import type { Foldable } from './Foldable'
 import type { FromIdentity } from './FromIdentity'
 import type { Kind, TypeLambda } from './HKT'
 
@@ -39,11 +38,8 @@ export const guard =
  *
  * @since 3.0.0
  */
-export const firstSuccessOf =
-  <F extends TypeLambda>(Foldable: Foldable<F>) =>
-  <G extends TypeLambda>(Alternative: Alternative<G>) => {
-    const firstSuccessOf = alt.firstSuccessOf(Foldable)(Alternative)
-    return <FS, S, R, O, E, A>(
-      effects: Kind<F, FS, never, unknown, unknown, Kind<G, S, R, O, E, A>>
-    ): Kind<G, S, R, O, E, A> => firstSuccessOf<S, R, O, E, A>(Alternative.none())(effects)
-  }
+export const firstSuccessOf = <G extends TypeLambda>(Alternative: Alternative<G>) => {
+  const firstSuccessOf = alt.firstSuccessOf(Alternative)
+  return <S, R, O, E, A>(iterable: Iterable<Kind<G, S, R, O, E, A>>): Kind<G, S, R, O, E, A> =>
+    firstSuccessOf<S, R, O, E, A>(Alternative.none())(iterable)
+}

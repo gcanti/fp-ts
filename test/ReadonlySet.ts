@@ -7,6 +7,7 @@ import { getMonoid } from '../src/ReadonlyArray'
 import * as _ from '../src/ReadonlySet'
 import * as S from '../src/string'
 import { deepStrictEqual } from './util'
+import * as foldable from '../src/Foldable'
 
 const gte2 = (n: number) => n >= 2
 
@@ -17,12 +18,6 @@ const foo = (x: string): Foo => ({ x })
 const fooEq: Eq.Eq<Foo> = Eq.fromEquals((second: Foo) => (first: Foo) => first.x === second.x)
 
 describe('ReadonlySet', () => {
-  it('toReadonlyArray', () => {
-    deepStrictEqual(_.toReadonlyArray(N.Ord)(new Set()), [])
-    deepStrictEqual(_.toReadonlyArray(N.Ord)(new Set([1, 2, 3])), [1, 2, 3])
-    deepStrictEqual(_.toReadonlyArray(N.Ord)(new Set([3, 2, 1])), [1, 2, 3])
-  })
-
   it('getEq', () => {
     const S = _.getEq(N.Eq)
     deepStrictEqual(S.equals(new Set([1, 2, 3]))(new Set([1, 2, 3])), true)
@@ -124,21 +119,22 @@ describe('ReadonlySet', () => {
   })
 
   it('reduce', () => {
-    const f = _.reduce(N.Ord)('', (b, a) => b + a)
-    deepStrictEqual(f(new Set([1, 2, 3])), '123')
-    deepStrictEqual(f(new Set([3, 2, 1])), '123')
+    const f = foldable.reduce('', (b, a: number) => b + a)
+    deepStrictEqual(pipe(new Set([1, 2, 3]), _.toIterable(N.Ord), f), '123')
+    deepStrictEqual(pipe(new Set([3, 2, 1]), _.toIterable(N.Ord), f), '123')
   })
 
   it('foldMap', () => {
-    const f = _.foldMap(N.Ord)(getMonoid<number>())((a) => [a])
-    deepStrictEqual(f(new Set([1, 2, 3])), [1, 2, 3])
-    deepStrictEqual(f(new Set([3, 2, 1])), [1, 2, 3])
+    const f = foldable.foldMap(getMonoid<number>())((a: number) => [a])
+    deepStrictEqual(pipe(new Set([1, 2, 3]), _.toIterable(N.Ord), f), [1, 2, 3])
+    deepStrictEqual(pipe(new Set([3, 2, 1]), _.toIterable(N.Ord), f), [1, 2, 3])
   })
 
   it('reduceRight', () => {
-    const f = _.reduceRight(N.Ord)('', (a, b) => b + a)
-    deepStrictEqual(f(new Set([1, 2, 3])), '321')
-    deepStrictEqual(f(new Set([3, 2, 1])), '321')
+    const f = foldable.reduceRight('', (a: number, b) => b + a)
+
+    deepStrictEqual(pipe(new Set([1, 2, 3]), _.toIterable(N.Ord), f), '321')
+    deepStrictEqual(pipe(new Set([3, 2, 1]), _.toIterable(N.Ord), f), '321')
   })
 
   it('singleton', () => {

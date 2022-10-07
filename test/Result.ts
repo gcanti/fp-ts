@@ -178,35 +178,6 @@ describe('Result', () => {
       U.deepStrictEqual(pipe(_.fail(1), f), _.fail(2))
     })
 
-    it('foldMap', () => {
-      const f = _.foldMap(S.Monoid)((s: string) => s)
-      U.deepStrictEqual(pipe(_.succeed('a'), f), 'a')
-      U.deepStrictEqual(pipe(_.fail(1), f), '')
-    })
-
-    it('reduce', () => {
-      U.deepStrictEqual(
-        pipe(
-          _.succeed('bar'),
-          _.reduce('foo', (b, a) => b + a)
-        ),
-        'foobar'
-      )
-      U.deepStrictEqual(
-        pipe(
-          _.fail('bar'),
-          _.reduce('foo', (b, a) => b + a)
-        ),
-        'foo'
-      )
-    })
-
-    it('reduceRight', () => {
-      const f = (a: string, acc: string) => acc + a
-      U.deepStrictEqual(pipe(_.succeed('a'), _.reduceRight('', f)), 'a')
-      U.deepStrictEqual(pipe(_.fail(1), _.reduceRight('', f)), '')
-    })
-
     it('traverse', () => {
       const traverse = _.traverse(O.Applicative)((n: number) => (n >= 2 ? O.some(n) : O.none))
       U.deepStrictEqual(pipe(_.fail('a'), traverse), O.some(_.fail('a')))

@@ -18,14 +18,13 @@ Added in v3.0.0
   - [empty](#empty)
   - [filterMap](#filtermap)
   - [foldMap](#foldmap)
-  - [foldMapComposition](#foldmapcomposition)
   - [intercalate](#intercalate)
   - [map](#map)
   - [reduce](#reduce)
-  - [reduceComposition](#reducecomposition)
   - [reduceKind](#reducekind)
-  - [reduceRightComposition](#reducerightcomposition)
+  - [reduceRight](#reduceright)
   - [succeed](#succeed)
+  - [toIterableComposition](#toiterablecomposition)
 
 ---
 
@@ -38,9 +37,6 @@ Added in v3.0.0
 ```ts
 export interface Foldable<F extends TypeLambda> extends TypeClass<F> {
   readonly toIterable: <S, R, O, E, A>(self: Kind<F, S, R, O, E, A>) => Iterable<A>
-  readonly reduce: <B, A>(b: B, f: (b: B, a: A) => B) => <S>(self: Kind<F, S, never, unknown, unknown, A>) => B
-  readonly foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <S>(self: Kind<F, S, never, unknown, unknown, A>) => M
-  readonly reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <S>(self: Kind<F, S, never, unknown, unknown, A>) => B
 }
 ```
 
@@ -74,25 +70,6 @@ Added in v3.0.0
 
 ```ts
 export declare const foldMap: <M>(Monoid: Monoid<M>) => <A>(f: (a: A) => M) => (self: Iterable<A>) => M
-```
-
-Added in v3.0.0
-
-## foldMapComposition
-
-Returns a default `foldMap` composition.
-
-**Signature**
-
-```ts
-export declare const foldMapComposition: <F extends TypeLambda, G extends TypeLambda>(
-  FoldableF: Foldable<F>,
-  FoldableG: Foldable<G>
-) => <M>(
-  Monoid: Monoid<M>
-) => <A>(
-  f: (a: A) => M
-) => <FS, GS>(fga: Kind<F, FS, never, unknown, unknown, Kind<G, GS, never, unknown, unknown, A>>) => M
 ```
 
 Added in v3.0.0
@@ -142,24 +119,6 @@ export declare const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => (self: Iterab
 
 Added in v3.0.0
 
-## reduceComposition
-
-Returns a default `reduce` composition.
-
-**Signature**
-
-```ts
-export declare const reduceComposition: <F extends TypeLambda, G extends TypeLambda>(
-  FoldableF: Foldable<F>,
-  FoldableG: Foldable<G>
-) => <B, A>(
-  b: B,
-  f: (b: B, a: A) => B
-) => <FS, GS>(fga: Kind<F, FS, never, unknown, unknown, Kind<G, GS, never, unknown, unknown, A>>) => B
-```
-
-Added in v3.0.0
-
 ## reduceKind
 
 Similar to 'reduce', but the result is encapsulated in a `Flattenable`.
@@ -170,13 +129,11 @@ Note: this function is not generally stack-safe, e.g., for type constructors whi
 
 ```ts
 export declare const reduceKind: <F extends TypeLambda>(
-  Foldable: Foldable<F>
-) => <G extends TypeLambda>(
-  Flattenable: Flattenable<G>
+  Flattenable: Flattenable<F>
 ) => <S, R, O, E, B, A>(
-  gb: Kind<G, S, R, O, E, B>,
-  f: (b: B, a: A) => Kind<G, S, R, O, E, B>
-) => <FS>(self: Kind<F, FS, never, unknown, unknown, A>) => Kind<G, S, R, O, E, B>
+  fb: Kind<F, S, R, O, E, B>,
+  f: (b: B, a: A) => Kind<F, S, R, O, E, B>
+) => (self: Iterable<A>) => Kind<F, S, R, O, E, B>
 ```
 
 **Example**
@@ -184,14 +141,15 @@ export declare const reduceKind: <F extends TypeLambda>(
 ```ts
 import { reduceKind } from 'fp-ts/Foldable'
 import { Flattenable, some } from 'fp-ts/Option'
-import { make, Foldable } from 'fp-ts/Tree'
+import * as T from 'fp-ts/Tree'
 import { pipe } from 'fp-ts/Function'
 
-const tree = make(1, [make(2), make(3), make(4)])
+const tree = T.make(1, [T.make(2), T.make(3), T.make(4)])
 assert.deepStrictEqual(
   pipe(
     tree,
-    reduceKind(Foldable)(Flattenable)(some(0), (b, a) => (a > 2 ? some(b + a) : some(b)))
+    T.toIterable,
+    reduceKind(Flattenable)(some(0), (b, a) => (a > 2 ? some(b + a) : some(b)))
   ),
   some(7)
 )
@@ -199,20 +157,12 @@ assert.deepStrictEqual(
 
 Added in v3.0.0
 
-## reduceRightComposition
-
-Returns a default `reduceRight` composition.
+## reduceRight
 
 **Signature**
 
 ```ts
-export declare const reduceRightComposition: <F extends TypeLambda, G extends TypeLambda>(
-  FoldableF: Foldable<F>,
-  FoldableG: Foldable<G>
-) => <B, A>(
-  b: B,
-  f: (a: A, b: B) => B
-) => <FS, GS>(fga: Kind<F, FS, never, unknown, unknown, Kind<G, GS, never, unknown, unknown, A>>) => B
+export declare const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (self: Iterable<A>) => B
 ```
 
 Added in v3.0.0
@@ -223,6 +173,21 @@ Added in v3.0.0
 
 ```ts
 export declare const succeed: <A>(a: A) => Iterable<A>
+```
+
+Added in v3.0.0
+
+## toIterableComposition
+
+Returns a default `toIterable` composition.
+
+**Signature**
+
+```ts
+export declare const toIterableComposition: <F extends TypeLambda, G extends TypeLambda>(
+  FoldableF: Foldable<F>,
+  FoldableG: Foldable<G>
+) => <FS, FR, FO, FE, GS, GR, GO, GE, A>(self: Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, A>>) => Iterable<A>
 ```
 
 Added in v3.0.0
