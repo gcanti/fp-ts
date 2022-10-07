@@ -1,5 +1,5 @@
 import * as E from '../src/Result'
-import { pipe } from '../src/Function'
+import { identity, pipe } from '../src/Function'
 import * as N from '../src/number'
 import * as _ from '../src/Option'
 import * as RA from '../src/ReadonlyArray'
@@ -11,6 +11,34 @@ import * as tree from '../src/Tree'
 const p = (n: number): boolean => n > 2
 
 describe('Option', () => {
+  it('reduce', () => {
+    U.deepStrictEqual(
+      pipe(
+        _.none,
+        _.reduce(2, (b, a) => b + a)
+      ),
+      2
+    )
+    U.deepStrictEqual(
+      pipe(
+        _.some(3),
+        _.reduce(2, (b, a) => b + a)
+      ),
+      5
+    )
+  })
+
+  it('foldMap', () => {
+    U.deepStrictEqual(pipe(_.some('a'), _.foldMap(S.Monoid)(identity)), 'a')
+    U.deepStrictEqual(pipe(_.none, _.foldMap(S.Monoid)(identity)), '')
+  })
+
+  it('reduceRight', () => {
+    const f = (a: string, acc: string) => acc + a
+    U.deepStrictEqual(pipe(_.some('a'), _.reduceRight('', f)), 'a')
+    U.deepStrictEqual(pipe(_.none, _.reduceRight('', f)), '')
+  })
+
   it('fromIterable', () => {
     U.deepStrictEqual(_.fromIterable([]), _.none)
     U.deepStrictEqual(_.fromIterable(['a']), _.some('a'))

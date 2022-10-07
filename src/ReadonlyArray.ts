@@ -16,7 +16,7 @@ import * as eq from './Eq'
 import type * as extendable from './Extendable'
 import * as filterable from './Filterable'
 import * as filterableWithIndex from './FilterableWithIndex'
-import type * as foldable from './Foldable'
+import * as foldable from './Foldable'
 import type * as foldableWithIndex from './FoldableWithIndex'
 import * as fromOption_ from './FromOption'
 import * as fromResult_ from './FromResult'
@@ -1894,6 +1894,27 @@ export const partitionWithIndex: {
 export const Foldable: foldable.Foldable<ReadonlyArrayTypeLambda> = {
   toIterable: identity
 }
+
+/**
+ * @category folding
+ * @since 3.0.0
+ */
+export const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => (self: ReadonlyArray<A>) => B =
+  /*#__PURE__*/ foldable.reduce(Foldable)
+
+/**
+ * @category folding
+ * @since 3.0.0
+ */
+export const foldMap: <M>(Monoid: Monoid<M>) => <A>(f: (a: A) => M) => (self: ReadonlyArray<A>) => M =
+  /*#__PURE__*/ foldable.foldMap(Foldable)
+
+/**
+ * @category folding
+ * @since 3.0.0
+ */
+export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (self: ReadonlyArray<A>) => B =
+  /*#__PURE__*/ foldable.reduceRight(Foldable)
 
 /**
  * @category folding

@@ -26,7 +26,8 @@ import * as eq from './Eq'
 import type * as extendable from './Extendable'
 import type * as filterable from './Filterable'
 import * as iterable from './Iterable'
-import type * as foldable from './Foldable'
+import type { Monoid } from './Monoid'
+import * as foldable from './Foldable'
 import * as fromResult_ from './FromResult'
 import { SK } from './Function'
 import { flow, identity, pipe } from './Function'
@@ -863,7 +864,7 @@ export const FlattenableRec: flattenableRec.FlattenableRec<ResultTypeLambda> = {
  * @category conversions
  * @since 3.0.0
  */
-export const toIterable: <A>(self: Result<unknown, A>) => Iterable<A> = match(() => iterable.empty, iterable.succeed)
+export const toIterable: <E, A>(self: Result<E, A>) => Iterable<A> = match(() => iterable.empty, iterable.succeed)
 
 /**
  * @category instances
@@ -872,6 +873,27 @@ export const toIterable: <A>(self: Result<unknown, A>) => Iterable<A> = match(()
 export const Foldable: foldable.Foldable<ResultTypeLambda> = {
   toIterable
 }
+
+/**
+ * @category folding
+ * @since 3.0.0
+ */
+export const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => <E>(self: Result<E, A>) => B =
+  /*#__PURE__*/ foldable.reduce(Foldable)
+
+/**
+ * @category folding
+ * @since 3.0.0
+ */
+export const foldMap: <M>(Monoid: Monoid<M>) => <A>(f: (a: A) => M) => <E>(self: Result<E, A>) => M =
+  /*#__PURE__*/ foldable.foldMap(Foldable)
+
+/**
+ * @category folding
+ * @since 3.0.0
+ */
+export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <E>(self: Result<E, A>) => B =
+  /*#__PURE__*/ foldable.reduceRight(Foldable)
 
 /**
  * @category instances

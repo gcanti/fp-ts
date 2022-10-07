@@ -25,7 +25,7 @@ import * as eq from './Eq'
 import type * as extendable from './Extendable'
 import * as filterable from './Filterable'
 import * as iterable from './Iterable'
-import type * as foldable from './Foldable'
+import * as foldable from './Foldable'
 import * as fromOption_ from './FromOption'
 import * as fromResult_ from './FromResult'
 import type { LazyArg } from './Function'
@@ -843,6 +843,27 @@ export const toIterable: <A>(self: Option<A>) => Iterable<A> = match(() => itera
 export const Foldable: foldable.Foldable<OptionTypeLambda> = {
   toIterable
 }
+
+/**
+ * @category folding
+ * @since 3.0.0
+ */
+export const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => (self: Option<A>) => B =
+  /*#__PURE__*/ foldable.reduce(Foldable)
+
+/**
+ * @category folding
+ * @since 3.0.0
+ */
+export const foldMap: <M>(Monoid: Monoid<M>) => <A>(f: (a: A) => M) => (self: Option<A>) => M =
+  /*#__PURE__*/ foldable.foldMap(Foldable)
+
+/**
+ * @category folding
+ * @since 3.0.0
+ */
+export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (self: Option<A>) => B =
+  /*#__PURE__*/ foldable.reduceRight(Foldable)
 
 /**
  * @category instances

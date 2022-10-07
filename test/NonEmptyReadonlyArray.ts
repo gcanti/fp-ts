@@ -14,6 +14,25 @@ import { tuple } from '../src/tuple'
 import * as U from './util'
 
 describe('NonEmptyReadonlyArray', () => {
+  it('reduce', () => {
+    U.deepStrictEqual(
+      pipe(
+        ['a', 'b'],
+        _.reduce('', (b, a) => b + a)
+      ),
+      'ab'
+    )
+  })
+
+  it('foldMap', () => {
+    U.deepStrictEqual(pipe(['a', 'b', 'c'] as _.NonEmptyReadonlyArray<string>, _.foldMap(S.Semigroup)(identity)), 'abc')
+  })
+
+  it('reduceRight', () => {
+    const f = (a: string, acc: string) => acc + a
+    U.deepStrictEqual(pipe(['a', 'b', 'c'], _.reduceRight('', f)), 'cba')
+  })
+
   it('traverseWithIndex', () => {
     U.deepStrictEqual(
       pipe(

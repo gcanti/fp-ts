@@ -15,9 +15,10 @@ import * as flattenableRec from './FlattenableRec'
 import type * as comonad from './Comonad'
 import type { Result } from './Result'
 import type { Eq } from './Eq'
+import type { Monoid } from './Monoid'
 import type * as extendable from './Extendable'
 import * as iterable from './Iterable'
-import type * as foldable from './Foldable'
+import * as foldable from './Foldable'
 import { flow, identity } from './Function'
 import * as functor from './Functor'
 import type { TypeLambda, Kind } from './HKT'
@@ -293,6 +294,27 @@ export const toIterable: <A>(self: Identity<A>) => Iterable<A> = iterable.succee
 export const Foldable: foldable.Foldable<IdentityTypeLambda> = {
   toIterable
 }
+
+/**
+ * @category folding
+ * @since 3.0.0
+ */
+export const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => (self: Identity<A>) => B =
+  /*#__PURE__*/ foldable.reduce(Foldable)
+
+/**
+ * @category folding
+ * @since 3.0.0
+ */
+export const foldMap: <M>(Monoid: Monoid<M>) => <A>(f: (a: A) => M) => (self: Identity<A>) => M =
+  /*#__PURE__*/ foldable.foldMap(Foldable)
+
+/**
+ * @category folding
+ * @since 3.0.0
+ */
+export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (self: Identity<A>) => B =
+  /*#__PURE__*/ foldable.reduceRight(Foldable)
 
 /**
  * @category traversing

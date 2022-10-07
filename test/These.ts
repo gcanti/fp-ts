@@ -1,4 +1,4 @@
-import { pipe } from '../src/Function'
+import { identity, pipe } from '../src/Function'
 import * as N from '../src/number'
 import * as O from '../src/Option'
 import * as RA from '../src/ReadonlyArray'
@@ -8,9 +8,42 @@ import * as _ from '../src/These'
 import * as U from './util'
 
 describe('These', () => {
-  // -------------------------------------------------------------------------------------
-  // type class members
-  // -------------------------------------------------------------------------------------
+  it('reduce', () => {
+    U.deepStrictEqual(
+      pipe(
+        _.fail('b'),
+        _.reduce('a', (b, a) => b + a)
+      ),
+      'a'
+    )
+    U.deepStrictEqual(
+      pipe(
+        _.succeed('b'),
+        _.reduce('a', (b, a) => b + a)
+      ),
+      'ab'
+    )
+    U.deepStrictEqual(
+      pipe(
+        _.both(1, 'b'),
+        _.reduce('a', (b, a) => b + a)
+      ),
+      'ab'
+    )
+  })
+
+  it('foldMap', () => {
+    U.deepStrictEqual(pipe(_.succeed('a'), _.foldMap(S.Monoid)(identity)), 'a')
+    U.deepStrictEqual(pipe(_.fail(1), _.foldMap(S.Monoid)(identity)), '')
+    U.deepStrictEqual(pipe(_.both(1, 'a'), _.foldMap(S.Monoid)(identity)), 'a')
+  })
+
+  it('reduceRight', () => {
+    const f = (a: string, acc: string) => acc + a
+    U.deepStrictEqual(pipe(_.succeed('a'), _.reduceRight('', f)), 'a')
+    U.deepStrictEqual(pipe(_.fail(1), _.reduceRight('', f)), '')
+    U.deepStrictEqual(pipe(_.both(1, 'a'), _.reduceRight('', f)), 'a')
+  })
 
   it('map', () => {
     U.deepStrictEqual(pipe(_.fail(2), _.map(U.double)), _.fail(2))

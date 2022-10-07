@@ -1,5 +1,5 @@
 import * as Eq from '../src/Eq'
-import { flow, pipe } from '../src/Function'
+import { flow, identity, pipe } from '../src/Function'
 import * as S from '../src/string'
 import * as O from '../src/Option'
 import * as _ from '../src/Tree'
@@ -11,6 +11,28 @@ describe('Tree', () => {
   it('Symbol.iterator', () => {
     U.deepStrictEqual(Array.from(_.make('a')), ['a'])
     U.deepStrictEqual(Array.from(_.make('a', [_.make('b'), _.make('c')])), ['a', 'b', 'c'])
+  })
+
+  it('reduce', () => {
+    const fa = _.make('a', [_.make('b'), _.make('c')])
+    U.deepStrictEqual(
+      pipe(
+        fa,
+        _.reduce('', (b, a) => b + a)
+      ),
+      'abc'
+    )
+  })
+
+  it('foldMap', () => {
+    const x = _.make('a', [_.make('b'), _.make('c')])
+    U.deepStrictEqual(pipe(x, _.foldMap(S.Monoid)(identity)), 'abc')
+  })
+
+  it('reduceRight', () => {
+    const x = _.make('a', [_.make('b'), _.make('c')])
+    const f = (a: string, acc: string) => acc + a
+    U.deepStrictEqual(pipe(x, _.reduceRight('', f)), 'cba')
   })
 
   it('traverse', () => {

@@ -21,7 +21,7 @@ import * as flattenable from './Flattenable'
 import type * as comonad from './Comonad'
 import type { Endomorphism } from './Endomorphism'
 import * as eq from './Eq'
-import type * as foldable from './Foldable'
+import * as foldable from './Foldable'
 import type * as foldableWithIndex from './FoldableWithIndex'
 import { flow, identity, pipe } from './Function'
 import * as functor from './Functor'
@@ -847,7 +847,6 @@ export const mapWithIndex: <A, B>(
     return out
   }
 
-// TODO
 /**
  * **Note**. The constraint is relaxed: a `Semigroup` instead of a `Monoid`.
  *
@@ -1075,6 +1074,20 @@ export const tap: <A>(
 export const Foldable: foldable.Foldable<NonEmptyReadonlyArrayTypeLambda> = {
   toIterable: identity
 }
+
+/**
+ * @category folding
+ * @since 3.0.0
+ */
+export const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => (self: NonEmptyReadonlyArray<A>) => B =
+  /*#__PURE__*/ foldable.reduce(Foldable)
+
+/**
+ * @category folding
+ * @since 3.0.0
+ */
+export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (self: NonEmptyReadonlyArray<A>) => B =
+  /*#__PURE__*/ foldable.reduceRight(Foldable)
 
 /**
  * @category folding

@@ -39,6 +39,8 @@ Added in v3.0.0
   - [let](#let)
 - [folding](#folding)
   - [foldMap](#foldmap)
+  - [reduce](#reduce)
+  - [reduceRight](#reduceright)
   - [toEntries](#toentries)
 - [instances](#instances)
   - [Alt](#alt)
@@ -330,6 +332,26 @@ Added in v3.0.0
 
 ```ts
 export declare const foldMap: <S>(S: semigroup.Semigroup<S>) => <A>(f: (a: A) => S) => (fa: readonly [A, ...A[]]) => S
+```
+
+Added in v3.0.0
+
+## reduce
+
+**Signature**
+
+```ts
+export declare const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => (self: readonly [A, ...A[]]) => B
+```
+
+Added in v3.0.0
+
+## reduceRight
+
+**Signature**
+
+```ts
+export declare const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (self: readonly [A, ...A[]]) => B
 ```
 
 Added in v3.0.0

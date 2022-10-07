@@ -27,7 +27,8 @@ import type { Result, Failure, Success, ValidatedT } from './Result'
 import type { Eq } from './Eq'
 import * as eq from './Eq'
 import * as iterable from './Iterable'
-import type * as foldable from './Foldable'
+import type { Monoid } from './Monoid'
+import * as foldable from './Foldable'
 import * as fromResult_ from './FromResult'
 import type * as fromThese_ from './FromThese'
 import { flow, SK } from './Function'
@@ -507,6 +508,27 @@ export const toIterable: <E, A>(self: These<E, A>) => Iterable<A> = match(
 export const Foldable: foldable.Foldable<TheseTypeLambda> = {
   toIterable
 }
+
+/**
+ * @category folding
+ * @since 3.0.0
+ */
+export const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => <E>(self: These<E, A>) => B =
+  /*#__PURE__*/ foldable.reduce(Foldable)
+
+/**
+ * @category folding
+ * @since 3.0.0
+ */
+export const foldMap: <M>(Monoid: Monoid<M>) => <A>(f: (a: A) => M) => <E>(self: These<E, A>) => M =
+  /*#__PURE__*/ foldable.foldMap(Foldable)
+
+/**
+ * @category folding
+ * @since 3.0.0
+ */
+export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <E>(self: These<E, A>) => B =
+  /*#__PURE__*/ foldable.reduceRight(Foldable)
 
 /**
  * @category instances

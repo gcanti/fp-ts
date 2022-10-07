@@ -16,6 +16,30 @@ import { tuple } from '../src/tuple'
 import * as U from './util'
 
 describe('ReadonlyArray', () => {
+  it('reduce', () => {
+    U.deepStrictEqual(
+      pipe(
+        ['a', 'b', 'c'],
+        _.reduce('', (acc, a) => acc + a)
+      ),
+      'abc'
+    )
+  })
+
+  it('reduceRight', () => {
+    const as: ReadonlyArray<string> = ['a', 'b', 'c']
+    const b = ''
+    const f = (a: string, acc: string) => acc + a
+    U.deepStrictEqual(pipe(as, _.reduceRight(b, f)), 'cba')
+    const x2: ReadonlyArray<string> = []
+    U.deepStrictEqual(pipe(x2, _.reduceRight(b, f)), '')
+  })
+
+  it('foldMap', () => {
+    U.deepStrictEqual(pipe(['a', 'b', 'c'], _.foldMap(S.Monoid)(identity)), 'abc')
+    U.deepStrictEqual(pipe([], _.foldMap(S.Monoid)(identity)), '')
+  })
+
   describe('pipeables', () => {
     it('traverse', () => {
       const traverse = _.traverse(O.Applicative)((n: number): O.Option<number> => (n % 2 === 0 ? O.none : O.some(n)))

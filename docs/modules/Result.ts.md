@@ -58,6 +58,10 @@ Added in v3.0.0
   - [separate](#separate)
   - [traverseFilterMap](#traversefiltermap)
   - [traversePartitionMap](#traversepartitionmap)
+- [folding](#folding)
+  - [foldMap](#foldmap)
+  - [reduce](#reduce)
+  - [reduceRight](#reduceright)
 - [instances](#instances)
   - [Alt](#alt)
   - [Applicative](#applicative)
@@ -222,7 +226,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const toIterable: <A>(self: Result<unknown, A>) => Iterable<A>
+export declare const toIterable: <E, A>(self: Result<E, A>) => Iterable<A>
 ```
 
 Added in v3.0.0
@@ -655,6 +659,38 @@ export declare const traversePartitionMap: <F extends TypeLambda>(
   f: (a: A) => Kind<F, S, R, O, FE, Result<B, C>>,
   onNone: E
 ) => (self: Result<E, A>) => Kind<F, S, R, O, FE, readonly [Result<E, B>, Result<E, C>]>
+```
+
+Added in v3.0.0
+
+# folding
+
+## foldMap
+
+**Signature**
+
+```ts
+export declare const foldMap: <M>(Monoid: Monoid<M>) => <A>(f: (a: A) => M) => <E>(self: Result<E, A>) => M
+```
+
+Added in v3.0.0
+
+## reduce
+
+**Signature**
+
+```ts
+export declare const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => <E>(self: Result<E, A>) => B
+```
+
+Added in v3.0.0
+
+## reduceRight
+
+**Signature**
+
+```ts
+export declare const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <E>(self: Result<E, A>) => B
 ```
 
 Added in v3.0.0

@@ -9,7 +9,7 @@ import type { FlattenableRec } from './FlattenableRec'
 import type * as comonad from './Comonad'
 import type { Result } from './Result'
 import * as iterable from './Iterable'
-import type * as foldable from './Foldable'
+import * as foldable from './Foldable'
 import { flow, identity, pipe, SK } from './Function'
 import * as functor from './Functor'
 import type { TypeLambda, Kind } from './HKT'
@@ -248,7 +248,7 @@ export const Comonad: comonad.Comonad<WriterTypeLambda> = {
  * @category conversions
  * @since 3.0.0
  */
-export const toIterable: <A>(self: Writer<unknown, A>) => Iterable<A> = /*#__PURE__*/ flow(snd, iterable.succeed)
+export const toIterable: <W, A>(self: Writer<W, A>) => Iterable<A> = /*#__PURE__*/ flow(snd, iterable.succeed)
 
 /**
  * @category instances
@@ -257,6 +257,27 @@ export const toIterable: <A>(self: Writer<unknown, A>) => Iterable<A> = /*#__PUR
 export const Foldable: foldable.Foldable<WriterTypeLambda> = {
   toIterable
 }
+
+/**
+ * @category folding
+ * @since 3.0.0
+ */
+export const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => <W>(self: Writer<W, A>) => B =
+  /*#__PURE__*/ foldable.reduce(Foldable)
+
+/**
+ * @category folding
+ * @since 3.0.0
+ */
+export const foldMap: <M>(Monoid: Monoid<M>) => <A>(f: (a: A) => M) => <W>(self: Writer<W, A>) => M =
+  /*#__PURE__*/ foldable.foldMap(Foldable)
+
+/**
+ * @category folding
+ * @since 3.0.0
+ */
+export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <W>(self: Writer<W, A>) => B =
+  /*#__PURE__*/ foldable.reduceRight(Foldable)
 
 /**
  * @category instances

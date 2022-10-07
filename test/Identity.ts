@@ -1,11 +1,30 @@
 import * as N from '../src/number'
-import { pipe } from '../src/Function'
+import { identity, pipe } from '../src/Function'
 import * as _ from '../src/Identity'
 import * as S from '../src/string'
 import * as O from '../src/Option'
 import * as U from './util'
 
 describe('Identity', () => {
+  it('reduce', () => {
+    U.deepStrictEqual(
+      pipe(
+        'b',
+        _.reduce('a', (b, a) => b + a)
+      ),
+      'ab'
+    )
+  })
+
+  it('foldMap', () => {
+    U.deepStrictEqual(pipe('a', _.foldMap(S.Monoid)(identity)), 'a')
+  })
+
+  it('reduceRight', () => {
+    const f = (a: string, acc: string) => acc + a
+    U.deepStrictEqual(pipe('a', _.reduceRight('', f)), 'a')
+  })
+
   describe('pipeables', () => {
     it('map', () => {
       U.deepStrictEqual(pipe(1, _.map(U.double)), 2)

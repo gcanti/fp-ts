@@ -47,6 +47,9 @@ Added in v3.0.0
   - [traverseFilterMap](#traversefiltermap)
   - [traversePartitionMap](#traversepartitionmap)
 - [folding](#folding)
+  - [foldMap](#foldmap)
+  - [reduce](#reduce)
+  - [reduceRight](#reduceright)
   - [toEntries](#toentries)
 - [instances](#instances)
   - [Alt](#alt)
@@ -629,6 +632,36 @@ export declare const traversePartitionMap: <F extends TypeLambda>(
 Added in v3.0.0
 
 # folding
+
+## foldMap
+
+**Signature**
+
+```ts
+export declare const foldMap: <M>(Monoid: Monoid<M>) => <A>(f: (a: A) => M) => (self: readonly A[]) => M
+```
+
+Added in v3.0.0
+
+## reduce
+
+**Signature**
+
+```ts
+export declare const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => (self: readonly A[]) => B
+```
+
+Added in v3.0.0
+
+## reduceRight
+
+**Signature**
+
+```ts
+export declare const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (self: readonly A[]) => B
+```
+
+Added in v3.0.0
 
 ## toEntries
 

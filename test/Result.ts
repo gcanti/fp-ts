@@ -9,6 +9,34 @@ import * as T from '../src/Async'
 import * as U from './util'
 
 describe('Result', () => {
+  it('reduce', () => {
+    U.deepStrictEqual(
+      pipe(
+        _.succeed('bar'),
+        _.reduce('foo', (b, a) => b + a)
+      ),
+      'foobar'
+    )
+    U.deepStrictEqual(
+      pipe(
+        _.fail('bar'),
+        _.reduce('foo', (b, a) => b + a)
+      ),
+      'foo'
+    )
+  })
+
+  it('foldMap', () => {
+    U.deepStrictEqual(pipe(_.succeed('a'), _.foldMap(S.Monoid)(identity)), 'a')
+    U.deepStrictEqual(pipe(_.fail(1), _.foldMap(S.Monoid)(identity)), '')
+  })
+
+  it('reduceRight', () => {
+    const f = (a: string, acc: string) => acc + a
+    U.deepStrictEqual(pipe(_.succeed('a'), _.reduceRight('', f)), 'a')
+    U.deepStrictEqual(pipe(_.fail(1), _.reduceRight('', f)), '')
+  })
+
   // -------------------------------------------------------------------------------------
   // conversions
   // -------------------------------------------------------------------------------------

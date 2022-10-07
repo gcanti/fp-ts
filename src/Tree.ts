@@ -15,7 +15,8 @@ import * as flattenable from './Flattenable'
 import type * as comonad from './Comonad'
 import type { Eq } from './Eq'
 import * as eq from './Eq'
-import type * as foldable from './Foldable'
+import type { Monoid } from './Monoid'
+import * as foldable from './Foldable'
 import { flow, identity, pipe } from './Function'
 import * as functor from './Functor'
 import type { TypeLambda, Kind } from './HKT'
@@ -479,6 +480,27 @@ export const toIterable = <A>(self: Tree<A>): Iterable<A> => {
 export const Foldable: foldable.Foldable<TreeTypeLambda> = {
   toIterable: identity
 }
+
+/**
+ * @category folding
+ * @since 3.0.0
+ */
+export const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => (self: Tree<A>) => B =
+  /*#__PURE__*/ foldable.reduce(Foldable)
+
+/**
+ * @category folding
+ * @since 3.0.0
+ */
+export const foldMap: <M>(Monoid: Monoid<M>) => <A>(f: (a: A) => M) => (self: Tree<A>) => M =
+  /*#__PURE__*/ foldable.foldMap(Foldable)
+
+/**
+ * @category folding
+ * @since 3.0.0
+ */
+export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (self: Tree<A>) => B =
+  /*#__PURE__*/ foldable.reduceRight(Foldable)
 
 /**
  * @category instances

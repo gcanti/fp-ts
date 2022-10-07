@@ -18,6 +18,10 @@ Added in v3.0.0
   - [tell](#tell)
 - [conversions](#conversions)
   - [toIterable](#toiterable)
+- [folding](#folding)
+  - [foldMap](#foldmap)
+  - [reduce](#reduce)
+  - [reduceRight](#reduceright)
 - [instances](#instances)
   - [Bifunctor](#bifunctor-1)
   - [Comonad](#comonad)
@@ -97,7 +101,39 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const toIterable: <A>(self: Writer<unknown, A>) => Iterable<A>
+export declare const toIterable: <W, A>(self: Writer<W, A>) => Iterable<A>
+```
+
+Added in v3.0.0
+
+# folding
+
+## foldMap
+
+**Signature**
+
+```ts
+export declare const foldMap: <M>(Monoid: Monoid<M>) => <A>(f: (a: A) => M) => <W>(self: Writer<W, A>) => M
+```
+
+Added in v3.0.0
+
+## reduce
+
+**Signature**
+
+```ts
+export declare const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => <W>(self: Writer<W, A>) => B
+```
+
+Added in v3.0.0
+
+## reduceRight
+
+**Signature**
+
+```ts
+export declare const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <W>(self: Writer<W, A>) => B
 ```
 
 Added in v3.0.0
