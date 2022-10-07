@@ -20,6 +20,7 @@ Added in v2.0.0
   - [alt](#alt)
   - [ap](#ap)
   - [chain](#chain)
+  - [chainF](#chainf)
   - [chainNullableK](#chainnullablek)
   - [chainOptionK](#chainoptionk)
   - [fromEither](#fromeither)
@@ -233,6 +234,59 @@ export declare function chain<M>(
 ```
 
 Added in v2.10.0
+
+## chainF
+
+Chain a function returning the outer effect.
+
+**Signature**
+
+```ts
+export declare function chainF<M extends URIS4>(
+  M: Monad4<M>
+): <A, S, R, E, B>(
+  f: (a: A) => Kind4<M, S, R, E, B>
+) => (ma: Kind4<M, S, R, E, Option<A>>) => Kind4<M, S, R, E, Option<B>>
+export declare function chainF<M extends URIS3>(
+  M: Monad3<M>
+): <A, R, E, B>(f: (a: A) => Kind3<M, R, E, B>) => (ma: Kind3<M, R, E, Option<A>>) => Kind3<M, R, E, Option<B>>
+export declare function chainF<M extends URIS3, E>(
+  M: Monad3C<M, E>
+): <A, R, B>(f: (a: A) => Kind3<M, R, E, B>) => (ma: Kind3<M, R, E, Option<A>>) => Kind3<M, R, E, Option<B>>
+export declare function chainF<M extends URIS2>(
+  M: Monad2<M>
+): <A, E, B>(f: (a: A) => Kind2<M, E, B>) => (ma: Kind2<M, E, Option<A>>) => Kind2<M, E, Option<B>>
+export declare function chainF<M extends URIS2, E>(
+  M: Monad2C<M, E>
+): <A, B>(f: (a: A) => Kind2<M, E, B>) => (ma: Kind2<M, E, Option<A>>) => Kind2<M, E, Option<B>>
+export declare function chainF<M extends URIS>(
+  M: Monad1<M>
+): <A, B>(f: (a: A) => Kind<M, B>) => (ma: Kind<M, Option<A>>) => Kind<M, Option<B>>
+export declare function chainF<M>(
+  M: Monad<M>
+): <A, B>(f: (a: A) => HKT<M, B>) => (ma: HKT<M, Option<A>>) => HKT<M, Option<B>>
+```
+
+**Example**
+
+```ts
+import * as OT from 'fp-ts/OptionT'
+import * as O from 'fp-ts/Option'
+import * as T from 'fp-ts/Task'
+import { pipe } from 'fp-ts/function'
+
+const computationResult = T.of(O.some(1))
+const addEffectfuly = (value: number) => T.of(value + 1)
+
+async function test() {
+  const result = pipe(computationResult, OT.chainF(T.Monad)(addEffectfuly))
+  assert.deepStrictEqual(await result(), O.some(2))
+}
+
+test()
+```
+
+Added in v2.13.0
 
 ## chainNullableK
 

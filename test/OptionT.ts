@@ -1,9 +1,10 @@
 import * as U from './util'
 import * as O from '../src/Option'
-import { getOptionM } from '../src/OptionT'
+import * as OT from '../src/OptionT'
 import * as T from '../src/Task'
+import { pipe } from '../src/function'
 
-const MT = getOptionM(T.Monad)
+const MT = OT.getOptionM(T.Monad)
 
 describe('OptionT', () => {
   it('map', async () => {
@@ -27,6 +28,20 @@ describe('OptionT', () => {
   it('chain', async () => {
     const to1 = MT.chain(MT.of('foo'), (a) => MT.of(a.length))
     const to2 = MT.chain(T.of(O.none), (a: string) => MT.of(a.length))
+    const [o1, o2] = await Promise.all([to1(), to2()])
+    U.deepStrictEqual(o1, O.some(3))
+    U.deepStrictEqual(o2, O.none)
+  })
+
+  it('chainF', async () => {
+    const to1 = pipe(
+      T.of(O.of('foo')),
+      OT.chainF(T.Monad)((a: string) => T.of(a.length))
+    )
+    const to2 = pipe(
+      T.of(O.none),
+      OT.chainF(T.Monad)((a: string) => T.of(a.length))
+    )
     const [o1, o2] = await Promise.all([to1(), to2()])
     U.deepStrictEqual(o1, O.some(3))
     U.deepStrictEqual(o2, O.none)
