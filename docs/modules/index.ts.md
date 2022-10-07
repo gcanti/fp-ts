@@ -21,6 +21,7 @@ Added in v3.0.0
   - [date](#date)
   - [endomorphism](#endomorphism)
   - [identity](#identity)
+  - [iterable](#iterable)
   - [nonEmptyReadonlyArray](#nonemptyreadonlyarray)
   - [option](#option)
   - [reader](#reader)
@@ -206,6 +207,16 @@ Added in v3.0.0
 
 ```ts
 export declare const identity: typeof identity
+```
+
+Added in v3.0.0
+
+## iterable
+
+**Signature**
+
+```ts
+export declare const iterable: typeof iterable
 ```
 
 Added in v3.0.0

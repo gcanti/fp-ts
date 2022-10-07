@@ -8,7 +8,8 @@ import type { Endomorphism } from './Endomorphism'
 import * as eq from './Eq'
 import * as filterable from './Filterable'
 import * as filterableWithIndex from './FilterableWithIndex'
-import * as foldable from './Foldable'
+import * as iterable from './Iterable'
+import type * as foldable from './Foldable'
 import type * as foldableWithIndex from './FoldableWithIndex'
 import { identity, pipe } from './Function'
 import * as functor from './Functor'
@@ -67,7 +68,7 @@ export const singleton = <A>(k: string, a: A): ReadonlyRecord<string, A> => ({ [
 export const fromIterable =
   <B>(M: Magma<B>) =>
   <A>(f: (a: A) => readonly [string, B]): ((self: Iterable<A>) => ReadonlyRecord<string, B>) =>
-    foldable.reduce<Record<string, B>, A>({}, (r, a) => {
+    iterable.reduce<Record<string, B>, A>({}, (r, a) => {
       const [k, b] = f(a)
       r[k] = _.has.call(r, k) ? M.combine(b)(r[k]) : b
       return r

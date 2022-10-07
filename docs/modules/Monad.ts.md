@@ -1,6 +1,6 @@
 ---
 title: Monad.ts
-nav_order: 62
+nav_order: 63
 parent: Modules
 ---
 

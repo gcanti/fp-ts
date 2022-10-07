@@ -25,7 +25,8 @@ import type { Compactable } from './Compactable'
 import * as eq from './Eq'
 import type * as extendable from './Extendable'
 import type * as filterable from './Filterable'
-import * as foldable from './Foldable'
+import * as iterable from './Iterable'
+import type * as foldable from './Foldable'
 import * as fromResult_ from './FromResult'
 import { SK } from './Function'
 import { flow, identity, pipe } from './Function'
@@ -862,7 +863,7 @@ export const FlattenableRec: flattenableRec.FlattenableRec<ResultTypeLambda> = {
  * @category conversions
  * @since 3.0.0
  */
-export const toIterable: <A>(self: Result<unknown, A>) => Iterable<A> = match(() => foldable.empty, foldable.succeed)
+export const toIterable: <A>(self: Result<unknown, A>) => Iterable<A> = match(() => iterable.empty, iterable.succeed)
 
 /**
  * @category instances

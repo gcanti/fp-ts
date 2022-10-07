@@ -54,6 +54,7 @@ import * as heytingAlgebra from './HeytingAlgebra'
 import * as hkt from './HKT'
 import * as identity from './Identity'
 import * as invariant from './Invariant'
+import * as iterable from './Iterable'
 import * as syncOption from './SyncOption'
 import * as joinSemilattice from './JoinSemilattice'
 import * as json from './Json'
@@ -364,6 +365,11 @@ export {
    * @since 3.0.0
    */
   invariant,
+  /**
+   * @category data types
+   * @since 3.0.0
+   */
+  iterable,
   /**
    * @category type classes
    * @since 3.0.0

@@ -26,7 +26,8 @@ import type { Flattenable } from './Flattenable'
 import type { Result, Failure, Success, ValidatedT } from './Result'
 import type { Eq } from './Eq'
 import * as eq from './Eq'
-import * as foldable from './Foldable'
+import * as iterable from './Iterable'
+import type * as foldable from './Foldable'
 import * as fromResult_ from './FromResult'
 import type * as fromThese_ from './FromThese'
 import { flow, SK } from './Function'
@@ -494,9 +495,9 @@ export const FromThese: fromThese_.FromThese<TheseTypeLambda> = {
  * @since 3.0.0
  */
 export const toIterable: <E, A>(self: These<E, A>) => Iterable<A> = match(
-  () => foldable.empty,
-  foldable.succeed,
-  (_, a) => foldable.succeed(a)
+  () => iterable.empty,
+  iterable.succeed,
+  (_, a) => iterable.succeed(a)
 )
 
 /**

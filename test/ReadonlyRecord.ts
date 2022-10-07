@@ -9,7 +9,7 @@ import * as _ from '../src/ReadonlyRecord'
 import * as S from '../src/string'
 import * as T from '../src/Async'
 import * as U from './util'
-import * as foldable from '../src/Foldable'
+import * as iterable from '../src/Iterable'
 
 const p = (n: number) => n > 2
 
@@ -26,18 +26,18 @@ describe('ReadonlyRecord', () => {
       const F = _.getFoldable(S.Ord)
 
       it('reduce', () => {
-        const f = foldable.reduce('', (b, a) => b + a)
+        const f = iterable.reduce('', (b, a) => b + a)
         U.deepStrictEqual(pipe({ k1: 'a', k2: 'b' }, F.toIterable, f), 'ab')
         U.deepStrictEqual(pipe({ k2: 'b', k1: 'a' }, F.toIterable, f), 'ab')
       })
 
       it('foldMap', () => {
-        const f = foldable.foldMap(S.Monoid)
+        const f = iterable.foldMap(S.Monoid)
         U.deepStrictEqual(pipe({ a: 'a', b: 'b' }, F.toIterable, f(identity)), 'ab')
       })
 
       it('reduceRight', () => {
-        const f = foldable.reduceRight('', (a: string, acc: string) => acc + a)
+        const f = iterable.reduceRight('', (a: string, acc: string) => acc + a)
         U.deepStrictEqual(pipe({ a: 'a', b: 'b' }, F.toIterable, f), 'ba')
       })
     })

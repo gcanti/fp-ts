@@ -15,7 +15,7 @@ import * as Sh from '../src/Show'
 import * as S from '../src/string'
 import * as T from '../src/Async'
 import * as U from './util'
-import * as foldable from '../src/Foldable'
+import * as iterable from '../src/Iterable'
 
 interface User {
   readonly id: string
@@ -750,7 +750,7 @@ describe('ReadonlyMap', () => {
             [{ id: 'k2' }, 'b']
           ]),
           F.toIterable,
-          foldable.reduce('', (b, a) => b + a)
+          iterable.reduce('', (b, a) => b + a)
         ),
         'ab'
       )
@@ -762,7 +762,7 @@ describe('ReadonlyMap', () => {
             [{ id: 'k1' }, 'a']
           ]),
           F.toIterable,
-          foldable.reduce('', (b, a) => b + a)
+          iterable.reduce('', (b, a) => b + a)
         ),
         'ab'
       )
@@ -776,7 +776,7 @@ describe('ReadonlyMap', () => {
             [{ id: 'a' }, 'b']
           ]),
           F.toIterable,
-          foldable.foldMap(S.Monoid)(identity)
+          iterable.foldMap(S.Monoid)(identity)
         ),
         'ab'
       )
@@ -790,7 +790,7 @@ describe('ReadonlyMap', () => {
             [{ id: 'b' }, 'b']
           ]),
           F.toIterable,
-          foldable.reduceRight('', (a, acc) => acc + a)
+          iterable.reduceRight('', (a, acc) => acc + a)
         ),
         'ba'
       )

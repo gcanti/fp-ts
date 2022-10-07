@@ -14,7 +14,7 @@
  *
  * @since 3.0.0
  */
-import * as foldable from './Foldable'
+import * as iterable from './Iterable'
 import type { Kind, TypeClass, TypeLambda } from './HKT'
 
 /**
@@ -38,4 +38,4 @@ export const firstSuccessOf =
   <S, R, O, E, A>(
     startWith: Kind<G, S, R, O, E, A>
   ): ((iterable: Iterable<Kind<G, S, R, O, E, A>>) => Kind<G, S, R, O, E, A>) =>
-    foldable.reduce(startWith, (acc, ga) => Alt.orElse(ga)(acc))
+    iterable.reduce(startWith, (acc, ga) => Alt.orElse(ga)(acc))

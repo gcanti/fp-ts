@@ -8,7 +8,8 @@ import type { Endomorphism } from './Endomorphism'
 import * as eq from './Eq'
 import * as filterable from './Filterable'
 import * as filterableWithIndex from './FilterableWithIndex'
-import * as foldable from './Foldable'
+import * as interable from './Iterable'
+import type * as foldable from './Foldable'
 import type { FoldableWithIndex } from './FoldableWithIndex'
 import { flow, identity, pipe } from './Function'
 import * as functor from './Functor'
@@ -69,7 +70,7 @@ export const singleton = <K, A>(k: K, a: A): ReadonlyMap<K, A> => new Map([[k, a
 export const fromIterable = <K, B>(E: Eq<K>, M: Magma<B>) => {
   const lookupWithKey_ = lookupWithKey(E)
   return <A>(f: (a: A) => readonly [K, B]): ((self: Iterable<A>) => ReadonlyMap<K, B>) =>
-    foldable.reduce<Map<K, B>, A>(new Map<K, B>(), (out, a) => {
+    interable.reduce<Map<K, B>, A>(new Map<K, B>(), (out, a) => {
       const [k, b] = f(a)
       const oka = lookupWithKey_(k)(out)
       if (_.isSome(oka)) {

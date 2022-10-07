@@ -7,7 +7,7 @@ import { getMonoid } from '../src/ReadonlyArray'
 import * as _ from '../src/ReadonlySet'
 import * as S from '../src/string'
 import { deepStrictEqual } from './util'
-import * as foldable from '../src/Foldable'
+import * as iterable from '../src/Iterable'
 
 const gte2 = (n: number) => n >= 2
 
@@ -119,19 +119,19 @@ describe('ReadonlySet', () => {
   })
 
   it('reduce', () => {
-    const f = foldable.reduce('', (b, a: number) => b + a)
+    const f = iterable.reduce('', (b, a: number) => b + a)
     deepStrictEqual(pipe(new Set([1, 2, 3]), _.toIterable(N.Ord), f), '123')
     deepStrictEqual(pipe(new Set([3, 2, 1]), _.toIterable(N.Ord), f), '123')
   })
 
   it('foldMap', () => {
-    const f = foldable.foldMap(getMonoid<number>())((a: number) => [a])
+    const f = iterable.foldMap(getMonoid<number>())((a: number) => [a])
     deepStrictEqual(pipe(new Set([1, 2, 3]), _.toIterable(N.Ord), f), [1, 2, 3])
     deepStrictEqual(pipe(new Set([3, 2, 1]), _.toIterable(N.Ord), f), [1, 2, 3])
   })
 
   it('reduceRight', () => {
-    const f = foldable.reduceRight('', (a: number, b) => b + a)
+    const f = iterable.reduceRight('', (a: number, b) => b + a)
 
     deepStrictEqual(pipe(new Set([1, 2, 3]), _.toIterable(N.Ord), f), '321')
     deepStrictEqual(pipe(new Set([3, 2, 1]), _.toIterable(N.Ord), f), '321')

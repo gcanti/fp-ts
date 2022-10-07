@@ -16,7 +16,8 @@ import type * as comonad from './Comonad'
 import type { Result } from './Result'
 import type { Eq } from './Eq'
 import type * as extendable from './Extendable'
-import * as foldable from './Foldable'
+import * as iterable from './Iterable'
+import type * as foldable from './Foldable'
 import { flow, identity } from './Function'
 import * as functor from './Functor'
 import type { TypeLambda, Kind } from './HKT'
@@ -283,7 +284,7 @@ export const Comonad: comonad.Comonad<IdentityTypeLambda> = {
  * @category conversions
  * @since 3.0.0
  */
-export const toIterable: <A>(self: Identity<A>) => Iterable<A> = foldable.succeed
+export const toIterable: <A>(self: Identity<A>) => Iterable<A> = iterable.succeed
 
 /**
  * @category instances
