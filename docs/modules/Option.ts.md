@@ -30,6 +30,8 @@ Added in v3.0.0
   - [some](#some)
   - [succeed](#succeed)
 - [conversions](#conversions)
+  - [fromEntries](#fromentries)
+  - [fromIterable](#fromiterable)
   - [fromNullable](#fromnullable)
   - [fromResult](#fromresult)
   - [toIterable](#toiterable)
@@ -220,6 +222,26 @@ export declare const succeed: <A>(a: A) => Option<A>
 Added in v3.0.0
 
 # conversions
+
+## fromEntries
+
+**Signature**
+
+```ts
+export declare const fromEntries: <I, A>(iterable: Iterable<readonly [I, A]>) => Option<A>
+```
+
+Added in v3.0.0
+
+## fromIterable
+
+**Signature**
+
+```ts
+export declare const fromIterable: <A>(iterable: Iterable<A>) => Option<A>
+```
+
+Added in v3.0.0
 
 ## fromNullable
 

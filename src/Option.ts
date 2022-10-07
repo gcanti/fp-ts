@@ -143,6 +143,17 @@ export const fromIterable = <A>(iterable: Iterable<A>): Option<A> => {
 }
 
 /**
+ * @category conversions
+ * @since 3.0.0
+ */
+export const fromEntries = <I, A>(iterable: Iterable<readonly [I, A]>): Option<A> => {
+  for (const [_, a] of iterable) {
+    return some(a)
+  }
+  return none
+}
+
+/**
  * Returns the `Failure` value of a `Result` if possible.
  *
  * @example

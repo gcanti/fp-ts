@@ -457,20 +457,20 @@ export const Monad: monad.Monad<TreeTypeLambda> = {
   flatMap
 }
 
-// /**
-//  * @category conversions
-//  * @since 3.0.0
-//  */
-// export const toIterable = <A>(self: Tree<A>): Iterable<A> => {
-//   return {
-//     *[Symbol.iterator](): Iterator<A> {
-//       yield self.value
-//       for (const t of self.forest) {
-//         yield* toIterable(t)
-//       }
-//     }
-//   }
-// }
+/**
+ * @category conversions
+ * @since 3.0.0
+ */
+export const toIterable = <A>(self: Tree<A>): Iterable<A> => {
+  return {
+    *[Symbol.iterator](): Iterator<A> {
+      yield self.value
+      for (const t of self.forest) {
+        yield* toIterable(t)
+      }
+    }
+  }
+}
 
 /**
  * @category instances

@@ -441,6 +441,7 @@ Added in v3.0.0
 export interface Tree<A> {
   readonly value: A
   readonly forest: Forest<A>
+  [Symbol.iterator](): Iterator<A>
 }
 ```
 

@@ -17,6 +17,19 @@ describe('Option', () => {
     U.deepStrictEqual(_.fromIterable(tree.make('a')), _.some('a'))
   })
 
+  it('fromEntries', () => {
+    U.deepStrictEqual(_.fromEntries(new Map()), _.none)
+    U.deepStrictEqual(
+      _.fromEntries(
+        new Map([
+          ['a', 1],
+          ['b', 2]
+        ])
+      ),
+      _.some(1)
+    )
+  })
+
   it('idKleisli', () => {
     U.deepStrictEqual(_.idKleisli<number>()(1), _.some(1))
   })
