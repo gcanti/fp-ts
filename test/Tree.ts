@@ -8,9 +8,10 @@ import * as N from '../src/number'
 import * as T from '../src/Async'
 
 describe('Tree', () => {
-  // -------------------------------------------------------------------------------------
-  // type class members
-  // -------------------------------------------------------------------------------------
+  it('Symbol.iterator', () => {
+    U.deepStrictEqual(Array.from(_.make('a')), ['a'])
+    U.deepStrictEqual(Array.from(_.make('a', [_.make('b'), _.make('c')])), ['a', 'b', 'c'])
+  })
 
   it('traverse', () => {
     const fa = _.make('a', [_.make('b'), _.make('c')])

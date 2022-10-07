@@ -6,10 +6,17 @@ import * as RA from '../src/ReadonlyArray'
 import * as S from '../src/string'
 import * as T from '../src/Async'
 import * as U from './util'
+import * as tree from '../src/Tree'
 
 const p = (n: number): boolean => n > 2
 
 describe('Option', () => {
+  it('fromIterable', () => {
+    U.deepStrictEqual(_.fromIterable([]), _.none)
+    U.deepStrictEqual(_.fromIterable(['a']), _.some('a'))
+    U.deepStrictEqual(_.fromIterable(tree.make('a')), _.some('a'))
+  })
+
   it('idKleisli', () => {
     U.deepStrictEqual(_.idKleisli<number>()(1), _.some(1))
   })

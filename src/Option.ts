@@ -132,6 +132,17 @@ export const none: Option<never> = _.none
 export const some: <A>(a: A) => Option<A> = _.some
 
 /**
+ * @category conversions
+ * @since 3.0.0
+ */
+export const fromIterable = <A>(iterable: Iterable<A>): Option<A> => {
+  for (const a of iterable) {
+    return some(a)
+  }
+  return none
+}
+
+/**
  * Returns the `Failure` value of a `Result` if possible.
  *
  * @example

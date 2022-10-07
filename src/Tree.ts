@@ -48,6 +48,7 @@ export type NonEmptyForest<A> = NonEmptyReadonlyArray<Tree<A>>
 export interface Tree<A> {
   readonly value: A
   readonly forest: Forest<A>
+  [Symbol.iterator](): Iterator<A>
 }
 
 // -------------------------------------------------------------------------------------
@@ -62,14 +63,25 @@ export interface TreeTypeLambda extends TypeLambda {
   readonly type: Tree<this['Out1']>
 }
 
+const proto = {
+  [Symbol.iterator]: function* <A>(this: Tree<A>): Iterator<A> {
+    yield this.value
+    for (const t of this.forest) {
+      yield* t
+    }
+  }
+}
+
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const make = <A>(value: A, forest: Forest<A> = _.emptyReadonlyArray): Tree<A> => ({
-  value,
-  forest
-})
+export const make = <A>(value: A, forest: Forest<A> = _.emptyReadonlyArray): Tree<A> => {
+  const out = Object.create(proto)
+  out.value = value
+  out.forest = forest
+  return out
+}
 
 /**
  * Build a (possibly infinite) tree from a seed value in breadth-first order.
@@ -81,10 +93,7 @@ export const unfoldTree =
   <B, A>(f: (b: B) => readonly [A, ReadonlyArray<B>]) =>
   (b: B): Tree<A> => {
     const [a, bs] = f(b)
-    return {
-      value: a,
-      forest: pipe(bs, unfoldForest(f))
-    }
+    return make(a, pipe(bs, unfoldForest(f)))
   }
 
 /**
@@ -200,10 +209,8 @@ export const fold = <A, B>(f: (a: A, bs: ReadonlyArray<B>) => B): ((tree: Tree<A
  * @category mapping
  * @since 3.0.0
  */
-export const map: <A, B>(f: (a: A) => B) => (fa: Tree<A>) => Tree<B> = (f) => (fa) => ({
-  value: f(fa.value),
-  forest: fa.forest.map(map(f))
-})
+export const map: <A, B>(f: (a: A) => B) => (fa: Tree<A>) => Tree<B> = (f) => (fa) =>
+  make(f(fa.value), fa.forest.map(map(f)))
 
 /**
  * @category constructors
@@ -228,10 +235,7 @@ export const flatMap: <A, B>(f: (a: A) => Tree<B>) => (self: Tree<A>) => Tree<B>
   (self: Tree<A>) => {
     const { value, forest } = f(self.value)
     const combine = readonlyArray.getMonoid<Tree<B>>().combine
-    return {
-      value,
-      forest: combine(self.forest.map(flatMap(f)))(forest)
-    }
+    return make(value, combine(self.forest.map(flatMap(f)))(forest))
   }
 
 /**
@@ -298,10 +302,8 @@ export const ap: <A>(fa: Tree<A>) => <B>(self: Tree<(a: A) => B>) => Tree<B> = /
 /**
  * @since 3.0.0
  */
-export const extend: <A, B>(f: (wa: Tree<A>) => B) => (wa: Tree<A>) => Tree<B> = (f) => (wa) => ({
-  value: f(wa),
-  forest: wa.forest.map(extend(f))
-})
+export const extend: <A, B>(f: (wa: Tree<A>) => B) => (wa: Tree<A>) => Tree<B> = (f) => (wa) =>
+  make(f(wa), wa.forest.map(extend(f)))
 
 /**
  * @since 3.0.0
@@ -338,17 +340,11 @@ export const traverse: <F extends TypeLambda>(
       if (_.isNonEmpty(ta.forest)) {
         return pipe(
           f(ta.value),
-          F.map((value: B) => (forest: Forest<B>) => ({
-            value,
-            forest
-          })),
+          F.map((value: B) => (forest: Forest<B>) => make(value, forest)),
           F.ap(pipe(ta.forest, traverseF(out(f))))
         )
       }
-      return pipe(
-        fb,
-        F.map((b) => make(b))
-      )
+      return pipe(fb, F.map(make))
     }
   return out
 }
@@ -461,27 +457,27 @@ export const Monad: monad.Monad<TreeTypeLambda> = {
   flatMap
 }
 
-/**
- * @category conversions
- * @since 3.0.0
- */
-export const toIterable = <A>(self: Tree<A>): Iterable<A> => {
-  return {
-    *[Symbol.iterator](): Iterator<A> {
-      yield self.value
-      for (const t of self.forest) {
-        yield* toIterable(t)
-      }
-    }
-  }
-}
+// /**
+//  * @category conversions
+//  * @since 3.0.0
+//  */
+// export const toIterable = <A>(self: Tree<A>): Iterable<A> => {
+//   return {
+//     *[Symbol.iterator](): Iterator<A> {
+//       yield self.value
+//       for (const t of self.forest) {
+//         yield* toIterable(t)
+//       }
+//     }
+//   }
+// }
 
 /**
  * @category instances
  * @since 3.0.0
  */
 export const Foldable: foldable.Foldable<TreeTypeLambda> = {
-  toIterable
+  toIterable: identity
 }
 
 /**
