@@ -27,6 +27,7 @@ Added in v2.0.0
   - [ap](#ap)
   - [bimap](#bimap)
   - [chain](#chain)
+  - [chainF](#chainf)
   - [chainNullableK](#chainnullablek)
   - [fromNullable](#fromnullable)
   - [fromNullableK](#fromnullablek)
@@ -328,6 +329,56 @@ export declare function chain<M>(
 ```
 
 Added in v2.10.0
+
+## chainF
+
+Chain a function returning the outer effect.
+
+**Signature**
+
+```ts
+export declare function chainF<M extends URIS3>(
+  M: Monad3<M>
+): <A, R, ME, E, B>(
+  f: (a: A) => Kind3<M, R, ME, B>
+) => (ma: Kind3<M, R, ME, Either<E, A>>) => Kind3<M, R, ME, Either<E, B>>
+export declare function chainF<M extends URIS3, ME>(
+  M: Monad3C<M, ME>
+): <A, R, E, B>(f: (a: A) => Kind3<M, R, ME, B>) => (ma: Kind3<M, R, ME, Either<E, A>>) => Kind3<M, R, ME, Either<E, B>>
+export declare function chainF<M extends URIS2>(
+  M: Monad2<M>
+): <A, ME, E, B>(f: (a: A) => Kind2<M, ME, B>) => (ma: Kind2<M, ME, Either<E, A>>) => Kind2<M, ME, Either<E, B>>
+export declare function chainF<M extends URIS2, ME>(
+  M: Monad2C<M, ME>
+): <A, E, B>(f: (a: A) => Kind2<M, ME, B>) => (ma: Kind2<M, ME, Either<E, A>>) => Kind2<M, ME, Either<E, B>>
+export declare function chainF<M extends URIS>(
+  M: Monad1<M>
+): <A, E, B>(f: (a: A) => Kind<M, B>) => (ma: Kind<M, Either<E, A>>) => Kind<M, Either<E, B>>
+export declare function chainF<M>(
+  M: Monad<M>
+): <A, E, B>(f: (a: A) => HKT<M, B>) => (ma: HKT<M, Either<E, A>>) => HKT<M, Either<E, B>>
+```
+
+**Example**
+
+```ts
+import * as OT from 'fp-ts/OptionT'
+import * as O from 'fp-ts/Option'
+import * as T from 'fp-ts/Task'
+import { pipe } from 'fp-ts/function'
+
+const computationResult = T.of(O.some(1))
+const addEffectfuly = (value: number) => T.of(value + 1)
+
+async function test() {
+  const result = pipe(computationResult, OT.chainF(T.Monad)(addEffectfuly))
+  assert.deepStrictEqual(await result(), O.some(2))
+}
+
+test()
+```
+
+Added in v2.13.0
 
 ## chainNullableK
 

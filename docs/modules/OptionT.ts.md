@@ -270,17 +270,17 @@ export declare function chainF<M>(
 **Example**
 
 ```ts
-import * as OT from 'fp-ts/OptionT'
-import * as O from 'fp-ts/Option'
+import * as ET from 'fp-ts/EitherT'
+import * as E from 'fp-ts/Either'
 import * as T from 'fp-ts/Task'
 import { pipe } from 'fp-ts/function'
 
-const computationResult = T.of(O.some(1))
+const computationResult = T.of(E.of(1))
 const addEffectfuly = (value: number) => T.of(value + 1)
 
 async function test() {
-  const result = pipe(computationResult, OT.chainF(T.Monad)(addEffectfuly))
-  assert.deepStrictEqual(await result(), O.some(2))
+  const result = pipe(computationResult, ET.chainF(T.Monad)(addEffectfuly))
+  assert.deepStrictEqual(await result(), E.of(2))
 }
 
 test()
