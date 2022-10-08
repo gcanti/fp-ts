@@ -1,0 +1,7 @@
+{
+  "plugins": [
+    ["@fp-ts/babel-plugin"],
+    ["@babel/transform-modules-commonjs"],
+    ["annotate-pure-calls"]
+  ]
+}

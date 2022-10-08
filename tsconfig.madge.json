@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "noEmit": true,
+    "allowJs": true,
+    "baseUrl": ".",
+    "paths": {
+      "@fp-ts/core": ["./packages/core/build/esm/index.js"],
+      "@fp-ts/core/*": ["./packages/core/build/esm/*"]
+    }
+  },
+  "include": ["./packages/core/build/esm/**/*.js"]
+}

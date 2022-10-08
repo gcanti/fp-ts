@@ -1,0 +1,10 @@
+{
+  "name": "@fp-ts/babel-plugin",
+  "version": "0.0.0",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./plugin.mjs"
+    }
+  }
+}

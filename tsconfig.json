@@ -1,20 +1,8 @@
 {
-  "compilerOptions": {
-    "target": "es2015",
-    "noEmit": true,
-    "moduleResolution": "node",
-    "esModuleInterop": true,
-    "sourceMap": false,
-    "declaration": false,
-    "strict": true,
-    "noImplicitReturns": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
-    "forceConsistentCasingInFileNames": true,
-    "stripInternal": true,
-    "noUncheckedIndexedAccess": false
-  },
-  "include": ["./src", "./test", "./scripts", "./perf", "./dtslint", "./dev"],
-  "exclude": ["./node_modules"]
+  "extends": "./tsconfig.base.json",
+  "references": [
+    {
+      "path": "packages/core"
+    }
+  ]
 }

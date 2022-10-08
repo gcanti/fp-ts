@@ -1,0 +1,7 @@
+{
+  "plugins": [
+    ["@fp-ts/babel-plugin"],
+    ["replace-import-extension", { "extMapping": { ".js": ".mjs" } }],
+    ["annotate-pure-calls"]
+  ]
+}

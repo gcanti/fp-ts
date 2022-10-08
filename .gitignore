@@ -1,7 +1,9 @@
-*.log
-node_modules
-/dist
-dev
-.idea
-coverage
-docs/examples
+coverage/
+*.tsbuildinfo
+node_modules/
+yarn-error.log
+.ultra.cache.json
+.DS_Store
+tmp/
+build/
+dist/

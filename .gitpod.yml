@@ -1,0 +1,8 @@
+tasks:
+  - init: yarn && yarn build
+github:
+  prebuilds:
+    addCheck: true
+vscode:
+  extensions:
+    - dbaeumer.vscode-eslint
