@@ -513,22 +513,29 @@ export const Foldable: foldable.Foldable<TheseTypeLambda> = {
  * @category folding
  * @since 3.0.0
  */
-export const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => <E>(self: These<E, A>) => B =
-  /*#__PURE__*/ foldable.reduce(Foldable)
+export const reduce =
+  <B, A>(b: B, f: (b: B, a: A) => B) =>
+  <E>(self: These<E, A>): B =>
+    isFailure(self) ? b : f(b, self.success)
 
 /**
  * @category folding
  * @since 3.0.0
  */
-export const foldMap: <M>(Monoid: Monoid<M>) => <A>(f: (a: A) => M) => <E>(self: These<E, A>) => M =
-  /*#__PURE__*/ foldable.foldMap(Foldable)
+export const foldMap =
+  <M>(Monoid: Monoid<M>) =>
+  <A>(f: (a: A) => M) =>
+  <E>(self: These<E, A>): M =>
+    isFailure(self) ? Monoid.empty : f(self.success)
 
 /**
  * @category folding
  * @since 3.0.0
  */
-export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <E>(self: These<E, A>) => B =
-  /*#__PURE__*/ foldable.reduceRight(Foldable)
+export const reduceRight =
+  <B, A>(b: B, f: (a: A, b: B) => B) =>
+  <E>(self: These<E, A>): B =>
+    isFailure(self) ? b : f(self.success, b)
 
 /**
  * @category instances
