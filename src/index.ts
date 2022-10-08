@@ -82,9 +82,6 @@ import * as readerResult from './ReaderResult'
 import * as readerSync from './ReaderSync'
 import * as readerT from './ReaderT'
 import * as readonlyArray from './ReadonlyArray'
-import * as readonlyMap from './ReadonlyMap'
-import * as readonlyRecord from './ReadonlyRecord'
-import * as readonlySet from './ReadonlySet'
 import * as refinement from './Refinement'
 import * as result from './Result'
 import * as resultT from './ResultT'
@@ -495,21 +492,6 @@ export {
    * @since 3.0.0
    */
   readonlyArray,
-  /**
-   * @category data types
-   * @since 3.0.0
-   */
-  readonlyMap,
-  /**
-   * @category data types
-   * @since 3.0.0
-   */
-  readonlyRecord,
-  /**
-   * @category data types
-   * @since 3.0.0
-   */
-  readonlySet,
   /**
    * @category data types
    * @since 3.0.0

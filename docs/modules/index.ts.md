@@ -31,9 +31,6 @@ Added in v3.0.0
   - [readerResult](#readerresult)
   - [readerSync](#readersync)
   - [readonlyArray](#readonlyarray)
-  - [readonlyMap](#readonlymap)
-  - [readonlyRecord](#readonlyrecord)
-  - [readonlySet](#readonlyset)
   - [refinement](#refinement)
   - [result](#result)
   - [state](#state)
@@ -307,36 +304,6 @@ Added in v3.0.0
 
 ```ts
 export declare const readonlyArray: typeof readonlyArray
-```
-
-Added in v3.0.0
-
-## readonlyMap
-
-**Signature**
-
-```ts
-export declare const readonlyMap: typeof readonlyMap
-```
-
-Added in v3.0.0
-
-## readonlyRecord
-
-**Signature**
-
-```ts
-export declare const readonlyRecord: typeof readonlyRecord
-```
-
-Added in v3.0.0
-
-## readonlySet
-
-**Signature**
-
-```ts
-export declare const readonlySet: typeof readonlySet
 ```
 
 Added in v3.0.0

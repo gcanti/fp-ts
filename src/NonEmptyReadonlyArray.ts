@@ -32,7 +32,6 @@ import type * as monad from './Monad'
 import type { Option } from './Option'
 import * as ord from './Ord'
 import * as fromIdentity from './FromIdentity'
-import type { ReadonlyRecord } from './ReadonlyRecord'
 import * as semigroup from './Semigroup'
 import type { Show } from './Show'
 import type * as traversable from './Traversable'
@@ -468,7 +467,7 @@ export const group =
  */
 export const groupBy =
   <A>(f: (a: A) => string) =>
-  (as: ReadonlyArray<A>): ReadonlyRecord<string, NonEmptyReadonlyArray<A>> => {
+  (as: ReadonlyArray<A>): Readonly<Record<string, NonEmptyReadonlyArray<A>>> => {
     const out: Record<string, _.NonEmptyArray<A>> = {}
     for (const a of as) {
       const k = f(a)

@@ -43,7 +43,6 @@ Added in v3.0.0
   - [max](#max)
   - [min](#min)
   - [reverse](#reverse)
-  - [trivial](#trivial)
   - [tuple](#tuple)
 
 ---
@@ -449,16 +448,6 @@ import { pipe } from 'fp-ts/Function'
 
 assert.deepStrictEqual(pipe(5, N.Ord.compare(6)), -1)
 assert.deepStrictEqual(pipe(5, reverse(N.Ord).compare(6)), 1)
-```
-
-Added in v3.0.0
-
-## trivial
-
-**Signature**
-
-```ts
-export declare const trivial: Ord<unknown>
 ```
 
 Added in v3.0.0

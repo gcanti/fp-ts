@@ -1,6 +1,6 @@
 ---
 title: Tree.ts
-nav_order: 107
+nav_order: 104
 parent: Modules
 ---
 
