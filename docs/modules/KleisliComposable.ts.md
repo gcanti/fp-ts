@@ -1,6 +1,6 @@
 ---
 title: KleisliComposable.ts
-nav_order: 59
+nav_order: 48
 parent: Modules
 ---
 

@@ -1,6 +1,6 @@
 ---
 title: KleisliCategory.ts
-nav_order: 58
+nav_order: 47
 parent: Modules
 ---
 

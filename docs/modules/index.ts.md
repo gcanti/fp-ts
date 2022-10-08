@@ -1,6 +1,6 @@
 ---
 title: index.ts
-nav_order: 52
+nav_order: 42
 parent: Modules
 ---
 
@@ -18,7 +18,6 @@ Added in v3.0.0
   - [asyncResult](#asyncresult)
   - [asyncThese](#asyncthese)
   - [const](#const)
-  - [date](#date)
   - [endomorphism](#endomorphism)
   - [identity](#identity)
   - [iterable](#iterable)
@@ -35,13 +34,10 @@ Added in v3.0.0
   - [result](#result)
   - [state](#state)
   - [stateReaderAsyncResult](#statereaderasyncresult)
-  - [store](#store)
   - [sync](#sync)
   - [syncOption](#syncoption)
   - [syncResult](#syncresult)
   - [these](#these)
-  - [traced](#traced)
-  - [tree](#tree)
   - [writer](#writer)
 - [monad transformers](#monad-transformers)
   - [optionT](#optiont)
@@ -56,21 +52,14 @@ Added in v3.0.0
   - [applicative](#applicative)
   - [apply](#apply)
   - [bifunctor](#bifunctor)
-  - [booleanAlgebra](#booleanalgebra)
   - [bounded](#bounded)
-  - [boundedDistributiveLattice](#boundeddistributivelattice)
-  - [boundedJoinSemilattice](#boundedjoinsemilattice)
-  - [boundedLattice](#boundedlattice)
-  - [boundedMeetSemilattice](#boundedmeetsemilattice)
   - [category](#category)
   - [comonad](#comonad)
   - [compactable](#compactable)
   - [composable](#composable)
   - [contravariant](#contravariant)
-  - [distributiveLattice](#distributivelattice)
   - [eq](#eq)
   - [extendable](#extendable)
-  - [field](#field)
   - [filterable](#filterable)
   - [filterableWithIndex](#filterablewithindex)
   - [flattenable](#flattenable)
@@ -88,22 +77,14 @@ Added in v3.0.0
   - [fromWriter](#fromwriter)
   - [functor](#functor)
   - [functorWithIndex](#functorwithindex)
-  - [group](#group)
-  - [heytingAlgebra](#heytingalgebra)
   - [invariant](#invariant)
-  - [joinSemilattice](#joinsemilattice)
   - [kleisliCategory](#kleislicategory)
   - [kleisliComposable](#kleislicomposable)
-  - [lattice](#lattice)
   - [magma](#magma)
-  - [meetSemilattice](#meetsemilattice)
   - [monad](#monad)
   - [monoid](#monoid)
   - [ord](#ord)
-  - [profunctor](#profunctor)
-  - [ring](#ring)
   - [semigroup](#semigroup)
-  - [semiring](#semiring)
   - [show](#show)
   - [traversable](#traversable)
   - [traversableFilterable](#traversablefilterable)
@@ -174,16 +155,6 @@ Added in v3.0.0
 
 ```ts
 export declare const const: typeof const_
-```
-
-Added in v3.0.0
-
-## date
-
-**Signature**
-
-```ts
-export declare const date: typeof date
 ```
 
 Added in v3.0.0
@@ -348,16 +319,6 @@ export declare const stateReaderAsyncResult: typeof stateReaderAsyncResult
 
 Added in v3.0.0
 
-## store
-
-**Signature**
-
-```ts
-export declare const store: typeof store
-```
-
-Added in v3.0.0
-
 ## sync
 
 **Signature**
@@ -394,26 +355,6 @@ Added in v3.0.0
 
 ```ts
 export declare const these: typeof these
-```
-
-Added in v3.0.0
-
-## traced
-
-**Signature**
-
-```ts
-export declare const traced: typeof traced
-```
-
-Added in v3.0.0
-
-## tree
-
-**Signature**
-
-```ts
-export declare const tree: typeof tree
 ```
 
 Added in v3.0.0
@@ -542,62 +483,12 @@ export declare const bifunctor: typeof bifunctor
 
 Added in v3.0.0
 
-## booleanAlgebra
-
-**Signature**
-
-```ts
-export declare const booleanAlgebra: typeof booleanAlgebra
-```
-
-Added in v3.0.0
-
 ## bounded
 
 **Signature**
 
 ```ts
 export declare const bounded: typeof bounded
-```
-
-Added in v3.0.0
-
-## boundedDistributiveLattice
-
-**Signature**
-
-```ts
-export declare const boundedDistributiveLattice: typeof boundedDistributiveLattice
-```
-
-Added in v3.0.0
-
-## boundedJoinSemilattice
-
-**Signature**
-
-```ts
-export declare const boundedJoinSemilattice: typeof boundedJoinSemilattice
-```
-
-Added in v3.0.0
-
-## boundedLattice
-
-**Signature**
-
-```ts
-export declare const boundedLattice: typeof boundedLattice
-```
-
-Added in v3.0.0
-
-## boundedMeetSemilattice
-
-**Signature**
-
-```ts
-export declare const boundedMeetSemilattice: typeof boundedMeetSemilattice
 ```
 
 Added in v3.0.0
@@ -652,16 +543,6 @@ export declare const contravariant: typeof contravariant
 
 Added in v3.0.0
 
-## distributiveLattice
-
-**Signature**
-
-```ts
-export declare const distributiveLattice: typeof distributiveLattice
-```
-
-Added in v3.0.0
-
 ## eq
 
 **Signature**
@@ -678,16 +559,6 @@ Added in v3.0.0
 
 ```ts
 export declare const extendable: typeof extendable
-```
-
-Added in v3.0.0
-
-## field
-
-**Signature**
-
-```ts
-export declare const field: typeof field
 ```
 
 Added in v3.0.0
@@ -862,42 +733,12 @@ export declare const functorWithIndex: typeof functorWithIndex
 
 Added in v3.0.0
 
-## group
-
-**Signature**
-
-```ts
-export declare const group: typeof group
-```
-
-Added in v3.0.0
-
-## heytingAlgebra
-
-**Signature**
-
-```ts
-export declare const heytingAlgebra: typeof heytingAlgebra
-```
-
-Added in v3.0.0
-
 ## invariant
 
 **Signature**
 
 ```ts
 export declare const invariant: typeof invariant
-```
-
-Added in v3.0.0
-
-## joinSemilattice
-
-**Signature**
-
-```ts
-export declare const joinSemilattice: typeof joinSemilattice
 ```
 
 Added in v3.0.0
@@ -922,32 +763,12 @@ export declare const kleisliComposable: typeof kleisliComposable
 
 Added in v3.0.0
 
-## lattice
-
-**Signature**
-
-```ts
-export declare const lattice: typeof lattice
-```
-
-Added in v3.0.0
-
 ## magma
 
 **Signature**
 
 ```ts
 export declare const magma: typeof magma
-```
-
-Added in v3.0.0
-
-## meetSemilattice
-
-**Signature**
-
-```ts
-export declare const meetSemilattice: typeof meetSemilattice
 ```
 
 Added in v3.0.0
@@ -982,42 +803,12 @@ export declare const ord: typeof ord
 
 Added in v3.0.0
 
-## profunctor
-
-**Signature**
-
-```ts
-export declare const profunctor: typeof profunctor
-```
-
-Added in v3.0.0
-
-## ring
-
-**Signature**
-
-```ts
-export declare const ring: typeof ring
-```
-
-Added in v3.0.0
-
 ## semigroup
 
 **Signature**
 
 ```ts
 export declare const semigroup: typeof semigroup
-```
-
-Added in v3.0.0
-
-## semiring
-
-**Signature**
-
-```ts
-export declare const semiring: typeof semiring
 ```
 
 Added in v3.0.0

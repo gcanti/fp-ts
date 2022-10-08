@@ -1,6 +1,6 @@
 ---
 title: FromOption.ts
-nav_order: 38
+nav_order: 30
 parent: Modules
 ---
 

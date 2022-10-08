@@ -1,6 +1,6 @@
 ---
 title: Compactable.ts
-nav_order: 19
+nav_order: 14
 parent: Modules
 ---
 

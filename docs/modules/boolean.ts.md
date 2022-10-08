@@ -13,7 +13,6 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [instances](#instances)
-  - [BooleanAlgebra](#booleanalgebra)
   - [Eq](#eq)
   - [MonoidAll](#monoidall)
   - [MonoidAny](#monoidany)
@@ -29,16 +28,6 @@ Added in v3.0.0
 ---
 
 # instances
-
-## BooleanAlgebra
-
-**Signature**
-
-```ts
-export declare const BooleanAlgebra: booleanAlgebra.BooleanAlgebra<boolean>
-```
-
-Added in v3.0.0
 
 ## Eq
 

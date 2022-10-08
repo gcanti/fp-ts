@@ -1,6 +1,6 @@
 ---
 title: Comonad.ts
-nav_order: 18
+nav_order: 13
 parent: Modules
 ---
 

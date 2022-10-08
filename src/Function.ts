@@ -1,15 +1,12 @@
 /**
  * @since 3.0.0
  */
-import type { BooleanAlgebra } from './BooleanAlgebra'
 import type * as category from './Category'
 import type * as composable from './Composable'
 import type { Endomorphism } from './Endomorphism'
 import type { TypeLambda } from './HKT'
 import type { Monoid } from './Monoid'
-import type { Ring } from './Ring'
 import type { Semigroup } from './Semigroup'
-import type { Semiring } from './Semiring'
 
 // -------------------------------------------------------------------------------------
 // type lambdas
@@ -54,21 +51,6 @@ export const Category: category.Category<FunctionTypeLambda> = {
   compose,
   id
 }
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const getBooleanAlgebra =
-  <B>(BA: BooleanAlgebra<B>) =>
-  <A>(): BooleanAlgebra<(a: A) => B> => ({
-    meet: (that) => (self) => (a) => BA.meet(that(a))(self(a)),
-    join: (that) => (self) => (a) => BA.join(that(a))(self(a)),
-    zero: () => BA.zero,
-    one: () => BA.one,
-    implies: (that) => (self) => (a) => BA.implies(that(a))(self(a)),
-    not: (x) => (a) => BA.not(x(a))
-  })
 
 /**
  * Unary functions form a semigroup as long as you can provide a semigroup for the codomain.
@@ -130,32 +112,6 @@ export const getMonoid = <M>(M: Monoid<M>): (<A>() => Monoid<(a: A) => M>) => {
     combine: getSemigroupM<A>().combine,
     empty: () => M.empty
   })
-}
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const getSemiring = <B, A>(S: Semiring<B>): Semiring<(a: A) => B> => ({
-  add: (that) => (self) => (x) => S.add(that(x))(self(x)),
-  zero: () => S.zero,
-  mul: (that) => (self) => (x) => S.mul(that(x))(self(x)),
-  one: () => S.one
-})
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const getRing = <B, A>(R: Ring<B>): Ring<(a: A) => B> => {
-  const S = getSemiring<B, A>(R)
-  return {
-    add: S.add,
-    mul: S.mul,
-    one: S.one,
-    zero: S.zero,
-    sub: (that) => (self) => (x) => R.sub(that(x))(self(x))
-  }
 }
 
 /**

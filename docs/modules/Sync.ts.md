@@ -1,6 +1,6 @@
 ---
 title: Sync.ts
-nav_order: 95
+nav_order: 78
 parent: Modules
 ---
 

@@ -1,6 +1,6 @@
 ---
 title: Function.ts
-nav_order: 45
+nav_order: 37
 parent: Modules
 ---
 
@@ -17,11 +17,8 @@ Added in v3.0.0
 - [instances](#instances)
   - [Category](#category)
   - [Composable](#composable)
-  - [getBooleanAlgebra](#getbooleanalgebra)
   - [getMonoid](#getmonoid)
-  - [getRing](#getring)
   - [getSemigroup](#getsemigroup)
-  - [getSemiring](#getsemiring)
 - [type lambdas](#type-lambdas)
   - [FunctionTypeLambda (interface)](#functiontypelambda-interface)
 - [utils](#utils)
@@ -84,16 +81,6 @@ export declare const Composable: composable.Composable<FunctionTypeLambda>
 
 Added in v3.0.0
 
-## getBooleanAlgebra
-
-**Signature**
-
-```ts
-export declare const getBooleanAlgebra: <B>(BA: BooleanAlgebra<B>) => <A>() => BooleanAlgebra<(a: A) => B>
-```
-
-Added in v3.0.0
-
 ## getMonoid
 
 Unary functions form a monoid as long as you can provide a monoid for the codomain.
@@ -127,16 +114,6 @@ assert.deepStrictEqual(pipe(f, M2.combine(g))(3), true)
 
 Added in v3.0.0
 
-## getRing
-
-**Signature**
-
-```ts
-export declare const getRing: <B, A>(R: Ring<B>) => Ring<(a: A) => B>
-```
-
-Added in v3.0.0
-
 ## getSemigroup
 
 Unary functions form a semigroup as long as you can provide a semigroup for the codomain.
@@ -166,16 +143,6 @@ const S2 = getSemigroup(B.SemigroupAny)<number>()
 
 assert.deepStrictEqual(pipe(f, S2.combine(g))(1), true)
 assert.deepStrictEqual(pipe(f, S2.combine(g))(3), true)
-```
-
-Added in v3.0.0
-
-## getSemiring
-
-**Signature**
-
-```ts
-export declare const getSemiring: <B, A>(S: Semiring<B>) => Semiring<(a: A) => B>
 ```
 
 Added in v3.0.0

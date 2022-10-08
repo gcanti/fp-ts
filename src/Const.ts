@@ -10,22 +10,18 @@
 import type { Applicative } from './Applicative'
 import type { Apply } from './Apply'
 import type * as bifunctor from './Bifunctor'
-import type { BooleanAlgebra } from './BooleanAlgebra'
 import type { Bounded } from './Bounded'
 import type * as contravariant from './Contravariant'
 import type { Eq } from './Eq'
 import * as eq from './Eq'
 import { constant, unsafeCoerce } from './Function'
 import * as functor from './Functor'
-import type { HeytingAlgebra } from './HeytingAlgebra'
 import type { TypeLambda } from './HKT'
 import type { Monoid } from './Monoid'
 import type { Ord } from './Ord'
 import * as ord from './Ord'
 import type { FromIdentity } from './FromIdentity'
-import type { Ring } from './Ring'
 import type { Semigroup } from './Semigroup'
-import type { Semiring } from './Semiring'
 import type { Show } from './Show'
 
 // TODO Semigroupoid Const
@@ -144,55 +140,6 @@ export const getMonoid = <S>(M: Monoid<S>): Monoid<Const<S, never>> => ({
   combine: getSemigroup(M).combine,
   empty: make(M.empty)
 })
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const getSemiring = <S>(S: Semiring<S>): Semiring<Const<S, never>> => ({
-  add: (that) => (self) => make(S.add(that.value)(self.value)),
-  mul: (that) => (self) => make(S.mul(that.value)(self.value)),
-  one: make(S.one),
-  zero: make(S.zero)
-})
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const getRing = <S>(R: Ring<S>): Ring<Const<S, never>> => {
-  const S = getSemiring(R)
-  return {
-    add: S.add,
-    mul: S.mul,
-    one: S.one,
-    zero: S.zero,
-    sub: (that) => (self) => make(R.sub(that.value)(self.value))
-  }
-}
-
-// TODO Field
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const getHeytingAlgebra = <S>(H: HeytingAlgebra<S>): HeytingAlgebra<Const<S, never>> => {
-  return {
-    implies: (that) => (self) => make(H.implies(that.value)(self.value)),
-    not: (c) => make(H.not(c.value)),
-    join: (that) => (self) => make(H.join(that.value)(self.value)),
-    meet: (that) => (self) => make(H.meet(that.value)(self.value)),
-    one: make(H.one),
-    zero: make(H.zero)
-  }
-}
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const getBooleanAlgebra: <S>(H: BooleanAlgebra<S>) => BooleanAlgebra<Const<S, never>> = getHeytingAlgebra
 
 /**
  * Returns an effect whose success is mapped by the specified `f` function.

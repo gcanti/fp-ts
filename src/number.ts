@@ -3,7 +3,6 @@
  */
 import type * as bounded from './Bounded'
 import * as eq from './Eq'
-import type * as field from './Field'
 import type * as ord from './Ord'
 import type * as show_ from './Show'
 import type { Semigroup } from './Semigroup'
@@ -53,21 +52,6 @@ export const Bounded: bounded.Bounded<number> = {
  * @category instances
  * @since 3.0.0
  */
-export const Field: field.Field<number> = {
-  add: (that) => (self) => self + that,
-  zero: 0,
-  mul: (that) => (self) => self * that,
-  one: 1,
-  sub: (that) => (self) => self - that,
-  degree: () => 1,
-  div: (that) => (self) => self / that,
-  mod: (that) => (self) => self % that
-}
-
-/**
- * @category instances
- * @since 3.0.0
- */
 export const Show: show_.Show<number> = {
   show: (a) => JSON.stringify(a)
 }
@@ -77,7 +61,7 @@ export const Show: show_.Show<number> = {
  * @since 3.0.0
  */
 export const MagmaSub: Magma<number> = {
-  combine: Field.sub
+  combine: (that) => (self) => self - that
 }
 
 /**

@@ -1,6 +1,6 @@
 ---
 title: number.ts
-nav_order: 66
+nav_order: 53
 parent: Modules
 ---
 
@@ -15,7 +15,6 @@ Added in v3.0.0
 - [instances](#instances)
   - [Bounded](#bounded)
   - [Eq](#eq)
-  - [Field](#field)
   - [MagmaSub](#magmasub)
   - [MonoidProduct](#monoidproduct)
   - [MonoidSum](#monoidsum)
@@ -46,16 +45,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Eq: eq.Eq<number>
-```
-
-Added in v3.0.0
-
-## Field
-
-**Signature**
-
-```ts
-export declare const Field: field.Field<number>
 ```
 
 Added in v3.0.0

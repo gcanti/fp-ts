@@ -26,19 +26,6 @@ describe('Reader', () => {
     it('flatMap', () => {
       U.deepStrictEqual(pipe(_.of(_.of('a')), _.flatten)({}), 'a')
     })
-
-    it('promap', () => {
-      const x = (s: string) => s.length
-      const reader = pipe(
-        x,
-        _.promap(
-          (a: { readonly name: string }) => a.name,
-          (n) => n >= 2
-        )
-      )
-      U.deepStrictEqual(reader({ name: 'foo' }), true)
-      U.deepStrictEqual(reader({ name: 'a' }), false)
-    })
   })
 
   it('of', () => {

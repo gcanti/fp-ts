@@ -1,6 +1,6 @@
 ---
 title: Composable.ts
-nav_order: 20
+nav_order: 15
 parent: Modules
 ---
 

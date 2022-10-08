@@ -1,6 +1,6 @@
 ---
 title: FromReader.ts
-nav_order: 39
+nav_order: 31
 parent: Modules
 ---
 

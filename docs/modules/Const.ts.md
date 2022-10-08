@@ -1,6 +1,6 @@
 ---
 title: Const.ts
-nav_order: 22
+nav_order: 17
 parent: Modules
 ---
 
@@ -26,16 +26,12 @@ Added in v3.0.0
   - [Functor](#functor)
   - [getApplicative](#getapplicative)
   - [getApply](#getapply)
-  - [getBooleanAlgebra](#getbooleanalgebra)
   - [getBounded](#getbounded)
   - [getEq](#geteq)
   - [getFromIdentity](#getfromidentity)
-  - [getHeytingAlgebra](#getheytingalgebra)
   - [getMonoid](#getmonoid)
   - [getOrd](#getord)
-  - [getRing](#getring)
   - [getSemigroup](#getsemigroup)
-  - [getSemiring](#getsemiring)
   - [getShow](#getshow)
 - [mapping](#mapping)
   - [contramap](#contramap)
@@ -119,16 +115,6 @@ export declare const getApply: <S>(Semigroup: Semigroup<S>) => Apply<ConstTypeLa
 
 Added in v3.0.0
 
-## getBooleanAlgebra
-
-**Signature**
-
-```ts
-export declare const getBooleanAlgebra: <S>(H: BooleanAlgebra<S>) => BooleanAlgebra<Const<S, never>>
-```
-
-Added in v3.0.0
-
 ## getBounded
 
 **Signature**
@@ -159,16 +145,6 @@ export declare const getFromIdentity: <S>(Monoid: Monoid<S>) => FromIdentity<Con
 
 Added in v3.0.0
 
-## getHeytingAlgebra
-
-**Signature**
-
-```ts
-export declare const getHeytingAlgebra: <S>(H: HeytingAlgebra<S>) => HeytingAlgebra<Const<S, never>>
-```
-
-Added in v3.0.0
-
 ## getMonoid
 
 **Signature**
@@ -189,32 +165,12 @@ export declare const getOrd: <S>(O: Ord<S>) => Ord<Const<S, never>>
 
 Added in v3.0.0
 
-## getRing
-
-**Signature**
-
-```ts
-export declare const getRing: <S>(R: Ring<S>) => Ring<Const<S, never>>
-```
-
-Added in v3.0.0
-
 ## getSemigroup
 
 **Signature**
 
 ```ts
 export declare const getSemigroup: <S>(S: Semigroup<S>) => Semigroup<Const<S, never>>
-```
-
-Added in v3.0.0
-
-## getSemiring
-
-**Signature**
-
-```ts
-export declare const getSemiring: <S>(S: Semiring<S>) => Semiring<Const<S, never>>
 ```
 
 Added in v3.0.0

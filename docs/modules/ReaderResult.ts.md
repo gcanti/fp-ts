@@ -1,6 +1,6 @@
 ---
 title: ReaderResult.ts
-nav_order: 78
+nav_order: 64
 parent: Modules
 ---
 

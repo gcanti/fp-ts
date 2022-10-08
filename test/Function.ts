@@ -2,8 +2,6 @@ import * as assert from 'assert'
 import * as B from '../src/boolean'
 import * as _ from '../src/Function'
 import { combineAll } from '../src/Monoid'
-import * as N from '../src/number'
-import { geq, lt } from '../src/Ord'
 import * as RA from '../src/ReadonlyArray'
 import * as S from '../src/string'
 import * as U from './util'
@@ -118,28 +116,6 @@ describe('Function', () => {
     U.deepStrictEqual((_.pipe as any)(...[2, f, g, f, g, f, g, f, g, f, g, f, g, f, g, f, g, f, g, f, g]), 4094)
   })
 
-  it('getBooleanAlgebra', () => {
-    const BA = _.getBooleanAlgebra(B.BooleanAlgebra)<number>()
-    const f = geq(N.Ord)(0)
-    const g = lt(N.Ord)(2)
-    U.deepStrictEqual(_.pipe(f, BA.implies(g))(1), true)
-    U.deepStrictEqual(_.pipe(f, BA.implies(g))(-1), true)
-
-    U.deepStrictEqual(_.pipe(f, BA.join(g))(1), true)
-    U.deepStrictEqual(_.pipe(f, BA.join(g))(-1), true)
-
-    U.deepStrictEqual(_.pipe(f, BA.meet(g))(1), true)
-    U.deepStrictEqual(_.pipe(f, BA.meet(g))(-1), false)
-
-    U.deepStrictEqual(BA.not(f)(1), false)
-    U.deepStrictEqual(BA.not(f)(-1), true)
-
-    U.deepStrictEqual(BA.one(1), true)
-    U.deepStrictEqual(BA.one(-1), true)
-    U.deepStrictEqual(BA.zero(1), false)
-    U.deepStrictEqual(BA.zero(-1), false)
-  })
-
   it('getMonoid', () => {
     const getPredicateMonoidAll = _.getMonoid(B.MonoidAll)
     const getPredicateMonoidAny = _.getMonoid(B.MonoidAny)
@@ -155,25 +131,5 @@ describe('Function', () => {
       _.pipe([1, 2, 3, 40, 41], RA.filter(combineAll(getPredicateMonoidAny<number>())([isLessThan10, isEven]))),
       [1, 2, 3, 40]
     )
-  })
-
-  it('getSemiring', () => {
-    const S = _.getSemiring<number, string>(N.Field)
-    const f1 = (s: string): number => s.length
-    const f2 = (s: string): number => s.indexOf('a')
-    U.deepStrictEqual(_.pipe(f1, S.add(f2))('foo'), 2)
-    U.deepStrictEqual(_.pipe(f1, S.add(f2))('fooa'), 7)
-    U.deepStrictEqual(S.zero(''), 0)
-    U.deepStrictEqual(S.one(''), 1)
-    U.deepStrictEqual(_.pipe(f1, S.mul(f2))('foo'), -3)
-    U.deepStrictEqual(_.pipe(f1, S.mul(f2))('fooa'), 12)
-  })
-
-  it('getRing', () => {
-    const R = _.getRing<number, string>(N.Field)
-    const f1 = (s: string): number => s.length
-    const f2 = (s: string): number => s.indexOf('a')
-    U.deepStrictEqual(_.pipe(f1, R.sub(f2))('foo'), 4)
-    U.deepStrictEqual(_.pipe(f1, R.sub(f2))('fooa'), 1)
   })
 })

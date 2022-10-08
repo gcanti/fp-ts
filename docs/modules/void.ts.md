@@ -1,6 +1,6 @@
 ---
 title: void.ts
-nav_order: 107
+nav_order: 88
 parent: Modules
 ---
 

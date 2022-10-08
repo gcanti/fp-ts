@@ -3,17 +3,16 @@
  */
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
-import type * as kleisliCategory from './KleisliCategory'
-import type * as kleisliComposable from './KleisliComposable'
 import * as flattenable from './Flattenable'
+import * as fromIdentity from './FromIdentity'
 import type * as fromReader_ from './FromReader'
 import { constant, flow, identity, SK } from './Function'
 import * as functor from './Functor'
 import type { TypeLambda } from './HKT'
 import * as _ from './internal'
+import type * as kleisliCategory from './KleisliCategory'
+import type * as kleisliComposable from './KleisliComposable'
 import type * as monad from './Monad'
-import * as fromIdentity from './FromIdentity'
-import type * as profunctor from './Profunctor'
 import type { NonEmptyReadonlyArray } from './NonEmptyReadonlyArray'
 
 /**
@@ -209,13 +208,6 @@ export const flatten: <R1, R2, A>(mma: Reader<R1, Reader<R2, A>>) => Reader<R1 &
   /*#__PURE__*/ flatMap(identity)
 
 /**
- * @since 3.0.0
- */
-export const promap: <Q, R, A, B>(f: (d: Q) => R, g: (a: A) => B) => (pea: Reader<R, A>) => Reader<Q, B> =
-  (f, g) => (fea) => (a) =>
-    g(fea(f(a)))
-
-/**
  * @category instances
  * @since 3.0.0
  */
@@ -271,15 +263,6 @@ export const Monad: monad.Monad<ReaderTypeLambda> = {
   map,
   of,
   flatMap
-}
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const Profunctor: profunctor.Profunctor<ReaderTypeLambda> = {
-  map,
-  promap
 }
 
 // -------------------------------------------------------------------------------------

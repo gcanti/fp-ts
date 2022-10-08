@@ -5,7 +5,6 @@ import type { LazyArg } from './Function'
 import type { Monoid } from './Monoid'
 import type { Semigroup } from './Semigroup'
 import * as eq from './Eq'
-import type * as booleanAlgebra from './BooleanAlgebra'
 import type * as ord from './Ord'
 import type * as show_ from './Show'
 import type { Refinement } from './Refinement'
@@ -59,19 +58,6 @@ export const match =
  * @since 3.0.0
  */
 export const Eq: eq.Eq<boolean> = eq.EqStrict
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const BooleanAlgebra: booleanAlgebra.BooleanAlgebra<boolean> = {
-  meet: (that) => (self) => self && that,
-  join: (that) => (self) => self || that,
-  zero: false,
-  one: true,
-  implies: (that) => (self) => !self || that,
-  not: (x) => !x
-}
 
 /**
  * `boolean` semigroup under conjunction.

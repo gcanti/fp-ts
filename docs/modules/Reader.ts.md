@@ -1,6 +1,6 @@
 ---
 title: Reader.ts
-nav_order: 74
+nav_order: 60
 parent: Modules
 ---
 
@@ -33,7 +33,6 @@ Added in v3.0.0
   - [Functor](#functor)
   - [KleisliComposable](#kleislicomposable)
   - [Monad](#monad)
-  - [Profunctor](#profunctor)
 - [lifting](#lifting)
   - [lift2](#lift2)
   - [lift3](#lift3)
@@ -67,7 +66,6 @@ Added in v3.0.0
   - [flatten](#flatten)
   - [idKleisli](#idkleisli)
   - [local](#local)
-  - [promap](#promap)
 
 ---
 
@@ -270,16 +268,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Monad: monad.Monad<ReaderTypeLambda>
-```
-
-Added in v3.0.0
-
-## Profunctor
-
-**Signature**
-
-```ts
-export declare const Profunctor: profunctor.Profunctor<ReaderTypeLambda>
 ```
 
 Added in v3.0.0
@@ -601,16 +589,6 @@ Changes the value of the local context during the execution of the action `ma` (
 
 ```ts
 export declare const local: <R2, R1>(f: (r2: R2) => R1) => <A>(ma: Reader<R1, A>) => Reader<R2, A>
-```
-
-Added in v3.0.0
-
-## promap
-
-**Signature**
-
-```ts
-export declare const promap: <Q, R, A, B>(f: (d: Q) => R, g: (a: A) => B) => (pea: Reader<R, A>) => Reader<Q, B>
 ```
 
 Added in v3.0.0

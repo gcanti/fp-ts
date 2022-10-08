@@ -198,15 +198,6 @@ export const traverse = <F extends TypeLambda>(Applicative: applicative.Applicat
  * Fold a data structure, accumulating values in some `Monoid`, combining adjacent elements
  * using the specified separator.
  *
- * @example
- * import { intercalate } from 'fp-ts/Iterable'
- * import { Monoid } from 'fp-ts/string'
- * import * as T from 'fp-ts/Tree'
- * import { pipe } from 'fp-ts/Function'
- *
- * const tree = T.make('a', [T.make('b'), T.make('c'), T.make('d')])
- * assert.strictEqual(pipe(tree, T.toIterable, intercalate(Monoid)('|')), 'a|b|c|d')
- *
  * @since 3.0.0
  */
 export const intercalate =
@@ -230,15 +221,6 @@ export const intercalate =
  * Similar to 'reduce', but the result is encapsulated in a `Flattenable`.
  *
  * Note: this function is not generally stack-safe, e.g., for type constructors which build up thunks a la `Sync`.
- *
- * @example
- * import { reduceKind } from 'fp-ts/Iterable'
- * import { Flattenable, some } from 'fp-ts/Option'
- * import * as T from 'fp-ts/Tree'
- * import { pipe } from 'fp-ts/Function'
- *
- * const tree = T.make(1, [T.make(2), T.make(3), T.make(4)])
- * assert.deepStrictEqual(pipe(tree, T.toIterable, reduceKind(Flattenable)(some(0), (b, a) => (a > 2 ? some(b + a) : some(b)))), some(7))
  *
  * @category folding
  * @since 3.0.0

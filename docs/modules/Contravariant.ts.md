@@ -1,6 +1,6 @@
 ---
 title: Contravariant.ts
-nav_order: 23
+nav_order: 18
 parent: Modules
 ---
 

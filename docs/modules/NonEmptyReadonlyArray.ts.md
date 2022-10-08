@@ -1,6 +1,6 @@
 ---
 title: NonEmptyReadonlyArray.ts
-nav_order: 65
+nav_order: 52
 parent: Modules
 ---
 

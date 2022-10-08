@@ -1,6 +1,6 @@
 ---
 title: ReaderSync.ts
-nav_order: 79
+nav_order: 65
 parent: Modules
 ---
 

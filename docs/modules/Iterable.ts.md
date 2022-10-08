@@ -1,6 +1,6 @@
 ---
 title: Iterable.ts
-nav_order: 55
+nav_order: 45
 parent: Modules
 ---
 
@@ -113,25 +113,6 @@ export declare const reduceKind: <F extends TypeLambda>(
 ) => (self: Iterable<A>) => Kind<F, S, R, O, E, B>
 ```
 
-**Example**
-
-```ts
-import { reduceKind } from 'fp-ts/Iterable'
-import { Flattenable, some } from 'fp-ts/Option'
-import * as T from 'fp-ts/Tree'
-import { pipe } from 'fp-ts/Function'
-
-const tree = T.make(1, [T.make(2), T.make(3), T.make(4)])
-assert.deepStrictEqual(
-  pipe(
-    tree,
-    T.toIterable,
-    reduceKind(Flattenable)(some(0), (b, a) => (a > 2 ? some(b + a) : some(b)))
-  ),
-  some(7)
-)
-```
-
 Added in v3.0.0
 
 ## reduceRight
@@ -241,18 +222,6 @@ using the specified separator.
 
 ```ts
 export declare const intercalate: <M>(Monoid: Monoid<M>) => (separator: M) => (self: Iterable<M>) => M
-```
-
-**Example**
-
-```ts
-import { intercalate } from 'fp-ts/Iterable'
-import { Monoid } from 'fp-ts/string'
-import * as T from 'fp-ts/Tree'
-import { pipe } from 'fp-ts/Function'
-
-const tree = T.make('a', [T.make('b'), T.make('c'), T.make('d')])
-assert.strictEqual(pipe(tree, T.toIterable, intercalate(Monoid)('|')), 'a|b|c|d')
 ```
 
 Added in v3.0.0

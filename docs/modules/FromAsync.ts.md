@@ -1,6 +1,6 @@
 ---
 title: FromAsync.ts
-nav_order: 36
+nav_order: 28
 parent: Modules
 ---
 
