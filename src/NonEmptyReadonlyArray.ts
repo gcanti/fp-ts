@@ -21,7 +21,7 @@ import * as flattenable from './Flattenable'
 import type * as comonad from './Comonad'
 import type { Endomorphism } from './Endomorphism'
 import * as eq from './Eq'
-import * as foldable from './Foldable'
+import type * as foldable from './Foldable'
 import * as foldableWithIndex from './FoldableWithIndex'
 import { flow, identity, pipe } from './Function'
 import * as functor from './Functor'
@@ -1057,10 +1057,11 @@ export const Foldable: foldable.Foldable<NonEmptyReadonlyArrayTypeLambda> = {
  * @category folding
  * @since 3.0.0
  */
-export const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => (self: NonEmptyReadonlyArray<A>) => B =
-  /*#__PURE__*/ foldable.reduce(Foldable)
+export const reduce =
+  <B, A>(b: B, f: (b: B, a: A) => B) =>
+  (self: NonEmptyReadonlyArray<A>): B =>
+    self.reduce((b, a) => f(b, a), b)
 
-// TODO: can we derive this function?
 /**
  * **Note**. The constraint is relaxed: a `Semigroup` instead of a `Monoid`.
  *
@@ -1077,8 +1078,10 @@ export const foldMap =
  * @category folding
  * @since 3.0.0
  */
-export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (self: NonEmptyReadonlyArray<A>) => B =
-  /*#__PURE__*/ foldable.reduceRight(Foldable)
+export const reduceRight =
+  <B, A>(b: B, f: (a: A, b: B) => B) =>
+  (self: NonEmptyReadonlyArray<A>): B =>
+    self.reduceRight((b, a) => f(a, b), b)
 
 /**
  * @category folding

@@ -16,7 +16,7 @@ import * as eq from './Eq'
 import type * as extendable from './Extendable'
 import * as filterable from './Filterable'
 import * as filterableWithIndex from './FilterableWithIndex'
-import * as foldable from './Foldable'
+import type * as foldable from './Foldable'
 import * as foldableWithIndex from './FoldableWithIndex'
 import * as fromOption_ from './FromOption'
 import * as fromResult_ from './FromResult'
@@ -1899,22 +1899,29 @@ export const Foldable: foldable.Foldable<ReadonlyArrayTypeLambda> = {
  * @category folding
  * @since 3.0.0
  */
-export const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => (self: ReadonlyArray<A>) => B =
-  /*#__PURE__*/ foldable.reduce(Foldable)
+export const reduce =
+  <B, A>(b: B, f: (b: B, a: A) => B) =>
+  (self: ReadonlyArray<A>): B =>
+    self.reduce((b, a) => f(b, a), b)
 
 /**
  * @category folding
  * @since 3.0.0
  */
-export const foldMap: <M>(Monoid: Monoid<M>) => <A>(f: (a: A) => M) => (self: ReadonlyArray<A>) => M =
-  /*#__PURE__*/ foldable.foldMap(Foldable)
+export const foldMap =
+  <M>(Monoid: Monoid<M>) =>
+  <A>(f: (a: A) => M) =>
+  (self: ReadonlyArray<A>): M =>
+    self.reduce((m, a) => Monoid.combine(f(a))(m), Monoid.empty)
 
 /**
  * @category folding
  * @since 3.0.0
  */
-export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (self: ReadonlyArray<A>) => B =
-  /*#__PURE__*/ foldable.reduceRight(Foldable)
+export const reduceRight =
+  <B, A>(b: B, f: (a: A, b: B) => B) =>
+  (self: ReadonlyArray<A>): B =>
+    self.reduceRight((b, a) => f(a, b), b)
 
 /**
  * @category folding
