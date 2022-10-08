@@ -128,7 +128,6 @@ Added in v3.0.0
   - [splitAt](#splitat)
   - [tail](#tail)
   - [tap](#tap)
-  - [toNonEmptyIterable](#tononemptyiterable)
   - [traverseWithIndex](#traversewithindex)
   - [union](#union)
   - [uniq](#uniq)
@@ -1496,16 +1495,6 @@ assert.deepStrictEqual(
   ),
   [1, 1, 2, 2, 3, 3]
 )
-```
-
-Added in v3.0.0
-
-## toNonEmptyIterable
-
-**Signature**
-
-```ts
-export declare const toNonEmptyIterable: <A>(self: readonly [A, ...A[]]) => iterable.NonEmptyIterable<A>
 ```
 
 Added in v3.0.0

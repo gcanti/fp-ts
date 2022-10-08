@@ -2772,7 +2772,7 @@ Remove duplicates from a `ReadonlyArray`, keeping the first occurrence of an ele
 **Signature**
 
 ```ts
-export declare const uniq: <A>(E: eq.Eq<A>) => (as: readonly A[]) => readonly A[]
+export declare const uniq: <A>(E: eq.Eq<A>) => (self: readonly A[]) => readonly A[]
 ```
 
 **Example**
