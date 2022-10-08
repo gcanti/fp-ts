@@ -165,9 +165,9 @@ export const tuple = <S extends ReadonlyArray<unknown>>(
  * @since 3.0.0
  */
 export const intercalate =
-  <S>(middle: S): Endomorphism<Semigroup<S>> =>
+  <S>(separator: S): Endomorphism<Semigroup<S>> =>
   (Semigroup) => ({
-    combine: (that) => (self) => Semigroup.combine(Semigroup.combine(that)(middle))(self)
+    combine: (that) => (self) => Semigroup.combine(Semigroup.combine(that)(separator))(self)
   })
 
 // -------------------------------------------------------------------------------------

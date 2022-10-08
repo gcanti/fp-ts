@@ -212,10 +212,18 @@ export const traverse = <F extends TypeLambda>(Applicative: applicative.Applicat
 export const intercalate =
   <M>(Monoid: Monoid<M>) =>
   (separator: M) =>
-  (self: Iterable<M>): M => {
-    const go = ([init, acc]: readonly [boolean, M], m: M): readonly [boolean, M] =>
-      init ? [false, m] : [false, pipe(acc, Monoid.combine(separator), Monoid.combine(m))]
-    return pipe(self, reduce([true, Monoid.empty], go))[1]
+  (self: Iterable<M>) => {
+    let out: M = Monoid.empty
+    let i = 0
+    for (const m of self) {
+      if (i === 0) {
+        i++
+        out = m
+      } else {
+        out = pipe(out, Monoid.combine(separator), Monoid.combine(m))
+      }
+    }
+    return out
   }
 
 /**
@@ -260,5 +268,5 @@ export const uniq =
         out.push(candidate)
       }
     }
-    return _.isNonEmpty(out) ? out : _.emptyReadonlyArray
+    return out
   }
