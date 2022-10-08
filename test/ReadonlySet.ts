@@ -12,6 +12,36 @@ import * as iterable from '../src/Iterable'
 const gte2 = (n: number) => n >= 2
 
 describe('ReadonlySet', () => {
+  it('reduceUnsafe', () => {
+    U.deepStrictEqual(
+      pipe(
+        new Set(['a', 'b', 'c']),
+        _.reduceUnsafe('-', (acc, a) => acc + a)
+      ),
+      '-abc'
+    )
+  })
+
+  it('reduceUnsafe', () => {
+    U.deepStrictEqual(
+      pipe(
+        new Set(['a', 'b', 'c']),
+        _.foldMapUnsafe(S.Monoid)((a) => `${a}!`)
+      ),
+      'a!b!c!'
+    )
+  })
+
+  it('reduceRightUnsafe', () => {
+    U.deepStrictEqual(
+      pipe(
+        new Set(['a', 'b', 'c']),
+        _.reduceRightUnsafe('-', (a, acc) => acc + a)
+      ),
+      '-cba'
+    )
+  })
+
   it('getEq', () => {
     const S = _.getEq(N.Eq)
     U.deepStrictEqual(S.equals(new Set([1, 2, 3]))(new Set([1, 2, 3])), true)

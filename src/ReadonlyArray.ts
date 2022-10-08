@@ -47,6 +47,18 @@ import type { Ord } from './Ord'
 import type { Eq } from './Eq'
 import * as iterable from './Iterable'
 
+// -------------------------------------------------------------------------------------
+// type lambdas
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category type lambdas
+ * @since 3.0.0
+ */
+export interface ReadonlyArrayTypeLambda extends TypeLambda {
+  readonly type: ReadonlyArray<this['Out1']>
+}
+
 /**
  * Return a `ReadonlyArray` of length `n` with element `i` initialized with `f(i)`.
  *
@@ -1523,18 +1535,6 @@ export const unfold: <B, A>(b: B, f: (b: B) => Option<readonly [A, B]>) => Reado
     next = b
   }
   return out
-}
-
-// -------------------------------------------------------------------------------------
-// type lambdas
-// -------------------------------------------------------------------------------------
-
-/**
- * @category type lambdas
- * @since 3.0.0
- */
-export interface ReadonlyArrayTypeLambda extends TypeLambda {
-  readonly type: ReadonlyArray<this['Out1']>
 }
 
 // -------------------------------------------------------------------------------------

@@ -3,8 +3,11 @@
  */
 import type { Eq } from './Eq'
 import * as eq from './Eq'
+import * as foldable from './Foldable'
 import { identity } from './Function'
+import type { TypeLambda } from './HKT'
 import * as _ from './internal'
+import * as iterable from './Iterable'
 import type { Magma } from './Magma'
 import type { Monoid } from './Monoid'
 import type { Option } from './Option'
@@ -15,7 +18,18 @@ import type { Refinement } from './Refinement'
 import type { Result } from './Result'
 import type { Semigroup } from './Semigroup'
 import type { Show } from './Show'
-import * as iterable from './Iterable'
+
+// -------------------------------------------------------------------------------------
+// type lambdas
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category type lambdas
+ * @since 3.0.0
+ */
+export interface ReadonlySetTypeLambda extends TypeLambda {
+  readonly type: ReadonlySet<this['Out1']>
+}
 
 /**
  * @category constructors
@@ -464,3 +478,38 @@ export const toIterable =
     const out = Array.from(self.values())
     return out.sort((self, that) => O.compare(that)(self))
   }
+
+/**
+ * @category conversions
+ * @since 3.0.0
+ */
+export const toIterableUnsafe = <A>(self: ReadonlySet<A>): Iterable<A> => self.values()
+
+/**
+ * @category conversions
+ * @since 3.0.0
+ */
+export const FoldableUnsafe: foldable.Foldable<ReadonlySetTypeLambda> = {
+  toIterable: toIterableUnsafe
+}
+
+/**
+ * @category folding
+ * @since 3.0.0
+ */
+export const reduceUnsafe: <B, A>(b: B, f: (b: B, a: A) => B) => (self: ReadonlySet<A>) => B =
+  /*#__PURE__*/ foldable.reduce(FoldableUnsafe)
+
+/**
+ * @category folding
+ * @since 3.0.0
+ */
+export const foldMapUnsafe: <M>(Monoid: Monoid<M>) => <A>(f: (a: A) => M) => (self: ReadonlySet<A>) => M =
+  /*#__PURE__*/ foldable.foldMap(FoldableUnsafe)
+
+/**
+ * @category folding
+ * @since 3.0.0
+ */
+export const reduceRightUnsafe: <B, A>(b: B, f: (a: A, b: B) => B) => (self: ReadonlySet<A>) => B =
+  /*#__PURE__*/ foldable.reduceRight(FoldableUnsafe)
