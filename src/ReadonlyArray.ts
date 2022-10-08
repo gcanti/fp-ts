@@ -1046,8 +1046,8 @@ export const elem =
  * @since 3.0.0
  */
 export const uniq = <A>(E: Eq<A>): ((as: ReadonlyArray<A>) => ReadonlyArray<A>) => {
-  const f = nonEmptyReadonlyArray.uniq(E)
-  return (as) => (isNonEmpty(as) ? f(as) : as)
+  const uniq = nonEmptyReadonlyArray.uniq(E)
+  return (as) => (isNonEmpty(as) ? uniq(as) : as)
 }
 
 /**

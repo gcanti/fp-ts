@@ -15,6 +15,7 @@ import type { Refinement } from './Refinement'
 import type { Result } from './Result'
 import type { Semigroup } from './Semigroup'
 import type { Show } from './Show'
+import * as iterable from './Iterable'
 
 /**
  * @category constructors
@@ -23,25 +24,16 @@ import type { Show } from './Show'
 export const succeed = <A>(a: A): ReadonlySet<A> => new Set([a])
 
 /**
- * Create a `ReadonlySet` from a `ReadonlyArray`.
- *
- * @category constructors
+ * @category conversions
  * @since 3.0.0
  */
-export const fromReadonlyArray =
-  <A>(E: Eq<A>) =>
-  (as: ReadonlyArray<A>): ReadonlySet<A> => {
-    const len = as.length
-    const r = new Set<A>()
-    const has = elem(E)
-    for (let i = 0; i < len; i++) {
-      const a = as[i]
-      if (!has(a)(r)) {
-        r.add(a)
-      }
-    }
-    return r
+export const fromIterable = <A>(Eq: Eq<A>) => {
+  const uniq = iterable.uniq(Eq)
+  return (self: Iterable<A>): ReadonlySet<A> => {
+    const candidate = uniq(self)
+    return _.isNonEmpty(candidate) ? new Set(candidate) : empty
   }
+}
 
 /**
  * Checks an element is a member of a set;

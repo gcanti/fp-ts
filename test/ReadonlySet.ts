@@ -6,70 +6,64 @@ import * as N from '../src/number'
 import { getMonoid } from '../src/ReadonlyArray'
 import * as _ from '../src/ReadonlySet'
 import * as S from '../src/string'
-import { deepStrictEqual } from './util'
+import * as U from './util'
 import * as iterable from '../src/Iterable'
 
 const gte2 = (n: number) => n >= 2
 
-interface Foo {
-  readonly x: string
-}
-const foo = (x: string): Foo => ({ x })
-const fooEq: Eq.Eq<Foo> = Eq.fromEquals((second: Foo) => (first: Foo) => first.x === second.x)
-
 describe('ReadonlySet', () => {
   it('getEq', () => {
     const S = _.getEq(N.Eq)
-    deepStrictEqual(S.equals(new Set([1, 2, 3]))(new Set([1, 2, 3])), true)
-    deepStrictEqual(S.equals(new Set([1, 2, 3]))(new Set([1, 2])), false)
-    deepStrictEqual(S.equals(new Set([1, 2]))(new Set([1, 2, 3])), false)
+    U.deepStrictEqual(S.equals(new Set([1, 2, 3]))(new Set([1, 2, 3])), true)
+    U.deepStrictEqual(S.equals(new Set([1, 2, 3]))(new Set([1, 2])), false)
+    U.deepStrictEqual(S.equals(new Set([1, 2]))(new Set([1, 2, 3])), false)
   })
 
   it('some', () => {
-    deepStrictEqual(_.some((s: string) => s.trim() === '')(new Set<string>()), false)
-    deepStrictEqual(_.some(gte2)(new Set([1, 2, 3])), true)
-    deepStrictEqual(_.some(gte2)(new Set([1])), false)
+    U.deepStrictEqual(_.some((s: string) => s.trim() === '')(new Set<string>()), false)
+    U.deepStrictEqual(_.some(gte2)(new Set([1, 2, 3])), true)
+    U.deepStrictEqual(_.some(gte2)(new Set([1])), false)
   })
 
   it('map', () => {
-    deepStrictEqual(_.map(N.Eq)((n: number) => n % 2)(new Set([])), new Set([]))
-    deepStrictEqual(_.map(N.Eq)((n: number) => n % 2)(new Set([1, 2, 3, 4])), new Set([0, 1]))
-    deepStrictEqual(_.map(S.Eq)((n: number) => `${n % 2}`)(new Set([1, 2, 3, 4])), new Set(['0', '1']))
+    U.deepStrictEqual(_.map(N.Eq)((n: number) => n % 2)(new Set([])), new Set([]))
+    U.deepStrictEqual(_.map(N.Eq)((n: number) => n % 2)(new Set([1, 2, 3, 4])), new Set([0, 1]))
+    U.deepStrictEqual(_.map(S.Eq)((n: number) => `${n % 2}`)(new Set([1, 2, 3, 4])), new Set(['0', '1']))
   })
 
   it('every', () => {
-    deepStrictEqual(_.every(gte2)(new Set([1, 2, 3])), false)
-    deepStrictEqual(_.every(gte2)(new Set([2, 3])), true)
+    U.deepStrictEqual(_.every(gte2)(new Set([1, 2, 3])), false)
+    U.deepStrictEqual(_.every(gte2)(new Set([2, 3])), true)
   })
 
   it('flatMap', () => {
-    deepStrictEqual(_.flatMap(S.Eq)((n: number) => new Set([n.toString()]))(new Set([])), new Set([]))
-    deepStrictEqual(_.flatMap(S.Eq)(() => new Set([]))(new Set([1, 2])), new Set([]))
-    deepStrictEqual(
+    U.deepStrictEqual(_.flatMap(S.Eq)((n: number) => new Set([n.toString()]))(new Set([])), new Set([]))
+    U.deepStrictEqual(_.flatMap(S.Eq)(() => new Set([]))(new Set([1, 2])), new Set([]))
+    U.deepStrictEqual(
       _.flatMap(S.Eq)((n: number) => new Set([`${n}`, `${n + 1}`]))(new Set([1, 2])),
       new Set(['1', '2', '3'])
     )
   })
 
   it('isSubset', () => {
-    deepStrictEqual(pipe(new Set([1, 2]), _.isSubset(N.Eq)(new Set([1, 2, 3]))), true)
-    deepStrictEqual(pipe(new Set([1, 2, 4]), _.isSubset(N.Eq)(new Set([1, 2, 3]))), false)
+    U.deepStrictEqual(pipe(new Set([1, 2]), _.isSubset(N.Eq)(new Set([1, 2, 3]))), true)
+    U.deepStrictEqual(pipe(new Set([1, 2, 4]), _.isSubset(N.Eq)(new Set([1, 2, 3]))), false)
   })
 
   it('filter', () => {
-    deepStrictEqual(_.filter(gte2)(new Set([1, 2, 3])), new Set([2, 3] as const))
+    U.deepStrictEqual(_.filter(gte2)(new Set([1, 2, 3])), new Set([2, 3] as const))
 
     // refinements
     const isNumber = (u: string | number): u is number => typeof u === 'number'
     const actual = _.filter(isNumber)(new Set([1, 'a', 2]))
-    deepStrictEqual(actual, new Set([1, 2]))
+    U.deepStrictEqual(actual, new Set([1, 2]))
   })
 
   it('partition', () => {
-    deepStrictEqual(_.partition(() => true)(new Set([])), [new Set([]), new Set([])])
-    deepStrictEqual(_.partition(() => true)(new Set([1])), [new Set([]), new Set([1])])
-    deepStrictEqual(_.partition(() => false)(new Set([1])), [new Set([1]), new Set([])])
-    deepStrictEqual(_.partition((n: number) => n % 2 === 0)(new Set([1, 2, 3, 4])), [
+    U.deepStrictEqual(_.partition(() => true)(new Set([])), [new Set([]), new Set([])])
+    U.deepStrictEqual(_.partition(() => true)(new Set([1])), [new Set([]), new Set([1])])
+    U.deepStrictEqual(_.partition(() => false)(new Set([1])), [new Set([1]), new Set([])])
+    U.deepStrictEqual(_.partition((n: number) => n % 2 === 0)(new Set([1, 2, 3, 4])), [
       new Set([1, 3] as const),
       new Set([2, 4] as const)
     ])
@@ -77,18 +71,18 @@ describe('ReadonlySet', () => {
     // refinements
     const isNumber = (u: string | number): u is number => typeof u === 'number'
     const actual = _.partition(isNumber)(new Set([1, 'a', 2]))
-    deepStrictEqual(actual, [new Set(['a']), new Set([1, 2])])
+    U.deepStrictEqual(actual, [new Set(['a']), new Set([1, 2])])
   })
 
   it('partitionMap', () => {
-    deepStrictEqual(_.partitionMap(N.Eq, S.Eq)((n: number) => fail(n))(new Set([])), [new Set([]), new Set([])])
-    deepStrictEqual(
+    U.deepStrictEqual(_.partitionMap(N.Eq, S.Eq)((n: number) => fail(n))(new Set([])), [new Set([]), new Set([])])
+    U.deepStrictEqual(
       _.partitionMap(N.Eq, S.Eq)((n: number) => (n % 2 === 0 ? fail(n) : succeed(`${n}`)))(new Set([1, 2, 3])),
       [new Set([2]), new Set(['1', '3'])]
     )
     const SL = Eq.struct({ value: N.Eq })
     const SR = Eq.struct({ value: S.Eq })
-    deepStrictEqual(
+    U.deepStrictEqual(
       _.partitionMap(
         SL,
         SR
@@ -101,82 +95,87 @@ describe('ReadonlySet', () => {
 
   it('getUnionMonoid', () => {
     const M = _.getUnionMonoid(N.Eq)
-    deepStrictEqual(pipe(new Set([1, 2]), M.combine(new Set([1, 3]))), new Set([1, 2, 3]))
-    deepStrictEqual(pipe(new Set([1, 2]), M.combine(M.empty)), new Set([1, 2]))
-    deepStrictEqual(pipe(M.empty, M.combine(new Set([1, 3]))), new Set([1, 3]))
+    U.deepStrictEqual(pipe(new Set([1, 2]), M.combine(new Set([1, 3]))), new Set([1, 2, 3]))
+    U.deepStrictEqual(pipe(new Set([1, 2]), M.combine(M.empty)), new Set([1, 2]))
+    U.deepStrictEqual(pipe(M.empty, M.combine(new Set([1, 3]))), new Set([1, 3]))
   })
 
   it('getIntersectionSemigroup', () => {
     const S = _.getIntersectionSemigroup(N.Eq)
-    deepStrictEqual(pipe(new Set([1, 2]), S.combine(new Set([1, 3]))), new Set([1]))
-    deepStrictEqual(pipe(new Set([1, 2]), S.combine(_.empty)), _.empty)
-    deepStrictEqual(pipe(_.empty, S.combine(new Set([1, 3]))), _.empty)
+    U.deepStrictEqual(pipe(new Set([1, 2]), S.combine(new Set([1, 3]))), new Set([1]))
+    U.deepStrictEqual(pipe(new Set([1, 2]), S.combine(_.empty)), _.empty)
+    U.deepStrictEqual(pipe(_.empty, S.combine(new Set([1, 3]))), _.empty)
   })
 
   it('getDifferenceMagma', () => {
     const M = _.getDifferenceMagma(N.Eq)
-    deepStrictEqual(pipe(new Set([1, 2]), M.combine(new Set([1, 3]))), new Set([2]))
+    U.deepStrictEqual(pipe(new Set([1, 2]), M.combine(new Set([1, 3]))), new Set([2]))
   })
 
   it('reduce', () => {
     const f = iterable.reduce('', (b, a: number) => b + a)
-    deepStrictEqual(pipe(new Set([1, 2, 3]), _.toIterable(N.Ord), f), '123')
-    deepStrictEqual(pipe(new Set([3, 2, 1]), _.toIterable(N.Ord), f), '123')
+    U.deepStrictEqual(pipe(new Set([1, 2, 3]), _.toIterable(N.Ord), f), '123')
+    U.deepStrictEqual(pipe(new Set([3, 2, 1]), _.toIterable(N.Ord), f), '123')
   })
 
   it('foldMap', () => {
     const f = iterable.foldMap(getMonoid<number>())((a: number) => [a])
-    deepStrictEqual(pipe(new Set([1, 2, 3]), _.toIterable(N.Ord), f), [1, 2, 3])
-    deepStrictEqual(pipe(new Set([3, 2, 1]), _.toIterable(N.Ord), f), [1, 2, 3])
+    U.deepStrictEqual(pipe(new Set([1, 2, 3]), _.toIterable(N.Ord), f), [1, 2, 3])
+    U.deepStrictEqual(pipe(new Set([3, 2, 1]), _.toIterable(N.Ord), f), [1, 2, 3])
   })
 
   it('reduceRight', () => {
     const f = iterable.reduceRight('', (a: number, b) => b + a)
 
-    deepStrictEqual(pipe(new Set([1, 2, 3]), _.toIterable(N.Ord), f), '321')
-    deepStrictEqual(pipe(new Set([3, 2, 1]), _.toIterable(N.Ord), f), '321')
+    U.deepStrictEqual(pipe(new Set([1, 2, 3]), _.toIterable(N.Ord), f), '321')
+    U.deepStrictEqual(pipe(new Set([3, 2, 1]), _.toIterable(N.Ord), f), '321')
   })
 
   it('singleton', () => {
-    deepStrictEqual(_.succeed(1), new Set([1]))
+    U.deepStrictEqual(_.succeed(1), new Set([1]))
   })
 
   it('insert', () => {
     const x = new Set([1, 2])
-    deepStrictEqual(_.insert(N.Eq)(3)(x), new Set([1, 2, 3]))
+    U.deepStrictEqual(_.insert(N.Eq)(3)(x), new Set([1, 2, 3]))
     // should return the same ference if the element is already a member
-    deepStrictEqual(_.insert(N.Eq)(2)(x), x)
+    U.deepStrictEqual(_.insert(N.Eq)(2)(x), x)
   })
 
   it('remove', () => {
-    deepStrictEqual(_.remove(N.Eq)(3)(new Set([1, 2])), new Set([1, 2]))
-    deepStrictEqual(_.remove(N.Eq)(1)(new Set([1, 2])), new Set([2]))
+    U.deepStrictEqual(_.remove(N.Eq)(3)(new Set([1, 2])), new Set([1, 2]))
+    U.deepStrictEqual(_.remove(N.Eq)(1)(new Set([1, 2])), new Set([2]))
   })
 
-  it('fromReadonlyArray', () => {
-    deepStrictEqual(_.fromReadonlyArray(N.Eq)([]), new Set([]))
-    deepStrictEqual(_.fromReadonlyArray(N.Eq)([1]), new Set([1]))
-    deepStrictEqual(_.fromReadonlyArray(N.Eq)([1, 1]), new Set([1]))
-    deepStrictEqual(_.fromReadonlyArray(N.Eq)([1, 2]), new Set([1, 2]))
+  describe('fromIterable', () => {
+    it('should remove duplicated elements', () => {
+      const fromIterable = _.fromIterable(N.Eq)
+      U.deepStrictEqual(fromIterable([1]), new Set([1]))
+      U.deepStrictEqual(fromIterable([1, 1]), new Set([1]))
+      U.deepStrictEqual(fromIterable([1, 2]), new Set([1, 2]))
+    })
 
-    deepStrictEqual(_.fromReadonlyArray(fooEq)(['a', 'a', 'b'].map(foo)), new Set(['a', 'b'].map(foo)))
+    it('should `empty` if the iterable is empty', () => {
+      const fromIterable = _.fromIterable(N.Eq)
+      U.strictEqual(fromIterable([]), _.empty)
+    })
   })
 
   it('compact', () => {
-    deepStrictEqual(_.compact(N.Eq)(new Set([optionSome(1), none, optionSome(2)])), new Set([1, 2]))
+    U.deepStrictEqual(_.compact(N.Eq)(new Set([optionSome(1), none, optionSome(2)])), new Set([1, 2]))
     type R = { readonly id: string }
     const E: Eq.Eq<R> = pipe(
       S.Eq,
       Eq.contramap((x) => x.id)
     )
-    deepStrictEqual(
+    U.deepStrictEqual(
       _.compact(E)(new Set([optionSome({ id: 'a' }), none, optionSome({ id: 'a' })])),
       new Set([{ id: 'a' }])
     )
   })
 
   it('separate', () => {
-    deepStrictEqual(_.separate(S.Eq, N.Eq)(new Set([succeed(1), fail('a'), succeed(2)])), [
+    U.deepStrictEqual(_.separate(S.Eq, N.Eq)(new Set([succeed(1), fail('a'), succeed(2)])), [
       new Set(['a']),
       new Set([1, 2])
     ])
@@ -190,7 +189,7 @@ describe('ReadonlySet', () => {
       S.Eq,
       Eq.contramap((x) => x.id)
     )
-    deepStrictEqual(
+    U.deepStrictEqual(
       _.separate(
         SL,
         SR
@@ -200,7 +199,7 @@ describe('ReadonlySet', () => {
   })
 
   it('filterMap', () => {
-    deepStrictEqual(
+    U.deepStrictEqual(
       _.filterMap(N.Eq)((s: string) => (s.length > 1 ? optionSome(s.length) : none))(new Set(['a', 'bb', 'ccc'])),
       new Set([2, 3])
     )
@@ -209,7 +208,7 @@ describe('ReadonlySet', () => {
       S.Eq,
       Eq.contramap((x) => x.id)
     )
-    deepStrictEqual(
+    U.deepStrictEqual(
       _.filterMap(E)((x: { readonly id: string }) => optionSome(x))(new Set([{ id: 'a' }, { id: 'a' }])),
       new Set([{ id: 'a' }])
     )
@@ -218,27 +217,27 @@ describe('ReadonlySet', () => {
   it('getShow', () => {
     const Sh = _.getShow(S.Show)
     const s1 = new Set<string>([])
-    deepStrictEqual(Sh.show(s1), `new Set([])`)
+    U.deepStrictEqual(Sh.show(s1), `new Set([])`)
     const s2 = new Set<string>(['a'])
-    deepStrictEqual(Sh.show(s2), `new Set(["a"])`)
+    U.deepStrictEqual(Sh.show(s2), `new Set(["a"])`)
     const s3 = new Set<string>(['b', 'a'])
-    deepStrictEqual(Sh.show(s3), `new Set(["a", "b"])`)
+    U.deepStrictEqual(Sh.show(s3), `new Set(["a", "b"])`)
   })
 
   it('isEmpty', () => {
-    deepStrictEqual(_.isEmpty(_.empty), true)
-    deepStrictEqual(_.isEmpty(new Set()), true)
-    deepStrictEqual(_.isEmpty(new Set(['a'])), false)
+    U.deepStrictEqual(_.isEmpty(_.empty), true)
+    U.deepStrictEqual(_.isEmpty(new Set()), true)
+    U.deepStrictEqual(_.isEmpty(new Set(['a'])), false)
   })
 
   it('size', () => {
-    deepStrictEqual(_.size(_.empty), 0)
-    deepStrictEqual(_.size(new Set()), 0)
-    deepStrictEqual(_.size(new Set(['a'])), 1)
+    U.deepStrictEqual(_.size(_.empty), 0)
+    U.deepStrictEqual(_.size(new Set()), 0)
+    U.deepStrictEqual(_.size(new Set(['a'])), 1)
   })
 
   it('toggle', () => {
-    deepStrictEqual(_.toggle(N.Eq)(1)(new Set([2])), new Set([1, 2]))
-    deepStrictEqual(_.toggle(N.Eq)(1)(new Set([1, 2])), new Set([2]))
+    U.deepStrictEqual(_.toggle(N.Eq)(1)(new Set([2])), new Set([1, 2]))
+    U.deepStrictEqual(_.toggle(N.Eq)(1)(new Set([1, 2])), new Set([2]))
   })
 })

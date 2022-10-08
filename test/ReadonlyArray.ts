@@ -804,43 +804,52 @@ describe('ReadonlyArray', () => {
     U.deepStrictEqual(_.scanRight(10, f)([]), [10])
   })
 
-  it('uniq', () => {
-    interface A {
-      readonly a: string
-      readonly b: number
-    }
+  describe('uniq', () => {
+    it('should remove duplicated elements', () => {
+      interface A {
+        readonly a: string
+        readonly b: number
+      }
 
-    const eqA = pipe(
-      N.Eq,
-      Eq.contramap((f: A) => f.b)
-    )
-    const arrA: A = { a: 'a', b: 1 }
-    const arrB: A = { a: 'b', b: 1 }
-    const arrC: A = { a: 'c', b: 2 }
-    const arrD: A = { a: 'd', b: 2 }
-    const arrUniq: ReadonlyArray<A> = [arrA, arrC]
+      const eqA = pipe(
+        N.Eq,
+        Eq.contramap((f: A) => f.b)
+      )
+      const arrA: A = { a: 'a', b: 1 }
+      const arrB: A = { a: 'b', b: 1 }
+      const arrC: A = { a: 'c', b: 2 }
+      const arrD: A = { a: 'd', b: 2 }
+      const arrUniq: ReadonlyArray<A> = [arrA, arrC]
 
-    U.deepStrictEqual(_.uniq(eqA)(arrUniq), arrUniq)
-    U.deepStrictEqual(_.uniq(eqA)([arrA, arrB, arrC, arrD]), [arrA, arrC])
-    U.deepStrictEqual(_.uniq(eqA)([arrB, arrA, arrC, arrD]), [arrB, arrC])
-    U.deepStrictEqual(_.uniq(eqA)([arrA, arrA, arrC, arrD, arrA]), [arrA, arrC])
-    U.deepStrictEqual(_.uniq(eqA)([arrA, arrC]), [arrA, arrC])
-    U.deepStrictEqual(_.uniq(eqA)([arrC, arrA]), [arrC, arrA])
-    U.deepStrictEqual(_.uniq(B.Eq)([true, false, true, false]), [true, false])
-    U.deepStrictEqual(_.uniq(N.Eq)([-0, -0]), [-0])
-    U.deepStrictEqual(_.uniq(N.Eq)([0, -0]), [0])
-    U.deepStrictEqual(_.uniq(N.Eq)([1]), [1])
-    U.deepStrictEqual(_.uniq(N.Eq)([2, 1, 2]), [2, 1])
-    U.deepStrictEqual(_.uniq(N.Eq)([1, 2, 1]), [1, 2])
-    U.deepStrictEqual(_.uniq(N.Eq)([1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])
-    U.deepStrictEqual(_.uniq(N.Eq)([1, 1, 2, 2, 3, 3, 4, 4, 5, 5]), [1, 2, 3, 4, 5])
-    U.deepStrictEqual(_.uniq(N.Eq)([1, 2, 3, 4, 5, 1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])
-    U.deepStrictEqual(_.uniq(S.Eq)(['a', 'b', 'a']), ['a', 'b'])
-    U.deepStrictEqual(_.uniq(S.Eq)(['a', 'b', 'A']), ['a', 'b', 'A'])
+      U.deepStrictEqual(_.uniq(eqA)(arrUniq), arrUniq)
+      U.deepStrictEqual(_.uniq(eqA)([arrA, arrB, arrC, arrD]), [arrA, arrC])
+      U.deepStrictEqual(_.uniq(eqA)([arrB, arrA, arrC, arrD]), [arrB, arrC])
+      U.deepStrictEqual(_.uniq(eqA)([arrA, arrA, arrC, arrD, arrA]), [arrA, arrC])
+      U.deepStrictEqual(_.uniq(eqA)([arrA, arrC]), [arrA, arrC])
+      U.deepStrictEqual(_.uniq(eqA)([arrC, arrA]), [arrC, arrA])
+      U.deepStrictEqual(_.uniq(B.Eq)([true, false, true, false]), [true, false])
+      U.deepStrictEqual(_.uniq(N.Eq)([-0, -0]), [-0])
+      U.deepStrictEqual(_.uniq(N.Eq)([0, -0]), [0])
+      U.deepStrictEqual(_.uniq(N.Eq)([1]), [1])
+      U.deepStrictEqual(_.uniq(N.Eq)([2, 1, 2]), [2, 1])
+      U.deepStrictEqual(_.uniq(N.Eq)([1, 2, 1]), [1, 2])
+      U.deepStrictEqual(_.uniq(N.Eq)([1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])
+      U.deepStrictEqual(_.uniq(N.Eq)([1, 1, 2, 2, 3, 3, 4, 4, 5, 5]), [1, 2, 3, 4, 5])
+      U.deepStrictEqual(_.uniq(N.Eq)([1, 2, 3, 4, 5, 1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])
+      U.deepStrictEqual(_.uniq(S.Eq)(['a', 'b', 'a']), ['a', 'b'])
+      U.deepStrictEqual(_.uniq(S.Eq)(['a', 'b', 'A']), ['a', 'b', 'A'])
+    })
 
-    U.strictEqual(_.uniq(N.Eq)(_.empty), _.empty)
-    const as: ReadonlyArray<number> = [1]
-    U.strictEqual(_.uniq(N.Eq)(as), as)
+    it('should return the same reference if length = 0', () => {
+      U.strictEqual(_.uniq(N.Eq)(_.empty), _.empty)
+      const as: ReadonlyArray<number> = []
+      U.strictEqual(_.uniq(N.Eq)(as), as)
+    })
+
+    it('should return the same reference if length = 1', () => {
+      const as: ReadonlyArray<number> = [1]
+      U.strictEqual(_.uniq(N.Eq)(as), as)
+    })
   })
 
   it('sortBy', () => {

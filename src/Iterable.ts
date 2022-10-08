@@ -2,6 +2,7 @@
  * @since 3.0.0
  */
 import type * as applicative from './Applicative'
+import type { Eq } from './Eq'
 import type { Flattenable } from './Flattenable'
 import { pipe } from './Function'
 import type { Kind, TypeLambda } from './HKT'
@@ -30,6 +31,7 @@ export const succeed = <A>(a: A): Iterable<A> => {
   }
 }
 
+// TODO: is this useful?
 /**
  * @category mapping
  * @since 3.0.0
@@ -245,3 +247,18 @@ export const reduceKind =
         Flattenable.flatMap((b) => f(b, a))
       )
     )
+
+/**
+ * @since 3.0.0
+ */
+export const uniq =
+  <A>(Eq: Eq<A>) =>
+  (iterable: Iterable<A>): ReadonlyArray<A> => {
+    const out: Array<A> = []
+    for (const candidate of iterable) {
+      if (out.every((a) => !Eq.equals(a)(candidate))) {
+        out.push(candidate)
+      }
+    }
+    return _.isNonEmpty(out) ? out : _.emptyReadonlyArray
+  }

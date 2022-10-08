@@ -41,6 +41,7 @@ import * as tuple from './tuple'
 import type { Eq } from './Eq'
 import type { Ord } from './Ord'
 import type { Semigroup } from './Semigroup'
+import * as iterable from './Iterable'
 
 /**
  * @category model
@@ -205,21 +206,10 @@ export function concat<B>(that: ReadonlyArray<B>): <A>(self: NonEmptyReadonlyArr
  *
  * @since 3.0.0
  */
-export const uniq =
-  <A>(E: Eq<A>) =>
-  (as: NonEmptyReadonlyArray<A>): NonEmptyReadonlyArray<A> => {
-    if (as.length === 1) {
-      return as
-    }
-    const out: _.NonEmptyArray<A> = [head(as)]
-    const rest = tail(as)
-    for (const a of rest) {
-      if (out.every((o) => !E.equals(o)(a))) {
-        out.push(a)
-      }
-    }
-    return out
-  }
+export const uniq = <A>(Eq: Eq<A>) => {
+  const uniq = iterable.uniq(Eq)
+  return (as: NonEmptyReadonlyArray<A>): NonEmptyReadonlyArray<A> => (as.length === 1 ? as : (uniq(as) as any))
+}
 
 /**
  * Sort the elements of a `NonEmptyReadonlyArray` in increasing order, where elements are compared using first `ords[0]`, then `ords[1]`,
