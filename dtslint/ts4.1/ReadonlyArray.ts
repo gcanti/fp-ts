@@ -61,7 +61,7 @@ pipe(
   _.traverseFilter(T.ApplicativePar)(
     (
       _sn // $ExpectType string | number
-    ) => T.succeed(true)
+    ) => T.of(true)
   )
 )
 
@@ -259,8 +259,8 @@ pipe(x2s, _.sortBy([ord2, ord3])) // $ExpectType ReadonlyArray<X2>
 // $ExpectType readonly { readonly a1: number; readonly a2: string; }[]
 pipe(
   _.Do,
-  _.bind('a1', () => _.succeed(1)),
-  _.bind('a2', () => _.succeed('b'))
+  _.bind('a1', () => _.of(1)),
+  _.bind('a2', () => _.of('b'))
 )
 
 //

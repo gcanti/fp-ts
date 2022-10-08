@@ -19,8 +19,8 @@ Added in v3.0.0
 
 - [constructors](#constructors)
   - [none](#none)
+  - [of](#of)
   - [some](#some)
-  - [succeed](#succeed)
 - [conversions](#conversions)
   - [fromNullable](#fromnullable)
   - [fromOption](#fromoption)
@@ -127,22 +127,22 @@ export declare const none: SyncOption<never>
 
 Added in v3.0.0
 
+## of
+
+**Signature**
+
+```ts
+export declare const of: <A>(a: A) => SyncOption<A>
+```
+
+Added in v3.0.0
+
 ## some
 
 **Signature**
 
 ```ts
 export declare const some: <A>(a: A) => SyncOption<A>
-```
-
-Added in v3.0.0
-
-## succeed
-
-**Signature**
-
-```ts
-export declare const succeed: <A>(a: A) => SyncOption<A>
 ```
 
 Added in v3.0.0

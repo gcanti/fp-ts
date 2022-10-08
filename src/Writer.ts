@@ -248,7 +248,7 @@ export const Comonad: comonad.Comonad<WriterTypeLambda> = {
  * @category conversions
  * @since 3.0.0
  */
-export const toIterable: <W, A>(self: Writer<W, A>) => Iterable<A> = /*#__PURE__*/ flow(snd, iterable.succeed)
+export const toIterable: <W, A>(self: Writer<W, A>) => Iterable<A> = /*#__PURE__*/ flow(snd, iterable.of)
 
 /**
  * @category instances
@@ -301,7 +301,7 @@ export const sequence: <F extends TypeLambda>(
  * @since 3.0.0
  */
 export const getFromIdentity = <W>(M: Monoid<W>): FromIdentity<WriterFFix<W>> => ({
-  succeed: (a) => [M.empty, a]
+  of: (a) => [M.empty, a]
 })
 
 /**
@@ -327,7 +327,7 @@ export const getApplicative = <W>(Monoid: Monoid<W>): applicative.Applicative<Wr
   return {
     map,
     ap: Apply.ap,
-    succeed: FromIdentity.succeed
+    of: FromIdentity.of
   }
 }
 
@@ -355,7 +355,7 @@ export const getMonad = <W>(M: Monoid<W>): Monad<WriterFFix<W>> => {
   const C = getFlattenable(M)
   return {
     map,
-    succeed: P.succeed,
+    of: P.of,
     flatMap: C.flatMap
   }
 }

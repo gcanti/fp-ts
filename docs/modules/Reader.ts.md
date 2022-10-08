@@ -16,7 +16,7 @@ Added in v3.0.0
   - [ask](#ask)
   - [asks](#asks)
   - [asksReader](#asksreader)
-  - [succeed](#succeed)
+  - [of](#of)
 - [do notation](#do-notation)
   - [Do](#do)
   - [bind](#bind)
@@ -107,12 +107,12 @@ export declare const asksReader: <R1, R2, A>(f: (r1: R1) => Reader<R2, A>) => Re
 
 Added in v3.0.0
 
-## succeed
+## of
 
 **Signature**
 
 ```ts
-export declare const succeed: <A>(a: A) => Reader<unknown, A>
+export declare const of: <A>(a: A) => Reader<unknown, A>
 ```
 
 Added in v3.0.0

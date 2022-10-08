@@ -8,8 +8,8 @@ parent: Modules
 
 A data structure providing "inclusive-or" as opposed to `Result`'s "exclusive-or".
 
-If you interpret `Result<E, A>` as suggesting the computation may either fail or succeed (exclusively), then
-`These<E, A>` may fail, succeed, or do both at the same time.
+If you interpret `Result<E, A>` as suggesting the computation may either fail or of (exclusively), then
+`These<E, A>` may fail, of, or do both at the same time.
 
 There are a few ways to interpret the both case:
 
@@ -35,7 +35,7 @@ Added in v3.0.0
   - [fail](#fail)
   - [failureOrBoth](#failureorboth)
   - [fromOptions](#fromoptions)
-  - [succeed](#succeed)
+  - [of](#of)
   - [successOrBoth](#successorboth)
 - [conversions](#conversions)
   - [fromNullable](#fromnullable)
@@ -161,23 +161,23 @@ export declare const fromOptions: <E, A>(fe: Option<E>, fa: Option<A>) => Option
 **Example**
 
 ```ts
-import { fromOptions, fail, succeed, both } from 'fp-ts/These'
+import { fromOptions, fail, of, both } from 'fp-ts/These'
 import { none, some } from 'fp-ts/Option'
 
 assert.deepStrictEqual(fromOptions(none, none), none)
 assert.deepStrictEqual(fromOptions(some('a'), none), some(fail('a')))
-assert.deepStrictEqual(fromOptions(none, some(1)), some(succeed(1)))
+assert.deepStrictEqual(fromOptions(none, some(1)), some(of(1)))
 assert.deepStrictEqual(fromOptions(some('a'), some(1)), some(both('a', 1)))
 ```
 
 Added in v3.0.0
 
-## succeed
+## of
 
 **Signature**
 
 ```ts
-export declare const succeed: <A>(success: A) => These<never, A>
+export declare const of: <A>(success: A) => These<never, A>
 ```
 
 Added in v3.0.0
@@ -193,10 +193,10 @@ export declare const successOrBoth: <A>(a: A) => <E>(me: Option<E>) => These<E, 
 **Example**
 
 ```ts
-import { successOrBoth, succeed, both } from 'fp-ts/These'
+import { successOrBoth, of, both } from 'fp-ts/These'
 import { none, some } from 'fp-ts/Option'
 
-assert.deepStrictEqual(successOrBoth(1)(none), succeed(1))
+assert.deepStrictEqual(successOrBoth(1)(none), of(1))
 assert.deepStrictEqual(successOrBoth(1)(some('a')), both('a', 1))
 ```
 
@@ -245,11 +245,11 @@ export declare const toTuple2: <E, A>(e: E, a: A) => (fa: These<E, A>) => readon
 **Example**
 
 ```ts
-import { toTuple2, fail, succeed, both } from 'fp-ts/These'
+import { toTuple2, fail, of, both } from 'fp-ts/These'
 
 const f = toTuple2('a', 1)
 assert.deepStrictEqual(f(fail('b')), ['b', 1])
-assert.deepStrictEqual(f(succeed(2)), ['a', 2])
+assert.deepStrictEqual(f(of(2)), ['a', 2])
 assert.deepStrictEqual(f(both('b', 2)), ['b', 2])
 ```
 
@@ -799,11 +799,11 @@ export declare const getFailure: <E, A>(fa: These<E, A>) => Option<E>
 **Example**
 
 ```ts
-import { getFailure, fail, succeed, both } from 'fp-ts/These'
+import { getFailure, fail, of, both } from 'fp-ts/These'
 import { none, some } from 'fp-ts/Option'
 
 assert.deepStrictEqual(getFailure(fail('a')), some('a'))
-assert.deepStrictEqual(getFailure(succeed(1)), none)
+assert.deepStrictEqual(getFailure(of(1)), none)
 assert.deepStrictEqual(getFailure(both('a', 1)), some('a'))
 ```
 
@@ -822,11 +822,11 @@ export declare const getFailureOnly: <E, A>(fa: These<E, A>) => Option<E>
 **Example**
 
 ```ts
-import { getFailureOnly, fail, succeed, both } from 'fp-ts/These'
+import { getFailureOnly, fail, of, both } from 'fp-ts/These'
 import { none, some } from 'fp-ts/Option'
 
 assert.deepStrictEqual(getFailureOnly(fail('a')), some('a'))
-assert.deepStrictEqual(getFailureOnly(succeed(1)), none)
+assert.deepStrictEqual(getFailureOnly(of(1)), none)
 assert.deepStrictEqual(getFailureOnly(both('a', 1)), none)
 ```
 
@@ -845,11 +845,11 @@ export declare const getSuccess: <E, A>(fa: These<E, A>) => Option<A>
 **Example**
 
 ```ts
-import { getSuccess, fail, succeed, both } from 'fp-ts/These'
+import { getSuccess, fail, of, both } from 'fp-ts/These'
 import { none, some } from 'fp-ts/Option'
 
 assert.deepStrictEqual(getSuccess(fail('a')), none)
-assert.deepStrictEqual(getSuccess(succeed(1)), some(1))
+assert.deepStrictEqual(getSuccess(of(1)), some(1))
 assert.deepStrictEqual(getSuccess(both('a', 1)), some(1))
 ```
 
@@ -868,11 +868,11 @@ export declare const getSuccessOnly: <E, A>(fa: These<E, A>) => Option<A>
 **Example**
 
 ```ts
-import { getSuccessOnly, fail, succeed, both } from 'fp-ts/These'
+import { getSuccessOnly, fail, of, both } from 'fp-ts/These'
 import { none, some } from 'fp-ts/Option'
 
 assert.deepStrictEqual(getSuccessOnly(fail('a')), none)
-assert.deepStrictEqual(getSuccessOnly(succeed(1)), some(1))
+assert.deepStrictEqual(getSuccessOnly(of(1)), some(1))
 assert.deepStrictEqual(getSuccessOnly(both('a', 1)), none)
 ```
 

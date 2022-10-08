@@ -15,9 +15,9 @@ Added in v3.0.0
 - [Flattenable](#flattenable)
   - [flatMap](#flatmap)
 - [constructors](#constructors)
-  - [fromReadonlyArray](#fromreadonlyarray)
-  - [succeed](#succeed)
+  - [of](#of)
 - [conversions](#conversions)
+  - [fromIterable](#fromiterable)
   - [toIterable](#toiterable)
 - [filtering](#filtering)
   - [compact](#compact)
@@ -66,29 +66,27 @@ Added in v3.0.0
 
 # constructors
 
-## fromReadonlyArray
-
-Create a `ReadonlySet` from a `ReadonlyArray`.
+## of
 
 **Signature**
 
 ```ts
-export declare const fromReadonlyArray: <A>(E: Eq<A>) => (as: readonly A[]) => ReadonlySet<A>
-```
-
-Added in v3.0.0
-
-## succeed
-
-**Signature**
-
-```ts
-export declare const succeed: <A>(a: A) => ReadonlySet<A>
+export declare const of: <A>(a: A) => ReadonlySet<A>
 ```
 
 Added in v3.0.0
 
 # conversions
+
+## fromIterable
+
+**Signature**
+
+```ts
+export declare const fromIterable: <A>(Eq: Eq<A>) => (self: Iterable<A>) => ReadonlySet<A>
+```
+
+Added in v3.0.0
 
 ## toIterable
 

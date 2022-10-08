@@ -27,10 +27,10 @@ export interface ResultT<F extends TypeLambda, E> extends TypeLambda {
 /**
  * @since 3.0.0
  */
-export const succeed =
+export const of =
   <F extends TypeLambda>(FromIdentity: FromIdentity<F>) =>
   <A, S>(a: A): Kind<ResultT<F, never>, S, unknown, never, never, A> =>
-    FromIdentity.succeed(result.succeed(a))
+    FromIdentity.of(result.of(a))
 
 /**
  * @since 3.0.0
@@ -38,15 +38,14 @@ export const succeed =
 export const fail =
   <F extends TypeLambda>(FromIdentity: FromIdentity<F>) =>
   <E, S>(e: E): Kind<ResultT<F, E>, S, unknown, never, never, never> =>
-    FromIdentity.succeed(result.fail(e))
+    FromIdentity.of(result.fail(e))
 
 /**
  * @since 3.0.0
  */
 export const fromKind = <F extends TypeLambda>(
   Functor: Functor<F>
-): (<S, R, O, FE, A>(fa: Kind<F, S, R, O, FE, A>) => Kind<ResultT<F, never>, S, R, O, FE, A>) =>
-  Functor.map(result.succeed)
+): (<S, R, O, FE, A>(fa: Kind<F, S, R, O, FE, A>) => Kind<ResultT<F, never>, S, R, O, FE, A>) => Functor.map(result.of)
 
 /**
  * @since 3.0.0
@@ -92,7 +91,7 @@ export const flatMap =
       self,
       Monad.flatMap(
         (e): Kind<ResultT<F, E1 | E2>, S, R1 & R2, O1 | O2, FE1 | FE2, B> =>
-          result.isFailure(e) ? Monad.succeed(e) : f(e.success)
+          result.isFailure(e) ? Monad.of(e) : f(e.success)
       )
     )
 
@@ -111,7 +110,7 @@ export const flatMapError =
       Monad.flatMap<Result<E1, A>, S, R, O, FE, Result<E2, A>>(
         result.match(
           (e) => pipe(f(e), Monad.map(result.fail)),
-          (a) => Monad.succeed(result.succeed(a))
+          (a) => Monad.of(result.of(a))
         )
       )
     )
@@ -128,7 +127,7 @@ export const catchAll =
     pipe(
       self,
       Monad.flatMap<Result<E1, A>, S, R1 & R2, O1 | O2, FE1 | FE2, Result<E2, A | B>>((e) =>
-        result.isFailure(e) ? onError(e.failure) : Monad.succeed(e)
+        result.isFailure(e) ? onError(e.failure) : Monad.of(e)
       )
     )
 
@@ -177,13 +176,13 @@ export const getValidatedOrElse =
   <R1, O1, FE1, A>(
     self: Kind<ResultT<F, E>, S, R1, O1, FE1, A>
   ): Kind<ResultT<F, E>, S, R1 & R2, O1 | O2, FE1 | FE2, A | B> => {
-    const succeed_ = succeed(Monad)
+    const of_ = of(Monad)
     return pipe(
       self,
       Monad.flatMap(
         result.match<E, Kind<F, S, R1 & R2, O1 | O2, FE1 | FE2, Result<E, A | B>>, A | B>(
           (e1) => pipe(that, Monad.map(result.mapError((e2) => Semigroup.combine(e2)(e1)))),
-          succeed_
+          of_
         )
       )
     )
@@ -230,10 +229,7 @@ export const getOrElseKind =
   <R1, O1, FE1, A>(
     self: Kind<ResultT<F, unknown>, S, R1, O1, FE1, A>
   ): Kind<F, S, R1 & R2, O1 | O2, FE1 | FE2, A | B> => {
-    return pipe(
-      self,
-      Monad.flatMap(result.match<unknown, Kind<F, S, R2, O2, FE2, A | B>, A>(() => onError, Monad.succeed))
-    )
+    return pipe(self, Monad.flatMap(result.match<unknown, Kind<F, S, R2, O2, FE2, A | B>, A>(() => onError, Monad.of)))
   }
 
 /**
@@ -299,7 +295,7 @@ export const bracket =
                   release(a, e),
                   Monad.flatMap(
                     result.match<E3, Kind<F, S, unknown, never, never, Result<E2 | E3, B>>, void>(fail_, () =>
-                      Monad.succeed(e)
+                      Monad.of(e)
                     )
                   )
                 )

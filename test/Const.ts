@@ -32,7 +32,7 @@ describe('Const', () => {
 
   it('getApplicative', () => {
     const F = _.getApplicative(string.Monoid)
-    U.deepStrictEqual(F.succeed(1), _.make(''))
+    U.deepStrictEqual(F.of(1), _.make(''))
   })
 
   it('getEq', () => {

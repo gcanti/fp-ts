@@ -18,20 +18,20 @@ _.ap(fa)(fab)
 
 // $ExpectType ReaderResult<unknown, never, number>
 pipe(
-  _.succeed('a'),
-  _.flatMap(() => _.succeed(1))
+  _.of('a'),
+  _.flatMap(() => _.of(1))
 )
 
 // $ExpectType ReaderResult<{ a: string; } & { b: number; }, never, number>
 pipe(
-  _.succeed('a') as _.ReaderResult<{ a: string }, never, string>,
-  _.flatMap(() => _.succeed(1) as _.ReaderResult<{ b: number }, never, number>)
+  _.of('a') as _.ReaderResult<{ a: string }, never, string>,
+  _.flatMap(() => _.of(1) as _.ReaderResult<{ b: number }, never, number>)
 )
 
 // $ExpectType ReaderResult<{ a: string; } & { b: number; }, string | number, number>
 pipe(
-  _.succeed('a') as _.ReaderResult<{ a: string }, string, string>,
-  _.flatMap(() => _.succeed(1) as _.ReaderResult<{ b: number }, number, number>)
+  _.of('a') as _.ReaderResult<{ a: string }, string, string>,
+  _.flatMap(() => _.of(1) as _.ReaderResult<{ b: number }, number, number>)
 )
 
 //
@@ -43,7 +43,7 @@ pipe(
 //
 
 // $ExpectType Reader<{ a: string; }, string | null>
-pipe(_.succeed('a') as _.ReaderResult<{ a: string }, string, string>, _.getOrElse(null))
+pipe(_.of('a') as _.ReaderResult<{ a: string }, string, string>, _.getOrElse(null))
 
 //
 // getOrElseReader
@@ -51,8 +51,8 @@ pipe(_.succeed('a') as _.ReaderResult<{ a: string }, string, string>, _.getOrEls
 
 // $ExpectType Reader<{ a: string; } & { b: number; }, string | null>
 pipe(
-  _.succeed('a') as _.ReaderResult<{ a: string }, string, string>,
-  _.getOrElseReader(R.succeed(null) as R.Reader<{ b: number }, null>)
+  _.of('a') as _.ReaderResult<{ a: string }, string, string>,
+  _.getOrElseReader(R.of(null) as R.Reader<{ b: number }, null>)
 )
 
 //
@@ -61,8 +61,8 @@ pipe(
 
 // $ExpectType ReaderResult<string, string | number, number>
 pipe(
-  _.succeed('a') as _.ReaderResult<string, string, string>,
-  _.flatMapResult(() => E.succeed(1) as E.Result<number, number>)
+  _.of('a') as _.ReaderResult<string, string, string>,
+  _.flatMapResult(() => E.of(1) as E.Result<number, number>)
 )
 
 //
@@ -71,10 +71,10 @@ pipe(
 
 // $ExpectType ReaderResult<{ readonly a: number; } & { readonly b: string; }, string | number, { readonly a1: number; readonly a2: string; readonly a3: boolean; }>
 pipe(
-  _.succeed(1) as _.ReaderResult<{ readonly a: number }, string, number>,
+  _.of(1) as _.ReaderResult<{ readonly a: number }, string, number>,
   _.bindTo('a1'),
-  _.bind('a2', () => _.succeed('b')),
-  _.bind('a3', () => _.succeed(true) as _.ReaderResult<{ readonly b: string }, number, boolean>)
+  _.bind('a2', () => _.of('b')),
+  _.bind('a3', () => _.of(true) as _.ReaderResult<{ readonly b: string }, number, boolean>)
 )
 
 //
@@ -83,10 +83,10 @@ pipe(
 
 // $ExpectType ReaderResult<{ readonly a: number; } & { readonly b: string; }, string | number, { readonly a1: number; readonly a2: string; readonly a3: boolean; }>
 pipe(
-  _.succeed(1) as _.ReaderResult<{ readonly a: number }, string, number>,
+  _.of(1) as _.ReaderResult<{ readonly a: number }, string, number>,
   _.bindTo('a1'),
-  _.bindRight('a2', _.succeed('b')),
-  _.bindRight('a3', _.succeed(true) as _.ReaderResult<{ readonly b: string }, number, boolean>)
+  _.bindRight('a2', _.of('b')),
+  _.bindRight('a3', _.of(true) as _.ReaderResult<{ readonly b: string }, number, boolean>)
 )
 
 //
@@ -96,6 +96,6 @@ pipe(
 // $ExpectType ReaderResult<unknown, string, { readonly a1: number; readonly a2: string; }>
 pipe(
   _.Do,
-  _.bind('a1', () => _.succeed(1) as _.ReaderResult<unknown, string, number>),
-  _.bind('a2', () => _.succeed('b') as _.ReaderResult<unknown, string, string>)
+  _.bind('a1', () => _.of(1) as _.ReaderResult<unknown, string, number>),
+  _.bind('a2', () => _.of('b') as _.ReaderResult<unknown, string, string>)
 )

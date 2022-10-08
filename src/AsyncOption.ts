@@ -56,7 +56,7 @@ export const some: <A>(a: A) => AsyncOption<A> = /*#__PURE__*/ optionT.some(asyn
  * @category conversions
  * @since 3.0.0
  */
-export const fromOption: <A>(fa: Option<A>) => AsyncOption<A> = async.succeed
+export const fromOption: <A>(fa: Option<A>) => AsyncOption<A> = async.of
 
 /**
  * @category conversions
@@ -180,7 +180,7 @@ export const map: <A, B>(f: (a: A) => B) => (fa: AsyncOption<A>) => AsyncOption<
  * @category constructors
  * @since 3.0.0
  */
-export const succeed: <A>(a: A) => AsyncOption<A> = some
+export const of: <A>(a: A) => AsyncOption<A> = some
 
 /**
  * @category sequencing
@@ -276,7 +276,7 @@ export const unit: (self: AsyncOption<unknown>) => AsyncOption<void> = /*#__PURE
  * @since 3.0.0
  */
 export const FromIdentity: fromIdentity.FromIdentity<AsyncOptionTypeLambda> = {
-  succeed
+  of
 }
 
 /**
@@ -378,7 +378,7 @@ export const lift3: <A, B, C, D>(
 export const Applicative: applicative.Applicative<AsyncOptionTypeLambda> = {
   map,
   ap,
-  succeed
+  of
 }
 
 /**
@@ -404,7 +404,7 @@ export const tapError: (onNone: AsyncOption<unknown>) => <A>(self: AsyncOption<A
  */
 export const Monad: monad.Monad<AsyncOptionTypeLambda> = {
   map,
-  succeed,
+  of,
   flatMap
 }
 
@@ -634,7 +634,7 @@ export const partition: {
  * @category do notation
  * @since 3.0.0
  */
-export const Do: AsyncOption<{}> = /*#__PURE__*/ succeed(_.emptyReadonlyRecord)
+export const Do: AsyncOption<{}> = /*#__PURE__*/ of(_.emptyReadonlyRecord)
 
 /**
  * @category do notation
@@ -687,7 +687,7 @@ export const bindRight: <N extends string, A extends object, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const Zip: AsyncOption<readonly []> = /*#__PURE__*/ succeed(_.emptyReadonlyArray)
+export const Zip: AsyncOption<readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
 
 /**
  * @category tuple sequencing

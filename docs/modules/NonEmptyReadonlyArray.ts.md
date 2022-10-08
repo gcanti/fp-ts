@@ -28,9 +28,9 @@ Added in v3.0.0
 - [constructors](#constructors)
   - [fromReadonlyArray](#fromreadonlyarray)
   - [makeBy](#makeby)
+  - [of](#of)
   - [range](#range)
   - [replicate](#replicate)
-  - [succeed](#succeed)
 - [do notation](#do-notation)
   - [Do](#do)
   - [bind](#bind)
@@ -189,6 +189,16 @@ assert.deepStrictEqual(pipe(5, makeBy(double)), [0, 2, 4, 6, 8])
 
 Added in v3.0.0
 
+## of
+
+**Signature**
+
+```ts
+export declare const of: <A>(a: A) => readonly [A, ...A[]]
+```
+
+Added in v3.0.0
+
 ## range
 
 Create a `NonEmptyReadonlyArray` containing a range of integers, including both endpoints.
@@ -228,16 +238,6 @@ import { replicate } from 'fp-ts/NonEmptyReadonlyArray'
 import { pipe } from 'fp-ts/Function'
 
 assert.deepStrictEqual(pipe(3, replicate('a')), ['a', 'a', 'a'])
-```
-
-Added in v3.0.0
-
-## succeed
-
-**Signature**
-
-```ts
-export declare const succeed: <A>(a: A) => readonly [A, ...A[]]
 ```
 
 Added in v3.0.0
@@ -1504,7 +1504,7 @@ Remove duplicates from a `NonEmptyReadonlyArray`, keeping the first occurrence o
 **Signature**
 
 ```ts
-export declare const uniq: <A>(E: eq.Eq<A>) => (as: readonly [A, ...A[]]) => readonly [A, ...A[]]
+export declare const uniq: <A>(Eq: eq.Eq<A>) => (as: readonly [A, ...A[]]) => readonly [A, ...A[]]
 ```
 
 **Example**

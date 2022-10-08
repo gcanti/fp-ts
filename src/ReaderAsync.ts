@@ -50,7 +50,7 @@ export const fromReader: <R, A>(fa: reader.Reader<R, A>) => ReaderAsync<R, A> = 
  * @category conversions
  * @since 3.0.0
  */
-export const fromAsync: <A>(fa: Async<A>) => ReaderAsync<unknown, A> = /*#__PURE__*/ reader.succeed
+export const fromAsync: <A>(fa: Async<A>) => ReaderAsync<unknown, A> = /*#__PURE__*/ reader.of
 
 /**
  * @category conversions
@@ -93,7 +93,7 @@ export const apPar: <R2, A>(
  * @category constructors
  * @since 3.0.0
  */
-export const succeed: <A>(a: A) => ReaderAsync<unknown, A> = /*#__PURE__*/ readerT.succeed(async.FromIdentity)
+export const of: <A>(a: A) => ReaderAsync<unknown, A> = /*#__PURE__*/ readerT.of(async.FromIdentity)
 
 /**
  * @category sequencing
@@ -179,7 +179,7 @@ export const unit: <R>(self: ReaderAsync<R, unknown>) => ReaderAsync<R, void> = 
  * @since 3.0.0
  */
 export const FromIdentity: fromIdentity.FromIdentity<ReaderAsyncTypeLambda> = {
-  succeed
+  of
 }
 
 /**
@@ -241,7 +241,7 @@ export const zipRightPar: <R, A>(that: ReaderAsync<R, A>) => (self: ReaderAsync<
 export const ApplicativePar: applicative.Applicative<ReaderAsyncTypeLambda> = {
   map,
   ap: apPar,
-  succeed
+  of
 }
 
 /**
@@ -352,7 +352,7 @@ export const lift3: <A, B, C, D>(
 export const Applicative: applicative.Applicative<ReaderAsyncTypeLambda> = {
   map,
   ap,
-  succeed
+  of
 }
 
 /**
@@ -370,7 +370,7 @@ export const tap: <A, R2>(
  */
 export const Monad: monad.Monad<ReaderAsyncTypeLambda> = {
   map,
-  succeed,
+  of,
   flatMap
 }
 
@@ -506,7 +506,7 @@ export const flatMapAsync: <A, B>(f: (a: A) => Async<B>) => <R>(self: ReaderAsyn
  * @category do notation
  * @since 3.0.0
  */
-export const Do: ReaderAsync<unknown, {}> = /*#__PURE__*/ succeed(_.emptyReadonlyRecord)
+export const Do: ReaderAsync<unknown, {}> = /*#__PURE__*/ of(_.emptyReadonlyRecord)
 
 /**
  * @category do notation
@@ -578,7 +578,7 @@ export const bindRightPar: <N extends string, A extends object, R2, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const Zip: ReaderAsync<unknown, readonly []> = /*#__PURE__*/ succeed(_.emptyReadonlyArray)
+export const Zip: ReaderAsync<unknown, readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
 
 /**
  * @category tuple sequencing

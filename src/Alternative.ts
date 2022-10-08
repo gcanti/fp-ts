@@ -31,7 +31,7 @@ export interface Alternative<F extends TypeLambda> extends Alt<F> {
 export const guard =
   <F extends TypeLambda>(Alternative: Alternative<F>, FromIdentity: FromIdentity<F>) =>
   <S>(b: boolean): Kind<F, S, unknown, never, never, void> =>
-    b ? FromIdentity.succeed(undefined) : Alternative.none()
+    b ? FromIdentity.of(undefined) : Alternative.none()
 
 /**
  * Returns an effect that runs each of the specified effects in order until one of them succeeds.

@@ -23,20 +23,20 @@ _.ap(fa)(fab)
 
 // $ExpectType Result<never, number>
 pipe(
-  _.succeed('a'),
-  _.flatMap(() => _.succeed(1))
+  _.of('a'),
+  _.flatMap(() => _.of(1))
 )
 
 // $ExpectType Result<number, number>
 pipe(
-  _.succeed('a'),
-  _.flatMap(() => _.succeed(1) as _.Result<number, number>)
+  _.of('a'),
+  _.flatMap(() => _.of(1) as _.Result<number, number>)
 )
 
 // $ExpectType Result<string | number, number>
 pipe(
-  _.succeed('a') as _.Result<string, string>,
-  _.flatMap(() => _.succeed(1) as _.Result<number, number>)
+  _.of('a') as _.Result<string, string>,
+  _.flatMap(() => _.of(1) as _.Result<number, number>)
 )
 
 // -------------------------------------------------------------------------------------
@@ -114,14 +114,14 @@ pipe(
 //
 
 // $ExpectType string | number
-_.toUnion(_.succeed(1) as _.Result<number, string>)
+_.toUnion(_.of(1) as _.Result<number, string>)
 
 //
 // getOrElse
 //
 
 // $ExpectType string | null
-pipe(_.succeed('a'), _.getOrElse(null))
+pipe(_.of('a'), _.getOrElse(null))
 
 //
 // do notation
@@ -129,10 +129,10 @@ pipe(_.succeed('a'), _.getOrElse(null))
 
 // $ExpectType Result<string | number, { readonly a1: number; readonly a2: string; readonly a3: boolean; }>
 pipe(
-  _.succeed(1) as _.Result<string, number>,
+  _.of(1) as _.Result<string, number>,
   _.bindTo('a1'),
-  _.bind('a2', () => _.succeed('b')),
-  _.bind('a3', () => _.succeed(true) as _.Result<number, boolean>)
+  _.bind('a2', () => _.of('b')),
+  _.bind('a3', () => _.of(true) as _.Result<number, boolean>)
 )
 
 //
@@ -141,10 +141,10 @@ pipe(
 
 // $ExpectType Result<string | number, { readonly a1: number; readonly a2: string; readonly a3: boolean; }>
 pipe(
-  _.succeed(1) as _.Result<string, number>,
+  _.of(1) as _.Result<string, number>,
   _.bindTo('a1'),
-  _.bindRight('a2', _.succeed('a3')),
-  _.bindRight('a3', _.succeed(true) as _.Result<number, boolean>)
+  _.bindRight('a2', _.of('a3')),
+  _.bindRight('a3', _.of(true) as _.Result<number, boolean>)
 )
 
 //
@@ -154,6 +154,6 @@ pipe(
 // $ExpectType Result<string, { readonly a1: number; readonly a2: string; }>
 pipe(
   _.Do,
-  _.bind('a1', () => _.succeed(1) as _.Result<string, number>),
-  _.bind('a2', () => _.succeed('b') as _.Result<string, string>)
+  _.bind('a1', () => _.of(1) as _.Result<string, number>),
+  _.bind('a2', () => _.of('b') as _.Result<string, string>)
 )

@@ -64,7 +64,7 @@ export const fromAsync =
 export const tell =
   <F extends TypeLambda>(FromIdentity: FromIdentity<F>) =>
   <W, S>(w: W): Kind<WriterT<F, W>, S, unknown, never, never, void> =>
-    FromIdentity.succeed(writer.tell(w))
+    FromIdentity.of(writer.tell(w))
 
 /**
  * Returns an effect whose success is mapped by the specified `f` function.
@@ -81,10 +81,10 @@ export const map = <F extends TypeLambda>(Functor: Functor<F>) => {
 /**
  * @since 3.0.0
  */
-export const succeed =
+export const of =
   <F extends TypeLambda, W>(FromIdentity: FromIdentity<F>, Monoid: Monoid<W>) =>
   <A, S>(a: A): Kind<WriterT<F, W>, S, unknown, never, never, A> =>
-    FromIdentity.succeed([Monoid.empty, a])
+    FromIdentity.of([Monoid.empty, a])
 
 /**
  * @since 3.0.0

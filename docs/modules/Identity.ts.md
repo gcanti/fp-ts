@@ -17,7 +17,7 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [constructors](#constructors)
-  - [succeed](#succeed)
+  - [of](#of)
 - [conversions](#conversions)
   - [toIterable](#toiterable)
 - [do notation](#do-notation)
@@ -85,12 +85,12 @@ Added in v3.0.0
 
 # constructors
 
-## succeed
+## of
 
 **Signature**
 
 ```ts
-export declare const succeed: <A>(a: A) => A
+export declare const of: <A>(a: A) => A
 ```
 
 Added in v3.0.0

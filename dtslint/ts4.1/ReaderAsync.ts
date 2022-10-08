@@ -17,20 +17,20 @@ _.apPar(fa)(fab)
 
 // $ExpectType ReaderAsync<unknown, number>
 pipe(
-  _.succeed('a'),
-  _.flatMap(() => _.succeed(1))
+  _.of('a'),
+  _.flatMap(() => _.of(1))
 )
 
 // $ExpectType ReaderAsync<{ b: number; }, number>
 pipe(
-  _.succeed('a'),
-  _.flatMap(() => _.succeed(1) as _.ReaderAsync<{ b: number }, number>)
+  _.of('a'),
+  _.flatMap(() => _.of(1) as _.ReaderAsync<{ b: number }, number>)
 )
 
 // $ExpectType ReaderAsync<{ a: string; } & { b: number; }, number>
 pipe(
-  _.succeed('a') as _.ReaderAsync<{ a: string }, string>,
-  _.flatMap(() => _.succeed(1) as _.ReaderAsync<{ b: number }, number>)
+  _.of('a') as _.ReaderAsync<{ a: string }, string>,
+  _.flatMap(() => _.of(1) as _.ReaderAsync<{ b: number }, number>)
 )
 
 //
@@ -50,14 +50,14 @@ interface R2 {
 //
 
 // $ExpectType ReaderAsync<R1, boolean>
-_.fromReaderSync(RIO.succeed(true) as RIO.ReaderSync<R1, boolean>)
+_.fromReaderSync(RIO.of(true) as RIO.ReaderSync<R1, boolean>)
 
 //
 // fromReaderSyncK
 //
 
 // $ExpectType (a: boolean) => ReaderAsync<R1, boolean>
-_.liftReaderSync((a: boolean) => RIO.succeed(a) as RIO.ReaderSync<R1, boolean>)
+_.liftReaderSync((a: boolean) => RIO.of(a) as RIO.ReaderSync<R1, boolean>)
 
 //
 // flatMapReaderSyncKW
@@ -65,8 +65,8 @@ _.liftReaderSync((a: boolean) => RIO.succeed(a) as RIO.ReaderSync<R1, boolean>)
 
 // $ExpectType ReaderAsync<R1 & R2, boolean>
 pipe(
-  _.succeed(1) as _.ReaderAsync<R1, number>,
-  _.flatMapReaderSync(() => RIO.succeed(true) as RIO.ReaderSync<R2, boolean>)
+  _.of(1) as _.ReaderAsync<R1, number>,
+  _.flatMapReaderSync(() => RIO.of(true) as RIO.ReaderSync<R2, boolean>)
 )
 
 //
@@ -75,8 +75,8 @@ pipe(
 
 // $ExpectType ReaderAsync<R1, number>
 pipe(
-  _.succeed(1) as _.ReaderAsync<R1, number>,
-  _.flatMapReaderSync(() => RIO.succeed(1))
+  _.of(1) as _.ReaderAsync<R1, number>,
+  _.flatMapReaderSync(() => RIO.of(1))
 )
 
 //
@@ -87,7 +87,7 @@ pipe(
 pipe(
   _.Do,
   // tslint:disable-next-line: no-unnecessary-type-assertion
-  _.bind('a1', () => _.succeed(1) as _.ReaderAsync<unknown, number>),
+  _.bind('a1', () => _.of(1) as _.ReaderAsync<unknown, number>),
   // tslint:disable-next-line: no-unnecessary-type-assertion
-  _.bind('a2', () => _.succeed('b') as _.ReaderAsync<unknown, string>)
+  _.bind('a2', () => _.of('b') as _.ReaderAsync<unknown, string>)
 )

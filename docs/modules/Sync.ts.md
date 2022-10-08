@@ -25,7 +25,7 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [constructors](#constructors)
-  - [succeed](#succeed)
+  - [of](#of)
 - [do notation](#do-notation)
   - [Do](#do)
   - [bind](#bind)
@@ -85,12 +85,12 @@ Added in v3.0.0
 
 # constructors
 
-## succeed
+## of
 
 **Signature**
 
 ```ts
-export declare const succeed: <A>(a: A) => Sync<A>
+export declare const of: <A>(a: A) => Sync<A>
 ```
 
 Added in v3.0.0

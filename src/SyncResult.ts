@@ -63,7 +63,7 @@ export const fail: <E>(e: E) => SyncResult<E, never> = /*#__PURE__*/ resultT.fai
  * @category constructors
  * @since 3.0.0
  */
-export const succeed: <A>(a: A) => SyncResult<never, A> = /*#__PURE__*/ resultT.succeed(sync.FromIdentity)
+export const of: <A>(a: A) => SyncResult<never, A> = /*#__PURE__*/ resultT.of(sync.FromIdentity)
 
 /**
  * @category conversions
@@ -81,7 +81,7 @@ export const failSync: <E>(me: Sync<E>) => SyncResult<E, never> = /*#__PURE__*/ 
  * @category conversions
  * @since 3.0.0
  */
-export const fromResult: <E, A>(fa: Result<E, A>) => SyncResult<E, A> = sync.succeed
+export const fromResult: <E, A>(fa: Result<E, A>) => SyncResult<E, A> = sync.of
 
 // -------------------------------------------------------------------------------------
 // pattern matching
@@ -245,7 +245,7 @@ export const getValidatedApplicative = <E>(
 ): applicative.Applicative<result.ValidatedT<SyncResultTypeLambda, E>> => ({
   map,
   ap: apply.apComposition(sync.Apply, result.getValidatedApplicative(Semigroup)),
-  succeed
+  of
 })
 
 /**
@@ -333,7 +333,7 @@ export const unit: <E>(self: SyncResult<E, unknown>) => SyncResult<E, void> = /*
  * @since 3.0.0
  */
 export const FromIdentity: fromIdentity.FromIdentity<SyncResultTypeLambda> = {
-  succeed
+  of
 }
 
 /**
@@ -457,7 +457,7 @@ export const lift3: <A, B, C, D>(
 export const Applicative: applicative.Applicative<SyncResultTypeLambda> = {
   map,
   ap,
-  succeed
+  of
 }
 
 /**
@@ -466,7 +466,7 @@ export const Applicative: applicative.Applicative<SyncResultTypeLambda> = {
  */
 export const Monad: monad.Monad<SyncResultTypeLambda> = {
   map,
-  succeed,
+  of,
   flatMap
 }
 
@@ -686,7 +686,7 @@ export const bracket: <E1, A, E2, B, E3>(
  * @category do notation
  * @since 3.0.0
  */
-export const Do: SyncResult<never, {}> = /*#__PURE__*/ succeed(_.emptyReadonlyRecord)
+export const Do: SyncResult<never, {}> = /*#__PURE__*/ of(_.emptyReadonlyRecord)
 
 /**
  * @category do notation
@@ -744,7 +744,7 @@ export const bindRight: <N extends string, A extends object, E2, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const Zip: SyncResult<never, readonly []> = /*#__PURE__*/ succeed(_.emptyReadonlyArray)
+export const Zip: SyncResult<never, readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
 
 /**
  * @category tuple sequencing
@@ -862,7 +862,7 @@ export const traverseNonEmptyReadonlyArrayWithIndex =
       }
       out.push(e.success)
     }
-    return _.succeed(out)
+    return _.of(out)
   }
 
 /**

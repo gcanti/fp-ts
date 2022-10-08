@@ -86,16 +86,14 @@ describe('ReadonlyArray', () => {
     })
 
     it('filterMapKind', async () => {
-      const filterMapKind = _.traverseFilterMap(T.ApplicativePar)((n: number) =>
-        T.succeed(n > 2 ? O.some(n + 1) : O.none)
-      )
+      const filterMapKind = _.traverseFilterMap(T.ApplicativePar)((n: number) => T.of(n > 2 ? O.some(n + 1) : O.none))
       U.deepStrictEqual(await pipe([], filterMapKind)(), [])
       U.deepStrictEqual(await pipe([1, 3], filterMapKind)(), [4])
     })
 
     it('partitionMapKind', async () => {
       const partitionMapKind = _.traversePartitionMap(T.ApplicativePar)((n: number) =>
-        T.succeed(n > 2 ? E.succeed(n + 1) : E.fail(n - 1))
+        T.of(n > 2 ? E.of(n + 1) : E.fail(n - 1))
       )
       U.deepStrictEqual(await pipe([], partitionMapKind)(), [[], []])
       U.deepStrictEqual(await pipe([1, 3], partitionMapKind)(), [[0], [4]])
@@ -168,7 +166,7 @@ describe('ReadonlyArray', () => {
 
     it('separate', () => {
       U.deepStrictEqual(_.separate([]), [[], []])
-      U.deepStrictEqual(_.separate([E.fail(123), E.succeed('123')]), [[123], ['123']])
+      U.deepStrictEqual(_.separate([E.fail(123), E.of('123')]), [[123], ['123']])
     })
 
     it('filter', () => {
@@ -200,7 +198,7 @@ describe('ReadonlyArray', () => {
 
     it('partitionMap', () => {
       U.deepStrictEqual(pipe([], _.partitionMap(identity)), [[], []])
-      U.deepStrictEqual(pipe([E.succeed(1), E.fail('foo'), E.succeed(2)], _.partitionMap(identity)), [['foo'], [1, 2]])
+      U.deepStrictEqual(pipe([E.of(1), E.fail('foo'), E.of(2)], _.partitionMap(identity)), [['foo'], [1, 2]])
     })
 
     it('partition', () => {
@@ -230,7 +228,7 @@ describe('ReadonlyArray', () => {
       )
       U.deepStrictEqual(
         pipe(
-          [E.succeed(1), E.fail('foo'), E.succeed(2)],
+          [E.of(1), E.fail('foo'), E.of(2)],
           _.partitionMapWithIndex((i, a) =>
             pipe(
               a,
@@ -696,12 +694,12 @@ describe('ReadonlyArray', () => {
   })
 
   it('rights', () => {
-    U.deepStrictEqual(_.successes([E.succeed(1), E.fail('foo'), E.succeed(2)]), [1, 2])
+    U.deepStrictEqual(_.successes([E.of(1), E.fail('foo'), E.of(2)]), [1, 2])
     U.deepStrictEqual(_.successes([]), [])
   })
 
   it('lefts', () => {
-    U.deepStrictEqual(_.failures([E.succeed(1), E.fail('foo'), E.succeed(2)]), ['foo'])
+    U.deepStrictEqual(_.failures([E.of(1), E.fail('foo'), E.of(2)]), ['foo'])
     U.deepStrictEqual(_.failures([]), [])
   })
 
@@ -1091,20 +1089,20 @@ describe('ReadonlyArray', () => {
   it('do notation', () => {
     U.deepStrictEqual(
       pipe(
-        _.succeed(1),
+        _.of(1),
         _.bindTo('a'),
-        _.bind('b', () => _.succeed('b'))
+        _.bind('b', () => _.of('b'))
       ),
       [{ a: 1, b: 'b' }]
     )
   })
 
   it('apS', () => {
-    U.deepStrictEqual(pipe(_.succeed(1), _.bindTo('a'), _.bindRight('b', _.succeed('b'))), [{ a: 1, b: 'b' }])
+    U.deepStrictEqual(pipe(_.of(1), _.bindTo('a'), _.bindRight('b', _.of('b'))), [{ a: 1, b: 'b' }])
   })
 
   it('zipFlatten', () => {
-    U.deepStrictEqual(pipe(_.succeed(1), _.tupled, _.zipFlatten(_.succeed('b'))), [[1, 'b']])
+    U.deepStrictEqual(pipe(_.of(1), _.tupled, _.zipFlatten(_.of('b'))), [[1, 'b']])
   })
 
   it('every', () => {
@@ -1126,7 +1124,7 @@ describe('ReadonlyArray', () => {
   })
 
   it('fromResult', () => {
-    U.deepStrictEqual(_.fromResult(E.succeed(1)), [1])
+    U.deepStrictEqual(_.fromResult(E.of(1)), [1])
     U.strictEqual(_.fromResult(E.fail('a')), _.empty)
   })
 
@@ -1168,12 +1166,12 @@ describe('ReadonlyArray', () => {
   })
 
   it('filterKind', async () => {
-    const f = (n: number) => T.succeed(n % 2 === 0)
+    const f = (n: number) => T.of(n % 2 === 0)
     U.deepStrictEqual(await pipe([1, 2], _.traverseFilter(T.ApplicativePar)(f))(), [2])
   })
 
   it('partitionKind', async () => {
-    const f = (n: number) => T.succeed(n % 2 === 0)
+    const f = (n: number) => T.of(n % 2 === 0)
     U.deepStrictEqual(await pipe([1, 2], _.traversePartition(T.ApplicativePar)(f))(), [[1], [2]])
   })
 
@@ -1190,7 +1188,7 @@ describe('ReadonlyArray', () => {
       U.deepStrictEqual(
         pipe(
           1,
-          flatMapRec<number, string>(() => [E.succeed('a')])
+          flatMapRec<number, string>(() => [E.of('a')])
         ),
         ['a']
       )
@@ -1199,9 +1197,9 @@ describe('ReadonlyArray', () => {
           1,
           flatMapRec((a) => {
             if (a < 5) {
-              return [E.succeed(a), E.fail(a + 1)]
+              return [E.of(a), E.fail(a + 1)]
             } else {
-              return [E.succeed(a)]
+              return [E.of(a)]
             }
           })
         ),
@@ -1212,9 +1210,9 @@ describe('ReadonlyArray', () => {
           1,
           flatMapRec((a) => {
             if (a < 5) {
-              return [E.fail(a + 1), E.succeed(a)]
+              return [E.fail(a + 1), E.of(a)]
             } else {
-              return [E.succeed(a)]
+              return [E.of(a)]
             }
           })
         ),
@@ -1225,9 +1223,9 @@ describe('ReadonlyArray', () => {
           1,
           flatMapRec((a) => {
             if (a < 5) {
-              return a % 2 === 0 ? [E.succeed(a), E.fail(a + 1)] : [E.fail(a + 1), E.succeed(a)]
+              return a % 2 === 0 ? [E.of(a), E.fail(a + 1)] : [E.fail(a + 1), E.of(a)]
             } else {
-              return [E.succeed(a)]
+              return [E.of(a)]
             }
           })
         ),
@@ -1238,13 +1236,13 @@ describe('ReadonlyArray', () => {
           0,
           flatMapRec((a) => {
             if (a === 0) {
-              return [E.succeed(a), E.fail(a - 1), E.fail(a + 1)]
+              return [E.of(a), E.fail(a - 1), E.fail(a + 1)]
             } else if (0 < a && a < 5) {
-              return [E.succeed(a), E.fail(a + 1)]
+              return [E.of(a), E.fail(a + 1)]
             } else if (-5 < a && a < 0) {
-              return [E.succeed(a), E.fail(a - 1)]
+              return [E.of(a), E.fail(a - 1)]
             } else {
-              return [E.succeed(a)]
+              return [E.of(a)]
             }
           })
         ),
@@ -1255,13 +1253,13 @@ describe('ReadonlyArray', () => {
           0,
           flatMapRec((a) => {
             if (a === 0) {
-              return [E.fail(a - 1), E.succeed(a), E.fail(a + 1)]
+              return [E.fail(a - 1), E.of(a), E.fail(a + 1)]
             } else if (0 < a && a < 5) {
-              return [E.succeed(a), E.fail(a + 1)]
+              return [E.of(a), E.fail(a + 1)]
             } else if (-5 < a && a < 0) {
-              return [E.fail(a - 1), E.succeed(a)]
+              return [E.fail(a - 1), E.of(a)]
             } else {
-              return [E.succeed(a)]
+              return [E.of(a)]
             }
           })
         ),
@@ -1281,7 +1279,7 @@ describe('ReadonlyArray', () => {
       U.deepStrictEqual(
         pipe(
           1,
-          flatMapRec<number, string>(() => [E.succeed('a')])
+          flatMapRec<number, string>(() => [E.of('a')])
         ),
         ['a']
       )
@@ -1290,9 +1288,9 @@ describe('ReadonlyArray', () => {
           1,
           flatMapRec((a) => {
             if (a < 5) {
-              return [E.succeed(a), E.fail(a + 1)]
+              return [E.of(a), E.fail(a + 1)]
             } else {
-              return [E.succeed(a)]
+              return [E.of(a)]
             }
           })
         ),
@@ -1303,9 +1301,9 @@ describe('ReadonlyArray', () => {
           1,
           flatMapRec((a) => {
             if (a < 5) {
-              return [E.fail(a + 1), E.succeed(a)]
+              return [E.fail(a + 1), E.of(a)]
             } else {
-              return [E.succeed(a)]
+              return [E.of(a)]
             }
           })
         ),
@@ -1316,9 +1314,9 @@ describe('ReadonlyArray', () => {
           1,
           flatMapRec((a) => {
             if (a < 5) {
-              return a % 2 === 0 ? [E.succeed(a), E.fail(a + 1)] : [E.fail(a + 1), E.succeed(a)]
+              return a % 2 === 0 ? [E.of(a), E.fail(a + 1)] : [E.fail(a + 1), E.of(a)]
             } else {
-              return [E.succeed(a)]
+              return [E.of(a)]
             }
           })
         ),
@@ -1329,13 +1327,13 @@ describe('ReadonlyArray', () => {
           0,
           flatMapRec((a) => {
             if (a === 0) {
-              return [E.succeed(a), E.fail(a - 1), E.fail(a + 1)]
+              return [E.of(a), E.fail(a - 1), E.fail(a + 1)]
             } else if (0 < a && a < 5) {
-              return [E.succeed(a), E.fail(a + 1)]
+              return [E.of(a), E.fail(a + 1)]
             } else if (-5 < a && a < 0) {
-              return [E.succeed(a), E.fail(a - 1)]
+              return [E.of(a), E.fail(a - 1)]
             } else {
-              return [E.succeed(a)]
+              return [E.of(a)]
             }
           })
         ),
@@ -1346,13 +1344,13 @@ describe('ReadonlyArray', () => {
           0,
           flatMapRec((a) => {
             if (a === 0) {
-              return [E.fail(a - 1), E.succeed(a), E.fail(a + 1)]
+              return [E.fail(a - 1), E.of(a), E.fail(a + 1)]
             } else if (0 < a && a < 5) {
-              return [E.succeed(a), E.fail(a + 1)]
+              return [E.of(a), E.fail(a + 1)]
             } else if (-5 < a && a < 0) {
-              return [E.fail(a - 1), E.succeed(a)]
+              return [E.fail(a - 1), E.of(a)]
             } else {
-              return [E.succeed(a)]
+              return [E.of(a)]
             }
           })
         ),

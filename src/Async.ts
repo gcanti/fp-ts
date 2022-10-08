@@ -112,7 +112,7 @@ export const apPar: <A>(fa: Async<A>) => <B>(fab: Async<(a: A) => B>) => Async<B
  * @category constructors
  * @since 3.0.0
  */
-export const succeed: <A>(a: A) => Async<A> = (a) => () => Promise.resolve(a)
+export const of: <A>(a: A) => Async<A> = (a) => () => Promise.resolve(a)
 
 /**
  * @category sequencing
@@ -155,8 +155,8 @@ export interface AsyncTypeLambda extends TypeLambda {
  *
  * async function test() {
  *   const S = T.getRaceMonoid<string>()
- *   const fa = T.delay(20)(T.succeed('a'))
- *   const fb = T.delay(10)(T.succeed('b'))
+ *   const fa = T.delay(20)(T.of('a'))
+ *   const fb = T.delay(10)(T.of('b'))
  *   assert.deepStrictEqual(await pipe(fa, S.combine(fb))(), 'b')
  * }
  *
@@ -205,7 +205,7 @@ export const unit: (self: Async<unknown>) => Async<void> = /*#__PURE__*/ functor
  * @since 3.0.0
  */
 export const FromIdentity: fromIdentity.FromIdentity<AsyncTypeLambda> = {
-  succeed
+  of
 }
 
 /**
@@ -261,7 +261,7 @@ export const zipRightPar: <A>(that: Async<A>) => (self: Async<unknown>) => Async
 export const ApplicativePar: applicative.Applicative<AsyncTypeLambda> = {
   map,
   ap: apPar,
-  succeed
+  of
 }
 
 /**
@@ -360,7 +360,7 @@ export const lift3: <A, B, C, D>(f: (a: A, b: B, c: C) => D) => (fa: Async<A>, f
 export const Applicative: applicative.Applicative<AsyncTypeLambda> = {
   map,
   ap,
-  succeed
+  of
 }
 
 /**
@@ -377,7 +377,7 @@ export const tap: <A>(f: (a: A) => Async<unknown>) => (self: Async<A>) => Async<
  */
 export const Monad: monad.Monad<AsyncTypeLambda> = {
   map,
-  succeed,
+  of,
   flatMap
 }
 
@@ -444,7 +444,7 @@ export const never: Async<never> = () => new Promise(() => undefined)
  * @category do notation
  * @since 3.0.0
  */
-export const Do: Async<{}> = /*#__PURE__*/ succeed(_.emptyReadonlyRecord)
+export const Do: Async<{}> = /*#__PURE__*/ of(_.emptyReadonlyRecord)
 
 /**
  * @category do notation
@@ -509,7 +509,7 @@ export const bindRightPar: <N extends string, A extends object, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const Zip: Async<readonly []> = /*#__PURE__*/ succeed(_.emptyReadonlyArray)
+export const Zip: Async<readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
 
 /**
  * @category tuple sequencing

@@ -70,7 +70,7 @@ export const some: <A>(a: A) => SyncOption<A> = /*#__PURE__*/ optionT.some(sync.
  * @category conversions
  * @since 3.0.0
  */
-export const fromOption: <A>(fa: Option<A>) => SyncOption<A> = sync.succeed
+export const fromOption: <A>(fa: Option<A>) => SyncOption<A> = sync.of
 
 /**
  * @category conversions
@@ -155,14 +155,14 @@ export const map: <A, B>(f: (a: A) => B) => (fa: SyncOption<A>) => SyncOption<B>
  * @category constructors
  * @since 3.0.0
  */
-export const succeed: <A>(a: A) => SyncOption<A> = some
+export const of: <A>(a: A) => SyncOption<A> = some
 
 /**
  * @category instances
  * @since 3.0.0
  */
 export const FromIdentity: fromIdentity.FromIdentity<SyncOptionTypeLambda> = {
-  succeed
+  of
 }
 
 /**
@@ -332,7 +332,7 @@ export const lift3: <A, B, C, D>(
 export const Applicative: applicative.Applicative<SyncOptionTypeLambda> = {
   map,
   ap,
-  succeed
+  of
 }
 
 /**
@@ -381,7 +381,7 @@ export const guard: (b: boolean) => SyncOption<void> = /*#__PURE__*/ alternative
  */
 export const Monad: monad.Monad<SyncOptionTypeLambda> = {
   map,
-  succeed,
+  of,
   flatMap
 }
 
@@ -564,7 +564,7 @@ export const flatMapResult: <A, E, B>(f: (a: A) => Result<E, B>) => (ma: SyncOpt
  * @category do notation
  * @since 3.0.0
  */
-export const Do: SyncOption<{}> = /*#__PURE__*/ succeed(_.emptyReadonlyRecord)
+export const Do: SyncOption<{}> = /*#__PURE__*/ of(_.emptyReadonlyRecord)
 
 /**
  * @category do notation
@@ -617,7 +617,7 @@ export const bindRight: <N extends string, A extends object, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const Zip: SyncOption<readonly []> = /*#__PURE__*/ succeed(_.emptyReadonlyArray)
+export const Zip: SyncOption<readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
 
 /**
  * @category tuple sequencing

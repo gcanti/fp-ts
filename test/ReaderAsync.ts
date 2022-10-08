@@ -14,37 +14,37 @@ describe('ReaderAsync', () => {
   // -------------------------------------------------------------------------------------
 
   it('map', async () => {
-    U.deepStrictEqual(await pipe(_.succeed(1), _.map(U.double))({})(), 2)
+    U.deepStrictEqual(await pipe(_.of(1), _.map(U.double))({})(), 2)
   })
 
   it('apPar', async () => {
-    U.deepStrictEqual(await pipe(_.succeed(U.double), _.apPar(_.succeed(1)))({})(), 2)
+    U.deepStrictEqual(await pipe(_.of(U.double), _.apPar(_.of(1)))({})(), 2)
   })
 
   it('zipLeftPar', async () => {
-    U.deepStrictEqual(await pipe(_.succeed('a'), _.zipLeftPar(_.succeed('b')))({})(), 'a')
+    U.deepStrictEqual(await pipe(_.of('a'), _.zipLeftPar(_.of('b')))({})(), 'a')
   })
 
   it('zipRightPar', async () => {
-    U.deepStrictEqual(await pipe(_.succeed('a'), _.zipRightPar(_.succeed('b')))({})(), 'b')
+    U.deepStrictEqual(await pipe(_.of('a'), _.zipRightPar(_.of('b')))({})(), 'b')
   })
 
   it('flatMap', async () => {
-    const f = flow(S.size, _.succeed)
-    U.deepStrictEqual(await pipe(_.succeed('foo'), _.flatMap(f))({})(), 3)
+    const f = flow(S.size, _.of)
+    U.deepStrictEqual(await pipe(_.of('foo'), _.flatMap(f))({})(), 3)
   })
 
   it('tap', async () => {
-    const f = flow(S.size, _.succeed)
-    U.deepStrictEqual(await pipe(_.succeed('foo'), _.tap(f))({})(), 'foo')
+    const f = flow(S.size, _.of)
+    U.deepStrictEqual(await pipe(_.of('foo'), _.tap(f))({})(), 'foo')
   })
 
   it('flatten', async () => {
-    U.deepStrictEqual(await pipe(_.succeed(_.succeed('a')), _.flatten)({})(), 'a')
+    U.deepStrictEqual(await pipe(_.of(_.of('a')), _.flatten)({})(), 'a')
   })
 
-  it('succeed', async () => {
-    U.deepStrictEqual(await _.fromReader(R.succeed(1))({})(), 1)
+  it('of', async () => {
+    U.deepStrictEqual(await _.fromReader(R.of(1))({})(), 1)
   })
 
   it('fromSync', async () => {
@@ -64,15 +64,15 @@ describe('ReaderAsync', () => {
   })
 
   it('fromAsync', async () => {
-    U.deepStrictEqual(await _.fromAsync(T.succeed(1))({})(), 1)
+    U.deepStrictEqual(await _.fromAsync(T.of(1))({})(), 1)
   })
 
   it('fromReader', async () => {
-    U.deepStrictEqual(await _.fromReader(R.succeed(1))({})(), 1)
+    U.deepStrictEqual(await _.fromReader(R.of(1))({})(), 1)
   })
 
   it('fromReaderSync', async () => {
-    U.deepStrictEqual(await _.fromReaderSync(RIO.succeed(1))({})(), 1)
+    U.deepStrictEqual(await _.fromReaderSync(RIO.of(1))({})(), 1)
   })
 
   // -------------------------------------------------------------------------------------
@@ -80,38 +80,38 @@ describe('ReaderAsync', () => {
   // -------------------------------------------------------------------------------------
 
   it('flatMapIO', async () => {
-    const f = flow(S.size, I.succeed)
-    U.deepStrictEqual(await pipe(_.succeed('a'), _.flatMapSync(f))(undefined)(), 1)
+    const f = flow(S.size, I.of)
+    U.deepStrictEqual(await pipe(_.of('a'), _.flatMapSync(f))(undefined)(), 1)
   })
 
   it('flatMapAsync', async () => {
-    const f = flow(S.size, T.succeed)
-    U.deepStrictEqual(await pipe(_.succeed('a'), _.flatMapAsync(f))(undefined)(), 1)
+    const f = flow(S.size, T.of)
+    U.deepStrictEqual(await pipe(_.of('a'), _.flatMapAsync(f))(undefined)(), 1)
   })
 
   it('liftIO', async () => {
-    const f = _.liftSync(flow(S.size, I.succeed))
-    U.deepStrictEqual(await pipe(_.succeed('a'), _.flatMap(f))({})(), 1)
+    const f = _.liftSync(flow(S.size, I.of))
+    U.deepStrictEqual(await pipe(_.of('a'), _.flatMap(f))({})(), 1)
   })
 
   it('liftAsync', async () => {
-    const f = _.liftAsync(flow(S.size, T.succeed))
-    U.deepStrictEqual(await pipe(_.succeed('a'), _.flatMap(f))({})(), 1)
+    const f = _.liftAsync(flow(S.size, T.of))
+    U.deepStrictEqual(await pipe(_.of('a'), _.flatMap(f))({})(), 1)
   })
 
   it('liftReaderSync', async () => {
-    const f = (s: string) => RIO.succeed(s.length)
+    const f = (s: string) => RIO.of(s.length)
     U.deepStrictEqual(await _.liftReaderSync(f)('a')(undefined)(), 1)
   })
 
   it('flatMapReaderSync', async () => {
-    const f = (s: string) => RIO.succeed(s.length)
-    U.deepStrictEqual(await pipe(_.succeed('a'), _.flatMapReaderSync(f))({})(), 1)
+    const f = (s: string) => RIO.of(s.length)
+    U.deepStrictEqual(await pipe(_.of('a'), _.flatMapReaderSync(f))({})(), 1)
   })
 
   it('flatMapReaderSync', async () => {
-    const f = (s: string) => RIO.succeed(s.length)
-    U.deepStrictEqual(await pipe(_.succeed('a'), _.flatMapReaderSync(f))(undefined)(), 1)
+    const f = (s: string) => RIO.of(s.length)
+    U.deepStrictEqual(await pipe(_.of('a'), _.flatMapReaderSync(f))(undefined)(), 1)
   })
 
   // -------------------------------------------------------------------------------------
@@ -135,23 +135,23 @@ describe('ReaderAsync', () => {
   it('do notation', async () => {
     U.deepStrictEqual(
       await pipe(
-        _.succeed(1),
+        _.of(1),
         _.bindTo('a'),
-        _.bind('b', () => _.succeed('b'))
+        _.bind('b', () => _.of('b'))
       )(undefined)(),
       { a: 1, b: 'b' }
     )
   })
 
   it('bindRight', async () => {
-    U.deepStrictEqual(await pipe(_.succeed(1), _.bindTo('a'), _.bindRight('b', _.succeed('b')))(undefined)(), {
+    U.deepStrictEqual(await pipe(_.of(1), _.bindTo('a'), _.bindRight('b', _.of('b')))(undefined)(), {
       a: 1,
       b: 'b'
     })
   })
 
   it('zipFlatten', async () => {
-    U.deepStrictEqual(await pipe(_.succeed(1), _.tupled, _.zipFlatten(_.succeed('b')))({})(), [1, 'b'])
+    U.deepStrictEqual(await pipe(_.of(1), _.tupled, _.zipFlatten(_.of('b')))({})(), [1, 'b'])
   })
 
   // -------------------------------------------------------------------------------------
@@ -161,13 +161,13 @@ describe('ReaderAsync', () => {
   // --- Par ---
 
   it('traverseReadonlyArrayWithIndexPar', async () => {
-    const f = _.traverseReadonlyArrayWithIndexPar((i, a: string) => _.succeed(a + i))
+    const f = _.traverseReadonlyArrayWithIndexPar((i, a: string) => _.of(a + i))
     U.deepStrictEqual(await pipe(RA.empty, f)(undefined)(), RA.empty)
     U.deepStrictEqual(await pipe(['a', 'b'], f)(undefined)(), ['a0', 'b1'])
   })
 
   it('traverseNonEmptyReadonlyArrayPar', async () => {
-    const f = _.traverseNonEmptyReadonlyArrayPar((a: string) => _.succeed(a))
+    const f = _.traverseNonEmptyReadonlyArrayPar((a: string) => _.of(a))
     U.deepStrictEqual(await pipe(['a', 'b'], f)(undefined)(), ['a', 'b'])
   })
 
@@ -191,7 +191,7 @@ describe('ReaderAsync', () => {
   // --- Seq ---
 
   it('traverseNonEmptyReadonlyArray', async () => {
-    const f = _.traverseNonEmptyReadonlyArray((a: string) => _.succeed(a))
+    const f = _.traverseNonEmptyReadonlyArray((a: string) => _.of(a))
     U.deepStrictEqual(await pipe(['a', 'b'], f)(undefined)(), ['a', 'b'])
   })
 

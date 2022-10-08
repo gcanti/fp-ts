@@ -15,7 +15,7 @@ Added in v3.0.0
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
-  - [succeed](#succeed)
+  - [of](#of)
 - [conversions](#conversions)
   - [fromReader](#fromreader)
   - [fromSync](#fromsync)
@@ -107,12 +107,12 @@ export declare const asks: <R, A>(f: (r: R) => A) => ReaderSync<R, A>
 
 Added in v3.0.0
 
-## succeed
+## of
 
 **Signature**
 
 ```ts
-export declare const succeed: <A>(a: A) => ReaderSync<unknown, A>
+export declare const of: <A>(a: A) => ReaderSync<unknown, A>
 ```
 
 Added in v3.0.0

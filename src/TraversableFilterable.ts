@@ -107,7 +107,7 @@ export const traversePartition =
       return traversePartitionMap((b) =>
         pipe(
           predicate(b),
-          Applicative.map((ok) => (ok ? _.succeed(b) : _.fail(b)))
+          Applicative.map((ok) => (ok ? _.of(b) : _.fail(b)))
         )
       )
     }

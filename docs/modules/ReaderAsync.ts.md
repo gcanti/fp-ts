@@ -16,8 +16,8 @@ Added in v3.0.0
   - [ask](#ask)
   - [asks](#asks)
   - [asksReaderAsync](#asksreaderasync)
+  - [of](#of)
   - [sleep](#sleep)
-  - [succeed](#succeed)
 - [conversions](#conversions)
   - [fromAsync](#fromasync)
   - [fromReader](#fromreader)
@@ -141,6 +141,16 @@ export declare const asksReaderAsync: <R1, R2, A>(f: (r1: R1) => ReaderAsync<R2,
 
 Added in v3.0.0
 
+## of
+
+**Signature**
+
+```ts
+export declare const of: <A>(a: A) => ReaderAsync<unknown, A>
+```
+
+Added in v3.0.0
+
 ## sleep
 
 Returns an effect that suspends for the specified `duration` (in millis).
@@ -149,16 +159,6 @@ Returns an effect that suspends for the specified `duration` (in millis).
 
 ```ts
 export declare const sleep: (duration: number) => ReaderAsync<unknown, void>
-```
-
-Added in v3.0.0
-
-## succeed
-
-**Signature**
-
-```ts
-export declare const succeed: <A>(a: A) => ReaderAsync<unknown, A>
 ```
 
 Added in v3.0.0

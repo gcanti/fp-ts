@@ -33,7 +33,7 @@ describe('Sync', () => {
 
   describe('pipeables', () => {
     it('map', () => {
-      U.deepStrictEqual(pipe(_.succeed(1), _.map(U.double))(), 2)
+      U.deepStrictEqual(pipe(_.of(1), _.map(U.double))(), 2)
     })
 
     it('ap', () => {
@@ -47,45 +47,45 @@ describe('Sync', () => {
           expected
         )
       }
-      assertAp(_.succeed(1), _.succeed(2), 3)
+      assertAp(_.of(1), _.of(2), 3)
     })
 
     it('flatMap', () => {
-      const f = flow(U.double, _.succeed)
-      U.deepStrictEqual(pipe(_.succeed(1), _.flatMap(f))(), 2)
+      const f = flow(U.double, _.of)
+      U.deepStrictEqual(pipe(_.of(1), _.flatMap(f))(), 2)
     })
 
     it('flatten', () => {
-      U.deepStrictEqual(pipe(_.succeed(_.succeed(1)), _.flatten)(), 1)
+      U.deepStrictEqual(pipe(_.of(_.of(1)), _.flatten)(), 1)
     })
 
     it('tap', () => {
-      const f = flow(U.double, _.succeed)
-      U.deepStrictEqual(pipe(_.succeed(1), _.tap(f))(), 1)
+      const f = flow(U.double, _.of)
+      U.deepStrictEqual(pipe(_.of(1), _.tap(f))(), 1)
     })
   })
 
   it('do notation', () => {
     U.deepStrictEqual(
       pipe(
-        _.succeed(1),
+        _.of(1),
         _.bindTo('a'),
-        _.bind('b', () => _.succeed('b'))
+        _.bind('b', () => _.of('b'))
       )(),
       { a: 1, b: 'b' }
     )
   })
 
   it('apS', () => {
-    U.deepStrictEqual(pipe(_.succeed(1), _.bindTo('a'), _.bindRight('b', _.succeed('b')))(), { a: 1, b: 'b' })
+    U.deepStrictEqual(pipe(_.of(1), _.bindTo('a'), _.bindRight('b', _.of('b')))(), { a: 1, b: 'b' })
   })
 
   it('zipFlatten', () => {
-    U.deepStrictEqual(pipe(_.succeed(1), _.tupled, _.zipFlatten(_.succeed('b')))(), [1, 'b'])
+    U.deepStrictEqual(pipe(_.of(1), _.tupled, _.zipFlatten(_.of('b')))(), [1, 'b'])
   })
 
   it('flatMapRec', () => {
-    const f = (n: number) => (n < 15000 ? _.succeed(E.fail(n + 1)) : _.succeed(E.succeed('ok ' + n)))
+    const f = (n: number) => (n < 15000 ? _.of(E.fail(n + 1)) : _.of(E.of('ok ' + n)))
     U.deepStrictEqual(_.FlattenableRec.flatMapRec(f)(0)(), 'ok 15000')
   })
 
@@ -94,17 +94,17 @@ describe('Sync', () => {
   // -------------------------------------------------------------------------------------
 
   it('traverseNonEmptyReadonlyArray', () => {
-    const f = _.traverseNonEmptyReadonlyArray((a: string) => _.succeed(a))
+    const f = _.traverseNonEmptyReadonlyArray((a: string) => _.of(a))
     U.deepStrictEqual(pipe(['a', 'b'], f)(), ['a', 'b'])
   })
 
   it('traverseReadonlyArrayWithIndex', () => {
-    const f = _.traverseReadonlyArrayWithIndex((i, a: string) => _.succeed(a + i))
+    const f = _.traverseReadonlyArrayWithIndex((i, a: string) => _.of(a + i))
     U.deepStrictEqual(pipe(RA.empty, f)(), RA.empty)
     U.deepStrictEqual(pipe(['a', 'b'], f)(), ['a0', 'b1'])
   })
 
   it('sequenceReadonlyArray', () => {
-    U.deepStrictEqual(pipe([_.succeed('a'), _.succeed('b')], _.sequenceReadonlyArray)(), ['a', 'b'])
+    U.deepStrictEqual(pipe([_.of('a'), _.of('b')], _.sequenceReadonlyArray)(), ['a', 'b'])
   })
 })

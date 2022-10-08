@@ -843,9 +843,9 @@ export const reverse = <A>(as: ReadonlyArray<A>): ReadonlyArray<A> => (as.length
  *
  * @example
  * import { successes } from 'fp-ts/ReadonlyArray'
- * import { succeed, fail } from 'fp-ts/Result'
+ * import { of, fail } from 'fp-ts/Result'
  *
- * assert.deepStrictEqual(successes([succeed(1), fail('foo'), succeed(2)]), [1, 2])
+ * assert.deepStrictEqual(successes([of(1), fail('foo'), of(2)]), [1, 2])
  *
  * @since 3.0.0
  */
@@ -866,9 +866,9 @@ export const successes = <E, A>(as: ReadonlyArray<Result<E, A>>): ReadonlyArray<
  *
  * @example
  * import { failures } from 'fp-ts/ReadonlyArray'
- * import { fail, succeed } from 'fp-ts/Result'
+ * import { fail, of } from 'fp-ts/Result'
  *
- * assert.deepStrictEqual(failures([succeed(1), fail('foo'), succeed(2)]), ['foo'])
+ * assert.deepStrictEqual(failures([of(1), fail('foo'), of(2)]), ['foo'])
  *
  * @since 3.0.0
  */
@@ -1205,7 +1205,7 @@ export const difference = <A>(E: Eq<A>): Magma<ReadonlyArray<A>>['combine'] => {
  * @category constructors
  * @since 3.0.0
  */
-export const succeed: <A>(a: A) => ReadonlyArray<A> = nonEmptyReadonlyArray.succeed
+export const of: <A>(a: A) => ReadonlyArray<A> = nonEmptyReadonlyArray.of
 
 /**
  * @since 3.0.0
@@ -1251,7 +1251,7 @@ export const map: <A, B>(f: (a: A) => B) => (fa: ReadonlyArray<A>) => ReadonlyAr
  * @since 3.0.0
  */
 export const FromIdentity: fromIdentity.FromIdentity<ReadonlyArrayTypeLambda> = {
-  succeed
+  of
 }
 
 /**
@@ -1497,7 +1497,7 @@ export const traverseWithIndex =
   (ta: ReadonlyArray<A>): Kind<F, S, R, O, E, ReadonlyArray<B>> => {
     return pipe(
       toEntries(ta),
-      iterable.reduceWithIndex<Kind<F, S, R, O, E, ReadonlyArray<B>>, number, A>(F.succeed(empty), (i, fbs, a) =>
+      iterable.reduceWithIndex<Kind<F, S, R, O, E, ReadonlyArray<B>>, number, A>(F.of(empty), (i, fbs, a) =>
         pipe(
           fbs,
           F.map((bs) => (b: B) => append(b)(bs)),
@@ -1739,7 +1739,7 @@ export const lift3: <A, B, C, D>(
 export const Applicative: applicative.Applicative<ReadonlyArrayTypeLambda> = {
   map,
   ap,
-  succeed
+  of
 }
 
 /**
@@ -1748,7 +1748,7 @@ export const Applicative: applicative.Applicative<ReadonlyArrayTypeLambda> = {
  */
 export const Monad: Monad_<ReadonlyArrayTypeLambda> = {
   map,
-  succeed,
+  of,
   flatMap
 }
 
@@ -2007,7 +2007,7 @@ export const TraversableFilterable: traversableFilterable.TraversableFilterable<
  *   assert.deepStrictEqual(
  *     await pipe(
  *       [-1, 2, 3],
- *       traverseFilter((n) => T.succeed(n > 0))
+ *       traverseFilter((n) => T.of(n > 0))
  *     )(),
  *     [2, 3]
  *   )
@@ -2238,7 +2238,7 @@ export const intercalate = <A>(M: Monoid<A>): ((middle: A) => (as: ReadonlyArray
  * @category do notation
  * @since 3.0.0
  */
-export const Do: ReadonlyArray<{}> = /*#__PURE__*/ succeed(_.emptyReadonlyRecord)
+export const Do: ReadonlyArray<{}> = /*#__PURE__*/ of(_.emptyReadonlyRecord)
 
 /**
  * @category do notation

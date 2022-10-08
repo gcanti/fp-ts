@@ -4,24 +4,24 @@ import * as AR from '../../src/AsyncResult'
 
 // $ExpectType AsyncResult<never, string>
 pipe(
-  AR.succeed('a'),
+  AR.of('a'),
   AR.tap((a) => AR.fromSync(_.error(a)))
 )
 
 // $ExpectType AsyncResult<never, string>
 pipe(
-  AR.succeed('a'),
+  AR.of('a'),
   AR.tap((a) => AR.fromSync(_.info(a)))
 )
 
 // $ExpectType AsyncResult<never, string>
 pipe(
-  AR.succeed('a'),
+  AR.of('a'),
   AR.tap((a) => AR.fromSync(_.log(a)))
 )
 
 // $ExpectType AsyncResult<never, string>
 pipe(
-  AR.succeed('a'),
+  AR.of('a'),
   AR.tap((a) => AR.fromSync(_.warn(a)))
 )

@@ -22,7 +22,7 @@ Added in v3.0.0
   - [extract](#extract)
 - [constructors](#constructors)
   - [make](#make)
-  - [succeed](#succeed)
+  - [of](#of)
 - [conversions](#conversions)
   - [toIterable](#toiterable)
 - [do notation](#do-notation)
@@ -122,12 +122,12 @@ export declare const make: <A>(value: A, forest?: Forest<A>) => Tree<A>
 
 Added in v3.0.0
 
-## succeed
+## of
 
 **Signature**
 
 ```ts
-export declare const succeed: <A>(a: A) => Tree<A>
+export declare const of: <A>(a: A) => Tree<A>
 ```
 
 Added in v3.0.0

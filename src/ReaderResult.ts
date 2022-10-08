@@ -58,7 +58,7 @@ export const fail: <E>(e: E) => ReaderResult<unknown, E, never> = /*#__PURE__*/ 
  * @category constructors
  * @since 3.0.0
  */
-export const succeed: <A>(a: A) => ReaderResult<unknown, never, A> = /*#__PURE__*/ resultT.succeed(reader.FromIdentity)
+export const of: <A>(a: A) => ReaderResult<unknown, never, A> = /*#__PURE__*/ resultT.of(reader.FromIdentity)
 
 /**
  * @category constructors
@@ -87,7 +87,7 @@ export const failReader: <R, E>(me: Reader<R, E>) => ReaderResult<R, E, never> =
  * @category conversions
  * @since 3.0.0
  */
-export const fromResult: <E, A>(fa: Result<E, A>) => ReaderResult<unknown, E, A> = reader.succeed
+export const fromResult: <E, A>(fa: Result<E, A>) => ReaderResult<unknown, E, A> = reader.of
 
 // -------------------------------------------------------------------------------------
 // pattern matching
@@ -180,7 +180,7 @@ export const map: <A, B>(f: (a: A) => B) => <R, E>(fa: ReaderResult<R, E, A>) =>
  * @since 3.0.0
  */
 export const FromIdentity: fromIdentity.FromIdentity<ReaderResultTypeLambda> = {
-  succeed
+  of
 }
 
 /**
@@ -329,7 +329,7 @@ export const getValidatedApplicative = <E>(
 ): applicative.Applicative<result.ValidatedT<ReaderResultTypeLambda, E>> => ({
   map,
   ap: apply.apComposition(reader.Apply, result.getValidatedApplicative(Semigroup)),
-  succeed
+  of
 })
 
 /**
@@ -455,7 +455,7 @@ export const lift3: <A, B, C, D>(
 export const Applicative: applicative.Applicative<ReaderResultTypeLambda> = {
   map,
   ap,
-  succeed
+  of
 }
 
 /**
@@ -464,7 +464,7 @@ export const Applicative: applicative.Applicative<ReaderResultTypeLambda> = {
  */
 export const Monad: monad.Monad<ReaderResultTypeLambda> = {
   map,
-  succeed,
+  of,
   flatMap
 }
 
@@ -695,7 +695,7 @@ export const flatMapNullable: <A, B, E2>(
  * @category do notation
  * @since 3.0.0
  */
-export const Do: ReaderResult<unknown, never, {}> = /*#__PURE__*/ succeed(_.emptyReadonlyRecord)
+export const Do: ReaderResult<unknown, never, {}> = /*#__PURE__*/ of(_.emptyReadonlyRecord)
 
 /**
  * @category do notation
@@ -756,7 +756,7 @@ export const bindRight: <N extends string, A extends object, R2, E2, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const Zip: ReaderResult<unknown, never, readonly []> = /*#__PURE__*/ succeed(_.emptyReadonlyArray)
+export const Zip: ReaderResult<unknown, never, readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
 
 /**
  * @category tuple sequencing

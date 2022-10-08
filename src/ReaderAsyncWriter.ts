@@ -76,7 +76,7 @@ export const fromReaderAsync: <W>(w: W) => <R, A>(a: ReaderAsync<R, A>) => Reade
  * @since 3.0.0
  */
 export const fromAsyncWriter: <W, A>(a: Async<Writer<W, A>>) => ReaderAsyncWriter<unknown, W, A> =
-  /*#__PURE__*/ reader.succeed
+  /*#__PURE__*/ reader.of
 
 /**
  * @category conversions
@@ -112,14 +112,13 @@ export const asksReaderAsyncWriter: <R1, R2, W, A>(
  * @category conversions
  * @since 3.0.0
  */
-export const fromWriter = <W, A>(fa: Writer<W, A>): ReaderAsyncWriter<unknown, W, A> => readerAsync.succeed(fa)
+export const fromWriter = <W, A>(fa: Writer<W, A>): ReaderAsyncWriter<unknown, W, A> => readerAsync.of(fa)
 
 /**
  * @category conversions
  * @since 3.0.0
  */
-export const fromReaderWriter = <R, W, A>(fa: Reader<R, Writer<W, A>>): ReaderAsyncWriter<R, W, A> =>
-  flow(fa, async.succeed)
+export const fromReaderWriter = <R, W, A>(fa: Reader<R, Writer<W, A>>): ReaderAsyncWriter<R, W, A> => flow(fa, async.of)
 
 /**
  * @since 3.0.0
@@ -264,7 +263,7 @@ export const flap: <A>(a: A) => <R, E, B>(self: ReaderAsyncWriter<R, E, (a: A) =
  * @since 3.0.0
  */
 export const getFromIdentity = <W>(M: Monoid<W>): FromIdentity<ReaderAsyncWriterFFix<W>> => ({
-  succeed: writerT.succeed(readerAsync.FromIdentity, M)
+  of: writerT.of(readerAsync.FromIdentity, M)
 })
 
 /**
@@ -292,7 +291,7 @@ export const getApplicative = <W>(
   return {
     map,
     ap,
-    succeed: P.succeed
+    of: P.of
   }
 }
 
@@ -316,7 +315,7 @@ export const getMonad = <W>(M: Monoid<W>): Monad<ReaderAsyncWriterFFix<W>> => {
   const C = getFlattenable(M)
   return {
     map,
-    succeed: P.succeed,
+    of: P.of,
     flatMap: C.flatMap
   }
 }
@@ -433,7 +432,7 @@ export const traverseReadonlyArrayWithIndex =
   ): ((as: ReadonlyArray<A>) => ReaderAsyncWriter<R, W, ReadonlyArray<B>>) => {
     const g = traverseNonEmptyReadonlyArrayWithIndex(Apply, Monoid)(f)
     const P = getFromIdentity(Monoid)
-    return (as) => (_.isNonEmpty(as) ? g(as) : P.succeed(_.emptyReadonlyArray))
+    return (as) => (_.isNonEmpty(as) ? g(as) : P.of(_.emptyReadonlyArray))
   }
 
 /**

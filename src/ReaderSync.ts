@@ -41,7 +41,7 @@ export const fromReader: <R, A>(fa: reader.Reader<R, A>) => ReaderSync<R, A> = /
  * @category conversions
  * @since 3.0.0
  */
-export const fromSync: <A>(fa: sync.Sync<A>) => ReaderSync<unknown, A> = /*#__PURE__*/ reader.succeed
+export const fromSync: <A>(fa: sync.Sync<A>) => ReaderSync<unknown, A> = /*#__PURE__*/ reader.of
 
 /**
  * Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
@@ -72,14 +72,14 @@ export const map: <A, B>(f: (a: A) => B) => <R>(fa: ReaderSync<R, A>) => ReaderS
  * @category constructors
  * @since 3.0.0
  */
-export const succeed: <A>(a: A) => ReaderSync<unknown, A> = /*#__PURE__*/ readerT.succeed(sync.FromIdentity)
+export const of: <A>(a: A) => ReaderSync<unknown, A> = /*#__PURE__*/ readerT.of(sync.FromIdentity)
 
 /**
  * @category instances
  * @since 3.0.0
  */
 export const FromIdentity: fromIdentity.FromIdentity<ReaderSyncTypeLambda> = {
-  succeed
+  of
 }
 
 /**
@@ -247,7 +247,7 @@ export const lift3: <A, B, C, D>(
 export const Applicative: applicative.Applicative<ReaderSyncTypeLambda> = {
   map,
   ap,
-  succeed
+  of
 }
 
 /**
@@ -256,7 +256,7 @@ export const Applicative: applicative.Applicative<ReaderSyncTypeLambda> = {
  */
 export const Monad: monad.Monad<ReaderSyncTypeLambda> = {
   map,
-  succeed,
+  of,
   flatMap
 }
 
@@ -360,7 +360,7 @@ export const flatMapReader: <A, R2, B>(
  * @category do notation
  * @since 3.0.0
  */
-export const Do: ReaderSync<unknown, {}> = /*#__PURE__*/ succeed(_.emptyReadonlyRecord)
+export const Do: ReaderSync<unknown, {}> = /*#__PURE__*/ of(_.emptyReadonlyRecord)
 
 /**
  * @category do notation
@@ -418,7 +418,7 @@ export const bindRight: <N extends string, A extends object, R2, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const Zip: ReaderSync<unknown, readonly []> = /*#__PURE__*/ succeed(_.emptyReadonlyArray)
+export const Zip: ReaderSync<unknown, readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
 
 /**
  * @category tuple sequencing

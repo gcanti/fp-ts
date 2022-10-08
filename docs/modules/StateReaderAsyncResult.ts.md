@@ -29,9 +29,9 @@ Added in v3.0.0
   - [get](#get)
   - [gets](#gets)
   - [modify](#modify)
+  - [of](#of)
   - [put](#put)
   - [sleep](#sleep)
-  - [succeed](#succeed)
 - [conversions](#conversions)
   - [fromAsyncResult](#fromasyncresult)
   - [fromNullable](#fromnullable)
@@ -309,6 +309,16 @@ export declare const modify: <S>(f: Endomorphism<S>) => StateReaderAsyncResult<S
 
 Added in v3.0.0
 
+## of
+
+**Signature**
+
+```ts
+export declare const of: <A, S>(a: A) => StateReaderAsyncResult<S, unknown, never, A>
+```
+
+Added in v3.0.0
+
 ## put
 
 Set the state
@@ -329,16 +339,6 @@ Returns an effect that suspends for the specified `duration` (in millis).
 
 ```ts
 export declare const sleep: <S>(duration: number) => StateReaderAsyncResult<S, unknown, never, void>
-```
-
-Added in v3.0.0
-
-## succeed
-
-**Signature**
-
-```ts
-export declare const succeed: <A, S>(a: A) => StateReaderAsyncResult<S, unknown, never, A>
 ```
 
 Added in v3.0.0

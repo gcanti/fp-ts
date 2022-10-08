@@ -19,11 +19,11 @@ export interface ReaderT<F extends TypeLambda, R> extends TypeLambda {
 /**
  * @since 3.0.0
  */
-export const succeed =
+export const of =
   <F extends TypeLambda>(FromIdentity: FromIdentity<F>) =>
   <A, R, S, FR, O, E>(a: A): Kind<ReaderT<F, R>, S, FR, O, E, A> =>
   () =>
-    FromIdentity.succeed(a)
+    FromIdentity.of(a)
 
 /**
  * Returns an effect whose success is mapped by the specified `f` function.
@@ -70,4 +70,4 @@ export const fromReader =
   <F extends TypeLambda>(FromIdentity: FromIdentity<F>) =>
   <R, A, S>(fa: Reader<R, A>): Kind<ReaderT<F, R>, S, unknown, never, never, A> =>
   (r) =>
-    FromIdentity.succeed(fa(r))
+    FromIdentity.of(fa(r))

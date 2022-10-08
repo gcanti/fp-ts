@@ -120,14 +120,14 @@ export const unit: <R>(self: Reader<R, unknown>) => Reader<R, void> = /*#__PURE_
  * @category constructors
  * @since 3.0.0
  */
-export const succeed: <A>(a: A) => Reader<unknown, A> = constant
+export const of: <A>(a: A) => Reader<unknown, A> = constant
 
 /**
  * @category instances
  * @since 3.0.0
  */
 export const FromIdentity: fromIdentity.FromIdentity<ReaderTypeLambda> = {
-  succeed
+  of
 }
 
 /**
@@ -260,7 +260,7 @@ export const lift3: <A, B, C, D>(
 export const Applicative: applicative.Applicative<ReaderTypeLambda> = {
   map,
   ap,
-  succeed
+  of
 }
 
 /**
@@ -269,7 +269,7 @@ export const Applicative: applicative.Applicative<ReaderTypeLambda> = {
  */
 export const Monad: monad.Monad<ReaderTypeLambda> = {
   map,
-  succeed,
+  of,
   flatMap
 }
 
@@ -290,7 +290,7 @@ export const Profunctor: profunctor.Profunctor<ReaderTypeLambda> = {
  * @category do notation
  * @since 3.0.0
  */
-export const Do: Reader<unknown, {}> = /*#__PURE__*/ succeed(_.emptyReadonlyRecord)
+export const Do: Reader<unknown, {}> = /*#__PURE__*/ of(_.emptyReadonlyRecord)
 
 /**
  * @category do notation
@@ -343,7 +343,7 @@ export const bindRight: <N extends string, A extends object, R2, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const Zip: Reader<unknown, readonly []> = /*#__PURE__*/ succeed(_.emptyReadonlyArray)
+export const Zip: Reader<unknown, readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
 
 /**
  * @category tuple sequencing

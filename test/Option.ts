@@ -152,7 +152,7 @@ describe('Option', () => {
     it('separate', () => {
       U.deepStrictEqual(_.separate(_.none), [_.none, _.none])
       U.deepStrictEqual(_.separate(_.some(E.fail('123'))), [_.some('123'), _.none])
-      U.deepStrictEqual(_.separate(_.some(E.succeed('123'))), [_.none, _.some('123')])
+      U.deepStrictEqual(_.separate(_.some(E.of('123'))), [_.none, _.some('123')])
     })
 
     it('filter', () => {
@@ -176,7 +176,7 @@ describe('Option', () => {
     })
 
     it('partitionMap', () => {
-      const f = (n: number) => (p(n) ? E.succeed(n + 1) : E.fail(n - 1))
+      const f = (n: number) => (p(n) ? E.of(n + 1) : E.fail(n - 1))
       U.deepStrictEqual(pipe(_.none, _.partitionMap(f)), [_.none, _.none])
       U.deepStrictEqual(pipe(_.some(1), _.partitionMap(f)), [_.some(0), _.none])
       U.deepStrictEqual(pipe(_.some(3), _.partitionMap(f)), [_.none, _.some(4)])
@@ -213,9 +213,7 @@ describe('Option', () => {
     })
 
     it('filterMapKind', async () => {
-      const filterMapKind = _.traverseFilterMap(T.ApplicativePar)((n: number) =>
-        T.succeed(p(n) ? _.some(n + 1) : _.none)
-      )
+      const filterMapKind = _.traverseFilterMap(T.ApplicativePar)((n: number) => T.of(p(n) ? _.some(n + 1) : _.none))
       U.deepStrictEqual(await pipe(_.none, filterMapKind)(), _.none)
       U.deepStrictEqual(await pipe(_.some(1), filterMapKind)(), _.none)
       U.deepStrictEqual(await pipe(_.some(3), filterMapKind)(), _.some(4))
@@ -223,7 +221,7 @@ describe('Option', () => {
 
     it('partitionMapKind', async () => {
       const partitionMapKind = _.traversePartitionMap(T.ApplicativePar)((n: number) =>
-        T.succeed(p(n) ? E.succeed(n + 1) : E.fail(n - 1))
+        T.of(p(n) ? E.of(n + 1) : E.fail(n - 1))
       )
       U.deepStrictEqual(await pipe(_.none, partitionMapKind)(), [_.none, _.none])
       U.deepStrictEqual(await pipe(_.some(1), partitionMapKind)(), [_.some(0), _.none])
@@ -233,12 +231,12 @@ describe('Option', () => {
 
   it('fromResult', () => {
     U.deepStrictEqual(_.fromResult(E.fail('a')), _.none)
-    U.deepStrictEqual(_.fromResult(E.succeed(1)), _.some(1))
+    U.deepStrictEqual(_.fromResult(E.of(1)), _.some(1))
   })
 
   it('toResult', () => {
     U.deepStrictEqual(pipe(_.none, _.toResult('e')), E.fail('e'))
-    U.deepStrictEqual(pipe(_.some(1), _.toResult('e')), E.succeed(1))
+    U.deepStrictEqual(pipe(_.some(1), _.toResult('e')), E.of(1))
   })
 
   it('match', () => {
@@ -393,12 +391,12 @@ describe('Option', () => {
   })
 
   it('getLeft', () => {
-    U.deepStrictEqual(_.getFailure(E.succeed(1)), _.none)
+    U.deepStrictEqual(_.getFailure(E.of(1)), _.none)
     U.deepStrictEqual(_.getFailure(E.fail('err')), _.some('err'))
   })
 
   it('getRight', () => {
-    U.deepStrictEqual(_.getSuccess(E.succeed(1)), _.some(1))
+    U.deepStrictEqual(_.getSuccess(E.of(1)), _.some(1))
     U.deepStrictEqual(_.getSuccess(E.fail('err')), _.none)
   })
 

@@ -19,9 +19,9 @@ Added in v3.0.0
   - [append](#append)
   - [comprehension](#comprehension)
   - [makeBy](#makeby)
+  - [of](#of)
   - [prepend](#prepend)
   - [replicate](#replicate)
-  - [succeed](#succeed)
 - [conversions](#conversions)
   - [fromNullable](#fromnullable)
   - [fromOption](#fromoption)
@@ -316,6 +316,16 @@ assert.deepStrictEqual(pipe(5, makeBy(double)), [0, 2, 4, 6, 8])
 
 Added in v3.0.0
 
+## of
+
+**Signature**
+
+```ts
+export declare const of: <A>(a: A) => readonly A[]
+```
+
+Added in v3.0.0
+
 ## prepend
 
 Prepend an element to the front of a `ReadonlyArray`, creating a new `NonEmptyReadonlyArray`.
@@ -356,16 +366,6 @@ import { replicate } from 'fp-ts/ReadonlyArray'
 import { pipe } from 'fp-ts/Function'
 
 assert.deepStrictEqual(pipe(3, replicate('a')), ['a', 'a', 'a'])
-```
-
-Added in v3.0.0
-
-## succeed
-
-**Signature**
-
-```ts
-export declare const succeed: <A>(a: A) => readonly A[]
 ```
 
 Added in v3.0.0
@@ -1740,9 +1740,9 @@ export declare const failures: <E, A>(as: readonly Result<E, A>[]) => readonly E
 
 ```ts
 import { failures } from 'fp-ts/ReadonlyArray'
-import { fail, succeed } from 'fp-ts/Result'
+import { fail, of } from 'fp-ts/Result'
 
-assert.deepStrictEqual(failures([succeed(1), fail('foo'), succeed(2)]), ['foo'])
+assert.deepStrictEqual(failures([of(1), fail('foo'), of(2)]), ['foo'])
 ```
 
 Added in v3.0.0
@@ -2503,9 +2503,9 @@ export declare const successes: <E, A>(as: readonly Result<E, A>[]) => readonly 
 
 ```ts
 import { successes } from 'fp-ts/ReadonlyArray'
-import { succeed, fail } from 'fp-ts/Result'
+import { of, fail } from 'fp-ts/Result'
 
-assert.deepStrictEqual(successes([succeed(1), fail('foo'), succeed(2)]), [1, 2])
+assert.deepStrictEqual(successes([of(1), fail('foo'), of(2)]), [1, 2])
 ```
 
 Added in v3.0.0
@@ -2674,7 +2674,7 @@ async function test() {
   assert.deepStrictEqual(
     await pipe(
       [-1, 2, 3],
-      traverseFilter((n) => T.succeed(n > 0))
+      traverseFilter((n) => T.of(n > 0))
     )(),
     [2, 3]
   )

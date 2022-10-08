@@ -160,7 +160,7 @@ export const fromEntries = <I, A>(iterable: Iterable<readonly [I, A]>): Option<A
  * import * as O from 'fp-ts/Option'
  * import * as E from 'fp-ts/Result'
  *
- * assert.deepStrictEqual(O.getFailure(E.succeed(1)), O.none)
+ * assert.deepStrictEqual(O.getFailure(E.of(1)), O.none)
  * assert.deepStrictEqual(O.getFailure(E.fail('a')), O.some('a'))
  *
  * @category constructors
@@ -175,7 +175,7 @@ export const getFailure: <E>(ma: Result<E, unknown>) => Option<E> = _.getFailure
  * import * as O from 'fp-ts/Option'
  * import * as E from 'fp-ts/Result'
  *
- * assert.deepStrictEqual(O.getSuccess(E.succeed(1)), O.some(1))
+ * assert.deepStrictEqual(O.getSuccess(E.of(1)), O.some(1))
  * assert.deepStrictEqual(O.getSuccess(E.fail('a')), O.none)
  *
  * @category constructors
@@ -459,14 +459,14 @@ export const map: <A, B>(f: (a: A) => B) => (fa: Option<A>) => Option<B> = (f) =
  * @category constructors
  * @since 3.0.0
  */
-export const succeed: <A>(a: A) => Option<A> = some
+export const of: <A>(a: A) => Option<A> = some
 
 /**
  * @category instances
  * @since 3.0.0
  */
 export const FromIdentity: fromIdentity.FromIdentity<OptionTypeLambda> = {
-  succeed
+  of
 }
 
 /**
@@ -654,7 +654,7 @@ export const traverse: <F extends TypeLambda>(
   F: applicative.Applicative<F>
 ) => <A, S, R, O, E, B>(f: (a: A) => Kind<F, S, R, O, E, B>) => (ta: Option<A>) => Kind<F, S, R, O, E, Option<B>> =
   (F) => (f) => (ta) =>
-    isNone(ta) ? F.succeed(none) : pipe(f(ta.value), F.map(some))
+    isNone(ta) ? F.of(none) : pipe(f(ta.value), F.map(some))
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -809,7 +809,7 @@ export const lift3: <A, B, C, D>(
 export const Applicative: applicative.Applicative<OptionTypeLambda> = {
   map,
   ap,
-  succeed
+  of
 }
 
 /**
@@ -818,7 +818,7 @@ export const Applicative: applicative.Applicative<OptionTypeLambda> = {
  */
 export const Monad: monad.Monad<OptionTypeLambda> = {
   map,
-  succeed,
+  of,
   flatMap
 }
 
@@ -834,7 +834,7 @@ export const tap: <A>(f: (a: A) => Option<unknown>) => (self: Option<A>) => Opti
  * @category conversions
  * @since 3.0.0
  */
-export const toIterable: <A>(self: Option<A>) => Iterable<A> = match(() => iterable.empty, iterable.succeed)
+export const toIterable: <A>(self: Option<A>) => Iterable<A> = match(() => iterable.empty, iterable.of)
 
 /**
  * @category instances
@@ -1117,7 +1117,7 @@ export const exists =
  * @category do notation
  * @since 3.0.0
  */
-export const Do: Option<{}> = /*#__PURE__*/ succeed(_.emptyReadonlyRecord)
+export const Do: Option<{}> = /*#__PURE__*/ of(_.emptyReadonlyRecord)
 
 /**
  * @category do notation
@@ -1170,7 +1170,7 @@ export const bindRight: <N extends string, A extends object, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const Zip: Option<readonly []> = /*#__PURE__*/ succeed(_.emptyReadonlyArray)
+export const Zip: Option<readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
 
 /**
  * @category tuple sequencing

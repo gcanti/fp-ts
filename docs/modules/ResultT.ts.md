@@ -31,9 +31,9 @@ Added in v3.0.0
   - [mapError](#maperror)
   - [match](#match)
   - [matchKind](#matchkind)
+  - [of](#of)
   - [orElse](#orelse)
   - [separate](#separate)
-  - [succeed](#succeed)
   - [swap](#swap)
   - [tapLeft](#tapleft)
   - [toUnion](#tounion)
@@ -310,6 +310,18 @@ export declare const matchKind: <F extends TypeLambda>(
 
 Added in v3.0.0
 
+## of
+
+**Signature**
+
+```ts
+export declare const of: <F extends TypeLambda>(
+  FromIdentity: FromIdentity<F>
+) => <A, S>(a: A) => Kind<F, S, unknown, never, never, Result<never, A>>
+```
+
+Added in v3.0.0
+
 ## orElse
 
 **Signature**
@@ -338,18 +350,6 @@ export declare const separate: <F extends TypeLambda>(
 ) => <S, R, O, FE, A, B>(
   self: Kind<F, S, R, O, FE, Result<E, Result<A, B>>>
 ) => readonly [Kind<F, S, R, O, FE, Result<E, A>>, Kind<F, S, R, O, FE, Result<E, B>>]
-```
-
-Added in v3.0.0
-
-## succeed
-
-**Signature**
-
-```ts
-export declare const succeed: <F extends TypeLambda>(
-  FromIdentity: FromIdentity<F>
-) => <A, S>(a: A) => Kind<F, S, unknown, never, never, Result<never, A>>
 ```
 
 Added in v3.0.0

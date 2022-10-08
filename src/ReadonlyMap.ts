@@ -566,7 +566,7 @@ export const traverseWithIndex: <K>(
   return <F extends TypeLambda>(F: Applicative<F>) =>
     <A, S, R, O, E, B>(f: (k: K, a: A) => Kind<F, S, R, O, E, B>) =>
     (ta: ReadonlyMap<K, A>) => {
-      let fm: Kind<F, S, R, O, E, Map<K, B>> = F.succeed(new Map())
+      let fm: Kind<F, S, R, O, E, Map<K, B>> = F.of(new Map())
       for (const k of keysO(ta)) {
         const a = ta.get(k)!
         fm = pipe(

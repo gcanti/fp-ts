@@ -7,6 +7,6 @@ describe('Compactable', () => {
   it('separate', () => {
     const separate = _.separate(RA.Functor, RA.Compactable)
     U.deepStrictEqual(separate([]), [[], []])
-    U.deepStrictEqual(separate([E.fail(123), E.succeed('123')]), [[123], ['123']])
+    U.deepStrictEqual(separate([E.fail(123), E.of('123')]), [[123], ['123']])
   })
 })

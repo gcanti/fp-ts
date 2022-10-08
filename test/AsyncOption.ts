@@ -9,8 +9,8 @@ import * as _ from '../src/AsyncOption'
 import { assertAsync } from './Async'
 import * as U from './util'
 
-const a: _.AsyncOption<string> = pipe(_.succeed<string>('a'), T.delay(100))
-const b: _.AsyncOption<string> = _.succeed('b')
+const a: _.AsyncOption<string> = pipe(_.of<string>('a'), T.delay(100))
+const b: _.AsyncOption<string> = _.of('b')
 
 const assertSeq = assertAsync(a, b, [O.some('a'), O.some('b')])
 
@@ -55,7 +55,7 @@ describe('AsyncOption', () => {
   // -------------------------------------------------------------------------------------
 
   it('fromSyncResult', async () => {
-    U.deepStrictEqual(await _.fromSyncResult(() => E.succeed(1))(), O.some(1))
+    U.deepStrictEqual(await _.fromSyncResult(() => E.of(1))(), O.some(1))
     U.deepStrictEqual(await _.fromSyncResult(() => E.fail('a'))(), O.none)
   })
 
@@ -125,9 +125,9 @@ describe('AsyncOption', () => {
 
   it('flatMapNullable', async () => {
     const f = _.flatMapNullable((n: number) => (n > 0 ? n : n === 0 ? null : undefined))
-    U.deepStrictEqual(await f(_.succeed(1))(), O.some(1))
-    U.deepStrictEqual(await f(_.succeed(0))(), O.none)
-    U.deepStrictEqual(await f(_.succeed(-1))(), O.none)
+    U.deepStrictEqual(await f(_.of(1))(), O.some(1))
+    U.deepStrictEqual(await f(_.of(0))(), O.none)
+    U.deepStrictEqual(await f(_.of(-1))(), O.none)
   })
 
   it('fromPredicate', async () => {
@@ -152,8 +152,8 @@ describe('AsyncOption', () => {
 
   it('matchAsync', async () => {
     const f = _.matchAsync(
-      () => T.succeed('none'),
-      (a) => T.succeed(`some(${a})`)
+      () => T.of('none'),
+      (a) => T.of(`some(${a})`)
     )
     U.deepStrictEqual(await pipe(_.some(1), f)(), 'some(1)')
     U.deepStrictEqual(await pipe(_.none, f)(), 'none')
@@ -166,7 +166,7 @@ describe('AsyncOption', () => {
   })
 
   it('getOrElseAsync', async () => {
-    const f = _.getOrElseAsync(T.succeed(2))
+    const f = _.getOrElseAsync(T.of(2))
     U.deepStrictEqual(await pipe(_.some(1), f)(), 1)
     U.deepStrictEqual(await pipe(_.none, f)(), 2)
   })
@@ -190,14 +190,14 @@ describe('AsyncOption', () => {
   })
 
   it('flatMapAsyncResult', async () => {
-    const f = _.flatMapAsyncResult((n: number) => (n > 0 ? TE.succeed(n * 2) : TE.fail('a')))
+    const f = _.flatMapAsyncResult((n: number) => (n > 0 ? TE.of(n * 2) : TE.fail('a')))
     U.deepStrictEqual(await pipe(_.some(1), f)(), O.some(2))
     U.deepStrictEqual(await pipe(_.some(-1), f)(), O.none)
     U.deepStrictEqual(await pipe(_.none, f)(), O.none)
   })
 
   it('liftResult', async () => {
-    const f = (s: string) => (s.length <= 2 ? E.succeed(s + '!') : E.fail(s.length))
+    const f = (s: string) => (s.length <= 2 ? E.of(s + '!') : E.fail(s.length))
     const g = _.liftResult(f)
     U.deepStrictEqual(await g('')(), O.some('!'))
     U.deepStrictEqual(await g('a')(), O.some('a!'))
@@ -206,12 +206,12 @@ describe('AsyncOption', () => {
   })
 
   it('flatMapResult', async () => {
-    const f = (s: string) => (s.length <= 2 ? E.succeed(s + '!') : E.fail(s.length))
+    const f = (s: string) => (s.length <= 2 ? E.of(s + '!') : E.fail(s.length))
     const g = _.flatMapResult(f)
-    U.deepStrictEqual(await g(_.succeed(''))(), O.some('!'))
-    U.deepStrictEqual(await g(_.succeed('a'))(), O.some('a!'))
-    U.deepStrictEqual(await g(_.succeed('aa'))(), O.some('aa!'))
-    U.deepStrictEqual(await g(_.succeed('aaa'))(), O.none)
+    U.deepStrictEqual(await g(_.of(''))(), O.some('!'))
+    U.deepStrictEqual(await g(_.of('a'))(), O.some('a!'))
+    U.deepStrictEqual(await g(_.of('aa'))(), O.some('aa!'))
+    U.deepStrictEqual(await g(_.of('aaa'))(), O.none)
   })
 
   // -------------------------------------------------------------------------------------

@@ -53,8 +53,8 @@ pipe(_.some('a'), _.getOrElse(null))
 // $ExpectType Option<{ readonly a1: number; readonly a2: string; }>
 pipe(
   _.Do,
-  _.bind('a1', () => _.succeed(1)),
-  _.bind('a2', () => _.succeed('b'))
+  _.bind('a1', () => _.of(1)),
+  _.bind('a2', () => _.of('b'))
 )
 
 // -------------------------------------------------------------------------------------

@@ -21,7 +21,7 @@ import * as iterable from './Iterable'
  * @category constructors
  * @since 3.0.0
  */
-export const succeed = <A>(a: A): ReadonlySet<A> => new Set([a])
+export const of = <A>(a: A): ReadonlySet<A> => new Set([a])
 
 /**
  * @category conversions

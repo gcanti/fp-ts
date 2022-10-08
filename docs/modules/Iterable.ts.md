@@ -13,7 +13,7 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [constructors](#constructors)
-  - [succeed](#succeed)
+  - [of](#of)
 - [filtering](#filtering)
   - [filterMap](#filtermap)
 - [folding](#folding)
@@ -34,17 +34,18 @@ Added in v3.0.0
   - [empty](#empty)
   - [intercalate](#intercalate)
   - [toEntries](#toentries)
+  - [uniq](#uniq)
 
 ---
 
 # constructors
 
-## succeed
+## of
 
 **Signature**
 
 ```ts
-export declare const succeed: <A>(a: A) => Iterable<A>
+export declare const of: <A>(a: A) => Iterable<A>
 ```
 
 Added in v3.0.0
@@ -262,6 +263,16 @@ Added in v3.0.0
 
 ```ts
 export declare const toEntries: <A>(self: Iterable<A>) => Iterable<readonly [number, A]>
+```
+
+Added in v3.0.0
+
+## uniq
+
+**Signature**
+
+```ts
+export declare const uniq: <A>(Eq: Eq<A>) => (iterable: Iterable<A>) => readonly A[]
 ```
 
 Added in v3.0.0

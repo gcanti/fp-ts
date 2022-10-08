@@ -15,18 +15,18 @@ _.ap(fa)(fab)
 
 // $ExpectType ReaderSync<unknown, number>
 pipe(
-  _.succeed('a'),
-  _.flatMap(() => _.succeed(1))
+  _.of('a'),
+  _.flatMap(() => _.of(1))
 )
 
 // $ExpectType ReaderSync<{ b: number; }, number>
 pipe(
-  _.succeed('a'),
-  _.flatMap(() => _.succeed(1) as _.ReaderSync<{ b: number }, number>)
+  _.of('a'),
+  _.flatMap(() => _.of(1) as _.ReaderSync<{ b: number }, number>)
 )
 
 // $ExpectType ReaderSync<{ a: string; } & { b: number; }, number>
 pipe(
-  _.succeed('a') as _.ReaderSync<{ a: string }, string>,
-  _.flatMap(() => _.succeed(1) as _.ReaderSync<{ b: number }, number>)
+  _.of('a') as _.ReaderSync<{ a: string }, string>,
+  _.flatMap(() => _.of(1) as _.ReaderSync<{ b: number }, number>)
 )

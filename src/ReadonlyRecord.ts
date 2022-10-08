@@ -220,9 +220,9 @@ export const traverseWithIndex = (
     <K extends string, A, S, R, O, E, B>(f: (k: K, a: A) => Kind<F, S, R, O, E, B>) =>
     (r: ReadonlyRecord<K, A>) => {
       if (isEmpty(r)) {
-        return F.succeed(empty)
+        return F.of(empty)
       }
-      let out: Kind<F, S, R, O, E, Record<string, B>> = F.succeed({})
+      let out: Kind<F, S, R, O, E, Record<string, B>> = F.of({})
       for (const key of keysO(r)) {
         out = pipe(
           out,

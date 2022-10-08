@@ -97,7 +97,7 @@ export const map =
 /**
  * @since 3.0.0
  */
-export const succeed =
+export const of =
   <A, S>(a: A): State<S, A> =>
   (s) =>
     [s, a]
@@ -107,7 +107,7 @@ export const succeed =
  * @since 3.0.0
  */
 export const FromIdentity: fromIdentity.FromIdentity<StateTypeLambda> = {
-  succeed
+  of
 }
 
 /**
@@ -186,7 +186,7 @@ export const ap: <S, A>(fa: State<S, A>) => <B>(self: State<S, (a: A) => B>) => 
 /**
  * @since 3.0.0
  */
-export const unit = <S>(): State<S, void> => succeed(undefined)
+export const unit = <S>(): State<S, void> => of(undefined)
 
 /**
  * @since 3.0.0
@@ -246,7 +246,7 @@ export const lift3: <A, B, C, D>(
 export const Applicative: applicative.Applicative<StateTypeLambda> = {
   map,
   ap,
-  succeed
+  of
 }
 
 /**
@@ -255,7 +255,7 @@ export const Applicative: applicative.Applicative<StateTypeLambda> = {
  */
 export const Monad: monad.Monad<StateTypeLambda> = {
   map,
-  succeed,
+  of,
   flatMap
 }
 
@@ -399,7 +399,7 @@ export const traverseNonEmptyReadonlyArrayWithIndex =
 export const traverseReadonlyArrayWithIndex = <A, S, B>(f: (index: number, a: A) => State<S, B>) => {
   const g = traverseNonEmptyReadonlyArrayWithIndex(f)
   return (as: ReadonlyArray<A>): State<S, ReadonlyArray<B>> => {
-    return _.isNonEmpty(as) ? g(as) : succeed(_.emptyReadonlyArray)
+    return _.isNonEmpty(as) ? g(as) : of(_.emptyReadonlyArray)
   }
 }
 

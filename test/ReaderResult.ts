@@ -10,7 +10,7 @@ import * as U from './util'
 describe('ReaderResult', () => {
   describe('pipeables', () => {
     it('map', () => {
-      U.deepStrictEqual(pipe(_.succeed(1), _.map(U.double))({}), E.succeed(2))
+      U.deepStrictEqual(pipe(_.of(1), _.map(U.double))({}), E.of(2))
     })
 
     it('orElse', () => {
@@ -21,34 +21,34 @@ describe('ReaderResult', () => {
       ) => {
         U.deepStrictEqual(pipe(a, _.orElse(b))(null), expected)
       }
-      assertAlt(_.succeed(1), _.succeed(2), E.succeed(1))
-      assertAlt(_.succeed(1), _.fail('b'), E.succeed(1))
-      assertAlt(_.fail('a'), _.succeed(2), E.succeed(2))
+      assertAlt(_.of(1), _.of(2), E.of(1))
+      assertAlt(_.of(1), _.fail('b'), E.of(1))
+      assertAlt(_.fail('a'), _.of(2), E.of(2))
       assertAlt(_.fail('a'), _.fail('b'), E.fail('b'))
     })
 
     it('ap', () => {
-      U.deepStrictEqual(pipe(_.succeed(U.double), _.ap(_.succeed(1)))({}), E.succeed(2))
+      U.deepStrictEqual(pipe(_.of(U.double), _.ap(_.of(1)))({}), E.of(2))
     })
 
     it('tap', () => {
-      const f = flow(U.double, _.succeed)
-      U.deepStrictEqual(pipe(_.succeed(1), _.tap(f))({}), E.succeed(1))
+      const f = flow(U.double, _.of)
+      U.deepStrictEqual(pipe(_.of(1), _.tap(f))({}), E.of(1))
     })
 
     it('flatten', () => {
-      U.deepStrictEqual(pipe(_.succeed(_.succeed('a')), _.flatten)({}), E.succeed('a'))
+      U.deepStrictEqual(pipe(_.of(_.of('a')), _.flatten)({}), E.of('a'))
     })
 
     it('mapBoth', () => {
       const f = _.mapBoth(S.size, U.double)
-      U.deepStrictEqual(pipe(_.succeed(1), f)({}), E.succeed(2))
+      U.deepStrictEqual(pipe(_.of(1), f)({}), E.of(2))
       U.deepStrictEqual(pipe(_.fail('aaa'), f)({}), E.fail(3))
     })
 
     it('mapError', () => {
       const f = _.mapError(S.size)
-      U.deepStrictEqual(pipe(_.succeed(1), f)({}), E.succeed(1))
+      U.deepStrictEqual(pipe(_.of(1), f)({}), E.of(1))
       U.deepStrictEqual(pipe(_.fail('aa'), f)({}), E.fail(2))
     })
 
@@ -59,20 +59,20 @@ describe('ReaderResult', () => {
           O.some(1),
           _.fromOption(() => 'none')
         )({}),
-        E.succeed(1)
+        E.of(1)
       )
     })
 
     it('fromPredicate', () => {
       const f = _.liftPredicate((n: number) => n >= 2, 'e')
-      U.deepStrictEqual(f(3)({}), E.succeed(3))
+      U.deepStrictEqual(f(3)({}), E.of(3))
       U.deepStrictEqual(f(1)({}), E.fail('e'))
     })
 
     it('filter', () => {
       const predicate = (n: number) => n > 10
-      U.deepStrictEqual(pipe(_.succeed(12), _.filter(predicate, -1))({}), E.succeed(12))
-      U.deepStrictEqual(pipe(_.succeed(7), _.filter(predicate, -1))({}), E.fail(-1))
+      U.deepStrictEqual(pipe(_.of(12), _.filter(predicate, -1))({}), E.of(12))
+      U.deepStrictEqual(pipe(_.of(7), _.filter(predicate, -1))({}), E.fail(-1))
       U.deepStrictEqual(pipe(_.fail(12), _.filter(predicate, -1))({}), E.fail(12))
     })
   })
@@ -82,42 +82,42 @@ describe('ReaderResult', () => {
       () => 'left',
       () => 'right'
     )
-    U.deepStrictEqual(f(_.succeed(1))({}), 'right')
+    U.deepStrictEqual(f(_.of(1))({}), 'right')
     U.deepStrictEqual(f(_.fail('a'))({}), 'left')
   })
 
   it('matchReader', () => {
     const f = _.matchReader(
-      () => R.succeed('left'),
-      () => R.succeed('right')
+      () => R.of('left'),
+      () => R.of('right')
     )
-    U.deepStrictEqual(f(_.succeed(1))({}), 'right')
+    U.deepStrictEqual(f(_.of(1))({}), 'right')
     U.deepStrictEqual(f(_.fail('a'))({}), 'left')
   })
 
   it('getOrElse', () => {
     const f = _.getOrElse(2)
-    U.deepStrictEqual(f(_.succeed(1))({}), 1)
+    U.deepStrictEqual(f(_.of(1))({}), 1)
     U.deepStrictEqual(f(_.fail('a'))({}), 2)
   })
 
   it('getOrElseReader', () => {
-    const f = _.getOrElseReader(R.succeed(2))
-    U.deepStrictEqual(f(_.succeed(1))({}), 1)
+    const f = _.getOrElseReader(R.of(2))
+    U.deepStrictEqual(f(_.of(1))({}), 1)
     U.deepStrictEqual(f(_.fail('a'))({}), 2)
   })
 
   it('catchAll', () => {
-    const catchAll = _.catchAll((s: string) => (s.length > 2 ? _.succeed(1) : _.fail(2)))
-    U.deepStrictEqual(catchAll(_.succeed(1))({}), E.succeed(1))
+    const catchAll = _.catchAll((s: string) => (s.length > 2 ? _.of(1) : _.fail(2)))
+    U.deepStrictEqual(catchAll(_.of(1))({}), E.of(1))
   })
 
   it('ask', () => {
-    U.deepStrictEqual(_.ask()({}), E.succeed({}))
+    U.deepStrictEqual(_.ask()({}), E.of({}))
   })
 
   it('asks', () => {
-    U.deepStrictEqual(_.asks((r: { readonly a: number }) => r.a)({ a: 1 }), E.succeed(1))
+    U.deepStrictEqual(_.asks((r: { readonly a: number }) => r.a)({ a: 1 }), E.of(1))
   })
 
   it('getApplicativeReaderValidation', () => {
@@ -135,41 +135,38 @@ describe('ReaderResult', () => {
   })
 
   it('flatMapResult', () => {
-    const f = (s: string) => (s.length === 1 ? E.succeed(s.length) : E.fail('b'))
-    U.deepStrictEqual(pipe(_.succeed('a'), _.flatMapResult(f))({}), E.succeed(1))
-    U.deepStrictEqual(pipe(_.succeed('aa'), _.flatMapResult(f))({}), E.fail('b'))
+    const f = (s: string) => (s.length === 1 ? E.of(s.length) : E.fail('b'))
+    U.deepStrictEqual(pipe(_.of('a'), _.flatMapResult(f))({}), E.of(1))
+    U.deepStrictEqual(pipe(_.of('aa'), _.flatMapResult(f))({}), E.fail('b'))
   })
 
   it('do notation', () => {
     U.deepStrictEqual(
       pipe(
-        _.succeed(1),
+        _.of(1),
         _.bindTo('a'),
-        _.bind('b', () => _.succeed('b'))
+        _.bind('b', () => _.of('b'))
       )(undefined),
-      E.succeed({ a: 1, b: 'b' })
+      E.of({ a: 1, b: 'b' })
     )
   })
 
   it('apS', () => {
-    U.deepStrictEqual(
-      pipe(_.succeed(1), _.bindTo('a'), _.bindRight('b', _.succeed('b')))(undefined),
-      E.succeed({ a: 1, b: 'b' })
-    )
+    U.deepStrictEqual(pipe(_.of(1), _.bindTo('a'), _.bindRight('b', _.of('b')))(undefined), E.of({ a: 1, b: 'b' }))
   })
 
   it('zipFlatten', () => {
-    U.deepStrictEqual(pipe(_.succeed(1), _.tupled, _.zipFlatten(_.succeed('b')))({}), E.succeed([1, 'b'] as const))
+    U.deepStrictEqual(pipe(_.of(1), _.tupled, _.zipFlatten(_.of('b')))({}), E.of([1, 'b'] as const))
   })
 
   it('getCompactable', () => {
     const C = _.getCompactable(() => S.Monoid.empty)
-    U.deepStrictEqual(C.compact(_.succeed(O.some('a')))({}), E.succeed('a'))
+    U.deepStrictEqual(C.compact(_.of(O.some('a')))({}), E.of('a'))
   })
 
   it('partitionMap', async () => {
     const p = (n: number) => n > 2
-    const f = (n: number) => (p(n) ? E.succeed(n + 1) : E.fail(n - 1))
+    const f = (n: number) => (p(n) ? E.of(n + 1) : E.fail(n - 1))
 
     const assertPartition = <E, B, C>(
       [feb, fec]: readonly [_.ReaderResult<null, E, B>, _.ReaderResult<null, E, C>],
@@ -180,8 +177,8 @@ describe('ReaderResult', () => {
     }
 
     assertPartition(pipe(_.fail('123'), _.partitionMap(f, S.Monoid.empty)), [E.fail('123'), E.fail('123')])
-    assertPartition(pipe(_.succeed(1), _.partitionMap(f, S.Monoid.empty)), [E.succeed(0), E.fail(S.Monoid.empty)])
-    assertPartition(pipe(_.succeed(3), _.partitionMap(f, S.Monoid.empty)), [E.fail(S.Monoid.empty), E.succeed(4)])
+    assertPartition(pipe(_.of(1), _.partitionMap(f, S.Monoid.empty)), [E.of(0), E.fail(S.Monoid.empty)])
+    assertPartition(pipe(_.of(3), _.partitionMap(f, S.Monoid.empty)), [E.fail(S.Monoid.empty), E.of(4)])
   })
 
   describe('getFilterable', () => {
@@ -191,8 +188,8 @@ describe('ReaderResult', () => {
       const p = (n: number) => n > 2
       const f = (n: number) => (p(n) ? O.some(n + 1) : O.none)
       U.deepStrictEqual(pipe(_.fail('123'), F.filterMap(f))(null), E.fail('123'))
-      U.deepStrictEqual(pipe(_.succeed(1), F.filterMap(f))(null), E.fail(S.Monoid.empty))
-      U.deepStrictEqual(pipe(_.succeed(3), F.filterMap(f))(null), E.succeed(4))
+      U.deepStrictEqual(pipe(_.of(1), F.filterMap(f))(null), E.fail(S.Monoid.empty))
+      U.deepStrictEqual(pipe(_.of(3), F.filterMap(f))(null), E.of(4))
     })
   })
 
@@ -202,12 +199,12 @@ describe('ReaderResult', () => {
         (c) =>
           n * c
     )
-    U.deepStrictEqual(ma(3)(2), E.succeed(6))
+    U.deepStrictEqual(ma(3)(2), E.of(6))
   })
 
   it('flatMapReader', () => {
     const f = _.flatMapReader((): R.Reader<unknown, number> => () => 2)
-    U.deepStrictEqual(pipe(_.succeed(3), f)({}), E.succeed(2))
+    U.deepStrictEqual(pipe(_.of(3), f)({}), E.of(2))
   })
 
   // -------------------------------------------------------------------------------------
@@ -215,20 +212,20 @@ describe('ReaderResult', () => {
   // -------------------------------------------------------------------------------------
 
   it('traverseNonEmptyReadonlyArray', () => {
-    const f = _.traverseNonEmptyReadonlyArray((a: string) => (a.length > 0 ? _.succeed(a) : _.fail('e')))
-    U.deepStrictEqual(pipe(['a', 'b'], f)(null), E.succeed(['a', 'b'] as const))
+    const f = _.traverseNonEmptyReadonlyArray((a: string) => (a.length > 0 ? _.of(a) : _.fail('e')))
+    U.deepStrictEqual(pipe(['a', 'b'], f)(null), E.of(['a', 'b'] as const))
     U.deepStrictEqual(pipe(['a', ''], f)(null), E.fail('e'))
   })
 
   it('traverseReadonlyArrayWithIndex', () => {
-    const f = _.traverseReadonlyArrayWithIndex((i, a: string) => (a.length > 0 ? _.succeed(a + i) : _.fail('e')))
-    U.deepStrictEqual(pipe(RA.empty, f)(null), E.succeed(RA.empty))
-    U.deepStrictEqual(pipe(['a', 'b'], f)(null), E.succeed(['a0', 'b1']))
+    const f = _.traverseReadonlyArrayWithIndex((i, a: string) => (a.length > 0 ? _.of(a + i) : _.fail('e')))
+    U.deepStrictEqual(pipe(RA.empty, f)(null), E.of(RA.empty))
+    U.deepStrictEqual(pipe(['a', 'b'], f)(null), E.of(['a0', 'b1']))
     U.deepStrictEqual(pipe(['a', ''], f)(null), E.fail('e'))
   })
 
   it('sequenceReadonlyArray', () => {
-    U.deepStrictEqual(pipe([_.succeed('a'), _.succeed('b')], _.sequenceReadonlyArray)(null), E.succeed(['a', 'b']))
-    U.deepStrictEqual(pipe([_.succeed('a'), _.fail('e')], _.sequenceReadonlyArray)(null), E.fail('e'))
+    U.deepStrictEqual(pipe([_.of('a'), _.of('b')], _.sequenceReadonlyArray)(null), E.of(['a', 'b']))
+    U.deepStrictEqual(pipe([_.of('a'), _.fail('e')], _.sequenceReadonlyArray)(null), E.fail('e'))
   })
 })

@@ -1,5 +1,5 @@
 import type { Result } from '../src/Result'
-import { fail, succeed } from '../src/Result'
+import { fail, of } from '../src/Result'
 import type { Eq } from '../src/Eq'
 import { fromEquals, fromOrd } from '../src/Eq'
 import { identity, pipe } from '../src/Function'
@@ -121,7 +121,7 @@ describe('ReadonlyMap', () => {
 
   it('partitionMap', () => {
     const empty = new Map<string, number>()
-    const f = (n: number) => (p(n) ? succeed(n + 1) : fail(n - 1))
+    const f = (n: number) => (p(n) ? of(n + 1) : fail(n - 1))
     U.deepStrictEqual(pipe(empty, _.partitionMap(f)), [empty, empty])
     U.deepStrictEqual(
       pipe(
@@ -162,7 +162,7 @@ describe('ReadonlyMap', () => {
   it('separate', () => {
     const fooBar = new Map<string, Result<number, number>>([
       ['foo', fail(123)],
-      ['bar', succeed(123)]
+      ['bar', of(123)]
     ])
     const foo = new Map<string, number>([['foo', 123]])
     const bar = new Map<string, number>([['bar', 123]])
@@ -907,7 +907,7 @@ describe('ReadonlyMap', () => {
 
     it('filterMapKind', async () => {
       const filterMapKind = W.traverseFilterMap(T.ApplicativePar)
-      const f = (n: number) => T.succeed(p(n) ? O.some(n + 1) : O.none)
+      const f = (n: number) => T.of(p(n) ? O.some(n + 1) : O.none)
       U.deepStrictEqual(await pipe(_.empty<User>(), filterMapKind(f))(), _.empty<User>())
       U.deepStrictEqual(
         await pipe(
@@ -923,7 +923,7 @@ describe('ReadonlyMap', () => {
 
     it('partitionMapKind', async () => {
       const partitionMapKind = W.traversePartitionMap(T.ApplicativePar)
-      const f = (n: number) => T.succeed(p(n) ? succeed(n + 1) : fail(n - 1))
+      const f = (n: number) => T.of(p(n) ? of(n + 1) : fail(n - 1))
       U.deepStrictEqual(await pipe(_.empty<User>(), partitionMapKind(f))(), [_.empty<User>(), _.empty<User>()])
       U.deepStrictEqual(
         await pipe(
@@ -980,7 +980,7 @@ describe('ReadonlyMap', () => {
       ])
       const a0 = new Map<string, number>([['a', 0]])
       const b4 = new Map<string, number>([['b', 4]])
-      const f = (_: string, n: number) => (p(n) ? succeed(n + 1) : fail(n - 1))
+      const f = (_: string, n: number) => (p(n) ? of(n + 1) : fail(n - 1))
       U.deepStrictEqual(pipe(emptyMap, partitionMapWithIndex(f)), [emptyMap, emptyMap])
       U.deepStrictEqual(pipe(a1b3, partitionMapWithIndex(f)), [a0, b4])
     })

@@ -63,7 +63,7 @@ Added in v3.0.0
   - [execute](#execute)
   - [flatten](#flatten)
   - [idKleisli](#idkleisli)
-  - [succeed](#succeed)
+  - [of](#of)
   - [unit](#unit)
 
 ---
@@ -561,12 +561,12 @@ export declare const idKleisli: <A>() => <S>(a: A) => State<S, A>
 
 Added in v3.0.0
 
-## succeed
+## of
 
 **Signature**
 
 ```ts
-export declare const succeed: <A, S>(a: A) => State<S, A>
+export declare const of: <A, S>(a: A) => State<S, A>
 ```
 
 Added in v3.0.0

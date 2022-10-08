@@ -23,7 +23,7 @@ export const empty: Iterable<never> = {
  * @category constructors
  * @since 3.0.0
  */
-export const succeed = <A>(a: A): Iterable<A> => {
+export const of = <A>(a: A): Iterable<A> => {
   return {
     *[Symbol.iterator]() {
       yield a
@@ -155,7 +155,7 @@ export const traverseWithIndex =
   (self: Iterable<readonly [I, A]>): Kind<F, S, R, O, E, Iterable<B>> => {
     return pipe(
       self,
-      reduceWithIndex<Kind<F, S, R, O, E, Iterable<B>>, I, A>(Applicative.succeed(empty), (i, fbs, a) =>
+      reduceWithIndex<Kind<F, S, R, O, E, Iterable<B>>, I, A>(Applicative.of(empty), (i, fbs, a) =>
         pipe(
           fbs,
           Applicative.map((bs) => (b: B) => append(b)(bs)),

@@ -27,8 +27,8 @@ Added in v3.0.0
   - [getFailure](#getfailure)
   - [getSuccess](#getsuccess)
   - [none](#none)
+  - [of](#of)
   - [some](#some)
-  - [succeed](#succeed)
 - [conversions](#conversions)
   - [fromEntries](#fromentries)
   - [fromIterable](#fromiterable)
@@ -163,7 +163,7 @@ export declare const getFailure: <E>(ma: Result<E, unknown>) => Option<E>
 import * as O from 'fp-ts/Option'
 import * as E from 'fp-ts/Result'
 
-assert.deepStrictEqual(O.getFailure(E.succeed(1)), O.none)
+assert.deepStrictEqual(O.getFailure(E.of(1)), O.none)
 assert.deepStrictEqual(O.getFailure(E.fail('a')), O.some('a'))
 ```
 
@@ -185,7 +185,7 @@ export declare const getSuccess: <A>(ma: Result<unknown, A>) => Option<A>
 import * as O from 'fp-ts/Option'
 import * as E from 'fp-ts/Result'
 
-assert.deepStrictEqual(O.getSuccess(E.succeed(1)), O.some(1))
+assert.deepStrictEqual(O.getSuccess(E.of(1)), O.some(1))
 assert.deepStrictEqual(O.getSuccess(E.fail('a')), O.none)
 ```
 
@@ -203,6 +203,16 @@ export declare const none: Option<never>
 
 Added in v3.0.0
 
+## of
+
+**Signature**
+
+```ts
+export declare const of: <A>(a: A) => Option<A>
+```
+
+Added in v3.0.0
+
 ## some
 
 Constructs a `Some`. Represents an optional value that exists.
@@ -211,16 +221,6 @@ Constructs a `Some`. Represents an optional value that exists.
 
 ```ts
 export declare const some: <A>(a: A) => Option<A>
-```
-
-Added in v3.0.0
-
-## succeed
-
-**Signature**
-
-```ts
-export declare const succeed: <A>(a: A) => Option<A>
 ```
 
 Added in v3.0.0

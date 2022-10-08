@@ -55,14 +55,14 @@ export const flatMap: <A, B>(f: (a: A) => Sync<B>) => (self: Sync<A>) => Sync<B>
  * @category constructors
  * @since 3.0.0
  */
-export const succeed: <A>(a: A) => Sync<A> = constant
+export const of: <A>(a: A) => Sync<A> = constant
 
 /**
  * @category instances
  * @since 3.0.0
  */
 export const FromIdentity: fromIdentity.FromIdentity<SyncTypeLambda> = {
-  succeed
+  of
 }
 
 /**
@@ -223,7 +223,7 @@ export const lift3: <A, B, C, D>(f: (a: A, b: B, c: C) => D) => (fa: Sync<A>, fb
 export const Applicative: applicative.Applicative<SyncTypeLambda> = {
   map,
   ap,
-  succeed
+  of
 }
 
 /**
@@ -232,7 +232,7 @@ export const Applicative: applicative.Applicative<SyncTypeLambda> = {
  */
 export const Monad: monad.Monad<SyncTypeLambda> = {
   map,
-  succeed,
+  of,
   flatMap
 }
 
@@ -285,7 +285,7 @@ export const FlattenableRec: flatMapableRec.FlattenableRec<SyncTypeLambda> = {
  * @category do notation
  * @since 3.0.0
  */
-export const Do: Sync<{}> = /*#__PURE__*/ succeed(_.emptyReadonlyRecord)
+export const Do: Sync<{}> = /*#__PURE__*/ of(_.emptyReadonlyRecord)
 
 /**
  * @category do notation
@@ -338,7 +338,7 @@ export const bindRight: <N extends string, A extends object, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const Zip: Sync<readonly []> = /*#__PURE__*/ succeed(_.emptyReadonlyArray)
+export const Zip: Sync<readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
 
 /**
  * @category tuple sequencing

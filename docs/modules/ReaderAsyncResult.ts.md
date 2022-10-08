@@ -27,8 +27,8 @@ Added in v3.0.0
   - [fromReaderResult](#fromreaderresult)
   - [fromReaderSync](#fromreadersync)
   - [fromSync](#fromsync)
+  - [of](#of)
   - [sleep](#sleep)
-  - [succeed](#succeed)
 - [conversions](#conversions)
   - [fromAsync](#fromasync)
   - [fromAsyncResult](#fromasyncresult)
@@ -301,6 +301,16 @@ export declare const fromSync: <A>(ma: Sync<A>) => ReaderAsyncResult<unknown, ne
 
 Added in v3.0.0
 
+## of
+
+**Signature**
+
+```ts
+export declare const of: <A>(a: A) => ReaderAsyncResult<unknown, never, A>
+```
+
+Added in v3.0.0
+
 ## sleep
 
 Returns an effect that suspends for the specified `duration` (in millis).
@@ -309,16 +319,6 @@ Returns an effect that suspends for the specified `duration` (in millis).
 
 ```ts
 export declare const sleep: (duration: number) => ReaderAsyncResult<unknown, never, void>
-```
-
-Added in v3.0.0
-
-## succeed
-
-**Signature**
-
-```ts
-export declare const succeed: <A>(a: A) => ReaderAsyncResult<unknown, never, A>
 ```
 
 Added in v3.0.0

@@ -72,16 +72,14 @@ export const fail: <E>(e: E) => ReaderAsyncResult<unknown, E, never> = /*#__PURE
  * @category constructors
  * @since 3.0.0
  */
-export const succeed: <A>(a: A) => ReaderAsyncResult<unknown, never, A> = /*#__PURE__*/ resultT.succeed(
-  readerAsync.FromIdentity
-)
+export const of: <A>(a: A) => ReaderAsyncResult<unknown, never, A> = /*#__PURE__*/ resultT.of(readerAsync.FromIdentity)
 
 /**
  * @category conversions
  * @since 3.0.0
  */
 export const fromAsyncResult: <E, A>(fa: asyncResult.AsyncResult<E, A>) => ReaderAsyncResult<unknown, E, A> =
-  /*#__PURE__*/ reader.succeed
+  /*#__PURE__*/ reader.of
 
 /**
  * @category conversions
@@ -105,7 +103,7 @@ export const failAsync: <E>(me: Async<E>) => ReaderAsyncResult<unknown, E, never
  * @category constructors
  * @since 3.0.0
  */
-export const fromReader = <R, A>(ma: Reader<R, A>): ReaderAsyncResult<R, never, A> => flow(ma, asyncResult.succeed)
+export const fromReader = <R, A>(ma: Reader<R, A>): ReaderAsyncResult<R, never, A> => flow(ma, asyncResult.of)
 
 /**
  * @category constructors
@@ -171,7 +169,7 @@ export const failReaderSync: <R, E>(me: ReaderSync<R, E>) => ReaderAsyncResult<R
  * @category conversions
  * @since 3.0.0
  */
-export const fromResult: <E, A>(fa: Result<E, A>) => ReaderAsyncResult<unknown, E, A> = readerAsync.succeed
+export const fromResult: <E, A>(fa: Result<E, A>) => ReaderAsyncResult<unknown, E, A> = readerAsync.of
 
 /**
  * @category conversions
@@ -439,7 +437,7 @@ export const getValidatedApplicative = <E>(
 ): applicative.Applicative<ValidatedT<ReaderAsyncResultTypeLambda, E>> => ({
   map,
   ap: apply.apComposition(reader.Apply, asyncResult.getValidatedApplicative(Apply, Semigroup)),
-  succeed
+  of
 })
 
 /**
@@ -532,7 +530,7 @@ export const unit: <R, E>(self: ReaderAsyncResult<R, E, unknown>) => ReaderAsync
  * @since 3.0.0
  */
 export const FromIdentity: fromIdentity.FromIdentity<ReaderAsyncResultTypeLambda> = {
-  succeed
+  of
 }
 
 /**
@@ -649,7 +647,7 @@ export const lift3: <A, B, C, D>(
 export const Applicative: applicative.Applicative<ReaderAsyncResultTypeLambda> = {
   map,
   ap,
-  succeed
+  of
 }
 
 /**
@@ -668,7 +666,7 @@ export const tap: <A, R2, E2>(
  */
 export const Monad: monad.Monad<ReaderAsyncResultTypeLambda> = {
   map,
-  succeed,
+  of,
   flatMap
 }
 
@@ -996,7 +994,7 @@ export const bracket: <R1, E1, A, R2, E2, B, R3, E3>(
  * @category do notation
  * @since 3.0.0
  */
-export const Do: ReaderAsyncResult<unknown, never, {}> = /*#__PURE__*/ succeed(_.emptyReadonlyRecord)
+export const Do: ReaderAsyncResult<unknown, never, {}> = /*#__PURE__*/ of(_.emptyReadonlyRecord)
 
 /**
  * @category do notation
@@ -1057,7 +1055,7 @@ export const bindRight: <N extends string, A extends object, R2, E2, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const Zip: ReaderAsyncResult<unknown, never, readonly []> = /*#__PURE__*/ succeed(_.emptyReadonlyArray)
+export const Zip: ReaderAsyncResult<unknown, never, readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
 
 /**
  * @category tuple sequencing

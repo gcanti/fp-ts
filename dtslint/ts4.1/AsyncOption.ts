@@ -52,7 +52,7 @@ pipe(_.some('a'), _.getOrElse(null))
 //
 
 // $ExpectType Async<string | null>
-pipe(_.some('a'), _.getOrElseAsync(T.succeed(null)))
+pipe(_.some('a'), _.getOrElseAsync(T.of(null)))
 
 //
 // match
@@ -75,8 +75,8 @@ pipe(
 pipe(
   _.some('a'),
   _.matchAsync(
-    () => T.succeed(1),
-    () => T.succeed(true)
+    () => T.of(1),
+    () => T.of(true)
   )
 )
 

@@ -19,20 +19,20 @@ _.ap(fa)(fab)
 
 // $ExpectType AsyncResult<never, number>
 pipe(
-  _.succeed('a'),
-  _.flatMap(() => _.succeed(1))
+  _.of('a'),
+  _.flatMap(() => _.of(1))
 )
 
 // $ExpectType AsyncResult<number, number>
 pipe(
-  _.succeed('a'),
-  _.flatMap(() => _.succeed(1) as _.AsyncResult<number, number>)
+  _.of('a'),
+  _.flatMap(() => _.of(1) as _.AsyncResult<number, number>)
 )
 
 // $ExpectType AsyncResult<string | number, number>
 pipe(
-  _.succeed('a') as _.AsyncResult<string, string>,
-  _.flatMap(() => _.succeed(1) as _.AsyncResult<number, number>)
+  _.of('a') as _.AsyncResult<string, string>,
+  _.flatMap(() => _.of(1) as _.AsyncResult<number, number>)
 )
 
 //
@@ -44,14 +44,14 @@ pipe(
 //
 
 // $ExpectType Async<string | null>
-pipe(_.succeed('a'), _.getOrElse(null))
+pipe(_.of('a'), _.getOrElse(null))
 
 //
 // getOrElseAsync
 //
 
 // $ExpectType Async<string | null>
-pipe(_.succeed('a'), _.getOrElseAsync(T.succeed(null)))
+pipe(_.of('a'), _.getOrElseAsync(T.of(null)))
 
 //
 // flatMapEitherK
@@ -59,8 +59,8 @@ pipe(_.succeed('a'), _.getOrElseAsync(T.succeed(null)))
 
 // $ExpectType AsyncResult<string | number, number>
 pipe(
-  _.succeed('a') as _.AsyncResult<string, string>,
-  _.flatMapResult(() => E.succeed(1) as E.Result<number, number>)
+  _.of('a') as _.AsyncResult<string, string>,
+  _.flatMapResult(() => E.of(1) as E.Result<number, number>)
 )
 
 //
@@ -69,8 +69,8 @@ pipe(
 
 // $ExpectType AsyncResult<string | number, number>
 pipe(
-  _.succeed('a') as _.AsyncResult<string, string>,
-  _.flatMapSyncResult(() => IOE.succeed(1) as IOE.SyncResult<number, number>)
+  _.of('a') as _.AsyncResult<string, string>,
+  _.flatMapSyncResult(() => IOE.of(1) as IOE.SyncResult<number, number>)
 )
 
 //
@@ -87,10 +87,10 @@ _.taskify(apiForTaskify) // $ExpectType (a: string) => AsyncResult<Error, string
 
 // $ExpectType AsyncResult<string | number, { readonly a1: number; readonly a2: string; readonly a3: boolean; }>
 pipe(
-  _.succeed(1) as _.AsyncResult<string, number>,
+  _.of(1) as _.AsyncResult<string, number>,
   _.bindTo('a1'),
-  _.bind('a2', () => _.succeed('b')),
-  _.bind('a3', () => _.succeed(true) as _.AsyncResult<number, boolean>)
+  _.bind('a2', () => _.of('b')),
+  _.bind('a3', () => _.of(true) as _.AsyncResult<number, boolean>)
 )
 
 //
@@ -99,10 +99,10 @@ pipe(
 
 // $ExpectType AsyncResult<string | number, { readonly a1: number; readonly a2: string; readonly a3: boolean; }>
 pipe(
-  _.succeed(1) as _.AsyncResult<string, number>,
+  _.of(1) as _.AsyncResult<string, number>,
   _.bindTo('a1'),
-  _.bindRight('a2', _.succeed('b')),
-  _.bindRight('a3', _.succeed(true) as _.AsyncResult<number, boolean>)
+  _.bindRight('a2', _.of('b')),
+  _.bindRight('a3', _.of(true) as _.AsyncResult<number, boolean>)
 )
 
 //
@@ -112,6 +112,6 @@ pipe(
 // $ExpectType AsyncResult<string, { readonly a1: number; readonly a2: string; }>
 pipe(
   _.Do,
-  _.bind('a1', () => _.succeed(1) as _.AsyncResult<string, number>),
-  _.bind('a2', () => _.succeed('b') as _.AsyncResult<string, string>)
+  _.bind('a1', () => _.of(1) as _.AsyncResult<string, number>),
+  _.bind('a2', () => _.of('b') as _.AsyncResult<string, string>)
 )

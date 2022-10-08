@@ -17,7 +17,7 @@ Added in v3.0.0
   - [asks](#asks)
   - [asksReaderResult](#asksreaderresult)
   - [fail](#fail)
-  - [succeed](#succeed)
+  - [of](#of)
 - [conversions](#conversions)
   - [failReader](#failreader)
   - [fromNullable](#fromnullable)
@@ -164,12 +164,12 @@ export declare const fail: <E>(e: E) => ReaderResult<unknown, E, never>
 
 Added in v3.0.0
 
-## succeed
+## of
 
 **Signature**
 
 ```ts
-export declare const succeed: <A>(a: A) => ReaderResult<unknown, never, A>
+export declare const of: <A>(a: A) => ReaderResult<unknown, never, A>
 ```
 
 Added in v3.0.0

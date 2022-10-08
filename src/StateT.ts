@@ -19,10 +19,10 @@ export interface StateT<F extends TypeLambda, S> extends TypeLambda {
 /**
  * @since 3.0.0
  */
-export const succeed =
+export const of =
   <F extends TypeLambda>(F: FromIdentity<F>) =>
   <A, S, FS>(a: A): Kind<StateT<F, S>, FS, unknown, never, never, A> => {
-    return (s) => F.succeed([s, a])
+    return (s) => F.of([s, a])
   }
 
 /**
@@ -81,7 +81,7 @@ export const flatMap =
 export const fromState =
   <F extends TypeLambda>(F: FromIdentity<F>) =>
   <S, A, FS>(sa: State<S, A>): Kind<StateT<F, S>, FS, unknown, never, never, A> => {
-    return (s) => F.succeed(sa(s))
+    return (s) => F.of(sa(s))
   }
 
 /**

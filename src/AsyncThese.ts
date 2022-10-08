@@ -57,7 +57,7 @@ export const fail: <E>(e: E) => AsyncThese<E, never> = /*#__PURE__*/ theseT.fail
  * @category constructors
  * @since 3.0.0
  */
-export const succeed: <A>(a: A) => AsyncThese<never, A> = /*#__PURE__*/ theseT.succeed(async.FromIdentity)
+export const of: <A>(a: A) => AsyncThese<never, A> = /*#__PURE__*/ theseT.of(async.FromIdentity)
 
 /**
  * @category constructors
@@ -99,13 +99,13 @@ export const fromSyncResult: <E, A>(fa: SyncResult<E, A>) => AsyncThese<E, A> = 
  * @category conversions
  * @since 3.0.0
  */
-export const fromResult: <E, A>(fa: Result<E, A>) => AsyncThese<E, A> = async.succeed
+export const fromResult: <E, A>(fa: Result<E, A>) => AsyncThese<E, A> = async.of
 
 /**
  * @category conversions
  * @since 3.0.0
  */
-export const fromThese: <E, A>(fa: these.These<E, A>) => AsyncThese<E, A> = async.succeed
+export const fromThese: <E, A>(fa: these.These<E, A>) => AsyncThese<E, A> = async.of
 
 // -------------------------------------------------------------------------------------
 // pattern matching
@@ -196,7 +196,7 @@ export const getApplicative = <E>(
   return {
     map,
     ap: AS.ap,
-    succeed
+    of
   }
 }
 
@@ -217,7 +217,7 @@ export const getMonad = <E>(S: Semigroup<E>): Monad<ValidatedT<AsyncTheseTypeLam
   const C = getFlattenable(S)
   return {
     map,
-    succeed,
+    of,
     flatMap: C.flatMap
   }
 }
@@ -258,7 +258,7 @@ export const unit: <E>(self: AsyncThese<E, unknown>) => AsyncThese<E, void> = /*
  * @since 3.0.0
  */
 export const FromIdentity: fromIdentity.FromIdentity<AsyncTheseTypeLambda> = {
-  succeed
+  of
 }
 
 /**
@@ -415,7 +415,7 @@ export const toTuple2: <E, A>(e: E, a: A) => (fa: AsyncThese<E, A>) => Async<rea
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const Zip: AsyncThese<never, readonly []> = /*#__PURE__*/ succeed(_.emptyReadonlyArray)
+export const Zip: AsyncThese<never, readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
 
 // -------------------------------------------------------------------------------------
 // array utils
