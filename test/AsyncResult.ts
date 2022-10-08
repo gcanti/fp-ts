@@ -14,15 +14,15 @@ import * as TO from '../src/AsyncOption'
 import { assertAsync } from './Async'
 import * as U from './util'
 
-const a: _.AsyncResult<string, string> = pipe(_.of('a'), T.delay(100))
-const b: _.AsyncResult<string, string> = _.of('b')
+const a: _.AsyncResult<string, string> = pipe(_.succeed('a'), T.delay(100))
+const b: _.AsyncResult<string, string> = _.succeed('b')
 
-const assertSeq = assertAsync(a, b, [E.of('a'), E.of('b')])
+const assertSeq = assertAsync(a, b, [E.succeed('a'), E.succeed('b')])
 
 describe('AsyncResult', () => {
   it('flatMapError', async () => {
     const f = _.flatMapError((e: string) => T.of(e + '!'))
-    U.deepStrictEqual(await pipe(_.of(1), f)(), E.of(1))
+    U.deepStrictEqual(await pipe(_.succeed(1), f)(), E.succeed(1))
     U.deepStrictEqual(await pipe(_.fail('a'), f)(), E.fail('a!'))
   })
 
@@ -55,9 +55,9 @@ describe('AsyncResult', () => {
     ) => {
       U.deepStrictEqual(await pipe(a, _.orElse(b))(), expected)
     }
-    await assertAlt(_.of(1), _.of(2), E.of(1))
-    await assertAlt(_.of(1), _.fail('b'), E.of(1))
-    await assertAlt(_.fail('a'), _.of(2), E.of(2))
+    await assertAlt(_.succeed(1), _.succeed(2), E.succeed(1))
+    await assertAlt(_.succeed(1), _.fail('b'), E.succeed(1))
+    await assertAlt(_.fail('a'), _.succeed(2), E.succeed(2))
     await assertAlt(_.fail('a'), _.fail('b'), E.fail('b'))
   })
 
@@ -65,7 +65,7 @@ describe('AsyncResult', () => {
     const assertMap = async (a: _.AsyncResult<string, number>, expected: E.Result<string, number>) => {
       U.deepStrictEqual(await pipe(a, _.map(U.double))(), expected)
     }
-    await assertMap(_.of(1), E.of(2))
+    await assertMap(_.succeed(1), E.succeed(2))
     await assertMap(_.fail('a'), E.fail('a'))
   })
 
@@ -82,9 +82,9 @@ describe('AsyncResult', () => {
       U.deepStrictEqual(await pipe(a, _.map(tuple2), _.ap(b))(), expected)
     }
 
-    await assertAp(_.of(1), _.of(2), E.of([1, 2]))
-    await assertAp(_.of(1), _.fail('b'), E.fail('b'))
-    await assertAp(_.fail('a'), _.of(2), E.fail('a'))
+    await assertAp(_.succeed(1), _.succeed(2), E.succeed([1, 2]))
+    await assertAp(_.succeed(1), _.fail('b'), E.fail('b'))
+    await assertAp(_.fail('a'), _.succeed(2), E.fail('a'))
     await assertAp(_.fail('a'), _.fail('b'), E.fail('a'))
   })
 
@@ -103,9 +103,9 @@ describe('AsyncResult', () => {
       )
     }
 
-    await assertFlattenable(_.of(1), _.of(2), E.of(2))
-    await assertFlattenable(_.of(1), _.fail('b'), E.fail('b'))
-    await assertFlattenable(_.fail('a'), _.of(2), E.fail('a'))
+    await assertFlattenable(_.succeed(1), _.succeed(2), E.succeed(2))
+    await assertFlattenable(_.succeed(1), _.fail('b'), E.fail('b'))
+    await assertFlattenable(_.fail('a'), _.succeed(2), E.fail('a'))
     await assertFlattenable(_.fail('a'), _.fail('b'), E.fail('a'))
   })
 
@@ -124,27 +124,27 @@ describe('AsyncResult', () => {
       )
     }
 
-    await assertFlattenableFirst(_.of(1), _.of(2), E.of(1))
-    await assertFlattenableFirst(_.of(1), _.fail('b'), E.fail('b'))
-    await assertFlattenableFirst(_.fail('a'), _.of(2), E.fail('a'))
+    await assertFlattenableFirst(_.succeed(1), _.succeed(2), E.succeed(1))
+    await assertFlattenableFirst(_.succeed(1), _.fail('b'), E.fail('b'))
+    await assertFlattenableFirst(_.fail('a'), _.succeed(2), E.fail('a'))
     await assertFlattenableFirst(_.fail('a'), _.fail('b'), E.fail('a'))
   })
 
   it('flatten', async () => {
-    U.deepStrictEqual(await pipe(_.of(_.of(1)), _.flatten)(), E.of(1))
-    U.deepStrictEqual(await pipe(_.of(_.fail('b')), _.flatten)(), E.fail('b'))
+    U.deepStrictEqual(await pipe(_.succeed(_.succeed(1)), _.flatten)(), E.succeed(1))
+    U.deepStrictEqual(await pipe(_.succeed(_.fail('b')), _.flatten)(), E.fail('b'))
     U.deepStrictEqual(await pipe(_.fail('a'), _.flatten)(), E.fail('a'))
   })
 
   it('mapBoth', async () => {
     const f = _.mapBoth(S.size, gt(N.Ord)(2))
-    U.deepStrictEqual(await pipe(_.of(1), f)(), E.of(false))
+    U.deepStrictEqual(await pipe(_.succeed(1), f)(), E.succeed(false))
     U.deepStrictEqual(await pipe(_.fail('a'), f)(), E.fail(1))
   })
 
   it('mapError', async () => {
     const f = _.mapError(S.size)
-    U.deepStrictEqual(await pipe(_.of(1), f)(), E.of(1))
+    U.deepStrictEqual(await pipe(_.succeed(1), f)(), E.succeed(1))
     U.deepStrictEqual(await pipe(_.fail('a'), f)(), E.fail(1))
   })
 
@@ -166,9 +166,9 @@ describe('AsyncResult', () => {
       U.deepStrictEqual(await pipe(a, A.map(tuple2), A.ap(b))(), expected)
     }
 
-    await assertAp(_.of(1), _.of(2), E.of([1, 2]))
-    await assertAp(_.of(1), _.fail('b'), E.fail('b'))
-    await assertAp(_.fail('a'), _.of(2), E.fail('a'))
+    await assertAp(_.succeed(1), _.succeed(2), E.succeed([1, 2]))
+    await assertAp(_.succeed(1), _.fail('b'), E.fail('b'))
+    await assertAp(_.fail('a'), _.succeed(2), E.fail('a'))
     await assertAp(_.fail('a'), _.fail('b'), E.fail('ab'))
 
     // await assertPar((a, b) => pipe(a, A.map(S.Semigroup.combine), A.ap(b)), E.right('ba'))
@@ -183,9 +183,9 @@ describe('AsyncResult', () => {
     ) => {
       U.deepStrictEqual(await pipe(a, A.orElse(b))(), expected)
     }
-    await assertAlt(_.of(1), _.of(2), E.of(1))
-    await assertAlt(_.of(1), _.fail('b'), E.of(1))
-    await assertAlt(_.fail('a'), _.of(2), E.of(2))
+    await assertAlt(_.succeed(1), _.succeed(2), E.succeed(1))
+    await assertAlt(_.succeed(1), _.fail('b'), E.succeed(1))
+    await assertAlt(_.fail('a'), _.succeed(2), E.succeed(2))
     await assertAlt(_.fail('a'), _.fail('b'), E.fail('ab'))
   })
 
@@ -193,7 +193,7 @@ describe('AsyncResult', () => {
     const C = _.getCompactable(() => S.Monoid.empty)
 
     it('compact', async () => {
-      U.deepStrictEqual(await C.compact(_.of(O.some(1)))(), E.of(1))
+      U.deepStrictEqual(await C.compact(_.succeed(O.some(1)))(), E.succeed(1))
     })
   })
 
@@ -208,14 +208,14 @@ describe('AsyncResult', () => {
       U.deepStrictEqual(await writer.snd(s)(), expectedRight)
     }
 
-    await assertSeparate(_.of(E.of(1)), E.fail(''), E.of(1))
-    await assertSeparate(_.of(E.fail('a')), E.of('a'), E.fail(S.Monoid.empty))
+    await assertSeparate(_.succeed(E.succeed(1)), E.fail(''), E.succeed(1))
+    await assertSeparate(_.succeed(E.fail('a')), E.succeed('a'), E.fail(S.Monoid.empty))
     await assertSeparate(_.fail('a'), E.fail('a'), E.fail('a'))
   })
 
   it('partitionMap', async () => {
     const p = (n: number) => n > 2
-    const f = (n: number) => (p(n) ? E.of(n + 1) : E.fail(n - 1))
+    const f = (n: number) => (p(n) ? E.succeed(n + 1) : E.fail(n - 1))
 
     const assertPartition = async <E, B, C>(
       [feb, fec]: readonly [_.AsyncResult<E, B>, _.AsyncResult<E, C>],
@@ -226,8 +226,8 @@ describe('AsyncResult', () => {
     }
 
     assertPartition(pipe(_.fail('123'), _.partitionMap(f, S.Monoid.empty)), [E.fail('123'), E.fail('123')])
-    assertPartition(pipe(_.of(1), _.partitionMap(f, S.Monoid.empty)), [E.of(0), E.fail(S.Monoid.empty)])
-    assertPartition(pipe(_.of(3), _.partitionMap(f, S.Monoid.empty)), [E.fail(S.Monoid.empty), E.of(4)])
+    assertPartition(pipe(_.succeed(1), _.partitionMap(f, S.Monoid.empty)), [E.succeed(0), E.fail(S.Monoid.empty)])
+    assertPartition(pipe(_.succeed(3), _.partitionMap(f, S.Monoid.empty)), [E.fail(S.Monoid.empty), E.succeed(4)])
   })
 
   describe('getFilterable', () => {
@@ -237,14 +237,14 @@ describe('AsyncResult', () => {
       const p = (n: number) => n > 2
       const f = (n: number) => (p(n) ? O.some(n + 1) : O.none)
       U.deepStrictEqual(await pipe(_.fail('123'), F.filterMap(f))(), E.fail('123'))
-      U.deepStrictEqual(await pipe(_.of(1), F.filterMap(f))(), E.fail(S.Monoid.empty))
-      U.deepStrictEqual(await pipe(_.of(3), F.filterMap(f))(), E.of(4))
+      U.deepStrictEqual(await pipe(_.succeed(1), F.filterMap(f))(), E.fail(S.Monoid.empty))
+      U.deepStrictEqual(await pipe(_.succeed(3), F.filterMap(f))(), E.succeed(4))
     })
   })
 
   it('Applicative', async () => {
-    await assertSeq((a, b) => pipe(a, _.Apply.map(S.Semigroup.combine), _.Apply.ap(b)), E.of('ba'))
-    await assertSeq((a, b) => pipe(a, _.Applicative.map(S.Semigroup.combine), _.Applicative.ap(b)), E.of('ba'))
+    await assertSeq((a, b) => pipe(a, _.Apply.map(S.Semigroup.combine), _.Apply.ap(b)), E.succeed('ba'))
+    await assertSeq((a, b) => pipe(a, _.Applicative.map(S.Semigroup.combine), _.Applicative.ap(b)), E.succeed('ba'))
   })
 
   // -------------------------------------------------------------------------------------
@@ -261,8 +261,8 @@ describe('AsyncResult', () => {
     const api3 = (_path: string, callback: (err: Error | null | undefined, result?: string) => void): void => {
       callback(new Error('ko'))
     }
-    U.deepStrictEqual(await _.taskify(api1)('foo')(), E.of('ok'))
-    U.deepStrictEqual(await _.taskify(api2)('foo')(), E.of('ok'))
+    U.deepStrictEqual(await _.taskify(api1)('foo')(), E.succeed('ok'))
+    U.deepStrictEqual(await _.taskify(api2)('foo')(), E.succeed('ok'))
     U.deepStrictEqual(await _.taskify(api3)('foo')(), E.fail(new Error('ko')))
   })
 
@@ -272,16 +272,16 @@ describe('AsyncResult', () => {
     }
     const taskApi = _.taskify(api)()
 
-    U.deepStrictEqual(await taskApi(), E.of('ok'))
-    U.deepStrictEqual(await taskApi(), E.of('ok'))
+    U.deepStrictEqual(await taskApi(), E.succeed('ok'))
+    U.deepStrictEqual(await taskApi(), E.succeed('ok'))
   })
 
   describe('bracket', () => {
     let log: Array<string> = []
 
     const acquireFailure = _.fail('acquire failure')
-    const acquireSuccess = _.of({ res: 'acquire success' })
-    const useSuccess = () => _.of('use success')
+    const acquireSuccess = _.succeed({ res: 'acquire success' })
+    const useSuccess = () => _.succeed('use success')
     const useFailure = () => _.fail('use failure')
     const releaseSuccess = () =>
       _.fromSync(() => {
@@ -333,7 +333,7 @@ describe('AsyncResult', () => {
           _.bindTo('a'),
           _.bind('b', () => b)
         ),
-      E.of({ a: 'a', b: 'b' })
+      E.succeed({ a: 'a', b: 'b' })
     )
   })
 
@@ -362,11 +362,11 @@ describe('AsyncResult', () => {
   // })
 
   it('bindPar', async () => {
-    await assertSeq((a, b) => pipe(a, _.bindTo('a'), _.bindRight('b', b)), E.of({ a: 'a', b: 'b' }))
+    await assertSeq((a, b) => pipe(a, _.bindTo('a'), _.bindRight('b', b)), E.succeed({ a: 'a', b: 'b' }))
   })
 
   it('zipFlatten', async () => {
-    await assertSeq((a, b) => pipe(a, _.tupled, _.zipFlatten(b)), E.of(['a', 'b'] as const))
+    await assertSeq((a, b) => pipe(a, _.tupled, _.zipFlatten(b)), E.succeed(['a', 'b'] as const))
   })
 
   // -------------------------------------------------------------------------------------
@@ -377,37 +377,37 @@ describe('AsyncResult', () => {
     U.deepStrictEqual(
       await pipe(
         _.fail('foo'),
-        _.catchAll((l) => _.of(l.length))
+        _.catchAll((l) => _.succeed(l.length))
       )(),
-      E.of(3)
+      E.succeed(3)
     )
     U.deepStrictEqual(
       await pipe(
-        _.of(1),
-        _.catchAll(() => _.of(2))
+        _.succeed(1),
+        _.catchAll(() => _.succeed(2))
       )(),
-      E.of(1)
+      E.succeed(1)
     )
   })
 
   it('swap', async () => {
-    U.deepStrictEqual(await _.swap(_.of(1))(), E.fail(1))
-    U.deepStrictEqual(await _.swap(_.fail('a'))(), E.of('a'))
+    U.deepStrictEqual(await _.swap(_.succeed(1))(), E.fail(1))
+    U.deepStrictEqual(await _.swap(_.fail('a'))(), E.succeed('a'))
   })
 
   it('flatMapResult', async () => {
-    const f = flow(S.size, E.of)
-    U.deepStrictEqual(await pipe(_.of('a'), _.flatMapResult(f))(), E.of(1))
+    const f = flow(S.size, E.succeed)
+    U.deepStrictEqual(await pipe(_.succeed('a'), _.flatMapResult(f))(), E.succeed(1))
   })
 
   it('flatMapSyncResult', async () => {
-    const f = flow(S.size, IE.of)
-    U.deepStrictEqual(await pipe(_.of('a'), _.flatMapSyncResult(f))(), E.of(1))
+    const f = flow(S.size, IE.succeed)
+    U.deepStrictEqual(await pipe(_.succeed('a'), _.flatMapSyncResult(f))(), E.succeed(1))
   })
 
   describe('tryCatch', () => {
     test('with a resolving promise', async () => {
-      U.deepStrictEqual(await _.fromRejectable(() => Promise.resolve(1), identity)(), E.of(1))
+      U.deepStrictEqual(await _.fromRejectable(() => Promise.resolve(1), identity)(), E.succeed(1))
     })
 
     test('with a rejected promise', async () => {
@@ -427,7 +427,7 @@ describe('AsyncResult', () => {
   describe('liftRejectable', () => {
     test('with a resolved promise', async () => {
       const g = _.liftRejectable((a: number) => Promise.resolve(a), identity)
-      U.deepStrictEqual(await g(1)(), E.of(1))
+      U.deepStrictEqual(await g(1)(), E.succeed(1))
     })
 
     test('with a rejected promise', async () => {
@@ -450,7 +450,7 @@ describe('AsyncResult', () => {
   it('fromSync', async () => {
     const io = () => 1
     const fa = _.fromSync(io)
-    U.deepStrictEqual(await fa(), E.of(1))
+    U.deepStrictEqual(await fa(), E.succeed(1))
   })
 
   it('failSync', async () => {
@@ -458,37 +458,37 @@ describe('AsyncResult', () => {
   })
 
   it('tryCatch', async () => {
-    U.deepStrictEqual(await _.fromRejectable(() => Promise.resolve(1), identity)(), E.of(1))
+    U.deepStrictEqual(await _.fromRejectable(() => Promise.resolve(1), identity)(), E.succeed(1))
     U.deepStrictEqual(await _.fromRejectable(() => Promise.reject('a'), identity)(), E.fail('a'))
   })
 
   it('fromSyncResult', async () => {
-    U.deepStrictEqual(await _.fromSyncResult(() => E.of(1))(), E.of(1))
+    U.deepStrictEqual(await _.fromSyncResult(() => E.succeed(1))(), E.succeed(1))
     U.deepStrictEqual(await _.fromSyncResult(() => E.fail('a'))(), E.fail('a'))
   })
 
   it('fromOption', async () => {
     U.deepStrictEqual(await pipe(O.none, _.fromOption('none'))(), E.fail('none'))
-    U.deepStrictEqual(await pipe(O.some(1), _.fromOption('none'))(), E.of(1))
+    U.deepStrictEqual(await pipe(O.some(1), _.fromOption('none'))(), E.succeed(1))
   })
 
   it('fromPredicate', async () => {
     const f = _.liftPredicate((n: number) => n >= 2, 'e')
-    U.deepStrictEqual(await f(3)(), E.of(3))
+    U.deepStrictEqual(await f(3)(), E.succeed(3))
     U.deepStrictEqual(await f(1)(), E.fail('e'))
   })
 
   it('filter', async () => {
     const predicate = (n: number) => n > 10
-    U.deepStrictEqual(await pipe(_.of(12), _.filter(predicate, -1))(), E.of(12))
-    U.deepStrictEqual(await pipe(_.of(7), _.filter(predicate, -1))(), E.fail(-1))
+    U.deepStrictEqual(await pipe(_.succeed(12), _.filter(predicate, -1))(), E.succeed(12))
+    U.deepStrictEqual(await pipe(_.succeed(7), _.filter(predicate, -1))(), E.fail(-1))
     U.deepStrictEqual(await pipe(_.fail(12), _.filter(predicate, -1))(), E.fail(12))
   })
 
   it('flatMapAsyncOption', async () => {
     const f = _.flatMapAsyncOption((n: number) => (n > 0 ? TO.some(n * 2) : TO.none), 'a')
-    U.deepStrictEqual(await pipe(_.of(1), f)(), E.of(2))
-    U.deepStrictEqual(await pipe(_.of(-1), f)(), E.fail('a'))
+    U.deepStrictEqual(await pipe(_.succeed(1), f)(), E.succeed(2))
+    U.deepStrictEqual(await pipe(_.succeed(-1), f)(), E.fail('a'))
     U.deepStrictEqual(await pipe(_.fail('b'), f)(), E.fail('b'))
   })
 
@@ -497,7 +497,7 @@ describe('AsyncResult', () => {
       () => 'left',
       () => 'right'
     )
-    U.deepStrictEqual(await f(_.of(1))(), 'right')
+    U.deepStrictEqual(await f(_.succeed(1))(), 'right')
     U.deepStrictEqual(await f(_.fail(''))(), 'left')
   })
 
@@ -506,41 +506,41 @@ describe('AsyncResult', () => {
       () => T.of('left'),
       () => T.of('right')
     )
-    U.deepStrictEqual(await f(_.of(1))(), 'right')
+    U.deepStrictEqual(await f(_.succeed(1))(), 'right')
     U.deepStrictEqual(await f(_.fail(''))(), 'left')
   })
 
   it('getOrElse', async () => {
     const f = _.getOrElse(2)
-    U.deepStrictEqual(await f(_.of(1))(), 1)
+    U.deepStrictEqual(await f(_.succeed(1))(), 1)
     U.deepStrictEqual(await f(_.fail('a'))(), 2)
   })
 
   it('getOrElseAsync', async () => {
     const f = _.getOrElseAsync(T.of(2))
-    U.deepStrictEqual(await f(_.of(1))(), 1)
+    U.deepStrictEqual(await f(_.succeed(1))(), 1)
     U.deepStrictEqual(await f(_.fail('a'))(), 2)
   })
 
   it('fromNullable', async () => {
     const testNullable = _.fromNullable('foo')
-    U.deepStrictEqual(await testNullable(1)(), E.of(1))
+    U.deepStrictEqual(await testNullable(1)(), E.succeed(1))
     U.deepStrictEqual(await testNullable(null)(), E.fail('foo'))
     U.deepStrictEqual(await testNullable(undefined)(), E.fail('foo'))
   })
 
   it('liftNullable', async () => {
     const f = _.liftNullable((n: number) => (n > 0 ? n : n === 0 ? null : undefined), 'foo')
-    U.deepStrictEqual(await f(1)(), E.of(1))
+    U.deepStrictEqual(await f(1)(), E.succeed(1))
     U.deepStrictEqual(await f(0)(), E.fail('foo'))
     U.deepStrictEqual(await f(-1)(), E.fail('foo'))
   })
 
   it('flatMapNullable', async () => {
     const f = _.flatMapNullable((n: number) => (n > 0 ? n : n === 0 ? null : undefined), 'foo')
-    U.deepStrictEqual(await f(_.of(1))(), E.of(1))
-    U.deepStrictEqual(await f(_.of(0))(), E.fail('foo'))
-    U.deepStrictEqual(await f(_.of(-1))(), E.fail('foo'))
+    U.deepStrictEqual(await f(_.succeed(1))(), E.succeed(1))
+    U.deepStrictEqual(await f(_.succeed(0))(), E.fail('foo'))
+    U.deepStrictEqual(await f(_.succeed(-1))(), E.fail('foo'))
   })
 
   // -------------------------------------------------------------------------------------
@@ -550,15 +550,15 @@ describe('AsyncResult', () => {
   // --- Par ---
 
   it('traverseReadonlyArrayWithIndexPar', async () => {
-    const f = _.traverseReadonlyArrayWithIndexPar((i, a: string) => (a.length > 0 ? _.of(a + i) : _.fail('e')))
-    U.deepStrictEqual(await pipe(RA.empty, f)(), E.of(RA.empty))
-    U.deepStrictEqual(await pipe(['a', 'b'], f)(), E.of(['a0', 'b1']))
+    const f = _.traverseReadonlyArrayWithIndexPar((i, a: string) => (a.length > 0 ? _.succeed(a + i) : _.fail('e')))
+    U.deepStrictEqual(await pipe(RA.empty, f)(), E.succeed(RA.empty))
+    U.deepStrictEqual(await pipe(['a', 'b'], f)(), E.succeed(['a0', 'b1']))
     U.deepStrictEqual(await pipe(['a', ''], f)(), E.fail('e'))
   })
 
   it('traverseNonEmptyReadonlyArrayPar', async () => {
-    const f = _.traverseNonEmptyReadonlyArrayPar((a: string) => (a.length > 0 ? _.of(a) : _.fail('e')))
-    U.deepStrictEqual(await pipe(['a', 'b'], f)(), E.of(['a', 'b'] as const))
+    const f = _.traverseNonEmptyReadonlyArrayPar((a: string) => (a.length > 0 ? _.succeed(a) : _.fail('e')))
+    U.deepStrictEqual(await pipe(['a', 'b'], f)(), E.succeed(['a', 'b'] as const))
     U.deepStrictEqual(await pipe(['a', ''], f)(), E.fail('e'))
   })
 
@@ -574,7 +574,7 @@ describe('AsyncResult', () => {
         log.push(s)
         return s
       })
-    U.deepStrictEqual(await pipe([right(1), right(2)], _.sequenceReadonlyArrayPar)(), E.of([1, 2]))
+    U.deepStrictEqual(await pipe([right(1), right(2)], _.sequenceReadonlyArrayPar)(), E.succeed([1, 2]))
     U.deepStrictEqual(await pipe([right(3), left('a')], _.sequenceReadonlyArrayPar)(), E.fail('a'))
     U.deepStrictEqual(await pipe([left('b'), right(4)], _.sequenceReadonlyArrayPar)(), E.fail('b'))
     U.deepStrictEqual(log, [1, 2, 3, 'a', 'b', 4])
@@ -583,15 +583,15 @@ describe('AsyncResult', () => {
   // --- Seq ---
 
   it('traverseReadonlyArrayWithIndex', async () => {
-    const f = _.traverseReadonlyArrayWithIndex((i, a: string) => (a.length > 0 ? _.of(a + i) : _.fail('e')))
-    U.deepStrictEqual(await pipe(RA.empty, f)(), E.of(RA.empty))
-    U.deepStrictEqual(await pipe(['a', 'b'], f)(), E.of(['a0', 'b1']))
+    const f = _.traverseReadonlyArrayWithIndex((i, a: string) => (a.length > 0 ? _.succeed(a + i) : _.fail('e')))
+    U.deepStrictEqual(await pipe(RA.empty, f)(), E.succeed(RA.empty))
+    U.deepStrictEqual(await pipe(['a', 'b'], f)(), E.succeed(['a0', 'b1']))
     U.deepStrictEqual(await pipe(['a', ''], f)(), E.fail('e'))
   })
 
   it('traverseNonEmptyReadonlyArray', async () => {
-    const f = _.traverseNonEmptyReadonlyArray((a: string) => (a.length > 0 ? _.of(a) : _.fail('e')))
-    U.deepStrictEqual(await pipe(['a', 'b'], f)(), E.of(['a', 'b'] as const))
+    const f = _.traverseNonEmptyReadonlyArray((a: string) => (a.length > 0 ? _.succeed(a) : _.fail('e')))
+    U.deepStrictEqual(await pipe(['a', 'b'], f)(), E.succeed(['a', 'b'] as const))
     U.deepStrictEqual(await pipe(['a', ''], f)(), E.fail('e'))
   })
 
@@ -607,7 +607,7 @@ describe('AsyncResult', () => {
         log.push(s)
         return s
       })
-    U.deepStrictEqual(await pipe([right(1), right(2)], _.sequenceReadonlyArray)(), E.of([1, 2]))
+    U.deepStrictEqual(await pipe([right(1), right(2)], _.sequenceReadonlyArray)(), E.succeed([1, 2]))
     U.deepStrictEqual(await pipe([right(3), left('a')], _.sequenceReadonlyArray)(), E.fail('a'))
     U.deepStrictEqual(await pipe([left('b'), right(4)], _.sequenceReadonlyArray)(), E.fail('b'))
     U.deepStrictEqual(log, [1, 2, 3, 'a', 'b'])

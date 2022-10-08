@@ -1775,9 +1775,9 @@ export declare const failures: <E, A>(as: readonly Result<E, A>[]) => readonly E
 
 ```ts
 import { failures } from 'fp-ts/ReadonlyArray'
-import { fail, of } from 'fp-ts/Result'
+import { fail, succeed } from 'fp-ts/Result'
 
-assert.deepStrictEqual(failures([of(1), fail('foo'), of(2)]), ['foo'])
+assert.deepStrictEqual(failures([succeed(1), fail('foo'), succeed(2)]), ['foo'])
 ```
 
 Added in v3.0.0
@@ -2538,9 +2538,9 @@ export declare const successes: <E, A>(as: readonly Result<E, A>[]) => readonly 
 
 ```ts
 import { successes } from 'fp-ts/ReadonlyArray'
-import { of, fail } from 'fp-ts/Result'
+import { succeed, fail } from 'fp-ts/Result'
 
-assert.deepStrictEqual(successes([of(1), fail('foo'), of(2)]), [1, 2])
+assert.deepStrictEqual(successes([succeed(1), fail('foo'), succeed(2)]), [1, 2])
 ```
 
 Added in v3.0.0

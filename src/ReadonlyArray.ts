@@ -843,9 +843,9 @@ export const reverse = <A>(as: ReadonlyArray<A>): ReadonlyArray<A> => (as.length
  *
  * @example
  * import { successes } from 'fp-ts/ReadonlyArray'
- * import { of, fail } from 'fp-ts/Result'
+ * import { succeed, fail } from 'fp-ts/Result'
  *
- * assert.deepStrictEqual(successes([of(1), fail('foo'), of(2)]), [1, 2])
+ * assert.deepStrictEqual(successes([succeed(1), fail('foo'), succeed(2)]), [1, 2])
  *
  * @since 3.0.0
  */
@@ -866,9 +866,9 @@ export const successes = <E, A>(as: ReadonlyArray<Result<E, A>>): ReadonlyArray<
  *
  * @example
  * import { failures } from 'fp-ts/ReadonlyArray'
- * import { fail, of } from 'fp-ts/Result'
+ * import { fail, succeed } from 'fp-ts/Result'
  *
- * assert.deepStrictEqual(failures([of(1), fail('foo'), of(2)]), ['foo'])
+ * assert.deepStrictEqual(failures([succeed(1), fail('foo'), succeed(2)]), ['foo'])
  *
  * @since 3.0.0
  */

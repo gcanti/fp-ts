@@ -68,7 +68,7 @@ export const liftPredicate: <F extends TypeLambda>(
   <F extends TypeLambda>(FromResult: FromResult<F>) =>
   <B extends A, E, A = B>(predicate: Predicate<A>, onFalse: E) =>
   <S>(b: B): Kind<F, S, unknown, never, E, B> =>
-    FromResult.fromResult(predicate(b) ? _.of(b) : _.fail(onFalse))
+    FromResult.fromResult(predicate(b) ? _.succeed(b) : _.fail(onFalse))
 
 /**
  * @category lifting
@@ -170,7 +170,7 @@ export const filterMap =
   <A, B, E>(f: (a: A) => Option<B>, onNone: E): (<S, R, O>(self: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, E, B>) => {
     return Flattenable.flatMap((a) => {
       const ob = f(a)
-      return FromResult.fromResult(_.isNone(ob) ? _.fail(onNone) : _.of(ob.value))
+      return FromResult.fromResult(_.isNone(ob) ? _.fail(onNone) : _.succeed(ob.value))
     })
   }
 
@@ -209,7 +209,7 @@ export const filter =
     predicate: Predicate<A>,
     onFalse: E2
   ): (<S, R, O, E1>(mb: Kind<F, S, R, O, E1, B>) => Kind<F, S, R, O, E1 | E2, B>) => {
-    return Flattenable.flatMap((b) => FromResult.fromResult(predicate(b) ? _.of(b) : _.fail(onFalse)))
+    return Flattenable.flatMap((b) => FromResult.fromResult(predicate(b) ? _.succeed(b) : _.fail(onFalse)))
   }
 
 /**

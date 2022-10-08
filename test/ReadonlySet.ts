@@ -1,4 +1,4 @@
-import { fail, of } from '../src/Result'
+import { fail, succeed } from '../src/Result'
 import * as Eq from '../src/Eq'
 import { pipe } from '../src/Function'
 import { none, some as optionSome } from '../src/Option'
@@ -77,7 +77,7 @@ describe('ReadonlySet', () => {
   it('partitionMap', () => {
     U.deepStrictEqual(_.partitionMap(N.Eq, S.Eq)((n: number) => fail(n))(new Set([])), [new Set([]), new Set([])])
     U.deepStrictEqual(
-      _.partitionMap(N.Eq, S.Eq)((n: number) => (n % 2 === 0 ? fail(n) : of(`${n}`)))(new Set([1, 2, 3])),
+      _.partitionMap(N.Eq, S.Eq)((n: number) => (n % 2 === 0 ? fail(n) : succeed(`${n}`)))(new Set([1, 2, 3])),
       [new Set([2]), new Set(['1', '3'])]
     )
     const SL = Eq.struct({ value: N.Eq })
@@ -86,7 +86,7 @@ describe('ReadonlySet', () => {
       _.partitionMap(
         SL,
         SR
-      )((x: { readonly value: number }) => (x.value % 2 === 0 ? fail({ value: 2 }) : of({ value: 'odd' })))(
+      )((x: { readonly value: number }) => (x.value % 2 === 0 ? fail({ value: 2 }) : succeed({ value: 'odd' })))(
         new Set([{ value: 1 }, { value: 2 }, { value: 3 }, { value: 4 }])
       ),
       [new Set([{ value: 2 }]), new Set([{ value: 'odd' }])]
@@ -175,7 +175,10 @@ describe('ReadonlySet', () => {
   })
 
   it('separate', () => {
-    U.deepStrictEqual(_.separate(S.Eq, N.Eq)(new Set([of(1), fail('a'), of(2)])), [new Set(['a']), new Set([1, 2])])
+    U.deepStrictEqual(_.separate(S.Eq, N.Eq)(new Set([succeed(1), fail('a'), succeed(2)])), [
+      new Set(['a']),
+      new Set([1, 2])
+    ])
     type L = { readonly error: string }
     type R = { readonly id: string }
     const SL: Eq.Eq<L> = pipe(
@@ -190,7 +193,7 @@ describe('ReadonlySet', () => {
       _.separate(
         SL,
         SR
-      )(new Set([of({ id: 'a' }), fail({ error: 'error' }), of({ id: 'a' }), fail({ error: 'error' })])),
+      )(new Set([succeed({ id: 'a' }), fail({ error: 'error' }), succeed({ id: 'a' }), fail({ error: 'error' })])),
       [new Set([{ error: 'error' }]), new Set([{ id: 'a' }])]
     )
   })

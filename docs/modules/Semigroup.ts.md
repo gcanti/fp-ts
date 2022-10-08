@@ -195,7 +195,7 @@ You can glue items between and stay associative.
 **Signature**
 
 ```ts
-export declare const intercalate: <S>(middle: S) => Endomorphism<Semigroup<S>>
+export declare const intercalate: <S>(separator: S) => Endomorphism<Semigroup<S>>
 ```
 
 **Example**

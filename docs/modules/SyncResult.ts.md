@@ -20,7 +20,7 @@ Added in v3.0.0
 
 - [constructors](#constructors)
   - [fail](#fail)
-  - [of](#of)
+  - [succeed](#succeed)
 - [conversions](#conversions)
   - [failSync](#failsync)
   - [fromNullable](#fromnullable)
@@ -140,12 +140,12 @@ export declare const fail: <E>(e: E) => SyncResult<E, never>
 
 Added in v3.0.0
 
-## of
+## succeed
 
 **Signature**
 
 ```ts
-export declare const of: <A>(a: A) => SyncResult<never, A>
+export declare const succeed: <A>(a: A) => SyncResult<never, A>
 ```
 
 Added in v3.0.0

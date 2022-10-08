@@ -50,7 +50,7 @@ describe('ReadonlyRecord', () => {
     })
 
     it('separate', () => {
-      U.deepStrictEqual(_.separate({ foo: E.fail(123), bar: E.of(123) }), [{ foo: 123 }, { bar: 123 }])
+      U.deepStrictEqual(_.separate({ foo: E.fail(123), bar: E.succeed(123) }), [{ foo: 123 }, { bar: 123 }])
       // should ignore non own properties
       const o: _.ReadonlyRecord<string, E.Result<string, number>> = Object.create({ a: 1 })
       U.deepStrictEqual(pipe(o, _.separate), [{}, {}])
@@ -90,13 +90,13 @@ describe('ReadonlyRecord', () => {
     })
 
     it('partitionMap', () => {
-      const f = (n: number) => (p(n) ? E.of(n + 1) : E.fail(n - 1))
+      const f = (n: number) => (p(n) ? E.succeed(n + 1) : E.fail(n - 1))
       U.deepStrictEqual(pipe({}, _.partitionMap(f)), [{}, {}])
       U.deepStrictEqual(pipe({ a: 1, b: 3 }, _.partitionMap(f)), [{ a: 0 }, { b: 4 }])
     })
 
     it('partitionMapWithIndex', () => {
-      const f = _.partitionMapWithIndex((k, a: number) => (a > 1 ? E.of(a) : E.fail(k)))
+      const f = _.partitionMapWithIndex((k, a: number) => (a > 1 ? E.succeed(a) : E.fail(k)))
       U.deepStrictEqual(pipe({ a: 1, b: 2 }, f), [{ a: 'a' } as const, { b: 2 } as const])
       // should ignore non own properties
       const o: _.ReadonlyRecord<string, number> = Object.create({ a: 1 })
@@ -198,7 +198,7 @@ describe('ReadonlyRecord', () => {
 
       it('partitionMapKind', async () => {
         const partitionMapKind = W.traversePartitionMap(T.ApplicativePar)((n: number) =>
-          T.of(p(n) ? E.of(n + 1) : E.fail(n - 1))
+          T.of(p(n) ? E.succeed(n + 1) : E.fail(n - 1))
         )
         U.deepStrictEqual(await pipe({}, partitionMapKind)(), [{}, {}])
         U.deepStrictEqual(await pipe({ a: 1, b: 3 }, partitionMapKind)(), [{ a: 0 }, { b: 4 }])

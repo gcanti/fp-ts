@@ -160,7 +160,7 @@ export const fromEntries = <I, A>(iterable: Iterable<readonly [I, A]>): Option<A
  * import * as O from 'fp-ts/Option'
  * import * as E from 'fp-ts/Result'
  *
- * assert.deepStrictEqual(O.getFailure(E.of(1)), O.none)
+ * assert.deepStrictEqual(O.getFailure(E.succeed(1)), O.none)
  * assert.deepStrictEqual(O.getFailure(E.fail('a')), O.some('a'))
  *
  * @category constructors
@@ -175,7 +175,7 @@ export const getFailure: <E>(ma: Result<E, unknown>) => Option<E> = _.getFailure
  * import * as O from 'fp-ts/Option'
  * import * as E from 'fp-ts/Result'
  *
- * assert.deepStrictEqual(O.getSuccess(E.of(1)), O.some(1))
+ * assert.deepStrictEqual(O.getSuccess(E.succeed(1)), O.some(1))
  * assert.deepStrictEqual(O.getSuccess(E.fail('a')), O.none)
  *
  * @category constructors
@@ -456,17 +456,11 @@ export const map: <A, B>(f: (a: A) => B) => (fa: Option<A>) => Option<B> = (f) =
   isNone(fa) ? none : some(f(fa.value))
 
 /**
- * @category constructors
- * @since 3.0.0
- */
-export const of: <A>(a: A) => Option<A> = some
-
-/**
  * @category instances
  * @since 3.0.0
  */
 export const FromIdentity: fromIdentity.FromIdentity<OptionTypeLambda> = {
-  of
+  of: some
 }
 
 /**
@@ -809,7 +803,7 @@ export const lift3: <A, B, C, D>(
 export const Applicative: applicative.Applicative<OptionTypeLambda> = {
   map,
   ap,
-  of
+  of: some
 }
 
 /**
@@ -818,7 +812,7 @@ export const Applicative: applicative.Applicative<OptionTypeLambda> = {
  */
 export const Monad: monad.Monad<OptionTypeLambda> = {
   map,
-  of,
+  of: some,
   flatMap
 }
 
@@ -1117,7 +1111,7 @@ export const exists =
  * @category do notation
  * @since 3.0.0
  */
-export const Do: Option<{}> = /*#__PURE__*/ of(_.emptyReadonlyRecord)
+export const Do: Option<{}> = /*#__PURE__*/ some(_.emptyReadonlyRecord)
 
 /**
  * @category do notation
@@ -1170,7 +1164,7 @@ export const bindRight: <N extends string, A extends object, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const Zip: Option<readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
+export const Zip: Option<readonly []> = /*#__PURE__*/ some(_.emptyReadonlyArray)
 
 /**
  * @category tuple sequencing

@@ -18,20 +18,20 @@ _.ap(fa)(fab)
 
 // $ExpectType SyncResult<never, number>
 pipe(
-  _.of('a'),
-  _.flatMap(() => _.of(1))
+  _.succeed('a'),
+  _.flatMap(() => _.succeed(1))
 )
 
 // $ExpectType SyncResult<number, number>
 pipe(
-  _.of('a'),
-  _.flatMap(() => _.of(1) as _.SyncResult<number, number>)
+  _.succeed('a'),
+  _.flatMap(() => _.succeed(1) as _.SyncResult<number, number>)
 )
 
 // $ExpectType SyncResult<string | number, number>
 pipe(
-  _.of('a') as _.SyncResult<string, string>,
-  _.flatMap(() => _.of(1) as _.SyncResult<number, number>)
+  _.succeed('a') as _.SyncResult<string, string>,
+  _.flatMap(() => _.succeed(1) as _.SyncResult<number, number>)
 )
 
 //
@@ -43,14 +43,14 @@ pipe(
 //
 
 // $ExpectType Sync<string | null>
-pipe(_.of('a'), _.getOrElse(null))
+pipe(_.succeed('a'), _.getOrElse(null))
 
 //
 // getOrElseIO
 //
 
 // $ExpectType Sync<string | null>
-pipe(_.of('a'), _.getOrElseSync(IO.of(null)))
+pipe(_.succeed('a'), _.getOrElseSync(IO.of(null)))
 
 //
 // flatMapEitherK
@@ -59,8 +59,8 @@ pipe(_.of('a'), _.getOrElseSync(IO.of(null)))
 // $ExpectType SyncResult<string | number, number>
 pipe(
   // tslint:disable-next-line: no-unnecessary-type-assertion
-  _.of('a') as _.SyncResult<string, string>,
-  _.flatMapResult(() => E.of(1) as E.Result<number, number>)
+  _.succeed('a') as _.SyncResult<string, string>,
+  _.flatMapResult(() => E.succeed(1) as E.Result<number, number>)
 )
 
 //
@@ -69,10 +69,10 @@ pipe(
 
 // $ExpectType SyncResult<string | number, { readonly a1: number; readonly a2: string; readonly a3: boolean; }>
 pipe(
-  _.of(1) as _.SyncResult<string, number>,
+  _.succeed(1) as _.SyncResult<string, number>,
   _.bindTo('a1'),
-  _.bind('a2', () => _.of('b')),
-  _.bind('a3', () => _.of(true) as _.SyncResult<number, boolean>)
+  _.bind('a2', () => _.succeed('b')),
+  _.bind('a3', () => _.succeed(true) as _.SyncResult<number, boolean>)
 )
 
 //
@@ -81,10 +81,10 @@ pipe(
 
 // $ExpectType SyncResult<string | number, { readonly a1: number; readonly a2: string; readonly a3: boolean; }>
 pipe(
-  _.of(1) as _.SyncResult<string, number>,
+  _.succeed(1) as _.SyncResult<string, number>,
   _.bindTo('a1'),
-  _.bindRight('a2', _.of('b')),
-  _.bindRight('a3', _.of(true) as _.SyncResult<number, boolean>)
+  _.bindRight('a2', _.succeed('b')),
+  _.bindRight('a3', _.succeed(true) as _.SyncResult<number, boolean>)
 )
 
 //
@@ -94,6 +94,6 @@ pipe(
 // $ExpectType SyncResult<string, { readonly a1: number; readonly a2: string; }>
 pipe(
   _.Do,
-  _.bind('a1', () => _.of(1) as _.SyncResult<string, number>),
-  _.bind('a2', () => _.of('b') as _.SyncResult<string, string>)
+  _.bind('a1', () => _.succeed(1) as _.SyncResult<string, number>),
+  _.bind('a2', () => _.succeed('b') as _.SyncResult<string, string>)
 )

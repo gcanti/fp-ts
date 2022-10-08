@@ -15,8 +15,8 @@ Added in v3.0.0
 - [constructors](#constructors)
   - [both](#both)
   - [fail](#fail)
-  - [of](#of)
   - [sleep](#sleep)
+  - [succeed](#succeed)
 - [conversions](#conversions)
   - [failAsync](#failasync)
   - [failSync](#failsync)
@@ -106,16 +106,6 @@ export declare const fail: <E>(e: E) => AsyncThese<E, never>
 
 Added in v3.0.0
 
-## of
-
-**Signature**
-
-```ts
-export declare const of: <A>(a: A) => AsyncThese<never, A>
-```
-
-Added in v3.0.0
-
 ## sleep
 
 Returns an effect that suspends for the specified `duration` (in millis).
@@ -124,6 +114,16 @@ Returns an effect that suspends for the specified `duration` (in millis).
 
 ```ts
 export declare const sleep: (duration: number) => AsyncThese<never, void>
+```
+
+Added in v3.0.0
+
+## succeed
+
+**Signature**
+
+```ts
+export declare const succeed: <A>(a: A) => AsyncThese<never, A>
 ```
 
 Added in v3.0.0

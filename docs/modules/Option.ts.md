@@ -27,7 +27,6 @@ Added in v3.0.0
   - [getFailure](#getfailure)
   - [getSuccess](#getsuccess)
   - [none](#none)
-  - [of](#of)
   - [some](#some)
 - [conversions](#conversions)
   - [fromEntries](#fromentries)
@@ -163,7 +162,7 @@ export declare const getFailure: <E>(ma: Result<E, unknown>) => Option<E>
 import * as O from 'fp-ts/Option'
 import * as E from 'fp-ts/Result'
 
-assert.deepStrictEqual(O.getFailure(E.of(1)), O.none)
+assert.deepStrictEqual(O.getFailure(E.succeed(1)), O.none)
 assert.deepStrictEqual(O.getFailure(E.fail('a')), O.some('a'))
 ```
 
@@ -185,7 +184,7 @@ export declare const getSuccess: <A>(ma: Result<unknown, A>) => Option<A>
 import * as O from 'fp-ts/Option'
 import * as E from 'fp-ts/Result'
 
-assert.deepStrictEqual(O.getSuccess(E.of(1)), O.some(1))
+assert.deepStrictEqual(O.getSuccess(E.succeed(1)), O.some(1))
 assert.deepStrictEqual(O.getSuccess(E.fail('a')), O.none)
 ```
 
@@ -199,16 +198,6 @@ Added in v3.0.0
 
 ```ts
 export declare const none: Option<never>
-```
-
-Added in v3.0.0
-
-## of
-
-**Signature**
-
-```ts
-export declare const of: <A>(a: A) => Option<A>
 ```
 
 Added in v3.0.0

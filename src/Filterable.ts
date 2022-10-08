@@ -91,5 +91,5 @@ export const partition: <F extends TypeLambda>(
   return <B extends A, A = B>(
     predicate: Predicate<A>
   ): (<S, R, O, E>(self: Kind<F, S, R, O, E, B>) => readonly [Kind<F, S, R, O, E, B>, Kind<F, S, R, O, E, B>]) =>
-    partitionMap_((b) => (predicate(b) ? _.of(b) : _.fail(b)))
+    partitionMap_((b) => (predicate(b) ? _.succeed(b) : _.fail(b)))
 }

@@ -26,7 +26,7 @@ Added in v3.0.0
 
 - [constructors](#constructors)
   - [fail](#fail)
-  - [of](#of)
+  - [succeed](#succeed)
 - [conversions](#conversions)
   - [fromNullable](#fromnullable)
   - [fromOption](#fromoption)
@@ -161,7 +161,7 @@ export declare const fail: <E>(e: E) => Result<E, never>
 
 Added in v3.0.0
 
-## of
+## succeed
 
 Constructs a new `Result` holding a `Success` value. This usually represents a successful value due to the right bias
 of this structure.
@@ -169,7 +169,7 @@ of this structure.
 **Signature**
 
 ```ts
-export declare const of: <A>(a: A) => Result<never, A>
+export declare const succeed: <A>(a: A) => Result<never, A>
 ```
 
 Added in v3.0.0
@@ -194,7 +194,7 @@ import * as E from 'fp-ts/Result'
 
 const parse = E.fromNullable('nully')
 
-assert.deepStrictEqual(parse(1), E.of(1))
+assert.deepStrictEqual(parse(1), E.succeed(1))
 assert.deepStrictEqual(parse(null), E.fail('nully'))
 ```
 
@@ -215,7 +215,7 @@ import * as E from 'fp-ts/Result'
 import { pipe } from 'fp-ts/Function'
 import * as O from 'fp-ts/Option'
 
-assert.deepStrictEqual(pipe(O.some(1), E.fromOption('error')), E.of(1))
+assert.deepStrictEqual(pipe(O.some(1), E.fromOption('error')), E.succeed(1))
 assert.deepStrictEqual(pipe(O.none, E.fromOption('error')), E.fail('error'))
 ```
 
@@ -368,7 +368,7 @@ export declare const getOrElse: <B>(onError: B) => <A>(self: Result<unknown, A>)
 import * as E from 'fp-ts/Result'
 import { pipe } from 'fp-ts/Function'
 
-assert.deepStrictEqual(pipe(E.of(1), E.getOrElse(0)), 1)
+assert.deepStrictEqual(pipe(E.succeed(1), E.getOrElse(0)), 1)
 assert.deepStrictEqual(pipe(E.fail('error'), E.getOrElse(0)), 0)
 ```
 
@@ -393,9 +393,11 @@ import { pipe } from 'fp-ts/Function'
 import * as S from 'fp-ts/Semigroup'
 import * as string from 'fp-ts/string'
 
-const parseString = (u: unknown): E.Result<string, string> => (typeof u === 'string' ? E.of(u) : E.fail('not a string'))
+const parseString = (u: unknown): E.Result<string, string> =>
+  typeof u === 'string' ? E.succeed(u) : E.fail('not a string')
 
-const parseNumber = (u: unknown): E.Result<string, number> => (typeof u === 'number' ? E.of(u) : E.fail('not a number'))
+const parseNumber = (u: unknown): E.Result<string, number> =>
+  typeof u === 'number' ? E.succeed(u) : E.fail('not a number')
 
 const parse = (u: unknown): E.Result<string, string | number> =>
   pipe(parseString(u), E.orElse<string, string | number>(parseNumber(u)))
@@ -434,9 +436,11 @@ import { pipe } from 'fp-ts/Function'
 import * as S from 'fp-ts/Semigroup'
 import * as string from 'fp-ts/string'
 
-const parseString = (u: unknown): E.Result<string, string> => (typeof u === 'string' ? E.of(u) : E.fail('not a string'))
+const parseString = (u: unknown): E.Result<string, string> =>
+  typeof u === 'string' ? E.succeed(u) : E.fail('not a string')
 
-const parseNumber = (u: unknown): E.Result<string, number> => (typeof u === 'number' ? E.of(u) : E.fail('not a number'))
+const parseNumber = (u: unknown): E.Result<string, number> =>
+  typeof u === 'number' ? E.succeed(u) : E.fail('not a number')
 
 interface Person {
   readonly name: string
@@ -480,12 +484,12 @@ types of kind `* -> *`.
 
 In case of `Result` returns the left-most non-`Failure` value (or the right-most `Failure` value if both values are `Failure`).
 
-| x       | y       | pipe(x, orElse(y) |
-| ------- | ------- | ----------------- |
-| fail(a) | fail(b) | fail(b)           |
-| fail(a) | of(2)   | of(2)             |
-| of(1)   | fail(b) | of(1)             |
-| of(1)   | of(2)   | of(1)             |
+| x          | y          | pipe(x, orElse(y) |
+| ---------- | ---------- | ----------------- |
+| fail(a)    | fail(b)    | fail(b)           |
+| fail(a)    | succeed(2) | succeed(2)        |
+| succeed(1) | fail(b)    | succeed(1)        |
+| succeed(1) | succeed(2) | succeed(1)        |
 
 **Signature**
 
@@ -500,9 +504,9 @@ import * as E from 'fp-ts/Result'
 import { pipe } from 'fp-ts/Function'
 
 assert.deepStrictEqual(pipe(E.fail('a'), E.orElse(E.fail('b'))), E.fail('b'))
-assert.deepStrictEqual(pipe(E.fail('a'), E.orElse(E.of(2))), E.of(2))
-assert.deepStrictEqual(pipe(E.of(1), E.orElse(E.fail('b'))), E.of(1))
-assert.deepStrictEqual(pipe(E.of(1), E.orElse(E.of(2))), E.of(1))
+assert.deepStrictEqual(pipe(E.fail('a'), E.orElse(E.succeed(2))), E.succeed(2))
+assert.deepStrictEqual(pipe(E.succeed(1), E.orElse(E.fail('b'))), E.succeed(1))
+assert.deepStrictEqual(pipe(E.succeed(1), E.orElse(E.succeed(2))), E.succeed(1))
 ```
 
 Added in v3.0.0
@@ -554,14 +558,14 @@ import { pipe } from 'fp-ts/Function'
 
 assert.deepStrictEqual(
   pipe(
-    E.of(1),
+    E.succeed(1),
     E.filter((n) => n > 0, 'error')
   ),
-  E.of(1)
+  E.succeed(1)
 )
 assert.deepStrictEqual(
   pipe(
-    E.of(-1),
+    E.succeed(-1),
     E.filter((n) => n > 0, 'error')
   ),
   E.fail('error')
@@ -893,9 +897,9 @@ import { pipe } from 'fp-ts/Function'
 
 const S = E.getSemigroup<number, string>(N.SemigroupSum)
 assert.deepStrictEqual(pipe(E.fail('a'), S.combine(E.fail('b'))), E.fail('a'))
-assert.deepStrictEqual(pipe(E.fail('a'), S.combine(E.of(2))), E.of(2))
-assert.deepStrictEqual(pipe(E.of(1), S.combine(E.fail('b'))), E.of(1))
-assert.deepStrictEqual(pipe(E.of(1), S.combine(E.of(2))), E.of(3))
+assert.deepStrictEqual(pipe(E.fail('a'), S.combine(E.succeed(2))), E.succeed(2))
+assert.deepStrictEqual(pipe(E.succeed(1), S.combine(E.fail('b'))), E.succeed(1))
+assert.deepStrictEqual(pipe(E.succeed(1), S.combine(E.succeed(2))), E.succeed(3))
 ```
 
 Added in v3.0.0
@@ -949,7 +953,7 @@ const unsafeHead = <A>(as: ReadonlyArray<A>): A => {
 const head = <A>(as: ReadonlyArray<A>): E.Result<unknown, A> => E.fromThrowable(() => unsafeHead(as), identity)
 
 assert.deepStrictEqual(head([]), E.fail(new Error('empty array')))
-assert.deepStrictEqual(head([1, 2, 3]), E.of(1))
+assert.deepStrictEqual(head([1, 2, 3]), E.succeed(1))
 ```
 
 Added in v3.0.0
@@ -1039,7 +1043,7 @@ export declare const liftPredicate: {
 **Example**
 
 ```ts
-import { liftPredicate, fail, of } from 'fp-ts/Result'
+import { liftPredicate, fail, succeed } from 'fp-ts/Result'
 import { pipe } from 'fp-ts/Function'
 
 assert.deepStrictEqual(
@@ -1047,7 +1051,7 @@ assert.deepStrictEqual(
     1,
     liftPredicate((n) => n > 0, 'error')
   ),
-  of(1)
+  succeed(1)
 )
 assert.deepStrictEqual(
   pipe(
@@ -1185,7 +1189,7 @@ const onError = (errors: ReadonlyArray<string>): string => `Errors: ${errors.joi
 
 const onSuccess = (value: number): string => `Ok: ${value}`
 
-assert.strictEqual(pipe(E.of(1), E.match(onError, onSuccess)), 'Ok: 1')
+assert.strictEqual(pipe(E.succeed(1), E.match(onError, onSuccess)), 'Ok: 1')
 assert.strictEqual(pipe(E.fail(['error 1', 'error 2']), E.match(onError, onSuccess)), 'Errors: error 1, error 2')
 ```
 
@@ -1280,8 +1284,8 @@ export declare const flatten: <E1, E2, A>(mma: Result<E1, Result<E2, A>>) => Res
 ```ts
 import * as E from 'fp-ts/Result'
 
-assert.deepStrictEqual(E.flatten(E.of(E.of('a'))), E.of('a'))
-assert.deepStrictEqual(E.flatten(E.of(E.fail('e'))), E.fail('e'))
+assert.deepStrictEqual(E.flatten(E.succeed(E.succeed('a'))), E.succeed('a'))
+assert.deepStrictEqual(E.flatten(E.succeed(E.fail('e'))), E.fail('e'))
 assert.deepStrictEqual(E.flatten(E.fail('e')), E.fail('e'))
 ```
 
@@ -1360,9 +1364,9 @@ import * as RA from 'fp-ts/ReadonlyArray'
 import * as E from 'fp-ts/Result'
 import * as O from 'fp-ts/Option'
 
-assert.deepStrictEqual(pipe(E.of(['a']), E.traverse(O.Applicative)(RA.head)), O.some(E.of('a')))
+assert.deepStrictEqual(pipe(E.succeed(['a']), E.traverse(O.Applicative)(RA.head)), O.some(E.succeed('a')))
 
-assert.deepStrictEqual(pipe(E.of([]), E.traverse(O.Applicative)(RA.head)), O.none)
+assert.deepStrictEqual(pipe(E.succeed([]), E.traverse(O.Applicative)(RA.head)), O.none)
 ```
 
 Added in v3.0.0
@@ -1576,8 +1580,8 @@ import * as E from 'fp-ts/Result'
 const f = E.exists((n: number) => n > 2)
 
 assert.strictEqual(f(E.fail('a')), false)
-assert.strictEqual(f(E.of(1)), false)
-assert.strictEqual(f(E.of(3)), true)
+assert.strictEqual(f(E.succeed(1)), false)
+assert.strictEqual(f(E.succeed(3)), true)
 ```
 
 Added in v3.0.0

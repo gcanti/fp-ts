@@ -46,19 +46,19 @@ export const isSuccess = <A>(ma: Result<unknown, A>): ma is Success<A> => ma._ta
 export const fail = <E>(e: E): Result<E, never> => ({ _tag: 'Failure', failure: e })
 
 /** @internal */
-export const of = <A>(a: A): Result<never, A> => ({ _tag: 'Success', success: a })
+export const succeed = <A>(a: A): Result<never, A> => ({ _tag: 'Success', success: a })
 
 /** @internal */
 export const fromOption =
   <E>(onNone: E) =>
   <A>(fa: Option<A>): Result<E, A> =>
-    isNone(fa) ? fail(onNone) : of(fa.value)
+    isNone(fa) ? fail(onNone) : succeed(fa.value)
 
 /** @internal */
 export const eitherFromNullable =
   <E>(onNullable: E) =>
   <A>(a: A): Result<E, NonNullable<A>> =>
-    a == null ? fail(onNullable) : of(a as NonNullable<A>)
+    a == null ? fail(onNullable) : succeed(a as NonNullable<A>)
 
 // -------------------------------------------------------------------------------------
 // NonEmptyReadonlyArray

@@ -62,9 +62,9 @@ describe('SyncOption', () => {
 
   it('flatMapNullable', () => {
     const f = _.flatMapNullable((n: number) => (n > 0 ? n : n === 0 ? null : undefined))
-    U.deepStrictEqual(f(_.of(1))(), O.some(1))
-    U.deepStrictEqual(f(_.of(0))(), O.none)
-    U.deepStrictEqual(f(_.of(-1))(), O.none)
+    U.deepStrictEqual(f(_.some(1))(), O.some(1))
+    U.deepStrictEqual(f(_.some(0))(), O.none)
+    U.deepStrictEqual(f(_.some(-1))(), O.none)
   })
 
   it('fromPredicate', () => {
@@ -76,7 +76,7 @@ describe('SyncOption', () => {
 
   it('fromSyncResult', () => {
     const pl = IE.fail('a')
-    const pr = IE.of('a')
+    const pr = IE.succeed('a')
     const fl = _.fromSyncResult(pl)
     const fr = _.fromSyncResult(pr)
     U.deepStrictEqual(fl(), O.none)
@@ -121,7 +121,7 @@ describe('SyncOption', () => {
   })
 
   it('liftResult', () => {
-    const f = (s: string) => (s.length <= 2 ? E.of(s + '!') : E.fail(s.length))
+    const f = (s: string) => (s.length <= 2 ? E.succeed(s + '!') : E.fail(s.length))
     const g = _.liftResult(f)
     U.deepStrictEqual(g('')(), O.some('!'))
     U.deepStrictEqual(g('a')(), O.some('a!'))
@@ -130,18 +130,18 @@ describe('SyncOption', () => {
   })
 
   it('flatMapResult', () => {
-    const f = (s: string) => (s.length <= 2 ? E.of(s + '!') : E.fail(s.length))
+    const f = (s: string) => (s.length <= 2 ? E.succeed(s + '!') : E.fail(s.length))
     const g = _.flatMapResult(f)
-    U.deepStrictEqual(g(_.of(''))(), O.some('!'))
-    U.deepStrictEqual(g(_.of('a'))(), O.some('a!'))
-    U.deepStrictEqual(g(_.of('aa'))(), O.some('aa!'))
-    U.deepStrictEqual(g(_.of('aaa'))(), O.none)
+    U.deepStrictEqual(g(_.some(''))(), O.some('!'))
+    U.deepStrictEqual(g(_.some('a'))(), O.some('a!'))
+    U.deepStrictEqual(g(_.some('aa'))(), O.some('aa!'))
+    U.deepStrictEqual(g(_.some('aaa'))(), O.none)
   })
 
   it('tapError', () => {
     const log: Array<number> = []
-    U.deepStrictEqual(pipe(_.of(1), _.tapError(_.of(2)))(), O.some(1))
-    U.deepStrictEqual(pipe(_.of(1), _.tapError(_.none))(), O.some(1))
+    U.deepStrictEqual(pipe(_.some(1), _.tapError(_.some(2)))(), O.some(1))
+    U.deepStrictEqual(pipe(_.some(1), _.tapError(_.none))(), O.some(1))
     U.deepStrictEqual(
       pipe(
         _.none,

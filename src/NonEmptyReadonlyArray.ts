@@ -208,7 +208,7 @@ export function concat<B>(that: ReadonlyArray<B>): <A>(self: NonEmptyReadonlyArr
  */
 export const uniq = <A>(Eq: Eq<A>) => {
   const uniq = iterable.uniq(Eq)
-  return (as: NonEmptyReadonlyArray<A>): NonEmptyReadonlyArray<A> => (as.length === 1 ? as : (uniq(as) as any))
+  return (as: NonEmptyReadonlyArray<A>): NonEmptyReadonlyArray<A> => (as.length === 1 ? as : (uniq(as) as any)) // TODO: can we remove as any?
 }
 
 /**

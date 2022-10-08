@@ -14,7 +14,6 @@ Added in v3.0.0
 
 - [constructors](#constructors)
   - [none](#none)
-  - [of](#of)
   - [sleep](#sleep)
   - [some](#some)
 - [conversions](#conversions)
@@ -130,16 +129,6 @@ Added in v3.0.0
 
 ```ts
 export declare const none: AsyncOption<never>
-```
-
-Added in v3.0.0
-
-## of
-
-**Signature**
-
-```ts
-export declare const of: <A>(a: A) => AsyncOption<A>
 ```
 
 Added in v3.0.0

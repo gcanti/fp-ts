@@ -85,7 +85,7 @@ describe('Sync', () => {
   })
 
   it('flatMapRec', () => {
-    const f = (n: number) => (n < 15000 ? _.of(E.fail(n + 1)) : _.of(E.of('ok ' + n)))
+    const f = (n: number) => (n < 15000 ? _.of(E.fail(n + 1)) : _.of(E.succeed('ok ' + n)))
     U.deepStrictEqual(_.FlattenableRec.flatMapRec(f)(0)(), 'ok 15000')
   })
 

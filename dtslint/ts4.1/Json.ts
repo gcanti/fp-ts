@@ -35,4 +35,4 @@ _.stringify(abs)
 _.stringify([...abs])
 
 // $ExpectType Result<unknown, string>
-pipe(E.of('a'), E.tap(_.stringify))
+pipe(E.succeed('a'), E.tap(_.stringify))

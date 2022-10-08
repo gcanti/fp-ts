@@ -21,8 +21,8 @@ Added in v3.0.0
 
 - [constructors](#constructors)
   - [fail](#fail)
-  - [of](#of)
   - [sleep](#sleep)
+  - [succeed](#succeed)
 - [conversions](#conversions)
   - [failAsync](#failasync)
   - [failSync](#failsync)
@@ -155,16 +155,6 @@ export declare const fail: <E>(e: E) => AsyncResult<E, never>
 
 Added in v3.0.0
 
-## of
-
-**Signature**
-
-```ts
-export declare const of: <A>(a: A) => AsyncResult<never, A>
-```
-
-Added in v3.0.0
-
 ## sleep
 
 Returns an effect that suspends for the specified `duration` (in millis).
@@ -173,6 +163,16 @@ Returns an effect that suspends for the specified `duration` (in millis).
 
 ```ts
 export declare const sleep: (duration: number) => AsyncResult<never, void>
+```
+
+Added in v3.0.0
+
+## succeed
+
+**Signature**
+
+```ts
+export declare const succeed: <A>(a: A) => AsyncResult<never, A>
 ```
 
 Added in v3.0.0
@@ -365,14 +365,14 @@ export declare const catchAll: <E1, E2, B>(
 **Example**
 
 ```ts
-import * as E from 'fp-ts/Result'
+import * as R from 'fp-ts/Result'
 import { pipe } from 'fp-ts/Function'
-import * as TE from 'fp-ts/AsyncResult'
+import * as AR from 'fp-ts/AsyncResult'
 
 async function test() {
-  const errorHandler = TE.catchAll((error: string) => TE.of(`recovering from ${error}...`))
-  assert.deepStrictEqual(await pipe(TE.of('ok'), errorHandler)(), E.of('ok'))
-  assert.deepStrictEqual(await pipe(TE.fail('ko'), errorHandler)(), E.of('recovering from ko...'))
+  const errorHandler = AR.catchAll((error: string) => AR.succeed(`recovering from ${error}...`))
+  assert.deepStrictEqual(await pipe(AR.succeed('ok'), errorHandler)(), R.succeed('ok'))
+  assert.deepStrictEqual(await pipe(AR.fail('ko'), errorHandler)(), R.succeed('recovering from ko...'))
 }
 
 test()
@@ -484,8 +484,8 @@ import { pipe } from 'fp-ts/Function'
 import * as TE from 'fp-ts/AsyncResult'
 
 async function test() {
-  assert.deepStrictEqual(await pipe(TE.of(1), TE.orElse(TE.of(2)))(), E.of(1))
-  assert.deepStrictEqual(await pipe(TE.fail('a'), TE.orElse(TE.of(2)))(), E.of(2))
+  assert.deepStrictEqual(await pipe(TE.succeed(1), TE.orElse(TE.succeed(2)))(), E.succeed(1))
+  assert.deepStrictEqual(await pipe(TE.fail('a'), TE.orElse(TE.succeed(2)))(), E.succeed(2))
   assert.deepStrictEqual(await pipe(TE.fail('a'), TE.orElse(TE.fail('b')))(), E.fail('b'))
 }
 
@@ -767,7 +767,7 @@ import * as TE from 'fp-ts/AsyncResult'
 import { identity } from 'fp-ts/Function'
 
 async function test() {
-  assert.deepStrictEqual(await TE.fromRejectable(() => Promise.resolve(1), identity)(), E.of(1))
+  assert.deepStrictEqual(await TE.fromRejectable(() => Promise.resolve(1), identity)(), E.succeed(1))
   assert.deepStrictEqual(await TE.fromRejectable(() => Promise.reject('error'), identity)(), E.fail('error'))
 }
 

@@ -17,10 +17,10 @@ const as = pipe(RNEA.range(0, 1000))
 
 suite
   .add('RNEA.traverse(_.getApplicative(T.ApplicativeSeq, S.Semigroup))', async function () {
-    await pipe(as, RNEA.traverse(_.getApplicative(T.ApplicativeSeq, S.Semigroup))(_.of))()
+    await pipe(as, RNEA.traverse(_.getApplicative(T.ApplicativeSeq, S.Semigroup))(_.succeed))()
   })
   .add('_.sequenceReadonlyNonEmptyArray', async function () {
-    await pipe(as, _.traverseReadonlyNonEmptyArrayWithIndex(S.Semigroup)(_.of))()
+    await pipe(as, _.traverseReadonlyNonEmptyArrayWithIndex(S.Semigroup)(_.succeed))()
   })
   .on('cycle', function (event: any) {
     // tslint:disable-next-line: no-console

@@ -57,7 +57,7 @@ export const fail: <E>(e: E) => AsyncThese<E, never> = /*#__PURE__*/ theseT.fail
  * @category constructors
  * @since 3.0.0
  */
-export const of: <A>(a: A) => AsyncThese<never, A> = /*#__PURE__*/ theseT.of(async.FromIdentity)
+export const succeed: <A>(a: A) => AsyncThese<never, A> = /*#__PURE__*/ theseT.succeed(async.FromIdentity)
 
 /**
  * @category constructors
@@ -196,7 +196,7 @@ export const getApplicative = <E>(
   return {
     map,
     ap: AS.ap,
-    of
+    of: succeed
   }
 }
 
@@ -217,7 +217,7 @@ export const getMonad = <E>(S: Semigroup<E>): Monad<ValidatedT<AsyncTheseTypeLam
   const C = getFlattenable(S)
   return {
     map,
-    of,
+    of: succeed,
     flatMap: C.flatMap
   }
 }
@@ -258,7 +258,7 @@ export const unit: <E>(self: AsyncThese<E, unknown>) => AsyncThese<E, void> = /*
  * @since 3.0.0
  */
 export const FromIdentity: fromIdentity.FromIdentity<AsyncTheseTypeLambda> = {
-  of
+  of: succeed
 }
 
 /**
@@ -415,7 +415,7 @@ export const toTuple2: <E, A>(e: E, a: A) => (fa: AsyncThese<E, A>) => Async<rea
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const Zip: AsyncThese<never, readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
+export const Zip: AsyncThese<never, readonly []> = /*#__PURE__*/ succeed(_.emptyReadonlyArray)
 
 // -------------------------------------------------------------------------------------
 // array utils

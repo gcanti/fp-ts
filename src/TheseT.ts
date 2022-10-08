@@ -25,10 +25,10 @@ export interface TheseT<F extends TypeLambda, E> extends TypeLambda {
 /**
  * @since 3.0.0
  */
-export const of =
+export const succeed =
   <F extends TypeLambda>(FromIdentity: FromIdentity<F>) =>
   <A, S>(a: A): Kind<TheseT<F, never>, S, unknown, never, never, A> =>
-    FromIdentity.of(these.of(a))
+    FromIdentity.of(these.succeed(a))
 
 /**
  * @since 3.0.0
@@ -51,7 +51,8 @@ export const both =
  */
 export const fromKind = <F extends TypeLambda>(
   Functor: Functor<F>
-): (<S, R, O, FE, A>(fa: Kind<F, S, R, O, FE, A>) => Kind<TheseT<F, never>, S, R, O, FE, A>) => Functor.map(these.of)
+): (<S, R, O, FE, A>(fa: Kind<F, S, R, O, FE, A>) => Kind<TheseT<F, never>, S, R, O, FE, A>) =>
+  Functor.map(these.succeed)
 
 /**
  * @since 3.0.0

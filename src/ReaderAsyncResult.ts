@@ -72,7 +72,9 @@ export const fail: <E>(e: E) => ReaderAsyncResult<unknown, E, never> = /*#__PURE
  * @category constructors
  * @since 3.0.0
  */
-export const of: <A>(a: A) => ReaderAsyncResult<unknown, never, A> = /*#__PURE__*/ resultT.of(readerAsync.FromIdentity)
+export const succeed: <A>(a: A) => ReaderAsyncResult<unknown, never, A> = /*#__PURE__*/ resultT.succeed(
+  readerAsync.FromIdentity
+)
 
 /**
  * @category conversions
@@ -103,7 +105,7 @@ export const failAsync: <E>(me: Async<E>) => ReaderAsyncResult<unknown, E, never
  * @category constructors
  * @since 3.0.0
  */
-export const fromReader = <R, A>(ma: Reader<R, A>): ReaderAsyncResult<R, never, A> => flow(ma, asyncResult.of)
+export const fromReader = <R, A>(ma: Reader<R, A>): ReaderAsyncResult<R, never, A> => flow(ma, asyncResult.succeed)
 
 /**
  * @category constructors
@@ -437,7 +439,7 @@ export const getValidatedApplicative = <E>(
 ): applicative.Applicative<ValidatedT<ReaderAsyncResultTypeLambda, E>> => ({
   map,
   ap: apply.apComposition(reader.Apply, asyncResult.getValidatedApplicative(Apply, Semigroup)),
-  of
+  of: succeed
 })
 
 /**
@@ -530,7 +532,7 @@ export const unit: <R, E>(self: ReaderAsyncResult<R, E, unknown>) => ReaderAsync
  * @since 3.0.0
  */
 export const FromIdentity: fromIdentity.FromIdentity<ReaderAsyncResultTypeLambda> = {
-  of
+  of: succeed
 }
 
 /**
@@ -647,7 +649,7 @@ export const lift3: <A, B, C, D>(
 export const Applicative: applicative.Applicative<ReaderAsyncResultTypeLambda> = {
   map,
   ap,
-  of
+  of: succeed
 }
 
 /**
@@ -666,7 +668,7 @@ export const tap: <A, R2, E2>(
  */
 export const Monad: monad.Monad<ReaderAsyncResultTypeLambda> = {
   map,
-  of,
+  of: succeed,
   flatMap
 }
 
@@ -994,7 +996,7 @@ export const bracket: <R1, E1, A, R2, E2, B, R3, E3>(
  * @category do notation
  * @since 3.0.0
  */
-export const Do: ReaderAsyncResult<unknown, never, {}> = /*#__PURE__*/ of(_.emptyReadonlyRecord)
+export const Do: ReaderAsyncResult<unknown, never, {}> = /*#__PURE__*/ succeed(_.emptyReadonlyRecord)
 
 /**
  * @category do notation
@@ -1055,7 +1057,7 @@ export const bindRight: <N extends string, A extends object, R2, E2, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const Zip: ReaderAsyncResult<unknown, never, readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
+export const Zip: ReaderAsyncResult<unknown, never, readonly []> = /*#__PURE__*/ succeed(_.emptyReadonlyArray)
 
 /**
  * @category tuple sequencing

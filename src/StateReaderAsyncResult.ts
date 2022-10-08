@@ -69,7 +69,7 @@ export const fail: <E, S>(e: E) => StateReaderAsyncResult<S, unknown, E, never> 
  * @category constructors
  * @since 3.0.0
  */
-export const of: <A, S>(a: A) => StateReaderAsyncResult<S, unknown, never, A> = /*#__PURE__*/ stateT.of(
+export const succeed: <A, S>(a: A) => StateReaderAsyncResult<S, unknown, never, A> = /*#__PURE__*/ stateT.of(
   readerAsyncResult.FromIdentity
 )
 
@@ -146,7 +146,7 @@ export const asksStateReaderAsyncResult =
 export const fromResult: <E, A, S>(fa: result.Result<E, A>) => StateReaderAsyncResult<S, unknown, E, A> =
   /*#__PURE__*/ result.match(
     (e) => fail(e),
-    (a) => of(a)
+    (a) => succeed(a)
   )
 
 /**
@@ -264,7 +264,7 @@ export const map: <A, B>(
  * @since 3.0.0
  */
 export const FromIdentity: fromIdentity.FromIdentity<StateReaderAsyncResultTypeLambda> = {
-  of
+  of: succeed
 }
 
 /**
@@ -468,7 +468,7 @@ export const lift3: <A, B, C, D>(
 export const Applicative: applicative.Applicative<StateReaderAsyncResultTypeLambda> = {
   map,
   ap,
-  of
+  of: succeed
 }
 
 /**
@@ -564,7 +564,7 @@ export const flatMapState: <A, S, B>(
  */
 export const Monad: monad.Monad<StateReaderAsyncResultTypeLambda> = {
   map,
-  of,
+  of: succeed,
   flatMap
 }
 
@@ -1016,7 +1016,7 @@ export const traverseReadonlyArrayWithIndex = <A, S, R, E, B>(
   f: (index: number, a: A) => StateReaderAsyncResult<S, R, E, B>
 ): ((as: ReadonlyArray<A>) => StateReaderAsyncResult<S, R, E, ReadonlyArray<B>>) => {
   const g = traverseNonEmptyReadonlyArrayWithIndex(f)
-  return (as) => (_.isNonEmpty(as) ? g(as) : of(_.emptyReadonlyArray))
+  return (as) => (_.isNonEmpty(as) ? g(as) : succeed(_.emptyReadonlyArray))
 }
 
 /**

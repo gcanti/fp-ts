@@ -69,7 +69,7 @@ export const fail: <E>(e: E) => AsyncResult<E, never> = /*#__PURE__*/ resultT.fa
  * @category constructors
  * @since 3.0.0
  */
-export const of: <A>(a: A) => AsyncResult<never, A> = /*#__PURE__*/ resultT.of(async.FromIdentity)
+export const succeed: <A>(a: A) => AsyncResult<never, A> = /*#__PURE__*/ resultT.succeed(async.FromIdentity)
 
 /**
  * @category conversions
@@ -161,7 +161,7 @@ export const getOrElseAsync: <B>(onError: Async<B>) => <A>(self: AsyncResult<unk
  * import { identity } from 'fp-ts/Function'
  *
  * async function test() {
- *   assert.deepStrictEqual(await TE.fromRejectable(() => Promise.resolve(1), identity)(), E.of(1))
+ *   assert.deepStrictEqual(await TE.fromRejectable(() => Promise.resolve(1), identity)(), E.succeed(1))
  *   assert.deepStrictEqual(await TE.fromRejectable(() => Promise.reject('error'), identity)(), E.fail('error'))
  * }
  *
@@ -175,7 +175,7 @@ export const fromRejectable =
   <A, E>(f: LazyArg<Promise<A>>, onRejected: (reason: unknown) => E): AsyncResult<E, A> =>
   async () => {
     try {
-      return await f().then(_.of)
+      return await f().then(_.succeed)
     } catch (reason) {
       return _.fail(onRejected(reason))
     }
@@ -199,14 +199,14 @@ export const liftRejectable =
  * Recovers from all errors.
  *
  * @example
- * import * as E from 'fp-ts/Result'
+ * import * as R from 'fp-ts/Result'
  * import { pipe } from 'fp-ts/Function'
- * import * as TE from 'fp-ts/AsyncResult'
+ * import * as AR from 'fp-ts/AsyncResult'
  *
  * async function test() {
- *   const errorHandler = TE.catchAll((error: string) => TE.of(`recovering from ${error}...`))
- *   assert.deepStrictEqual(await pipe(TE.of('ok'), errorHandler)(), E.of('ok'))
- *   assert.deepStrictEqual(await pipe(TE.fail('ko'), errorHandler)(), E.of('recovering from ko...'))
+ *   const errorHandler = AR.catchAll((error: string) => AR.succeed(`recovering from ${error}...`))
+ *   assert.deepStrictEqual(await pipe(AR.succeed('ok'), errorHandler)(), R.succeed('ok'))
+ *   assert.deepStrictEqual(await pipe(AR.fail('ko'), errorHandler)(), R.succeed('recovering from ko...'))
  * }
  *
  * test()
@@ -330,17 +330,17 @@ export const flatten: <E1, E2, A>(self: AsyncResult<E1, AsyncResult<E2, A>>) => 
  * async function test() {
  *   assert.deepStrictEqual(
  *     await pipe(
- *       TE.of(1),
- *       TE.orElse(TE.of(2))
+ *       TE.succeed(1),
+ *       TE.orElse(TE.succeed(2))
  *     )(),
- *     E.of(1)
+ *     E.succeed(1)
  *   )
  *   assert.deepStrictEqual(
  *     await pipe(
  *       TE.fail('a'),
- *       TE.orElse(TE.of(2))
+ *       TE.orElse(TE.succeed(2))
  *     )(),
- *     E.of(2)
+ *     E.succeed(2)
  *   )
  *   assert.deepStrictEqual(
  *     await pipe(
@@ -373,7 +373,7 @@ export const getValidatedApplicative = <E>(
 ): applicative.Applicative<result.ValidatedT<AsyncResultTypeLambda, E>> => ({
   map,
   ap: apply.apComposition(Apply, result.getValidatedApplicative(Semigroup)),
-  of
+  of: succeed
 })
 
 /**
@@ -462,7 +462,7 @@ export const unit: <E>(self: AsyncResult<E, unknown>) => AsyncResult<E, void> = 
  * @since 3.0.0
  */
 export const FromIdentity: fromIdentity.FromIdentity<AsyncResultTypeLambda> = {
-  of
+  of: succeed
 }
 
 /**
@@ -573,7 +573,7 @@ export const lift3: <A, B, C, D>(
 export const Applicative: applicative.Applicative<AsyncResultTypeLambda> = {
   map,
   ap,
-  of
+  of: succeed
 }
 
 /**
@@ -601,7 +601,7 @@ export const tapError: <E1, E2>(
  */
 export const Monad: monad.Monad<AsyncResultTypeLambda> = {
   map,
-  of,
+  of: succeed,
   flatMap
 }
 
@@ -886,7 +886,7 @@ export function taskify<L, R>(f: Function): () => AsyncResult<L, R> {
     const args = Array.prototype.slice.call(arguments)
     return () =>
       new Promise((resolve) => {
-        const cbResolver = (e: L, r: R) => (e != null ? resolve(_.fail(e)) : resolve(_.of(r)))
+        const cbResolver = (e: L, r: R) => (e != null ? resolve(_.fail(e)) : resolve(_.succeed(r)))
         f.apply(null, args.concat(cbResolver))
       })
   }
@@ -914,7 +914,7 @@ export const bracket: <E1, A, E2, B, E3>(
  * @category do notation
  * @since 3.0.0
  */
-export const Do: AsyncResult<never, {}> = /*#__PURE__*/ of(_.emptyReadonlyRecord)
+export const Do: AsyncResult<never, {}> = /*#__PURE__*/ succeed(_.emptyReadonlyRecord)
 
 /**
  * @category do notation
@@ -972,7 +972,7 @@ export const bindRight: <N extends string, A extends object, E2, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const Zip: AsyncResult<never, readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
+export const Zip: AsyncResult<never, readonly []> = /*#__PURE__*/ succeed(_.emptyReadonlyArray)
 
 /**
  * @category tuple sequencing

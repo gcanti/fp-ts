@@ -19,7 +19,6 @@ Added in v3.0.0
 
 - [constructors](#constructors)
   - [none](#none)
-  - [of](#of)
   - [some](#some)
 - [conversions](#conversions)
   - [fromNullable](#fromnullable)
@@ -123,16 +122,6 @@ Added in v3.0.0
 
 ```ts
 export declare const none: SyncOption<never>
-```
-
-Added in v3.0.0
-
-## of
-
-**Signature**
-
-```ts
-export declare const of: <A>(a: A) => SyncOption<A>
 ```
 
 Added in v3.0.0

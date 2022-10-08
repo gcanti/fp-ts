@@ -177,12 +177,6 @@ export const map: <A, B>(f: (a: A) => B) => (fa: AsyncOption<A>) => AsyncOption<
 )
 
 /**
- * @category constructors
- * @since 3.0.0
- */
-export const of: <A>(a: A) => AsyncOption<A> = some
-
-/**
  * @category sequencing
  * @since 3.0.0
  */
@@ -276,7 +270,7 @@ export const unit: (self: AsyncOption<unknown>) => AsyncOption<void> = /*#__PURE
  * @since 3.0.0
  */
 export const FromIdentity: fromIdentity.FromIdentity<AsyncOptionTypeLambda> = {
-  of
+  of: some
 }
 
 /**
@@ -378,7 +372,7 @@ export const lift3: <A, B, C, D>(
 export const Applicative: applicative.Applicative<AsyncOptionTypeLambda> = {
   map,
   ap,
-  of
+  of: some
 }
 
 /**
@@ -404,7 +398,7 @@ export const tapError: (onNone: AsyncOption<unknown>) => <A>(self: AsyncOption<A
  */
 export const Monad: monad.Monad<AsyncOptionTypeLambda> = {
   map,
-  of,
+  of: some,
   flatMap
 }
 
@@ -634,7 +628,7 @@ export const partition: {
  * @category do notation
  * @since 3.0.0
  */
-export const Do: AsyncOption<{}> = /*#__PURE__*/ of(_.emptyReadonlyRecord)
+export const Do: AsyncOption<{}> = /*#__PURE__*/ some(_.emptyReadonlyRecord)
 
 /**
  * @category do notation
@@ -687,7 +681,7 @@ export const bindRight: <N extends string, A extends object, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const Zip: AsyncOption<readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
+export const Zip: AsyncOption<readonly []> = /*#__PURE__*/ some(_.emptyReadonlyArray)
 
 /**
  * @category tuple sequencing

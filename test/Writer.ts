@@ -127,7 +127,7 @@ describe('Writer', () => {
     function seqReq(upper: number): readonly [ReadonlyArray<number>, number] {
       return pipe(
         1,
-        flatMapRec((init) => [[init], init >= upper ? E.of(init) : E.fail(init + 1)])
+        flatMapRec((init) => [[init], init >= upper ? E.succeed(init) : E.fail(init + 1)])
       )
     }
     const xs = _.fst(seqReq(10000))

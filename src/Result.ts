@@ -129,7 +129,7 @@ export const fail: <E>(e: E) => Result<E, never> = _.fail
  * @category constructors
  * @since 3.0.0
  */
-export const of: <A>(a: A) => Result<never, A> = _.of
+export const succeed: <A>(a: A) => Result<never, A> = _.succeed
 
 // -------------------------------------------------------------------------------------
 // pattern matching
@@ -149,7 +149,7 @@ export const of: <A>(a: A) => Result<never, A> = _.of
  *
  * assert.strictEqual(
  *   pipe(
- *     E.of(1),
+ *     E.succeed(1),
  *     E.match(onError , onSuccess)
  *   ),
  *   'Ok: 1'
@@ -179,7 +179,7 @@ export const match =
  *
  * assert.deepStrictEqual(
  *   pipe(
- *     E.of(1),
+ *     E.succeed(1),
  *     E.getOrElse(0)
  *   ),
  *   1
@@ -209,7 +209,7 @@ export const getOrElse =
  *
  * const parse = E.fromNullable('nully')
  *
- * assert.deepStrictEqual(parse(1), E.of(1))
+ * assert.deepStrictEqual(parse(1), E.succeed(1))
  * assert.deepStrictEqual(parse(null), E.fail('nully'))
  *
  * @category conversions
@@ -257,7 +257,7 @@ export const flatMapNullable = <A, B, E2>(
  *   E.fromThrowable(() => unsafeHead(as), identity)
  *
  * assert.deepStrictEqual(head([]), E.fail(new Error('empty array')))
- * assert.deepStrictEqual(head([1, 2, 3]), E.of(1))
+ * assert.deepStrictEqual(head([1, 2, 3]), E.succeed(1))
  *
  * @see {@link liftThrowable}
  * @category interop
@@ -265,7 +265,7 @@ export const flatMapNullable = <A, B, E2>(
  */
 export const fromThrowable = <A, E>(f: () => A, onThrow: (error: unknown) => E): Result<E, A> => {
   try {
-    return of(f())
+    return succeed(f())
   } catch (e) {
     return fail(onThrow(e))
   }
@@ -294,7 +294,7 @@ export const toUnion: <E, A>(fa: Result<E, A>) => E | A = /*#__PURE__*/ match(id
 /**
  * @since 3.0.0
  */
-export const swap = <E, A>(ma: Result<E, A>): Result<A, E> => (isFailure(ma) ? of(ma.failure) : fail(ma.success))
+export const swap = <E, A>(ma: Result<E, A>): Result<A, E> => (isFailure(ma) ? succeed(ma.failure) : fail(ma.success))
 
 /**
  * Recovers from all errors.
@@ -316,7 +316,7 @@ export const catchAll: <E1, E2, B>(
  */
 export const mapBoth: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (self: Result<E, A>) => Result<G, B> =
   (f, g) => (fa) =>
-    isFailure(fa) ? fail(f(fa.failure)) : of(g(fa.success))
+    isFailure(fa) ? fail(f(fa.failure)) : succeed(g(fa.success))
 
 /**
  * @category sequencing
@@ -326,7 +326,11 @@ export const flatMapRec = <A, E, B>(f: (a: A) => Result<E, Result<A, B>>): ((a: 
   flow(
     f,
     flattenableRec.tailRec<Result<E, Result<A, B>>, Result<E, B>>((e) =>
-      isFailure(e) ? of(fail(e.failure)) : isFailure(e.success) ? fail(f(e.success.failure)) : of(of(e.success.success))
+      isFailure(e)
+        ? succeed(fail(e.failure))
+        : isFailure(e.success)
+        ? fail(f(e.success.failure))
+        : succeed(succeed(e.success.success))
     )
   )
 
@@ -339,9 +343,9 @@ export const flatMapRec = <A, E, B>(f: (a: A) => Result<E, Result<A, B>>): ((a: 
  * | x          | y          | pipe(x, orElse(y) |
  * | ---------- | ---------- | ------------------|
  * | fail(a)    | fail(b)    | fail(b)           |
- * | fail(a)    | of(2) | of(2)        |
- * | of(1) | fail(b)    | of(1)        |
- * | of(1) | of(2) | of(1)        |
+ * | fail(a)    | succeed(2) | succeed(2)        |
+ * | succeed(1) | fail(b)    | succeed(1)        |
+ * | succeed(1) | succeed(2) | succeed(1)        |
  *
  * @example
  * import * as E from 'fp-ts/Result'
@@ -357,23 +361,23 @@ export const flatMapRec = <A, E, B>(f: (a: A) => Result<E, Result<A, B>>): ((a: 
  * assert.deepStrictEqual(
  *   pipe(
  *     E.fail('a'),
- *     E.orElse(E.of(2))
+ *     E.orElse(E.succeed(2))
  *   ),
- *   E.of(2)
+ *   E.succeed(2)
  * )
  * assert.deepStrictEqual(
  *   pipe(
- *     E.of(1),
+ *     E.succeed(1),
  *     E.orElse(E.fail('b'))
  *   ),
- *   E.of(1)
+ *   E.succeed(1)
  * )
  * assert.deepStrictEqual(
  *   pipe(
- *     E.of(1),
- *     E.orElse(E.of(2))
+ *     E.succeed(1),
+ *     E.orElse(E.succeed(2))
  *   ),
- *   E.of(1)
+ *   E.succeed(1)
  * )
  *
  * @category error handling
@@ -387,7 +391,7 @@ export const orElse: <E2, B>(that: Result<E2, B>) => <E1, A>(self: Result<E1, A>
  * @since 3.0.0
  */
 export const extend: <E, A, B>(f: (wa: Result<E, A>) => B) => (wa: Result<E, A>) => Result<E, B> = (f) => (wa) =>
-  isFailure(wa) ? wa : of(f(wa))
+  isFailure(wa) ? wa : succeed(f(wa))
 
 /**
  * @since 3.0.0
@@ -404,12 +408,12 @@ export const duplicate: <E, A>(ma: Result<E, A>) => Result<E, Result<E, A>> = /*
  * import * as O from 'fp-ts/Option'
  *
  * assert.deepStrictEqual(
- *   pipe(E.of(['a']), E.traverse(O.Applicative)(RA.head)),
- *   O.some(E.of('a')),
+ *   pipe(E.succeed(['a']), E.traverse(O.Applicative)(RA.head)),
+ *   O.some(E.succeed('a')),
  *  )
  *
  * assert.deepStrictEqual(
- *   pipe(E.of([]), E.traverse(O.Applicative)(RA.head)),
+ *   pipe(E.succeed([]), E.traverse(O.Applicative)(RA.head)),
  *   O.none,
  * )
  *
@@ -420,14 +424,14 @@ export const traverse =
   <F extends TypeLambda>(F: applicative.Applicative<F>) =>
   <A, FS, FR, FO, FE, B>(f: (a: A) => Kind<F, FS, FR, FO, FE, B>) =>
   <E>(ta: Result<E, A>): Kind<F, FS, FR, FO, FE, Result<E, B>> =>
-    isFailure(ta) ? F.of(fail(ta.failure)) : pipe(f(ta.success), F.map(of))
+    isFailure(ta) ? F.of(fail(ta.failure)) : pipe(f(ta.success), F.map(succeed))
 
 /**
  * @category instances
  * @since 3.0.0
  */
 export const getShow = <E, A>(SE: Show<E>, SA: Show<A>): Show<Result<E, A>> => ({
-  show: (ma) => (isFailure(ma) ? `fail(${SE.show(ma.failure)})` : `of(${SA.show(ma.success)})`)
+  show: (ma) => (isFailure(ma) ? `fail(${SE.show(ma.failure)})` : `succeed(${SA.show(ma.success)})`)
 })
 
 /**
@@ -453,16 +457,16 @@ export const getEq = <E, A>(EE: eq.Eq<E>, EA: eq.Eq<A>): eq.Eq<Result<E, A>> =>
  *
  * const S = E.getSemigroup<number, string>(N.SemigroupSum)
  * assert.deepStrictEqual(pipe(E.fail('a'), S.combine(E.fail('b'))), E.fail('a'))
- * assert.deepStrictEqual(pipe(E.fail('a'), S.combine(E.of(2))), E.of(2))
- * assert.deepStrictEqual(pipe(E.of(1), S.combine(E.fail('b'))), E.of(1))
- * assert.deepStrictEqual(pipe(E.of(1), S.combine(E.of(2))), E.of(3))
+ * assert.deepStrictEqual(pipe(E.fail('a'), S.combine(E.succeed(2))), E.succeed(2))
+ * assert.deepStrictEqual(pipe(E.succeed(1), S.combine(E.fail('b'))), E.succeed(1))
+ * assert.deepStrictEqual(pipe(E.succeed(1), S.combine(E.succeed(2))), E.succeed(3))
  *
  * @category instances
  * @since 3.0.0
  */
 export const getSemigroup = <A, E>(S: Semigroup<A>): Semigroup<Result<E, A>> => ({
   combine: (that) => (self) =>
-    isFailure(that) ? self : isFailure(self) ? that : of(S.combine(that.success)(self.success))
+    isFailure(that) ? self : isFailure(self) ? that : succeed(S.combine(that.success)(self.success))
 })
 
 /**
@@ -470,7 +474,7 @@ export const getSemigroup = <A, E>(S: Semigroup<A>): Semigroup<Result<E, A>> => 
  * @since 3.0.0
  */
 export const compact: <E>(onNone: E) => <A>(self: Result<E, Option<A>>) => Result<E, A> = (e) => (self) =>
-  isFailure(self) ? self : _.isNone(self.success) ? fail(e) : of(self.success.value)
+  isFailure(self) ? self : _.isNone(self.success) ? fail(e) : succeed(self.success.value)
 
 /**
  * @category filtering
@@ -483,8 +487,8 @@ export const separate: <E>(
     isFailure(self)
       ? [self, self]
       : isFailure(self.success)
-      ? [of(self.success.failure), fail(onEmpty)]
-      : [fail(onEmpty), of(self.success.success)]
+      ? [succeed(self.success.failure), fail(onEmpty)]
+      : [fail(onEmpty), succeed(self.success.success)]
 }
 
 /**
@@ -615,7 +619,7 @@ export const unit: <E>(self: Result<E, unknown>) => Result<E, void> = /*#__PURE_
  * @since 3.0.0
  */
 export const FromIdentity: fromIdentity.FromIdentity<ResultTypeLambda> = {
-  of
+  of: succeed
 }
 
 /**
@@ -632,8 +636,8 @@ export const flatMap: <A, E2, B>(f: (a: A) => Result<E2, B>) => <E1>(self: Resul
  * @example
  * import * as E from 'fp-ts/Result'
  *
- * assert.deepStrictEqual(E.flatten(E.of(E.of('a'))), E.of('a'))
- * assert.deepStrictEqual(E.flatten(E.of(E.fail('e'))), E.fail('e'))
+ * assert.deepStrictEqual(E.flatten(E.succeed(E.succeed('a'))), E.succeed('a'))
+ * assert.deepStrictEqual(E.flatten(E.succeed(E.fail('e'))), E.fail('e'))
  * assert.deepStrictEqual(E.flatten(E.fail('e')), E.fail('e'))
  *
  * @category sequencing
@@ -743,7 +747,7 @@ export const lift3: <A, B, C, D>(
 export const Applicative: applicative.Applicative<ResultTypeLambda> = {
   map,
   ap,
-  of
+  of: succeed
 }
 
 /**
@@ -758,10 +762,10 @@ export const Applicative: applicative.Applicative<ResultTypeLambda> = {
  * import * as string from 'fp-ts/string'
  *
  * const parseString = (u: unknown): E.Result<string, string> =>
- *   typeof u === 'string' ? E.of(u) : E.fail('not a string')
+ *   typeof u === 'string' ? E.succeed(u) : E.fail('not a string')
  *
  * const parseNumber = (u: unknown): E.Result<string, number> =>
- *   typeof u === 'number' ? E.of(u) : E.fail('not a number')
+ *   typeof u === 'number' ? E.succeed(u) : E.fail('not a number')
  *
  * interface Person {
  *   readonly name: string
@@ -810,8 +814,8 @@ export const getValidatedApplicative = <E>(
         : fab
       : isFailure(fa)
       ? fa
-      : of(fab.success(fa.success)),
-  of
+      : succeed(fab.success(fa.success)),
+  of: succeed
 })
 
 /**
@@ -820,7 +824,7 @@ export const getValidatedApplicative = <E>(
  */
 export const Monad: monad.Monad<ResultTypeLambda> = {
   map,
-  of,
+  of: succeed,
   flatMap
 }
 
@@ -927,10 +931,10 @@ export const Alt: alt.Alt<ResultTypeLambda> = {
  * import * as string from 'fp-ts/string'
  *
  * const parseString = (u: unknown): E.Result<string, string> =>
- *   typeof u === 'string' ? E.of(u) : E.fail('not a string')
+ *   typeof u === 'string' ? E.succeed(u) : E.fail('not a string')
  *
  * const parseNumber = (u: unknown): E.Result<string, number> =>
- *   typeof u === 'number' ? E.of(u) : E.fail('not a number')
+ *   typeof u === 'number' ? E.succeed(u) : E.fail('not a number')
  *
  * const parse = (u: unknown): E.Result<string, string | number> =>
  *   pipe(
@@ -987,7 +991,7 @@ export const FromResult: fromResult_.FromResult<ResultTypeLambda> = {
  *     O.some(1),
  *     E.fromOption('error')
  *   ),
- *   E.of(1)
+ *   E.succeed(1)
  * )
  * assert.deepStrictEqual(
  *   pipe(
@@ -1022,7 +1026,7 @@ export const toUndefined: <A>(self: Result<unknown, A>) => A | undefined = /*#__
 
 /**
  * @example
- * import { liftPredicate, fail, of } from 'fp-ts/Result'
+ * import { liftPredicate, fail, succeed } from 'fp-ts/Result'
  * import { pipe } from 'fp-ts/Function'
  *
  * assert.deepStrictEqual(
@@ -1030,7 +1034,7 @@ export const toUndefined: <A>(self: Result<unknown, A>) => A | undefined = /*#__
  *     1,
  *     liftPredicate((n) => n > 0, 'error')
  *   ),
- *   of(1)
+ *   succeed(1)
  * )
  * assert.deepStrictEqual(
  *   pipe(
@@ -1064,14 +1068,14 @@ export const liftOption: <A extends ReadonlyArray<unknown>, B, E>(
  *
  * assert.deepStrictEqual(
  *   pipe(
- *     E.of(1),
+ *     E.succeed(1),
  *     E.filter((n) => n > 0, 'error')
  *   ),
- *   E.of(1)
+ *   E.succeed(1)
  * )
  * assert.deepStrictEqual(
  *   pipe(
- *     E.of(-1),
+ *     E.succeed(-1),
  *     E.filter((n) => n > 0, 'error')
  *   ),
  *   E.fail('error')
@@ -1155,8 +1159,8 @@ export const elem =
  * const f = E.exists((n: number) => n > 2)
  *
  * assert.strictEqual(f(E.fail('a')), false)
- * assert.strictEqual(f(E.of(1)), false)
- * assert.strictEqual(f(E.of(3)), true)
+ * assert.strictEqual(f(E.succeed(1)), false)
+ * assert.strictEqual(f(E.succeed(3)), true)
  *
  * @since 3.0.0
  */
@@ -1173,7 +1177,7 @@ export const exists =
  * @category do notation
  * @since 3.0.0
  */
-export const Do: Result<never, {}> = /*#__PURE__*/ of(_.emptyReadonlyRecord)
+export const Do: Result<never, {}> = /*#__PURE__*/ succeed(_.emptyReadonlyRecord)
 
 /**
  * @category do notation
@@ -1226,7 +1230,7 @@ export const bindRight: <N extends string, A extends object, E2, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const Zip: Result<never, readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
+export const Zip: Result<never, readonly []> = /*#__PURE__*/ succeed(_.emptyReadonlyArray)
 
 /**
  * @category tuple sequencing
@@ -1281,7 +1285,7 @@ export const traverseNonEmptyReadonlyArrayWithIndex =
       }
       out.push(e.success)
     }
-    return of(out)
+    return succeed(out)
   }
 
 /**

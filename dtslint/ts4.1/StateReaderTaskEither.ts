@@ -20,20 +20,20 @@ _.ap(fa)(fab)
 
 // $ExpectType StateReaderAsyncResult<unknown, unknown, never, number>
 pipe(
-  _.of('a'),
-  _.flatMap(() => _.of(1))
+  _.succeed('a'),
+  _.flatMap(() => _.succeed(1))
 )
 
 // $ExpectType StateReaderAsyncResult<null, { a: string; } & { b: number; }, never, number>
 pipe(
-  _.of('a') as _.StateReaderAsyncResult<null, { a: string }, never, string>,
-  _.flatMap(() => _.of(1) as _.StateReaderAsyncResult<null, { b: number }, never, number>)
+  _.succeed('a') as _.StateReaderAsyncResult<null, { a: string }, never, string>,
+  _.flatMap(() => _.succeed(1) as _.StateReaderAsyncResult<null, { b: number }, never, number>)
 )
 
 // $ExpectType StateReaderAsyncResult<null, { a: string; } & { b: number; }, string | number, number>
 pipe(
-  _.of('a') as _.StateReaderAsyncResult<null, { a: string }, string, string>,
-  _.flatMap(() => _.of(1) as _.StateReaderAsyncResult<null, { b: number }, number, number>)
+  _.succeed('a') as _.StateReaderAsyncResult<null, { a: string }, string, string>,
+  _.flatMap(() => _.succeed(1) as _.StateReaderAsyncResult<null, { b: number }, number, number>)
 )
 
 //
@@ -46,8 +46,8 @@ pipe(
 
 // $ExpectType StateReaderAsyncResult<string, string, string | number, number>
 pipe(
-  _.of('a') as _.StateReaderAsyncResult<string, string, string, string>,
-  _.flatMapResult(() => E.of(1) as E.Result<number, number>)
+  _.succeed('a') as _.StateReaderAsyncResult<string, string, string, string>,
+  _.flatMapResult(() => E.succeed(1) as E.Result<number, number>)
 )
 
 //
@@ -56,8 +56,8 @@ pipe(
 
 // $ExpectType StateReaderAsyncResult<string, string, string | number, number>
 pipe(
-  _.of('a') as _.StateReaderAsyncResult<string, string, string, string>,
-  _.flatMapAsyncResult(() => TE.of(1) as TE.AsyncResult<number, number>)
+  _.succeed('a') as _.StateReaderAsyncResult<string, string, string, string>,
+  _.flatMapAsyncResult(() => TE.succeed(1) as TE.AsyncResult<number, number>)
 )
 
 //
@@ -66,8 +66,8 @@ pipe(
 
 // $ExpectType StateReaderAsyncResult<string, string, string | number, number>
 pipe(
-  _.of('a') as _.StateReaderAsyncResult<string, string, string, string>,
-  _.flatMapReaderAsyncResult(() => RTE.of(1) as RTE.ReaderAsyncResult<string, number, number>)
+  _.succeed('a') as _.StateReaderAsyncResult<string, string, string, string>,
+  _.flatMapReaderAsyncResult(() => RTE.succeed(1) as RTE.ReaderAsyncResult<string, number, number>)
 )
 
 //
@@ -76,8 +76,8 @@ pipe(
 
 // $ExpectType StateReaderAsyncResult<string, string, string | number, number>
 pipe(
-  _.of('a') as _.StateReaderAsyncResult<string, string, string, string>,
-  _.flatMapSyncResult(() => IOE.of(1) as IOE.SyncResult<number, number>)
+  _.succeed('a') as _.StateReaderAsyncResult<string, string, string, string>,
+  _.flatMapSyncResult(() => IOE.succeed(1) as IOE.SyncResult<number, number>)
 )
 
 //
@@ -86,10 +86,10 @@ pipe(
 
 // $ExpectType StateReaderAsyncResult<void, { readonly a: number; } & { readonly b: string; }, string | number, { readonly a1: number; readonly a2: string; readonly a3: boolean; }>
 pipe(
-  _.of(1) as _.StateReaderAsyncResult<void, { readonly a: number }, string, number>,
+  _.succeed(1) as _.StateReaderAsyncResult<void, { readonly a: number }, string, number>,
   _.bindTo('a1'),
-  _.bind('a2', () => _.of('b')),
-  _.bind('a3', () => _.of(true) as _.StateReaderAsyncResult<void, { readonly b: string }, number, boolean>)
+  _.bind('a2', () => _.succeed('b')),
+  _.bind('a3', () => _.succeed(true) as _.StateReaderAsyncResult<void, { readonly b: string }, number, boolean>)
 )
 
 //
@@ -98,8 +98,8 @@ pipe(
 
 // $ExpectType StateReaderAsyncResult<void, { readonly a: number; } & { readonly b: string; }, string | number, { readonly a1: number; readonly a2: string; readonly a3: boolean; }>
 pipe(
-  _.of(1) as _.StateReaderAsyncResult<void, { readonly a: number }, string, number>,
+  _.succeed(1) as _.StateReaderAsyncResult<void, { readonly a: number }, string, number>,
   _.bindTo('a1'),
-  _.bindRight('a2', _.of('b')),
-  _.bindRight('a3', _.of(true) as _.StateReaderAsyncResult<void, { readonly b: string }, number, boolean>)
+  _.bindRight('a2', _.succeed('b')),
+  _.bindRight('a3', _.succeed(true) as _.StateReaderAsyncResult<void, { readonly b: string }, number, boolean>)
 )

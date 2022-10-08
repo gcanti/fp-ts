@@ -27,10 +27,10 @@ export interface ResultT<F extends TypeLambda, E> extends TypeLambda {
 /**
  * @since 3.0.0
  */
-export const of =
+export const succeed =
   <F extends TypeLambda>(FromIdentity: FromIdentity<F>) =>
   <A, S>(a: A): Kind<ResultT<F, never>, S, unknown, never, never, A> =>
-    FromIdentity.of(result.of(a))
+    FromIdentity.of(result.succeed(a))
 
 /**
  * @since 3.0.0
@@ -45,7 +45,8 @@ export const fail =
  */
 export const fromKind = <F extends TypeLambda>(
   Functor: Functor<F>
-): (<S, R, O, FE, A>(fa: Kind<F, S, R, O, FE, A>) => Kind<ResultT<F, never>, S, R, O, FE, A>) => Functor.map(result.of)
+): (<S, R, O, FE, A>(fa: Kind<F, S, R, O, FE, A>) => Kind<ResultT<F, never>, S, R, O, FE, A>) =>
+  Functor.map(result.succeed)
 
 /**
  * @since 3.0.0
@@ -110,7 +111,7 @@ export const flatMapError =
       Monad.flatMap<Result<E1, A>, S, R, O, FE, Result<E2, A>>(
         result.match(
           (e) => pipe(f(e), Monad.map(result.fail)),
-          (a) => Monad.of(result.of(a))
+          (a) => Monad.of(result.succeed(a))
         )
       )
     )
@@ -176,7 +177,7 @@ export const getValidatedOrElse =
   <R1, O1, FE1, A>(
     self: Kind<ResultT<F, E>, S, R1, O1, FE1, A>
   ): Kind<ResultT<F, E>, S, R1 & R2, O1 | O2, FE1 | FE2, A | B> => {
-    const of_ = of(Monad)
+    const of_ = succeed(Monad)
     return pipe(
       self,
       Monad.flatMap(
