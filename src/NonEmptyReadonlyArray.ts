@@ -22,7 +22,7 @@ import type * as comonad from './Comonad'
 import type { Endomorphism } from './Endomorphism'
 import * as eq from './Eq'
 import * as foldable from './Foldable'
-import type * as foldableWithIndex from './FoldableWithIndex'
+import * as foldableWithIndex from './FoldableWithIndex'
 import { flow, identity, pipe } from './Function'
 import * as functor from './Functor'
 import type * as functorWithIndex from './FunctorWithIndex'
@@ -838,18 +838,6 @@ export const mapWithIndex: <A, B>(
   }
 
 /**
- * **Note**. The constraint is relaxed: a `Semigroup` instead of a `Monoid`.
- *
- * @category folding
- * @since 3.0.0
- */
-export const foldMap =
-  <S>(S: Semigroup<S>) =>
-  <A>(f: (a: A) => S) =>
-  (fa: NonEmptyReadonlyArray<A>): S =>
-    fa.slice(1).reduce((s, a) => S.combine(f(a))(s), f(fa[0]))
-
-/**
  * @category traversing
  * @since 3.0.0
  */
@@ -1072,6 +1060,19 @@ export const Foldable: foldable.Foldable<NonEmptyReadonlyArrayTypeLambda> = {
 export const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => (self: NonEmptyReadonlyArray<A>) => B =
   /*#__PURE__*/ foldable.reduce(Foldable)
 
+// TODO: can we derive this function?
+/**
+ * **Note**. The constraint is relaxed: a `Semigroup` instead of a `Monoid`.
+ *
+ * @category folding
+ * @since 3.0.0
+ */
+export const foldMap =
+  <S>(S: Semigroup<S>) =>
+  <A>(f: (a: A) => S) =>
+  (self: NonEmptyReadonlyArray<A>): S =>
+    self.slice(1).reduce((s, a) => S.combine(f(a))(s), f(self[0]))
+
 /**
  * @category folding
  * @since 3.0.0
@@ -1083,15 +1084,7 @@ export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (self: NonEmptyR
  * @category folding
  * @since 3.0.0
  */
-export const toEntries = <A>(self: NonEmptyReadonlyArray<A>): Iterable<readonly [number, A]> => {
-  return {
-    *[Symbol.iterator]() {
-      for (let i = 0; i < self.length; i++) {
-        yield [i, self[i]]
-      }
-    }
-  }
-}
+export const toEntries: <A>(self: NonEmptyReadonlyArray<A>) => Iterable<readonly [number, A]> = iterable.toEntries
 
 /**
  * @category instances
@@ -1100,6 +1093,35 @@ export const toEntries = <A>(self: NonEmptyReadonlyArray<A>): Iterable<readonly 
 export const FoldableWithIndex: foldableWithIndex.FoldableWithIndex<NonEmptyReadonlyArrayTypeLambda, number> = {
   toEntries
 }
+
+/**
+ * @category folding
+ * @since 3.0.0
+ */
+export const reduceWithIndex: <B, A>(b: B, f: (i: number, b: B, a: A) => B) => (self: NonEmptyReadonlyArray<A>) => B =
+  /*#__PURE__*/ foldableWithIndex.reduceWithIndex(FoldableWithIndex)
+
+// TODO: can we derive this function?
+/**
+ * **Note**. The constraint is relaxed: a `Semigroup` instead of a `Monoid`.
+ *
+ * @category folding
+ * @since 3.0.0
+ */
+export const foldMapWithIndex =
+  <S>(S: Semigroup<S>) =>
+  <A>(f: (i: number, a: A) => S) =>
+  (self: NonEmptyReadonlyArray<A>): S =>
+    self.slice(1).reduce((s, a, i) => S.combine(f(i + 1, a))(s), f(0, self[0]))
+
+/**
+ * @category folding
+ * @since 3.0.0
+ */
+export const reduceRightWithIndex: <B, A>(
+  b: B,
+  f: (i: number, a: A, b: B) => B
+) => (self: NonEmptyReadonlyArray<A>) => B = /*#__PURE__*/ foldableWithIndex.reduceRightWithIndex(FoldableWithIndex)
 
 /**
  * @category instances

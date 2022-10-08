@@ -33,6 +33,36 @@ describe('NonEmptyReadonlyArray', () => {
     U.deepStrictEqual(pipe(['a', 'b', 'c'], _.reduceRight('', f)), 'cba')
   })
 
+  it('reduceWithIndex', () => {
+    U.deepStrictEqual(
+      pipe(
+        ['a', 'b'],
+        _.reduceWithIndex('', (i, b, a) => b + i + a)
+      ),
+      '0a1b'
+    )
+  })
+
+  it('foldMapWithIndex', () => {
+    U.deepStrictEqual(
+      pipe(
+        ['a', 'b'] as _.NonEmptyReadonlyArray<string>,
+        _.foldMapWithIndex(S.Semigroup)((i, a) => i + a)
+      ),
+      '0a1b'
+    )
+  })
+
+  it('reduceRightWithIndex', () => {
+    U.deepStrictEqual(
+      pipe(
+        ['a', 'b'],
+        _.reduceRightWithIndex('', (i, a, b) => b + i + a)
+      ),
+      '1b0a'
+    )
+  })
+
   it('traverseWithIndex', () => {
     U.deepStrictEqual(
       pipe(

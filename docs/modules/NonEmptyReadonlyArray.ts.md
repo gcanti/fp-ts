@@ -39,8 +39,11 @@ Added in v3.0.0
   - [let](#let)
 - [folding](#folding)
   - [foldMap](#foldmap)
+  - [foldMapWithIndex](#foldmapwithindex)
   - [reduce](#reduce)
   - [reduceRight](#reduceright)
+  - [reduceRightWithIndex](#reducerightwithindex)
+  - [reduceWithIndex](#reducewithindex)
   - [toEntries](#toentries)
 - [instances](#instances)
   - [Alt](#alt)
@@ -331,7 +334,21 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const foldMap: <S>(S: semigroup.Semigroup<S>) => <A>(f: (a: A) => S) => (fa: readonly [A, ...A[]]) => S
+export declare const foldMap: <S>(S: semigroup.Semigroup<S>) => <A>(f: (a: A) => S) => (self: readonly [A, ...A[]]) => S
+```
+
+Added in v3.0.0
+
+## foldMapWithIndex
+
+**Note**. The constraint is relaxed: a `Semigroup` instead of a `Monoid`.
+
+**Signature**
+
+```ts
+export declare const foldMapWithIndex: <S>(
+  S: semigroup.Semigroup<S>
+) => <A>(f: (i: number, a: A) => S) => (self: readonly [A, ...A[]]) => S
 ```
 
 Added in v3.0.0
@@ -352,6 +369,29 @@ Added in v3.0.0
 
 ```ts
 export declare const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (self: readonly [A, ...A[]]) => B
+```
+
+Added in v3.0.0
+
+## reduceRightWithIndex
+
+**Signature**
+
+```ts
+export declare const reduceRightWithIndex: <B, A>(
+  b: B,
+  f: (i: number, a: A, b: B) => B
+) => (self: readonly [A, ...A[]]) => B
+```
+
+Added in v3.0.0
+
+## reduceWithIndex
+
+**Signature**
+
+```ts
+export declare const reduceWithIndex: <B, A>(b: B, f: (i: number, b: B, a: A) => B) => (self: readonly [A, ...A[]]) => B
 ```
 
 Added in v3.0.0

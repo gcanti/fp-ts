@@ -48,8 +48,11 @@ Added in v3.0.0
   - [traversePartitionMap](#traversepartitionmap)
 - [folding](#folding)
   - [foldMap](#foldmap)
+  - [foldMapWithIndex](#foldmapwithindex)
   - [reduce](#reduce)
   - [reduceRight](#reduceright)
+  - [reduceRightWithIndex](#reducerightwithindex)
+  - [reduceWithIndex](#reducewithindex)
   - [toEntries](#toentries)
 - [instances](#instances)
   - [Alt](#alt)
@@ -643,6 +646,18 @@ export declare const foldMap: <M>(Monoid: Monoid<M>) => <A>(f: (a: A) => M) => (
 
 Added in v3.0.0
 
+## foldMapWithIndex
+
+**Signature**
+
+```ts
+export declare const foldMapWithIndex: <M>(
+  Monoid: Monoid<M>
+) => <A>(f: (i: number, a: A) => M) => (self: readonly A[]) => M
+```
+
+Added in v3.0.0
+
 ## reduce
 
 **Signature**
@@ -659,6 +674,26 @@ Added in v3.0.0
 
 ```ts
 export declare const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (self: readonly A[]) => B
+```
+
+Added in v3.0.0
+
+## reduceRightWithIndex
+
+**Signature**
+
+```ts
+export declare const reduceRightWithIndex: <B, A>(b: B, f: (i: number, a: A, b: B) => B) => (self: readonly A[]) => B
+```
+
+Added in v3.0.0
+
+## reduceWithIndex
+
+**Signature**
+
+```ts
+export declare const reduceWithIndex: <B, A>(b: B, f: (i: number, b: B, a: A) => B) => (self: readonly A[]) => B
 ```
 
 Added in v3.0.0

@@ -34,18 +34,8 @@ describe('Date', () => {
     deepStrictEqual(pipe(new Date(1), _.Ord.compare(new Date(0))), 1)
   })
 
-  // -------------------------------------------------------------------------------------
-  // utils
-  // -------------------------------------------------------------------------------------
-
   it('create', () => {
     const d1 = _.create()
     deepStrictEqual(d1 instanceof Date, true)
-  })
-
-  it('now', () => {
-    const m1 = _.now()
-    const m2 = new Date().getTime()
-    deepStrictEqual(m1, m2)
   })
 })

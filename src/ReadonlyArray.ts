@@ -17,7 +17,7 @@ import type * as extendable from './Extendable'
 import * as filterable from './Filterable'
 import * as filterableWithIndex from './FilterableWithIndex'
 import * as foldable from './Foldable'
-import type * as foldableWithIndex from './FoldableWithIndex'
+import * as foldableWithIndex from './FoldableWithIndex'
 import * as fromOption_ from './FromOption'
 import * as fromResult_ from './FromResult'
 import type { LazyArg } from './Function'
@@ -1920,15 +1920,7 @@ export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (self: ReadonlyA
  * @category folding
  * @since 3.0.0
  */
-export const toEntries = <A>(self: ReadonlyArray<A>): Iterable<readonly [number, A]> => {
-  return {
-    *[Symbol.iterator]() {
-      for (let i = 0; i < self.length; i++) {
-        yield [i, self[i]]
-      }
-    }
-  }
-}
+export const toEntries: <A>(self: ReadonlyArray<A>) => Iterable<readonly [number, A]> = iterable.toEntries
 
 /**
  * @category instances
@@ -1937,6 +1929,29 @@ export const toEntries = <A>(self: ReadonlyArray<A>): Iterable<readonly [number,
 export const FoldableWithIndex: foldableWithIndex.FoldableWithIndex<ReadonlyArrayTypeLambda, number> = {
   toEntries
 }
+
+/**
+ * @category folding
+ * @since 3.0.0
+ */
+export const reduceWithIndex: <B, A>(b: B, f: (i: number, b: B, a: A) => B) => (self: ReadonlyArray<A>) => B =
+  /*#__PURE__*/ foldableWithIndex.reduceWithIndex(FoldableWithIndex)
+
+/**
+ * @category folding
+ * @since 3.0.0
+ */
+export const foldMapWithIndex: <M>(
+  Monoid: Monoid<M>
+) => <A>(f: (i: number, a: A) => M) => (self: ReadonlyArray<A>) => M =
+  /*#__PURE__*/ foldableWithIndex.foldMapWithIndex(FoldableWithIndex)
+
+/**
+ * @category folding
+ * @since 3.0.0
+ */
+export const reduceRightWithIndex: <B, A>(b: B, f: (i: number, a: A, b: B) => B) => (self: ReadonlyArray<A>) => B =
+  /*#__PURE__*/ foldableWithIndex.reduceRightWithIndex(FoldableWithIndex)
 
 /**
  * @category instances
