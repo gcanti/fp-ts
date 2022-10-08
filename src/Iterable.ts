@@ -8,7 +8,13 @@ import { pipe } from './Function'
 import type { Kind, TypeLambda } from './HKT'
 import * as _ from './internal'
 import type { Monoid } from './Monoid'
+import type { NonEmptyReadonlyArray } from './NonEmptyReadonlyArray'
 import type { Option } from './Option'
+
+/**
+ * @since 3.0.0
+ */
+export type NonEmptyIterable<A> = readonly [A, Iterable<A>]
 
 /**
  * @since 3.0.0
@@ -243,8 +249,8 @@ export const reduceKind =
  */
 export const uniq =
   <A>(Eq: Eq<A>) =>
-  (iterable: Iterable<A>): ReadonlyArray<A> => {
-    const out: Array<A> = []
+  ([a, iterable]: NonEmptyIterable<A>): NonEmptyReadonlyArray<A> => {
+    const out: _.NonEmptyArray<A> = [a]
     for (const candidate of iterable) {
       if (out.every((a) => !Eq.equals(a)(candidate))) {
         out.push(candidate)

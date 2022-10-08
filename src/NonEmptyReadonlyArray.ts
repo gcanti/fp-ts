@@ -195,6 +195,23 @@ export function concat<B>(that: ReadonlyArray<B>): <A>(self: NonEmptyReadonlyArr
 }
 
 /**
+ * @since 3.0.0
+ */
+export const toNonEmptyIterable = <A>(self: NonEmptyReadonlyArray<A>): iterable.NonEmptyIterable<A> => {
+  const a = head(self)
+  return [
+    a,
+    {
+      *[Symbol.iterator]() {
+        for (let i = 1; i < self.length; i++) {
+          yield self[i]
+        }
+      }
+    }
+  ]
+}
+
+/**
  * Remove duplicates from a `NonEmptyReadonlyArray`, keeping the first occurrence of an element.
  *
  * @example
@@ -207,7 +224,8 @@ export function concat<B>(that: ReadonlyArray<B>): <A>(self: NonEmptyReadonlyArr
  */
 export const uniq = <A>(Eq: Eq<A>) => {
   const uniq = iterable.uniq(Eq)
-  return (as: NonEmptyReadonlyArray<A>): NonEmptyReadonlyArray<A> => (as.length === 1 ? as : (uniq(as) as any)) // TODO: can we remove as any?
+  return (self: NonEmptyReadonlyArray<A>): NonEmptyReadonlyArray<A> =>
+    self.length === 1 ? self : uniq(toNonEmptyIterable(self))
 }
 
 /**

@@ -30,6 +30,7 @@ Added in v3.0.0
   - [traverse](#traverse)
   - [traverseWithIndex](#traversewithindex)
 - [utils](#utils)
+  - [NonEmptyIterable (type alias)](#nonemptyiterable-type-alias)
   - [append](#append)
   - [empty](#empty)
   - [intercalate](#intercalate)
@@ -193,6 +194,16 @@ Added in v3.0.0
 
 # utils
 
+## NonEmptyIterable (type alias)
+
+**Signature**
+
+```ts
+export type NonEmptyIterable<A> = readonly [A, Iterable<A>]
+```
+
+Added in v3.0.0
+
 ## append
 
 **Signature**
@@ -241,7 +252,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const uniq: <A>(Eq: Eq<A>) => (iterable: Iterable<A>) => readonly A[]
+export declare const uniq: <A>(Eq: Eq<A>) => ([a, iterable]: NonEmptyIterable<A>) => readonly [A, ...A[]]
 ```
 
 Added in v3.0.0

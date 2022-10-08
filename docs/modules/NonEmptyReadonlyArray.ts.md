@@ -128,6 +128,7 @@ Added in v3.0.0
   - [splitAt](#splitat)
   - [tail](#tail)
   - [tap](#tap)
+  - [toNonEmptyIterable](#tononemptyiterable)
   - [traverseWithIndex](#traversewithindex)
   - [union](#union)
   - [uniq](#uniq)
@@ -1499,6 +1500,16 @@ assert.deepStrictEqual(
 
 Added in v3.0.0
 
+## toNonEmptyIterable
+
+**Signature**
+
+```ts
+export declare const toNonEmptyIterable: <A>(self: readonly [A, ...A[]]) => iterable.NonEmptyIterable<A>
+```
+
+Added in v3.0.0
+
 ## traverseWithIndex
 
 **Signature**
@@ -1544,7 +1555,7 @@ Remove duplicates from a `NonEmptyReadonlyArray`, keeping the first occurrence o
 **Signature**
 
 ```ts
-export declare const uniq: <A>(Eq: eq.Eq<A>) => (as: readonly [A, ...A[]]) => readonly [A, ...A[]]
+export declare const uniq: <A>(Eq: eq.Eq<A>) => (self: readonly [A, ...A[]]) => readonly [A, ...A[]]
 ```
 
 **Example**
