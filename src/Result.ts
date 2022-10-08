@@ -27,7 +27,7 @@ import type * as extendable from './Extendable'
 import type * as filterable from './Filterable'
 import * as iterable from './Iterable'
 import type { Monoid } from './Monoid'
-import * as foldable from './Foldable'
+import type * as foldable from './Foldable'
 import * as fromResult_ from './FromResult'
 import { SK } from './Function'
 import { flow, identity, pipe } from './Function'
@@ -878,22 +878,29 @@ export const Foldable: foldable.Foldable<ResultTypeLambda> = {
  * @category folding
  * @since 3.0.0
  */
-export const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => <E>(self: Result<E, A>) => B =
-  /*#__PURE__*/ foldable.reduce(Foldable)
+export const reduce =
+  <B, A>(b: B, f: (b: B, a: A) => B) =>
+  <E>(self: Result<E, A>): B =>
+    isFailure(self) ? b : f(b, self.success)
 
 /**
  * @category folding
  * @since 3.0.0
  */
-export const foldMap: <M>(Monoid: Monoid<M>) => <A>(f: (a: A) => M) => <E>(self: Result<E, A>) => M =
-  /*#__PURE__*/ foldable.foldMap(Foldable)
+export const foldMap =
+  <M>(Monoid: Monoid<M>) =>
+  <A>(f: (a: A) => M) =>
+  <E>(self: Result<E, A>): M =>
+    isFailure(self) ? Monoid.empty : f(self.success)
 
 /**
  * @category folding
  * @since 3.0.0
  */
-export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <E>(self: Result<E, A>) => B =
-  /*#__PURE__*/ foldable.reduceRight(Foldable)
+export const reduceRight =
+  <B, A>(b: B, f: (a: A, b: B) => B) =>
+  <E>(self: Result<E, A>): B =>
+    isFailure(self) ? b : f(self.success, b)
 
 /**
  * @category instances
