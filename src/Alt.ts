@@ -14,7 +14,6 @@
  *
  * @since 3.0.0
  */
-import * as iterable from './Iterable'
 import type { Kind, TypeClass, TypeLambda } from './HKT'
 
 /**
@@ -35,7 +34,6 @@ export interface Alt<F extends TypeLambda> extends TypeClass<F> {
  */
 export const firstSuccessOf =
   <G extends TypeLambda>(Alt: Alt<G>) =>
-  <S, R, O, E, A>(
-    startWith: Kind<G, S, R, O, E, A>
-  ): ((iterable: Iterable<Kind<G, S, R, O, E, A>>) => Kind<G, S, R, O, E, A>) =>
-    iterable.reduce(startWith, (acc, ga) => Alt.orElse(ga)(acc))
+  <S, R, O, E, A>(startWith: Kind<G, S, R, O, E, A>) =>
+  (self: ReadonlyArray<Kind<G, S, R, O, E, A>>): Kind<G, S, R, O, E, A> =>
+    self.reduce((acc, ga) => Alt.orElse(ga)(acc), startWith)
