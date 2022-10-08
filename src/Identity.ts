@@ -299,22 +299,30 @@ export const Foldable: foldable.Foldable<IdentityTypeLambda> = {
  * @category folding
  * @since 3.0.0
  */
-export const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => (self: Identity<A>) => B =
-  /*#__PURE__*/ foldable.reduce(Foldable)
+export const reduce =
+  <B, A>(b: B, f: (b: B, a: A) => B) =>
+  (self: Identity<A>): B =>
+    f(b, self)
 
 /**
  * @category folding
  * @since 3.0.0
  */
-export const foldMap: <M>(Monoid: Monoid<M>) => <A>(f: (a: A) => M) => (self: Identity<A>) => M =
-  /*#__PURE__*/ foldable.foldMap(Foldable)
+export const foldMap =
+  <M>(_: Monoid<M>) =>
+  <A>(f: (a: A) => M) =>
+  (self: Identity<A>): M =>
+    f(self)
+/*#__PURE__*/ foldable.foldMap(Foldable)
 
 /**
  * @category folding
  * @since 3.0.0
  */
-export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (self: Identity<A>) => B =
-  /*#__PURE__*/ foldable.reduceRight(Foldable)
+export const reduceRight =
+  <B, A>(b: B, f: (a: A, b: B) => B) =>
+  (self: Identity<A>): B =>
+    f(self, b)
 
 /**
  * @category traversing
