@@ -43,6 +43,8 @@ Added in v3.0.0
   - [let](#let)
 - [error handling](#error-handling)
   - [catchAll](#catchall)
+  - [firstSuccessOf](#firstsuccessof)
+  - [firstSuccessOfNonEmpty](#firstsuccessofnonempty)
   - [getOrElse](#getorelse)
   - [getValidatedAlt](#getvalidatedalt)
   - [getValidatedApplicative](#getvalidatedapplicative)
@@ -348,6 +350,36 @@ Recovers from all errors.
 export declare const catchAll: <E1, E2, B>(
   onError: (e: E1) => Result<E2, B>
 ) => <A>(self: Result<E1, A>) => Result<E2, B | A>
+```
+
+Added in v3.0.0
+
+## firstSuccessOf
+
+Returns an effect that runs each of the specified effects in order until one of them succeeds.
+
+**Signature**
+
+```ts
+export declare const firstSuccessOf: <E, A>(
+  startWith: Result<E, A>
+) => (iterable: Iterable<Result<E, A>>) => Result<E, A>
+```
+
+Added in v3.0.0
+
+## firstSuccessOfNonEmpty
+
+Returns an effect that runs the first effect and in case of failure, runs
+each of the specified effects in order until one of them succeeds.
+
+**Signature**
+
+```ts
+export declare const firstSuccessOfNonEmpty: <E, A>(
+  head: Result<E, A>,
+  ...tail: readonly Result<E, A>[]
+) => Result<E, A>
 ```
 
 Added in v3.0.0

@@ -15,7 +15,7 @@
  */
 import type * as kleisliCategory from './KleisliCategory'
 import type * as kleisliComposable from './KleisliComposable'
-import type * as alt from './Alt'
+import * as alt from './Alt'
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
 import * as bifunctor from './Bifunctor'
@@ -926,6 +926,25 @@ export const sequence: <F extends TypeLambda>(
 export const Alt: alt.Alt<ResultTypeLambda> = {
   orElse
 }
+
+/**
+ * Returns an effect that runs each of the specified effects in order until one of them succeeds.
+ *
+ * @category error handling
+ * @since 3.0.0
+ */
+export const firstSuccessOf: <E, A>(startWith: Result<E, A>) => (iterable: Iterable<Result<E, A>>) => Result<E, A> =
+  /*#__PURE__*/ alt.firstSuccessOf(Alt)
+
+/**
+ * Returns an effect that runs the first effect and in case of failure, runs
+ * each of the specified effects in order until one of them succeeds.
+ *
+ * @category error handling
+ * @since 3.0.0
+ */
+export const firstSuccessOfNonEmpty: <E, A>(head: Result<E, A>, ...tail: ReadonlyArray<Result<E, A>>) => Result<E, A> =
+  /*#__PURE__*/ alt.firstSuccessOfNonEmpty(Alt)
 
 /**
  * The default [`Alt`](#semigroupkind) instance returns the last error, if you want to

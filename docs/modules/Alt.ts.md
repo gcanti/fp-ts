@@ -29,6 +29,7 @@ Added in v3.0.0
   - [Alt (interface)](#alt-interface)
 - [utils](#utils)
   - [firstSuccessOf](#firstsuccessof)
+  - [firstSuccessOfNonEmpty](#firstsuccessofnonempty)
 
 ---
 
@@ -63,6 +64,21 @@ export declare const firstSuccessOf: <G extends TypeLambda>(
 ) => <S, R, O, E, A>(
   startWith: Kind<G, S, R, O, E, A>
 ) => (iterable: Iterable<Kind<G, S, R, O, E, A>>) => Kind<G, S, R, O, E, A>
+```
+
+Added in v3.0.0
+
+## firstSuccessOfNonEmpty
+
+Returns an effect that runs the first effect and in case of failure, runs
+each of the specified effects in order until one of them succeeds.
+
+**Signature**
+
+```ts
+export declare const firstSuccessOfNonEmpty: <G extends TypeLambda>(
+  Alt: Alt<G>
+) => <S, R, O, E, A>(head: Kind<G, S, R, O, E, A>, ...tail: readonly Kind<G, S, R, O, E, A>[]) => Kind<G, S, R, O, E, A>
 ```
 
 Added in v3.0.0

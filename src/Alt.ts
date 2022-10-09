@@ -40,7 +40,8 @@ export const firstSuccessOf =
     _.fromIterable(iterable).reduce((acc, ga) => Alt.orElse(ga)(acc), startWith)
 
 /**
- * Returns an effect that runs each of the specified effects in order until one of them succeeds.
+ * Returns an effect that runs the first effect and in case of failure, runs
+ * each of the specified effects in order until one of them succeeds.
  *
  * @since 3.0.0
  */

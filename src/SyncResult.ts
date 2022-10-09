@@ -7,7 +7,7 @@
  *
  * @since 3.0.0
  */
-import type * as alt from './Alt'
+import * as alt from './Alt'
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
 import type * as bifunctor from './Bifunctor'
@@ -487,6 +487,28 @@ export const tapError: <E1, E2>(
 export const Alt: alt.Alt<SyncResultTypeLambda> = {
   orElse
 }
+
+/**
+ * Returns an effect that runs each of the specified effects in order until one of them succeeds.
+ *
+ * @category error handling
+ * @since 3.0.0
+ */
+export const firstSuccessOf: <E, A>(
+  startWith: SyncResult<E, A>
+) => (iterable: Iterable<SyncResult<E, A>>) => SyncResult<E, A> = /*#__PURE__*/ alt.firstSuccessOf(Alt)
+
+/**
+ * Returns an effect that runs the first effect and in case of failure, runs
+ * each of the specified effects in order until one of them succeeds.
+ *
+ * @category error handling
+ * @since 3.0.0
+ */
+export const firstSuccessOfNonEmpty: <E, A>(
+  head: SyncResult<E, A>,
+  ...tail: ReadonlyArray<SyncResult<E, A>>
+) => SyncResult<E, A> = /*#__PURE__*/ alt.firstSuccessOfNonEmpty(Alt)
 
 /**
  * @category instances

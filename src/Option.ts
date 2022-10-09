@@ -12,7 +12,7 @@
  *
  * @since 3.0.0
  */
-import type * as alt from './Alt'
+import * as alt from './Alt'
 import * as alternative from './Alternative'
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
@@ -875,6 +875,16 @@ export const Alt: alt.Alt<OptionTypeLambda> = {
 }
 
 /**
+ * Returns an effect that runs the first effect and in case of failure, runs
+ * each of the specified effects in order until one of them succeeds.
+ *
+ * @category error handling
+ * @since 3.0.0
+ */
+export const firstSuccessOfNonEmpty: <A>(head: Option<A>, ...tail: ReadonlyArray<Option<A>>) => Option<A> =
+  /*#__PURE__*/ alt.firstSuccessOfNonEmpty(Alt)
+
+/**
  * @category instances
  * @since 3.0.0
  */
@@ -882,6 +892,15 @@ export const Alternative: alternative.Alternative<OptionTypeLambda> = {
   orElse,
   none: () => none
 }
+
+/**
+ * Returns an effect that runs each of the specified effects in order until one of them succeeds.
+ *
+ * @category error handling
+ * @since 3.0.0
+ */
+export const firstSuccessOf: <A>(iterable: Iterable<Option<A>>) => Option<A> =
+  /*#__PURE__*/ alternative.firstSuccessOf(Alternative)
 
 /**
  * @category do notation

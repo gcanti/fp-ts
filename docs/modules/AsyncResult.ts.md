@@ -42,6 +42,8 @@ Added in v3.0.0
   - [let](#let)
 - [error handling](#error-handling)
   - [catchAll](#catchall)
+  - [firstSuccessOf](#firstsuccessof)
+  - [firstSuccessOfNonEmpty](#firstsuccessofnonempty)
   - [flatMapError](#flatmaperror)
   - [getOrElse](#getorelse)
   - [getOrElseAsync](#getorelseasync)
@@ -376,6 +378,36 @@ async function test() {
 }
 
 test()
+```
+
+Added in v3.0.0
+
+## firstSuccessOf
+
+Returns an effect that runs each of the specified effects in order until one of them succeeds.
+
+**Signature**
+
+```ts
+export declare const firstSuccessOf: <E, A>(
+  startWith: AsyncResult<E, A>
+) => (iterable: Iterable<AsyncResult<E, A>>) => AsyncResult<E, A>
+```
+
+Added in v3.0.0
+
+## firstSuccessOfNonEmpty
+
+Returns an effect that runs the first effect and in case of failure, runs
+each of the specified effects in order until one of them succeeds.
+
+**Signature**
+
+```ts
+export declare const firstSuccessOfNonEmpty: <E, A>(
+  head: AsyncResult<E, A>,
+  ...tail: readonly AsyncResult<E, A>[]
+) => AsyncResult<E, A>
 ```
 
 Added in v3.0.0

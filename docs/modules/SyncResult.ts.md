@@ -35,6 +35,8 @@ Added in v3.0.0
   - [let](#let)
 - [error handling](#error-handling)
   - [catchAll](#catchall)
+  - [firstSuccessOf](#firstsuccessof)
+  - [firstSuccessOfNonEmpty](#firstsuccessofnonempty)
   - [flatMapError](#flatmaperror)
   - [getOrElse](#getorelse)
   - [getOrElseSync](#getorelsesync)
@@ -279,6 +281,36 @@ Recovers from all errors.
 export declare const catchAll: <E1, E2, B>(
   onError: (e: E1) => SyncResult<E2, B>
 ) => <A>(ma: SyncResult<E1, A>) => SyncResult<E2, B | A>
+```
+
+Added in v3.0.0
+
+## firstSuccessOf
+
+Returns an effect that runs each of the specified effects in order until one of them succeeds.
+
+**Signature**
+
+```ts
+export declare const firstSuccessOf: <E, A>(
+  startWith: SyncResult<E, A>
+) => (iterable: Iterable<SyncResult<E, A>>) => SyncResult<E, A>
+```
+
+Added in v3.0.0
+
+## firstSuccessOfNonEmpty
+
+Returns an effect that runs the first effect and in case of failure, runs
+each of the specified effects in order until one of them succeeds.
+
+**Signature**
+
+```ts
+export declare const firstSuccessOfNonEmpty: <E, A>(
+  head: SyncResult<E, A>,
+  ...tail: readonly SyncResult<E, A>[]
+) => SyncResult<E, A>
 ```
 
 Added in v3.0.0

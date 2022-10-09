@@ -33,6 +33,8 @@ Added in v3.0.0
   - [let](#let)
 - [error handling](#error-handling)
   - [catchAll](#catchall)
+  - [firstSuccessOf](#firstsuccessof)
+  - [firstSuccessOfNonEmpty](#firstsuccessofnonempty)
   - [getOrElse](#getorelse)
   - [getOrElseAsync](#getorelseasync)
   - [tapError](#taperror)
@@ -312,6 +314,34 @@ Lazy version of `orElse`.
 
 ```ts
 export declare const catchAll: <B>(that: LazyArg<AsyncOption<B>>) => <A>(self: AsyncOption<A>) => AsyncOption<B | A>
+```
+
+Added in v3.0.0
+
+## firstSuccessOf
+
+Returns an effect that runs each of the specified effects in order until one of them succeeds.
+
+**Signature**
+
+```ts
+export declare const firstSuccessOf: <A>(iterable: Iterable<AsyncOption<A>>) => AsyncOption<A>
+```
+
+Added in v3.0.0
+
+## firstSuccessOfNonEmpty
+
+Returns an effect that runs the first effect and in case of failure, runs
+each of the specified effects in order until one of them succeeds.
+
+**Signature**
+
+```ts
+export declare const firstSuccessOfNonEmpty: <A>(
+  head: AsyncOption<A>,
+  ...tail: readonly AsyncOption<A>[]
+) => AsyncOption<A>
 ```
 
 Added in v3.0.0

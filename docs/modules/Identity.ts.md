@@ -26,6 +26,9 @@ Added in v3.0.0
   - [bindRight](#bindright)
   - [bindTo](#bindto)
   - [let](#let)
+- [error handling](#error-handling)
+  - [firstSuccessOf](#firstsuccessof)
+  - [firstSuccessOfNonEmpty](#firstsuccessofnonempty)
 - [folding](#folding)
   - [foldMap](#foldmap)
   - [reduce](#reduce)
@@ -166,6 +169,33 @@ export declare const let: <N extends string, A extends object, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
 ) => (self: A) => { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }
+```
+
+Added in v3.0.0
+
+# error handling
+
+## firstSuccessOf
+
+Returns an effect that runs each of the specified effects in order until one of them succeeds.
+
+**Signature**
+
+```ts
+export declare const firstSuccessOf: <A>(startWith: A) => (iterable: Iterable<A>) => A
+```
+
+Added in v3.0.0
+
+## firstSuccessOfNonEmpty
+
+Returns an effect that runs the first effect and in case of failure, runs
+each of the specified effects in order until one of them succeeds.
+
+**Signature**
+
+```ts
+export declare const firstSuccessOfNonEmpty: <A>(head: A, ...tail: readonly A[]) => A
 ```
 
 Added in v3.0.0

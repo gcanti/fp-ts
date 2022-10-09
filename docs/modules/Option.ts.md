@@ -46,6 +46,8 @@ Added in v3.0.0
   - [let](#let)
 - [error handling](#error-handling)
   - [catchAll](#catchall)
+  - [firstSuccessOf](#firstsuccessof)
+  - [firstSuccessOfNonEmpty](#firstsuccessofnonempty)
   - [getOrElse](#getorelse)
 - [filtering](#filtering)
   - [compact](#compact)
@@ -420,6 +422,31 @@ Lazy version of `orElse`.
 
 ```ts
 export declare const catchAll: <B>(that: LazyArg<Option<B>>) => <A>(self: Option<A>) => Option<B | A>
+```
+
+Added in v3.0.0
+
+## firstSuccessOf
+
+Returns an effect that runs each of the specified effects in order until one of them succeeds.
+
+**Signature**
+
+```ts
+export declare const firstSuccessOf: <A>(iterable: Iterable<Option<A>>) => Option<A>
+```
+
+Added in v3.0.0
+
+## firstSuccessOfNonEmpty
+
+Returns an effect that runs the first effect and in case of failure, runs
+each of the specified effects in order until one of them succeeds.
+
+**Signature**
+
+```ts
+export declare const firstSuccessOfNonEmpty: <A>(head: Option<A>, ...tail: readonly Option<A>[]) => Option<A>
 ```
 
 Added in v3.0.0

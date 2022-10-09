@@ -3,7 +3,7 @@
  */
 import type * as kleisliCategory from './KleisliCategory'
 import type * as kleisliComposable from './KleisliComposable'
-import type * as alt from './Alt'
+import * as alt from './Alt'
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
 import * as bifunctor from './Bifunctor'
@@ -498,6 +498,29 @@ export const mapError: <E, G>(
 export const Alt: alt.Alt<StateReaderAsyncResultTypeLambda> = {
   orElse
 }
+
+/**
+ * Returns an effect that runs each of the specified effects in order until one of them succeeds.
+ *
+ * @category error handling
+ * @since 3.0.0
+ */
+export const firstSuccessOf: <S, R, E, A>(
+  startWith: StateReaderAsyncResult<S, R, E, A>
+) => (iterable: Iterable<StateReaderAsyncResult<S, R, E, A>>) => StateReaderAsyncResult<S, R, E, A> =
+  /*#__PURE__*/ alt.firstSuccessOf(Alt)
+
+/**
+ * Returns an effect that runs the first effect and in case of failure, runs
+ * each of the specified effects in order until one of them succeeds.
+ *
+ * @category error handling
+ * @since 3.0.0
+ */
+export const firstSuccessOfNonEmpty: <S, R, E, A>(
+  head: StateReaderAsyncResult<S, R, E, A>,
+  ...tail: ReadonlyArray<StateReaderAsyncResult<S, R, E, A>>
+) => StateReaderAsyncResult<S, R, E, A> = /*#__PURE__*/ alt.firstSuccessOfNonEmpty(Alt)
 
 /**
  * @category instances

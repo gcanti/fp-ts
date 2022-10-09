@@ -45,6 +45,8 @@ Added in v3.0.0
   - [bindTo](#bindto)
   - [let](#let)
 - [error handling](#error-handling)
+  - [firstSuccessOf](#firstsuccessof)
+  - [firstSuccessOfNonEmpty](#firstsuccessofnonempty)
   - [mapError](#maperror)
   - [tapError](#taperror)
 - [filtering](#filtering)
@@ -469,6 +471,36 @@ export declare const let: <N extends string, A extends object, B>(
 Added in v3.0.0
 
 # error handling
+
+## firstSuccessOf
+
+Returns an effect that runs each of the specified effects in order until one of them succeeds.
+
+**Signature**
+
+```ts
+export declare const firstSuccessOf: <S, R, E, A>(
+  startWith: StateReaderAsyncResult<S, R, E, A>
+) => (iterable: Iterable<StateReaderAsyncResult<S, R, E, A>>) => StateReaderAsyncResult<S, R, E, A>
+```
+
+Added in v3.0.0
+
+## firstSuccessOfNonEmpty
+
+Returns an effect that runs the first effect and in case of failure, runs
+each of the specified effects in order until one of them succeeds.
+
+**Signature**
+
+```ts
+export declare const firstSuccessOfNonEmpty: <S, R, E, A>(
+  head: StateReaderAsyncResult<S, R, E, A>,
+  ...tail: readonly StateReaderAsyncResult<S, R, E, A>[]
+) => StateReaderAsyncResult<S, R, E, A>
+```
+
+Added in v3.0.0
 
 ## mapError
 

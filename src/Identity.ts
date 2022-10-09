@@ -7,7 +7,7 @@
  */
 import type * as kleisliCategory from './KleisliCategory'
 import type * as kleisliComposable from './KleisliComposable'
-import type * as alt from './Alt'
+import * as alt from './Alt'
 import * as apply from './Apply'
 import type * as applicative from './Applicative'
 import * as flattenable from './Flattenable'
@@ -362,6 +362,25 @@ export const orElse: <B>(that: Identity<B>) => <A>(self: Identity<A>) => Identit
 export const Alt: alt.Alt<IdentityTypeLambda> = {
   orElse
 }
+
+/**
+ * Returns an effect that runs each of the specified effects in order until one of them succeeds.
+ *
+ * @category error handling
+ * @since 3.0.0
+ */
+export const firstSuccessOf: <A>(startWith: Identity<A>) => (iterable: Iterable<Identity<A>>) => Identity<A> =
+  /*#__PURE__*/ alt.firstSuccessOf(Alt)
+
+/**
+ * Returns an effect that runs the first effect and in case of failure, runs
+ * each of the specified effects in order until one of them succeeds.
+ *
+ * @category error handling
+ * @since 3.0.0
+ */
+export const firstSuccessOfNonEmpty: <A>(head: Identity<A>, ...tail: ReadonlyArray<Identity<A>>) => Identity<A> =
+  /*#__PURE__*/ alt.firstSuccessOfNonEmpty(Alt)
 
 // -------------------------------------------------------------------------------------
 // do notation

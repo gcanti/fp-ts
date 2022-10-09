@@ -3,7 +3,7 @@
  */
 import type * as kleisliCategory from './KleisliCategory'
 import type * as kleisliComposable from './KleisliComposable'
-import type * as alt from './Alt'
+import * as alt from './Alt'
 import * as alternative from './Alternative'
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
@@ -411,6 +411,18 @@ export const Alt: alt.Alt<AsyncOptionTypeLambda> = {
 }
 
 /**
+ * Returns an effect that runs the first effect and in case of failure, runs
+ * each of the specified effects in order until one of them succeeds.
+ *
+ * @category error handling
+ * @since 3.0.0
+ */
+export const firstSuccessOfNonEmpty: <A>(
+  head: AsyncOption<A>,
+  ...tail: ReadonlyArray<AsyncOption<A>>
+) => AsyncOption<A> = /*#__PURE__*/ alt.firstSuccessOfNonEmpty(Alt)
+
+/**
  * @category instances
  * @since 3.0.0
  */
@@ -418,6 +430,15 @@ export const Alternative: alternative.Alternative<AsyncOptionTypeLambda> = {
   orElse,
   none: () => none
 }
+
+/**
+ * Returns an effect that runs each of the specified effects in order until one of them succeeds.
+ *
+ * @category error handling
+ * @since 3.0.0
+ */
+export const firstSuccessOf: <A>(iterable: Iterable<AsyncOption<A>>) => AsyncOption<A> =
+  /*#__PURE__*/ alternative.firstSuccessOf(Alternative)
 
 /**
  * @category do notation
