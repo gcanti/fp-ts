@@ -31,6 +31,8 @@ export const toIterableComposition =
   }
 
 /**
+ * Returns a default `reduce` implementation.
+ *
  * @category folding
  * @since 3.0.0
  */
@@ -41,6 +43,8 @@ export const reduce =
   }
 
 /**
+ * Returns a default `foldMap` implementation.
+ *
  * @category folding
  * @since 3.0.0
  */
@@ -55,6 +59,8 @@ export const foldMap =
   }
 
 /**
+ * Returns a default `reduceRight` implementation.
+ *
  * @category folding
  * @since 3.0.0
  */

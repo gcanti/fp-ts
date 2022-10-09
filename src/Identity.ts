@@ -18,7 +18,7 @@ import type { Eq } from './Eq'
 import type { Monoid } from './Monoid'
 import type * as extendable from './Extendable'
 import * as iterable from './Iterable'
-import * as foldable from './Foldable'
+import type * as foldable from './Foldable'
 import { flow, identity } from './Function'
 import * as functor from './Functor'
 import type { TypeLambda, Kind } from './HKT'
@@ -313,7 +313,6 @@ export const foldMap =
   <A>(f: (a: A) => M) =>
   (self: Identity<A>): M =>
     f(self)
-/*#__PURE__*/ foldable.foldMap(Foldable)
 
 /**
  * @category folding

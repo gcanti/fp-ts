@@ -2,14 +2,14 @@ import { pipe } from '../src/Function'
 import { combineAll } from '../src/Monoid'
 import * as _ from '../src/Ord'
 import { sort } from '../src/ReadonlyArray'
-import * as B from '../src/boolean'
-import * as S from '../src/string'
-import * as N from '../src/number'
+import * as boolean from '../src/boolean'
+import * as string from '../src/string'
+import * as number from '../src/number'
 import * as U from './util'
 
 describe('Ord', () => {
   it('tuple', () => {
-    const O = _.tuple(S.Ord, N.Ord, B.Ord)
+    const O = _.tuple(string.Ord, number.Ord, boolean.Ord)
     U.deepStrictEqual(pipe(['a', 1, true], O.compare(['b', 2, true])), -1)
     U.deepStrictEqual(pipe(['a', 1, true], O.compare(['a', 2, true])), -1)
     U.deepStrictEqual(pipe(['a', 1, true], O.compare(['a', 1, false])), 1)
@@ -25,11 +25,11 @@ describe('Ord', () => {
     ]
     const M = _.getMonoid<T>()
     const sortByFst = pipe(
-      N.Ord,
+      number.Ord,
       _.contramap((x: T) => x[0])
     )
     const sortBySnd = pipe(
-      S.Ord,
+      string.Ord,
       _.contramap((x: T) => x[1])
     )
     //                  v-- left unit
@@ -51,13 +51,13 @@ describe('Ord', () => {
   })
 
   it('ordNumber', () => {
-    U.deepStrictEqual(pipe(1, N.Ord.compare(2)), -1)
-    U.deepStrictEqual(pipe(2, N.Ord.compare(1)), 1)
-    U.deepStrictEqual(pipe(2, N.Ord.compare(2)), 0)
+    U.deepStrictEqual(pipe(1, number.Ord.compare(2)), -1)
+    U.deepStrictEqual(pipe(2, number.Ord.compare(1)), 1)
+    U.deepStrictEqual(pipe(2, number.Ord.compare(2)), 0)
   })
 
   it('clamp', () => {
-    const clampNumber = _.clamp(N.Ord)
+    const clampNumber = _.clamp(number.Ord)
     U.deepStrictEqual(clampNumber(1, 10)(2), 2)
     U.deepStrictEqual(clampNumber(1, 10)(10), 10)
     U.deepStrictEqual(clampNumber(1, 10)(20), 10)
@@ -66,7 +66,7 @@ describe('Ord', () => {
   })
 
   it('between', () => {
-    const betweenNumber = _.between(N.Ord)
+    const betweenNumber = _.between(number.Ord)
     U.deepStrictEqual(betweenNumber(1, 10)(2), true)
     U.deepStrictEqual(betweenNumber(1, 10)(10), true)
     U.deepStrictEqual(betweenNumber(1, 10)(20), false)
@@ -75,21 +75,21 @@ describe('Ord', () => {
   })
 
   it('reverse', () => {
-    const O = _.reverse(N.Ord)
+    const O = _.reverse(number.Ord)
     U.deepStrictEqual(pipe(1, O.compare(2)), 1)
     U.deepStrictEqual(pipe(2, O.compare(1)), -1)
     U.deepStrictEqual(pipe(2, O.compare(2)), 0)
   })
 
   it('leq', () => {
-    const f = _.leq(N.Ord)
+    const f = _.leq(number.Ord)
     U.deepStrictEqual(pipe(0, f(1)), true)
     U.deepStrictEqual(pipe(1, f(1)), true)
     U.deepStrictEqual(pipe(2, f(1)), false)
   })
 
   it('geq', () => {
-    const f = _.geq(N.Ord)
+    const f = _.geq(number.Ord)
     U.deepStrictEqual(pipe(0, f(1)), false)
     U.deepStrictEqual(pipe(1, f(1)), true)
     U.deepStrictEqual(pipe(2, f(1)), true)
@@ -99,7 +99,7 @@ describe('Ord', () => {
     type A = { readonly a: number }
     const min = _.min(
       pipe(
-        N.Ord,
+        number.Ord,
         _.contramap((a: A) => a.a)
       )
     )
@@ -114,7 +114,7 @@ describe('Ord', () => {
     type A = { readonly a: number }
     const max = _.max(
       pipe(
-        N.Ord,
+        number.Ord,
         _.contramap((a: A) => a.a)
       )
     )
@@ -126,8 +126,12 @@ describe('Ord', () => {
   })
 
   it('equals', () => {
-    const equals = _.equals(N.Ord)
+    const equals = _.equals(number.Ord)
     U.deepStrictEqual(equals(1)(1), true)
     U.deepStrictEqual(equals(1)(2), false)
+  })
+
+  it('trivial', () => {
+    U.deepStrictEqual(sort(_.trivial)(['b', 'a']), ['b', 'a'])
   })
 })

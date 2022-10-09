@@ -1,9 +1,10 @@
-import * as _ from '../../src/ReadonlyArray'
+import * as T from '../../src/Async'
 import { pipe } from '../../src/Function'
 import * as N from '../../src/number'
 import type { Ord } from '../../src/Ord'
+import * as ord from '../../src/Ord'
+import * as _ from '../../src/ReadonlyArray'
 import * as E from '../../src/Result'
-import * as T from '../../src/Async'
 
 declare const n: number
 declare const sn: string | number
@@ -225,6 +226,9 @@ pipe([1, 2], _.zip(['a', 'b'])) // $ExpectType readonly (readonly [number, strin
 //
 // sort
 //
+
+// $ExpectType ReadonlyArray<string>
+_.sort(ord.trivial)(['b', 'a'])
 
 declare const ord1: Ord<{ readonly a: string }>
 interface X1 {

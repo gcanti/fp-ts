@@ -28,6 +28,7 @@ Added in v3.0.0
   - [Contravariant](#contravariant-1)
   - [getMonoid](#getmonoid)
   - [getSemigroup](#getsemigroup)
+  - [trivial](#trivial)
 - [model](#model)
   - [Ord (interface)](#ord-interface)
 - [type lambdas](#type-lambdas)
@@ -197,6 +198,16 @@ and then by `ord2`
 
 ```ts
 export declare const getSemigroup: <A>() => Semigroup<Ord<A>>
+```
+
+Added in v3.0.0
+
+## trivial
+
+**Signature**
+
+```ts
+export declare const trivial: Ord<unknown>
 ```
 
 Added in v3.0.0

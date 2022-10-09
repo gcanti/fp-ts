@@ -62,7 +62,7 @@ export declare const firstSuccessOf: <G extends TypeLambda>(
   Alt: Alt<G>
 ) => <S, R, O, E, A>(
   startWith: Kind<G, S, R, O, E, A>
-) => (iterable: Iterable<Kind<G, S, R, O, E, A>>) => Kind<G, S, R, O, E, A>
+) => (self: readonly Kind<G, S, R, O, E, A>[]) => Kind<G, S, R, O, E, A>
 ```
 
 Added in v3.0.0

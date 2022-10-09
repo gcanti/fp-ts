@@ -36,6 +36,14 @@ export const fromCompare = <A>(compare: Ord<A>['compare']): Ord<A> => ({
 })
 
 /**
+ * @category instances
+ * @since 3.0.0
+ */
+export const trivial: Ord<unknown> = {
+  compare: () => () => 0
+}
+
+/**
  * Given a tuple of `Ord`s returns an `Ord` for the tuple.
  *
  * @example

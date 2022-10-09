@@ -1,6 +1,7 @@
 {
   "extends": "dtslint/dtslint.json",
   "rules": {
+    "no-duplicate-imports": false,
     "semicolon": false,
     "array-type": false,
     "no-unnecessary-generics": false,

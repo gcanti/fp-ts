@@ -113,7 +113,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const foldMap: <M>(Monoid: Monoid<M>) => <A>(f: (a: A) => M) => <W>(self: Writer<W, A>) => M
+export declare const foldMap: <M>(_: Monoid<M>) => <A>(f: (a: A) => M) => <W>(self: Writer<W, A>) => M
 ```
 
 Added in v3.0.0

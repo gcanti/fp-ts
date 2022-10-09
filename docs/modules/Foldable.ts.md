@@ -27,6 +27,8 @@ Added in v3.0.0
 
 ## foldMap
 
+Returns a default `foldMap` implementation.
+
 **Signature**
 
 ```ts
@@ -39,6 +41,8 @@ Added in v3.0.0
 
 ## reduce
 
+Returns a default `reduce` implementation.
+
 **Signature**
 
 ```ts
@@ -50,6 +54,8 @@ export declare const reduce: <F extends TypeLambda>(
 Added in v3.0.0
 
 ## reduceRight
+
+Returns a default `reduceRight` implementation.
 
 **Signature**
 
