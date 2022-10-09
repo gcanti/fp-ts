@@ -1,6 +1,6 @@
 ---
 title: index.ts
-nav_order: 41
+nav_order: 40
 parent: Modules
 ---
 
@@ -20,6 +20,7 @@ Added in v3.0.0
   - [const](#const)
   - [endomorphism](#endomorphism)
   - [identity](#identity)
+  - [iterable](#iterable)
   - [nonEmptyReadonlyArray](#nonemptyreadonlyarray)
   - [option](#option)
   - [reader](#reader)
@@ -63,7 +64,6 @@ Added in v3.0.0
   - [filterableWithIndex](#filterablewithindex)
   - [flattenable](#flattenable)
   - [flattenableRec](#flattenablerec)
-  - [foldableWithIndex](#foldablewithindex)
   - [fromAsync](#fromasync)
   - [fromIdentity](#fromidentity)
   - [fromOption](#fromoption)
@@ -174,6 +174,16 @@ Added in v3.0.0
 
 ```ts
 export declare const identity: typeof identity
+```
+
+Added in v3.0.0
+
+## iterable
+
+**Signature**
+
+```ts
+export declare const iterable: typeof iterable
 ```
 
 Added in v3.0.0
@@ -588,16 +598,6 @@ Added in v3.0.0
 
 ```ts
 export declare const flattenableRec: typeof flattenableRec
-```
-
-Added in v3.0.0
-
-## foldableWithIndex
-
-**Signature**
-
-```ts
-export declare const foldableWithIndex: typeof foldableWithIndex
 ```
 
 Added in v3.0.0

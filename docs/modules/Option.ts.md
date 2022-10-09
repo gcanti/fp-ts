@@ -29,7 +29,6 @@ Added in v3.0.0
   - [none](#none)
   - [some](#some)
 - [conversions](#conversions)
-  - [fromEntries](#fromentries)
   - [fromIterable](#fromiterable)
   - [fromNullable](#fromnullable)
   - [fromResult](#fromresult)
@@ -217,16 +216,6 @@ export declare const some: <A>(a: A) => Option<A>
 Added in v3.0.0
 
 # conversions
-
-## fromEntries
-
-**Signature**
-
-```ts
-export declare const fromEntries: <I, A>(iterable: Iterable<readonly [I, A]>) => Option<A>
-```
-
-Added in v3.0.0
 
 ## fromIterable
 

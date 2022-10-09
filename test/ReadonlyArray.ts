@@ -16,45 +16,6 @@ import { tuple } from '../src/tuple'
 import * as U from './util'
 
 describe('ReadonlyArray', () => {
-  it('reduceEntries', () => {
-    U.deepStrictEqual(
-      pipe(
-        new Map([
-          ['a', 'c'],
-          ['b', 'd']
-        ]),
-        _.reduceEntries('-', (k, b, a) => b + k + a)
-      ),
-      '-acbd'
-    )
-  })
-
-  it('foldMapEntries', () => {
-    U.deepStrictEqual(
-      pipe(
-        new Map([
-          ['a', 'c'],
-          ['b', 'd']
-        ]),
-        _.foldMapEntries(string.Monoid)((k, a) => k + a)
-      ),
-      'acbd'
-    )
-  })
-
-  it('reduceRightEntries', () => {
-    U.deepStrictEqual(
-      pipe(
-        new Map([
-          ['a', 'c'],
-          ['b', 'd']
-        ]),
-        _.reduceRightEntries('-', (k, a, b) => b + k + a)
-      ),
-      '-bdac'
-    )
-  })
-
   it('reduceKind', () => {
     const f = _.reduceKind(O.Flattenable)
     U.deepStrictEqual(

@@ -16,8 +16,7 @@ import * as eq from './Eq'
 import type * as extendable from './Extendable'
 import * as filterable from './Filterable'
 import * as filterableWithIndex from './FilterableWithIndex'
-import type * as toIterable_ from './ToIterable'
-import type * as foldableWithIndex from './FoldableWithIndex'
+import * as toIterable_ from './ToIterable'
 import * as fromOption_ from './FromOption'
 import * as fromResult_ from './FromResult'
 import type { LazyArg } from './Function'
@@ -1427,14 +1426,6 @@ export const filterMap: <A, B>(f: (a: A) => Option<B>) => (self: Iterable<A>) =>
  * @category filtering
  * @since 3.0.0
  */
-export const filterMapEntries = <K, A, B>(
-  f: (k: K, a: A) => Option<B>
-): ((self: Iterable<[K, A]>) => ReadonlyArray<B>) => filterMap(([k, a]) => f(k, a))
-
-/**
- * @category filtering
- * @since 3.0.0
- */
 export const compact: <A>(foa: ReadonlyArray<Option<A>>) => ReadonlyArray<A> = /*#__PURE__*/ filterMap(identity)
 
 /**
@@ -1507,7 +1498,7 @@ export const duplicate: <A>(wa: ReadonlyArray<A>) => ReadonlyArray<ReadonlyArray
 export const traverseWithIndex =
   <F extends TypeLambda>(Applicative: applicative.Applicative<F>) =>
   <A, S, R, O, E, B>(f: (i: number, a: A) => Kind<F, S, R, O, E, B>) =>
-  (self: Iterable<A>): Kind<F, S, R, O, E, ReadonlyArray<B>> => {
+  (self: ReadonlyArray<A>): Kind<F, S, R, O, E, ReadonlyArray<B>> => {
     return pipe(
       self,
       reduceWithIndex<Kind<F, S, R, O, E, ReadonlyArray<B>>, A>(Applicative.of(_.emptyReadonlyArray), (i, fbs, a) =>
@@ -1528,40 +1519,8 @@ export const traverse = <F extends TypeLambda>(Applicative: applicative.Applicat
   const traverseWithIndex_ = traverseWithIndex(Applicative)
   return <A, S, R, O, E, B>(
     f: (a: A) => Kind<F, S, R, O, E, B>
-  ): ((self: Iterable<A>) => Kind<F, S, R, O, E, ReadonlyArray<B>>) => traverseWithIndex_((_, a) => f(a))
+  ): ((self: ReadonlyArray<A>) => Kind<F, S, R, O, E, ReadonlyArray<B>>) => traverseWithIndex_((_, a) => f(a))
 }
-
-/**
- * @category traversing
- * @since 3.0.0
- */
-export const traverseEntries = <F extends TypeLambda>(Applicative: applicative.Applicative<F>) => {
-  const traverse_ = traverse(Applicative)
-  return <K, A, S, R, O, E, B>(
-    f: (k: K, a: A) => Kind<F, S, R, O, E, B>
-  ): ((self: Iterable<readonly [K, A]>) => Kind<F, S, R, O, E, ReadonlyArray<B>>) => traverse_(([k, a]) => f(k, a))
-}
-
-/**
- * Similar to 'reduce', but the result is encapsulated in a `Flattenable`.
- *
- * Note: this function is not generally stack-safe, e.g., for type constructors which build up thunks a la `Sync`.
- *
- * @category folding
- * @since 3.0.0
- */
-export const reduceKind =
-  <F extends TypeLambda>(Flattenable: flattenable.Flattenable<F>) =>
-  <S, R, O, E, B, A>(
-    fb: Kind<F, S, R, O, E, B>,
-    f: (b: B, a: A) => Kind<F, S, R, O, E, B>
-  ): ((self: Iterable<A>) => Kind<F, S, R, O, E, B>) =>
-    reduce(fb, (fb, a) =>
-      pipe(
-        fb,
-        Flattenable.flatMap((b) => f(b, a))
-      )
-    )
 
 /**
  * @since 3.0.0
@@ -1964,91 +1923,56 @@ export const ToIterable: toIterable_.ToIterable<ReadonlyArrayTypeLambda> = {
  * @category folding
  * @since 3.0.0
  */
-export const reduce = <B, A>(b: B, f: (b: B, a: A) => B): ((self: Iterable<A>) => B) =>
-  reduceWithIndex(b, (_, b, a) => f(b, a))
+export const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => (self: ReadonlyArray<A>) => B =
+  /*#__PURE__*/ toIterable_.reduce(ToIterable)
 
 /**
  * @category folding
  * @since 3.0.0
  */
-export const foldMap = <M>(Monoid: Monoid<M>) => {
-  const foldMapWithIndex_ = foldMapWithIndex(Monoid)
-  return <A>(f: (a: A) => M): ((self: Iterable<A>) => M) => foldMapWithIndex_((_, a) => f(a))
-}
+export const foldMap: <M>(Monoid: Monoid<M>) => <A>(f: (a: A) => M) => (self: ReadonlyArray<A>) => M =
+  /*#__PURE__*/ toIterable_.foldMap(ToIterable)
 
 /**
  * @category folding
  * @since 3.0.0
  */
-export const reduceRight = <B, A>(b: B, f: (a: A, b: B) => B): ((self: Iterable<A>) => B) =>
-  reduceRightWithIndex(b, (_, a, b) => f(a, b))
+export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (self: ReadonlyArray<A>) => B =
+  /*#__PURE__*/ toIterable_.reduceRight(ToIterable)
 
 /**
  * @category folding
  * @since 3.0.0
  */
-export const reduceEntries = <K, B, A>(b: B, f: (k: K, b: B, a: A) => B): ((self: Iterable<readonly [K, A]>) => B) =>
-  reduce(b, (b, [k, a]) => f(k, b, a))
+export const reduceWithIndex: <B, A>(b: B, f: (i: number, b: B, a: A) => B) => (self: ReadonlyArray<A>) => B =
+  /*#__PURE__*/ toIterable_.reduceWithIndex(ToIterable)
 
 /**
  * @category folding
  * @since 3.0.0
  */
-export const foldMapEntries = <M>(Monoid: Monoid<M>) => {
-  const foldMap_ = foldMap(Monoid)
-  return <K, A>(f: (k: K, a: A) => M): ((self: Iterable<readonly [K, A]>) => M) => foldMap_(([k, a]) => f(k, a))
-}
+export const foldMapWithIndex: <M>(
+  Monoid: Monoid<M>
+) => <A>(f: (i: number, a: A) => M) => (self: ReadonlyArray<A>) => M =
+  /*#__PURE__*/ toIterable_.foldMapWithIndex(ToIterable)
 
 /**
  * @category folding
  * @since 3.0.0
  */
-export const reduceRightEntries = <B, K, A>(
-  b: B,
-  f: (k: K, a: A, b: B) => B
-): ((self: Iterable<readonly [K, A]>) => B) => reduceRight(b, ([k, a], b) => f(k, a, b))
+export const reduceRightWithIndex: <B, A>(b: B, f: (i: number, a: A, b: B) => B) => (self: ReadonlyArray<A>) => B =
+  /*#__PURE__*/ toIterable_.reduceRightWithIndex(ToIterable)
 
 /**
  * @category folding
  * @since 3.0.0
  */
-export const toEntries = <A>(self: Iterable<A>): ReadonlyArray<readonly [number, A]> =>
-  _.fromIterable(self).map((a, i) => [i, a])
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const FoldableWithIndex: foldableWithIndex.FoldableWithIndex<ReadonlyArrayTypeLambda, number> = {
-  toEntries
-}
-
-/**
- * @category folding
- * @since 3.0.0
- */
-export const reduceWithIndex =
-  <B, A>(b: B, f: (i: number, b: B, a: A) => B) =>
-  (self: Iterable<A>): B =>
-    _.fromIterable(self).reduce((b, a, i) => f(i, b, a), b)
-
-/**
- * @category folding
- * @since 3.0.0
- */
-export const foldMapWithIndex =
-  <M>(Monoid: Monoid<M>) =>
-  <A>(f: (i: number, a: A) => M): ((self: Iterable<A>) => M) =>
-    reduceWithIndex(Monoid.empty, (i, b, a) => Monoid.combine(f(i, a))(b))
-
-/**
- * @category folding
- * @since 3.0.0
- */
-export const reduceRightWithIndex =
-  <B, A>(b: B, f: (i: number, a: A, b: B) => B) =>
-  (self: Iterable<A>): B =>
-    _.fromIterable(self).reduceRight((b, a, i) => f(i, a, b), b)
+export const reduceKind: <F extends TypeLambda>(
+  Flattenable: flattenable.Flattenable<F>
+) => <S, R, O, E, B, A>(
+  fb: Kind<F, S, R, O, E, B>,
+  f: (b: B, a: A) => Kind<F, S, R, O, E, B>
+) => (self: ReadonlyArray<A>) => Kind<F, S, R, O, E, B> = /*#__PURE__*/ toIterable_.reduceKind(ToIterable)
 
 /**
  * @category instances

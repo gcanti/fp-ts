@@ -27,7 +27,6 @@ import * as filterable from './Filterable'
 import * as filterableWithIndex from './FilterableWithIndex'
 import * as flattenable from './Flattenable'
 import * as flattenableRec from './FlattenableRec'
-import * as foldableWithIndex from './FoldableWithIndex'
 import * as fromAsync from './FromAsync'
 import * as fromIdentity from './FromIdentity'
 import * as fromSync from './FromSync'
@@ -43,6 +42,7 @@ import * as functorWithIndex from './FunctorWithIndex'
 import * as hkt from './HKT'
 import * as identity from './Identity'
 import * as invariant from './Invariant'
+import * as iterable from './Iterable'
 import * as syncOption from './SyncOption'
 import * as json from './Json'
 import * as kleisliCategory from './KleisliCategory'
@@ -213,11 +213,6 @@ export {
    * @category type classes
    * @since 3.0.0
    */
-  foldableWithIndex,
-  /**
-   * @category type classes
-   * @since 3.0.0
-   */
   fromAsync,
   /**
    * @category type classes
@@ -287,6 +282,11 @@ export {
    * @since 3.0.0
    */
   invariant,
+  /**
+   * @category data types
+   * @since 3.0.0
+   */
+  iterable,
   /**
    * @since 3.0.0
    */

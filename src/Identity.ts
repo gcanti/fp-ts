@@ -17,7 +17,7 @@ import type { Result } from './Result'
 import type { Eq } from './Eq'
 import type { Monoid } from './Monoid'
 import type * as extendable from './Extendable'
-import type * as toIterable_ from './ToIterable'
+import * as toIterable_ from './ToIterable'
 import { flow, identity } from './Function'
 import * as functor from './Functor'
 import type { TypeLambda, Kind } from './HKT'
@@ -298,29 +298,21 @@ export const ToIterable: toIterable_.ToIterable<IdentityTypeLambda> = {
  * @category folding
  * @since 3.0.0
  */
-export const reduce =
-  <B, A>(b: B, f: (b: B, a: A) => B) =>
-  (self: Identity<A>): B =>
-    f(b, self)
+export const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => (self: A) => B = /*#__PURE__*/ toIterable_.reduce(ToIterable)
 
 /**
  * @category folding
  * @since 3.0.0
  */
-export const foldMap =
-  <M>(_: Monoid<M>) =>
-  <A>(f: (a: A) => M) =>
-  (self: Identity<A>): M =>
-    f(self)
+export const foldMap: <M>(_: Monoid<M>) => <A>(f: (a: A) => M) => (self: Identity<A>) => M =
+  /*#__PURE__*/ toIterable_.foldMap(ToIterable)
 
 /**
  * @category folding
  * @since 3.0.0
  */
-export const reduceRight =
-  <B, A>(b: B, f: (a: A, b: B) => B) =>
-  (self: Identity<A>): B =>
-    f(self, b)
+export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (self: Identity<A>) => B =
+  /*#__PURE__*/ toIterable_.reduceRight(ToIterable)
 
 /**
  * @category traversing

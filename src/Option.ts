@@ -24,7 +24,7 @@ import type { Result } from './Result'
 import * as eq from './Eq'
 import type * as extendable from './Extendable'
 import * as filterable from './Filterable'
-import type * as toIterable_ from './ToIterable'
+import * as toIterable_ from './ToIterable'
 import * as fromOption_ from './FromOption'
 import * as fromResult_ from './FromResult'
 import type { LazyArg } from './Function'
@@ -136,17 +136,6 @@ export const some: <A>(a: A) => Option<A> = _.some
  */
 export const fromIterable = <A>(iterable: Iterable<A>): Option<A> => {
   for (const a of iterable) {
-    return some(a)
-  }
-  return none
-}
-
-/**
- * @category conversions
- * @since 3.0.0
- */
-export const fromEntries = <I, A>(iterable: Iterable<readonly [I, A]>): Option<A> => {
-  for (const [_, a] of iterable) {
     return some(a)
   }
   return none
@@ -841,29 +830,22 @@ export const ToIterable: toIterable_.ToIterable<OptionTypeLambda> = {
  * @category folding
  * @since 3.0.0
  */
-export const reduce =
-  <B, A>(b: B, f: (b: B, a: A) => B) =>
-  (self: Option<A>): B =>
-    isNone(self) ? b : f(b, self.value)
+export const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => (self: Option<A>) => B =
+  /*#__PURE__*/ toIterable_.reduce(ToIterable)
 
 /**
  * @category folding
  * @since 3.0.0
  */
-export const foldMap =
-  <M>(Monoid: Monoid<M>) =>
-  <A>(f: (a: A) => M) =>
-  (self: Option<A>): M =>
-    isNone(self) ? Monoid.empty : f(self.value)
+export const foldMap: <M>(Monoid: Monoid<M>) => <A>(f: (a: A) => M) => (self: Option<A>) => M =
+  /*#__PURE__*/ toIterable_.foldMap(ToIterable)
 
 /**
  * @category folding
  * @since 3.0.0
  */
-export const reduceRight =
-  <B, A>(b: B, f: (a: A, b: B) => B) =>
-  (self: Option<A>): B =>
-    isNone(self) ? b : f(self.value, b)
+export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (self: Option<A>) => B =
+  /*#__PURE__*/ toIterable_.reduceRight(ToIterable)
 
 /**
  * @category instances

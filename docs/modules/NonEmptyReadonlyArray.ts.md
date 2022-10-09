@@ -44,10 +44,10 @@ Added in v3.0.0
   - [foldMap](#foldmap)
   - [foldMapWithIndex](#foldmapwithindex)
   - [reduce](#reduce)
+  - [reduceKind](#reducekind)
   - [reduceRight](#reduceright)
   - [reduceRightWithIndex](#reducerightwithindex)
   - [reduceWithIndex](#reducewithindex)
-  - [toEntries](#toentries)
 - [instances](#instances)
   - [Alt](#alt)
   - [Applicative](#applicative)
@@ -55,7 +55,6 @@ Added in v3.0.0
   - [CategoryKind](#categorykind)
   - [Comonad](#comonad)
   - [Flattenable](#flattenable)
-  - [FoldableWithIndex](#foldablewithindex)
   - [FromIdentity](#fromidentity)
   - [Functor](#functor)
   - [FunctorWithIndex](#functorwithindex-1)
@@ -398,6 +397,21 @@ export declare const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => (self: readon
 
 Added in v3.0.0
 
+## reduceKind
+
+**Signature**
+
+```ts
+export declare const reduceKind: <F extends TypeLambda>(
+  Flattenable: flattenable.Flattenable<F>
+) => <S, R, O, E, B, A>(
+  fb: Kind<F, S, R, O, E, B>,
+  f: (b: B, a: A) => Kind<F, S, R, O, E, B>
+) => (self: readonly [A, ...A[]]) => Kind<F, S, R, O, E, B>
+```
+
+Added in v3.0.0
+
 ## reduceRight
 
 **Signature**
@@ -427,16 +441,6 @@ Added in v3.0.0
 
 ```ts
 export declare const reduceWithIndex: <B, A>(b: B, f: (i: number, b: B, a: A) => B) => (self: readonly [A, ...A[]]) => B
-```
-
-Added in v3.0.0
-
-## toEntries
-
-**Signature**
-
-```ts
-export declare const toEntries: <A>(self: readonly [A, ...A[]]) => Iterable<readonly [number, A]>
 ```
 
 Added in v3.0.0
@@ -499,16 +503,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Flattenable: flattenable.Flattenable<NonEmptyReadonlyArrayTypeLambda>
-```
-
-Added in v3.0.0
-
-## FoldableWithIndex
-
-**Signature**
-
-```ts
-export declare const FoldableWithIndex: foldableWithIndex.FoldableWithIndex<NonEmptyReadonlyArrayTypeLambda, number>
 ```
 
 Added in v3.0.0

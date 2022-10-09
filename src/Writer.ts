@@ -8,7 +8,7 @@ import type { Flattenable } from './Flattenable'
 import type { FlattenableRec } from './FlattenableRec'
 import type * as comonad from './Comonad'
 import type { Result } from './Result'
-import type * as toIterable_ from './ToIterable'
+import * as toIterable_ from './ToIterable'
 import { flow, identity, pipe, SK } from './Function'
 import * as functor from './Functor'
 import type { TypeLambda, Kind } from './HKT'
@@ -261,29 +261,22 @@ export const ToIterable: toIterable_.ToIterable<WriterTypeLambda> = {
  * @category folding
  * @since 3.0.0
  */
-export const reduce =
-  <B, A>(b: B, f: (b: B, a: A) => B) =>
-  <W>(self: Writer<W, A>): B =>
-    f(b, snd(self))
+export const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => <W>(self: Writer<W, A>) => B =
+  /*#__PURE__*/ toIterable_.reduce(ToIterable)
 
 /**
  * @category folding
  * @since 3.0.0
  */
-export const foldMap =
-  <M>(_: Monoid<M>) =>
-  <A>(f: (a: A) => M) =>
-  <W>(self: Writer<W, A>): M =>
-    f(snd(self))
+export const foldMap: <M>(_: Monoid<M>) => <A>(f: (a: A) => M) => <W>(self: Writer<W, A>) => M =
+  /*#__PURE__*/ toIterable_.foldMap(ToIterable)
 
 /**
  * @category folding
  * @since 3.0.0
  */
-export const reduceRight =
-  <B, A>(b: B, f: (a: A, b: B) => B) =>
-  <W>(self: Writer<W, A>): B =>
-    f(snd(self), b)
+export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <W>(self: Writer<W, A>) => B =
+  /*#__PURE__*/ toIterable_.reduceRight(ToIterable)
 
 /**
  * @category instances
