@@ -53,12 +53,3 @@ export const log =
   <M extends TypeLambda>(FromSync: FromSync<M>) =>
   <A extends ReadonlyArray<unknown>, S>(...x: A): Kind<M, S, unknown, never, never, void> =>
     FromSync.fromSync(console.log(...x))
-
-/**
- * @category logging
- * @since 3.0.0
- */
-export const logError =
-  <M extends TypeLambda>(FromSync: FromSync<M>) =>
-  <A extends ReadonlyArray<unknown>, S>(...x: A): Kind<M, S, unknown, never, never, void> =>
-    FromSync.fromSync(console.error(...x))

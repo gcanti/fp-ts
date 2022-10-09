@@ -637,13 +637,6 @@ export const log: <S>(...x: ReadonlyArray<unknown>) => StateReaderAsyncResult<S,
   /*#__PURE__*/ fromSync_.log(FromSync)
 
 /**
- * @category logging
- * @since 3.0.0
- */
-export const logError: <S>(...x: ReadonlyArray<unknown>) => StateReaderAsyncResult<S, unknown, never, void> =
-  /*#__PURE__*/ fromSync_.logError(FromSync)
-
-/**
  * @category lifting
  * @since 3.0.0
  */

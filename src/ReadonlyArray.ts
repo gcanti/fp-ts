@@ -1497,8 +1497,8 @@ export const duplicate: <A>(wa: ReadonlyArray<A>) => ReadonlyArray<ReadonlyArray
 export const traverseWithIndex =
   <F extends TypeLambda>(Applicative: applicative.Applicative<F>) =>
   <A, S, R, O, E, B>(f: (i: number, a: A) => Kind<F, S, R, O, E, B>) =>
-  (self: ReadonlyArray<A>): Kind<F, S, R, O, E, ReadonlyArray<B>> => {
-    return pipe(
+  (self: ReadonlyArray<A>): Kind<F, S, R, O, E, ReadonlyArray<B>> =>
+    pipe(
       self,
       reduceWithIndex<Kind<F, S, R, O, E, ReadonlyArray<B>>, A>(Applicative.of(_.emptyReadonlyArray), (i, fbs, a) =>
         pipe(
@@ -1508,18 +1508,17 @@ export const traverseWithIndex =
         )
       )
     )
-  }
 
 /**
  * @category traversing
  * @since 3.0.0
  */
-export const traverse = <F extends TypeLambda>(Applicative: applicative.Applicative<F>) => {
-  const traverseWithIndex_ = traverseWithIndex(Applicative)
-  return <A, S, R, O, E, B>(
+export const traverse =
+  <F extends TypeLambda>(Applicative: applicative.Applicative<F>) =>
+  <A, S, R, O, E, B>(
     f: (a: A) => Kind<F, S, R, O, E, B>
-  ): ((self: ReadonlyArray<A>) => Kind<F, S, R, O, E, ReadonlyArray<B>>) => traverseWithIndex_((_, a) => f(a))
-}
+  ): ((self: ReadonlyArray<A>) => Kind<F, S, R, O, E, ReadonlyArray<B>>) =>
+    traverseWithIndex(Applicative)((_, a) => f(a))
 
 /**
  * @since 3.0.0

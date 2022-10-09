@@ -18,19 +18,6 @@ describe('Sync', () => {
     console.log = log_
   })
 
-  it('logError', () => {
-    const error_ = console.error
-    const logger: Array<any> = []
-
-    console.error = (a: any) => {
-      logger.push(a)
-    }
-    _.logError('error')()
-    U.deepStrictEqual(logger, ['error'])
-
-    console.error = error_
-  })
-
   describe('pipeables', () => {
     it('map', () => {
       U.deepStrictEqual(pipe(_.of(1), _.map(U.double))(), 2)

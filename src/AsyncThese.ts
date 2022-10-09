@@ -362,13 +362,6 @@ export const log: <A extends ReadonlyArray<unknown>>(...x: A) => AsyncThese<neve
   /*#__PURE__*/ fromSync_.log(FromSync)
 
 /**
- * @category logging
- * @since 3.0.0
- */
-export const logError: <A extends ReadonlyArray<unknown>>(...x: A) => AsyncThese<never, void> =
-  /*#__PURE__*/ fromSync_.logError(FromSync)
-
-/**
  * @category lifting
  * @since 3.0.0
  */

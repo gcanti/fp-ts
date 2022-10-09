@@ -23,8 +23,9 @@ export interface Compactable<F extends TypeLambda> extends TypeClass<F> {
  *
  * @since 3.0.0
  */
-export const separate = <F extends TypeLambda>(Functor: Functor<F>, Compactable: Compactable<F>) => {
-  return <S, R, O, E, A, B>(
+export const separate =
+  <F extends TypeLambda>(Functor: Functor<F>, Compactable: Compactable<F>) =>
+  <S, R, O, E, A, B>(
     self: Kind<F, S, R, O, E, Result<A, B>>
   ): readonly [Kind<F, S, R, O, E, A>, Kind<F, S, R, O, E, B>] => {
     return [
@@ -32,7 +33,6 @@ export const separate = <F extends TypeLambda>(Functor: Functor<F>, Compactable:
       pipe(self, Functor.map(_.getSuccess), Compactable.compact)
     ]
   }
-}
 
 /**
  * Returns a default `compact` composition.
@@ -44,6 +44,4 @@ export const compactComposition = <F extends TypeLambda, G extends TypeLambda>(
   Compactable: Compactable<G>
 ): (<FS, FR, FO, FE, GS, GR, GO, GE, A>(
   self: Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, Option<A>>>
-) => Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, A>>) => {
-  return Functor.map(Compactable.compact)
-}
+) => Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, A>>) => Functor.map(Compactable.compact)

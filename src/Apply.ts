@@ -39,12 +39,11 @@ export const apComposition =
     fa: Kind<F, FS, FR2, FO2, FE2, Kind<G, GS, GR2, GO2, GE2, A>>
   ): (<FR1, FO1, FE1, GR1, GO1, GE1, B>(
     self: Kind<F, FS, FR1, FO1, FE1, Kind<G, GS, GR1, GO1, GE1, (a: A) => B>>
-  ) => Kind<F, FS, FR1 & FR2, FO1 | FO2, FE1 | FE2, Kind<G, GS, GR1 & GR2, GO1 | GO2, GE1 | GE2, B>>) => {
-    return flow(
+  ) => Kind<F, FS, FR1 & FR2, FO1 | FO2, FE1 | FE2, Kind<G, GS, GR1 & GR2, GO1 | GO2, GE1 | GE2, B>>) =>
+    flow(
       ApplyF.map((gab) => (ga: Kind<G, GS, GR2, GO2, GE2, A>) => ApplyG.ap(ga)(gab)),
       ApplyF.ap(fa)
     )
-  }
 
 /**
  * Returns an effect that executes both this effect and the specified effect,
@@ -123,14 +122,14 @@ export const zipWith =
  *
  * @since 3.0.0
  */
-export const zipFlatten = <F extends TypeLambda>(F: Apply<F>) => {
-  const zipWith_ = zipWith(F)
-  return <S, R2, O2, E2, B>(
+export const zipFlatten =
+  <F extends TypeLambda>(F: Apply<F>) =>
+  <S, R2, O2, E2, B>(
     that: Kind<F, S, R2, O2, E2, B>
   ): (<R1, O1, E1, A extends ReadonlyArray<unknown>>(
     self: Kind<F, S, R1, O1, E1, A>
-  ) => Kind<F, S, R1 & R2, O1 | O2, E1 | E2, readonly [...A, B]>) => zipWith_(that, (a, b) => [...a, b] as const)
-}
+  ) => Kind<F, S, R1 & R2, O1 | O2, E1 | E2, readonly [...A, B]>) =>
+    zipWith(F)(that, (a, b) => [...a, b] as const)
 
 /**
  * Lift a semigroup into 'F', the inner values are combined using the provided `Semigroup`.
@@ -157,10 +156,12 @@ export const lift2 =
   <S, R1, O1, E1, R2, O2, E2>(
     fa: Kind<F, S, R1, O1, E1, A>,
     fb: Kind<F, S, R2, O2, E2, B>
-  ): Kind<F, S, R1 & R2, O1 | O2, E1 | E2, C> => {
-    const g = (a: A) => (b: B) => f(a, b)
-    return pipe(fa, F.map(g), F.ap(fb))
-  }
+  ): Kind<F, S, R1 & R2, O1 | O2, E1 | E2, C> =>
+    pipe(
+      fa,
+      F.map((a: A) => (b: B) => f(a, b)),
+      F.ap(fb)
+    )
 
 /**
  * Lifts a ternary function into 'F'.
@@ -174,7 +175,10 @@ export const lift3 =
     fa: Kind<F, S, R1, O1, E1, A>,
     fb: Kind<F, S, R2, O2, E2, B>,
     fc: Kind<F, S, R3, O3, E3, C>
-  ): Kind<F, S, R1 & R2 & R3, O1 | O2 | O3, E1 | E2 | E3, D> => {
-    const g = (a: A) => (b: B) => (c: C) => f(a, b, c)
-    return pipe(fa, F.map(g), F.ap(fb), F.ap(fc))
-  }
+  ): Kind<F, S, R1 & R2 & R3, O1 | O2 | O3, E1 | E2 | E3, D> =>
+    pipe(
+      fa,
+      F.map((a: A) => (b: B) => (c: C) => f(a, b, c)),
+      F.ap(fb),
+      F.ap(fc)
+    )
