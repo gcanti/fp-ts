@@ -8,6 +8,7 @@ import { pipe } from './Function'
 import type { TypeLambda, Kind, TypeClass } from './HKT'
 import * as _ from './internal'
 import type { Reader } from './Reader'
+import * as reader from './Reader'
 
 /**
  * @category model
@@ -22,7 +23,7 @@ export interface FromReader<F extends TypeLambda> extends TypeClass<F> {
  * @since 3.0.0
  */
 export function ask<F extends TypeLambda>(F: FromReader<F>): <S, R>() => Kind<F, S, R, never, never, R> {
-  return () => F.fromReader(_.ask())
+  return () => F.fromReader(reader.ask())
 }
 
 /**

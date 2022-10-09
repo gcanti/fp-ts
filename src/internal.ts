@@ -1,11 +1,9 @@
 /**
  * @since 3.0.0
  */
-import type { Result, Failure, Success } from './Result'
-import { identity } from './Function'
-import type { None, Option, Some } from './Option'
 import type { NonEmptyReadonlyArray } from './NonEmptyReadonlyArray'
-import type { Reader } from './Reader'
+import type { None, Option, Some } from './Option'
+import type { Failure, Result, Success } from './Result'
 
 // -------------------------------------------------------------------------------------
 // Option
@@ -100,13 +98,6 @@ export const emptyReadonlyRecord: Readonly<{}> = {}
 
 /** @internal */
 export const has = Object.prototype.hasOwnProperty
-
-// -------------------------------------------------------------------------------------
-// Reader
-// -------------------------------------------------------------------------------------
-
-/** @internal */
-export const ask: <R>() => Reader<R, R> = () => identity
 
 // -------------------------------------------------------------------------------------
 // NonEmptyArray

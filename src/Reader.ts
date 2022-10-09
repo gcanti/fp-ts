@@ -41,7 +41,7 @@ export interface ReaderTypeLambda extends TypeLambda {
  * @category constructors
  * @since 3.0.0
  */
-export const ask: <R>() => Reader<R, R> = _.ask
+export const ask: <R>() => Reader<R, R> = () => identity
 
 /**
  * Projects a value from the global context in a `Reader`.
