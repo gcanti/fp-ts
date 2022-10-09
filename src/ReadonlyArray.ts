@@ -358,8 +358,7 @@ export const append: <B>(end: B) => <A>(init: ReadonlyArray<A>) => NonEmptyReado
  *
  * @since 3.0.0
  */
-export const head = <A>(as: ReadonlyArray<A>): Option<A> =>
-  isNonEmpty(as) ? _.some(nonEmptyReadonlyArray.head(as)) : _.none
+export const head = <A>(self: ReadonlyArray<A>): Option<A> => (isNonEmpty(self) ? _.some(self[0]) : _.none)
 
 /**
  * Get the last element in a `ReadonlyArray`, or `None` if the `ReadonlyArray` is empty.

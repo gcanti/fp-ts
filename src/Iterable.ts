@@ -6,6 +6,7 @@ import { pipe } from './Function'
 import type { Kind, TypeLambda } from './HKT'
 import * as _ from './internal'
 import type { Monoid } from './Monoid'
+import type { Option } from './Option'
 
 /**
  * @category folding
@@ -79,3 +80,13 @@ export const reduceKind =
         Flattenable.flatMap((b) => f(b, a))
       )
     )
+
+/**
+ * @since 3.0.0
+ */
+export const head = <A>(self: Iterable<A>): Option<A> => {
+  for (const a of self) {
+    return _.some(a)
+  }
+  return _.none
+}

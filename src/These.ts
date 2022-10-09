@@ -527,6 +527,12 @@ export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <E>(self: These<
   /*#__PURE__*/ toIterable_.reduceRight(ToIterable)
 
 /**
+ * @category conversions
+ * @since 3.0.0
+ */
+export const toOption = <E, A>(self: These<E, A>): Option<A> => (isFailure(self) ? _.none : _.some(self.success))
+
+/**
  * @category instances
  * @since 3.0.0
  */

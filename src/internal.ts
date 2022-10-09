@@ -10,7 +10,7 @@ import type { Failure, Result, Success } from './Result'
 // -------------------------------------------------------------------------------------
 
 /** @internal */
-export const isNone = (fa: Option<unknown>): fa is None => fa._tag === 'None'
+export const isNone = <A>(fa: Option<A>): fa is None => fa._tag === 'None'
 
 /** @internal */
 export const isSome = <A>(fa: Option<A>): fa is Some<A> => fa._tag === 'Some'
@@ -22,10 +22,10 @@ export const none: Option<never> = { _tag: 'None' }
 export const some = <A>(a: A): Option<A> => ({ _tag: 'Some', value: a })
 
 /** @internal */
-export const getFailure = <E>(self: Result<E, unknown>): Option<E> => (isSuccess(self) ? none : some(self.failure))
+export const getFailure = <E, A>(self: Result<E, A>): Option<E> => (isSuccess(self) ? none : some(self.failure))
 
 /** @internal */
-export const getSuccess = <A>(self: Result<unknown, A>): Option<A> => (isFailure(self) ? none : some(self.success))
+export const getSuccess = <E, A>(self: Result<E, A>): Option<A> => (isFailure(self) ? none : some(self.success))
 
 /** @internal */
 export const optionFromNullable = <A>(a: A): Option<NonNullable<A>> => (a == null ? none : some(a as NonNullable<A>))
@@ -35,10 +35,10 @@ export const optionFromNullable = <A>(a: A): Option<NonNullable<A>> => (a == nul
 // -------------------------------------------------------------------------------------
 
 /** @internal */
-export const isFailure = <E>(ma: Result<E, unknown>): ma is Failure<E> => ma._tag === 'Failure'
+export const isFailure = <E, A>(ma: Result<E, A>): ma is Failure<E> => ma._tag === 'Failure'
 
 /** @internal */
-export const isSuccess = <A>(ma: Result<unknown, A>): ma is Success<A> => ma._tag === 'Success'
+export const isSuccess = <E, A>(ma: Result<E, A>): ma is Success<A> => ma._tag === 'Success'
 
 /** @internal */
 export const fail = <E>(e: E): Result<E, never> => ({ _tag: 'Failure', failure: e })

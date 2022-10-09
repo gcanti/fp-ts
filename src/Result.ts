@@ -102,7 +102,7 @@ export interface ValidatedT<F extends TypeLambda, E> extends TypeLambda {
  * @category refinements
  * @since 3.0.0
  */
-export const isFailure: <E>(ma: Result<E, unknown>) => ma is Failure<E> = _.isFailure
+export const isFailure: <E, A>(self: Result<E, A>) => self is Failure<E> = _.isFailure
 
 /**
  * Returns `true` if the either is an instance of `Success`, `false` otherwise.
@@ -110,7 +110,7 @@ export const isFailure: <E>(ma: Result<E, unknown>) => ma is Failure<E> = _.isFa
  * @category refinements
  * @since 3.0.0
  */
-export const isSuccess: <A>(ma: Result<unknown, A>) => ma is Success<A> = _.isSuccess
+export const isSuccess: <E, A>(self: Result<E, A>) => self is Success<A> = _.isSuccess
 
 /**
  * Constructs a new `Result` holding a `Failure` value. This usually represents a failure, due to the right-bias of this

@@ -40,10 +40,10 @@ export const toIterableComposition =
  * @since 3.0.0
  */
 export const reduce =
-  <F extends TypeLambda>(Foldable: ToIterable<F>) =>
+  <F extends TypeLambda>(ToIterable: ToIterable<F>) =>
   <B, A>(b: B, f: (b: B, a: A) => B) =>
   <S, R, O, E>(self: Kind<F, S, R, O, E, A>): B =>
-    iterable.reduce(b, f)(Foldable.toIterable(self))
+    iterable.reduce(b, f)(ToIterable.toIterable(self))
 
 /**
  * Returns a default `foldMap` implementation.
@@ -52,11 +52,11 @@ export const reduce =
  * @since 3.0.0
  */
 export const foldMap =
-  <F extends TypeLambda>(Foldable: ToIterable<F>) =>
+  <F extends TypeLambda>(ToIterable: ToIterable<F>) =>
   <M>(Monoid: Monoid<M>) =>
   <A>(f: (a: A) => M) =>
   <S, R, O, E>(self: Kind<F, S, R, O, E, A>): M =>
-    iterable.foldMap(Monoid)(f)(_.fromIterable(Foldable.toIterable(self)))
+    iterable.foldMap(Monoid)(f)(_.fromIterable(ToIterable.toIterable(self)))
 
 /**
  * Returns a default `reduceRight` implementation.
@@ -65,10 +65,10 @@ export const foldMap =
  * @since 3.0.0
  */
 export const reduceRight =
-  <F extends TypeLambda>(Foldable: ToIterable<F>) =>
+  <F extends TypeLambda>(ToIterable: ToIterable<F>) =>
   <B, A>(b: B, f: (a: A, b: B) => B) =>
   <S, R, O, E>(self: Kind<F, S, R, O, E, A>): B =>
-    iterable.reduceRight(b, f)(Foldable.toIterable(self))
+    iterable.reduceRight(b, f)(ToIterable.toIterable(self))
 
 /**
  * Returns a default `reduceWithIndex` implementation.
@@ -77,10 +77,10 @@ export const reduceRight =
  * @since 3.0.0
  */
 export const reduceWithIndex =
-  <F extends TypeLambda>(Foldable: ToIterable<F>) =>
+  <F extends TypeLambda>(ToIterable: ToIterable<F>) =>
   <B, A>(b: B, f: (i: number, b: B, a: A) => B) =>
   <S, R, O, E>(self: Kind<F, S, R, O, E, A>): B =>
-    iterable.reduceWithIndex(b, f)(Foldable.toIterable(self))
+    iterable.reduceWithIndex(b, f)(ToIterable.toIterable(self))
 
 /**
  * Returns a default `foldMapWithIndex` implementation.
@@ -89,11 +89,11 @@ export const reduceWithIndex =
  * @since 3.0.0
  */
 export const foldMapWithIndex =
-  <F extends TypeLambda>(Foldable: ToIterable<F>) =>
+  <F extends TypeLambda>(ToIterable: ToIterable<F>) =>
   <M>(Monoid: Monoid<M>) =>
   <A>(f: (i: number, a: A) => M) =>
   <S, R, O, E>(self: Kind<F, S, R, O, E, A>): M =>
-    iterable.foldMapWithIndex(Monoid)(f)(Foldable.toIterable(self))
+    iterable.foldMapWithIndex(Monoid)(f)(ToIterable.toIterable(self))
 
 /**
  * Returns a default `reduceRightWithIndex` implementation.
@@ -102,18 +102,20 @@ export const foldMapWithIndex =
  * @since 3.0.0
  */
 export const reduceRightWithIndex =
-  <F extends TypeLambda>(Foldable: ToIterable<F>) =>
+  <F extends TypeLambda>(ToIterable: ToIterable<F>) =>
   <B, A>(b: B, f: (i: number, a: A, b: B) => B) =>
   <S, R, O, E>(self: Kind<F, S, R, O, E, A>): B =>
-    iterable.reduceRightWithIndex(b, f)(Foldable.toIterable(self))
+    iterable.reduceRightWithIndex(b, f)(ToIterable.toIterable(self))
 
 /**
+ * Returns a default `reduceKind` implementation.
+ *
  * @category folding
  * @since 3.0.0
  */
 export const reduceKind =
-  <T extends TypeLambda>(Foldable: ToIterable<T>) =>
+  <T extends TypeLambda>(ToIterable: ToIterable<T>) =>
   <F extends TypeLambda>(Flattenable: Flattenable<F>) =>
   <S, R, O, E, B, A>(fb: Kind<F, S, R, O, E, B>, f: (b: B, a: A) => Kind<F, S, R, O, E, B>) =>
   <TS, TR, TO, TE>(self: Kind<T, TS, TR, TO, TE, A>): Kind<F, S, R, O, E, B> =>
-    iterable.reduceKind(Flattenable)(fb, f)(Foldable.toIterable(self))
+    iterable.reduceKind(Flattenable)(fb, f)(ToIterable.toIterable(self))
