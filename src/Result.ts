@@ -293,7 +293,8 @@ export const toUnion: <E, A>(fa: Result<E, A>) => E | A = /*#__PURE__*/ match(id
 /**
  * @since 3.0.0
  */
-export const swap = <E, A>(ma: Result<E, A>): Result<A, E> => (isFailure(ma) ? succeed(ma.failure) : fail(ma.success))
+export const reverse = <E, A>(ma: Result<E, A>): Result<A, E> =>
+  isFailure(ma) ? succeed(ma.failure) : fail(ma.success)
 
 /**
  * Recovers from all errors.

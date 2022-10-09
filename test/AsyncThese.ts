@@ -153,9 +153,9 @@ describe('AsyncThese', () => {
   // -------------------------------------------------------------------------------------
 
   it('swap', async () => {
-    U.deepStrictEqual(await _.swap(_.succeed(1))(), TH.fail(1))
-    U.deepStrictEqual(await _.swap(_.fail('a'))(), TH.succeed('a'))
-    U.deepStrictEqual(await _.swap(_.both('a', 1))(), TH.both(1, 'a'))
+    U.deepStrictEqual(await _.reverse(_.succeed(1))(), TH.fail(1))
+    U.deepStrictEqual(await _.reverse(_.fail('a'))(), TH.succeed('a'))
+    U.deepStrictEqual(await _.reverse(_.both('a', 1))(), TH.both(1, 'a'))
   })
 
   // -------------------------------------------------------------------------------------

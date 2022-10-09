@@ -271,9 +271,8 @@ export const tapError: <E1, R2, E2>(
 /**
  * @since 3.0.0
  */
-export const swap: <R, E, A>(ma: ReaderAsyncResult<R, E, A>) => ReaderAsyncResult<R, A, E> = /*#__PURE__*/ resultT.swap(
-  readerAsync.Functor
-)
+export const reverse: <R, E, A>(ma: ReaderAsyncResult<R, E, A>) => ReaderAsyncResult<R, A, E> =
+  /*#__PURE__*/ resultT.reverse(readerAsync.Functor)
 
 /**
  * @category lifting

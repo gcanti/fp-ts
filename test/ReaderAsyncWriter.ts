@@ -60,7 +60,7 @@ describe('ReaderAsyncWriter', () => {
   // -------------------------------------------------------------------------------------
 
   it('swap', async () => {
-    U.deepStrictEqual(await pipe(make('w', 'a'), _.swap)(undefined)(), ['a', 'w'])
+    U.deepStrictEqual(await pipe(make('w', 'a'), _.reverse)(undefined)(), ['a', 'w'])
   })
 
   it('listen', async () => {

@@ -165,10 +165,10 @@ export const matchKind =
 /**
  * @since 3.0.0
  */
-export const swap = <F extends TypeLambda>(
+export const reverse = <F extends TypeLambda>(
   Functor: Functor<F>
 ): (<S, R, O, FE, E, A>(self: Kind<TheseT<F, E>, S, R, O, FE, A>) => Kind<TheseT<F, A>, S, R, O, FE, E>) =>
-  Functor.map(these.swap)
+  Functor.map(these.reverse)
 
 /**
  * @since 3.0.0

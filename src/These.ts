@@ -171,7 +171,7 @@ export const match =
 /**
  * @since 3.0.0
  */
-export const swap: <E, A>(fa: These<E, A>) => These<A, E> = match(succeed, fail, (e, a) => both(a, e))
+export const reverse: <E, A>(fa: These<E, A>) => These<A, E> = match(succeed, fail, (e, a) => both(a, e))
 
 /**
  * Returns `true` if the these is an instance of `Failure`, `false` otherwise

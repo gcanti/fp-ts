@@ -21,7 +21,7 @@ describe('Writer', () => {
   // -------------------------------------------------------------------------------------
 
   it('swap', () => {
-    U.deepStrictEqual(_.swap(['w', 'a']), ['a', 'w'])
+    U.deepStrictEqual(_.reverse(['w', 'a']), ['a', 'w'])
   })
 
   it('listen', () => {

@@ -259,10 +259,10 @@ export const tapLeft = <F extends TypeLambda>(Monad: Monad<F>) => {
 /**
  * @since 3.0.0
  */
-export const swap = <F extends TypeLambda>(
+export const reverse = <F extends TypeLambda>(
   Functor: Functor<F>
 ): (<S, R, O, FE, E, A>(self: Kind<ResultT<F, E>, S, R, O, FE, A>) => Kind<ResultT<F, A>, S, R, O, FE, E>) =>
-  Functor.map(result.swap)
+  Functor.map(result.reverse)
 
 /**
  * @since 3.0.0

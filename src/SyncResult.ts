@@ -164,7 +164,7 @@ export const catchAll: <E1, E2, B>(
 /**
  * @since 3.0.0
  */
-export const swap: <E, A>(ma: SyncResult<E, A>) => SyncResult<A, E> = /*#__PURE__*/ resultT.swap(sync.Functor)
+export const reverse: <E, A>(ma: SyncResult<E, A>) => SyncResult<A, E> = /*#__PURE__*/ resultT.reverse(sync.Functor)
 
 /**
  * Returns an effect whose success is mapped by the specified `f` function.

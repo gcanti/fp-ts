@@ -147,8 +147,8 @@ export const local: <R2, R1>(
 /**
  * @since 3.0.0
  */
-export const swap: <R, W, A>(self: ReaderAsyncWriter<R, W, A>) => ReaderAsyncWriter<R, A, W> =
-  /*#__PURE__*/ writerT.swap(readerAsync.Functor)
+export const reverse: <R, W, A>(self: ReaderAsyncWriter<R, W, A>) => ReaderAsyncWriter<R, A, W> =
+  /*#__PURE__*/ writerT.reverse(readerAsync.Functor)
 
 /**
  * @category lifting

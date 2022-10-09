@@ -289,8 +289,8 @@ describe('Result', () => {
   })
 
   it('swap', () => {
-    U.deepStrictEqual(_.swap(_.succeed('a')), _.fail('a'))
-    U.deepStrictEqual(_.swap(_.fail('b')), _.succeed('b'))
+    U.deepStrictEqual(_.reverse(_.succeed('a')), _.fail('a'))
+    U.deepStrictEqual(_.reverse(_.fail('b')), _.succeed('b'))
   })
 
   it('fromPredicate', () => {

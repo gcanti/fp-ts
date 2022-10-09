@@ -134,7 +134,7 @@ export const matchAsync: <E, B, A, C = B, D = B>(
 /**
  * @since 3.0.0
  */
-export const swap: <E, A>(self: Async<these.These<E, A>>) => Async<these.These<A, E>> = /*#__PURE__*/ theseT.swap(
+export const reverse: <E, A>(self: Async<these.These<E, A>>) => Async<these.These<A, E>> = /*#__PURE__*/ theseT.reverse(
   async.Functor
 )
 

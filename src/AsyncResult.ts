@@ -221,7 +221,9 @@ export const catchAll: <E1, E2, B>(
 /**
  * @since 3.0.0
  */
-export const swap: <E, A>(self: AsyncResult<E, A>) => AsyncResult<A, E> = /*#__PURE__*/ resultT.swap(async.Functor)
+export const reverse: <E, A>(self: AsyncResult<E, A>) => AsyncResult<A, E> = /*#__PURE__*/ resultT.reverse(
+  async.Functor
+)
 
 /**
  * @category lifting

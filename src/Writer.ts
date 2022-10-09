@@ -77,7 +77,7 @@ export const right = <W, A>(self: Writer<W, A>): A => self[1]
 /**
  * @since 3.0.0
  */
-export const swap = <W, A>(self: Writer<W, A>): Writer<A, W> => [right(self), left(self)]
+export const reverse = <W, A>(self: Writer<W, A>): Writer<A, W> => [right(self), left(self)]
 
 /**
  * Modifies the result to include the changes to the accumulator

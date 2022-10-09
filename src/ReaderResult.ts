@@ -162,7 +162,7 @@ export const catchAll: <E1, R1, E2, B>(
 /**
  * @since 3.0.0
  */
-export const swap: <R, E, A>(ma: ReaderResult<R, E, A>) => ReaderResult<R, A, E> = /*#__PURE__*/ resultT.swap(
+export const reverse: <R, E, A>(ma: ReaderResult<R, E, A>) => ReaderResult<R, A, E> = /*#__PURE__*/ resultT.reverse(
   reader.Functor
 )
 

@@ -255,9 +255,9 @@ describe('These', () => {
   // -------------------------------------------------------------------------------------
 
   it('swap', () => {
-    U.deepStrictEqual(_.swap(_.fail('a')), _.succeed('a'))
-    U.deepStrictEqual(_.swap(_.succeed('a')), _.fail('a'))
-    U.deepStrictEqual(_.swap(_.both('a', 1)), _.both(1, 'a'))
+    U.deepStrictEqual(_.reverse(_.fail('a')), _.succeed('a'))
+    U.deepStrictEqual(_.reverse(_.succeed('a')), _.fail('a'))
+    U.deepStrictEqual(_.reverse(_.both('a', 1)), _.both(1, 'a'))
   })
 
   it('exists', () => {

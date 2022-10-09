@@ -158,10 +158,10 @@ export const snd = <F extends TypeLambda>(
 /**
  * @since 3.0.0
  */
-export const swap = <F extends TypeLambda>(
+export const reverse = <F extends TypeLambda>(
   Functor: Functor<F>
 ): (<S, R, O, E, W, A>(self: Kind<WriterT<F, W>, S, R, O, E, A>) => Kind<WriterT<F, A>, S, R, O, E, W>) =>
-  Functor.map(writer.swap)
+  Functor.map(writer.reverse)
 
 /**
  * Modifies the result to include the changes to the accumulator

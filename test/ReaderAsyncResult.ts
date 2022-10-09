@@ -214,8 +214,8 @@ describe('ReaderAsyncResult', () => {
   })
 
   it('swap', async () => {
-    U.deepStrictEqual(await _.swap(_.succeed(1))({})(), E.fail(1))
-    U.deepStrictEqual(await _.swap(_.fail('a'))({})(), E.succeed('a'))
+    U.deepStrictEqual(await _.reverse(_.succeed(1))({})(), E.fail(1))
+    U.deepStrictEqual(await _.reverse(_.fail('a'))({})(), E.succeed('a'))
   })
 
   it('fromReaderResult', async () => {
