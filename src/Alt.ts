@@ -38,3 +38,16 @@ export const firstSuccessOf =
   <S, R, O, E, A>(startWith: Kind<G, S, R, O, E, A>) =>
   (iterable: Iterable<Kind<G, S, R, O, E, A>>): Kind<G, S, R, O, E, A> =>
     _.fromIterable(iterable).reduce((acc, ga) => Alt.orElse(ga)(acc), startWith)
+
+/**
+ * Returns an effect that runs each of the specified effects in order until one of them succeeds.
+ *
+ * @since 3.0.0
+ */
+export const firstSuccessOfNonEmpty =
+  <G extends TypeLambda>(Alt: Alt<G>) =>
+  <S, R, O, E, A>(
+    head: Kind<G, S, R, O, E, A>,
+    ...tail: ReadonlyArray<Kind<G, S, R, O, E, A>>
+  ): Kind<G, S, R, O, E, A> =>
+    firstSuccessOf(Alt)(head)(tail)
