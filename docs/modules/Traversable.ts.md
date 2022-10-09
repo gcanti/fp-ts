@@ -47,8 +47,6 @@ Added in v3.0.0
 
 ## sequence
 
-Returns a default `sequence` implementation.
-
 **Signature**
 
 ```ts

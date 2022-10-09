@@ -74,7 +74,7 @@ describe('Writer', () => {
   })
 
   it('extend', () => {
-    const f = (fa: _.Writer<string, number>): number => _.fst(fa).length + _.snd(fa)
+    const f = (fa: _.Writer<string, number>): number => _.left(fa).length + _.right(fa)
     U.deepStrictEqual(pipe(['ww', 1], _.extend(f)), ['ww', 3])
   })
 
@@ -130,7 +130,7 @@ describe('Writer', () => {
         flatMapRec((init) => [[init], init >= upper ? E.succeed(init) : E.fail(init + 1)])
       )
     }
-    const xs = _.fst(seqReq(10000))
+    const xs = _.left(seqReq(10000))
     U.deepStrictEqual(xs.length, 10000)
     U.deepStrictEqual(xs[0], 1)
     U.deepStrictEqual(xs[xs.length - 1], 10000)

@@ -2028,7 +2028,7 @@ Get the first element of a `ReadonlyArray`, or `None` if the `ReadonlyArray` is 
 **Signature**
 
 ```ts
-export declare const head: <A>(as: readonly A[]) => Option<A>
+export declare const head: <A>(self: readonly A[]) => Option<A>
 ```
 
 **Example**

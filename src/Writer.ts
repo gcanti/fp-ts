@@ -67,17 +67,17 @@ export const tell = <W>(w: W): Writer<W, void> => [w, undefined]
 /**
  * @since 3.0.0
  */
-export const fst = <W>(self: Writer<W, unknown>): W => self[0]
+export const left = <W, A>(self: Writer<W, A>): W => self[0]
 
 /**
  * @since 3.0.0
  */
-export const snd = <A>(self: Writer<unknown, A>): A => self[1]
+export const right = <W, A>(self: Writer<W, A>): A => self[1]
 
 /**
  * @since 3.0.0
  */
-export const swap = <W, A>(self: Writer<W, A>): Writer<A, W> => [snd(self), fst(self)]
+export const swap = <W, A>(self: Writer<W, A>): Writer<A, W> => [right(self), left(self)]
 
 /**
  * Modifies the result to include the changes to the accumulator
@@ -157,7 +157,7 @@ export const mapLeft =
 export const mapBoth =
   <W, X, A, B>(f: (w: W) => X, g: (a: A) => B) =>
   (self: Writer<W, A>): Writer<X, B> =>
-    [f(fst(self)), g(snd(self))]
+    [f(left(self)), g(right(self))]
 
 /**
  * @since 3.0.0
@@ -165,7 +165,7 @@ export const mapBoth =
 export const compose =
   <B, C>(bc: Writer<B, C>) =>
   <A>(ab: Writer<A, B>): Writer<A, C> =>
-    [fst(ab), snd(bc)]
+    [left(ab), right(bc)]
 
 /**
  * @since 3.0.0
@@ -173,12 +173,12 @@ export const compose =
 export const extend =
   <W, A, B>(f: (self: Writer<W, A>) => B) =>
   (self: Writer<W, A>): Writer<W, B> =>
-    [fst(self), f(self)]
+    [left(self), f(self)]
 
 /**
  * @since 3.0.0
  */
-export const extract: <W, A>(self: Writer<W, A>) => A = snd
+export const extract: <W, A>(self: Writer<W, A>) => A = right
 
 /**
  * @since 3.0.0
@@ -194,8 +194,8 @@ export const traverse =
   <A, S, R, O, E, B>(f: (a: A) => Kind<F, S, R, O, E, B>) =>
   <W>(self: Writer<W, A>): Kind<F, S, R, O, E, Writer<W, B>> =>
     pipe(
-      f(snd(self)),
-      F.map((b) => [fst(self), b])
+      f(right(self)),
+      F.map((b) => [left(self), b])
     )
 
 // -------------------------------------------------------------------------------------
@@ -247,7 +247,7 @@ export const Comonad: comonad.Comonad<WriterTypeLambda> = {
  * @category conversions
  * @since 3.0.0
  */
-export const toIterable = <W, A>(self: Writer<W, A>): Iterable<A> => [snd(self)]
+export const toIterable = <W, A>(self: Writer<W, A>): Iterable<A> => [right(self)]
 
 /**
  * @category instances
@@ -369,13 +369,13 @@ export function getFlattenableRec<W>(M: Monoid<W>): FlattenableRec<WriterFFix<W>
     (a: A): Writer<W, B> => {
       let result: Writer<W, Result<A, B>> = f(a)
       let acc: W = M.empty
-      let s: Result<A, B> = snd(result)
+      let s: Result<A, B> = right(result)
       while (_.isFailure(s)) {
-        acc = M.combine(fst(result))(acc)
+        acc = M.combine(left(result))(acc)
         result = f(s.failure)
-        s = snd(result)
+        s = right(result)
       }
-      return [M.combine(fst(result))(acc), s.success]
+      return [M.combine(left(result))(acc), s.success]
     }
 
   return {

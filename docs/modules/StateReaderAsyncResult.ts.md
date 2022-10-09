@@ -86,7 +86,6 @@ Added in v3.0.0
   - [liftSyncResult](#liftsyncresult)
 - [logging](#logging)
   - [log](#log)
-  - [logError](#logerror)
 - [mapping](#mapping)
   - [as](#as)
   - [flap](#flap)
@@ -929,16 +928,6 @@ Added in v3.0.0
 
 ```ts
 export declare const log: <S>(...x: ReadonlyArray<unknown>) => StateReaderAsyncResult<S, unknown, never, void>
-```
-
-Added in v3.0.0
-
-## logError
-
-**Signature**
-
-```ts
-export declare const logError: <S>(...x: ReadonlyArray<unknown>) => StateReaderAsyncResult<S, unknown, never, void>
 ```
 
 Added in v3.0.0

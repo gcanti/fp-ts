@@ -66,12 +66,12 @@ export const failKind = <F extends TypeLambda>(
  *
  * @since 3.0.0
  */
-export const map = <F extends TypeLambda>(Functor: Functor<F>) => {
-  const map_ = functor.mapComposition(Functor, these.Functor)
-  return <A, B>(
+export const map =
+  <F extends TypeLambda>(Functor: Functor<F>) =>
+  <A, B>(
     f: (a: A) => B
-  ): (<S, R, O, FE, E>(self: Kind<TheseT<F, E>, S, R, O, FE, A>) => Kind<TheseT<F, E>, S, R, O, FE, B>) => map_(f)
-}
+  ): (<S, R, O, FE, E>(self: Kind<TheseT<F, E>, S, R, O, FE, A>) => Kind<TheseT<F, E>, S, R, O, FE, B>) =>
+    functor.mapComposition(Functor, these.Functor)(f)
 
 /**
  * @since 3.0.0
@@ -88,31 +88,27 @@ export const ap = <F extends TypeLambda, E>(
 /**
  * @since 3.0.0
  */
-export const flatMap = <F extends TypeLambda, E>(Monad: Monad<F>, Semigroup: Semigroup<E>) => {
-  const fail_ = fail(Monad)
-  return <A, S, R2, O2, FE2, B>(f: (a: A) => Kind<TheseT<F, E>, S, R2, O2, FE2, B>) =>
-    <R1, O1, FE1>(
-      self: Kind<TheseT<F, E>, S, R1, O1, FE1, A>
-    ): Kind<TheseT<F, E>, S, R1 & R2, O1 | O2, FE1 | FE2, B> => {
-      return pipe(
-        self,
-        Monad.flatMap(
-          these.match<E, Kind<F, S, R2, O2, FE2, these.These<E, B>>, A>(fail_, f, (e1, a) =>
-            pipe(
-              f(a),
-              Monad.map(
-                these.match(
-                  (e2) => these.fail(Semigroup.combine(e2)(e1)),
-                  (b) => these.both(e1, b),
-                  (e2, b) => these.both(Semigroup.combine(e2)(e1), b)
-                )
+export const flatMap =
+  <F extends TypeLambda, E>(Monad: Monad<F>, Semigroup: Semigroup<E>) =>
+  <A, S, R2, O2, FE2, B>(f: (a: A) => Kind<TheseT<F, E>, S, R2, O2, FE2, B>) =>
+  <R1, O1, FE1>(self: Kind<TheseT<F, E>, S, R1, O1, FE1, A>): Kind<TheseT<F, E>, S, R1 & R2, O1 | O2, FE1 | FE2, B> =>
+    pipe(
+      self,
+      Monad.flatMap(
+        these.match<E, Kind<F, S, R2, O2, FE2, these.These<E, B>>, A>(fail(Monad), f, (e1, a) =>
+          pipe(
+            f(a),
+            Monad.map(
+              these.match(
+                (e2) => these.fail(Semigroup.combine(e2)(e1)),
+                (b) => these.both(e1, b),
+                (e2, b) => these.both(Semigroup.combine(e2)(e1), b)
               )
             )
           )
         )
       )
-    }
-}
+    )
 
 /**
  * Returns an effect whose failure and success channels have been mapped by
@@ -135,9 +131,8 @@ export const mapError =
   <F extends TypeLambda>(Functor: Functor<F>) =>
   <E, G>(
     f: (e: E) => G
-  ): (<S, R, O, FE, A>(self: Kind<TheseT<F, E>, S, R, O, FE, A>) => Kind<TheseT<F, G>, S, R, O, FE, A>) => {
-    return Functor.map(these.mapError(f))
-  }
+  ): (<S, R, O, FE, A>(self: Kind<TheseT<F, E>, S, R, O, FE, A>) => Kind<TheseT<F, G>, S, R, O, FE, A>) =>
+    Functor.map(these.mapError(f))
 
 /**
  * @since 3.0.0

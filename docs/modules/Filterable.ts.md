@@ -44,8 +44,6 @@ Added in v3.0.0
 
 ## filter
 
-Returns a default `filter` implementation.
-
 **Signature**
 
 ```ts
@@ -82,8 +80,6 @@ Added in v3.0.0
 
 ## partition
 
-Returns a default `partition` implementation.
-
 **Signature**
 
 ```ts
@@ -102,8 +98,6 @@ export declare const partition: <F extends TypeLambda>(
 Added in v3.0.0
 
 ## partitionMap
-
-Returns a default `partitionMap` implementation.
 
 **Signature**
 

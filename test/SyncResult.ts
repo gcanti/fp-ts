@@ -230,14 +230,14 @@ describe('SyncResult', () => {
 
   it('separate', () => {
     const s1 = _.separate(S.Monoid.empty)(_.fail('a'))
-    U.deepStrictEqual(writer.fst(s1)(), E.fail('a'))
-    U.deepStrictEqual(writer.snd(s1)(), E.fail('a'))
+    U.deepStrictEqual(writer.left(s1)(), E.fail('a'))
+    U.deepStrictEqual(writer.right(s1)(), E.fail('a'))
     const s2 = _.separate(S.Monoid.empty)(_.succeed(E.fail('a')))
-    U.deepStrictEqual(writer.fst(s2)(), E.succeed('a'))
-    U.deepStrictEqual(writer.snd(s2)(), E.fail(''))
+    U.deepStrictEqual(writer.left(s2)(), E.succeed('a'))
+    U.deepStrictEqual(writer.right(s2)(), E.fail(''))
     const s3 = _.separate(S.Monoid.empty)(_.succeed(E.succeed(1)))
-    U.deepStrictEqual(writer.fst(s3)(), E.fail(''))
-    U.deepStrictEqual(writer.snd(s3)(), E.succeed(1))
+    U.deepStrictEqual(writer.left(s3)(), E.fail(''))
+    U.deepStrictEqual(writer.right(s3)(), E.succeed(1))
   })
 
   describe('getFilterable', () => {

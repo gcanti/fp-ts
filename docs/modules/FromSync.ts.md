@@ -18,7 +18,6 @@ Added in v3.0.0
   - [liftSync](#liftsync)
 - [logging](#logging)
   - [log](#log)
-  - [logError](#logerror)
 - [model](#model)
   - [FromSync (interface)](#fromsync-interface)
 - [sequencing](#sequencing)
@@ -48,18 +47,6 @@ Added in v3.0.0
 
 ```ts
 export declare const log: <M extends TypeLambda>(
-  FromSync: FromSync<M>
-) => <A extends readonly unknown[], S>(...x: A) => Kind<M, S, unknown, never, never, void>
-```
-
-Added in v3.0.0
-
-## logError
-
-**Signature**
-
-```ts
-export declare const logError: <M extends TypeLambda>(
   FromSync: FromSync<M>
 ) => <A extends readonly unknown[], S>(...x: A) => Kind<M, S, unknown, never, never, void>
 ```

@@ -31,13 +31,11 @@ Added in v3.0.0
 
 ## foldMap
 
-Returns a default `foldMap` implementation.
-
 **Signature**
 
 ```ts
 export declare const foldMap: <F extends TypeLambda>(
-  Foldable: ToIterable<F>
+  ToIterable: ToIterable<F>
 ) => <M>(Monoid: Monoid<M>) => <A>(f: (a: A) => M) => <S, R, O, E>(self: Kind<F, S, R, O, E, A>) => M
 ```
 
@@ -45,13 +43,11 @@ Added in v3.0.0
 
 ## foldMapWithIndex
 
-Returns a default `foldMapWithIndex` implementation.
-
 **Signature**
 
 ```ts
 export declare const foldMapWithIndex: <F extends TypeLambda>(
-  Foldable: ToIterable<F>
+  ToIterable: ToIterable<F>
 ) => <M>(Monoid: Monoid<M>) => <A>(f: (i: number, a: A) => M) => <S, R, O, E>(self: Kind<F, S, R, O, E, A>) => M
 ```
 
@@ -59,13 +55,11 @@ Added in v3.0.0
 
 ## reduce
 
-Returns a default `reduce` implementation.
-
 **Signature**
 
 ```ts
 export declare const reduce: <F extends TypeLambda>(
-  Foldable: ToIterable<F>
+  ToIterable: ToIterable<F>
 ) => <B, A>(b: B, f: (b: B, a: A) => B) => <S, R, O, E>(self: Kind<F, S, R, O, E, A>) => B
 ```
 
@@ -77,7 +71,7 @@ Added in v3.0.0
 
 ```ts
 export declare const reduceKind: <T extends TypeLambda>(
-  Foldable: ToIterable<T>
+  ToIterable: ToIterable<T>
 ) => <F extends TypeLambda>(
   Flattenable: Flattenable<F>
 ) => <S, R, O, E, B, A>(
@@ -90,13 +84,11 @@ Added in v3.0.0
 
 ## reduceRight
 
-Returns a default `reduceRight` implementation.
-
 **Signature**
 
 ```ts
 export declare const reduceRight: <F extends TypeLambda>(
-  Foldable: ToIterable<F>
+  ToIterable: ToIterable<F>
 ) => <B, A>(b: B, f: (a: A, b: B) => B) => <S, R, O, E>(self: Kind<F, S, R, O, E, A>) => B
 ```
 
@@ -104,13 +96,11 @@ Added in v3.0.0
 
 ## reduceRightWithIndex
 
-Returns a default `reduceRightWithIndex` implementation.
-
 **Signature**
 
 ```ts
 export declare const reduceRightWithIndex: <F extends TypeLambda>(
-  Foldable: ToIterable<F>
+  ToIterable: ToIterable<F>
 ) => <B, A>(b: B, f: (i: number, a: A, b: B) => B) => <S, R, O, E>(self: Kind<F, S, R, O, E, A>) => B
 ```
 
@@ -118,13 +108,11 @@ Added in v3.0.0
 
 ## reduceWithIndex
 
-Returns a default `reduceWithIndex` implementation.
-
 **Signature**
 
 ```ts
 export declare const reduceWithIndex: <F extends TypeLambda>(
-  Foldable: ToIterable<F>
+  ToIterable: ToIterable<F>
 ) => <B, A>(b: B, f: (i: number, b: B, a: A) => B) => <S, R, O, E>(self: Kind<F, S, R, O, E, A>) => B
 ```
 

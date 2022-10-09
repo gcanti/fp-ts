@@ -145,7 +145,7 @@ export const mapLeft =
 export const fst = <F extends TypeLambda>(
   Functor: Functor<F>
 ): (<S, R, O, E, W>(self: Kind<WriterT<F, W>, S, R, O, E, unknown>) => Kind<F, S, R, O, E, W>) =>
-  Functor.map(writer.fst)
+  Functor.map(writer.left)
 
 /**
  * @since 3.0.0
@@ -153,7 +153,7 @@ export const fst = <F extends TypeLambda>(
 export const snd = <F extends TypeLambda>(
   Functor: Functor<F>
 ): (<S, R, O, E, A>(self: Kind<WriterT<F, unknown>, S, R, O, E, A>) => Kind<F, S, R, O, E, A>) =>
-  Functor.map(writer.snd)
+  Functor.map(writer.right)
 
 /**
  * @since 3.0.0

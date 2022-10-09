@@ -39,8 +39,6 @@ export const filterMapComposition = <F extends TypeLambda, G extends TypeLambda>
 }
 
 /**
- * Returns a default `filter` implementation.
- *
  * @since 3.0.0
  */
 export const filter: <F extends TypeLambda>(
@@ -58,8 +56,6 @@ export const filter: <F extends TypeLambda>(
     Filterable.filterMap((b) => (predicate(b) ? _.some(b) : _.none))
 
 /**
- * Returns a default `partitionMap` implementation.
- *
  * @since 3.0.0
  */
 export const partitionMap =
@@ -73,8 +69,6 @@ export const partitionMap =
   }
 
 /**
- * Returns a default `partition` implementation.
- *
  * @since 3.0.0
  */
 export const partition: <F extends TypeLambda>(

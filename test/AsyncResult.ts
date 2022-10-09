@@ -204,8 +204,8 @@ describe('AsyncResult', () => {
       expectedRight: E.Result<string, number>
     ) => {
       const s = _.separate(S.Monoid.empty)(a)
-      U.deepStrictEqual(await writer.fst(s)(), expectedLeft)
-      U.deepStrictEqual(await writer.snd(s)(), expectedRight)
+      U.deepStrictEqual(await writer.left(s)(), expectedLeft)
+      U.deepStrictEqual(await writer.right(s)(), expectedRight)
     }
 
     await assertSeparate(_.succeed(E.succeed(1)), E.fail(''), E.succeed(1))

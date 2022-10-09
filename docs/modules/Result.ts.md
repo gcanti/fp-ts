@@ -1236,7 +1236,7 @@ Returns `true` if the either is an instance of `Failure`, `false` otherwise.
 **Signature**
 
 ```ts
-export declare const isFailure: <E>(ma: Result<E, unknown>) => ma is Failure<E>
+export declare const isFailure: <E, A>(self: Result<E, A>) => self is Failure<E>
 ```
 
 Added in v3.0.0
@@ -1248,7 +1248,7 @@ Returns `true` if the either is an instance of `Success`, `false` otherwise.
 **Signature**
 
 ```ts
-export declare const isSuccess: <A>(ma: Result<unknown, A>) => ma is Success<A>
+export declare const isSuccess: <E, A>(self: Result<E, A>) => self is Success<A>
 ```
 
 Added in v3.0.0

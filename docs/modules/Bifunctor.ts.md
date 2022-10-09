@@ -76,8 +76,6 @@ Added in v3.0.0
 
 ## mapLeft
 
-Returns a default `mapLeft` implementation.
-
 **Signature**
 
 ```ts

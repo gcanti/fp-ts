@@ -401,16 +401,16 @@ describe('ReaderAsyncResult', () => {
       fa,
       partition((s: string) => s.length > 0)
     )
-    U.deepStrictEqual(await writer.fst(s1)({})(), E.fail(''))
-    U.deepStrictEqual(await writer.snd(s1)({})(), E.succeed('a'))
+    U.deepStrictEqual(await writer.left(s1)({})(), E.fail(''))
+    U.deepStrictEqual(await writer.right(s1)({})(), E.succeed('a'))
 
     const partitionMap = filterable.partitionMap(F)
     const s2 = pipe(
       fa,
       partitionMap((s) => (s.length > 0 ? E.succeed(s.length) : E.fail(s)))
     )
-    U.deepStrictEqual(await writer.fst(s2)({})(), E.fail(''))
-    U.deepStrictEqual(await writer.snd(s2)({})(), E.succeed(1))
+    U.deepStrictEqual(await writer.left(s2)({})(), E.fail(''))
+    U.deepStrictEqual(await writer.right(s2)({})(), E.succeed(1))
   })
 
   // -------------------------------------------------------------------------------------

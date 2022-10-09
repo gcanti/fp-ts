@@ -41,6 +41,7 @@ Added in v3.0.0
   - [fromNullable](#fromnullable)
   - [fromOption](#fromoption)
   - [toIterable](#toiterable)
+  - [toOption](#tooption)
   - [toTuple2](#totuple2)
 - [error handling](#error-handling)
   - [mapError](#maperror)
@@ -230,6 +231,16 @@ Added in v3.0.0
 
 ```ts
 export declare const toIterable: <E, A>(self: These<E, A>) => Iterable<A>
+```
+
+Added in v3.0.0
+
+## toOption
+
+**Signature**
+
+```ts
+export declare const toOption: <E, A>(self: These<E, A>) => Option<A>
 ```
 
 Added in v3.0.0

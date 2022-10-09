@@ -19,8 +19,6 @@ export interface Compactable<F extends TypeLambda> extends TypeClass<F> {
 }
 
 /**
- * Returns a default `separate` implementation.
- *
  * @since 3.0.0
  */
 export const separate =

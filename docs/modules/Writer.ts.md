@@ -59,11 +59,11 @@ Added in v3.0.0
   - [duplicate](#duplicate)
   - [extend](#extend)
   - [extract](#extract)
-  - [fst](#fst)
+  - [left](#left)
   - [listen](#listen)
   - [listens](#listens)
   - [pass](#pass)
-  - [snd](#snd)
+  - [right](#right)
   - [swap](#swap)
 
 ---
@@ -499,12 +499,12 @@ export declare const extract: <W, A>(self: Writer<W, A>) => A
 
 Added in v3.0.0
 
-## fst
+## left
 
 **Signature**
 
 ```ts
-export declare const fst: <W>(self: Writer<W, unknown>) => W
+export declare const left: <W, A>(self: Writer<W, A>) => W
 ```
 
 Added in v3.0.0
@@ -545,12 +545,12 @@ export declare const pass: <W, A>(self: Writer<W, readonly [A, (w: W) => W]>) =>
 
 Added in v3.0.0
 
-## snd
+## right
 
 **Signature**
 
 ```ts
-export declare const snd: <A>(self: Writer<unknown, A>) => A
+export declare const right: <W, A>(self: Writer<W, A>) => A
 ```
 
 Added in v3.0.0

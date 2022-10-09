@@ -53,8 +53,6 @@ Added in v3.0.0
 
 ## traverseFilter
 
-Returns a default `traverseFilter` implementation.
-
 **Signature**
 
 ```ts
@@ -70,8 +68,6 @@ export declare const traverseFilter: <T extends TypeLambda>(
 Added in v3.0.0
 
 ## traverseFilterMap
-
-Returns a default `traverseFilterMap` implementation.
 
 **Signature**
 
@@ -90,8 +86,6 @@ Added in v3.0.0
 
 ## traversePartition
 
-Returns a default `traversePartition` implementation.
-
 **Signature**
 
 ```ts
@@ -109,8 +103,6 @@ export declare const traversePartition: <T extends TypeLambda>(
 Added in v3.0.0
 
 ## traversePartitionMap
-
-Returns a default `traversePartitionMap` implementation.
 
 **Signature**
 

@@ -34,8 +34,6 @@ export const toIterableComposition =
   }
 
 /**
- * Returns a default `reduce` implementation.
- *
  * @category folding
  * @since 3.0.0
  */
@@ -46,8 +44,6 @@ export const reduce =
     iterable.reduce(b, f)(ToIterable.toIterable(self))
 
 /**
- * Returns a default `foldMap` implementation.
- *
  * @category folding
  * @since 3.0.0
  */
@@ -59,8 +55,6 @@ export const foldMap =
     iterable.foldMap(Monoid)(f)(_.fromIterable(ToIterable.toIterable(self)))
 
 /**
- * Returns a default `reduceRight` implementation.
- *
  * @category folding
  * @since 3.0.0
  */
@@ -71,8 +65,6 @@ export const reduceRight =
     iterable.reduceRight(b, f)(ToIterable.toIterable(self))
 
 /**
- * Returns a default `reduceWithIndex` implementation.
- *
  * @category folding
  * @since 3.0.0
  */
@@ -83,8 +75,6 @@ export const reduceWithIndex =
     iterable.reduceWithIndex(b, f)(ToIterable.toIterable(self))
 
 /**
- * Returns a default `foldMapWithIndex` implementation.
- *
  * @category folding
  * @since 3.0.0
  */
@@ -96,8 +86,6 @@ export const foldMapWithIndex =
     iterable.foldMapWithIndex(Monoid)(f)(ToIterable.toIterable(self))
 
 /**
- * Returns a default `reduceRightWithIndex` implementation.
- *
  * @category folding
  * @since 3.0.0
  */
@@ -108,8 +96,6 @@ export const reduceRightWithIndex =
     iterable.reduceRightWithIndex(b, f)(ToIterable.toIterable(self))
 
 /**
- * Returns a default `reduceKind` implementation.
- *
  * @category folding
  * @since 3.0.0
  */

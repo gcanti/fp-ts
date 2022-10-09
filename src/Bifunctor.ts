@@ -17,8 +17,6 @@ export interface Bifunctor<F extends TypeLambda> extends TypeClass<F> {
 }
 
 /**
- * Returns a default `mapLeft` implementation.
- *
  * @since 3.0.0
  */
 export const mapLeft =

@@ -34,40 +34,31 @@ export interface TraversableFilterable<T extends TypeLambda> extends TypeClass<T
 }
 
 /**
- * Returns a default `traversePartitionMap` implementation.
- *
  * @since 3.0.0
  */
-export const traversePartitionMap = <T extends TypeLambda>(
-  Traversable: Traversable<T>,
-  Functor: Functor<T>,
-  Compactable: Compactable<T>
-): TraversableFilterable<T>['traversePartitionMap'] => {
-  const separate = compactable.separate(Functor, Compactable)
-  return (Applicative) => {
-    const traverse = Traversable.traverse(Applicative)
-    return (f) => flow(traverse(f), Applicative.map(separate))
-  }
-}
+export const traversePartitionMap =
+  <T extends TypeLambda>(
+    Traversable: Traversable<T>,
+    Functor: Functor<T>,
+    Compactable: Compactable<T>
+  ): TraversableFilterable<T>['traversePartitionMap'] =>
+  (Applicative) =>
+  (f) =>
+    flow(Traversable.traverse(Applicative)(f), Applicative.map(compactable.separate(Functor, Compactable)))
 
 /**
- * Returns a default `traverseFilterMap` implementation.
- *
  * @since 3.0.0
  */
-export const traverseFilterMap = <T extends TypeLambda>(
-  Traversable: Traversable<T>,
-  Compactable: Compactable<T>
-): TraversableFilterable<T>['traverseFilterMap'] => {
-  return (Applicative) => {
-    const traverse = Traversable.traverse(Applicative)
-    return (f) => flow(traverse(f), Applicative.map(Compactable.compact))
-  }
-}
+export const traverseFilterMap =
+  <T extends TypeLambda>(
+    Traversable: Traversable<T>,
+    Compactable: Compactable<T>
+  ): TraversableFilterable<T>['traverseFilterMap'] =>
+  (Applicative) =>
+  (f) =>
+    flow(Traversable.traverse(Applicative)(f), Applicative.map(Compactable.compact))
 
 /**
- * Returns a default `traverseFilter` implementation.
- *
  * @since 3.0.0
  */
 export const traverseFilter =
@@ -76,21 +67,16 @@ export const traverseFilter =
     Applicative: Applicative<F>
   ): (<B extends A, S, R, O, E, A = B>(
     predicate: (a: A) => Kind<F, S, R, O, E, boolean>
-  ) => <TS, TR, TO, TE>(self: Kind<T, TS, TR, TO, TE, B>) => Kind<F, S, R, O, E, Kind<T, TS, TR, TO, TE, B>>) => {
-    const traverseFilterMap = TraversableFilterable.traverseFilterMap(Applicative)
-    return (predicate) => {
-      return traverseFilterMap((b) =>
-        pipe(
-          predicate(b),
-          Applicative.map((ok) => (ok ? _.some(b) : _.none))
-        )
+  ) => <TS, TR, TO, TE>(self: Kind<T, TS, TR, TO, TE, B>) => Kind<F, S, R, O, E, Kind<T, TS, TR, TO, TE, B>>) =>
+  (predicate) =>
+    TraversableFilterable.traverseFilterMap(Applicative)((b) =>
+      pipe(
+        predicate(b),
+        Applicative.map((ok) => (ok ? _.some(b) : _.none))
       )
-    }
-  }
+    )
 
 /**
- * Returns a default `traversePartition` implementation.
- *
  * @since 3.0.0
  */
 export const traversePartition =
@@ -101,14 +87,11 @@ export const traversePartition =
     predicate: (a: A) => Kind<F, S, R, O, E, boolean>
   ) => <TS, TR, TO, TE>(
     self: Kind<T, TS, TR, TO, TE, B>
-  ) => Kind<F, S, R, O, E, readonly [Kind<T, TS, TR, TO, TE, B>, Kind<T, TS, TR, TO, TE, B>]>) => {
-    const traversePartitionMap = TraversableFilterable.traversePartitionMap(Applicative)
-    return (predicate) => {
-      return traversePartitionMap((b) =>
-        pipe(
-          predicate(b),
-          Applicative.map((ok) => (ok ? _.succeed(b) : _.fail(b)))
-        )
+  ) => Kind<F, S, R, O, E, readonly [Kind<T, TS, TR, TO, TE, B>, Kind<T, TS, TR, TO, TE, B>]>) =>
+  (predicate) =>
+    TraversableFilterable.traversePartitionMap(Applicative)((b) =>
+      pipe(
+        predicate(b),
+        Applicative.map((ok) => (ok ? _.succeed(b) : _.fail(b)))
       )
-    }
-  }
+    )

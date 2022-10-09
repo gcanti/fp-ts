@@ -56,7 +56,6 @@ Added in v3.0.0
   - [liftSync](#liftsync)
 - [logging](#logging)
   - [log](#log)
-  - [logError](#logerror)
 - [mapping](#mapping)
   - [as](#as)
   - [flap](#flap)
@@ -441,16 +440,6 @@ Added in v3.0.0
 
 ```ts
 export declare const log: <A extends readonly unknown[]>(...x: A) => Async<void>
-```
-
-Added in v3.0.0
-
-## logError
-
-**Signature**
-
-```ts
-export declare const logError: <A extends readonly unknown[]>(...x: A) => Async<void>
 ```
 
 Added in v3.0.0

@@ -20,6 +20,8 @@ Added in v3.0.0
   - [reduceRight](#reduceright)
   - [reduceRightWithIndex](#reducerightwithindex)
   - [reduceWithIndex](#reducewithindex)
+- [utils](#utils)
+  - [head](#head)
 
 ---
 
@@ -98,6 +100,18 @@ Added in v3.0.0
 
 ```ts
 export declare const reduceWithIndex: <B, A>(b: B, f: (i: number, b: B, a: A) => B) => (self: Iterable<A>) => B
+```
+
+Added in v3.0.0
+
+# utils
+
+## head
+
+**Signature**
+
+```ts
+export declare const head: <A>(self: Iterable<A>) => Option<A>
 ```
 
 Added in v3.0.0

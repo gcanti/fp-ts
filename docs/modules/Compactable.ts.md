@@ -57,8 +57,6 @@ Added in v3.0.0
 
 ## separate
 
-Returns a default `separate` implementation.
-
 **Signature**
 
 ```ts
