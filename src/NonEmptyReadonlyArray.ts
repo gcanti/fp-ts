@@ -191,7 +191,7 @@ export const matchRight =
 export function concat<B>(that: NonEmptyReadonlyArray<B>): <A>(self: ReadonlyArray<A>) => NonEmptyReadonlyArray<A | B>
 export function concat<B>(that: ReadonlyArray<B>): <A>(self: NonEmptyReadonlyArray<A>) => NonEmptyReadonlyArray<A | B>
 export function concat<B>(that: ReadonlyArray<B>): <A>(self: NonEmptyReadonlyArray<A>) => ReadonlyArray<A | B> {
-  return <A>(self: NonEmptyReadonlyArray<A | B>) => self.concat(that)
+  return _.concat(that)
 }
 
 /**

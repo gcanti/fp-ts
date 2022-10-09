@@ -19,49 +19,57 @@ export type NonEmptyIterable<A> = readonly [A, Iterable<A>]
 /**
  * @since 3.0.0
  */
-export const empty: Iterable<never> = {
-  *[Symbol.iterator]() {
-    // eslint-disable-next-line no-empty
-  }
-}
+export const toEntries = <A>(self: Iterable<A>): ReadonlyArray<readonly [number, A]> =>
+  _.fromIterable(self).map((a, i) => [i, a])
 
-/**
- * @category constructors
- * @since 3.0.0
- */
-export const of = <A>(a: A): Iterable<A> => {
-  return {
-    *[Symbol.iterator]() {
-      yield a
-    }
-  }
-}
-
-// TODO: is this useful?
 /**
  * @category mapping
  * @since 3.0.0
  */
-export const map =
-  <A, B>(f: (a: A) => B) =>
-  (self: Iterable<A>): Iterable<B> => {
-    return {
-      *[Symbol.iterator]() {
-        for (const a of self) {
-          yield f(a)
-        }
-      }
-    }
-  }
+export const mapEntries =
+  <K, A, B>(f: (k: K, a: A) => B) =>
+  (self: Iterable<readonly [K, A]>): ReadonlyArray<B> =>
+    _.fromIterable(self).map(([k, a]) => f(k, a))
+
+/**
+ * @category mapping
+ * @since 3.0.0
+ */
+export const mapWithIndex =
+  <A, B>(f: (i: number, a: A) => B) =>
+  (self: Iterable<A>): ReadonlyArray<B> =>
+    _.fromIterable(self).map((a, i) => f(i, a))
+
+/**
+ * @category mapping
+ * @since 3.0.0
+ */
+export const map = <A, B>(f: (a: A) => B): ((self: Iterable<A>) => ReadonlyArray<B>) => mapWithIndex((_, a) => f(a))
 
 /**
  * @category folding
  * @since 3.0.0
  */
-export const reduce =
-  <B, A>(b: B, f: (b: B, a: A) => B) =>
+export const reduceEntries =
+  <K, B, A>(b: B, f: (k: K, b: B, a: A) => B) =>
+  (self: Iterable<readonly [K, A]>): B =>
+    _.fromIterable(self).reduce((b, [i, a]) => f(i, b, a), b)
+
+/**
+ * @category folding
+ * @since 3.0.0
+ */
+export const reduceWithIndex =
+  <B, A>(b: B, f: (i: number, b: B, a: A) => B) =>
   (self: Iterable<A>): B =>
-    _.fromIterable(self).reduce((b, a) => f(b, a), b)
+    _.fromIterable(self).reduce((b, a, i) => f(i, b, a), b)
+
+/**
+ * @category folding
+ * @since 3.0.0
+ */
+export const reduce = <B, A>(b: B, f: (b: B, a: A) => B): ((self: Iterable<A>) => B) =>
+  reduceWithIndex(b, (_, b, a) => f(b, a))
 
 /**
  * @category folding
@@ -79,71 +87,77 @@ export const foldMap =
 export const reduceRight =
   <B, A>(b: B, f: (a: A, b: B) => B) =>
   (self: Iterable<A>): B =>
-    Array.from(self).reduceRight((b, a) => f(a, b), b)
+    _.fromIterable(self).reduceRight((b, a) => f(a, b), b)
 
 /**
  * @category folding
  * @since 3.0.0
  */
-export const reduceWithIndex =
-  <B, I, A>(b: B, f: (i: I, b: B, a: A) => B) =>
-  (self: Iterable<readonly [I, A]>): B => {
-    let out: B = b
-    for (const [i, a] of self) {
-      out = f(i, out, a)
-    }
-    return out
-  }
-
-/**
- * @category folding
- * @since 3.0.0
- */
-export const foldMapWithIndex =
+export const foldMapEntries =
   <M>(Monoid: Monoid<M>) =>
-  <I, A>(f: (i: I, a: A) => M): ((self: Iterable<readonly [I, A]>) => M) =>
-    reduceWithIndex(Monoid.empty, (i, b, a) => Monoid.combine(f(i, a))(b))
+  <K, A>(f: (k: K, a: A) => M): ((self: Iterable<readonly [K, A]>) => M) =>
+    reduceEntries(Monoid.empty, (i, b, a) => Monoid.combine(f(i, a))(b))
 
 /**
  * @category folding
  * @since 3.0.0
  */
-export const reduceRightWithIndex =
-  <B, I, A>(b: B, f: (i: I, a: A, b: B) => B) =>
-  (self: Iterable<readonly [I, A]>): B =>
-    Array.from(self).reduceRight((b, [i, a]) => f(i, a, b), b)
+export const reduceRightEntries =
+  <B, K, A>(b: B, f: (k: K, a: A, b: B) => B) =>
+  (self: Iterable<readonly [K, A]>): B =>
+    _.fromIterable(self).reduceRight((b, [i, a]) => f(i, a, b), b)
 
 /**
  * @category filtering
  * @since 3.0.0
  */
-export const filterMap =
-  <A, B>(f: (a: A) => Option<B>) =>
-  (self: Iterable<A>): Iterable<B> => {
-    return {
-      *[Symbol.iterator]() {
-        for (const a of self) {
-          const o = f(a)
-          if (_.isSome(o)) {
-            yield o.value
-          }
-        }
+export const filterMapWithIndex =
+  <A, B>(f: (i: number, a: A) => Option<B>) =>
+  (self: Iterable<A>): ReadonlyArray<B> => {
+    const as = _.fromIterable(self)
+    const out: Array<B> = []
+    for (let i = 0; i < as.length; i++) {
+      const o = f(i, as[i])
+      if (_.isSome(o)) {
+        out.push(o.value)
       }
     }
+    return out
   }
+
+/**
+ * @category filtering
+ * @since 3.0.0
+ */
+export const filterMap = <A, B>(f: (a: A) => Option<B>): ((self: Iterable<A>) => ReadonlyArray<B>) =>
+  filterMapWithIndex((_, a) => f(a))
 
 /**
  * @since 3.0.0
  */
 export const append =
   <B>(end: B) =>
-  <A>(self: Iterable<A>): Iterable<A | B> => {
-    return {
-      *[Symbol.iterator]() {
-        yield* self
-        yield end
-      }
-    }
+  <A>(self: Iterable<A>): NonEmptyReadonlyArray<A | B> =>
+    _.concat([end])(_.fromIterable(self))
+
+/**
+ * @category traversing
+ * @since 3.0.0
+ */
+export const traverseEntries =
+  <F extends TypeLambda>(Applicative: applicative.Applicative<F>) =>
+  <K, A, S, R, O, E, B>(f: (k: K, a: A) => Kind<F, S, R, O, E, B>) =>
+  (self: Iterable<readonly [K, A]>): Kind<F, S, R, O, E, ReadonlyArray<B>> => {
+    return pipe(
+      self,
+      reduceEntries<K, Kind<F, S, R, O, E, ReadonlyArray<B>>, A>(Applicative.of(_.emptyReadonlyArray), (k, fbs, a) =>
+        pipe(
+          fbs,
+          Applicative.map((bs) => (b: B) => append(b)(bs)),
+          Applicative.ap(f(k, a))
+        )
+      )
+    )
   }
 
 /**
@@ -152,11 +166,11 @@ export const append =
  */
 export const traverseWithIndex =
   <F extends TypeLambda>(Applicative: applicative.Applicative<F>) =>
-  <I, A, S, R, O, E, B>(f: (i: I, a: A) => Kind<F, S, R, O, E, B>) =>
-  (self: Iterable<readonly [I, A]>): Kind<F, S, R, O, E, Iterable<B>> => {
+  <A, S, R, O, E, B>(f: (i: number, a: A) => Kind<F, S, R, O, E, B>) =>
+  (self: Iterable<A>): Kind<F, S, R, O, E, ReadonlyArray<B>> => {
     return pipe(
       self,
-      reduceWithIndex<Kind<F, S, R, O, E, Iterable<B>>, I, A>(Applicative.of(empty), (i, fbs, a) =>
+      reduceWithIndex<Kind<F, S, R, O, E, ReadonlyArray<B>>, A>(Applicative.of(_.emptyReadonlyArray), (i, fbs, a) =>
         pipe(
           fbs,
           Applicative.map((bs) => (b: B) => append(b)(bs)),
@@ -167,32 +181,14 @@ export const traverseWithIndex =
   }
 
 /**
- * @since 3.0.0
- */
-export const toEntries = <A>(self: Iterable<A>): Iterable<readonly [number, A]> => {
-  return {
-    *[Symbol.iterator]() {
-      let i = -1
-      for (const a of self) {
-        i++
-        yield [i, a]
-      }
-    }
-  }
-}
-
-/**
  * @category traversing
  * @since 3.0.0
  */
 export const traverse = <F extends TypeLambda>(Applicative: applicative.Applicative<F>) => {
   const traverseWithIndex_ = traverseWithIndex(Applicative)
-  return <A, S, R, O, E, B>(f: (a: A) => Kind<F, S, R, O, E, B>) =>
-    (self: Iterable<A>): Kind<F, S, R, O, E, Iterable<B>> =>
-      pipe(
-        toEntries(self),
-        traverseWithIndex_((_, a) => f(a))
-      )
+  return <A, S, R, O, E, B>(
+    f: (a: A) => Kind<F, S, R, O, E, B>
+  ): ((self: Iterable<A>) => Kind<F, S, R, O, E, ReadonlyArray<B>>) => traverseWithIndex_((_, a) => f(a))
 }
 
 /**

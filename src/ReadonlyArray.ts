@@ -1261,8 +1261,10 @@ export const orElse =
  * @category mapping
  * @since 3.0.0
  */
-export const map: <A, B>(f: (a: A) => B) => (fa: ReadonlyArray<A>) => ReadonlyArray<B> = (f) => (fa) =>
-  fa.map((a) => f(a)) // <= intended eta expansion
+export const map =
+  <A, B>(f: (a: A) => B) =>
+  (fa: ReadonlyArray<A>): ReadonlyArray<B> =>
+    fa.map((a) => f(a)) // <= intended eta expansion
 
 /**
  * @category instances
@@ -1515,7 +1517,7 @@ export const traverseWithIndex =
   (ta: ReadonlyArray<A>): Kind<F, S, R, O, E, ReadonlyArray<B>> => {
     return pipe(
       toEntries(ta),
-      iterable.reduceWithIndex<Kind<F, S, R, O, E, ReadonlyArray<B>>, number, A>(F.of(empty), (i, fbs, a) =>
+      iterable.reduceEntries<number, Kind<F, S, R, O, E, ReadonlyArray<B>>, A>(F.of(empty), (i, fbs, a) =>
         pipe(
           fbs,
           F.map((bs) => (b: B) => append(b)(bs)),

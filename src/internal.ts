@@ -69,6 +69,14 @@ export const emptyReadonlyArray: readonly [] = []
 export const fromIterable = <A>(iterable: Iterable<A>): ReadonlyArray<A> =>
   Array.isArray(iterable) ? iterable : Array.from(iterable)
 
+/** @internal */
+export function concat<B>(that: NonEmptyReadonlyArray<B>): <A>(self: ReadonlyArray<A>) => NonEmptyReadonlyArray<A | B>
+/** @internal */
+export function concat<B>(that: ReadonlyArray<B>): <A>(self: NonEmptyReadonlyArray<A>) => NonEmptyReadonlyArray<A | B>
+export function concat<B>(that: ReadonlyArray<B>): <A>(self: NonEmptyReadonlyArray<A>) => ReadonlyArray<A | B> {
+  return <A>(self: NonEmptyReadonlyArray<A | B>) => self.concat(that)
+}
+
 // -------------------------------------------------------------------------------------
 // NonEmptyReadonlyArray
 // -------------------------------------------------------------------------------------

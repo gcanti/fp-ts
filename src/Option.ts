@@ -24,7 +24,6 @@ import type { Result } from './Result'
 import * as eq from './Eq'
 import type * as extendable from './Extendable'
 import * as filterable from './Filterable'
-import * as iterable from './Iterable'
 import type * as foldable from './Foldable'
 import * as fromOption_ from './FromOption'
 import * as fromResult_ from './FromResult'
@@ -828,7 +827,7 @@ export const tap: <A>(f: (a: A) => Option<unknown>) => (self: Option<A>) => Opti
  * @category conversions
  * @since 3.0.0
  */
-export const toIterable: <A>(self: Option<A>) => Iterable<A> = match(() => iterable.empty, iterable.of)
+export const toIterable = <A>(self: Option<A>): Iterable<A> => (isNone(self) ? _.emptyReadonlyArray : [self.value])
 
 /**
  * @category instances

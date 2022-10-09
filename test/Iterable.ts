@@ -6,10 +6,6 @@ import * as string from '../src/string'
 import * as U from './util'
 
 describe('Iterable', () => {
-  it('empty', () => {
-    U.deepStrictEqual(Array.from(_.empty), [])
-  })
-
   it('map', () => {
     U.deepStrictEqual(
       Array.from(
@@ -39,7 +35,7 @@ describe('Iterable', () => {
           ['a', 'c'],
           ['b', 'd']
         ]),
-        _.reduceWithIndex('-', (k, b, a) => b + k + a)
+        _.reduceEntries('-', (k, b, a) => b + k + a)
       ),
       '-acbd'
     )
@@ -52,7 +48,7 @@ describe('Iterable', () => {
           ['a', 'c'],
           ['b', 'd']
         ]),
-        _.foldMapWithIndex(string.Monoid)((k, a) => k + a)
+        _.foldMapEntries(string.Monoid)((k, a) => k + a)
       ),
       'acbd'
     )
@@ -65,7 +61,7 @@ describe('Iterable', () => {
           ['a', 'c'],
           ['b', 'd']
         ]),
-        _.reduceRightWithIndex('-', (k, a, b) => b + k + a)
+        _.reduceRightEntries('-', (k, a, b) => b + k + a)
       ),
       '-bdac'
     )
@@ -117,7 +113,6 @@ describe('Iterable', () => {
     U.deepStrictEqual(
       pipe(
         ['a', 'bb'],
-        _.toEntries,
         _.traverseWithIndex(O.Applicative)((i, s) => (s.length >= 1 ? O.some(s + i) : O.none)),
         O.map(Array.from)
       ),
@@ -126,7 +121,6 @@ describe('Iterable', () => {
     U.deepStrictEqual(
       pipe(
         ['a', 'bb'],
-        _.toEntries,
         _.traverseWithIndex(O.Applicative)((i, s) => (s.length > 1 ? O.some(s + i) : O.none)),
         O.map(Array.from)
       ),

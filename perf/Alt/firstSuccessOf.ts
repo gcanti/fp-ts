@@ -6,10 +6,6 @@ import * as option from '../../src/Option'
 
 const suite = new Benchmark.Suite()
 
-/*
-
-*/
-
 export const firstSuccessOfReadonlyArray =
   <G extends TypeLambda>(Alt: alt.Alt<G>) =>
   <S, R, O, E, A>(startWith: Kind<G, S, R, O, E, A>) =>

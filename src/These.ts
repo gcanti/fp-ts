@@ -26,7 +26,6 @@ import type { Flattenable } from './Flattenable'
 import type { Result, Failure, Success, ValidatedT } from './Result'
 import type { Eq } from './Eq'
 import * as eq from './Eq'
-import * as iterable from './Iterable'
 import type { Monoid } from './Monoid'
 import type * as foldable from './Foldable'
 import * as fromResult_ from './FromResult'
@@ -495,11 +494,8 @@ export const FromThese: fromThese_.FromThese<TheseTypeLambda> = {
  * @category conversions
  * @since 3.0.0
  */
-export const toIterable: <E, A>(self: These<E, A>) => Iterable<A> = match(
-  () => iterable.empty,
-  iterable.of,
-  (_, a) => iterable.of(a)
-)
+export const toIterable = <E, A>(self: These<E, A>): Iterable<A> =>
+  isFailure(self) ? _.emptyReadonlyArray : [self.success]
 
 /**
  * @category instances
