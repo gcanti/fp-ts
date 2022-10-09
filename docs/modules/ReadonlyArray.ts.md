@@ -1,6 +1,6 @@
 ---
 title: ReadonlyArray.ts
-nav_order: 67
+nav_order: 66
 parent: Modules
 ---
 
@@ -41,6 +41,7 @@ Added in v3.0.0
   - [compact](#compact)
   - [filter](#filter)
   - [filterMap](#filtermap)
+  - [filterMapEntries](#filtermapentries)
   - [filterMapWithIndex](#filtermapwithindex)
   - [filterWithIndex](#filterwithindex)
   - [partition](#partition)
@@ -52,9 +53,13 @@ Added in v3.0.0
   - [traversePartitionMap](#traversepartitionmap)
 - [folding](#folding)
   - [foldMap](#foldmap)
+  - [foldMapEntries](#foldmapentries)
   - [foldMapWithIndex](#foldmapwithindex)
   - [reduce](#reduce)
+  - [reduceEntries](#reduceentries)
+  - [reduceKind](#reducekind)
   - [reduceRight](#reduceright)
+  - [reduceRightEntries](#reducerightentries)
   - [reduceRightWithIndex](#reducerightwithindex)
   - [reduceWithIndex](#reducewithindex)
   - [toEntries](#toentries)
@@ -119,6 +124,7 @@ Added in v3.0.0
 - [traversing](#traversing)
   - [sequence](#sequence)
   - [traverse](#traverse)
+  - [traverseEntries](#traverseentries)
   - [traverseWithIndex](#traversewithindex)
 - [tuple sequencing](#tuple-sequencing)
   - [Zip](#zip)
@@ -553,7 +559,19 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: readonly A[]) => readonly B[]
+export declare const filterMap: <A, B>(f: (a: A) => Option<B>) => (self: Iterable<A>) => readonly B[]
+```
+
+Added in v3.0.0
+
+## filterMapEntries
+
+**Signature**
+
+```ts
+export declare const filterMapEntries: <K, A, B>(
+  f: (k: K, a: A) => Option<B>
+) => (self: Iterable<[K, A]>) => readonly B[]
 ```
 
 Added in v3.0.0
@@ -563,7 +581,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const filterMapWithIndex: <A, B>(f: (i: number, a: A) => Option<B>) => (fa: readonly A[]) => readonly B[]
+export declare const filterMapWithIndex: <A, B>(
+  f: (i: number, a: A) => Option<B>
+) => (self: Iterable<A>) => readonly B[]
 ```
 
 Added in v3.0.0
@@ -682,7 +702,19 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const foldMap: <M>(Monoid: Monoid<M>) => <A>(f: (a: A) => M) => (self: readonly A[]) => M
+export declare const foldMap: <M>(Monoid: Monoid<M>) => <A>(f: (a: A) => M) => (self: Iterable<A>) => M
+```
+
+Added in v3.0.0
+
+## foldMapEntries
+
+**Signature**
+
+```ts
+export declare const foldMapEntries: <M>(
+  Monoid: Monoid<M>
+) => <K, A>(f: (k: K, a: A) => M) => (self: Iterable<readonly [K, A]>) => M
 ```
 
 Added in v3.0.0
@@ -694,7 +726,7 @@ Added in v3.0.0
 ```ts
 export declare const foldMapWithIndex: <M>(
   Monoid: Monoid<M>
-) => <A>(f: (i: number, a: A) => M) => (self: readonly A[]) => M
+) => <A>(f: (i: number, a: A) => M) => (self: Iterable<A>) => M
 ```
 
 Added in v3.0.0
@@ -704,7 +736,39 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => (self: readonly A[]) => B
+export declare const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => (self: Iterable<A>) => B
+```
+
+Added in v3.0.0
+
+## reduceEntries
+
+**Signature**
+
+```ts
+export declare const reduceEntries: <K, B, A>(
+  b: B,
+  f: (k: K, b: B, a: A) => B
+) => (self: Iterable<readonly [K, A]>) => B
+```
+
+Added in v3.0.0
+
+## reduceKind
+
+Similar to 'reduce', but the result is encapsulated in a `Flattenable`.
+
+Note: this function is not generally stack-safe, e.g., for type constructors which build up thunks a la `Sync`.
+
+**Signature**
+
+```ts
+export declare const reduceKind: <F extends TypeLambda>(
+  Flattenable: flattenable.Flattenable<F>
+) => <S, R, O, E, B, A>(
+  fb: Kind<F, S, R, O, E, B>,
+  f: (b: B, a: A) => Kind<F, S, R, O, E, B>
+) => (self: Iterable<A>) => Kind<F, S, R, O, E, B>
 ```
 
 Added in v3.0.0
@@ -714,7 +778,20 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (self: readonly A[]) => B
+export declare const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (self: Iterable<A>) => B
+```
+
+Added in v3.0.0
+
+## reduceRightEntries
+
+**Signature**
+
+```ts
+export declare const reduceRightEntries: <B, K, A>(
+  b: B,
+  f: (k: K, a: A, b: B) => B
+) => (self: Iterable<readonly [K, A]>) => B
 ```
 
 Added in v3.0.0
@@ -724,7 +801,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const reduceRightWithIndex: <B, A>(b: B, f: (i: number, a: A, b: B) => B) => (self: readonly A[]) => B
+export declare const reduceRightWithIndex: <B, A>(b: B, f: (i: number, a: A, b: B) => B) => (self: Iterable<A>) => B
 ```
 
 Added in v3.0.0
@@ -734,7 +811,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const reduceWithIndex: <B, A>(b: B, f: (i: number, b: B, a: A) => B) => (self: readonly A[]) => B
+export declare const reduceWithIndex: <B, A>(b: B, f: (i: number, b: B, a: A) => B) => (self: Iterable<A>) => B
 ```
 
 Added in v3.0.0
@@ -744,7 +821,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const toEntries: <A>(self: readonly A[]) => Iterable<readonly [number, A]>
+export declare const toEntries: <A>(self: Iterable<A>) => readonly (readonly [number, A])[]
 ```
 
 Added in v3.0.0
@@ -1425,8 +1502,22 @@ Added in v3.0.0
 
 ```ts
 export declare const traverse: <F extends TypeLambda>(
-  F: applicative.Applicative<F>
-) => <A, S, R, O, E, B>(f: (a: A) => Kind<F, S, R, O, E, B>) => (as: readonly A[]) => Kind<F, S, R, O, E, readonly B[]>
+  Applicative: applicative.Applicative<F>
+) => <A, S, R, O, E, B>(f: (a: A) => Kind<F, S, R, O, E, B>) => (self: Iterable<A>) => Kind<F, S, R, O, E, readonly B[]>
+```
+
+Added in v3.0.0
+
+## traverseEntries
+
+**Signature**
+
+```ts
+export declare const traverseEntries: <F extends TypeLambda>(
+  Applicative: applicative.Applicative<F>
+) => <K, A, S, R, O, E, B>(
+  f: (k: K, a: A) => Kind<F, S, R, O, E, B>
+) => (self: Iterable<readonly [K, A]>) => Kind<F, S, R, O, E, readonly B[]>
 ```
 
 Added in v3.0.0
@@ -1437,10 +1528,10 @@ Added in v3.0.0
 
 ```ts
 export declare const traverseWithIndex: <F extends TypeLambda>(
-  F: applicative.Applicative<F>
+  Applicative: applicative.Applicative<F>
 ) => <A, S, R, O, E, B>(
   f: (i: number, a: A) => Kind<F, S, R, O, E, B>
-) => (ta: readonly A[]) => Kind<F, S, R, O, E, readonly B[]>
+) => (self: Iterable<A>) => Kind<F, S, R, O, E, readonly B[]>
 ```
 
 Added in v3.0.0
@@ -2100,7 +2191,8 @@ Added in v3.0.0
 
 ## intercalate
 
-Places an element in between members of a `ReadonlyArray`, then folds the results using the provided `Monoid`.
+Fold a data structure, accumulating values in some `Monoid`, combining adjacent elements
+using the specified separator.
 
 **Signature**
 

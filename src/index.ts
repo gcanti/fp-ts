@@ -44,7 +44,6 @@ import * as functorWithIndex from './FunctorWithIndex'
 import * as hkt from './HKT'
 import * as identity from './Identity'
 import * as invariant from './Invariant'
-import * as iterable from './Iterable'
 import * as syncOption from './SyncOption'
 import * as json from './Json'
 import * as kleisliCategory from './KleisliCategory'
@@ -293,11 +292,6 @@ export {
    * @since 3.0.0
    */
   invariant,
-  /**
-   * @category data types
-   * @since 3.0.0
-   */
-  iterable,
   /**
    * @since 3.0.0
    */

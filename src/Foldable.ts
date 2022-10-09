@@ -2,8 +2,8 @@
  * @since 3.0.0
  */
 import type { Kind, TypeClass, TypeLambda } from './HKT'
-import * as iterable from './Iterable'
 import type { Monoid } from './Monoid'
+import * as readonlyArray from './ReadonlyArray'
 
 /**
  * @category model
@@ -39,7 +39,7 @@ export const toIterableComposition =
 export const reduce =
   <F extends TypeLambda>(Foldable: Foldable<F>) =>
   <B, A>(b: B, f: (b: B, a: A) => B) => {
-    return <S, R, O, E>(self: Kind<F, S, R, O, E, A>): B => iterable.reduce(b, f)(Foldable.toIterable(self))
+    return <S, R, O, E>(self: Kind<F, S, R, O, E, A>): B => readonlyArray.reduce(b, f)(Foldable.toIterable(self))
   }
 
 /**
@@ -51,7 +51,7 @@ export const reduce =
 export const foldMap =
   <F extends TypeLambda>(Foldable: Foldable<F>) =>
   <M>(Monoid: Monoid<M>) => {
-    const foldMap = iterable.foldMap(Monoid)
+    const foldMap = readonlyArray.foldMap(Monoid)
     return <A>(f: (a: A) => M) => {
       const foldMap_ = foldMap(f)
       return <S, R, O, E>(self: Kind<F, S, R, O, E, A>): M => foldMap_(Foldable.toIterable(self))
@@ -67,7 +67,7 @@ export const foldMap =
 export const reduceRight =
   <F extends TypeLambda>(Foldable: Foldable<F>) =>
   <B, A>(b: B, f: (a: A, b: B) => B) => {
-    const reduceRight = iterable.reduceRight(b, f)
+    const reduceRight = readonlyArray.reduceRight(b, f)
     return <S, R, O, E>(self: Kind<F, S, R, O, E, A>): B => {
       return reduceRight(Foldable.toIterable(self))
     }

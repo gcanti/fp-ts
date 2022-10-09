@@ -22,7 +22,7 @@ import type * as comonad from './Comonad'
 import type { Endomorphism } from './Endomorphism'
 import * as eq from './Eq'
 import type * as foldable from './Foldable'
-import * as foldableWithIndex from './FoldableWithIndex'
+import type * as foldableWithIndex from './FoldableWithIndex'
 import { flow, identity, pipe } from './Function'
 import * as functor from './Functor'
 import type * as functorWithIndex from './FunctorWithIndex'
@@ -40,7 +40,6 @@ import * as tuple from './tuple'
 import type { Eq } from './Eq'
 import type { Ord } from './Ord'
 import type { Semigroup } from './Semigroup'
-import * as iterable from './Iterable'
 
 /**
  * @category model
@@ -205,11 +204,21 @@ export function concat<B>(that: ReadonlyArray<B>): <A>(self: NonEmptyReadonlyArr
  *
  * @since 3.0.0
  */
-export const uniq = <A>(Eq: Eq<A>) => {
-  const uniq = iterable.uniq(Eq)
-  return (self: NonEmptyReadonlyArray<A>): NonEmptyReadonlyArray<A> =>
-    self.length === 1 ? self : uniq(unprepend(self))
-}
+export const uniq =
+  <A>(Eq: Eq<A>) =>
+  (self: NonEmptyReadonlyArray<A>): NonEmptyReadonlyArray<A> => {
+    if (self.length === 1) {
+      return self
+    }
+    const out: _.NonEmptyArray<A> = [head(self)]
+    const rest = tail(self)
+    for (const a of rest) {
+      if (out.every((o) => !Eq.equals(o)(a))) {
+        out.push(a)
+      }
+    }
+    return out
+  }
 
 /**
  * Sort the elements of a `NonEmptyReadonlyArray` in increasing order, where elements are compared using first `ords[0]`, then `ords[1]`,
@@ -1087,8 +1096,8 @@ export const reduceRight =
  * @category folding
  * @since 3.0.0
  */
-export const toEntries: <A>(self: NonEmptyReadonlyArray<A>) => Iterable<readonly [number, A]> = iterable.toEntries
-
+export const toEntries = <A>(self: NonEmptyReadonlyArray<A>): Iterable<readonly [number, A]> =>
+  _.fromIterable(self).map((a, i) => [i, a])
 /**
  * @category instances
  * @since 3.0.0
@@ -1101,10 +1110,11 @@ export const FoldableWithIndex: foldableWithIndex.FoldableWithIndex<NonEmptyRead
  * @category folding
  * @since 3.0.0
  */
-export const reduceWithIndex: <B, A>(b: B, f: (i: number, b: B, a: A) => B) => (self: NonEmptyReadonlyArray<A>) => B =
-  /*#__PURE__*/ foldableWithIndex.reduceWithIndex(FoldableWithIndex)
+export const reduceWithIndex =
+  <B, A>(b: B, f: (i: number, b: B, a: A) => B) =>
+  (self: NonEmptyReadonlyArray<A>): B =>
+    _.fromIterable(self).reduce((b, a, i) => f(i, b, a), b)
 
-// TODO: can we derive this function?
 /**
  * **Note**. The constraint is relaxed: a `Semigroup` instead of a `Monoid`.
  *
@@ -1121,10 +1131,10 @@ export const foldMapWithIndex =
  * @category folding
  * @since 3.0.0
  */
-export const reduceRightWithIndex: <B, A>(
-  b: B,
-  f: (i: number, a: A, b: B) => B
-) => (self: NonEmptyReadonlyArray<A>) => B = /*#__PURE__*/ foldableWithIndex.reduceRightWithIndex(FoldableWithIndex)
+export const reduceRightWithIndex =
+  <B, A>(b: B, f: (i: number, a: A, b: B) => B) =>
+  (self: NonEmptyReadonlyArray<A>): B =>
+    _.fromIterable(self).reduceRight((b, a, i) => f(i, a, b), b)
 
 /**
  * @category instances

@@ -12,7 +12,7 @@
  * @since 3.0.0
  */
 import type { TypeLambda, Kind, TypeClass } from './HKT'
-import * as iterable from './Iterable'
+import * as readonlyArray from './ReadonlyArray'
 import type { Monoid } from './Monoid'
 
 /**
@@ -55,7 +55,7 @@ export const reduceWithIndex =
   <F extends TypeLambda, I>(FoldableWithIndex: FoldableWithIndex<F, I>) =>
   <B, A>(b: B, f: (i: I, b: B, a: A) => B) => {
     return <S, R, O, E>(self: Kind<F, S, R, O, E, A>): B =>
-      iterable.reduceEntries(b, f)(FoldableWithIndex.toEntries(self))
+      readonlyArray.reduceEntries(b, f)(FoldableWithIndex.toEntries(self))
   }
 
 /**
@@ -65,7 +65,7 @@ export const reduceWithIndex =
 export const foldMapWithIndex =
   <F extends TypeLambda, I>(FoldableWithIndex: FoldableWithIndex<F, I>) =>
   <M>(Monoid: Monoid<M>) => {
-    const foldMapWithIndex = iterable.foldMapEntries(Monoid)
+    const foldMapWithIndex = readonlyArray.foldMapEntries(Monoid)
     return <A>(f: (i: I, a: A) => M) => {
       const foldMapWithIndex_ = foldMapWithIndex(f)
       return <S, R, O, E>(self: Kind<F, S, R, O, E, A>): M => foldMapWithIndex_(FoldableWithIndex.toEntries(self))
@@ -79,7 +79,7 @@ export const foldMapWithIndex =
 export const reduceRightWithIndex =
   <F extends TypeLambda, I>(FoldableWithIndex: FoldableWithIndex<F, I>) =>
   <B, A>(b: B, f: (i: I, a: A, b: B) => B) => {
-    const reduceRightWithIndex = iterable.reduceRightEntries(b, f)
+    const reduceRightWithIndex = readonlyArray.reduceRightEntries(b, f)
     return <S, R, O, E>(self: Kind<F, S, R, O, E, A>): B => {
       return reduceRightWithIndex(FoldableWithIndex.toEntries(self))
     }

@@ -10,12 +10,76 @@ import * as O from '../src/Option'
 import * as Ord from '../src/Ord'
 import type { Predicate } from '../src/Predicate'
 import * as _ from '../src/ReadonlyArray'
-import * as S from '../src/string'
+import * as string from '../src/string'
 import * as T from '../src/Async'
 import { tuple } from '../src/tuple'
 import * as U from './util'
 
 describe('ReadonlyArray', () => {
+  it('reduceEntries', () => {
+    U.deepStrictEqual(
+      pipe(
+        new Map([
+          ['a', 'c'],
+          ['b', 'd']
+        ]),
+        _.reduceEntries('-', (k, b, a) => b + k + a)
+      ),
+      '-acbd'
+    )
+  })
+
+  it('foldMapEntries', () => {
+    U.deepStrictEqual(
+      pipe(
+        new Map([
+          ['a', 'c'],
+          ['b', 'd']
+        ]),
+        _.foldMapEntries(string.Monoid)((k, a) => k + a)
+      ),
+      'acbd'
+    )
+  })
+
+  it('reduceRightEntries', () => {
+    U.deepStrictEqual(
+      pipe(
+        new Map([
+          ['a', 'c'],
+          ['b', 'd']
+        ]),
+        _.reduceRightEntries('-', (k, a, b) => b + k + a)
+      ),
+      '-bdac'
+    )
+  })
+
+  it('reduceKind', () => {
+    const f = _.reduceKind(O.Flattenable)
+    U.deepStrictEqual(
+      pipe(
+        [],
+        f(O.some(1), () => O.none)
+      ),
+      O.some(1)
+    )
+    U.deepStrictEqual(
+      pipe(
+        [2],
+        f(O.some(1), () => O.none)
+      ),
+      O.none
+    )
+    U.deepStrictEqual(
+      pipe(
+        [2],
+        f(O.some(1), (b, a) => O.some(b + a))
+      ),
+      O.some(3)
+    )
+  })
+
   describe('fromIterable', () => {
     it('baseline', () => {
       U.deepStrictEqual(_.fromIterable(new Set([1, 2, 3])), [1, 2, 3])
@@ -38,8 +102,8 @@ describe('ReadonlyArray', () => {
   })
 
   it('foldMap', () => {
-    U.deepStrictEqual(pipe(['a', 'b', 'c'], _.foldMap(S.Monoid)(identity)), 'abc')
-    U.deepStrictEqual(pipe([], _.foldMap(S.Monoid)(identity)), '')
+    U.deepStrictEqual(pipe(['a', 'b', 'c'], _.foldMap(string.Monoid)(identity)), 'abc')
+    U.deepStrictEqual(pipe([], _.foldMap(string.Monoid)(identity)), '')
   })
 
   it('reduceRight', () => {
@@ -65,7 +129,7 @@ describe('ReadonlyArray', () => {
     U.deepStrictEqual(
       pipe(
         ['a', 'b'],
-        _.foldMapWithIndex(S.Monoid)((i, a) => i + a)
+        _.foldMapWithIndex(string.Monoid)((i, a) => i + a)
       ),
       '0a1b'
     )
@@ -312,7 +376,7 @@ describe('ReadonlyArray', () => {
   })
 
   it('getEq', () => {
-    const O = _.getEq(S.Eq)
+    const O = _.getEq(string.Eq)
     U.deepStrictEqual(O.equals([])([]), true)
     U.deepStrictEqual(O.equals(['a'])(['a']), true)
     U.deepStrictEqual(O.equals(['a', 'b'])(['a', 'b']), true)
@@ -324,7 +388,7 @@ describe('ReadonlyArray', () => {
   })
 
   it('getOrd', () => {
-    const O = _.getOrd(S.Ord)
+    const O = _.getOrd(string.Ord)
     U.deepStrictEqual(pipe([], O.compare([])), 0)
     U.deepStrictEqual(pipe(['a'], O.compare(['a'])), 0)
 
@@ -769,12 +833,12 @@ describe('ReadonlyArray', () => {
   })
 
   it('intercalate', () => {
-    U.deepStrictEqual(_.intercalate(S.Monoid)('-')([]), '')
-    U.deepStrictEqual(_.intercalate(S.Monoid)('-')(['a']), 'a')
-    U.deepStrictEqual(_.intercalate(S.Monoid)('-')(['a', 'b', 'c']), 'a-b-c')
-    U.deepStrictEqual(_.intercalate(S.Monoid)('-')(['a', '', 'c']), 'a--c')
-    U.deepStrictEqual(_.intercalate(S.Monoid)('-')(['a', 'b']), 'a-b')
-    U.deepStrictEqual(_.intercalate(S.Monoid)('-')(['a', 'b', 'c', 'd']), 'a-b-c-d')
+    U.deepStrictEqual(_.intercalate(string.Monoid)('-')([]), '')
+    U.deepStrictEqual(_.intercalate(string.Monoid)('-')(['a']), 'a')
+    U.deepStrictEqual(_.intercalate(string.Monoid)('-')(['a', 'b', 'c']), 'a-b-c')
+    U.deepStrictEqual(_.intercalate(string.Monoid)('-')(['a', '', 'c']), 'a--c')
+    U.deepStrictEqual(_.intercalate(string.Monoid)('-')(['a', 'b']), 'a-b')
+    U.deepStrictEqual(_.intercalate(string.Monoid)('-')(['a', 'b', 'c', 'd']), 'a-b-c-d')
   })
 
   it('rotate', () => {
@@ -875,8 +939,8 @@ describe('ReadonlyArray', () => {
       U.deepStrictEqual(_.uniq(N.Eq)([1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])
       U.deepStrictEqual(_.uniq(N.Eq)([1, 1, 2, 2, 3, 3, 4, 4, 5, 5]), [1, 2, 3, 4, 5])
       U.deepStrictEqual(_.uniq(N.Eq)([1, 2, 3, 4, 5, 1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])
-      U.deepStrictEqual(_.uniq(S.Eq)(['a', 'b', 'a']), ['a', 'b'])
-      U.deepStrictEqual(_.uniq(S.Eq)(['a', 'b', 'A']), ['a', 'b', 'A'])
+      U.deepStrictEqual(_.uniq(string.Eq)(['a', 'b', 'a']), ['a', 'b'])
+      U.deepStrictEqual(_.uniq(string.Eq)(['a', 'b', 'A']), ['a', 'b', 'A'])
     })
 
     it('should return the same reference if length = 0', () => {
@@ -898,7 +962,7 @@ describe('ReadonlyArray', () => {
       readonly c: boolean
     }
     const byName = pipe(
-      S.Ord,
+      string.Ord,
       Ord.contramap((p: { readonly a: string; readonly b: number }) => p.a)
     )
     const byAge = pipe(
@@ -1117,7 +1181,7 @@ describe('ReadonlyArray', () => {
   })
 
   it('getShow', () => {
-    const Sh = _.getShow(S.Show)
+    const Sh = _.getShow(string.Show)
     U.deepStrictEqual(Sh.show([]), `[]`)
     U.deepStrictEqual(Sh.show(['a']), `["a"]`)
     U.deepStrictEqual(Sh.show(['a', 'b']), `["a", "b"]`)
