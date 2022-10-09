@@ -1,20 +1,10 @@
 ---
 title: FoldableWithIndex.ts
-nav_order: 27
+nav_order: 26
 parent: Modules
 ---
 
 ## FoldableWithIndex overview
-
-A `Foldable` with an additional index.
-
-A `FoldableWithIndex` instance must be compatible with its `Foldable` instance:
-
-```ts
-reduce(b, f) = reduceWithIndex(b, (_, b, a) => f(b, a))
-foldMap(M)(f) = foldMapWithIndex(M)((_, a) => f(a))
-reduceRight(b, f) = reduceRightWithIndex(b, (_, a, b) => f(a, b))
-```
 
 Added in v3.0.0
 

@@ -9,7 +9,7 @@ import * as readonlyArray from './ReadonlyArray'
  * @category model
  * @since 3.0.0
  */
-export interface Foldable<F extends TypeLambda> extends TypeClass<F> {
+export interface ToIterable<F extends TypeLambda> extends TypeClass<F> {
   readonly toIterable: <S, R, O, E, A>(self: Kind<F, S, R, O, E, A>) => Iterable<A>
 }
 
@@ -19,7 +19,7 @@ export interface Foldable<F extends TypeLambda> extends TypeClass<F> {
  * @since 3.0.0
  */
 export const toIterableComposition =
-  <F extends TypeLambda, G extends TypeLambda>(FoldableF: Foldable<F>, FoldableG: Foldable<G>) =>
+  <F extends TypeLambda, G extends TypeLambda>(FoldableF: ToIterable<F>, FoldableG: ToIterable<G>) =>
   <FS, FR, FO, FE, GS, GR, GO, GE, A>(self: Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, A>>): Iterable<A> => {
     return {
       *[Symbol.iterator]() {
@@ -37,7 +37,7 @@ export const toIterableComposition =
  * @since 3.0.0
  */
 export const reduce =
-  <F extends TypeLambda>(Foldable: Foldable<F>) =>
+  <F extends TypeLambda>(Foldable: ToIterable<F>) =>
   <B, A>(b: B, f: (b: B, a: A) => B) => {
     return <S, R, O, E>(self: Kind<F, S, R, O, E, A>): B => readonlyArray.reduce(b, f)(Foldable.toIterable(self))
   }
@@ -49,7 +49,7 @@ export const reduce =
  * @since 3.0.0
  */
 export const foldMap =
-  <F extends TypeLambda>(Foldable: Foldable<F>) =>
+  <F extends TypeLambda>(Foldable: ToIterable<F>) =>
   <M>(Monoid: Monoid<M>) => {
     const foldMap = readonlyArray.foldMap(Monoid)
     return <A>(f: (a: A) => M) => {
@@ -65,7 +65,7 @@ export const foldMap =
  * @since 3.0.0
  */
 export const reduceRight =
-  <F extends TypeLambda>(Foldable: Foldable<F>) =>
+  <F extends TypeLambda>(Foldable: ToIterable<F>) =>
   <B, A>(b: B, f: (a: A, b: B) => B) => {
     const reduceRight = readonlyArray.reduceRight(b, f)
     return <S, R, O, E>(self: Kind<F, S, R, O, E, A>): B => {

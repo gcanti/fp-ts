@@ -1,6 +1,6 @@
 ---
 title: Option.ts
-nav_order: 53
+nav_order: 52
 parent: Modules
 ---
 
@@ -76,13 +76,13 @@ Added in v3.0.0
   - [Extendable](#extendable)
   - [Filterable](#filterable)
   - [Flattenable](#flattenable)
-  - [Foldable](#foldable)
   - [FromIdentity](#fromidentity)
   - [FromOption](#fromoption)
   - [FromResult](#fromresult)
   - [Functor](#functor)
   - [KleisliComposable](#kleislicomposable)
   - [Monad](#monad)
+  - [ToIterable](#toiterable)
   - [Traversable](#traversable)
   - [TraversableFilterable](#traversablefilterable)
   - [getEq](#geteq)
@@ -759,16 +759,6 @@ export declare const Flattenable: flattenable.Flattenable<OptionTypeLambda>
 
 Added in v3.0.0
 
-## Foldable
-
-**Signature**
-
-```ts
-export declare const Foldable: foldable.Foldable<OptionTypeLambda>
-```
-
-Added in v3.0.0
-
 ## FromIdentity
 
 **Signature**
@@ -825,6 +815,16 @@ Added in v3.0.0
 
 ```ts
 export declare const Monad: monad.Monad<OptionTypeLambda>
+```
+
+Added in v3.0.0
+
+## ToIterable
+
+**Signature**
+
+```ts
+export declare const ToIterable: toIterable_.ToIterable<OptionTypeLambda>
 ```
 
 Added in v3.0.0

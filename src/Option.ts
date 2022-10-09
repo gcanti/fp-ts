@@ -24,7 +24,7 @@ import type { Result } from './Result'
 import * as eq from './Eq'
 import type * as extendable from './Extendable'
 import * as filterable from './Filterable'
-import type * as foldable from './Foldable'
+import type * as toIterable_ from './ToIterable'
 import * as fromOption_ from './FromOption'
 import * as fromResult_ from './FromResult'
 import type { LazyArg } from './Function'
@@ -833,7 +833,7 @@ export const toIterable = <A>(self: Option<A>): Iterable<A> => (isNone(self) ? _
  * @category instances
  * @since 3.0.0
  */
-export const Foldable: foldable.Foldable<OptionTypeLambda> = {
+export const ToIterable: toIterable_.ToIterable<OptionTypeLambda> = {
   toIterable
 }
 

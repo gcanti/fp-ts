@@ -1,6 +1,6 @@
 ---
 title: ReadonlyArray.ts
-nav_order: 66
+nav_order: 65
 parent: Modules
 ---
 
@@ -76,7 +76,6 @@ Added in v3.0.0
   - [Flattenable](#flattenable)
   - [FlattenableRecBreadthFirst](#flattenablerecbreadthfirst)
   - [FlattenableRecDepthFirst](#flattenablerecdepthfirst)
-  - [Foldable](#foldable)
   - [FoldableWithIndex](#foldablewithindex)
   - [FromIdentity](#fromidentity)
   - [FromOption](#fromoption)
@@ -85,6 +84,7 @@ Added in v3.0.0
   - [FunctorWithIndex](#functorwithindex)
   - [KleisliComposable](#kleislicomposable)
   - [Monad](#monad)
+  - [ToIterable](#toiterable)
   - [Traversable](#traversable)
   - [TraversableFilterable](#traversablefilterable)
   - [TraversableWithIndex](#traversablewithindex)
@@ -948,16 +948,6 @@ export declare const FlattenableRecDepthFirst: flattenableRec.FlattenableRec<Rea
 
 Added in v3.0.0
 
-## Foldable
-
-**Signature**
-
-```ts
-export declare const Foldable: foldable.Foldable<ReadonlyArrayTypeLambda>
-```
-
-Added in v3.0.0
-
 ## FoldableWithIndex
 
 **Signature**
@@ -1034,6 +1024,16 @@ Added in v3.0.0
 
 ```ts
 export declare const Monad: Monad_<ReadonlyArrayTypeLambda>
+```
+
+Added in v3.0.0
+
+## ToIterable
+
+**Signature**
+
+```ts
+export declare const ToIterable: toIterable_.ToIterable<ReadonlyArrayTypeLambda>
 ```
 
 Added in v3.0.0

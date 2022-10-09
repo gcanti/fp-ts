@@ -16,7 +16,7 @@ import * as eq from './Eq'
 import type * as extendable from './Extendable'
 import * as filterable from './Filterable'
 import * as filterableWithIndex from './FilterableWithIndex'
-import type * as foldable from './Foldable'
+import type * as toIterable_ from './ToIterable'
 import type * as foldableWithIndex from './FoldableWithIndex'
 import * as fromOption_ from './FromOption'
 import * as fromResult_ from './FromResult'
@@ -1956,7 +1956,7 @@ export const partitionWithIndex: {
  * @category instances
  * @since 3.0.0
  */
-export const Foldable: foldable.Foldable<ReadonlyArrayTypeLambda> = {
+export const ToIterable: toIterable_.ToIterable<ReadonlyArrayTypeLambda> = {
   toIterable: identity
 }
 

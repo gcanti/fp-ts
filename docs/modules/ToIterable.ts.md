@@ -1,10 +1,10 @@
 ---
-title: Foldable.ts
-nav_order: 26
+title: ToIterable.ts
+nav_order: 81
 parent: Modules
 ---
 
-## Foldable overview
+## ToIterable overview
 
 Added in v3.0.0
 
@@ -17,7 +17,7 @@ Added in v3.0.0
   - [reduce](#reduce)
   - [reduceRight](#reduceright)
 - [model](#model)
-  - [Foldable (interface)](#foldable-interface)
+  - [ToIterable (interface)](#toiterable-interface)
 - [utils](#utils)
   - [toIterableComposition](#toiterablecomposition)
 
@@ -33,7 +33,7 @@ Returns a default `foldMap` implementation.
 
 ```ts
 export declare const foldMap: <F extends TypeLambda>(
-  Foldable: Foldable<F>
+  Foldable: ToIterable<F>
 ) => <M>(Monoid: Monoid<M>) => <A>(f: (a: A) => M) => <S, R, O, E>(self: Kind<F, S, R, O, E, A>) => M
 ```
 
@@ -47,7 +47,7 @@ Returns a default `reduce` implementation.
 
 ```ts
 export declare const reduce: <F extends TypeLambda>(
-  Foldable: Foldable<F>
+  Foldable: ToIterable<F>
 ) => <B, A>(b: B, f: (b: B, a: A) => B) => <S, R, O, E>(self: Kind<F, S, R, O, E, A>) => B
 ```
 
@@ -61,7 +61,7 @@ Returns a default `reduceRight` implementation.
 
 ```ts
 export declare const reduceRight: <F extends TypeLambda>(
-  Foldable: Foldable<F>
+  Foldable: ToIterable<F>
 ) => <B, A>(b: B, f: (a: A, b: B) => B) => <S, R, O, E>(self: Kind<F, S, R, O, E, A>) => B
 ```
 
@@ -69,12 +69,12 @@ Added in v3.0.0
 
 # model
 
-## Foldable (interface)
+## ToIterable (interface)
 
 **Signature**
 
 ```ts
-export interface Foldable<F extends TypeLambda> extends TypeClass<F> {
+export interface ToIterable<F extends TypeLambda> extends TypeClass<F> {
   readonly toIterable: <S, R, O, E, A>(self: Kind<F, S, R, O, E, A>) => Iterable<A>
 }
 ```
@@ -91,8 +91,8 @@ Returns a default `toIterable` composition.
 
 ```ts
 export declare const toIterableComposition: <F extends TypeLambda, G extends TypeLambda>(
-  FoldableF: Foldable<F>,
-  FoldableG: Foldable<G>
+  FoldableF: ToIterable<F>,
+  FoldableG: ToIterable<G>
 ) => <FS, FR, FO, FE, GS, GR, GO, GE, A>(self: Kind<F, FS, FR, FO, FE, Kind<G, GS, GR, GO, GE, A>>) => Iterable<A>
 ```
 

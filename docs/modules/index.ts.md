@@ -1,6 +1,6 @@
 ---
 title: index.ts
-nav_order: 42
+nav_order: 41
 parent: Modules
 ---
 
@@ -63,7 +63,6 @@ Added in v3.0.0
   - [filterableWithIndex](#filterablewithindex)
   - [flattenable](#flattenable)
   - [flattenableRec](#flattenablerec)
-  - [foldable](#foldable)
   - [foldableWithIndex](#foldablewithindex)
   - [fromAsync](#fromasync)
   - [fromIdentity](#fromidentity)
@@ -85,6 +84,7 @@ Added in v3.0.0
   - [ord](#ord)
   - [semigroup](#semigroup)
   - [show](#show)
+  - [toIterable](#toiterable)
   - [traversable](#traversable)
   - [traversableFilterable](#traversablefilterable)
   - [traversableWithIndex](#traversablewithindex)
@@ -592,16 +592,6 @@ export declare const flattenableRec: typeof flattenableRec
 
 Added in v3.0.0
 
-## foldable
-
-**Signature**
-
-```ts
-export declare const foldable: typeof foldable
-```
-
-Added in v3.0.0
-
 ## foldableWithIndex
 
 **Signature**
@@ -808,6 +798,16 @@ Added in v3.0.0
 
 ```ts
 export declare const show: typeof show
+```
+
+Added in v3.0.0
+
+## toIterable
+
+**Signature**
+
+```ts
+export declare const toIterable: typeof toIterable
 ```
 
 Added in v3.0.0

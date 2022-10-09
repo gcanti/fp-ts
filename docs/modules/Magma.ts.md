@@ -1,6 +1,6 @@
 ---
 title: Magma.ts
-nav_order: 48
+nav_order: 47
 parent: Modules
 ---
 

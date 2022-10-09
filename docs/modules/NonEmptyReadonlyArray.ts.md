@@ -1,6 +1,6 @@
 ---
 title: NonEmptyReadonlyArray.ts
-nav_order: 51
+nav_order: 50
 parent: Modules
 ---
 
@@ -55,13 +55,13 @@ Added in v3.0.0
   - [CategoryKind](#categorykind)
   - [Comonad](#comonad)
   - [Flattenable](#flattenable)
-  - [Foldable](#foldable)
   - [FoldableWithIndex](#foldablewithindex)
   - [FromIdentity](#fromidentity)
   - [Functor](#functor)
   - [FunctorWithIndex](#functorwithindex-1)
   - [KleisliComposable](#kleislicomposable)
   - [Monad](#monad)
+  - [ToIterable](#toiterable)
   - [Traversable](#traversable)
   - [TraversableWithIndex](#traversablewithindex)
   - [getEq](#geteq)
@@ -503,16 +503,6 @@ export declare const Flattenable: flattenable.Flattenable<NonEmptyReadonlyArrayT
 
 Added in v3.0.0
 
-## Foldable
-
-**Signature**
-
-```ts
-export declare const Foldable: foldable.Foldable<NonEmptyReadonlyArrayTypeLambda>
-```
-
-Added in v3.0.0
-
 ## FoldableWithIndex
 
 **Signature**
@@ -569,6 +559,16 @@ Added in v3.0.0
 
 ```ts
 export declare const Monad: monad.Monad<NonEmptyReadonlyArrayTypeLambda>
+```
+
+Added in v3.0.0
+
+## ToIterable
+
+**Signature**
+
+```ts
+export declare const ToIterable: toIterable_.ToIterable<NonEmptyReadonlyArrayTypeLambda>
 ```
 
 Added in v3.0.0

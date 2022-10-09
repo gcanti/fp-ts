@@ -1,6 +1,6 @@
 ---
 title: Result.ts
-nav_order: 68
+nav_order: 67
 parent: Modules
 ---
 
@@ -73,12 +73,12 @@ Added in v3.0.0
   - [Extendable](#extendable)
   - [Flattenable](#flattenable)
   - [FlattenableRec](#flattenablerec)
-  - [Foldable](#foldable)
   - [FromIdentity](#fromidentity)
   - [FromResult](#fromresult)
   - [Functor](#functor)
   - [KleisliComposable](#kleislicomposable)
   - [Monad](#monad)
+  - [ToIterable](#toiterable)
   - [Traversable](#traversable)
   - [getCompactable](#getcompactable)
   - [getEq](#geteq)
@@ -809,16 +809,6 @@ export declare const FlattenableRec: flattenableRec.FlattenableRec<ResultTypeLam
 
 Added in v3.0.0
 
-## Foldable
-
-**Signature**
-
-```ts
-export declare const Foldable: foldable.Foldable<ResultTypeLambda>
-```
-
-Added in v3.0.0
-
 ## FromIdentity
 
 **Signature**
@@ -865,6 +855,16 @@ Added in v3.0.0
 
 ```ts
 export declare const Monad: monad.Monad<ResultTypeLambda>
+```
+
+Added in v3.0.0
+
+## ToIterable
+
+**Signature**
+
+```ts
+export declare const ToIterable: toIterable_.ToIterable<ResultTypeLambda>
 ```
 
 Added in v3.0.0

@@ -21,7 +21,7 @@ import * as flattenable from './Flattenable'
 import type * as comonad from './Comonad'
 import type { Endomorphism } from './Endomorphism'
 import * as eq from './Eq'
-import type * as foldable from './Foldable'
+import type * as toIterable_ from './ToIterable'
 import type * as foldableWithIndex from './FoldableWithIndex'
 import { flow, identity, pipe } from './Function'
 import * as functor from './Functor'
@@ -1058,7 +1058,7 @@ export const tap: <A>(
  * @category instances
  * @since 3.0.0
  */
-export const Foldable: foldable.Foldable<NonEmptyReadonlyArrayTypeLambda> = {
+export const ToIterable: toIterable_.ToIterable<NonEmptyReadonlyArrayTypeLambda> = {
   toIterable: identity
 }
 

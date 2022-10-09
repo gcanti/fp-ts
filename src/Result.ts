@@ -26,7 +26,7 @@ import * as eq from './Eq'
 import type * as extendable from './Extendable'
 import type * as filterable from './Filterable'
 import type { Monoid } from './Monoid'
-import type * as foldable from './Foldable'
+import type * as toIterable_ from './ToIterable'
 import * as fromResult_ from './FromResult'
 import { SK } from './Function'
 import { flow, identity, pipe } from './Function'
@@ -870,7 +870,7 @@ export const toIterable = <E, A>(self: Result<E, A>): Iterable<A> =>
  * @category instances
  * @since 3.0.0
  */
-export const Foldable: foldable.Foldable<ResultTypeLambda> = {
+export const ToIterable: toIterable_.ToIterable<ResultTypeLambda> = {
   toIterable
 }
 

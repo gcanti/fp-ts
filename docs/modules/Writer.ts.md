@@ -26,8 +26,8 @@ Added in v3.0.0
   - [Bifunctor](#bifunctor-1)
   - [Comonad](#comonad)
   - [Composable](#composable)
-  - [Foldable](#foldable)
   - [Functor](#functor)
+  - [ToIterable](#toiterable)
   - [Traversable](#traversable)
   - [getApplicative](#getapplicative)
   - [getApply](#getapply)
@@ -170,22 +170,22 @@ export declare const Composable: composable.Composable<WriterFComposable>
 
 Added in v3.0.0
 
-## Foldable
-
-**Signature**
-
-```ts
-export declare const Foldable: foldable.Foldable<WriterTypeLambda>
-```
-
-Added in v3.0.0
-
 ## Functor
 
 **Signature**
 
 ```ts
 export declare const Functor: functor.Functor<WriterTypeLambda>
+```
+
+Added in v3.0.0
+
+## ToIterable
+
+**Signature**
+
+```ts
+export declare const ToIterable: toIterable_.ToIterable<WriterTypeLambda>
 ```
 
 Added in v3.0.0

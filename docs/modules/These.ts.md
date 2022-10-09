@@ -1,6 +1,6 @@
 ---
 title: These.ts
-nav_order: 80
+nav_order: 79
 parent: Modules
 ---
 
@@ -50,11 +50,11 @@ Added in v3.0.0
   - [reduceRight](#reduceright)
 - [instances](#instances)
   - [Bifunctor](#bifunctor)
-  - [Foldable](#foldable)
   - [FromIdentity](#fromidentity)
   - [FromResult](#fromresult)
   - [FromThese](#fromthese)
   - [Functor](#functor)
+  - [ToIterable](#toiterable)
   - [Traversable](#traversable)
   - [getApplicative](#getapplicative)
   - [getApply](#getapply)
@@ -314,16 +314,6 @@ export declare const Bifunctor: bifunctor.Bifunctor<TheseTypeLambda>
 
 Added in v3.0.0
 
-## Foldable
-
-**Signature**
-
-```ts
-export declare const Foldable: foldable.Foldable<TheseTypeLambda>
-```
-
-Added in v3.0.0
-
 ## FromIdentity
 
 **Signature**
@@ -360,6 +350,16 @@ Added in v3.0.0
 
 ```ts
 export declare const Functor: functor.Functor<TheseTypeLambda>
+```
+
+Added in v3.0.0
+
+## ToIterable
+
+**Signature**
+
+```ts
+export declare const ToIterable: toIterable_.ToIterable<TheseTypeLambda>
 ```
 
 Added in v3.0.0

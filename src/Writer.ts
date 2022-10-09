@@ -8,7 +8,7 @@ import type { Flattenable } from './Flattenable'
 import type { FlattenableRec } from './FlattenableRec'
 import type * as comonad from './Comonad'
 import type { Result } from './Result'
-import type * as foldable from './Foldable'
+import type * as toIterable_ from './ToIterable'
 import { flow, identity, pipe, SK } from './Function'
 import * as functor from './Functor'
 import type { TypeLambda, Kind } from './HKT'
@@ -253,7 +253,7 @@ export const toIterable = <W, A>(self: Writer<W, A>): Iterable<A> => [snd(self)]
  * @category instances
  * @since 3.0.0
  */
-export const Foldable: foldable.Foldable<WriterTypeLambda> = {
+export const ToIterable: toIterable_.ToIterable<WriterTypeLambda> = {
   toIterable
 }
 

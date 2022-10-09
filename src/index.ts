@@ -27,7 +27,6 @@ import * as filterable from './Filterable'
 import * as filterableWithIndex from './FilterableWithIndex'
 import * as flattenable from './Flattenable'
 import * as flattenableRec from './FlattenableRec'
-import * as foldable from './Foldable'
 import * as foldableWithIndex from './FoldableWithIndex'
 import * as fromAsync from './FromAsync'
 import * as fromIdentity from './FromIdentity'
@@ -81,6 +80,7 @@ import * as sync from './Sync'
 import * as syncResult from './SyncResult'
 import * as these from './These'
 import * as theseT from './TheseT'
+import * as toIterable from './ToIterable'
 import * as traversable from './Traversable'
 import * as traversableFilterable from './TraversableFilterable'
 import * as traversableWithIndex from './TraversableWithIndex'
@@ -209,11 +209,6 @@ export {
    * @since 3.0.0
    */
   flattenableRec,
-  /**
-   * @category type classes
-   * @since 3.0.0
-   */
-  foldable,
   /**
    * @category type classes
    * @since 3.0.0
@@ -475,6 +470,11 @@ export {
    * @since 3.0.0
    */
   theseT,
+  /**
+   * @category type classes
+   * @since 3.0.0
+   */
+  toIterable,
   /**
    * @category type classes
    * @since 3.0.0

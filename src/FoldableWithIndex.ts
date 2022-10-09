@@ -1,14 +1,4 @@
 /**
- * A `Foldable` with an additional index.
- *
- * A `FoldableWithIndex` instance must be compatible with its `Foldable` instance:
- *
- * ```ts
- * reduce(b, f) = reduceWithIndex(b, (_, b, a) => f(b, a))
- * foldMap(M)(f) = foldMapWithIndex(M)((_, a) => f(a))
- * reduceRight(b, f) = reduceRightWithIndex(b, (_, a, b) => f(a, b))
- * ```
- *
  * @since 3.0.0
  */
 import type { TypeLambda, Kind, TypeClass } from './HKT'

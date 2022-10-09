@@ -27,7 +27,7 @@ import type { Result, Failure, Success, ValidatedT } from './Result'
 import type { Eq } from './Eq'
 import * as eq from './Eq'
 import type { Monoid } from './Monoid'
-import type * as foldable from './Foldable'
+import type * as toIterable_ from './ToIterable'
 import * as fromResult_ from './FromResult'
 import type * as fromThese_ from './FromThese'
 import { flow, SK } from './Function'
@@ -501,7 +501,7 @@ export const toIterable = <E, A>(self: These<E, A>): Iterable<A> =>
  * @category instances
  * @since 3.0.0
  */
-export const Foldable: foldable.Foldable<TheseTypeLambda> = {
+export const ToIterable: toIterable_.ToIterable<TheseTypeLambda> = {
   toIterable
 }
 
