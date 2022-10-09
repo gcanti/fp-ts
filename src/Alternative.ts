@@ -40,6 +40,6 @@ export const guard =
  */
 export const firstSuccessOf = <G extends TypeLambda>(Alternative: Alternative<G>) => {
   const firstSuccessOf = alt.firstSuccessOf(Alternative)
-  return <S, R, O, E, A>(self: ReadonlyArray<Kind<G, S, R, O, E, A>>): Kind<G, S, R, O, E, A> =>
-    firstSuccessOf<S, R, O, E, A>(Alternative.none())(self)
+  return <S, R, O, E, A>(iterable: Iterable<Kind<G, S, R, O, E, A>>): Kind<G, S, R, O, E, A> =>
+    firstSuccessOf<S, R, O, E, A>(Alternative.none())(iterable)
 }

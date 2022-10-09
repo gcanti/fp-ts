@@ -71,7 +71,7 @@ Returns an effect that runs each of the specified effects in order until one of 
 ```ts
 export declare const firstSuccessOf: <G extends TypeLambda>(
   Alternative: Alternative<G>
-) => <S, R, O, E, A>(self: readonly Kind<G, S, R, O, E, A>[]) => Kind<G, S, R, O, E, A>
+) => <S, R, O, E, A>(iterable: Iterable<Kind<G, S, R, O, E, A>>) => Kind<G, S, R, O, E, A>
 ```
 
 Added in v3.0.0

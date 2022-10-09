@@ -15,6 +15,7 @@
  * @since 3.0.0
  */
 import type { Kind, TypeClass, TypeLambda } from './HKT'
+import * as _ from './internal'
 
 /**
  * @category model
@@ -35,5 +36,5 @@ export interface Alt<F extends TypeLambda> extends TypeClass<F> {
 export const firstSuccessOf =
   <G extends TypeLambda>(Alt: Alt<G>) =>
   <S, R, O, E, A>(startWith: Kind<G, S, R, O, E, A>) =>
-  (self: ReadonlyArray<Kind<G, S, R, O, E, A>>): Kind<G, S, R, O, E, A> =>
-    self.reduce((acc, ga) => Alt.orElse(ga)(acc), startWith)
+  (iterable: Iterable<Kind<G, S, R, O, E, A>>): Kind<G, S, R, O, E, A> =>
+    _.fromIterable(iterable).reduce((acc, ga) => Alt.orElse(ga)(acc), startWith)

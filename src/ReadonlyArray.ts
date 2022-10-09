@@ -60,6 +60,12 @@ export interface ReadonlyArrayTypeLambda extends TypeLambda {
 }
 
 /**
+ * @category conversions
+ * @since 3.0.0
+ */
+export const fromIterable: <A>(iterable: Iterable<A>) => ReadonlyArray<A> = _.fromIterable
+
+/**
  * Return a `ReadonlyArray` of length `n` with element `i` initialized with `f(i)`.
  *
  * **Note**. `n` is normalized to a non negative integer.

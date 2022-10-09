@@ -23,6 +23,7 @@ Added in v3.0.0
   - [prepend](#prepend)
   - [replicate](#replicate)
 - [conversions](#conversions)
+  - [fromIterable](#fromiterable)
   - [fromNullable](#fromnullable)
   - [fromOption](#fromoption)
   - [fromResult](#fromresult)
@@ -374,6 +375,16 @@ assert.deepStrictEqual(pipe(3, replicate('a')), ['a', 'a', 'a'])
 Added in v3.0.0
 
 # conversions
+
+## fromIterable
+
+**Signature**
+
+```ts
+export declare const fromIterable: <A>(iterable: Iterable<A>) => readonly A[]
+```
+
+Added in v3.0.0
 
 ## fromNullable
 

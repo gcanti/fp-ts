@@ -60,13 +60,8 @@ export const map =
  */
 export const reduce =
   <B, A>(b: B, f: (b: B, a: A) => B) =>
-  (self: Iterable<A>): B => {
-    let out: B = b
-    for (const a of self) {
-      out = f(out, a)
-    }
-    return out
-  }
+  (self: Iterable<A>): B =>
+    _.fromIterable(self).reduce((b, a) => f(b, a), b)
 
 /**
  * @category folding

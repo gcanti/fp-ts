@@ -61,6 +61,17 @@ export const eitherFromNullable =
     a == null ? fail(onNullable) : succeed(a as NonNullable<A>)
 
 // -------------------------------------------------------------------------------------
+// ReadonlyArray
+// -------------------------------------------------------------------------------------
+
+/** @internal */
+export const emptyReadonlyArray: readonly [] = []
+
+/** @internal */
+export const fromIterable = <A>(iterable: Iterable<A>): ReadonlyArray<A> =>
+  Array.isArray(iterable) ? iterable : Array.from(iterable)
+
+// -------------------------------------------------------------------------------------
 // NonEmptyReadonlyArray
 // -------------------------------------------------------------------------------------
 
@@ -77,20 +88,11 @@ export const head = <A>(as: NonEmptyReadonlyArray<A>): A => as[0]
 export const tail = <A>(as: NonEmptyReadonlyArray<A>): ReadonlyArray<A> => as.slice(1)
 
 // -------------------------------------------------------------------------------------
-// empty
+// ReadonlyRecord
 // -------------------------------------------------------------------------------------
 
 /** @internal */
-export const emptyReadonlyArray: readonly [] = []
-
-/** @internal */
-export const emptyReadonlyRecord: {} = {}
-
-/** @internal */
-export const emptyReadonlyMap = new Map<never, never>()
-
-/** @internal */
-export const emptyReadonlySet = new Set<never>()
+export const emptyReadonlyRecord: Readonly<{}> = {}
 
 // -------------------------------------------------------------------------------------
 // Record

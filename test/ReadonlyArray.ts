@@ -16,6 +16,17 @@ import { tuple } from '../src/tuple'
 import * as U from './util'
 
 describe('ReadonlyArray', () => {
+  describe('fromIterable', () => {
+    it('baseline', () => {
+      U.deepStrictEqual(_.fromIterable(new Set([1, 2, 3])), [1, 2, 3])
+    })
+
+    it('should be no-op with arrays', () => {
+      const self = [1, 2, 3]
+      U.strictEqual(_.fromIterable(self), self)
+    })
+  })
+
   it('reduce', () => {
     U.deepStrictEqual(
       pipe(
