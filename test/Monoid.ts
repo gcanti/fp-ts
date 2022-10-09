@@ -13,9 +13,14 @@ describe('Monoid', () => {
     U.deepStrictEqual(pipe(['a', 1, true], M2.combine(['b', 2, false])), ['ab', 3, false])
   })
 
-  it('combineAll', () => {
-    U.deepStrictEqual(_.combineAll(N.MonoidSum)([1, 2, 3]), 6)
-    U.deepStrictEqual(_.combineAll(N.MonoidSum)(new Set([1, 2, 3])), 6)
+  describe('combineAll', () => {
+    it('baseline', () => {
+      U.deepStrictEqual(_.combineAll(N.MonoidSum)([1, 2, 3]), 6)
+    })
+
+    it('should accept an Iterable', () => {
+      U.deepStrictEqual(_.combineAll(N.MonoidSum)(new Set([1, 2, 3])), 6)
+    })
   })
 
   it('min', () => {

@@ -37,6 +37,7 @@ Added in v3.0.0
   - [Semigroup (interface)](#semigroup-interface)
 - [utils](#utils)
   - [combineAll](#combineall)
+  - [combineAllNonEmpty](#combineallnonempty)
   - [intercalate](#intercalate)
   - [reverse](#reverse)
   - [struct](#struct)
@@ -184,6 +185,16 @@ const sum = combineAll(N.SemigroupSum)(0)
 
 assert.deepStrictEqual(sum([1, 2, 3]), 6)
 assert.deepStrictEqual(sum([]), 0)
+```
+
+Added in v3.0.0
+
+## combineAllNonEmpty
+
+**Signature**
+
+```ts
+export declare const combineAllNonEmpty: <S>(Semigroup: Semigroup<S>) => (head: S, ...tail: readonly S[]) => S
 ```
 
 Added in v3.0.0

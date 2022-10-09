@@ -45,10 +45,10 @@ export const firstSuccessOf =
  *
  * @since 3.0.0
  */
-export const firstSuccessOfNonEmpty =
-  <G extends TypeLambda>(Alt: Alt<G>) =>
-  <S, R, O, E, A>(
+export const firstSuccessOfNonEmpty = <G extends TypeLambda>(Alt: Alt<G>) => {
+  const firstSuccessOf_ = firstSuccessOf(Alt)
+  return <S, R, O, E, A>(
     head: Kind<G, S, R, O, E, A>,
     ...tail: ReadonlyArray<Kind<G, S, R, O, E, A>>
-  ): Kind<G, S, R, O, E, A> =>
-    firstSuccessOf(Alt)(head)(tail)
+  ): Kind<G, S, R, O, E, A> => firstSuccessOf_(head)(tail)
+}

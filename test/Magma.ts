@@ -36,11 +36,28 @@ describe('Magma', () => {
     U.deepStrictEqual(sum([1, -2, 3]), 8)
   })
 
-  it('combineAll', () => {
-    const subAll = _.combineAll(N.MagmaSub)(0)
-    U.deepStrictEqual(subAll([1, 2, 3]), -6)
-    U.deepStrictEqual(subAll(new Set([1, 2, 3])), -6)
-    const nea: NonEmptyReadonlyArray<number> = [1, 2, 3]
-    U.deepStrictEqual(subAll(nea), -6)
+  describe('combineAll', () => {
+    const combineAllNonEmpty = _.combineAll(N.MagmaSub)(0)
+
+    it('baseline', () => {
+      U.deepStrictEqual(combineAllNonEmpty([1, 2, 3]), -6)
+    })
+
+    it('should accept an Iterable', () => {
+      U.deepStrictEqual(combineAllNonEmpty(new Set([1, 2, 3])), -6)
+    })
+  })
+
+  describe('firstSuccessOfNonEmpty', () => {
+    const combineAllNonEmpty = _.combineAllNonEmpty(N.MagmaSub)
+
+    it('baseline', () => {
+      U.deepStrictEqual(combineAllNonEmpty(0, 1, 2, 3), -6)
+    })
+
+    it('should accept a spreading NonEmptyReadonlyArray', () => {
+      const nea: NonEmptyReadonlyArray<number> = [0, 1, 2, 3]
+      U.deepStrictEqual(combineAllNonEmpty(...nea), -6)
+    })
   })
 })

@@ -13,9 +13,14 @@ describe('Semigroup', () => {
     U.deepStrictEqual(pipe(['a', 1, true], S2.combine(['b', 2, false])), ['ab', 3, false])
   })
 
-  it('combineAll', () => {
-    U.deepStrictEqual(_.combineAll(string.Monoid)('')(['a', 'b', 'c']), 'abc')
-    U.deepStrictEqual(_.combineAll(string.Monoid)('')(new Set(['a', 'b', 'c'])), 'abc')
+  describe('combineAll', () => {
+    it('baseline', () => {
+      U.deepStrictEqual(_.combineAll(string.Monoid)('')(['a', 'b', 'c']), 'abc')
+    })
+
+    it('should accept an Iterable', () => {
+      U.deepStrictEqual(_.combineAll(string.Monoid)('')(new Set(['a', 'b', 'c'])), 'abc')
+    })
   })
 
   it('min', () => {

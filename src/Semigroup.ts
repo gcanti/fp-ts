@@ -224,3 +224,9 @@ export const last = <S>(): Semigroup<S> => ({
  */
 export const combineAll: <S>(Semigroup: Semigroup<S>) => (startWith: S) => (collection: Iterable<S>) => S =
   magma.combineAll
+
+/**
+ * @since 3.0.0
+ */
+export const combineAllNonEmpty: <S>(Semigroup: Semigroup<S>) => (head: S, ...tail: ReadonlyArray<S>) => S =
+  magma.combineAllNonEmpty
