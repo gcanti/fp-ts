@@ -76,7 +76,7 @@ export const fromIterable = <A>(iterable: Iterable<A>): ReadonlyArray<A> =>
 // -------------------------------------------------------------------------------------
 
 /** @internal */
-export const singleton = <A>(a: A): NonEmptyArray<A> => [a]
+export const toReadonlyArray = <A>(a: A): NonEmptyArray<A> => [a]
 
 /** @internal */
 export const isNonEmpty = <A>(as: ReadonlyArray<A>): as is NonEmptyReadonlyArray<A> => as.length > 0

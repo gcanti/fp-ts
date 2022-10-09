@@ -695,7 +695,7 @@ export const map: <A, B>(f: (a: A) => B) => (fa: NonEmptyReadonlyArray<A>) => No
  * @category constructors
  * @since 3.0.0
  */
-export const of: <A>(a: A) => NonEmptyReadonlyArray<A> = _.singleton
+export const of: <A>(a: A) => NonEmptyReadonlyArray<A> = _.toReadonlyArray
 
 /**
  * @category instances

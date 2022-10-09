@@ -523,7 +523,7 @@ export const traverseNonEmptyReadonlyArrayWithIndex =
                 return ebs
               })
         ),
-      f(0, _.head(as))().then(these.map(_.singleton))
+      f(0, _.head(as))().then(these.map(_.toReadonlyArray))
     )
 
 /**

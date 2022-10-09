@@ -645,7 +645,7 @@ export const traverseNonEmptyReadonlyArrayWithIndex =
         ),
       Promise.resolve()
         .then(f(0, _.head(as)))
-        .then(_.singleton)
+        .then(_.toReadonlyArray)
     )
 
 /**

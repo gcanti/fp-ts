@@ -820,7 +820,7 @@ export const traverseNonEmptyReadonlyArrayWithIndex =
                 return obs
               })
         ),
-      f(0, _.head(as))().then(option.map(_.singleton))
+      f(0, _.head(as))().then(option.map(_.toReadonlyArray))
     )
 
 /**
