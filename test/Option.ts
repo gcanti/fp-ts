@@ -430,7 +430,7 @@ describe('Option', () => {
         O.Do,
         O.bind('x', () => O.some('a')),
         O.bind('y', () => O.some('a')),
-        O.guard(({ x, y }) => x === y)
+        O.filter(({ x, y }) => x === y)
       ),
       O.some({ x: 'a', y: 'a' })
     )
@@ -439,7 +439,7 @@ describe('Option', () => {
         O.Do,
         O.bind('x', () => O.some('a')),
         O.bind('y', () => O.some('b')),
-        O.guard(({ x, y }) => x === y)
+        O.filter(({ x, y }) => x === y)
       ),
       O.none
     )

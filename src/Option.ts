@@ -32,7 +32,7 @@ import { flow, identity, pipe } from './Function'
 import * as functor from './typeclasses/Functor'
 import type { TypeLambda, Kind } from './HKT'
 import * as _ from './internal'
-import * as monad from './typeclasses/Monad'
+import type * as monad from './typeclasses/Monad'
 import type { Monoid } from './typeclasses/Monoid'
 import * as ord from './typeclasses/Ord'
 import * as fromIdentity from './typeclasses/FromIdentity'
@@ -1115,15 +1115,6 @@ export const bindRight: <N extends string, A extends object, B>(
   fb: Option<B>
 ) => (self: Option<A>) => Option<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
   /*#__PURE__*/ apply.bindRight(Apply)
-
-/**
- * @category do notation
- * @since 3.0.0
- */
-export const guard: <A>(f: (a: A) => boolean) => (self: Option<A>) => Option<A> = /*#__PURE__*/ monad.guard(
-  Monad,
-  Alternative
-)
 
 // -------------------------------------------------------------------------------------
 // tuple sequencing

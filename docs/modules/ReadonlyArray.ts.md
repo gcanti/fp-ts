@@ -28,7 +28,6 @@ Added in v3.0.0
   - [bind](#bind)
   - [bindRight](#bindright)
   - [bindTo](#bindto)
-  - [guard](#guard)
   - [let](#let)
 - [error handling](#error-handling)
   - [firstSuccessOf](#firstsuccessof)
@@ -374,16 +373,6 @@ Added in v3.0.0
 export declare const bindTo: <N extends string>(
   name: N
 ) => <A>(self: readonly A[]) => readonly { readonly [K in N]: A }[]
-```
-
-Added in v3.0.0
-
-## guard
-
-**Signature**
-
-```ts
-export declare const guard: <A>(f: (a: A) => boolean) => (self: readonly A[]) => readonly A[]
 ```
 
 Added in v3.0.0

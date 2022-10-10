@@ -29,7 +29,6 @@ Added in v3.0.0
   - [bind](#bind)
   - [bindRight](#bindright)
   - [bindTo](#bindto)
-  - [guard](#guard)
   - [let](#let)
 - [error handling](#error-handling)
   - [catchAll](#catchall)
@@ -276,16 +275,6 @@ Added in v3.0.0
 export declare const bindTo: <N extends string>(
   name: N
 ) => <A>(self: AsyncOption<A>) => AsyncOption<{ readonly [K in N]: A }>
-```
-
-Added in v3.0.0
-
-## guard
-
-**Signature**
-
-```ts
-export declare const guard: <A>(f: (a: A) => boolean) => (self: AsyncOption<A>) => AsyncOption<A>
 ```
 
 Added in v3.0.0
