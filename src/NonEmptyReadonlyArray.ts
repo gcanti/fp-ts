@@ -827,7 +827,6 @@ export const flatten: <A>(mma: NonEmptyReadonlyArray<NonEmptyReadonlyArray<A>>) 
   /*#__PURE__*/ flatMap(identity)
 
 /**
- * @category FunctorWithIndex
  * @since 3.0.0
  */
 export const mapWithIndex: <A, B>(
@@ -846,47 +845,46 @@ export const mapWithIndex: <A, B>(
  * @category traversing
  * @since 3.0.0
  */
-export const traverse: <F extends TypeLambda>(
-  F: apply.Apply<F>
-) => <A, S, R, O, E, B>(
-  f: (a: A) => Kind<F, S, R, O, E, B>
-) => (ta: NonEmptyReadonlyArray<A>) => Kind<F, S, R, O, E, NonEmptyReadonlyArray<B>> = (F) => {
-  const traverseWithIndexF = traverseWithIndex(F)
-  return (f) => traverseWithIndexF((_, a) => f(a))
-}
-
-/**
- * @category traversing
- * @since 3.0.0
- */
-export const sequence: <F extends TypeLambda>(
-  F: apply.Apply<F>
-) => <S, R, O, E, A>(
-  fas: NonEmptyReadonlyArray<Kind<F, S, R, O, E, A>>
-) => Kind<F, S, R, O, E, NonEmptyReadonlyArray<A>> = (F) => traverse(F)(identity)
-
-/**
- * @since 3.0.0
- */
 export const traverseWithIndex =
-  <F extends TypeLambda>(F: apply.Apply<F>) =>
+  <F extends TypeLambda>(Apply: apply.Apply<F>) =>
   <A, S, R, O, E, B>(f: (i: number, a: A) => Kind<F, S, R, O, E, B>) =>
-  (as: NonEmptyReadonlyArray<A>): Kind<F, S, R, O, E, NonEmptyReadonlyArray<B>> => {
-    let out = pipe(f(0, head(as)), F.map(of))
-    for (let i = 1; i < as.length; i++) {
+  (self: NonEmptyReadonlyArray<A>): Kind<F, S, R, O, E, NonEmptyReadonlyArray<B>> => {
+    let out = pipe(f(0, head(self)), Apply.map(of))
+    for (let i = 1; i < self.length; i++) {
       out = pipe(
         out,
-        F.map((bs) => (b: B) => pipe(bs, append(b))),
-        F.ap(f(i, as[i]))
+        Apply.map((bs) => (b: B) => pipe(bs, append(b))),
+        Apply.ap(f(i, self[i]))
       )
     }
     return out
   }
 
 /**
+ * @category traversing
  * @since 3.0.0
  */
-export const extract: <A>(wa: NonEmptyReadonlyArray<A>) => A = _.head
+export const traverse =
+  <F extends TypeLambda>(Apply: apply.Apply<F>) =>
+  <A, S, R, O, E, B>(
+    f: (a: A) => Kind<F, S, R, O, E, B>
+  ): ((self: NonEmptyReadonlyArray<A>) => Kind<F, S, R, O, E, NonEmptyReadonlyArray<B>>) =>
+    traverseWithIndex(Apply)((_, a) => f(a))
+
+/**
+ * @category traversing
+ * @since 3.0.0
+ */
+export const sequence = <F extends TypeLambda>(
+  Apply: apply.Apply<F>
+): (<S, R, O, E, A>(
+  self: NonEmptyReadonlyArray<Kind<F, S, R, O, E, A>>
+) => Kind<F, S, R, O, E, NonEmptyReadonlyArray<A>>) => traverse(Apply)(identity)
+
+/**
+ * @since 3.0.0
+ */
+export const extract: <A>(self: NonEmptyReadonlyArray<A>) => A = _.head
 
 // -------------------------------------------------------------------------------------
 // type lambdas
