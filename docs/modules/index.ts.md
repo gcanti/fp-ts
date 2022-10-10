@@ -82,7 +82,6 @@ Added in v3.0.0
   - [show](#show)
   - [traversable](#traversable)
   - [traversableFilterable](#traversablefilterable)
-  - [unfoldable](#unfoldable)
 - [utils](#utils)
   - [boolean](#boolean)
   - [console](#console)
@@ -772,16 +771,6 @@ Added in v3.0.0
 
 ```ts
 export declare const traversableFilterable: typeof traversableFilterable
-```
-
-Added in v3.0.0
-
-## unfoldable
-
-**Signature**
-
-```ts
-export declare const unfoldable: typeof unfoldable
 ```
 
 Added in v3.0.0

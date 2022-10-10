@@ -34,7 +34,6 @@ import type { Refinement } from './Refinement'
 import type { Semigroup } from './Semigroup'
 import type { Show } from './Show'
 import * as traversable from './Traversable'
-import type * as unfoldable from './Unfoldable'
 import * as traversableFilterable from './TraversableFilterable'
 import type { NonEmptyReadonlyArray } from './NonEmptyReadonlyArray'
 import type { Ord } from './Ord'
@@ -1761,14 +1760,6 @@ export const Monad: Monad_<ReadonlyArrayTypeLambda> = {
  */
 export const tap: <A>(f: (a: A) => ReadonlyArray<unknown>) => (self: ReadonlyArray<A>) => ReadonlyArray<A> =
   /*#__PURE__*/ flattenable.tap(Flattenable)
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const Unfoldable: unfoldable.Unfoldable<ReadonlyArrayTypeLambda> = {
-  unfold
-}
 
 /**
  * @category instances

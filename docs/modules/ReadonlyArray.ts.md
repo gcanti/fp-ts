@@ -77,7 +77,6 @@ Added in v3.0.0
   - [Monad](#monad)
   - [Traversable](#traversable)
   - [TraversableFilterable](#traversablefilterable)
-  - [Unfoldable](#unfoldable)
   - [getEq](#geteq)
   - [getIntersectionSemigroup](#getintersectionsemigroup)
   - [getMonoid](#getmonoid)
@@ -924,16 +923,6 @@ Added in v3.0.0
 
 ```ts
 export declare const TraversableFilterable: traversableFilterable.TraversableFilterable<ReadonlyArrayTypeLambda>
-```
-
-Added in v3.0.0
-
-## Unfoldable
-
-**Signature**
-
-```ts
-export declare const Unfoldable: unfoldable.Unfoldable<ReadonlyArrayTypeLambda>
 ```
 
 Added in v3.0.0

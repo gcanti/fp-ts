@@ -79,7 +79,6 @@ import * as theseT from './TheseT'
 import * as traversable from './Traversable'
 import * as traversableFilterable from './TraversableFilterable'
 import * as tuple from './tuple'
-import * as unfoldable from './Unfoldable'
 import * as void_ from './void'
 import * as writer from './Writer'
 import * as writerT from './WriterT'
@@ -458,11 +457,6 @@ export {
    * @since 3.0.0
    */
   tuple,
-  /**
-   * @category type classes
-   * @since 3.0.0
-   */
-  unfoldable,
   /**
    * @since 3.0.0
    */
