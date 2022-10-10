@@ -1,6 +1,6 @@
 ---
 title: ReadonlyArray.ts
-nav_order: 61
+nav_order: 60
 parent: Modules
 ---
 
@@ -12,9 +12,6 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [FlattenableRec](#flattenablerec)
-  - [flatMapRecBreadthFirst](#flatmaprecbreadthfirst)
-  - [flatMapRecDepthFirst](#flatmaprecdepthfirst)
 - [constructors](#constructors)
   - [append](#append)
   - [comprehension](#comprehension)
@@ -67,8 +64,6 @@ Added in v3.0.0
   - [Extendable](#extendable)
   - [Filterable](#filterable)
   - [Flattenable](#flattenable)
-  - [FlattenableRecBreadthFirst](#flattenablerecbreadthfirst)
-  - [FlattenableRecDepthFirst](#flattenablerecdepthfirst)
   - [FromIdentity](#fromidentity)
   - [FromOption](#fromoption)
   - [FromResult](#fromresult)
@@ -186,28 +181,6 @@ Added in v3.0.0
   - [zipWith](#zipwith)
 
 ---
-
-# FlattenableRec
-
-## flatMapRecBreadthFirst
-
-**Signature**
-
-```ts
-export declare const flatMapRecBreadthFirst: <A, B>(f: (a: A) => readonly Result<A, B>[]) => (a: A) => readonly B[]
-```
-
-Added in v3.0.0
-
-## flatMapRecDepthFirst
-
-**Signature**
-
-```ts
-export declare const flatMapRecDepthFirst: <A, B>(f: (a: A) => readonly Result<A, B>[]) => (a: A) => readonly B[]
-```
-
-Added in v3.0.0
 
 # constructors
 
@@ -823,26 +796,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Flattenable: flattenable.Flattenable<ReadonlyArrayTypeLambda>
-```
-
-Added in v3.0.0
-
-## FlattenableRecBreadthFirst
-
-**Signature**
-
-```ts
-export declare const FlattenableRecBreadthFirst: flattenableRec.FlattenableRec<ReadonlyArrayTypeLambda>
-```
-
-Added in v3.0.0
-
-## FlattenableRecDepthFirst
-
-**Signature**
-
-```ts
-export declare const FlattenableRecDepthFirst: flattenableRec.FlattenableRec<ReadonlyArrayTypeLambda>
 ```
 
 Added in v3.0.0

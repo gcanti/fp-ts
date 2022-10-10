@@ -20,7 +20,6 @@ import type * as applicative from './Applicative'
 import * as apply from './Apply'
 import * as bifunctor from './Bifunctor'
 import * as flattenable from './Flattenable'
-import * as flattenableRec from './FlattenableRec'
 import type { Compactable } from './Compactable'
 import * as eq from './Eq'
 import type * as extendable from './Extendable'
@@ -316,22 +315,6 @@ export const catchAll: <E1, E2, B>(
 export const mapBoth: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (self: Result<E, A>) => Result<G, B> =
   (f, g) => (fa) =>
     isFailure(fa) ? fail(f(fa.failure)) : succeed(g(fa.success))
-
-/**
- * @category sequencing
- * @since 3.0.0
- */
-export const flatMapRec = <A, E, B>(f: (a: A) => Result<E, Result<A, B>>): ((a: A) => Result<E, B>) =>
-  flow(
-    f,
-    flattenableRec.tailRec<Result<E, Result<A, B>>, Result<E, B>>((e) =>
-      isFailure(e)
-        ? succeed(fail(e.failure))
-        : isFailure(e.success)
-        ? fail(f(e.success.failure))
-        : succeed(succeed(e.success.success))
-    )
-  )
 
 /**
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
@@ -850,14 +833,6 @@ export const tapError: <E1, E2>(
  */
 export const tap: <A, E2>(f: (a: A) => Result<E2, unknown>) => <E1>(self: Result<E1, A>) => Result<E1 | E2, A> =
   /*#__PURE__*/ flattenable.tap(Flattenable)
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const FlattenableRec: flattenableRec.FlattenableRec<ResultTypeLambda> = {
-  flatMapRec: flatMapRec
-}
 
 /**
  * @category conversions

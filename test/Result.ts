@@ -511,37 +511,6 @@ describe('Result', () => {
     U.deepStrictEqual(f(''), _.fail(new Error('empty string')))
   })
 
-  it('flatMapRec', () => {
-    const flatMapRec = _.flatMapRec
-    U.deepStrictEqual(
-      pipe(
-        1,
-        flatMapRec(() => _.fail('a'))
-      ),
-      _.fail('a')
-    )
-    U.deepStrictEqual(
-      pipe(
-        1,
-        flatMapRec((_a: number) => _.succeed(_.succeed(1)))
-      ),
-      _.succeed(1)
-    )
-    U.deepStrictEqual(
-      pipe(
-        1,
-        flatMapRec((a) => {
-          if (a < 5) {
-            return _.succeed(_.fail(a + 1))
-          } else {
-            return _.succeed(_.succeed(a))
-          }
-        })
-      ),
-      _.succeed(5)
-    )
-  })
-
   // -------------------------------------------------------------------------------------
   // array utils
   // -------------------------------------------------------------------------------------

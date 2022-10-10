@@ -50,19 +50,19 @@ Clamp a value between `bottom` and `top` values.
 **Signature**
 
 ```ts
-export declare const clamp: <T>(B: Bounded<T>) => Endomorphism<T>
+export declare const clamp: <A>(B: Bounded<A>) => Endomorphism<A>
 ```
 
 Added in v3.0.0
 
 ## reverse
 
-Reverses the `Ord` of a `Bounded` and swaps `top` and `bottom` values.
+Reverses the `Ord` of a `Bounded` and flips `top` and `bottom` values.
 
 **Signature**
 
 ```ts
-export declare const reverse: <T>(B: Bounded<T>) => Bounded<T>
+export declare const reverse: <A>(B: Bounded<A>) => Bounded<A>
 ```
 
 Added in v3.0.0

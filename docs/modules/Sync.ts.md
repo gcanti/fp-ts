@@ -1,6 +1,6 @@
 ---
 title: Sync.ts
-nav_order: 72
+nav_order: 71
 parent: Modules
 ---
 
@@ -37,7 +37,6 @@ Added in v3.0.0
   - [Apply](#apply)
   - [CategoryKind](#categorykind)
   - [Flattenable](#flattenable)
-  - [FlattenableRec](#flattenablerec)
   - [FromIdentity](#fromidentity)
   - [FromSync](#fromsync)
   - [Functor](#functor)
@@ -57,7 +56,6 @@ Added in v3.0.0
   - [Sync (interface)](#sync-interface)
 - [sequencing](#sequencing)
   - [flatMap](#flatmap)
-  - [flatMapRec](#flatmaprec)
   - [zipLeft](#zipleft)
   - [zipRight](#zipright)
 - [traversing](#traversing)
@@ -195,16 +193,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Flattenable: flattenable.Flattenable<SyncTypeLambda>
-```
-
-Added in v3.0.0
-
-## FlattenableRec
-
-**Signature**
-
-```ts
-export declare const FlattenableRec: flatMapableRec.FlattenableRec<SyncTypeLambda>
 ```
 
 Added in v3.0.0
@@ -369,16 +357,6 @@ Added in v3.0.0
 
 ```ts
 export declare const flatMap: <A, B>(f: (a: A) => Sync<B>) => (self: Sync<A>) => Sync<B>
-```
-
-Added in v3.0.0
-
-## flatMapRec
-
-**Signature**
-
-```ts
-export declare const flatMapRec: <A, B>(f: (a: A) => Sync<Result<A, B>>) => (a: A) => Sync<B>
 ```
 
 Added in v3.0.0

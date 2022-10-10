@@ -18,8 +18,6 @@ import type * as applicative from './Applicative'
 import type * as kleisliCategory from './KleisliCategory'
 import type * as kleisliComposable from './KleisliComposable'
 import * as flattenable from './Flattenable'
-import type * as flatMapableRec from './FlattenableRec'
-import type { Result } from './Result'
 import * as fromSync_ from './FromSync'
 import { constant, flow, identity, SK } from './Function'
 import * as functor from './Functor'
@@ -125,18 +123,6 @@ export const zipRight: <A>(that: Sync<A>) => (self: Sync<unknown>) => Sync<A> =
  * @since 3.0.0
  */
 export const ap: <A>(fa: Sync<A>) => <B>(fab: Sync<(a: A) => B>) => Sync<B> = /*#__PURE__*/ flattenable.ap(Flattenable)
-
-/**
- * @category sequencing
- * @since 3.0.0
- */
-export const flatMapRec: <A, B>(f: (a: A) => Sync<Result<A, B>>) => (a: A) => Sync<B> = (f) => (a) => () => {
-  let e = f(a)()
-  while (_.isFailure(e)) {
-    e = f(e.failure)()
-  }
-  return e.success
-}
 
 /**
  * @since 3.0.0
@@ -261,14 +247,6 @@ export const FromSync: fromSync_.FromSync<SyncTypeLambda> = {
  * @since 3.0.0
  */
 export const log: <A extends ReadonlyArray<unknown>>(...x: A) => Sync<void> = /*#__PURE__*/ fromSync_.log(FromSync)
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const FlattenableRec: flatMapableRec.FlattenableRec<SyncTypeLambda> = {
-  flatMapRec: flatMapRec
-}
 
 // -------------------------------------------------------------------------------------
 // do notation

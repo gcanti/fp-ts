@@ -5,9 +5,7 @@ import type * as applicative from './Applicative'
 import type { Apply } from './Apply'
 import type * as bifunctor from './Bifunctor'
 import type { Flattenable } from './Flattenable'
-import type { FlattenableRec } from './FlattenableRec'
 import type * as comonad from './Comonad'
-import type { Result } from './Result'
 import { flow, identity, pipe, SK } from './Function'
 import * as functor from './Functor'
 import type { TypeLambda, Kind } from './HKT'
@@ -354,30 +352,6 @@ export const getMonad = <W>(M: Monoid<W>): Monad<WriterFFix<W>> => {
     map,
     of: P.of,
     flatMap: C.flatMap
-  }
-}
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export function getFlattenableRec<W>(M: Monoid<W>): FlattenableRec<WriterFFix<W>> {
-  const flatMapRec =
-    <A, B>(f: (a: A) => Writer<W, Result<A, B>>) =>
-    (a: A): Writer<W, B> => {
-      let result: Writer<W, Result<A, B>> = f(a)
-      let acc: W = M.empty
-      let s: Result<A, B> = right(result)
-      while (_.isFailure(s)) {
-        acc = M.combine(left(result))(acc)
-        result = f(s.failure)
-        s = right(result)
-      }
-      return [M.combine(left(result))(acc), s.success]
-    }
-
-  return {
-    flatMapRec
   }
 }
 

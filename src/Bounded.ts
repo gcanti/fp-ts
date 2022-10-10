@@ -25,18 +25,15 @@ export interface Bounded<A> extends Ord<A> {
  *
  * @since 3.0.0
  */
-export const clamp = <T>(B: Bounded<T>): Endomorphism<T> => ord.clamp(B)(B.bottom, B.top)
+export const clamp = <A>(B: Bounded<A>): Endomorphism<A> => ord.clamp(B)(B.bottom, B.top)
 
 /**
- * Reverses the `Ord` of a `Bounded` and swaps `top` and `bottom` values.
+ * Reverses the `Ord` of a `Bounded` and flips `top` and `bottom` values.
  *
  * @since 3.0.0
  */
-export const reverse = <T>(B: Bounded<T>): Bounded<T> => {
-  const R = ord.reverse(B)
-  return {
-    compare: R.compare,
-    top: B.bottom,
-    bottom: B.top
-  }
-}
+export const reverse = <A>(B: Bounded<A>): Bounded<A> => ({
+  compare: ord.reverse(B).compare,
+  top: B.bottom,
+  bottom: B.top
+})

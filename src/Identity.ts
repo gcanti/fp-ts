@@ -11,9 +11,7 @@ import * as alt from './Alt'
 import * as apply from './Apply'
 import type * as applicative from './Applicative'
 import * as flattenable from './Flattenable'
-import * as flattenableRec from './FlattenableRec'
 import type * as comonad from './Comonad'
-import type { Result } from './Result'
 import type { Eq } from './Eq'
 import type { Monoid } from './Monoid'
 import type * as extendable from './Extendable'
@@ -220,20 +218,6 @@ export const Applicative: applicative.Applicative<IdentityTypeLambda> = {
  * @since 3.0.0
  */
 export const flatten: <A>(mma: Identity<Identity<A>>) => Identity<A> = /*#__PURE__*/ flatMap(identity)
-
-/**
- * @category sequencing
- * @since 3.0.0
- */
-export const flatMapRec: <A, B>(f: (a: A) => Identity<Result<A, B>>) => (a: A) => B = flattenableRec.tailRec
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const FlattenableRec: flattenableRec.FlattenableRec<IdentityTypeLambda> = {
-  flatMapRec
-}
 
 /**
  * @category instances

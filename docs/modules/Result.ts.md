@@ -1,6 +1,6 @@
 ---
 title: Result.ts
-nav_order: 63
+nav_order: 62
 parent: Modules
 ---
 
@@ -72,7 +72,6 @@ Added in v3.0.0
   - [CategoryKind](#categorykind)
   - [Extendable](#extendable)
   - [Flattenable](#flattenable)
-  - [FlattenableRec](#flattenablerec)
   - [FromIdentity](#fromidentity)
   - [FromResult](#fromresult)
   - [Functor](#functor)
@@ -113,7 +112,6 @@ Added in v3.0.0
   - [flatMap](#flatmap)
   - [flatMapNullable](#flatmapnullable)
   - [flatMapOption](#flatmapoption)
-  - [flatMapRec](#flatmaprec)
   - [flatten](#flatten)
   - [zipLeft](#zipleft)
   - [zipRight](#zipright)
@@ -816,16 +814,6 @@ export declare const Flattenable: flattenable.Flattenable<ResultTypeLambda>
 
 Added in v3.0.0
 
-## FlattenableRec
-
-**Signature**
-
-```ts
-export declare const FlattenableRec: flattenableRec.FlattenableRec<ResultTypeLambda>
-```
-
-Added in v3.0.0
-
 ## FromIdentity
 
 **Signature**
@@ -1294,16 +1282,6 @@ export declare const flatMapOption: <A, B, E2>(
   f: (a: A) => Option<B>,
   onNone: E2
 ) => <E1>(self: Result<E1, A>) => Result<E2 | E1, B>
-```
-
-Added in v3.0.0
-
-## flatMapRec
-
-**Signature**
-
-```ts
-export declare const flatMapRec: <A, E, B>(f: (a: A) => Result<E, Result<A, B>>) => (a: A) => Result<E, B>
 ```
 
 Added in v3.0.0

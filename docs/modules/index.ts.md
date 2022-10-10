@@ -1,6 +1,6 @@
 ---
 title: index.ts
-nav_order: 38
+nav_order: 37
 parent: Modules
 ---
 
@@ -61,7 +61,6 @@ Added in v3.0.0
   - [extendable](#extendable)
   - [filterable](#filterable)
   - [flattenable](#flattenable)
-  - [flattenableRec](#flattenablerec)
   - [fromAsync](#fromasync)
   - [fromIdentity](#fromidentity)
   - [fromOption](#fromoption)
@@ -561,16 +560,6 @@ Added in v3.0.0
 
 ```ts
 export declare const flattenable: typeof flattenable
-```
-
-Added in v3.0.0
-
-## flattenableRec
-
-**Signature**
-
-```ts
-export declare const flattenableRec: typeof flattenableRec
 ```
 
 Added in v3.0.0

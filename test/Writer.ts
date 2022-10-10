@@ -1,8 +1,7 @@
-import * as E from '../src/Result'
 import { pipe } from '../src/Function'
+import type { NonEmptyReadonlyArray } from '../src/NonEmptyReadonlyArray'
 import * as O from '../src/Option'
 import * as RA from '../src/ReadonlyArray'
-import type { NonEmptyReadonlyArray } from '../src/NonEmptyReadonlyArray'
 import * as S from '../src/string'
 import * as _ from '../src/Writer'
 import * as U from './util'
@@ -120,20 +119,6 @@ describe('Writer', () => {
     const fa: _.Writer<string, number> = ['w1', 1]
     const f = (n: number): _.Writer<string, number> => ['w2', n * 2]
     U.deepStrictEqual(pipe(fa, M.flatMap(f)), ['w1w2', 2])
-  })
-
-  it('getFlattenableRec', () => {
-    const { flatMapRec } = _.getFlattenableRec(RA.getMonoid<number>())
-    function seqReq(upper: number): readonly [ReadonlyArray<number>, number] {
-      return pipe(
-        1,
-        flatMapRec((init) => [[init], init >= upper ? E.succeed(init) : E.fail(init + 1)])
-      )
-    }
-    const xs = _.left(seqReq(10000))
-    U.deepStrictEqual(xs.length, 10000)
-    U.deepStrictEqual(xs[0], 1)
-    U.deepStrictEqual(xs[xs.length - 1], 10000)
   })
 
   // -------------------------------------------------------------------------------------

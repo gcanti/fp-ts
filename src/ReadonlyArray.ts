@@ -8,7 +8,6 @@ import * as alternative from './Alternative'
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
 import * as flattenable from './Flattenable'
-import type * as flattenableRec from './FlattenableRec'
 import type * as compactable from './Compactable'
 import type { Result } from './Result'
 import type { Endomorphism } from './Endomorphism'
@@ -2091,74 +2090,6 @@ export const FromResult: fromResult_.FromResult<ReadonlyArrayTypeLambda> = {
 export const liftResult: <A extends ReadonlyArray<unknown>, E, B>(
   f: (...a: A) => Result<E, B>
 ) => (...a: A) => ReadonlyArray<B> = /*#__PURE__*/ fromResult_.liftResult(FromResult)
-
-/**
- * @category FlattenableRec
- * @since 3.0.0
- */
-export const flatMapRecDepthFirst =
-  <A, B>(f: (a: A) => ReadonlyArray<Result<A, B>>) =>
-  (a: A): ReadonlyArray<B> => {
-    const abs: Array<Result<A, B>> = [...f(a)]
-    const out: Array<B> = []
-
-    while (abs.length > 0) {
-      const e = abs.shift()!
-      if (_.isFailure(e)) {
-        abs.unshift(...f(e.failure))
-      } else {
-        out.push(e.success)
-      }
-    }
-
-    return out
-  }
-
-/**
- * @category FlattenableRec
- * @since 3.0.0
- */
-export const flatMapRecBreadthFirst =
-  <A, B>(f: (a: A) => ReadonlyArray<Result<A, B>>) =>
-  (a: A): ReadonlyArray<B> => {
-    const initial = f(a)
-    const abs: Array<Result<A, B>> = []
-    const out: Array<B> = []
-
-    function go(e: Result<A, B>): void {
-      if (_.isFailure(e)) {
-        f(e.failure).forEach((v) => abs.push(v))
-      } else {
-        out.push(e.success)
-      }
-    }
-
-    for (const e of initial) {
-      go(e)
-    }
-
-    while (abs.length > 0) {
-      go(abs.shift()!)
-    }
-
-    return out
-  }
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const FlattenableRecDepthFirst: flattenableRec.FlattenableRec<ReadonlyArrayTypeLambda> = {
-  flatMapRec: flatMapRecDepthFirst
-}
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const FlattenableRecBreadthFirst: flattenableRec.FlattenableRec<ReadonlyArrayTypeLambda> = {
-  flatMapRec: flatMapRecBreadthFirst
-}
 
 /**
  * Check if a predicate holds true for every `ReadonlyArray` member.

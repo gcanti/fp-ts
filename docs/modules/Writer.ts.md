@@ -1,6 +1,6 @@
 ---
 title: Writer.ts
-nav_order: 81
+nav_order: 80
 parent: Modules
 ---
 
@@ -31,7 +31,6 @@ Added in v3.0.0
   - [getApplicative](#getapplicative)
   - [getApply](#getapply)
   - [getFlattenable](#getflattenable)
-  - [getFlattenableRec](#getflattenablerec)
   - [getFromIdentity](#getfromidentity)
   - [getMonad](#getmonad)
 - [mapping](#mapping)
@@ -215,16 +214,6 @@ Added in v3.0.0
 
 ```ts
 export declare const getFlattenable: <W>(S: Semigroup<W>) => Flattenable<WriterFFix<W>>
-```
-
-Added in v3.0.0
-
-## getFlattenableRec
-
-**Signature**
-
-```ts
-export declare function getFlattenableRec<W>(M: Monoid<W>): FlattenableRec<WriterFFix<W>>
 ```
 
 Added in v3.0.0

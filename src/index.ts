@@ -25,7 +25,6 @@ import * as eq from './Eq'
 import * as extendable from './Extendable'
 import * as filterable from './Filterable'
 import * as flattenable from './Flattenable'
-import * as flattenableRec from './FlattenableRec'
 import * as fromAsync from './FromAsync'
 import * as fromIdentity from './FromIdentity'
 import * as fromSync from './FromSync'
@@ -192,11 +191,6 @@ export {
    * @since 3.0.0
    */
   flattenable,
-  /**
-   * @category type classes
-   * @since 3.0.0
-   */
-  flattenableRec,
   /**
    * @category type classes
    * @since 3.0.0

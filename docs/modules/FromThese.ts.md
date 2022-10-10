@@ -1,6 +1,6 @@
 ---
 title: FromThese.ts
-nav_order: 32
+nav_order: 31
 parent: Modules
 ---
 

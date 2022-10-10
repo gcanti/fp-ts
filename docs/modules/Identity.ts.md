@@ -1,6 +1,6 @@
 ---
 title: Identity.ts
-nav_order: 37
+nav_order: 36
 parent: Modules
 ---
 
@@ -40,7 +40,6 @@ Added in v3.0.0
   - [Comonad](#comonad)
   - [Extendable](#extendable)
   - [Flattenable](#flattenable)
-  - [FlattenableRec](#flattenablerec)
   - [FromIdentity](#fromidentity)
   - [Functor](#functor)
   - [KleisliComposable](#kleislicomposable)
@@ -61,7 +60,6 @@ Added in v3.0.0
   - [IdentityTypeLambda (interface)](#identitytypelambda-interface)
 - [sequencing](#sequencing)
   - [flatMap](#flatmap)
-  - [flatMapRec](#flatmaprec)
   - [zipLeft](#zipleft)
   - [zipRight](#zipright)
 - [traversing](#traversing)
@@ -289,16 +287,6 @@ export declare const Flattenable: flattenable.Flattenable<IdentityTypeLambda>
 
 Added in v3.0.0
 
-## FlattenableRec
-
-**Signature**
-
-```ts
-export declare const FlattenableRec: flattenableRec.FlattenableRec<IdentityTypeLambda>
-```
-
-Added in v3.0.0
-
 ## FromIdentity
 
 **Signature**
@@ -475,16 +463,6 @@ Added in v3.0.0
 
 ```ts
 export declare const flatMap: <A, B>(f: (a: A) => B) => (self: A) => B
-```
-
-Added in v3.0.0
-
-## flatMapRec
-
-**Signature**
-
-```ts
-export declare const flatMapRec: <A, B>(f: (a: A) => Result<A, B>) => (a: A) => B
 ```
 
 Added in v3.0.0

@@ -1,4 +1,3 @@
-import * as E from '../src/Result'
 import { flow, pipe } from '../src/Function'
 import * as _ from '../src/Sync'
 import * as RA from '../src/ReadonlyArray'
@@ -69,11 +68,6 @@ describe('Sync', () => {
 
   it('zipFlatten', () => {
     U.deepStrictEqual(pipe(_.of(1), _.tupled, _.zipFlatten(_.of('b')))(), [1, 'b'])
-  })
-
-  it('flatMapRec', () => {
-    const f = (n: number) => (n < 15000 ? _.of(E.fail(n + 1)) : _.of(E.succeed('ok ' + n)))
-    U.deepStrictEqual(_.FlattenableRec.flatMapRec(f)(0)(), 'ok 15000')
   })
 
   // -------------------------------------------------------------------------------------

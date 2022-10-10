@@ -1,6 +1,6 @@
 ---
 title: NonEmptyReadonlyArray.ts
-nav_order: 46
+nav_order: 45
 parent: Modules
 ---
 
@@ -23,8 +23,6 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [FunctorWithIndex](#functorwithindex)
-  - [mapWithIndex](#mapwithindex)
 - [constructors](#constructors)
   - [fromReadonlyArray](#fromreadonlyarray)
   - [makeBy](#makeby)
@@ -84,6 +82,7 @@ Added in v3.0.0
 - [traversing](#traversing)
   - [sequence](#sequence)
   - [traverse](#traverse)
+  - [traverseWithIndex](#traversewithindex)
 - [tuple sequencing](#tuple-sequencing)
   - [Zip](#zip)
   - [tupled](#tupled)
@@ -112,6 +111,7 @@ Added in v3.0.0
   - [intercalate](#intercalate)
   - [intersperse](#intersperse)
   - [last](#last)
+  - [mapWithIndex](#mapwithindex)
   - [max](#max)
   - [min](#min)
   - [modifyAt](#modifyat)
@@ -126,7 +126,6 @@ Added in v3.0.0
   - [splitAt](#splitat)
   - [tail](#tail)
   - [tap](#tap)
-  - [traverseWithIndex](#traversewithindex)
   - [union](#union)
   - [uniq](#uniq)
   - [unzip](#unzip)
@@ -137,20 +136,6 @@ Added in v3.0.0
   - [zipWith](#zipwith)
 
 ---
-
-# FunctorWithIndex
-
-## mapWithIndex
-
-**Signature**
-
-```ts
-export declare const mapWithIndex: <A, B>(
-  f: (i: number, a: A) => B
-) => (fa: readonly [A, ...A[]]) => readonly [B, ...B[]]
-```
-
-Added in v3.0.0
 
 # constructors
 
@@ -789,9 +774,9 @@ Added in v3.0.0
 
 ```ts
 export declare const sequence: <F extends TypeLambda>(
-  F: apply.Apply<F>
+  Apply: apply.Apply<F>
 ) => <S, R, O, E, A>(
-  fas: readonly [Kind<F, S, R, O, E, A>, ...Kind<F, S, R, O, E, A>[]]
+  self: readonly [Kind<F, S, R, O, E, A>, ...Kind<F, S, R, O, E, A>[]]
 ) => Kind<F, S, R, O, E, readonly [A, ...A[]]>
 ```
 
@@ -803,10 +788,24 @@ Added in v3.0.0
 
 ```ts
 export declare const traverse: <F extends TypeLambda>(
-  F: apply.Apply<F>
+  Apply: apply.Apply<F>
 ) => <A, S, R, O, E, B>(
   f: (a: A) => Kind<F, S, R, O, E, B>
-) => (ta: readonly [A, ...A[]]) => Kind<F, S, R, O, E, readonly [B, ...B[]]>
+) => (self: readonly [A, ...A[]]) => Kind<F, S, R, O, E, readonly [B, ...B[]]>
+```
+
+Added in v3.0.0
+
+## traverseWithIndex
+
+**Signature**
+
+```ts
+export declare const traverseWithIndex: <F extends TypeLambda>(
+  Apply: apply.Apply<F>
+) => <A, S, R, O, E, B>(
+  f: (i: number, a: A) => Kind<F, S, R, O, E, B>
+) => (self: readonly [A, ...A[]]) => Kind<F, S, R, O, E, readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0
@@ -1035,7 +1034,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const extract: <A>(wa: readonly [A, ...A[]]) => A
+export declare const extract: <A>(self: readonly [A, ...A[]]) => A
 ```
 
 Added in v3.0.0
@@ -1212,6 +1211,18 @@ Added in v3.0.0
 
 ```ts
 export declare const last: <A>(as: readonly [A, ...A[]]) => A
+```
+
+Added in v3.0.0
+
+## mapWithIndex
+
+**Signature**
+
+```ts
+export declare const mapWithIndex: <A, B>(
+  f: (i: number, a: A) => B
+) => (fa: readonly [A, ...A[]]) => readonly [B, ...B[]]
 ```
 
 Added in v3.0.0
@@ -1471,20 +1482,6 @@ assert.deepStrictEqual(
   ),
   [1, 1, 2, 2, 3, 3]
 )
-```
-
-Added in v3.0.0
-
-## traverseWithIndex
-
-**Signature**
-
-```ts
-export declare const traverseWithIndex: <F extends TypeLambda>(
-  F: apply.Apply<F>
-) => <A, S, R, O, E, B>(
-  f: (i: number, a: A) => Kind<F, S, R, O, E, B>
-) => (as: readonly [A, ...A[]]) => Kind<F, S, R, O, E, readonly [B, ...B[]]>
 ```
 
 Added in v3.0.0
