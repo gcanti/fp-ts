@@ -30,7 +30,6 @@ Added in v3.0.0
   - [fromIterable](#fromiterable)
   - [fromNullable](#fromnullable)
   - [fromResult](#fromresult)
-  - [getFailure](#getfailure)
   - [toNull](#tonull)
   - [toReadonlyArray](#toreadonlyarray)
   - [toResult](#toresult)
@@ -221,28 +220,6 @@ import * as R from 'fp-ts/Result'
 
 assert.deepStrictEqual(O.fromResult(R.succeed(1)), O.some(1))
 assert.deepStrictEqual(O.fromResult(R.fail('a')), O.none)
-```
-
-Added in v3.0.0
-
-## getFailure
-
-Converts a `Result` to an `Option` discarding the success.
-
-**Signature**
-
-```ts
-export declare const getFailure: <E, A>(self: Result<E, A>) => Option<E>
-```
-
-**Example**
-
-```ts
-import * as O from 'fp-ts/Option'
-import * as E from 'fp-ts/Result'
-
-assert.deepStrictEqual(O.getFailure(E.succeed(1)), O.none)
-assert.deepStrictEqual(O.getFailure(E.fail('a')), O.some('a'))
 ```
 
 Added in v3.0.0

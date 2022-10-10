@@ -788,23 +788,23 @@ Added in v3.0.0
 
 ## getFailure
 
-Returns an `E` value if possible
+Converts a `These` to an `Option` discarding the success.
 
 **Signature**
 
 ```ts
-export declare const getFailure: <E, A>(fa: These<E, A>) => Option<E>
+export declare const getFailure: <E, A>(self: These<E, A>) => Option<E>
 ```
 
 **Example**
 
 ```ts
-import { getFailure, fail, succeed, both } from 'fp-ts/These'
-import { none, some } from 'fp-ts/Option'
+import * as T from 'fp-ts/These'
+import * as O from 'fp-ts/Option'
 
-assert.deepStrictEqual(getFailure(fail('a')), some('a'))
-assert.deepStrictEqual(getFailure(succeed(1)), none)
-assert.deepStrictEqual(getFailure(both('a', 1)), some('a'))
+assert.deepStrictEqual(T.getFailure(T.succeed(1)), O.none)
+assert.deepStrictEqual(T.getFailure(T.fail('err')), O.some('err'))
+assert.deepStrictEqual(T.getFailure(T.both('err', 1)), O.some('err'))
 ```
 
 Added in v3.0.0
@@ -834,23 +834,23 @@ Added in v3.0.0
 
 ## getSuccess
 
-Returns an `A` value if possible
+Converts a `These` to an `Option` discarding the error.
 
 **Signature**
 
 ```ts
-export declare const getSuccess: <E, A>(fa: These<E, A>) => Option<A>
+export declare const getSuccess: <E, A>(self: These<E, A>) => Option<A>
 ```
 
 **Example**
 
 ```ts
-import { getSuccess, fail, succeed, both } from 'fp-ts/These'
-import { none, some } from 'fp-ts/Option'
+import * as T from 'fp-ts/These'
+import * as O from 'fp-ts/Option'
 
-assert.deepStrictEqual(getSuccess(fail('a')), none)
-assert.deepStrictEqual(getSuccess(succeed(1)), some(1))
-assert.deepStrictEqual(getSuccess(both('a', 1)), some(1))
+assert.deepStrictEqual(T.getSuccess(T.succeed(1)), O.some(1))
+assert.deepStrictEqual(T.getSuccess(T.fail('err')), O.none)
+assert.deepStrictEqual(T.getSuccess(T.both('err', 1)), O.some(1))
 ```
 
 Added in v3.0.0

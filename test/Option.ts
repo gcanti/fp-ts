@@ -382,11 +382,6 @@ describe('Option', () => {
     U.deepStrictEqual(Sh.show(O.none), `none`)
   })
 
-  it('getLeft', () => {
-    U.deepStrictEqual(O.getFailure(E.succeed(1)), O.none)
-    U.deepStrictEqual(O.getFailure(E.fail('err')), O.some('err'))
-  })
-
   it('fromResult', () => {
     U.deepStrictEqual(O.fromResult(E.succeed(1)), O.some(1))
     U.deepStrictEqual(O.fromResult(E.fail('e')), O.none)

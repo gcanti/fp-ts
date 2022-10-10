@@ -162,21 +162,6 @@ export const fromResult: <E, A>(self: Result<E, A>) => Option<A> = _.getSuccess
 export const toResult: <E>(onNone: E) => <A>(self: Option<A>) => Result<E, A> = _.fromOptionToResult
 
 /**
- * Converts a `Result` to an `Option` discarding the success.
- *
- * @example
- * import * as O from 'fp-ts/Option'
- * import * as E from 'fp-ts/Result'
- *
- * assert.deepStrictEqual(O.getFailure(E.succeed(1)), O.none)
- * assert.deepStrictEqual(O.getFailure(E.fail('a')), O.some('a'))
- *
- * @category conversions
- * @since 3.0.0
- */
-export const getFailure: <E, A>(self: Result<E, A>) => Option<E> = _.getFailure
-
-/**
  * Takes a (lazy) default value, a function, and an `Option` value, if the `Option` value is `None` the default value is
  * returned, otherwise the function is applied to the value inside the `Some` and the result is returned.
  *
@@ -596,7 +581,7 @@ const defaultSeparated = /*#__PURE__*/ [none, none] as const
  * @since 3.0.0
  */
 export const separate: <A, B>(fe: Option<Result<A, B>>) => readonly [Option<A>, Option<B>] = (ma) =>
-  isNone(ma) ? defaultSeparated : [getFailure(ma.value), fromResult(ma.value)]
+  isNone(ma) ? defaultSeparated : [_.getFailure(ma.value), fromResult(ma.value)]
 
 /**
  * @category filtering

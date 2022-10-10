@@ -11,8 +11,8 @@ export const getSuccess = <E, A>(self: result.Result<E, A>): Option<A> =>
 const input = result.succeed(1)
 
 suite
-  .add('toOption (production)', function () {
-    result.toOption(input)
+  .add('getSuccess (production)', function () {
+    result.getSuccess(input)
   })
   .add('getSuccess', function () {
     getSuccess(input)

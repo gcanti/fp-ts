@@ -41,9 +41,14 @@ describe('Result', () => {
   // conversions
   // -------------------------------------------------------------------------------------
 
-  it('toOption', () => {
-    U.deepStrictEqual(pipe(_.succeed(1), _.toOption), O.some(1))
-    U.deepStrictEqual(pipe(_.fail('a'), _.toOption), O.none)
+  it('getSuccess', () => {
+    U.deepStrictEqual(pipe(_.succeed(1), _.getSuccess), O.some(1))
+    U.deepStrictEqual(pipe(_.fail('a'), _.getSuccess), O.none)
+  })
+
+  it('getFailure', () => {
+    U.deepStrictEqual(pipe(_.succeed(1), _.getFailure), O.none)
+    U.deepStrictEqual(pipe(_.fail('e'), _.getFailure), O.some('e'))
   })
 
   it('toNull', () => {

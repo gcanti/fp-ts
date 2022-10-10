@@ -1015,10 +1015,34 @@ export const FromResult: fromResult_.FromResult<ResultTypeLambda> = {
 export const fromOption: <E>(onNone: E) => <A>(fa: Option<A>) => Result<E, A> = _.fromOptionToResult
 
 /**
+ * Converts a `Result` to an `Option` discarding the success.
+ *
+ * @example
+ * import * as O from 'fp-ts/Option'
+ * import * as R from 'fp-ts/Result'
+ *
+ * assert.deepStrictEqual(R.getFailure(R.succeed('ok')), O.none)
+ * assert.deepStrictEqual(R.getFailure(R.fail('err')), O.some('err'))
+ *
  * @category conversions
  * @since 3.0.0
  */
-export const toOption: <E, A>(self: Result<E, A>) => Option<A> = _.getSuccess
+export const getFailure: <E, A>(self: Result<E, A>) => Option<E> = _.getFailure
+
+/**
+ * Converts a `Result` to an `Option` discarding the error.
+ *
+ * @example
+ * import * as O from 'fp-ts/Option'
+ * import * as R from 'fp-ts/Result'
+ *
+ * assert.deepStrictEqual(R.getSuccess(R.succeed('ok')), O.some('ok'))
+ * assert.deepStrictEqual(R.getSuccess(R.fail('err')), O.none)
+ *
+ * @category conversions
+ * @since 3.0.0
+ */
+export const getSuccess: <E, A>(self: Result<E, A>) => Option<A> = _.getSuccess
 
 /**
  * @category conversions

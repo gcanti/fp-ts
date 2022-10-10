@@ -30,8 +30,9 @@ Added in v3.0.0
 - [conversions](#conversions)
   - [fromNullable](#fromnullable)
   - [fromOption](#fromoption)
+  - [getFailure](#getfailure)
+  - [getSuccess](#getsuccess)
   - [toNull](#tonull)
-  - [toOption](#tooption)
   - [toReadonlyArray](#toreadonlyarray)
   - [toUndefined](#toundefined)
   - [toUnion](#tounion)
@@ -221,22 +222,56 @@ assert.deepStrictEqual(pipe(O.none, E.fromOption('error')), E.fail('error'))
 
 Added in v3.0.0
 
+## getFailure
+
+Converts a `Result` to an `Option` discarding the success.
+
+**Signature**
+
+```ts
+export declare const getFailure: <E, A>(self: Result<E, A>) => Option<E>
+```
+
+**Example**
+
+```ts
+import * as O from 'fp-ts/Option'
+import * as R from 'fp-ts/Result'
+
+assert.deepStrictEqual(R.getFailure(R.succeed('ok')), O.none)
+assert.deepStrictEqual(R.getFailure(R.fail('err')), O.some('err'))
+```
+
+Added in v3.0.0
+
+## getSuccess
+
+Converts a `Result` to an `Option` discarding the error.
+
+**Signature**
+
+```ts
+export declare const getSuccess: <E, A>(self: Result<E, A>) => Option<A>
+```
+
+**Example**
+
+```ts
+import * as O from 'fp-ts/Option'
+import * as R from 'fp-ts/Result'
+
+assert.deepStrictEqual(R.getSuccess(R.succeed('ok')), O.some('ok'))
+assert.deepStrictEqual(R.getSuccess(R.fail('err')), O.none)
+```
+
+Added in v3.0.0
+
 ## toNull
 
 **Signature**
 
 ```ts
 export declare const toNull: <E, A>(self: Result<E, A>) => A | null
-```
-
-Added in v3.0.0
-
-## toOption
-
-**Signature**
-
-```ts
-export declare const toOption: <E, A>(self: Result<E, A>) => Option<A>
 ```
 
 Added in v3.0.0
