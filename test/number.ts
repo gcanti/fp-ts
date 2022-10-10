@@ -3,6 +3,14 @@ import { pipe } from '../src/Function'
 import * as _ from '../src/number'
 
 describe('number', () => {
+  it('sumAll', () => {
+    U.deepStrictEqual(_.sumAll([1, 2, 3]), 6)
+  })
+
+  it('productAll', () => {
+    U.deepStrictEqual(_.productAll([2, 3, 4]), 24)
+  })
+
   it('Ord', () => {
     U.deepStrictEqual(pipe(1, _.Ord.compare(2)), -1)
     U.deepStrictEqual(pipe(2, _.Ord.compare(1)), 1)

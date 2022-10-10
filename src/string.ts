@@ -75,7 +75,7 @@ export const Monoid: monoid.Monoid<string> = {
 /**
  * @since 3.0.0
  */
-export const concatAll: (collection: Iterable<string>) => string = monoid.combineAll(Monoid)
+export const concatAll: (collection: Iterable<string>) => string = /*#__PURE__*/ monoid.combineAll(Monoid)
 
 /**
  * @example

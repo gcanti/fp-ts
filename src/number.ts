@@ -7,6 +7,7 @@ import type * as ord from './Ord'
 import type * as show_ from './Show'
 import type { Semigroup } from './Semigroup'
 import type { Monoid } from './Monoid'
+import * as monoid from './Monoid'
 import type { Magma } from './Magma'
 import type { Refinement } from './Refinement'
 
@@ -65,6 +66,14 @@ export const MagmaSub: Magma<number> = {
 }
 
 /**
+ * @since 3.0.0
+ */
+export const sum =
+  (that: number) =>
+  (self: number): number =>
+    self + that
+
+/**
  * `number` semigroup under addition.
  *
  * @example
@@ -77,8 +86,16 @@ export const MagmaSub: Magma<number> = {
  * @since 3.0.0
  */
 export const SemigroupSum: Semigroup<number> = {
-  combine: (that) => (self) => self + that
+  combine: sum
 }
+
+/**
+ * @since 3.0.0
+ */
+export const product =
+  (that: number) =>
+  (self: number): number =>
+    self * that
 
 /**
  * `number` semigroup under multiplication.
@@ -93,7 +110,7 @@ export const SemigroupSum: Semigroup<number> = {
  * @since 3.0.0
  */
 export const SemigroupProduct: Semigroup<number> = {
-  combine: (that) => (self) => self * that
+  combine: product
 }
 
 /**
@@ -110,6 +127,11 @@ export const MonoidSum: Monoid<number> = {
 }
 
 /**
+ * @since 3.0.0
+ */
+export const sumAll: (collection: Iterable<number>) => number = /*#__PURE__*/ monoid.combineAll(MonoidSum)
+
+/**
  * `number` monoid under multiplication.
  *
  * The `empty` value is `1`.
@@ -121,3 +143,8 @@ export const MonoidProduct: Monoid<number> = {
   combine: SemigroupProduct.combine,
   empty: 1
 }
+
+/**
+ * @since 3.0.0
+ */
+export const productAll: (collection: Iterable<number>) => number = /*#__PURE__*/ monoid.combineAll(MonoidProduct)
