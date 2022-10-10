@@ -6,7 +6,6 @@ import * as RT from '../src/ReaderAsync'
 import * as _ from '../src/ReaderAsyncWriter'
 import * as string from '../src/string'
 import * as T from '../src/Async'
-import { tuple } from '../src/tuple'
 import * as U from './util'
 import * as S from '../src/string'
 import * as RA from '../src/ReadonlyArray'
@@ -68,15 +67,7 @@ describe('ReaderAsyncWriter', () => {
   })
 
   it('pass', async () => {
-    U.deepStrictEqual(
-      await _.pass(
-        make(
-          'a',
-          tuple(1, (w: string) => w + 'b')
-        )
-      )(undefined)(),
-      ['ab', 1]
-    )
+    U.deepStrictEqual(await _.pass(make('a', [1, (w: string) => w + 'b']))(undefined)(), ['ab', 1])
   })
 
   it('listens', async () => {

@@ -156,9 +156,8 @@ export const matchRight =
  *
  * @example
  * import { comprehension } from 'fp-ts/ReadonlyArray'
- * import { tuple } from 'fp-ts/tuple'
  *
- * assert.deepStrictEqual(comprehension([[1, 2, 3], ['a', 'b']], tuple, (a, b) => (a + b.length) % 2 === 0), [
+ * assert.deepStrictEqual(comprehension([[1, 2, 3], ['a', 'b']], (a, b) => [a, b], (a, b) => (a + b.length) % 2 === 0), [
  *   [1, 'a'],
  *   [1, 'b'],
  *   [3, 'a'],

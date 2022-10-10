@@ -32,7 +32,6 @@ import * as fromIdentity from './FromIdentity'
 import * as semigroup from './Semigroup'
 import type { Show } from './Show'
 import type * as traversable from './Traversable'
-import * as tuple from './tuple'
 import type { Eq } from './Eq'
 import type { Ord } from './Ord'
 import type { Semigroup } from './Semigroup'
@@ -367,9 +366,8 @@ export const intercalate = <A>(S: Semigroup<A>): ((middle: A) => (as: NonEmptyRe
  *
  * @example
  * import { comprehension } from 'fp-ts/NonEmptyReadonlyArray'
- * import { tuple } from 'fp-ts/tuple'
  *
- * assert.deepStrictEqual(comprehension([[1, 2, 3], ['a', 'b']], tuple), [
+ * assert.deepStrictEqual(comprehension([[1, 2, 3], ['a', 'b']], (a, b) => [a, b]), [
  *   [1, 'a'],
  *   [1, 'b'],
  *   [2, 'a'],
@@ -551,7 +549,10 @@ export const zipWith =
 export const zip =
   <B>(bs: NonEmptyReadonlyArray<B>) =>
   <A>(as: NonEmptyReadonlyArray<A>): NonEmptyReadonlyArray<readonly [A, B]> =>
-    pipe(as, zipWith(bs, tuple.tuple))
+    pipe(
+      as,
+      zipWith(bs, (a, b) => [a, b])
+    )
 
 /**
  * @since 3.0.0

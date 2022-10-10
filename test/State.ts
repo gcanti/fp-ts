@@ -3,7 +3,6 @@ import * as _ from '../src/State'
 import * as U from './util'
 import * as RA from '../src/ReadonlyArray'
 import type { NonEmptyReadonlyArray } from '../src/NonEmptyReadonlyArray'
-import { tuple } from '../src/tuple'
 
 describe('State', () => {
   it('unit', () => {
@@ -12,7 +11,7 @@ describe('State', () => {
 
   describe('pipeables', () => {
     it('map', () => {
-      const x = (s: number) => tuple(s - 1, s + 1)
+      const x = (s: number) => [s - 1, s + 1] as const
       U.deepStrictEqual(pipe(x, _.map(U.double))(0), [-1, 2])
     })
 
@@ -21,8 +20,8 @@ describe('State', () => {
     })
 
     it('flatMap', () => {
-      const f = (a: string) => (s: string) => tuple(s + 's2', s + 'a2' + a)
-      const x = (s: string) => tuple(s + 's1', s + 'a1')
+      const f = (a: string) => (s: string) => [s + 's2', s + 'a2' + a] as const
+      const x = (s: string) => [s + 's1', s + 'a1'] as const
       U.deepStrictEqual(pipe(x, _.flatMap(f))(''), ['s1s2', 's1a2a1'])
     })
 

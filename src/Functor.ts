@@ -13,7 +13,7 @@
  */
 import { apply, constant } from './Function'
 import type { TypeLambda, Kind, TypeClass } from './HKT'
-import * as tuple from './tuple'
+import * as _ from './internal'
 
 /**
  * @category model
@@ -110,4 +110,4 @@ export {
  */
 export const tupled = <F extends TypeLambda>(
   Functor: Functor<F>
-): (<S, R, O, E, A>(self: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, E, readonly [A]>) => Functor.map(tuple.tuple)
+): (<S, R, O, E, A>(self: Kind<F, S, R, O, E, A>) => Kind<F, S, R, O, E, readonly [A]>) => Functor.map((a) => [a])

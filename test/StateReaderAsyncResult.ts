@@ -14,7 +14,6 @@ import * as _ from '../src/StateReaderAsyncResult'
 import * as S from '../src/string'
 import * as T from '../src/Async'
 import * as TE from '../src/AsyncResult'
-import { tuple } from '../src/tuple'
 import * as U from './util'
 
 const state: unknown = {}
@@ -320,7 +319,7 @@ describe('StateReaderAsyncResult', () => {
     }
     const e: Env = { count: 0 }
     const f = (e: Env) => _.succeed(e.count + 1)
-    U.deepStrictEqual(await _.asksStateReaderAsyncResult(f)({})(e)(), E.succeed(tuple({}, 1)))
+    U.deepStrictEqual(await _.asksStateReaderAsyncResult(f)({})(e)(), E.succeed([{}, 1] as const))
   })
 
   it('local', async () => {
@@ -329,7 +328,7 @@ describe('StateReaderAsyncResult', () => {
         _.asks((n: number) => n + 1),
         _.local(S.size)
       )({})('aaa')(),
-      E.succeed(tuple({}, 4))
+      E.succeed([{}, 4] as const)
     )
   })
 

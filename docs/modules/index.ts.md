@@ -92,9 +92,6 @@ Added in v3.0.0
   - [predicate](#predicate)
   - [random](#random)
   - [string](#string)
-  - [struct](#struct)
-  - [tuple](#tuple)
-  - [void](#void)
 
 ---
 
@@ -862,36 +859,6 @@ Added in v3.0.0
 
 ```ts
 export declare const string: typeof string
-```
-
-Added in v3.0.0
-
-## struct
-
-**Signature**
-
-```ts
-export declare const struct: typeof struct
-```
-
-Added in v3.0.0
-
-## tuple
-
-**Signature**
-
-```ts
-export declare const tuple: typeof tuple
-```
-
-Added in v3.0.0
-
-## void
-
-**Signature**
-
-```ts
-export declare const void: typeof void_
 ```
 
 Added in v3.0.0

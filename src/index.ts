@@ -70,15 +70,12 @@ import * as state from './State'
 import * as stateReaderAsyncResult from './StateReaderAsyncResult'
 import * as stateT from './StateT'
 import * as string from './string'
-import * as struct from './struct'
 import * as sync from './Sync'
 import * as syncResult from './SyncResult'
 import * as these from './These'
 import * as theseT from './TheseT'
 import * as traversable from './Traversable'
 import * as traversableFilterable from './TraversableFilterable'
-import * as tuple from './tuple'
-import * as void_ from './void'
 import * as writer from './Writer'
 import * as writerT from './WriterT'
 
@@ -409,10 +406,6 @@ export {
    */
   string,
   /**
-   * @since 3.0.0
-   */
-  struct,
-  /**
    * @category data types
    * @since 3.0.0
    */
@@ -447,14 +440,6 @@ export {
    * @since 3.0.0
    */
   traversableFilterable,
-  /**
-   * @since 3.0.0
-   */
-  tuple,
-  /**
-   * @since 3.0.0
-   */
-  void_ as void,
   /**
    * @category data types
    * @since 3.0.0
