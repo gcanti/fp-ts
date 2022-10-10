@@ -1,6 +1,6 @@
 ---
 title: typeclasses/Bounded.ts
-nav_order: 47
+nav_order: 46
 parent: Modules
 ---
 

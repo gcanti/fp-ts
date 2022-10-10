@@ -7,7 +7,6 @@ import type { Flattenable } from './Flattenable'
 import { pipe } from '../Function'
 import type { TypeLambda, Kind, TypeClass } from '../HKT'
 import type { Sync } from '../Sync'
-import * as console from '../Console'
 
 /**
  * @category model
@@ -52,4 +51,4 @@ export const flatMapSync =
 export const log =
   <M extends TypeLambda>(FromSync: FromSync<M>) =>
   <A extends ReadonlyArray<unknown>, S>(...x: A): Kind<M, S, unknown, never, never, void> =>
-    FromSync.fromSync(console.log(...x))
+    FromSync.fromSync(() => console.log(...x))

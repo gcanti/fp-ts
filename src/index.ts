@@ -17,7 +17,6 @@ import * as category from './typeclasses/Category'
 import * as comonad from './typeclasses/Comonad'
 import * as compactable from './typeclasses/Compactable'
 import * as composable from './typeclasses/Composable'
-import * as console from './Console'
 import * as const_ from './Const'
 import * as contravariant from './typeclasses/Contravariant'
 import * as endomorphism from './Endomorphism'
@@ -154,10 +153,6 @@ export {
    * @since 3.0.0
    */
   composable,
-  /**
-   * @since 3.0.0
-   */
-  console,
   /**
    * @category data types
    * @since 3.0.0

@@ -1,6 +1,6 @@
 ---
 title: index.ts
-nav_order: 12
+nav_order: 11
 parent: Modules
 ---
 
@@ -83,7 +83,6 @@ Added in v3.0.0
   - [traversableFilterable](#traversablefilterable)
 - [utils](#utils)
   - [boolean](#boolean)
-  - [console](#console)
   - [function](#function)
   - [hkt](#hkt)
   - [json](#json)
@@ -769,16 +768,6 @@ Added in v3.0.0
 
 ```ts
 export declare const boolean: typeof boolean
-```
-
-Added in v3.0.0
-
-## console
-
-**Signature**
-
-```ts
-export declare const console: typeof console
 ```
 
 Added in v3.0.0
