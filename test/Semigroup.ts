@@ -9,7 +9,7 @@ describe('Semigroup', () => {
   it('tuple', () => {
     const S1 = _.tuple(string.Semigroup, N.SemigroupSum)
     U.deepStrictEqual(pipe(['a', 1], S1.combine(['b', 2])), ['ab', 3])
-    const S2 = _.tuple(string.Semigroup, N.SemigroupSum, B.SemigroupAll)
+    const S2 = _.tuple(string.Semigroup, N.SemigroupSum, B.SemigroupAnd)
     U.deepStrictEqual(pipe(['a', 1, true], S2.combine(['b', 2, false])), ['ab', 3, false])
   })
 

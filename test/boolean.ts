@@ -1,17 +1,28 @@
 import * as _ from '../src/boolean'
 import { pipe } from '../src/Function'
-import { deepStrictEqual } from './util'
+import * as U from './util'
 
 describe('boolean', () => {
+  it('andAll', () => {
+    U.deepStrictEqual(_.andAll([true, true, true]), true)
+    U.deepStrictEqual(_.andAll([true, true, false]), false)
+  })
+
+  it('orAll', () => {
+    U.deepStrictEqual(_.orAll([true, true, true]), true)
+    U.deepStrictEqual(_.orAll([true, true, false]), true)
+    U.deepStrictEqual(_.orAll([false, false, false]), false)
+  })
+
   it('match', () => {
-    deepStrictEqual(
+    U.deepStrictEqual(
       _.match(
         () => 'false',
         () => 'true'
       )(true),
       'true'
     )
-    deepStrictEqual(
+    U.deepStrictEqual(
       _.match(
         () => 'false',
         () => 'true'
@@ -21,13 +32,13 @@ describe('boolean', () => {
   })
 
   it('Ord', () => {
-    deepStrictEqual(pipe(false, _.Ord.compare(true)), -1)
-    deepStrictEqual(pipe(true, _.Ord.compare(false)), 1)
-    deepStrictEqual(pipe(true, _.Ord.compare(true)), 0)
+    U.deepStrictEqual(pipe(false, _.Ord.compare(true)), -1)
+    U.deepStrictEqual(pipe(true, _.Ord.compare(false)), 1)
+    U.deepStrictEqual(pipe(true, _.Ord.compare(true)), 0)
   })
 
   it('Show', () => {
-    deepStrictEqual(_.Show.show(true), 'true')
-    deepStrictEqual(_.Show.show(false), 'false')
+    U.deepStrictEqual(_.Show.show(true), 'true')
+    U.deepStrictEqual(_.Show.show(false), 'false')
   })
 })

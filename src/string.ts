@@ -30,6 +30,14 @@ export const Eq: eq.Eq<string> = {
 }
 
 /**
+ * @since 3.0.0
+ */
+export const concat =
+  (that: string) =>
+  (self: string): string =>
+    self + that
+
+/**
  * `string` semigroup under concatenation.
  *
  * @example
@@ -42,7 +50,7 @@ export const Eq: eq.Eq<string> = {
  * @since 3.0.0
  */
 export const Semigroup: semigroup.Semigroup<string> = {
-  combine: (that) => (self) => self + that
+  combine: concat
 }
 
 /**

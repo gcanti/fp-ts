@@ -3,6 +3,7 @@
  */
 import type { LazyArg } from './Function'
 import type { Monoid } from './Monoid'
+import * as monoid from './Monoid'
 import type { Semigroup } from './Semigroup'
 import * as eq from './Eq'
 import type * as ord from './Ord'
@@ -60,38 +61,54 @@ export const match =
 export const Eq: eq.Eq<boolean> = eq.EqStrict
 
 /**
+ * @since 3.0.0
+ */
+export const and =
+  (that: boolean) =>
+  (self: boolean): boolean =>
+    self && that
+
+/**
  * `boolean` semigroup under conjunction.
  *
  * @example
- * import { SemigroupAll } from 'fp-ts/boolean'
+ * import { SemigroupAnd } from 'fp-ts/boolean'
  * import { pipe } from 'fp-ts/Function'
  *
- * assert.deepStrictEqual(pipe(true, SemigroupAll.combine(true)), true)
- * assert.deepStrictEqual(pipe(true, SemigroupAll.combine(false)), false)
+ * assert.deepStrictEqual(pipe(true, SemigroupAnd.combine(true)), true)
+ * assert.deepStrictEqual(pipe(true, SemigroupAnd.combine(false)), false)
  *
  * @category instances
  * @since 3.0.0
  */
-export const SemigroupAll: Semigroup<boolean> = {
-  combine: (that) => (self) => self && that
+export const SemigroupAnd: Semigroup<boolean> = {
+  combine: and
 }
+
+/**
+ * @since 3.0.0
+ */
+export const or =
+  (that: boolean) =>
+  (self: boolean): boolean =>
+    self || that
 
 /**
  * `boolean` semigroup under disjunction.
  *
  * @example
- * import { SemigroupAny } from 'fp-ts/boolean'
+ * import { SemigroupOr } from 'fp-ts/boolean'
  * import { pipe } from 'fp-ts/Function'
  *
- * assert.deepStrictEqual(pipe(true, SemigroupAny.combine(true)), true)
- * assert.deepStrictEqual(pipe(true, SemigroupAny.combine(false)), true)
- * assert.deepStrictEqual(pipe(false, SemigroupAny.combine(false)), false)
+ * assert.deepStrictEqual(pipe(true, SemigroupOr.combine(true)), true)
+ * assert.deepStrictEqual(pipe(true, SemigroupOr.combine(false)), true)
+ * assert.deepStrictEqual(pipe(false, SemigroupOr.combine(false)), false)
  *
  * @category instances
  * @since 3.0.0
  */
-export const SemigroupAny: Semigroup<boolean> = {
-  combine: (that) => (self) => self || that
+export const SemigroupOr: Semigroup<boolean> = {
+  combine: or
 }
 
 /**
@@ -102,10 +119,15 @@ export const SemigroupAny: Semigroup<boolean> = {
  * @category instances
  * @since 3.0.0
  */
-export const MonoidAll: Monoid<boolean> = {
-  combine: SemigroupAll.combine,
+export const MonoidAnd: Monoid<boolean> = {
+  combine: SemigroupAnd.combine,
   empty: true
 }
+
+/**
+ * @since 3.0.0
+ */
+export const andAll: (collection: Iterable<boolean>) => boolean = /*#__PURE__*/ monoid.combineAll(MonoidAnd)
 
 /**
  * `boolean` monoid under disjunction.
@@ -115,10 +137,15 @@ export const MonoidAll: Monoid<boolean> = {
  * @category instances
  * @since 3.0.0
  */
-export const MonoidAny: Monoid<boolean> = {
-  combine: SemigroupAny.combine,
+export const MonoidOr: Monoid<boolean> = {
+  combine: SemigroupOr.combine,
   empty: false
 }
+
+/**
+ * @since 3.0.0
+ */
+export const orAll: (collection: Iterable<boolean>) => boolean = /*#__PURE__*/ monoid.combineAll(MonoidOr)
 
 /**
  * @category instances

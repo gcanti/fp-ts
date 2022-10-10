@@ -9,7 +9,7 @@ describe('Monoid', () => {
   it('tuple', () => {
     const M1 = _.tuple(S.Monoid, N.MonoidSum)
     U.deepStrictEqual(pipe(['a', 1], M1.combine(['b', 2])), ['ab', 3])
-    const M2 = _.tuple(S.Monoid, N.MonoidSum, B.MonoidAll)
+    const M2 = _.tuple(S.Monoid, N.MonoidSum, B.MonoidAnd)
     U.deepStrictEqual(pipe(['a', 1, true], M2.combine(['b', 2, false])), ['ab', 3, false])
   })
 
