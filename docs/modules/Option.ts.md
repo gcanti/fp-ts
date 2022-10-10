@@ -343,7 +343,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const guard: (b: boolean) => Option<void>
+export declare const guard: <A>(f: (a: A) => boolean) => (self: Option<A>) => Option<A>
 ```
 
 Added in v3.0.0

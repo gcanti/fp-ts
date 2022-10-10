@@ -265,7 +265,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const guard: (b: boolean) => SyncOption<void>
+export declare const guard: <A>(f: (a: A) => boolean) => (self: SyncOption<A>) => SyncOption<A>
 ```
 
 Added in v3.0.0

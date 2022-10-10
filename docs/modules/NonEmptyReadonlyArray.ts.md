@@ -95,7 +95,6 @@ Added in v3.0.0
   - [chunksOf](#chunksof)
   - [combineAll](#combineall)
   - [composeKleisli](#composekleisli)
-  - [comprehension](#comprehension)
   - [concat](#concat)
   - [duplicate](#duplicate)
   - [extend](#extend)
@@ -925,66 +924,6 @@ Added in v3.0.0
 export declare const composeKleisli: <B, C>(
   bfc: (b: B) => readonly [C, ...C[]]
 ) => <A>(afb: (a: A) => readonly [B, ...B[]]) => (a: A) => readonly [C, ...C[]]
-```
-
-Added in v3.0.0
-
-## comprehension
-
-`NonEmptyReadonlyArray` comprehension.
-
-```
-[ f(x, y, ...) | x ← xs, y ← ys, ... ]
-```
-
-**Signature**
-
-```ts
-export declare function comprehension<A, B, C, D, R>(
-  input: readonly [
-    NonEmptyReadonlyArray<A>,
-    NonEmptyReadonlyArray<B>,
-    NonEmptyReadonlyArray<C>,
-    NonEmptyReadonlyArray<D>
-  ],
-  f: (a: A, b: B, c: C, d: D) => R
-): NonEmptyReadonlyArray<R>
-export declare function comprehension<A, B, C, R>(
-  input: readonly [NonEmptyReadonlyArray<A>, NonEmptyReadonlyArray<B>, NonEmptyReadonlyArray<C>],
-  f: (a: A, b: B, c: C) => R
-): NonEmptyReadonlyArray<R>
-export declare function comprehension<A, B, R>(
-  input: readonly [NonEmptyReadonlyArray<A>, NonEmptyReadonlyArray<B>],
-  f: (a: A, b: B) => R
-): NonEmptyReadonlyArray<R>
-export declare function comprehension<A, R>(
-  input: readonly [NonEmptyReadonlyArray<A>],
-  f: (a: A) => R
-): NonEmptyReadonlyArray<R>
-```
-
-**Example**
-
-```ts
-import { comprehension } from 'fp-ts/NonEmptyReadonlyArray'
-
-assert.deepStrictEqual(
-  comprehension(
-    [
-      [1, 2, 3],
-      ['a', 'b'],
-    ],
-    (a, b) => [a, b]
-  ),
-  [
-    [1, 'a'],
-    [1, 'b'],
-    [2, 'a'],
-    [2, 'b'],
-    [3, 'a'],
-    [3, 'b'],
-  ]
-)
 ```
 
 Added in v3.0.0

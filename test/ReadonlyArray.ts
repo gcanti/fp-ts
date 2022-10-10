@@ -1099,7 +1099,7 @@ describe('ReadonlyArray', () => {
         _.bind('a', () => [1, 2, 3]),
         _.bind('b', () => ['a', 'b']),
         _.map(({ a, b }) => [a, b] as const),
-        _.tap(([a, b]) => _.guard((a + b.length) % 2 === 0))
+        _.guard(([a, b]) => (a + b.length) % 2 === 0)
       ),
       [
         [1, 'a'],

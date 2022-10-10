@@ -11,12 +11,24 @@
  *
  * @since 3.0.0
  */
-import type { Flattenable } from './Flattenable'
-import type { TypeLambda } from '../HKT'
+import type { Kind, TypeLambda } from '../HKT'
+import type { Alternative } from './Alternative'
+import * as flattenable from './Flattenable'
 import type { FromIdentity } from './FromIdentity'
 
 /**
  * @category model
  * @since 3.0.0
  */
-export interface Monad<M extends TypeLambda> extends FromIdentity<M>, Flattenable<M> {}
+export interface Monad<F extends TypeLambda> extends FromIdentity<F>, flattenable.Flattenable<F> {}
+
+/**
+ * @category do notation
+ * @since 3.0.0
+ */
+export const guard =
+  <F extends TypeLambda>(Monad: Monad<F>, Alternative: Alternative<F>) =>
+  <A, S, R2, O2, E2>(
+    f: (a: A) => boolean
+  ): (<R1, O1, E1>(self: Kind<F, S, R1, O1, E1, A>) => Kind<F, S, R1 & R2, O1 | O2, E1 | E2, A>) =>
+    flattenable.tap(Monad)((a) => (f(a) ? Monad.of(undefined) : Alternative.none()))

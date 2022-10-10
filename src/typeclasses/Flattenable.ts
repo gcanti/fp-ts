@@ -1,11 +1,11 @@
 /**
  * @since 3.0.0
  */
-import type { Apply } from './Apply'
-import type { KleisliComposable } from './KleisliComposable'
 import { flow, pipe } from '../Function'
-import type { Functor } from './Functor'
 import type { Kind, TypeLambda } from '../HKT'
+import type { Apply } from './Apply'
+import type { Functor } from './Functor'
+import type { KleisliComposable } from './KleisliComposable'
 
 /**
  * @category model
@@ -101,10 +101,10 @@ export const composeKleisli =
  * @since 3.0.0
  */
 export const tap =
-  <M extends TypeLambda>(Flattenable: Flattenable<M>) =>
+  <F extends TypeLambda>(Flattenable: Flattenable<F>) =>
   <A, S, R2, O2, E2>(
-    f: (a: A) => Kind<M, S, R2, O2, E2, unknown>
-  ): (<R1, O1, E1>(self: Kind<M, S, R1, O1, E1, A>) => Kind<M, S, R1 & R2, O1 | O2, E1 | E2, A>) =>
+    f: (a: A) => Kind<F, S, R2, O2, E2, unknown>
+  ): (<R1, O1, E1>(self: Kind<F, S, R1, O1, E1, A>) => Kind<F, S, R1 & R2, O1 | O2, E1 | E2, A>) =>
     Flattenable.flatMap((a) =>
       pipe(
         f(a),

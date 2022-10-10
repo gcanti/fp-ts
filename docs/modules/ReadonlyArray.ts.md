@@ -14,7 +14,6 @@ Added in v3.0.0
 
 - [constructors](#constructors)
   - [append](#append)
-  - [comprehension](#comprehension)
   - [makeBy](#makeby)
   - [of](#of)
   - [prepend](#prepend)
@@ -205,64 +204,6 @@ assert.deepStrictEqual(pipe([1, 2, 3], append(4)), [1, 2, 3, 4])
 
 Added in v3.0.0
 
-## comprehension
-
-`ReadonlyArray` comprehension.
-
-```
-[ f(x, y, ...) | x ← xs, y ← ys, ..., g(x, y, ...) ]
-```
-
-**Signature**
-
-```ts
-export declare function comprehension<A, B, C, D, R>(
-  input: readonly [ReadonlyArray<A>, ReadonlyArray<B>, ReadonlyArray<C>, ReadonlyArray<D>],
-  f: (a: A, b: B, c: C, d: D) => R,
-  g?: (a: A, b: B, c: C, d: D) => boolean
-): ReadonlyArray<R>
-export declare function comprehension<A, B, C, R>(
-  input: readonly [ReadonlyArray<A>, ReadonlyArray<B>, ReadonlyArray<C>],
-  f: (a: A, b: B, c: C) => R,
-  g?: (a: A, b: B, c: C) => boolean
-): ReadonlyArray<R>
-export declare function comprehension<A, B, R>(
-  input: readonly [ReadonlyArray<A>, ReadonlyArray<B>],
-  f: (a: A, b: B) => R,
-  g?: (a: A, b: B) => boolean
-): ReadonlyArray<R>
-export declare function comprehension<A, R>(
-  input: readonly [ReadonlyArray<A>],
-  f: (a: A) => R,
-  g?: (a: A) => boolean
-): ReadonlyArray<R>
-```
-
-**Example**
-
-```ts
-import { comprehension } from 'fp-ts/ReadonlyArray'
-
-assert.deepStrictEqual(
-  comprehension(
-    [
-      [1, 2, 3],
-      ['a', 'b'],
-    ],
-    (a, b) => [a, b],
-    (a, b) => (a + b.length) % 2 === 0
-  ),
-  [
-    [1, 'a'],
-    [1, 'b'],
-    [3, 'a'],
-    [3, 'b'],
-  ]
-)
-```
-
-Added in v3.0.0
-
 ## makeBy
 
 Return a `ReadonlyArray` of length `n` with element `i` initialized with `f(i)`.
@@ -442,7 +383,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const guard: (b: boolean) => ReadonlyArray<void>
+export declare const guard: <A>(f: (a: A) => boolean) => (self: readonly A[]) => readonly A[]
 ```
 
 Added in v3.0.0
@@ -854,7 +795,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: Monad_<ReadonlyArrayTypeLambda>
+export declare const Monad: monad.Monad<ReadonlyArrayTypeLambda>
 ```
 
 Added in v3.0.0

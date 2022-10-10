@@ -26,7 +26,7 @@ import type { TypeLambda } from './HKT'
 import * as _ from './internal'
 import * as sync from './Sync'
 import type { SyncResult } from './SyncResult'
-import type * as monad from './typeclasses/Monad'
+import * as monad from './typeclasses/Monad'
 import * as option from './Option'
 import * as optionT from './transformers/OptionT'
 import * as fromIdentity from './typeclasses/FromIdentity'
@@ -371,12 +371,6 @@ export const firstSuccessOf: <A>(collection: Iterable<SyncOption<A>>) => SyncOpt
   /*#__PURE__*/ alternative.firstSuccessOf(Alternative)
 
 /**
- * @category do notation
- * @since 3.0.0
- */
-export const guard: (b: boolean) => SyncOption<void> = /*#__PURE__*/ alternative.guard(Alternative, FromIdentity)
-
-/**
  * @category instances
  * @since 3.0.0
  */
@@ -604,6 +598,15 @@ export const bindRight: <N extends string, A extends object, B>(
   fb: SyncOption<B>
 ) => (self: SyncOption<A>) => SyncOption<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
   /*#__PURE__*/ apply.bindRight(Apply)
+
+/**
+ * @category do notation
+ * @since 3.0.0
+ */
+export const guard: <A>(f: (a: A) => boolean) => (self: SyncOption<A>) => SyncOption<A> = /*#__PURE__*/ monad.guard(
+  Monad,
+  Alternative
+)
 
 // -------------------------------------------------------------------------------------
 // tuple sequencing

@@ -133,11 +133,11 @@ Returns an effect that effectfully "peeks" at the success of this effect.
 **Signature**
 
 ```ts
-export declare const tap: <M extends TypeLambda>(
-  Flattenable: Flattenable<M>
+export declare const tap: <F extends TypeLambda>(
+  Flattenable: Flattenable<F>
 ) => <A, S, R2, O2, E2>(
-  f: (a: A) => Kind<M, S, R2, O2, E2, unknown>
-) => <R1, O1, E1>(self: Kind<M, S, R1, O1, E1, A>) => Kind<M, S, R1 & R2, O2 | O1, E2 | E1, A>
+  f: (a: A) => Kind<F, S, R2, O2, E2, unknown>
+) => <R1, O1, E1>(self: Kind<F, S, R1, O1, E1, A>) => Kind<F, S, R1 & R2, O2 | O1, E2 | E1, A>
 ```
 
 Added in v3.0.0

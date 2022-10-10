@@ -21,7 +21,7 @@ import { identity, pipe } from './Function'
 import * as functor from './typeclasses/Functor'
 import type { TypeLambda, Kind } from './HKT'
 import * as _ from './internal'
-import type { Monad as Monad_ } from './typeclasses/Monad'
+import * as monad from './typeclasses/Monad'
 import type { Monoid } from './typeclasses/Monoid'
 import * as number from './number'
 import type { Option } from './Option'
@@ -1669,7 +1669,7 @@ export const Applicative: applicative.Applicative<ReadonlyArrayTypeLambda> = {
  * @category instances
  * @since 3.0.0
  */
-export const Monad: Monad_<ReadonlyArrayTypeLambda> = {
+export const Monad: monad.Monad<ReadonlyArrayTypeLambda> = {
   map,
   of,
   flatMap
@@ -1727,12 +1727,6 @@ export const Alternative: alternative.Alternative<ReadonlyArrayTypeLambda> = {
  */
 export const firstSuccessOf: <A>(collection: Iterable<ReadonlyArray<A>>) => ReadonlyArray<A> =
   /*#__PURE__*/ alternative.firstSuccessOf(Alternative)
-
-/**
- * @category do notation
- * @since 3.0.0
- */
-export const guard: (b: boolean) => ReadonlyArray<void> = /*#__PURE__*/ alternative.guard(Alternative, FromIdentity)
 
 /**
  * @category instances
@@ -2149,6 +2143,13 @@ export const bindRight: <N extends string, A extends object, B>(
   fb: ReadonlyArray<B>
 ) => (self: ReadonlyArray<A>) => ReadonlyArray<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
   /*#__PURE__*/ apply.bindRight(Apply)
+
+/**
+ * @category do notation
+ * @since 3.0.0
+ */
+export const guard: <A>(f: (a: A) => boolean) => (self: ReadonlyArray<A>) => ReadonlyArray<A> =
+  /*#__PURE__*/ monad.guard(Monad, Alternative)
 
 // -------------------------------------------------------------------------------------
 // tuple sequencing

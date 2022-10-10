@@ -22,29 +22,12 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [do notation](#do-notation)
-  - [guard](#guard)
 - [model](#model)
   - [Alternative (interface)](#alternative-interface)
 - [utils](#utils)
   - [firstSuccessOf](#firstsuccessof)
 
 ---
-
-# do notation
-
-## guard
-
-**Signature**
-
-```ts
-export declare const guard: <F extends TypeLambda>(
-  Alternative: Alternative<F>,
-  FromIdentity: FromIdentity<F>
-) => <S>(b: boolean) => Kind<F, S, unknown, never, never, void>
-```
-
-Added in v3.0.0
 
 # model
 

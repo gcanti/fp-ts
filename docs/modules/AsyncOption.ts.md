@@ -285,7 +285,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const guard: (b: boolean) => AsyncOption<void>
+export declare const guard: <A>(f: (a: A) => boolean) => (self: AsyncOption<A>) => AsyncOption<A>
 ```
 
 Added in v3.0.0

@@ -11,10 +11,9 @@
  *
  * @since 3.0.0
  */
+import type { Kind, TypeLambda } from '../HKT'
 import type { Alt } from './Alt'
 import * as alt from './Alt'
-import type { FromIdentity } from './FromIdentity'
-import type { Kind, TypeLambda } from '../HKT'
 
 /**
  * @category model
@@ -23,15 +22,6 @@ import type { Kind, TypeLambda } from '../HKT'
 export interface Alternative<F extends TypeLambda> extends Alt<F> {
   readonly none: <S>() => Kind<F, S, unknown, never, never, never>
 }
-
-/**
- * @category do notation
- * @since 3.0.0
- */
-export const guard =
-  <F extends TypeLambda>(Alternative: Alternative<F>, FromIdentity: FromIdentity<F>) =>
-  <S>(b: boolean): Kind<F, S, unknown, never, never, void> =>
-    b ? FromIdentity.of(undefined) : Alternative.none()
 
 /**
  * Returns an effect that runs each of the specified effects in order until one of them succeeds.
