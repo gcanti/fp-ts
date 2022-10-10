@@ -36,7 +36,6 @@ Added in v3.0.0
   - [let](#let)
 - [error handling](#error-handling)
   - [firstSuccessOf](#firstsuccessof)
-  - [firstSuccessOfNonEmpty](#firstsuccessofnonempty)
 - [filtering](#filtering)
   - [compact](#compact)
   - [filter](#filter)
@@ -382,7 +381,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromIterable: <A>(iterable: Iterable<A>) => readonly A[]
+export declare const fromIterable: <A>(collection: Iterable<A>) => readonly A[]
 ```
 
 Added in v3.0.0
@@ -503,20 +502,7 @@ Returns an effect that runs each of the specified effects in order until one of 
 **Signature**
 
 ```ts
-export declare const firstSuccessOf: <A>(iterable: Iterable<readonly A[]>) => readonly A[]
-```
-
-Added in v3.0.0
-
-## firstSuccessOfNonEmpty
-
-Returns an effect that runs the first effect and in case of failure, runs
-each of the specified effects in order until one of them succeeds.
-
-**Signature**
-
-```ts
-export declare const firstSuccessOfNonEmpty: <A>(head: readonly A[], ...tail: readonly (readonly A[])[]) => readonly A[]
+export declare const firstSuccessOf: <A>(collection: Iterable<readonly A[]>) => readonly A[]
 ```
 
 Added in v3.0.0

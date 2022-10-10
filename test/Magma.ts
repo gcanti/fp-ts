@@ -1,6 +1,5 @@
 import { increment, pipe } from '../src/Function'
 import * as _ from '../src/Magma'
-import type { NonEmptyReadonlyArray } from '../src/NonEmptyReadonlyArray'
 import * as N from '../src/number'
 import * as U from './util'
 
@@ -37,27 +36,14 @@ describe('Magma', () => {
   })
 
   describe('combineAll', () => {
-    const combineAllNonEmpty = _.combineAll(N.MagmaSub)(0)
+    const combineAll = _.combineAll(N.MagmaSub)(0)
 
     it('baseline', () => {
-      U.deepStrictEqual(combineAllNonEmpty([1, 2, 3]), -6)
+      U.deepStrictEqual(combineAll([1, 2, 3]), -6)
     })
 
     it('should accept an Iterable', () => {
-      U.deepStrictEqual(combineAllNonEmpty(new Set([1, 2, 3])), -6)
-    })
-  })
-
-  describe('firstSuccessOfNonEmpty', () => {
-    const combineAllNonEmpty = _.combineAllNonEmpty(N.MagmaSub)
-
-    it('baseline', () => {
-      U.deepStrictEqual(combineAllNonEmpty(0, 1, 2, 3), -6)
-    })
-
-    it('should accept a spreading NonEmptyReadonlyArray', () => {
-      const nea: NonEmptyReadonlyArray<number> = [0, 1, 2, 3]
-      U.deepStrictEqual(combineAllNonEmpty(...nea), -6)
+      U.deepStrictEqual(combineAll(new Set([1, 2, 3])), -6)
     })
   })
 })

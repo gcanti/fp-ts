@@ -3,9 +3,9 @@ import * as _ from '../src/string'
 import { pipe } from '../src/Function'
 
 describe('string', () => {
-  // -------------------------------------------------------------------------------------
-  // instances
-  // -------------------------------------------------------------------------------------
+  it('concatAll', () => {
+    U.deepStrictEqual(_.concatAll(['a', 'b', 'c']), 'abc')
+  })
 
   it('Show', () => {
     U.deepStrictEqual(_.Show.show('a'), '"a"')

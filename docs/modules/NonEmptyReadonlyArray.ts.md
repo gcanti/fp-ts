@@ -39,7 +39,6 @@ Added in v3.0.0
   - [let](#let)
 - [error handling](#error-handling)
   - [firstSuccessOf](#firstsuccessof)
-  - [firstSuccessOfNonEmpty](#firstsuccessofnonempty)
 - [folding](#folding)
   - [foldMap](#foldmap)
   - [foldMapWithIndex](#foldmapwithindex)
@@ -337,23 +336,7 @@ Returns an effect that runs each of the specified effects in order until one of 
 ```ts
 export declare const firstSuccessOf: <A>(
   startWith: readonly [A, ...A[]]
-) => (iterable: Iterable<readonly [A, ...A[]]>) => readonly [A, ...A[]]
-```
-
-Added in v3.0.0
-
-## firstSuccessOfNonEmpty
-
-Returns an effect that runs the first effect and in case of failure, runs
-each of the specified effects in order until one of them succeeds.
-
-**Signature**
-
-```ts
-export declare const firstSuccessOfNonEmpty: <A>(
-  head: readonly [A, ...A[]],
-  ...tail: readonly (readonly [A, ...A[]])[]
-) => readonly [A, ...A[]]
+) => (collection: Iterable<readonly [A, ...A[]]>) => readonly [A, ...A[]]
 ```
 
 Added in v3.0.0

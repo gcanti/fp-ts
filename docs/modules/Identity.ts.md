@@ -28,7 +28,6 @@ Added in v3.0.0
   - [let](#let)
 - [error handling](#error-handling)
   - [firstSuccessOf](#firstsuccessof)
-  - [firstSuccessOfNonEmpty](#firstsuccessofnonempty)
 - [folding](#folding)
   - [foldMap](#foldmap)
   - [reduce](#reduce)
@@ -181,20 +180,7 @@ Returns an effect that runs each of the specified effects in order until one of 
 **Signature**
 
 ```ts
-export declare const firstSuccessOf: <A>(startWith: A) => (iterable: Iterable<A>) => A
-```
-
-Added in v3.0.0
-
-## firstSuccessOfNonEmpty
-
-Returns an effect that runs the first effect and in case of failure, runs
-each of the specified effects in order until one of them succeeds.
-
-**Signature**
-
-```ts
-export declare const firstSuccessOfNonEmpty: <A>(head: A, ...tail: readonly A[]) => A
+export declare const firstSuccessOf: <A>(startWith: A) => (collection: Iterable<A>) => A
 ```
 
 Added in v3.0.0

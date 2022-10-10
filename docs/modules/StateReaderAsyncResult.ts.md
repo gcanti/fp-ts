@@ -46,7 +46,6 @@ Added in v3.0.0
   - [let](#let)
 - [error handling](#error-handling)
   - [firstSuccessOf](#firstsuccessof)
-  - [firstSuccessOfNonEmpty](#firstsuccessofnonempty)
   - [mapError](#maperror)
   - [tapError](#taperror)
 - [filtering](#filtering)
@@ -480,23 +479,7 @@ Returns an effect that runs each of the specified effects in order until one of 
 ```ts
 export declare const firstSuccessOf: <S, R, E, A>(
   startWith: StateReaderAsyncResult<S, R, E, A>
-) => (iterable: Iterable<StateReaderAsyncResult<S, R, E, A>>) => StateReaderAsyncResult<S, R, E, A>
-```
-
-Added in v3.0.0
-
-## firstSuccessOfNonEmpty
-
-Returns an effect that runs the first effect and in case of failure, runs
-each of the specified effects in order until one of them succeeds.
-
-**Signature**
-
-```ts
-export declare const firstSuccessOfNonEmpty: <S, R, E, A>(
-  head: StateReaderAsyncResult<S, R, E, A>,
-  ...tail: readonly StateReaderAsyncResult<S, R, E, A>[]
-) => StateReaderAsyncResult<S, R, E, A>
+) => (collection: Iterable<StateReaderAsyncResult<S, R, E, A>>) => StateReaderAsyncResult<S, R, E, A>
 ```
 
 Added in v3.0.0

@@ -37,7 +37,6 @@ Added in v3.0.0
   - [Semigroup (interface)](#semigroup-interface)
 - [utils](#utils)
   - [combineAll](#combineall)
-  - [combineAllNonEmpty](#combineallnonempty)
   - [intercalate](#intercalate)
   - [reverse](#reverse)
   - [struct](#struct)
@@ -189,16 +188,6 @@ assert.deepStrictEqual(sum([]), 0)
 
 Added in v3.0.0
 
-## combineAllNonEmpty
-
-**Signature**
-
-```ts
-export declare const combineAllNonEmpty: <S>(Semigroup: Semigroup<S>) => (head: S, ...tail: readonly S[]) => S
-```
-
-Added in v3.0.0
-
 ## intercalate
 
 You can glue items between and stay associative.
@@ -206,7 +195,7 @@ You can glue items between and stay associative.
 **Signature**
 
 ```ts
-export declare const intercalate: <S>(separator: S) => Endomorphism<Semigroup<S>>
+export declare const intercalate: <S>(separator: S) => (Semigroup: Semigroup<S>) => Semigroup<S>
 ```
 
 **Example**
@@ -226,7 +215,7 @@ Added in v3.0.0
 
 ## reverse
 
-The dual of a `Semigroup`, obtained by swapping the arguments of `combine`.
+The dual of a `Semigroup`, obtained by flipping the arguments of `combine`.
 
 **Signature**
 

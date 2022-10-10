@@ -2,7 +2,7 @@
  * @since 3.0.0
  */
 import type * as eq from './Eq'
-import type * as monoid from './Monoid'
+import * as monoid from './Monoid'
 import type * as semigroup from './Semigroup'
 import type * as ord from './Ord'
 import type * as show_ from './Show'
@@ -71,6 +71,11 @@ export const Monoid: monoid.Monoid<string> = {
   combine: Semigroup.combine,
   empty
 }
+
+/**
+ * @since 3.0.0
+ */
+export const concatAll: (collection: Iterable<string>) => string = monoid.combineAll(Monoid)
 
 /**
  * @example

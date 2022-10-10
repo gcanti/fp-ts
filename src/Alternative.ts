@@ -40,5 +40,5 @@ export const guard =
  */
 export const firstSuccessOf =
   <G extends TypeLambda>(Alternative: Alternative<G>) =>
-  <S, R, O, E, A>(iterable: Iterable<Kind<G, S, R, O, E, A>>): Kind<G, S, R, O, E, A> =>
-    alt.firstSuccessOf(Alternative)<S, R, O, E, A>(Alternative.none())(iterable)
+  <S, R, O, E, A>(collection: Iterable<Kind<G, S, R, O, E, A>>): Kind<G, S, R, O, E, A> =>
+    alt.firstSuccessOf(Alternative)<S, R, O, E, A>(Alternative.none())(collection)

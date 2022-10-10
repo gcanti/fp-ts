@@ -507,20 +507,8 @@ export const Alt: alt.Alt<StateReaderAsyncResultTypeLambda> = {
  */
 export const firstSuccessOf: <S, R, E, A>(
   startWith: StateReaderAsyncResult<S, R, E, A>
-) => (iterable: Iterable<StateReaderAsyncResult<S, R, E, A>>) => StateReaderAsyncResult<S, R, E, A> =
+) => (collection: Iterable<StateReaderAsyncResult<S, R, E, A>>) => StateReaderAsyncResult<S, R, E, A> =
   /*#__PURE__*/ alt.firstSuccessOf(Alt)
-
-/**
- * Returns an effect that runs the first effect and in case of failure, runs
- * each of the specified effects in order until one of them succeeds.
- *
- * @category error handling
- * @since 3.0.0
- */
-export const firstSuccessOfNonEmpty: <S, R, E, A>(
-  head: StateReaderAsyncResult<S, R, E, A>,
-  ...tail: ReadonlyArray<StateReaderAsyncResult<S, R, E, A>>
-) => StateReaderAsyncResult<S, R, E, A> = /*#__PURE__*/ alt.firstSuccessOfNonEmpty(Alt)
 
 /**
  * @category instances

@@ -511,19 +511,7 @@ export const Alt: alt.Alt<ReaderResultTypeLambda> = {
  */
 export const firstSuccessOf: <R, E, A>(
   startWith: ReaderResult<R, E, A>
-) => (iterable: Iterable<ReaderResult<R, E, A>>) => ReaderResult<R, E, A> = /*#__PURE__*/ alt.firstSuccessOf(Alt)
-
-/**
- * Returns an effect that runs the first effect and in case of failure, runs
- * each of the specified effects in order until one of them succeeds.
- *
- * @category error handling
- * @since 3.0.0
- */
-export const firstSuccessOfNonEmpty: <R, E, A>(
-  head: ReaderResult<R, E, A>,
-  ...tail: ReadonlyArray<ReaderResult<R, E, A>>
-) => ReaderResult<R, E, A> = /*#__PURE__*/ alt.firstSuccessOfNonEmpty(Alt)
+) => (collection: Iterable<ReaderResult<R, E, A>>) => ReaderResult<R, E, A> = /*#__PURE__*/ alt.firstSuccessOf(Alt)
 
 /**
  * @category instances

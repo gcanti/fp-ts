@@ -974,20 +974,8 @@ export const Alt: alt.Alt<ReaderAsyncResultTypeLambda> = {
  */
 export const firstSuccessOf: <R, E, A>(
   startWith: ReaderAsyncResult<R, E, A>
-) => (iterable: Iterable<ReaderAsyncResult<R, E, A>>) => ReaderAsyncResult<R, E, A> =
+) => (collection: Iterable<ReaderAsyncResult<R, E, A>>) => ReaderAsyncResult<R, E, A> =
   /*#__PURE__*/ alt.firstSuccessOf(Alt)
-
-/**
- * Returns an effect that runs the first effect and in case of failure, runs
- * each of the specified effects in order until one of them succeeds.
- *
- * @category error handling
- * @since 3.0.0
- */
-export const firstSuccessOfNonEmpty: <R, E, A>(
-  head: ReaderAsyncResult<R, E, A>,
-  ...tail: ReadonlyArray<ReaderAsyncResult<R, E, A>>
-) => ReaderAsyncResult<R, E, A> = /*#__PURE__*/ alt.firstSuccessOfNonEmpty(Alt)
 
 /**
  * Make sure that a resource is cleaned up in the event of an exception (\*). The release action is called regardless of

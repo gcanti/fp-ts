@@ -18,7 +18,6 @@ Added in v3.0.0
   - [Magma (interface)](#magma-interface)
 - [utils](#utils)
   - [combineAll](#combineall)
-  - [combineAllNonEmpty](#combineallnonempty)
   - [endo](#endo)
   - [filterFirst](#filterfirst)
   - [filterSecond](#filtersecond)
@@ -63,16 +62,6 @@ import * as N from 'fp-ts/number'
 const subAll = combineAll(N.MagmaSub)(0)
 
 assert.deepStrictEqual(subAll([1, 2, 3]), -6)
-```
-
-Added in v3.0.0
-
-## combineAllNonEmpty
-
-**Signature**
-
-```ts
-export declare const combineAllNonEmpty: <S>(Magma: Magma<S>) => (head: S, ...tail: readonly S[]) => S
 ```
 
 Added in v3.0.0

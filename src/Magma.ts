@@ -85,11 +85,3 @@ export const combineAll =
     }
     return out
   }
-
-/**
- * @since 3.0.0
- */
-export const combineAllNonEmpty = <S>(Magma: Magma<S>) => {
-  const combineAll_ = combineAll(Magma)
-  return (head: S, ...tail: ReadonlyArray<S>): S => combineAll_(head)(tail)
-}

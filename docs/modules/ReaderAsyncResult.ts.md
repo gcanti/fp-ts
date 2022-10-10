@@ -45,7 +45,6 @@ Added in v3.0.0
 - [error handling](#error-handling)
   - [catchAll](#catchall)
   - [firstSuccessOf](#firstsuccessof)
-  - [firstSuccessOfNonEmpty](#firstsuccessofnonempty)
   - [flatMapError](#flatmaperror)
   - [getOrElse](#getorelse)
   - [getOrElseReaderAsync](#getorelsereaderasync)
@@ -482,23 +481,7 @@ Returns an effect that runs each of the specified effects in order until one of 
 ```ts
 export declare const firstSuccessOf: <R, E, A>(
   startWith: ReaderAsyncResult<R, E, A>
-) => (iterable: Iterable<ReaderAsyncResult<R, E, A>>) => ReaderAsyncResult<R, E, A>
-```
-
-Added in v3.0.0
-
-## firstSuccessOfNonEmpty
-
-Returns an effect that runs the first effect and in case of failure, runs
-each of the specified effects in order until one of them succeeds.
-
-**Signature**
-
-```ts
-export declare const firstSuccessOfNonEmpty: <R, E, A>(
-  head: ReaderAsyncResult<R, E, A>,
-  ...tail: readonly ReaderAsyncResult<R, E, A>[]
-) => ReaderAsyncResult<R, E, A>
+) => (collection: Iterable<ReaderAsyncResult<R, E, A>>) => ReaderAsyncResult<R, E, A>
 ```
 
 Added in v3.0.0

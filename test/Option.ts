@@ -1,6 +1,5 @@
 import * as T from '../src/Async'
 import { identity, pipe } from '../src/Function'
-import type { NonEmptyReadonlyArray } from '../src/NonEmptyReadonlyArray'
 import * as N from '../src/number'
 import * as O from '../src/Option'
 import * as RA from '../src/ReadonlyArray'
@@ -11,19 +10,6 @@ import * as U from './util'
 const p = (n: number): boolean => n > 2
 
 describe('Option', () => {
-  describe('firstSuccessOfNonEmpty', () => {
-    it('baseline', () => {
-      U.deepStrictEqual(O.firstSuccessOfNonEmpty(O.none), O.none)
-      U.deepStrictEqual(O.firstSuccessOfNonEmpty(O.none, O.none), O.none)
-      U.deepStrictEqual(O.firstSuccessOfNonEmpty(O.none, O.none, O.some(1)), O.some(1))
-    })
-
-    it('should accept a NonEmptyReadonlyArray', () => {
-      const input: NonEmptyReadonlyArray<O.Option<number>> = [O.none, O.none, O.some(1)]
-      U.deepStrictEqual(O.firstSuccessOfNonEmpty(...input), O.some(1))
-    })
-  })
-
   describe('firstSuccessOf', () => {
     it('baseline', () => {
       U.deepStrictEqual(O.firstSuccessOf([]), O.none)

@@ -3,7 +3,7 @@
  */
 import type * as kleisliCategory from './KleisliCategory'
 import type * as kleisliComposable from './KleisliComposable'
-import * as alt from './Alt'
+import type * as alt from './Alt'
 import * as alternative from './Alternative'
 import type * as applicative from './Applicative'
 import * as apply from './Apply'
@@ -60,7 +60,7 @@ export interface ReadonlyArrayTypeLambda extends TypeLambda {
  * @category conversions
  * @since 3.0.0
  */
-export const fromIterable: <A>(iterable: Iterable<A>) => ReadonlyArray<A> = _.Arrayfrom
+export const fromIterable: <A>(collection: Iterable<A>) => ReadonlyArray<A> = _.Arrayfrom
 
 /**
  * Return a `ReadonlyArray` of length `n` with element `i` initialized with `f(i)`.
@@ -1796,18 +1796,6 @@ export const Alt: alt.Alt<ReadonlyArrayTypeLambda> = {
 }
 
 /**
- * Returns an effect that runs the first effect and in case of failure, runs
- * each of the specified effects in order until one of them succeeds.
- *
- * @category error handling
- * @since 3.0.0
- */
-export const firstSuccessOfNonEmpty: <A>(
-  head: ReadonlyArray<A>,
-  ...tail: ReadonlyArray<ReadonlyArray<A>>
-) => ReadonlyArray<A> = /*#__PURE__*/ alt.firstSuccessOfNonEmpty(Alt)
-
-/**
  * @category instances
  * @since 3.0.0
  */
@@ -1822,7 +1810,7 @@ export const Alternative: alternative.Alternative<ReadonlyArrayTypeLambda> = {
  * @category error handling
  * @since 3.0.0
  */
-export const firstSuccessOf: <A>(iterable: Iterable<ReadonlyArray<A>>) => ReadonlyArray<A> =
+export const firstSuccessOf: <A>(collection: Iterable<ReadonlyArray<A>>) => ReadonlyArray<A> =
   /*#__PURE__*/ alternative.firstSuccessOf(Alternative)
 
 /**

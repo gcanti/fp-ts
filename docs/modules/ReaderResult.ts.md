@@ -33,7 +33,6 @@ Added in v3.0.0
 - [error handling](#error-handling)
   - [catchAll](#catchall)
   - [firstSuccessOf](#firstsuccessof)
-  - [firstSuccessOfNonEmpty](#firstsuccessofnonempty)
   - [flatMapError](#flatmaperror)
   - [getOrElse](#getorelse)
   - [getOrElseReader](#getorelsereader)
@@ -324,23 +323,7 @@ Returns an effect that runs each of the specified effects in order until one of 
 ```ts
 export declare const firstSuccessOf: <R, E, A>(
   startWith: ReaderResult<R, E, A>
-) => (iterable: Iterable<ReaderResult<R, E, A>>) => ReaderResult<R, E, A>
-```
-
-Added in v3.0.0
-
-## firstSuccessOfNonEmpty
-
-Returns an effect that runs the first effect and in case of failure, runs
-each of the specified effects in order until one of them succeeds.
-
-**Signature**
-
-```ts
-export declare const firstSuccessOfNonEmpty: <R, E, A>(
-  head: ReaderResult<R, E, A>,
-  ...tail: readonly ReaderResult<R, E, A>[]
-) => ReaderResult<R, E, A>
+) => (collection: Iterable<ReaderResult<R, E, A>>) => ReaderResult<R, E, A>
 ```
 
 Added in v3.0.0

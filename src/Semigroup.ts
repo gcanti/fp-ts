@@ -15,7 +15,6 @@
  *
  * @since 3.0.0
  */
-import type { Endomorphism } from './Endomorphism'
 import { identity } from './Function'
 import * as _ from './internal'
 import type { Magma } from './Magma'
@@ -76,7 +75,7 @@ export const constant = <S>(s: S): Semigroup<S> => ({
 })
 
 /**
- * The dual of a `Semigroup`, obtained by swapping the arguments of `combine`.
+ * The dual of a `Semigroup`, obtained by flipping the arguments of `combine`.
  *
  * @example
  * import { reverse } from 'fp-ts/Semigroup'
@@ -165,8 +164,8 @@ export const tuple = <S extends ReadonlyArray<unknown>>(
  * @since 3.0.0
  */
 export const intercalate =
-  <S>(separator: S): Endomorphism<Semigroup<S>> =>
-  (Semigroup) => ({
+  <S>(separator: S) =>
+  (Semigroup: Semigroup<S>): Semigroup<S> => ({
     combine: (that) => (self) => Semigroup.combine(Semigroup.combine(that)(separator))(self)
   })
 
@@ -224,9 +223,3 @@ export const last = <S>(): Semigroup<S> => ({
  */
 export const combineAll: <S>(Semigroup: Semigroup<S>) => (startWith: S) => (collection: Iterable<S>) => S =
   magma.combineAll
-
-/**
- * @since 3.0.0
- */
-export const combineAllNonEmpty: <S>(Semigroup: Semigroup<S>) => (head: S, ...tail: ReadonlyArray<S>) => S =
-  magma.combineAllNonEmpty

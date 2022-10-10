@@ -66,8 +66,8 @@ export const fromOptionToResult =
 export const empty: readonly [] = []
 
 /** @internal */
-export const Arrayfrom = <A>(iterable: Iterable<A>): ReadonlyArray<A> =>
-  Array.isArray(iterable) ? iterable : Array.from(iterable)
+export const Arrayfrom = <A>(collection: Iterable<A>): ReadonlyArray<A> =>
+  Array.isArray(collection) ? collection : Array.from(collection)
 
 // -------------------------------------------------------------------------------------
 // NonEmptyReadonlyArray

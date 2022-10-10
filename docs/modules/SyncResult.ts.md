@@ -36,7 +36,6 @@ Added in v3.0.0
 - [error handling](#error-handling)
   - [catchAll](#catchall)
   - [firstSuccessOf](#firstsuccessof)
-  - [firstSuccessOfNonEmpty](#firstsuccessofnonempty)
   - [flatMapError](#flatmaperror)
   - [getOrElse](#getorelse)
   - [getOrElseSync](#getorelsesync)
@@ -293,23 +292,7 @@ Returns an effect that runs each of the specified effects in order until one of 
 ```ts
 export declare const firstSuccessOf: <E, A>(
   startWith: SyncResult<E, A>
-) => (iterable: Iterable<SyncResult<E, A>>) => SyncResult<E, A>
-```
-
-Added in v3.0.0
-
-## firstSuccessOfNonEmpty
-
-Returns an effect that runs the first effect and in case of failure, runs
-each of the specified effects in order until one of them succeeds.
-
-**Signature**
-
-```ts
-export declare const firstSuccessOfNonEmpty: <E, A>(
-  head: SyncResult<E, A>,
-  ...tail: readonly SyncResult<E, A>[]
-) => SyncResult<E, A>
+) => (collection: Iterable<SyncResult<E, A>>) => SyncResult<E, A>
 ```
 
 Added in v3.0.0

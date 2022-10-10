@@ -1162,19 +1162,8 @@ export const Alt: alt.Alt<NonEmptyReadonlyArrayTypeLambda> = {
  */
 export const firstSuccessOf: <A>(
   startWith: NonEmptyReadonlyArray<A>
-) => (iterable: Iterable<NonEmptyReadonlyArray<A>>) => NonEmptyReadonlyArray<A> = /*#__PURE__*/ alt.firstSuccessOf(Alt)
-
-/**
- * Returns an effect that runs the first effect and in case of failure, runs
- * each of the specified effects in order until one of them succeeds.
- *
- * @category error handling
- * @since 3.0.0
- */
-export const firstSuccessOfNonEmpty: <A>(
-  head: NonEmptyReadonlyArray<A>,
-  ...tail: ReadonlyArray<NonEmptyReadonlyArray<A>>
-) => NonEmptyReadonlyArray<A> = /*#__PURE__*/ alt.firstSuccessOfNonEmpty(Alt)
+) => (collection: Iterable<NonEmptyReadonlyArray<A>>) => NonEmptyReadonlyArray<A> =
+  /*#__PURE__*/ alt.firstSuccessOf(Alt)
 
 /**
  * @category instances

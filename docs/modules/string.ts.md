@@ -21,6 +21,7 @@ Added in v3.0.0
 - [refinements](#refinements)
   - [isString](#isstring)
 - [utils](#utils)
+  - [concatAll](#concatall)
   - [empty](#empty)
   - [endsWith](#endswith)
   - [includes](#includes)
@@ -166,6 +167,16 @@ assert.deepStrictEqual(S.isString(1), false)
 Added in v3.0.0
 
 # utils
+
+## concatAll
+
+**Signature**
+
+```ts
+export declare const concatAll: (collection: Iterable<string>) => string
+```
+
+Added in v3.0.0
 
 ## empty
 

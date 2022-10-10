@@ -45,7 +45,6 @@ Added in v3.0.0
 - [error handling](#error-handling)
   - [catchAll](#catchall)
   - [firstSuccessOf](#firstsuccessof)
-  - [firstSuccessOfNonEmpty](#firstsuccessofnonempty)
   - [getOrElse](#getorelse)
 - [filtering](#filtering)
   - [compact](#compact)
@@ -176,7 +175,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromIterable: <A>(iterable: Iterable<A>) => Option<A>
+export declare const fromIterable: <A>(collection: Iterable<A>) => Option<A>
 ```
 
 Added in v3.0.0
@@ -406,20 +405,7 @@ Returns an effect that runs each of the specified effects in order until one of 
 **Signature**
 
 ```ts
-export declare const firstSuccessOf: <A>(iterable: Iterable<Option<A>>) => Option<A>
-```
-
-Added in v3.0.0
-
-## firstSuccessOfNonEmpty
-
-Returns an effect that runs the first effect and in case of failure, runs
-each of the specified effects in order until one of them succeeds.
-
-**Signature**
-
-```ts
-export declare const firstSuccessOfNonEmpty: <A>(head: Option<A>, ...tail: readonly Option<A>[]) => Option<A>
+export declare const firstSuccessOf: <A>(collection: Iterable<Option<A>>) => Option<A>
 ```
 
 Added in v3.0.0
