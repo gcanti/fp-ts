@@ -408,7 +408,7 @@ export const toTuple2: <E, A>(e: E, a: A) => (fa: AsyncThese<E, A>) => Async<rea
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const Zip: AsyncThese<never, readonly []> = /*#__PURE__*/ succeed(_.emptyReadonlyArray)
+export const Zip: AsyncThese<never, readonly []> = /*#__PURE__*/ succeed(_.empty)
 
 // -------------------------------------------------------------------------------------
 // array utils
@@ -516,7 +516,7 @@ export const traverseNonEmptyReadonlyArrayWithIndex =
                 return ebs
               })
         ),
-      f(0, _.head(as))().then(these.map(_.toNonEmptyReadonlyArray))
+      f(0, _.head(as))().then(these.map(_.toNonEmptyArray))
     )
 
 /**

@@ -494,7 +494,7 @@ export const FromThese: fromThese_.FromThese<TheseTypeLambda> = {
  * @since 3.0.0
  */
 export const toReadonlyArray = <E, A>(self: These<E, A>): ReadonlyArray<A> =>
-  isFailure(self) ? _.emptyReadonlyArray : [self.success]
+  isFailure(self) ? _.empty : [self.success]
 
 /**
  * @category folding
@@ -650,7 +650,7 @@ export const getSuccessOnly = <E, A>(fa: These<E, A>): Option<A> => (isSuccess(f
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const Zip: These<never, readonly []> = /*#__PURE__*/ succeed(_.emptyReadonlyArray)
+export const Zip: These<never, readonly []> = /*#__PURE__*/ succeed(_.empty)
 
 // -------------------------------------------------------------------------------------
 // array utils

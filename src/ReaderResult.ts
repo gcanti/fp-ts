@@ -26,9 +26,8 @@ import * as reader from './Reader'
 import type { NonEmptyReadonlyArray } from './NonEmptyReadonlyArray'
 import type { Refinement } from './Refinement'
 import type { Semigroup } from './Semigroup'
-
-import Result = result.Result
-import Reader = reader.Reader
+import type { Reader } from './Reader'
+import type { Result } from './Result'
 
 /**
  * @category model
@@ -100,7 +99,7 @@ export const fromResult: <E, A>(fa: Result<E, A>) => ReaderResult<unknown, E, A>
 export const match: <E, B, A, C = B>(
   onError: (e: E) => B,
   onSuccess: (a: A) => C
-) => <R>(ma: Reader<R, result.Result<E, A>>) => Reader<R, B | C> = /*#__PURE__*/ resultT.match(reader.Functor)
+) => <R>(ma: Reader<R, Result<E, A>>) => Reader<R, B | C> = /*#__PURE__*/ resultT.match(reader.Functor)
 
 /**
  * @category pattern matching
@@ -109,9 +108,7 @@ export const match: <E, B, A, C = B>(
 export const matchReader: <E, R2, B, A, R3, C = B>(
   onError: (e: E) => Reader<R2, B>,
   onSuccess: (a: A) => Reader<R3, C>
-) => <R1>(ma: Reader<R1, result.Result<E, A>>) => Reader<R1 & R2 & R3, B | C> = /*#__PURE__*/ resultT.matchKind(
-  reader.Monad
-)
+) => <R1>(ma: Reader<R1, Result<E, A>>) => Reader<R1 & R2 & R3, B | C> = /*#__PURE__*/ resultT.matchKind(reader.Monad)
 
 /**
  * @category error handling
@@ -669,7 +666,7 @@ export const partitionMap: <A, B, C, E>(
  * @since 3.0.0
  */
 export const liftResult: <A extends ReadonlyArray<unknown>, E, B>(
-  f: (...a: A) => result.Result<E, B>
+  f: (...a: A) => Result<E, B>
 ) => (...a: A) => ReaderResult<unknown, E, B> = /*#__PURE__*/ fromResult_.liftResult(FromResult)
 
 /**
@@ -717,7 +714,7 @@ export const flatMapNullable: <A, B, E2>(
  * @category do notation
  * @since 3.0.0
  */
-export const Do: ReaderResult<unknown, never, {}> = /*#__PURE__*/ succeed(_.emptyReadonlyRecord)
+export const Do: ReaderResult<unknown, never, {}> = /*#__PURE__*/ succeed(_.Do)
 
 /**
  * @category do notation
@@ -778,7 +775,7 @@ export const bindRight: <N extends string, A extends object, R2, E2, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const Zip: ReaderResult<unknown, never, readonly []> = /*#__PURE__*/ succeed(_.emptyReadonlyArray)
+export const Zip: ReaderResult<unknown, never, readonly []> = /*#__PURE__*/ succeed(_.empty)
 
 /**
  * @category tuple sequencing

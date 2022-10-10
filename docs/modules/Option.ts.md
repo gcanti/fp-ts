@@ -24,14 +24,13 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [constructors](#constructors)
-  - [getFailure](#getfailure)
-  - [getSuccess](#getsuccess)
   - [none](#none)
   - [some](#some)
 - [conversions](#conversions)
   - [fromIterable](#fromiterable)
   - [fromNullable](#fromnullable)
   - [fromResult](#fromresult)
+  - [getFailure](#getfailure)
   - [toNull](#tonull)
   - [toReadonlyArray](#toreadonlyarray)
   - [toResult](#toresult)
@@ -146,50 +145,6 @@ Added in v3.0.0
 
 # constructors
 
-## getFailure
-
-Returns the `Failure` value of a `Result` if possible.
-
-**Signature**
-
-```ts
-export declare const getFailure: <E>(ma: Result<E, unknown>) => Option<E>
-```
-
-**Example**
-
-```ts
-import * as O from 'fp-ts/Option'
-import * as E from 'fp-ts/Result'
-
-assert.deepStrictEqual(O.getFailure(E.succeed(1)), O.none)
-assert.deepStrictEqual(O.getFailure(E.fail('a')), O.some('a'))
-```
-
-Added in v3.0.0
-
-## getSuccess
-
-Returns the `Success` value of an `Result` if possible.
-
-**Signature**
-
-```ts
-export declare const getSuccess: <A>(ma: Result<unknown, A>) => Option<A>
-```
-
-**Example**
-
-```ts
-import * as O from 'fp-ts/Option'
-import * as E from 'fp-ts/Result'
-
-assert.deepStrictEqual(O.getSuccess(E.succeed(1)), O.some(1))
-assert.deepStrictEqual(O.getSuccess(E.fail('a')), O.none)
-```
-
-Added in v3.0.0
-
 ## none
 
 `None` doesn't have a constructor, instead you can use it directly as a value. Represents a missing value.
@@ -251,14 +206,44 @@ Added in v3.0.0
 
 ## fromResult
 
-Converts an `Result` to an `Option` discarding the error.
-
-Alias of [getSuccess](#getsuccess)
+Converts a `Result` to an `Option` discarding the error.
 
 **Signature**
 
 ```ts
-export declare const fromResult: <A>(ma: Result<unknown, A>) => Option<A>
+export declare const fromResult: <E, A>(self: Result<E, A>) => Option<A>
+```
+
+**Example**
+
+```ts
+import * as O from 'fp-ts/Option'
+import * as R from 'fp-ts/Result'
+
+assert.deepStrictEqual(O.fromResult(R.succeed(1)), O.some(1))
+assert.deepStrictEqual(O.fromResult(R.fail('a')), O.none)
+```
+
+Added in v3.0.0
+
+## getFailure
+
+Converts a `Result` to an `Option` discarding the success.
+
+**Signature**
+
+```ts
+export declare const getFailure: <E, A>(self: Result<E, A>) => Option<E>
+```
+
+**Example**
+
+```ts
+import * as O from 'fp-ts/Option'
+import * as E from 'fp-ts/Result'
+
+assert.deepStrictEqual(O.getFailure(E.succeed(1)), O.none)
+assert.deepStrictEqual(O.getFailure(E.fail('a')), O.some('a'))
 ```
 
 Added in v3.0.0
@@ -300,7 +285,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const toResult: <E>(onNone: E) => <A>(fa: Option<A>) => Result<E, A>
+export declare const toResult: <E>(onNone: E) => <A>(self: Option<A>) => Result<E, A>
 ```
 
 Added in v3.0.0

@@ -213,7 +213,7 @@ export const getOrElse =
  * @category conversions
  * @since 3.0.0
  */
-export const fromNullable: <E>(onNullable: E) => <A>(a: A) => Result<E, NonNullable<A>> = _.eitherFromNullable
+export const fromNullable: <E>(onNullable: E) => <A>(a: A) => Result<E, NonNullable<A>> = _.fromNullableToResult
 
 /**
  * @category lifting
@@ -864,7 +864,7 @@ export const FlattenableRec: flattenableRec.FlattenableRec<ResultTypeLambda> = {
  * @since 3.0.0
  */
 export const toReadonlyArray = <E, A>(self: Result<E, A>): ReadonlyArray<A> =>
-  isFailure(self) ? _.emptyReadonlyArray : [self.success]
+  isFailure(self) ? _.empty : [self.success]
 
 /**
  * @category folding
@@ -1022,25 +1022,25 @@ export const FromResult: fromResult_.FromResult<ResultTypeLambda> = {
  * @category conversions
  * @since 3.0.0
  */
-export const fromOption: <E>(onNone: E) => <A>(fa: Option<A>) => Result<E, A> = _.fromOption
+export const fromOption: <E>(onNone: E) => <A>(fa: Option<A>) => Result<E, A> = _.fromOptionToResult
 
 /**
  * @category conversions
  * @since 3.0.0
  */
-export const toOption: <A>(self: Result<unknown, A>) => Option<A> = _.getSuccess
+export const toOption: <E, A>(self: Result<E, A>) => Option<A> = _.getSuccess
 
 /**
  * @category conversions
  * @since 3.0.0
  */
-export const toNull: <A>(self: Result<unknown, A>) => A | null = /*#__PURE__*/ getOrElse(null)
+export const toNull: <E, A>(self: Result<E, A>) => A | null = /*#__PURE__*/ getOrElse(null)
 
 /**
  * @category conversions
  * @since 3.0.0
  */
-export const toUndefined: <A>(self: Result<unknown, A>) => A | undefined = /*#__PURE__*/ getOrElse(undefined)
+export const toUndefined: <E, A>(self: Result<E, A>) => A | undefined = /*#__PURE__*/ getOrElse(undefined)
 
 /**
  * @example
@@ -1195,7 +1195,7 @@ export const exists =
  * @category do notation
  * @since 3.0.0
  */
-export const Do: Result<never, {}> = /*#__PURE__*/ succeed(_.emptyReadonlyRecord)
+export const Do: Result<never, {}> = /*#__PURE__*/ succeed(_.Do)
 
 /**
  * @category do notation
@@ -1248,7 +1248,7 @@ export const bindRight: <N extends string, A extends object, E2, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const Zip: Result<never, readonly []> = /*#__PURE__*/ succeed(_.emptyReadonlyArray)
+export const Zip: Result<never, readonly []> = /*#__PURE__*/ succeed(_.empty)
 
 /**
  * @category tuple sequencing

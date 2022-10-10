@@ -273,7 +273,7 @@ export const Monad: monad.Monad<ReaderTypeLambda> = {
  * @category do notation
  * @since 3.0.0
  */
-export const Do: Reader<unknown, {}> = /*#__PURE__*/ of(_.emptyReadonlyRecord)
+export const Do: Reader<unknown, {}> = /*#__PURE__*/ of(_.Do)
 
 /**
  * @category do notation
@@ -326,7 +326,7 @@ export const bindRight: <N extends string, A extends object, R2, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const Zip: Reader<unknown, readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
+export const Zip: Reader<unknown, readonly []> = /*#__PURE__*/ of(_.empty)
 
 /**
  * @category tuple sequencing

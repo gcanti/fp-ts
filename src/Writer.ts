@@ -409,7 +409,7 @@ export const traverseReadonlyArrayWithIndex =
   <W>(M: Monoid<W>) =>
   <A, B>(f: (index: number, a: A) => Writer<W, B>): ((as: ReadonlyArray<A>) => Writer<W, ReadonlyArray<B>>) => {
     const g = traverseNonEmptyReadonlyArrayWithIndex(M)(f)
-    return (as) => (_.isNonEmpty(as) ? g(as) : [M.empty, _.emptyReadonlyArray])
+    return (as) => (_.isNonEmpty(as) ? g(as) : [M.empty, _.empty])
   }
 
 /**

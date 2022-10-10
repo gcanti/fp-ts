@@ -432,7 +432,7 @@ export const traverseReadonlyArrayWithIndex =
   ): ((as: ReadonlyArray<A>) => ReaderAsyncWriter<R, W, ReadonlyArray<B>>) => {
     const g = traverseNonEmptyReadonlyArrayWithIndex(Apply, Monoid)(f)
     const P = getFromIdentity(Monoid)
-    return (as) => (_.isNonEmpty(as) ? g(as) : P.of(_.emptyReadonlyArray))
+    return (as) => (_.isNonEmpty(as) ? g(as) : P.of(_.empty))
   }
 
 /**

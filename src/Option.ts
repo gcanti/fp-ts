@@ -141,7 +141,28 @@ export const fromIterable = <A>(iterable: Iterable<A>): Option<A> => {
 }
 
 /**
- * Returns the `Failure` value of a `Result` if possible.
+ * Converts a `Result` to an `Option` discarding the error.
+ *
+ * @example
+ * import * as O from 'fp-ts/Option'
+ * import * as R from 'fp-ts/Result'
+ *
+ * assert.deepStrictEqual(O.fromResult(R.succeed(1)), O.some(1))
+ * assert.deepStrictEqual(O.fromResult(R.fail('a')), O.none)
+ *
+ * @category conversions
+ * @since 3.0.0
+ */
+export const fromResult: <E, A>(self: Result<E, A>) => Option<A> = _.getSuccess
+
+/**
+ * @category conversions
+ * @since 3.0.0
+ */
+export const toResult: <E>(onNone: E) => <A>(self: Option<A>) => Result<E, A> = _.fromOptionToResult
+
+/**
+ * Converts a `Result` to an `Option` discarding the success.
  *
  * @example
  * import * as O from 'fp-ts/Option'
@@ -150,45 +171,10 @@ export const fromIterable = <A>(iterable: Iterable<A>): Option<A> => {
  * assert.deepStrictEqual(O.getFailure(E.succeed(1)), O.none)
  * assert.deepStrictEqual(O.getFailure(E.fail('a')), O.some('a'))
  *
- * @category constructors
- * @since 3.0.0
- */
-export const getFailure: <E>(ma: Result<E, unknown>) => Option<E> = _.getFailure
-
-/**
- * Returns the `Success` value of an `Result` if possible.
- *
- * @example
- * import * as O from 'fp-ts/Option'
- * import * as E from 'fp-ts/Result'
- *
- * assert.deepStrictEqual(O.getSuccess(E.succeed(1)), O.some(1))
- * assert.deepStrictEqual(O.getSuccess(E.fail('a')), O.none)
- *
- * @category constructors
- * @since 3.0.0
- */
-export const getSuccess: <A>(ma: Result<unknown, A>) => Option<A> = _.getSuccess
-
-/**
- * Converts an `Result` to an `Option` discarding the error.
- *
- * Alias of [getSuccess](#getsuccess)
- *
  * @category conversions
  * @since 3.0.0
  */
-export const fromResult = getSuccess
-
-/**
- * @category conversions
- * @since 3.0.0
- */
-export const toResult: <E>(onNone: E) => <A>(fa: Option<A>) => Result<E, A> = _.fromOption
-
-// -------------------------------------------------------------------------------------
-// pattern matching
-// -------------------------------------------------------------------------------------
+export const getFailure: <E, A>(self: Result<E, A>) => Option<E> = _.getFailure
 
 /**
  * Takes a (lazy) default value, a function, and an `Option` value, if the `Option` value is `None` the default value is
@@ -304,7 +290,7 @@ export const liftThrowable =
  * @category conversions
  * @since 3.0.0
  */
-export const fromNullable: <A>(a: A) => Option<NonNullable<A>> = _.optionFromNullable
+export const fromNullable: <A>(a: A) => Option<NonNullable<A>> = _.fromNullableToOption
 
 /**
  * Returns a *smart constructor* from a function that returns a nullable value.
@@ -610,7 +596,7 @@ const defaultSeparated = /*#__PURE__*/ [none, none] as const
  * @since 3.0.0
  */
 export const separate: <A, B>(fe: Option<Result<A, B>>) => readonly [Option<A>, Option<B>] = (ma) =>
-  isNone(ma) ? defaultSeparated : [getFailure(ma.value), getSuccess(ma.value)]
+  isNone(ma) ? defaultSeparated : [getFailure(ma.value), fromResult(ma.value)]
 
 /**
  * @category filtering
@@ -815,8 +801,7 @@ export const tap: <A>(f: (a: A) => Option<unknown>) => (self: Option<A>) => Opti
  * @category conversions
  * @since 3.0.0
  */
-export const toReadonlyArray = <A>(self: Option<A>): ReadonlyArray<A> =>
-  isNone(self) ? _.emptyReadonlyArray : [self.value]
+export const toReadonlyArray = <A>(self: Option<A>): ReadonlyArray<A> => (isNone(self) ? _.empty : [self.value])
 
 /**
  * @category folding
@@ -1117,7 +1102,7 @@ export const exists =
  * @category do notation
  * @since 3.0.0
  */
-export const Do: Option<{}> = /*#__PURE__*/ some(_.emptyReadonlyRecord)
+export const Do: Option<{}> = /*#__PURE__*/ some(_.Do)
 
 /**
  * @category do notation
@@ -1170,7 +1155,7 @@ export const bindRight: <N extends string, A extends object, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const Zip: Option<readonly []> = /*#__PURE__*/ some(_.emptyReadonlyArray)
+export const Zip: Option<readonly []> = /*#__PURE__*/ some(_.empty)
 
 /**
  * @category tuple sequencing

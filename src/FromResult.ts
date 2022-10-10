@@ -21,20 +21,15 @@ export interface FromResult<F extends TypeLambda> extends TypeClass<F> {
   readonly fromResult: <E, A, S>(fa: Result<E, A>) => Kind<F, S, unknown, never, E, A>
 }
 
-// -------------------------------------------------------------------------------------
-// conversions
-// -------------------------------------------------------------------------------------
-
 /**
  * @category conversions
  * @since 3.0.0
  */
 export const fromOption =
   <F extends TypeLambda>(FromResult: FromResult<F>) =>
-  <E>(onNone: E): (<A, S>(self: Option<A>) => Kind<F, S, unknown, never, E, A>) => {
-    const fromOption = _.fromOption(onNone)
-    return (self) => FromResult.fromResult(fromOption(self))
-  }
+  <E>(onNone: E) =>
+  <A, S>(self: Option<A>): Kind<F, S, unknown, never, E, A> =>
+    FromResult.fromResult(_.fromOptionToResult(onNone)(self))
 
 /**
  * @category conversions
@@ -42,12 +37,9 @@ export const fromOption =
  */
 export const fromNullable =
   <F extends TypeLambda>(FromResult: FromResult<F>) =>
-  <E>(onNullable: E) => {
-    const fromNullable = _.eitherFromNullable(onNullable)
-    return <A, S>(a: A): Kind<F, S, unknown, never, E, NonNullable<A>> => {
-      return FromResult.fromResult(fromNullable(a))
-    }
-  }
+  <E>(onNullable: E) =>
+  <A, S>(a: A): Kind<F, S, unknown, never, E, NonNullable<A>> =>
+    FromResult.fromResult(_.fromNullableToResult(onNullable)(a))
 
 // -------------------------------------------------------------------------------------
 // lifting
@@ -88,7 +80,7 @@ export const liftNullable = <F extends TypeLambda>(FromResult: FromResult<F>) =>
  */
 export const liftOption = <F extends TypeLambda>(FromResult: FromResult<F>) => {
   return <A extends ReadonlyArray<unknown>, B, E>(f: (...a: A) => Option<B>, onNone: E) => {
-    const fromOption = _.fromOption(onNone)
+    const fromOption = _.fromOptionToResult(onNone)
     return <S>(...a: A): Kind<F, S, unknown, never, E, B> => FromResult.fromResult(fromOption(f(...a)))
   }
 }

@@ -277,7 +277,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromReaderResult: <R, E, A>(fa: ReaderResult<R, E, A>) => ReaderAsyncResult<R, E, A>
+export declare const fromReaderResult: <R, E, A>(self: ReaderResult<R, E, A>) => ReaderAsyncResult<R, E, A>
 ```
 
 Added in v3.0.0

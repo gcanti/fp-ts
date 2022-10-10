@@ -240,11 +240,6 @@ describe('Option', () => {
     })
   })
 
-  it('fromResult', () => {
-    U.deepStrictEqual(O.fromResult(E.fail('a')), O.none)
-    U.deepStrictEqual(O.fromResult(E.succeed(1)), O.some(1))
-  })
-
   it('toResult', () => {
     U.deepStrictEqual(pipe(O.none, O.toResult('e')), E.fail('e'))
     U.deepStrictEqual(pipe(O.some(1), O.toResult('e')), E.succeed(1))
@@ -406,9 +401,9 @@ describe('Option', () => {
     U.deepStrictEqual(O.getFailure(E.fail('err')), O.some('err'))
   })
 
-  it('getRight', () => {
-    U.deepStrictEqual(O.getSuccess(E.succeed(1)), O.some(1))
-    U.deepStrictEqual(O.getSuccess(E.fail('err')), O.none)
+  it('fromResult', () => {
+    U.deepStrictEqual(O.fromResult(E.succeed(1)), O.some(1))
+    U.deepStrictEqual(O.fromResult(E.fail('e')), O.none)
   })
 
   it('do notation', () => {

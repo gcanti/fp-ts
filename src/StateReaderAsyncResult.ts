@@ -143,7 +143,7 @@ export const asksStateReaderAsyncResult =
  * @category conversions
  * @since 3.0.0
  */
-export const fromResult: <E, A, S>(fa: result.Result<E, A>) => StateReaderAsyncResult<S, unknown, E, A> =
+export const fromResult: <E, A, S>(self: Result<E, A>) => StateReaderAsyncResult<S, unknown, E, A> =
   /*#__PURE__*/ result.match(
     (e) => fail(e),
     (a) => succeed(a)
@@ -847,7 +847,7 @@ export const partitionMap: <A, B, C, E>(
  * @since 3.0.0
  */
 export const liftResult: <A extends ReadonlyArray<unknown>, E, B>(
-  f: (...a: A) => result.Result<E, B>
+  f: (...a: A) => Result<E, B>
 ) => <S>(...a: A) => StateReaderAsyncResult<S, unknown, E, B> = /*#__PURE__*/ fromResult_.liftResult(FromResult)
 
 /**
@@ -1032,7 +1032,7 @@ export const traverseReadonlyArrayWithIndex = <A, S, R, E, B>(
   f: (index: number, a: A) => StateReaderAsyncResult<S, R, E, B>
 ): ((as: ReadonlyArray<A>) => StateReaderAsyncResult<S, R, E, ReadonlyArray<B>>) => {
   const g = traverseNonEmptyReadonlyArrayWithIndex(f)
-  return (as) => (_.isNonEmpty(as) ? g(as) : succeed(_.emptyReadonlyArray))
+  return (as) => (_.isNonEmpty(as) ? g(as) : succeed(_.empty))
 }
 
 /**

@@ -188,7 +188,7 @@ export const matchRight =
 export function concat<B>(that: NonEmptyReadonlyArray<B>): <A>(self: ReadonlyArray<A>) => NonEmptyReadonlyArray<A | B>
 export function concat<B>(that: ReadonlyArray<B>): <A>(self: NonEmptyReadonlyArray<A>) => NonEmptyReadonlyArray<A | B>
 export function concat<B>(that: ReadonlyArray<B>): <A>(self: NonEmptyReadonlyArray<A>) => ReadonlyArray<A | B> {
-  return _.concat(that)
+  return <A>(self: NonEmptyReadonlyArray<A | B>) => self.concat(that)
 }
 
 /**
@@ -414,7 +414,7 @@ export function comprehension<A, R>(
           flatMap((head) => go(append(head)(as), tail(input)))
         )
       : [f(...as)]
-  return go(_.emptyReadonlyArray, input)
+  return go(_.empty, input)
 }
 
 /**
@@ -519,16 +519,16 @@ export const updateAt = <A>(i: number, a: A): ((as: NonEmptyReadonlyArray<A>) =>
  */
 export const modifyAt =
   <A>(i: number, f: (a: A) => A) =>
-  (as: NonEmptyReadonlyArray<A>): Option<NonEmptyReadonlyArray<A>> => {
-    if (isOutOfBound(i, as)) {
+  (self: NonEmptyReadonlyArray<A>): Option<NonEmptyReadonlyArray<A>> => {
+    if (isOutOfBound(i, self)) {
       return _.none
     }
-    const prev = as[i]
+    const prev = self[i]
     const next = f(prev)
     if (next === prev) {
-      return _.some(as)
+      return _.some(self)
     }
-    const out = _.fromNonEmptyReadonlyArray(as)
+    const out = _.fromNonEmptyReadonlyArray(self)
     out[i] = next
     return _.some(out)
   }
@@ -614,10 +614,10 @@ export const intersperse =
  */
 export const flatMapWithIndex =
   <A, B>(f: (i: number, a: A) => NonEmptyReadonlyArray<B>) =>
-  (as: NonEmptyReadonlyArray<A>): NonEmptyReadonlyArray<B> => {
-    const out: _.NonEmptyArray<B> = _.fromNonEmptyReadonlyArray(f(0, head(as)))
-    for (let i = 1; i < as.length; i++) {
-      out.push(...f(i, as[i]))
+  (self: NonEmptyReadonlyArray<A>): NonEmptyReadonlyArray<B> => {
+    const out: _.NonEmptyArray<B> = _.fromNonEmptyReadonlyArray(f(0, head(self)))
+    for (let i = 1; i < self.length; i++) {
+      out.push(...f(i, self[i]))
     }
     return out
   }
@@ -652,7 +652,7 @@ export const splitAt =
   (n: number) =>
   <A>(as: NonEmptyReadonlyArray<A>): readonly [NonEmptyReadonlyArray<A>, ReadonlyArray<A>] => {
     const m = Math.max(1, n)
-    return m >= as.length ? [as, _.emptyReadonlyArray] : [pipe(as.slice(1, m), prepend(head(as))), as.slice(m)]
+    return m >= as.length ? [as, _.empty] : [pipe(as.slice(1, m), prepend(head(as))), as.slice(m)]
   }
 
 /**
@@ -702,7 +702,7 @@ export const map: <A, B>(f: (a: A) => B) => (fa: NonEmptyReadonlyArray<A>) => No
  * @category constructors
  * @since 3.0.0
  */
-export const of: <A>(a: A) => NonEmptyReadonlyArray<A> = _.toNonEmptyReadonlyArray
+export const of: <A>(a: A) => NonEmptyReadonlyArray<A> = _.toNonEmptyArray
 
 /**
  * @category instances
@@ -1196,7 +1196,7 @@ export const Comonad: comonad.Comonad<NonEmptyReadonlyArrayTypeLambda> = {
  */
 export const Do: NonEmptyReadonlyArray<{}> =
   /*#__PURE__*/
-  of(_.emptyReadonlyRecord)
+  of(_.Do)
 
 /**
  * @category do notation
@@ -1257,7 +1257,7 @@ export const bindRight: <N extends string, A extends object, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const Zip: NonEmptyReadonlyArray<readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
+export const Zip: NonEmptyReadonlyArray<readonly []> = /*#__PURE__*/ of(_.empty)
 
 /**
  * @category tuple sequencing

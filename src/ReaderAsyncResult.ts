@@ -186,8 +186,8 @@ export const fromSyncResult: <E, A>(fa: SyncResult<E, A>) => ReaderAsyncResult<u
  * @category constructors
  * @since 3.0.0
  */
-export const fromReaderResult: <R, E, A>(fa: ReaderResult<R, E, A>) => ReaderAsyncResult<R, E, A> = (ma) =>
-  flow(ma, asyncResult.fromResult)
+export const fromReaderResult = <R, E, A>(self: ReaderResult<R, E, A>): ReaderAsyncResult<R, E, A> =>
+  flow(self, asyncResult.fromResult)
 
 // -------------------------------------------------------------------------------------
 // pattern matching
@@ -1011,7 +1011,7 @@ export const bracket: <R1, E1, A, R2, E2, B, R3, E3>(
  * @category do notation
  * @since 3.0.0
  */
-export const Do: ReaderAsyncResult<unknown, never, {}> = /*#__PURE__*/ succeed(_.emptyReadonlyRecord)
+export const Do: ReaderAsyncResult<unknown, never, {}> = /*#__PURE__*/ succeed(_.Do)
 
 /**
  * @category do notation
@@ -1072,7 +1072,7 @@ export const bindRight: <N extends string, A extends object, R2, E2, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const Zip: ReaderAsyncResult<unknown, never, readonly []> = /*#__PURE__*/ succeed(_.emptyReadonlyArray)
+export const Zip: ReaderAsyncResult<unknown, never, readonly []> = /*#__PURE__*/ succeed(_.empty)
 
 /**
  * @category tuple sequencing

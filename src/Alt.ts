@@ -37,7 +37,7 @@ export const firstSuccessOf =
   <G extends TypeLambda>(Alt: Alt<G>) =>
   <S, R, O, E, A>(startWith: Kind<G, S, R, O, E, A>) =>
   (iterable: Iterable<Kind<G, S, R, O, E, A>>): Kind<G, S, R, O, E, A> =>
-    _.fromIterable(iterable).reduce((acc, ga) => Alt.orElse(ga)(acc), startWith)
+    _.Arrayfrom(iterable).reduce((acc, ga) => Alt.orElse(ga)(acc), startWith)
 
 /**
  * Returns an effect that runs the first effect and in case of failure, runs

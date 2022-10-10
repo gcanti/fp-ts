@@ -437,7 +437,7 @@ export const never: Async<never> = () => new Promise(() => undefined)
  * @category do notation
  * @since 3.0.0
  */
-export const Do: Async<{}> = /*#__PURE__*/ of(_.emptyReadonlyRecord)
+export const Do: Async<{}> = /*#__PURE__*/ of(_.Do)
 
 /**
  * @category do notation
@@ -502,7 +502,7 @@ export const bindRightPar: <N extends string, A extends object, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const Zip: Async<readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
+export const Zip: Async<readonly []> = /*#__PURE__*/ of(_.empty)
 
 /**
  * @category tuple sequencing
@@ -638,7 +638,7 @@ export const traverseNonEmptyReadonlyArrayWithIndex =
         ),
       Promise.resolve()
         .then(f(0, _.head(as)))
-        .then(_.toNonEmptyReadonlyArray)
+        .then(_.toNonEmptyArray)
     )
 
 /**

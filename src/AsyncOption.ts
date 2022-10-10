@@ -215,7 +215,7 @@ export const orElse: <B>(that: AsyncOption<B>) => <A>(self: AsyncOption<A>) => A
  * @category filtering
  * @since 3.0.0
  */
-export const filterMap: <A, B>(f: (a: A) => option.Option<B>) => (fa: AsyncOption<A>) => AsyncOption<B> =
+export const filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: AsyncOption<A>) => AsyncOption<B> =
   /*#__PURE__*/ filterable.filterMapComposition(async.Functor, option.Filterable)
 
 // -------------------------------------------------------------------------------------
@@ -586,8 +586,10 @@ export const flatMapAsync: <A, B>(f: (a: A) => Async<B>) => (self: AsyncOption<A
  * @category filtering
  * @since 3.0.0
  */
-export const compact: <A>(foa: AsyncOption<option.Option<A>>) => AsyncOption<A> =
-  /*#__PURE__*/ compactable.compactComposition(async.Functor, option.Compactable)
+export const compact: <A>(foa: AsyncOption<Option<A>>) => AsyncOption<A> = /*#__PURE__*/ compactable.compactComposition(
+  async.Functor,
+  option.Compactable
+)
 
 /**
  * @category instances
@@ -649,7 +651,7 @@ export const partition: {
  * @category do notation
  * @since 3.0.0
  */
-export const Do: AsyncOption<{}> = /*#__PURE__*/ some(_.emptyReadonlyRecord)
+export const Do: AsyncOption<{}> = /*#__PURE__*/ some(_.Do)
 
 /**
  * @category do notation
@@ -702,7 +704,7 @@ export const bindRight: <N extends string, A extends object, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const Zip: AsyncOption<readonly []> = /*#__PURE__*/ some(_.emptyReadonlyArray)
+export const Zip: AsyncOption<readonly []> = /*#__PURE__*/ some(_.empty)
 
 /**
  * @category tuple sequencing
@@ -820,7 +822,7 @@ export const traverseNonEmptyReadonlyArrayWithIndex =
                 return obs
               })
         ),
-      f(0, _.head(as))().then(option.map(_.toNonEmptyReadonlyArray))
+      f(0, _.head(as))().then(option.map(_.toNonEmptyArray))
     )
 
 /**

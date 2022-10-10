@@ -278,7 +278,7 @@ export const FlattenableRec: flatMapableRec.FlattenableRec<SyncTypeLambda> = {
  * @category do notation
  * @since 3.0.0
  */
-export const Do: Sync<{}> = /*#__PURE__*/ of(_.emptyReadonlyRecord)
+export const Do: Sync<{}> = /*#__PURE__*/ of(_.Do)
 
 /**
  * @category do notation
@@ -331,7 +331,7 @@ export const bindRight: <N extends string, A extends object, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const Zip: Sync<readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
+export const Zip: Sync<readonly []> = /*#__PURE__*/ of(_.empty)
 
 /**
  * @category tuple sequencing

@@ -227,7 +227,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const toNull: <A>(self: Result<unknown, A>) => A | null
+export declare const toNull: <E, A>(self: Result<E, A>) => A | null
 ```
 
 Added in v3.0.0
@@ -237,7 +237,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const toOption: <A>(self: Result<unknown, A>) => Option<A>
+export declare const toOption: <E, A>(self: Result<E, A>) => Option<A>
 ```
 
 Added in v3.0.0
@@ -257,7 +257,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const toUndefined: <A>(self: Result<unknown, A>) => A | undefined
+export declare const toUndefined: <E, A>(self: Result<E, A>) => A | undefined
 ```
 
 Added in v3.0.0

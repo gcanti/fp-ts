@@ -36,7 +36,7 @@ Added in v3.0.0
 ```ts
 export declare const fromNullable: <F extends TypeLambda>(
   F: FromOption<F>
-) => <A, S, R, O, E>(a: A) => Kind<F, S, R, O, E, NonNullable<A>>
+) => <A, S>(a: A) => Kind<F, S, unknown, never, never, NonNullable<A>>
 ```
 
 Added in v3.0.0

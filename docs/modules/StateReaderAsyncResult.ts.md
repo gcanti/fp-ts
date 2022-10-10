@@ -393,7 +393,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromResult: <E, A, S>(fa: result.Result<E, A>) => StateReaderAsyncResult<S, unknown, E, A>
+export declare const fromResult: <E, A, S>(self: result.Result<E, A>) => StateReaderAsyncResult<S, unknown, E, A>
 ```
 
 Added in v3.0.0

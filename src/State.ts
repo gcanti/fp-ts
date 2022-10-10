@@ -399,7 +399,7 @@ export const traverseNonEmptyReadonlyArrayWithIndex =
 export const traverseReadonlyArrayWithIndex = <A, S, B>(f: (index: number, a: A) => State<S, B>) => {
   const g = traverseNonEmptyReadonlyArrayWithIndex(f)
   return (as: ReadonlyArray<A>): State<S, ReadonlyArray<B>> => {
-    return _.isNonEmpty(as) ? g(as) : of(_.emptyReadonlyArray)
+    return _.isNonEmpty(as) ? g(as) : of(_.empty)
   }
 }
 

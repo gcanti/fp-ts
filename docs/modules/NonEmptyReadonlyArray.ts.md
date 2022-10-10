@@ -1089,7 +1089,7 @@ Added in v3.0.0
 ```ts
 export declare const flatMapWithIndex: <A, B>(
   f: (i: number, a: A) => readonly [B, ...B[]]
-) => (as: readonly [A, ...A[]]) => readonly [B, ...B[]]
+) => (self: readonly [A, ...A[]]) => readonly [B, ...B[]]
 ```
 
 Added in v3.0.0
@@ -1289,7 +1289,7 @@ of bounds.
 export declare const modifyAt: <A>(
   i: number,
   f: (a: A) => A
-) => (as: readonly [A, ...A[]]) => Option<readonly [A, ...A[]]>
+) => (self: readonly [A, ...A[]]) => Option<readonly [A, ...A[]]>
 ```
 
 Added in v3.0.0

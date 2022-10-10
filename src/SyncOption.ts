@@ -76,7 +76,7 @@ export const fromOption: <A>(fa: Option<A>) => SyncOption<A> = sync.of
  * @category conversions
  * @since 3.0.0
  */
-export const fromResult: <A>(e: Result<unknown, A>) => Sync<option.Option<A>> = /*#__PURE__*/ optionT.fromResult(
+export const fromResult: <A>(e: Result<unknown, A>) => Sync<Option<A>> = /*#__PURE__*/ optionT.fromResult(
   sync.FromIdentity
 )
 
@@ -90,9 +90,7 @@ export const fromSync: <A>(ma: Sync<A>) => SyncOption<A> = /*#__PURE__*/ optionT
  * @category conversions
  * @since 3.0.0
  */
-export const fromSyncResult: <A>(ma: SyncResult<unknown, A>) => SyncOption<A> = /*#__PURE__*/ sync.map(
-  option.fromResult
-)
+export const fromSyncResult: <A>(ma: SyncResult<unknown, A>) => SyncOption<A> = /*#__PURE__*/ sync.map(_.getSuccess)
 
 // -------------------------------------------------------------------------------------
 // pattern matching
@@ -402,8 +400,10 @@ export const Monad: monad.Monad<SyncOptionTypeLambda> = {
  * @category filtering
  * @since 3.0.0
  */
-export const compact: <A>(foa: SyncOption<option.Option<A>>) => SyncOption<A> =
-  /*#__PURE__*/ compactable.compactComposition(sync.Functor, option.Compactable)
+export const compact: <A>(foa: SyncOption<Option<A>>) => SyncOption<A> = /*#__PURE__*/ compactable.compactComposition(
+  sync.Functor,
+  option.Compactable
+)
 
 /**
  * @category instances
@@ -570,7 +570,7 @@ export const flatMapResult: <A, E, B>(f: (a: A) => Result<E, B>) => (ma: SyncOpt
  * @category do notation
  * @since 3.0.0
  */
-export const Do: SyncOption<{}> = /*#__PURE__*/ some(_.emptyReadonlyRecord)
+export const Do: SyncOption<{}> = /*#__PURE__*/ some(_.Do)
 
 /**
  * @category do notation
@@ -623,7 +623,7 @@ export const bindRight: <N extends string, A extends object, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const Zip: SyncOption<readonly []> = /*#__PURE__*/ some(_.emptyReadonlyArray)
+export const Zip: SyncOption<readonly []> = /*#__PURE__*/ some(_.empty)
 
 /**
  * @category tuple sequencing

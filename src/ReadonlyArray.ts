@@ -60,7 +60,7 @@ export interface ReadonlyArrayTypeLambda extends TypeLambda {
  * @category conversions
  * @since 3.0.0
  */
-export const fromIterable: <A>(iterable: Iterable<A>) => ReadonlyArray<A> = _.fromIterable
+export const fromIterable: <A>(iterable: Iterable<A>) => ReadonlyArray<A> = _.Arrayfrom
 
 /**
  * Return a `ReadonlyArray` of length `n` with element `i` initialized with `f(i)`.
@@ -1224,7 +1224,7 @@ export const of: <A>(a: A) => ReadonlyArray<A> = nonEmptyReadonlyArray.of
 /**
  * @since 3.0.0
  */
-export const empty: ReadonlyArray<never> = _.emptyReadonlyArray
+export const empty: ReadonlyArray<never> = _.empty
 
 /**
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
@@ -1402,7 +1402,7 @@ export const mapWithIndex: <A, B>(f: (i: number, a: A) => B) => (fa: ReadonlyArr
 export const filterMapWithIndex =
   <A, B>(f: (i: number, a: A) => Option<B>) =>
   (self: Iterable<A>): ReadonlyArray<B> => {
-    const as = _.fromIterable(self)
+    const as = _.Arrayfrom(self)
     const out: Array<B> = []
     for (let i = 0; i < as.length; i++) {
       const o = f(i, as[i])
@@ -1499,7 +1499,7 @@ export const traverseWithIndex =
   (self: ReadonlyArray<A>): Kind<F, S, R, O, E, ReadonlyArray<B>> =>
     pipe(
       self,
-      reduceWithIndex<Kind<F, S, R, O, E, ReadonlyArray<B>>, A>(Applicative.of(_.emptyReadonlyArray), (i, fbs, a) =>
+      reduceWithIndex<Kind<F, S, R, O, E, ReadonlyArray<B>>, A>(Applicative.of(_.empty), (i, fbs, a) =>
         pipe(
           fbs,
           Applicative.map((bs) => (b: B) => append(b)(bs)),
@@ -2282,7 +2282,7 @@ export const intercalate = <A>(M: Monoid<A>): ((middle: A) => (as: ReadonlyArray
  * @category do notation
  * @since 3.0.0
  */
-export const Do: ReadonlyArray<{}> = /*#__PURE__*/ of(_.emptyReadonlyRecord)
+export const Do: ReadonlyArray<{}> = /*#__PURE__*/ of(_.Do)
 
 /**
  * @category do notation

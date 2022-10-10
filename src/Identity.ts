@@ -380,7 +380,7 @@ export const firstSuccessOfNonEmpty: <A>(head: Identity<A>, ...tail: ReadonlyArr
  * @category do notation
  * @since 3.0.0
  */
-export const Do: Identity<{}> = /*#__PURE__*/ of(_.emptyReadonlyRecord)
+export const Do: Identity<{}> = /*#__PURE__*/ of(_.Do)
 
 /**
  * @category do notation
@@ -432,7 +432,7 @@ export const bindRight: <N extends string, A extends object, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const Zip: Identity<readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
+export const Zip: Identity<readonly []> = /*#__PURE__*/ of(_.empty)
 
 /**
  * @category tuple sequencing

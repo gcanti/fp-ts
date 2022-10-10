@@ -812,7 +812,7 @@ export const partitionMap: <A, B, C, E>(
  * @since 3.0.0
  */
 export const liftResult: <A extends ReadonlyArray<unknown>, E, B>(
-  f: (...a: A) => result.Result<E, B>
+  f: (...a: A) => Result<E, B>
 ) => (...a: A) => AsyncResult<E, B> = /*#__PURE__*/ fromResult_.liftResult(FromResult)
 
 /**
@@ -920,7 +920,7 @@ export function taskify<L, R>(f: Function): () => AsyncResult<L, R> {
 export const bracket: <E1, A, E2, B, E3>(
   acquire: AsyncResult<E1, A>,
   use: (a: A) => AsyncResult<E2, B>,
-  release: (a: A, e: result.Result<E2, B>) => AsyncResult<E3, void>
+  release: (a: A, e: Result<E2, B>) => AsyncResult<E3, void>
 ) => AsyncResult<E1 | E2 | E3, B> = /*#__PURE__*/ resultT.bracket(async.Monad)
 
 // -------------------------------------------------------------------------------------
@@ -931,7 +931,7 @@ export const bracket: <E1, A, E2, B, E3>(
  * @category do notation
  * @since 3.0.0
  */
-export const Do: AsyncResult<never, {}> = /*#__PURE__*/ succeed(_.emptyReadonlyRecord)
+export const Do: AsyncResult<never, {}> = /*#__PURE__*/ succeed(_.Do)
 
 /**
  * @category do notation
@@ -989,7 +989,7 @@ export const bindRight: <N extends string, A extends object, E2, B>(
  * @category tuple sequencing
  * @since 3.0.0
  */
-export const Zip: AsyncResult<never, readonly []> = /*#__PURE__*/ succeed(_.emptyReadonlyArray)
+export const Zip: AsyncResult<never, readonly []> = /*#__PURE__*/ succeed(_.empty)
 
 /**
  * @category tuple sequencing
@@ -1109,7 +1109,7 @@ export const traverseNonEmptyReadonlyArrayWithIndex =
                 return ebs
               })
         ),
-      f(0, _.head(as))().then(result.map(_.toNonEmptyReadonlyArray))
+      f(0, _.head(as))().then(result.map(_.toNonEmptyArray))
     )
 
 /**
