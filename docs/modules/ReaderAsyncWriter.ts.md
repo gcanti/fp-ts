@@ -1,6 +1,6 @@
 ---
 title: ReaderAsyncWriter.ts
-nav_order: 61
+nav_order: 60
 parent: Modules
 ---
 
@@ -68,8 +68,8 @@ Added in v3.0.0
   - [listens](#listens)
   - [local](#local)
   - [pass](#pass)
+  - [reverse](#reverse)
   - [snd](#snd)
-  - [swap](#swap)
 
 ---
 
@@ -625,22 +625,22 @@ export declare const pass: <R, W, A>(
 
 Added in v3.0.0
 
+## reverse
+
+**Signature**
+
+```ts
+export declare const reverse: <R, W, A>(self: ReaderAsyncWriter<R, W, A>) => ReaderAsyncWriter<R, A, W>
+```
+
+Added in v3.0.0
+
 ## snd
 
 **Signature**
 
 ```ts
 export declare const snd: <R, W, A>(self: ReaderAsyncWriter<R, W, A>) => readerAsync.ReaderAsync<R, A>
-```
-
-Added in v3.0.0
-
-## swap
-
-**Signature**
-
-```ts
-export declare const swap: <R, W, A>(self: ReaderAsyncWriter<R, W, A>) => ReaderAsyncWriter<R, A, W>
 ```
 
 Added in v3.0.0

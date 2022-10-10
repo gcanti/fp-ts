@@ -1,6 +1,6 @@
 ---
 title: These.ts
-nav_order: 79
+nav_order: 78
 parent: Modules
 ---
 
@@ -40,8 +40,8 @@ Added in v3.0.0
 - [conversions](#conversions)
   - [fromNullable](#fromnullable)
   - [fromOption](#fromoption)
-  - [toIterable](#toiterable)
   - [toOption](#tooption)
+  - [toReadonlyArray](#toreadonlyarray)
   - [toTuple2](#totuple2)
 - [error handling](#error-handling)
   - [mapError](#maperror)
@@ -55,7 +55,6 @@ Added in v3.0.0
   - [FromResult](#fromresult)
   - [FromThese](#fromthese)
   - [Functor](#functor)
-  - [ToIterable](#toiterable)
   - [Traversable](#traversable)
   - [getApplicative](#getapplicative)
   - [getApply](#getapply)
@@ -103,7 +102,7 @@ Added in v3.0.0
   - [getFailureOnly](#getfailureonly)
   - [getSuccess](#getsuccess)
   - [getSuccessOnly](#getsuccessonly)
-  - [swap](#swap)
+  - [reverse](#reverse)
 
 ---
 
@@ -225,22 +224,22 @@ export declare const fromOption: <E>(onNone: E) => <A>(fa: Option<A>) => These<E
 
 Added in v3.0.0
 
-## toIterable
-
-**Signature**
-
-```ts
-export declare const toIterable: <E, A>(self: These<E, A>) => Iterable<A>
-```
-
-Added in v3.0.0
-
 ## toOption
 
 **Signature**
 
 ```ts
 export declare const toOption: <E, A>(self: These<E, A>) => Option<A>
+```
+
+Added in v3.0.0
+
+## toReadonlyArray
+
+**Signature**
+
+```ts
+export declare const toReadonlyArray: <E, A>(self: These<E, A>) => readonly A[]
 ```
 
 Added in v3.0.0
@@ -361,16 +360,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Functor: functor.Functor<TheseTypeLambda>
-```
-
-Added in v3.0.0
-
-## ToIterable
-
-**Signature**
-
-```ts
-export declare const ToIterable: toIterable_.ToIterable<TheseTypeLambda>
 ```
 
 Added in v3.0.0
@@ -889,12 +878,12 @@ assert.deepStrictEqual(getSuccessOnly(both('a', 1)), none)
 
 Added in v3.0.0
 
-## swap
+## reverse
 
 **Signature**
 
 ```ts
-export declare const swap: <E, A>(fa: These<E, A>) => These<A, E>
+export declare const reverse: <E, A>(fa: These<E, A>) => These<A, E>
 ```
 
 Added in v3.0.0

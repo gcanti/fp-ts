@@ -1,6 +1,6 @@
 ---
 title: ResultT.ts
-nav_order: 68
+nav_order: 67
 parent: Modules
 ---
 
@@ -32,9 +32,9 @@ Added in v3.0.0
   - [match](#match)
   - [matchKind](#matchkind)
   - [orElse](#orelse)
+  - [reverse](#reverse)
   - [separate](#separate)
   - [succeed](#succeed)
-  - [swap](#swap)
   - [tapLeft](#tapleft)
   - [toUnion](#tounion)
 
@@ -326,6 +326,18 @@ export declare const orElse: <F extends TypeLambda>(
 
 Added in v3.0.0
 
+## reverse
+
+**Signature**
+
+```ts
+export declare const reverse: <F extends TypeLambda>(
+  Functor: Functor<F>
+) => <S, R, O, FE, E, A>(self: Kind<F, S, R, O, FE, Result<E, A>>) => Kind<F, S, R, O, FE, Result<A, E>>
+```
+
+Added in v3.0.0
+
 ## separate
 
 **Signature**
@@ -350,18 +362,6 @@ Added in v3.0.0
 export declare const succeed: <F extends TypeLambda>(
   FromIdentity: FromIdentity<F>
 ) => <A, S>(a: A) => Kind<F, S, unknown, never, never, Result<never, A>>
-```
-
-Added in v3.0.0
-
-## swap
-
-**Signature**
-
-```ts
-export declare const swap: <F extends TypeLambda>(
-  Functor: Functor<F>
-) => <S, R, O, FE, E, A>(self: Kind<F, S, R, O, FE, Result<E, A>>) => Kind<F, S, R, O, FE, Result<A, E>>
 ```
 
 Added in v3.0.0

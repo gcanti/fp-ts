@@ -19,7 +19,7 @@ Added in v3.0.0
 - [constructors](#constructors)
   - [of](#of)
 - [conversions](#conversions)
-  - [toIterable](#toiterable)
+  - [toReadonlyArray](#toreadonlyarray)
 - [do notation](#do-notation)
   - [Do](#do)
   - [bind](#bind)
@@ -46,7 +46,6 @@ Added in v3.0.0
   - [Functor](#functor)
   - [KleisliComposable](#kleislicomposable)
   - [Monad](#monad)
-  - [ToIterable](#toiterable)
   - [Traversable](#traversable)
   - [getEq](#geteq)
   - [getShow](#getshow)
@@ -100,12 +99,12 @@ Added in v3.0.0
 
 # conversions
 
-## toIterable
+## toReadonlyArray
 
 **Signature**
 
 ```ts
-export declare const toIterable: <A>(self: A) => Iterable<A>
+export declare const toReadonlyArray: <A>(self: A) => readonly A[]
 ```
 
 Added in v3.0.0
@@ -350,16 +349,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Monad: monad.Monad<IdentityTypeLambda>
-```
-
-Added in v3.0.0
-
-## ToIterable
-
-**Signature**
-
-```ts
-export declare const ToIterable: toIterable_.ToIterable<IdentityTypeLambda>
 ```
 
 Added in v3.0.0

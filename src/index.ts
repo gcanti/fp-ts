@@ -42,7 +42,6 @@ import * as functorWithIndex from './FunctorWithIndex'
 import * as hkt from './HKT'
 import * as identity from './Identity'
 import * as invariant from './Invariant'
-import * as iterable from './Iterable'
 import * as syncOption from './SyncOption'
 import * as json from './Json'
 import * as kleisliCategory from './KleisliCategory'
@@ -80,7 +79,6 @@ import * as sync from './Sync'
 import * as syncResult from './SyncResult'
 import * as these from './These'
 import * as theseT from './TheseT'
-import * as toIterable from './ToIterable'
 import * as traversable from './Traversable'
 import * as traversableFilterable from './TraversableFilterable'
 import * as traversableWithIndex from './TraversableWithIndex'
@@ -283,11 +281,6 @@ export {
    */
   invariant,
   /**
-   * @category data types
-   * @since 3.0.0
-   */
-  iterable,
-  /**
    * @since 3.0.0
    */
   json,
@@ -470,11 +463,6 @@ export {
    * @since 3.0.0
    */
   theseT,
-  /**
-   * @category type classes
-   * @since 3.0.0
-   */
-  toIterable,
   /**
    * @category type classes
    * @since 3.0.0

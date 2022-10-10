@@ -27,7 +27,7 @@ import type { Show } from './Show'
 // TODO Semigroupoid Const
 // TODO Invariant (Const a)
 // TODO (Semigroup a) => Bind (Const a)
-// TODO ToIterable (Const a)
+// TODO ToReadonlyArray conversion
 // TODO Traversable (Const a)
 
 /**

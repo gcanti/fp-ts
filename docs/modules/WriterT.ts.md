@@ -1,6 +1,6 @@
 ---
 title: WriterT.ts
-nav_order: 89
+nav_order: 87
 parent: Modules
 ---
 
@@ -28,8 +28,8 @@ Added in v3.0.0
   - [mapLeft](#mapleft)
   - [of](#of)
   - [pass](#pass)
+  - [reverse](#reverse)
   - [snd](#snd)
-  - [swap](#swap)
   - [tell](#tell)
 
 ---
@@ -250,6 +250,18 @@ export declare const pass: <F extends TypeLambda>(
 
 Added in v3.0.0
 
+## reverse
+
+**Signature**
+
+```ts
+export declare const reverse: <F extends TypeLambda>(
+  Functor: Functor<F>
+) => <S, R, O, E, W, A>(self: Kind<F, S, R, O, E, Writer<W, A>>) => Kind<F, S, R, O, E, Writer<A, W>>
+```
+
+Added in v3.0.0
+
 ## snd
 
 **Signature**
@@ -258,18 +270,6 @@ Added in v3.0.0
 export declare const snd: <F extends TypeLambda>(
   Functor: Functor<F>
 ) => <S, R, O, E, A>(self: Kind<F, S, R, O, E, Writer<unknown, A>>) => Kind<F, S, R, O, E, A>
-```
-
-Added in v3.0.0
-
-## swap
-
-**Signature**
-
-```ts
-export declare const swap: <F extends TypeLambda>(
-  Functor: Functor<F>
-) => <S, R, O, E, W, A>(self: Kind<F, S, R, O, E, Writer<W, A>>) => Kind<F, S, R, O, E, Writer<A, W>>
 ```
 
 Added in v3.0.0

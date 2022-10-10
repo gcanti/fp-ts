@@ -1,6 +1,6 @@
 ---
 title: ReadonlyArray.ts
-nav_order: 65
+nav_order: 64
 parent: Modules
 ---
 
@@ -78,7 +78,6 @@ Added in v3.0.0
   - [FunctorWithIndex](#functorwithindex)
   - [KleisliComposable](#kleislicomposable)
   - [Monad](#monad)
-  - [ToIterable](#toiterable)
   - [Traversable](#traversable)
   - [TraversableFilterable](#traversablefilterable)
   - [TraversableWithIndex](#traversablewithindex)
@@ -943,16 +942,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Monad: Monad_<ReadonlyArrayTypeLambda>
-```
-
-Added in v3.0.0
-
-## ToIterable
-
-**Signature**
-
-```ts
-export declare const ToIterable: toIterable_.ToIterable<ReadonlyArrayTypeLambda>
 ```
 
 Added in v3.0.0

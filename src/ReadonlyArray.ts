@@ -16,7 +16,6 @@ import * as eq from './Eq'
 import type * as extendable from './Extendable'
 import * as filterable from './Filterable'
 import * as filterableWithIndex from './FilterableWithIndex'
-import * as toIterable_ from './ToIterable'
 import * as fromOption_ from './FromOption'
 import * as fromResult_ from './FromResult'
 import type { LazyArg } from './Function'
@@ -1910,67 +1909,77 @@ export const partitionWithIndex: {
 } = /*#__PURE__*/ filterableWithIndex.partitionWithIndex(FilterableWithIndex)
 
 /**
- * @category instances
+ * @category folding
  * @since 3.0.0
  */
-export const ToIterable: toIterable_.ToIterable<ReadonlyArrayTypeLambda> = {
-  toIterable: identity
-}
+export const reduce =
+  <B, A>(b: B, f: (b: B, a: A) => B) =>
+  (self: ReadonlyArray<A>): B =>
+    self.reduce((b, a) => f(b, a), b)
 
 /**
  * @category folding
  * @since 3.0.0
  */
-export const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => (self: ReadonlyArray<A>) => B =
-  /*#__PURE__*/ toIterable_.reduce(ToIterable)
+export const foldMap =
+  <M>(Monoid: Monoid<M>) =>
+  <A>(f: (a: A) => M) =>
+  (self: ReadonlyArray<A>): M =>
+    self.reduce((m, a) => Monoid.combine(f(a))(m), Monoid.empty)
 
 /**
  * @category folding
  * @since 3.0.0
  */
-export const foldMap: <M>(Monoid: Monoid<M>) => <A>(f: (a: A) => M) => (self: ReadonlyArray<A>) => M =
-  /*#__PURE__*/ toIterable_.foldMap(ToIterable)
+export const reduceRight =
+  <B, A>(b: B, f: (a: A, b: B) => B) =>
+  (self: ReadonlyArray<A>): B =>
+    self.reduceRight((b, a) => f(a, b), b)
 
 /**
  * @category folding
  * @since 3.0.0
  */
-export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (self: ReadonlyArray<A>) => B =
-  /*#__PURE__*/ toIterable_.reduceRight(ToIterable)
+export const reduceWithIndex =
+  <B, A>(b: B, f: (i: number, b: B, a: A) => B) =>
+  (self: ReadonlyArray<A>): B =>
+    self.reduce((b, a, i) => f(i, b, a), b)
 
 /**
  * @category folding
  * @since 3.0.0
  */
-export const reduceWithIndex: <B, A>(b: B, f: (i: number, b: B, a: A) => B) => (self: ReadonlyArray<A>) => B =
-  /*#__PURE__*/ toIterable_.reduceWithIndex(ToIterable)
+export const foldMapWithIndex =
+  <M>(Monoid: Monoid<M>) =>
+  <A>(f: (i: number, a: A) => M) =>
+  (self: ReadonlyArray<A>): M =>
+    self.reduce((m, a, i) => Monoid.combine(f(i, a))(m), Monoid.empty)
 
 /**
  * @category folding
  * @since 3.0.0
  */
-export const foldMapWithIndex: <M>(
-  Monoid: Monoid<M>
-) => <A>(f: (i: number, a: A) => M) => (self: ReadonlyArray<A>) => M =
-  /*#__PURE__*/ toIterable_.foldMapWithIndex(ToIterable)
+export const reduceRightWithIndex =
+  <B, A>(b: B, f: (i: number, a: A, b: B) => B) =>
+  (self: ReadonlyArray<A>): B =>
+    self.reduceRight((b, a, i) => f(i, a, b), b)
 
 /**
  * @category folding
  * @since 3.0.0
  */
-export const reduceRightWithIndex: <B, A>(b: B, f: (i: number, a: A, b: B) => B) => (self: ReadonlyArray<A>) => B =
-  /*#__PURE__*/ toIterable_.reduceRightWithIndex(ToIterable)
-
-/**
- * @category folding
- * @since 3.0.0
- */
-export const reduceKind: <F extends TypeLambda>(
-  Flattenable: flattenable.Flattenable<F>
-) => <S, R, O, E, B, A>(
-  fb: Kind<F, S, R, O, E, B>,
-  f: (b: B, a: A) => Kind<F, S, R, O, E, B>
-) => (self: ReadonlyArray<A>) => Kind<F, S, R, O, E, B> = /*#__PURE__*/ toIterable_.reduceKind(ToIterable)
+export const reduceKind =
+  <F extends TypeLambda>(Flattenable: flattenable.Flattenable<F>) =>
+  <S, R, O, E, B, A>(
+    fb: Kind<F, S, R, O, E, B>,
+    f: (b: B, a: A) => Kind<F, S, R, O, E, B>
+  ): ((self: ReadonlyArray<A>) => Kind<F, S, R, O, E, B>) =>
+    reduce(fb, (fb, a) =>
+      pipe(
+        fb,
+        Flattenable.flatMap((b) => f(b, a))
+      )
+    )
 
 /**
  * @category instances

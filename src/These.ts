@@ -27,7 +27,6 @@ import type { Result, Failure, Success, ValidatedT } from './Result'
 import type { Eq } from './Eq'
 import * as eq from './Eq'
 import type { Monoid } from './Monoid'
-import * as toIterable_ from './ToIterable'
 import * as fromResult_ from './FromResult'
 import type * as fromThese_ from './FromThese'
 import { flow, SK } from './Function'
@@ -494,37 +493,36 @@ export const FromThese: fromThese_.FromThese<TheseTypeLambda> = {
  * @category conversions
  * @since 3.0.0
  */
-export const toIterable = <E, A>(self: These<E, A>): Iterable<A> =>
+export const toReadonlyArray = <E, A>(self: These<E, A>): ReadonlyArray<A> =>
   isFailure(self) ? _.emptyReadonlyArray : [self.success]
 
 /**
- * @category instances
+ * @category folding
  * @since 3.0.0
  */
-export const ToIterable: toIterable_.ToIterable<TheseTypeLambda> = {
-  toIterable
-}
+export const reduce =
+  <B, A>(b: B, f: (b: B, a: A) => B) =>
+  <E>(self: These<E, A>): B =>
+    isFailure(self) ? b : f(b, self.success)
 
 /**
  * @category folding
  * @since 3.0.0
  */
-export const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => <E>(self: These<E, A>) => B =
-  /*#__PURE__*/ toIterable_.reduce(ToIterable)
+export const foldMap =
+  <M>(Monoid: Monoid<M>) =>
+  <A>(f: (a: A) => M) =>
+  <E>(self: These<E, A>): M =>
+    isFailure(self) ? Monoid.empty : f(self.success)
 
 /**
  * @category folding
  * @since 3.0.0
  */
-export const foldMap: <M>(Monoid: Monoid<M>) => <A>(f: (a: A) => M) => <E>(self: These<E, A>) => M =
-  /*#__PURE__*/ toIterable_.foldMap(ToIterable)
-
-/**
- * @category folding
- * @since 3.0.0
- */
-export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <E>(self: These<E, A>) => B =
-  /*#__PURE__*/ toIterable_.reduceRight(ToIterable)
+export const reduceRight =
+  <B, A>(b: B, f: (a: A, b: B) => B) =>
+  <E>(self: These<E, A>): B =>
+    isFailure(self) ? b : f(self.success, b)
 
 /**
  * @category conversions

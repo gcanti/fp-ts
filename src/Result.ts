@@ -26,7 +26,6 @@ import * as eq from './Eq'
 import type * as extendable from './Extendable'
 import type * as filterable from './Filterable'
 import type { Monoid } from './Monoid'
-import * as toIterable_ from './ToIterable'
 import * as fromResult_ from './FromResult'
 import { SK } from './Function'
 import { flow, identity, pipe } from './Function'
@@ -864,37 +863,36 @@ export const FlattenableRec: flattenableRec.FlattenableRec<ResultTypeLambda> = {
  * @category conversions
  * @since 3.0.0
  */
-export const toIterable = <E, A>(self: Result<E, A>): Iterable<A> =>
+export const toReadonlyArray = <E, A>(self: Result<E, A>): ReadonlyArray<A> =>
   isFailure(self) ? _.emptyReadonlyArray : [self.success]
 
 /**
- * @category instances
+ * @category folding
  * @since 3.0.0
  */
-export const ToIterable: toIterable_.ToIterable<ResultTypeLambda> = {
-  toIterable
-}
+export const reduce =
+  <B, A>(b: B, f: (b: B, a: A) => B) =>
+  <E>(self: Result<E, A>): B =>
+    isFailure(self) ? b : f(b, self.success)
 
 /**
  * @category folding
  * @since 3.0.0
  */
-export const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => <E>(self: Result<E, A>) => B =
-  /*#__PURE__*/ toIterable_.reduce(ToIterable)
+export const foldMap =
+  <M>(Monoid: Monoid<M>) =>
+  <A>(f: (a: A) => M) =>
+  <E>(self: Result<E, A>): M =>
+    isFailure(self) ? Monoid.empty : f(self.success)
 
 /**
  * @category folding
  * @since 3.0.0
  */
-export const foldMap: <M>(Monoid: Monoid<M>) => <A>(f: (a: A) => M) => <E>(self: Result<E, A>) => M =
-  /*#__PURE__*/ toIterable_.foldMap(ToIterable)
-
-/**
- * @category folding
- * @since 3.0.0
- */
-export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <E>(self: Result<E, A>) => B =
-  /*#__PURE__*/ toIterable_.reduceRight(ToIterable)
+export const reduceRight =
+  <B, A>(b: B, f: (a: A, b: B) => B) =>
+  <E>(self: Result<E, A>): B =>
+    isFailure(self) ? b : f(self.success, b)
 
 /**
  * @category instances

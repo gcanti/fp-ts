@@ -1,6 +1,6 @@
 ---
 title: NonEmptyReadonlyArray.ts
-nav_order: 50
+nav_order: 49
 parent: Modules
 ---
 
@@ -60,7 +60,6 @@ Added in v3.0.0
   - [FunctorWithIndex](#functorwithindex-1)
   - [KleisliComposable](#kleislicomposable)
   - [Monad](#monad)
-  - [ToIterable](#toiterable)
   - [Traversable](#traversable)
   - [TraversableWithIndex](#traversablewithindex)
   - [getEq](#geteq)
@@ -553,16 +552,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Monad: monad.Monad<NonEmptyReadonlyArrayTypeLambda>
-```
-
-Added in v3.0.0
-
-## ToIterable
-
-**Signature**
-
-```ts
-export declare const ToIterable: toIterable_.ToIterable<NonEmptyReadonlyArrayTypeLambda>
 ```
 
 Added in v3.0.0

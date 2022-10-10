@@ -17,7 +17,6 @@ import type { Result } from './Result'
 import type { Eq } from './Eq'
 import type { Monoid } from './Monoid'
 import type * as extendable from './Extendable'
-import * as toIterable_ from './ToIterable'
 import { flow, identity } from './Function'
 import * as functor from './Functor'
 import type { TypeLambda, Kind } from './HKT'
@@ -284,35 +283,35 @@ export const Comonad: comonad.Comonad<IdentityTypeLambda> = {
  * @category conversions
  * @since 3.0.0
  */
-export const toIterable = <A>(self: Identity<A>): Iterable<A> => [self]
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const ToIterable: toIterable_.ToIterable<IdentityTypeLambda> = {
-  toIterable
-}
+export const toReadonlyArray = <A>(self: Identity<A>): ReadonlyArray<A> => [self]
 
 /**
  * @category folding
  * @since 3.0.0
  */
-export const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => (self: A) => B = /*#__PURE__*/ toIterable_.reduce(ToIterable)
+export const reduce =
+  <B, A>(b: B, f: (b: B, a: A) => B) =>
+  (self: A): B =>
+    f(b, self)
 
 /**
  * @category folding
  * @since 3.0.0
  */
-export const foldMap: <M>(_: Monoid<M>) => <A>(f: (a: A) => M) => (self: Identity<A>) => M =
-  /*#__PURE__*/ toIterable_.foldMap(ToIterable)
+export const foldMap =
+  <M>(_: Monoid<M>) =>
+  <A>(f: (a: A) => M) =>
+  (self: Identity<A>): M =>
+    f(self)
 
 /**
  * @category folding
  * @since 3.0.0
  */
-export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (self: Identity<A>) => B =
-  /*#__PURE__*/ toIterable_.reduceRight(ToIterable)
+export const reduceRight =
+  <B, A>(b: B, f: (a: A, b: B) => B) =>
+  (self: Identity<A>): B =>
+    f(self, b)
 
 /**
  * @category traversing

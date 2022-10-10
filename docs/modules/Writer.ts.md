@@ -1,6 +1,6 @@
 ---
 title: Writer.ts
-nav_order: 88
+nav_order: 86
 parent: Modules
 ---
 
@@ -17,7 +17,7 @@ Added in v3.0.0
 - [constructors](#constructors)
   - [tell](#tell)
 - [conversions](#conversions)
-  - [toIterable](#toiterable)
+  - [toReadonlyArray](#toreadonlyarray)
 - [folding](#folding)
   - [foldMap](#foldmap)
   - [reduce](#reduce)
@@ -27,7 +27,6 @@ Added in v3.0.0
   - [Comonad](#comonad)
   - [Composable](#composable)
   - [Functor](#functor)
-  - [ToIterable](#toiterable)
   - [Traversable](#traversable)
   - [getApplicative](#getapplicative)
   - [getApply](#getapply)
@@ -63,8 +62,8 @@ Added in v3.0.0
   - [listen](#listen)
   - [listens](#listens)
   - [pass](#pass)
+  - [reverse](#reverse)
   - [right](#right)
-  - [swap](#swap)
 
 ---
 
@@ -96,12 +95,12 @@ Added in v3.0.0
 
 # conversions
 
-## toIterable
+## toReadonlyArray
 
 **Signature**
 
 ```ts
-export declare const toIterable: <W, A>(self: Writer<W, A>) => Iterable<A>
+export declare const toReadonlyArray: <W, A>(self: Writer<W, A>) => readonly A[]
 ```
 
 Added in v3.0.0
@@ -176,16 +175,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Functor: functor.Functor<WriterTypeLambda>
-```
-
-Added in v3.0.0
-
-## ToIterable
-
-**Signature**
-
-```ts
-export declare const ToIterable: toIterable_.ToIterable<WriterTypeLambda>
 ```
 
 Added in v3.0.0
@@ -545,22 +534,22 @@ export declare const pass: <W, A>(self: Writer<W, readonly [A, (w: W) => W]>) =>
 
 Added in v3.0.0
 
+## reverse
+
+**Signature**
+
+```ts
+export declare const reverse: <W, A>(self: Writer<W, A>) => Writer<A, W>
+```
+
+Added in v3.0.0
+
 ## right
 
 **Signature**
 
 ```ts
 export declare const right: <W, A>(self: Writer<W, A>) => A
-```
-
-Added in v3.0.0
-
-## swap
-
-**Signature**
-
-```ts
-export declare const swap: <W, A>(self: Writer<W, A>) => Writer<A, W>
 ```
 
 Added in v3.0.0

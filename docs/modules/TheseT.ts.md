@@ -1,6 +1,6 @@
 ---
 title: TheseT.ts
-nav_order: 80
+nav_order: 79
 parent: Modules
 ---
 
@@ -25,8 +25,8 @@ Added in v3.0.0
   - [mapError](#maperror)
   - [match](#match)
   - [matchKind](#matchkind)
+  - [reverse](#reverse)
   - [succeed](#succeed)
-  - [swap](#swap)
   - [toTuple2](#totuple2)
 
 ---
@@ -207,6 +207,18 @@ export declare const matchKind: <F extends TypeLambda>(
 
 Added in v3.0.0
 
+## reverse
+
+**Signature**
+
+```ts
+export declare const reverse: <F extends TypeLambda>(
+  Functor: Functor<F>
+) => <S, R, O, FE, E, A>(self: Kind<F, S, R, O, FE, These<E, A>>) => Kind<F, S, R, O, FE, These<A, E>>
+```
+
+Added in v3.0.0
+
 ## succeed
 
 **Signature**
@@ -215,18 +227,6 @@ Added in v3.0.0
 export declare const succeed: <F extends TypeLambda>(
   FromIdentity: FromIdentity<F>
 ) => <A, S>(a: A) => Kind<F, S, unknown, never, never, These<never, A>>
-```
-
-Added in v3.0.0
-
-## swap
-
-**Signature**
-
-```ts
-export declare const swap: <F extends TypeLambda>(
-  Functor: Functor<F>
-) => <S, R, O, FE, E, A>(self: Kind<F, S, R, O, FE, These<E, A>>) => Kind<F, S, R, O, FE, These<A, E>>
 ```
 
 Added in v3.0.0

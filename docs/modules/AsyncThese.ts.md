@@ -78,7 +78,7 @@ Added in v3.0.0
 - [type lambdas](#type-lambdas)
   - [AsyncTheseTypeLambda (interface)](#asyncthesetypelambda-interface)
 - [utils](#utils)
-  - [swap](#swap)
+  - [reverse](#reverse)
   - [toTuple2](#totuple2)
 
 ---
@@ -733,12 +733,12 @@ Added in v3.0.0
 
 # utils
 
-## swap
+## reverse
 
 **Signature**
 
 ```ts
-export declare const swap: <E, A>(self: async.Async<these.These<E, A>>) => async.Async<these.These<A, E>>
+export declare const reverse: <E, A>(self: async.Async<these.These<E, A>>) => async.Async<these.These<A, E>>
 ```
 
 Added in v3.0.0

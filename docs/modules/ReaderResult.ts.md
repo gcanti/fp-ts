@@ -1,6 +1,6 @@
 ---
 title: ReaderResult.ts
-nav_order: 62
+nav_order: 61
 parent: Modules
 ---
 
@@ -113,7 +113,7 @@ Added in v3.0.0
   - [idKleisli](#idkleisli)
   - [local](#local)
   - [orElse](#orelse)
-  - [swap](#swap)
+  - [reverse](#reverse)
   - [tap](#tap)
 
 ---
@@ -1204,12 +1204,12 @@ export declare const orElse: <R2, E2, B>(
 
 Added in v3.0.0
 
-## swap
+## reverse
 
 **Signature**
 
 ```ts
-export declare const swap: <R, E, A>(ma: ReaderResult<R, E, A>) => ReaderResult<R, A, E>
+export declare const reverse: <R, E, A>(ma: ReaderResult<R, E, A>) => ReaderResult<R, A, E>
 ```
 
 Added in v3.0.0

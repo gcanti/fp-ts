@@ -20,7 +20,6 @@ Added in v3.0.0
   - [const](#const)
   - [endomorphism](#endomorphism)
   - [identity](#identity)
-  - [iterable](#iterable)
   - [nonEmptyReadonlyArray](#nonemptyreadonlyarray)
   - [option](#option)
   - [reader](#reader)
@@ -84,7 +83,6 @@ Added in v3.0.0
   - [ord](#ord)
   - [semigroup](#semigroup)
   - [show](#show)
-  - [toIterable](#toiterable)
   - [traversable](#traversable)
   - [traversableFilterable](#traversablefilterable)
   - [traversableWithIndex](#traversablewithindex)
@@ -174,16 +172,6 @@ Added in v3.0.0
 
 ```ts
 export declare const identity: typeof identity
-```
-
-Added in v3.0.0
-
-## iterable
-
-**Signature**
-
-```ts
-export declare const iterable: typeof iterable
 ```
 
 Added in v3.0.0
@@ -798,16 +786,6 @@ Added in v3.0.0
 
 ```ts
 export declare const show: typeof show
-```
-
-Added in v3.0.0
-
-## toIterable
-
-**Signature**
-
-```ts
-export declare const toIterable: typeof toIterable
 ```
 
 Added in v3.0.0

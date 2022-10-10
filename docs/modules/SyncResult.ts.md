@@ -1,6 +1,6 @@
 ---
 title: SyncResult.ts
-nav_order: 78
+nav_order: 77
 parent: Modules
 ---
 
@@ -124,7 +124,7 @@ Added in v3.0.0
   - [flatten](#flatten)
   - [idKleisli](#idkleisli)
   - [orElse](#orelse)
-  - [swap](#swap)
+  - [reverse](#reverse)
   - [tap](#tap)
 
 ---
@@ -1252,12 +1252,12 @@ export declare const orElse: <E2, B>(
 
 Added in v3.0.0
 
-## swap
+## reverse
 
 **Signature**
 
 ```ts
-export declare const swap: <E, A>(ma: SyncResult<E, A>) => SyncResult<A, E>
+export declare const reverse: <E, A>(ma: SyncResult<E, A>) => SyncResult<A, E>
 ```
 
 Added in v3.0.0

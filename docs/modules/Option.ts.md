@@ -1,6 +1,6 @@
 ---
 title: Option.ts
-nav_order: 52
+nav_order: 51
 parent: Modules
 ---
 
@@ -32,8 +32,8 @@ Added in v3.0.0
   - [fromIterable](#fromiterable)
   - [fromNullable](#fromnullable)
   - [fromResult](#fromresult)
-  - [toIterable](#toiterable)
   - [toNull](#tonull)
+  - [toReadonlyArray](#toreadonlyarray)
   - [toResult](#toresult)
   - [toUndefined](#toundefined)
 - [do notation](#do-notation)
@@ -81,7 +81,6 @@ Added in v3.0.0
   - [Functor](#functor)
   - [KleisliComposable](#kleislicomposable)
   - [Monad](#monad)
-  - [ToIterable](#toiterable)
   - [Traversable](#traversable)
   - [TraversableFilterable](#traversablefilterable)
   - [getEq](#geteq)
@@ -264,16 +263,6 @@ export declare const fromResult: <A>(ma: Result<unknown, A>) => Option<A>
 
 Added in v3.0.0
 
-## toIterable
-
-**Signature**
-
-```ts
-export declare const toIterable: <A>(self: Option<A>) => Iterable<A>
-```
-
-Added in v3.0.0
-
 ## toNull
 
 Extracts the value out of the structure, if it exists. Otherwise returns `null`.
@@ -292,6 +281,16 @@ import { pipe } from 'fp-ts/Function'
 
 assert.strictEqual(pipe(some(1), toNull), 1)
 assert.strictEqual(pipe(none, toNull), null)
+```
+
+Added in v3.0.0
+
+## toReadonlyArray
+
+**Signature**
+
+```ts
+export declare const toReadonlyArray: <A>(self: Option<A>) => readonly A[]
 ```
 
 Added in v3.0.0
@@ -804,16 +803,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Monad: monad.Monad<OptionTypeLambda>
-```
-
-Added in v3.0.0
-
-## ToIterable
-
-**Signature**
-
-```ts
-export declare const ToIterable: toIterable_.ToIterable<OptionTypeLambda>
 ```
 
 Added in v3.0.0

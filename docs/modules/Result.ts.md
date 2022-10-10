@@ -1,6 +1,6 @@
 ---
 title: Result.ts
-nav_order: 67
+nav_order: 66
 parent: Modules
 ---
 
@@ -30,9 +30,9 @@ Added in v3.0.0
 - [conversions](#conversions)
   - [fromNullable](#fromnullable)
   - [fromOption](#fromoption)
-  - [toIterable](#toiterable)
   - [toNull](#tonull)
   - [toOption](#tooption)
+  - [toReadonlyArray](#toreadonlyarray)
   - [toUndefined](#toundefined)
   - [toUnion](#tounion)
 - [do notation](#do-notation)
@@ -78,7 +78,6 @@ Added in v3.0.0
   - [Functor](#functor)
   - [KleisliComposable](#kleislicomposable)
   - [Monad](#monad)
-  - [ToIterable](#toiterable)
   - [Traversable](#traversable)
   - [getCompactable](#getcompactable)
   - [getEq](#geteq)
@@ -143,7 +142,7 @@ Added in v3.0.0
   - [exists](#exists)
   - [extend](#extend)
   - [idKleisli](#idkleisli)
-  - [swap](#swap)
+  - [reverse](#reverse)
   - [tap](#tap)
 
 ---
@@ -223,16 +222,6 @@ assert.deepStrictEqual(pipe(O.none, E.fromOption('error')), E.fail('error'))
 
 Added in v3.0.0
 
-## toIterable
-
-**Signature**
-
-```ts
-export declare const toIterable: <E, A>(self: Result<E, A>) => Iterable<A>
-```
-
-Added in v3.0.0
-
 ## toNull
 
 **Signature**
@@ -249,6 +238,16 @@ Added in v3.0.0
 
 ```ts
 export declare const toOption: <A>(self: Result<unknown, A>) => Option<A>
+```
+
+Added in v3.0.0
+
+## toReadonlyArray
+
+**Signature**
+
+```ts
+export declare const toReadonlyArray: <E, A>(self: Result<E, A>) => readonly A[]
 ```
 
 Added in v3.0.0
@@ -855,16 +854,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Monad: monad.Monad<ResultTypeLambda>
-```
-
-Added in v3.0.0
-
-## ToIterable
-
-**Signature**
-
-```ts
-export declare const ToIterable: toIterable_.ToIterable<ResultTypeLambda>
 ```
 
 Added in v3.0.0
@@ -1638,12 +1627,12 @@ export declare const idKleisli: <A>() => (a: A) => Result<never, A>
 
 Added in v3.0.0
 
-## swap
+## reverse
 
 **Signature**
 
 ```ts
-export declare const swap: <E, A>(ma: Result<E, A>) => Result<A, E>
+export declare const reverse: <E, A>(ma: Result<E, A>) => Result<A, E>
 ```
 
 Added in v3.0.0

@@ -83,7 +83,7 @@ export function concat<B>(that: ReadonlyArray<B>): <A>(self: NonEmptyReadonlyArr
 // -------------------------------------------------------------------------------------
 
 /** @internal */
-export const toReadonlyArray = <A>(a: A): NonEmptyArray<A> => [a]
+export const toNonEmptyReadonlyArray = <A>(a: A): NonEmptyArray<A> => [a]
 
 /** @internal */
 export const isNonEmpty = <A>(as: ReadonlyArray<A>): as is NonEmptyReadonlyArray<A> => as.length > 0

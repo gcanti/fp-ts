@@ -139,7 +139,7 @@ Added in v3.0.0
   - [composeKleisli](#composekleisli)
   - [delay](#delay)
   - [idKleisli](#idkleisli)
-  - [swap](#swap)
+  - [reverse](#reverse)
   - [tap](#tap)
 
 ---
@@ -1533,12 +1533,12 @@ export declare const idKleisli: <A>() => (a: A) => AsyncResult<never, A>
 
 Added in v3.0.0
 
-## swap
+## reverse
 
 **Signature**
 
 ```ts
-export declare const swap: <E, A>(self: AsyncResult<E, A>) => AsyncResult<A, E>
+export declare const reverse: <E, A>(self: AsyncResult<E, A>) => AsyncResult<A, E>
 ```
 
 Added in v3.0.0
