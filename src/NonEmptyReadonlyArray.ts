@@ -23,7 +23,6 @@ import type { Endomorphism } from './Endomorphism'
 import * as eq from './Eq'
 import { flow, identity, pipe } from './Function'
 import * as functor from './Functor'
-import type * as functorWithIndex from './FunctorWithIndex'
 import type { TypeLambda, Kind } from './HKT'
 import * as _ from './internal'
 import type * as monad from './Monad'
@@ -33,7 +32,6 @@ import * as fromIdentity from './FromIdentity'
 import * as semigroup from './Semigroup'
 import type { Show } from './Show'
 import type * as traversable from './Traversable'
-import type * as traversableWithIndex from './TraversableWithIndex'
 import * as tuple from './tuple'
 import type { Eq } from './Eq'
 import type { Ord } from './Ord'
@@ -973,14 +971,6 @@ export const unit: (self: NonEmptyReadonlyArray<unknown>) => NonEmptyReadonlyArr
  * @category instances
  * @since 3.0.0
  */
-export const FunctorWithIndex: functorWithIndex.FunctorWithIndex<NonEmptyReadonlyArrayTypeLambda, number> = {
-  mapWithIndex
-}
-
-/**
- * @category instances
- * @since 3.0.0
- */
 export const Apply: apply.Apply<NonEmptyReadonlyArrayTypeLambda> = {
   map,
   ap
@@ -1136,15 +1126,6 @@ export const reduceKind =
 export const Traversable: traversable.Traversable<NonEmptyReadonlyArrayTypeLambda> = {
   traverse
 }
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const TraversableWithIndex: traversableWithIndex.TraversableWithIndex<NonEmptyReadonlyArrayTypeLambda, number> =
-  {
-    traverseWithIndex
-  }
 
 /**
  * @category instances

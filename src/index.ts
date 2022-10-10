@@ -24,7 +24,6 @@ import * as endomorphism from './Endomorphism'
 import * as eq from './Eq'
 import * as extendable from './Extendable'
 import * as filterable from './Filterable'
-import * as filterableWithIndex from './FilterableWithIndex'
 import * as flattenable from './Flattenable'
 import * as flattenableRec from './FlattenableRec'
 import * as fromAsync from './FromAsync'
@@ -38,7 +37,6 @@ import * as fromThese from './FromThese'
 import * as fromWriter from './FromWriter'
 import * as function_ from './Function'
 import * as functor from './Functor'
-import * as functorWithIndex from './FunctorWithIndex'
 import * as hkt from './HKT'
 import * as identity from './Identity'
 import * as invariant from './Invariant'
@@ -80,7 +78,6 @@ import * as these from './These'
 import * as theseT from './TheseT'
 import * as traversable from './Traversable'
 import * as traversableFilterable from './TraversableFilterable'
-import * as traversableWithIndex from './TraversableWithIndex'
 import * as tuple from './tuple'
 import * as unfoldable from './Unfoldable'
 import * as void_ from './void'
@@ -195,11 +192,6 @@ export {
    * @category type classes
    * @since 3.0.0
    */
-  filterableWithIndex,
-  /**
-   * @category type classes
-   * @since 3.0.0
-   */
   flattenable,
   /**
    * @category type classes
@@ -260,11 +252,6 @@ export {
    * @since 3.0.0
    */
   functor,
-  /**
-   * @category type classes
-   * @since 3.0.0
-   */
-  functorWithIndex,
   /**
    * @since 3.0.0
    */
@@ -467,11 +454,6 @@ export {
    * @since 3.0.0
    */
   traversableFilterable,
-  /**
-   * @category type classes
-   * @since 3.0.0
-   */
-  traversableWithIndex,
   /**
    * @since 3.0.0
    */

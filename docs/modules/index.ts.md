@@ -1,6 +1,6 @@
 ---
 title: index.ts
-nav_order: 40
+nav_order: 38
 parent: Modules
 ---
 
@@ -60,7 +60,6 @@ Added in v3.0.0
   - [eq](#eq)
   - [extendable](#extendable)
   - [filterable](#filterable)
-  - [filterableWithIndex](#filterablewithindex)
   - [flattenable](#flattenable)
   - [flattenableRec](#flattenablerec)
   - [fromAsync](#fromasync)
@@ -73,7 +72,6 @@ Added in v3.0.0
   - [fromThese](#fromthese)
   - [fromWriter](#fromwriter)
   - [functor](#functor)
-  - [functorWithIndex](#functorwithindex)
   - [invariant](#invariant)
   - [kleisliCategory](#kleislicategory)
   - [kleisliComposable](#kleislicomposable)
@@ -84,7 +82,6 @@ Added in v3.0.0
   - [show](#show)
   - [traversable](#traversable)
   - [traversableFilterable](#traversablefilterable)
-  - [traversableWithIndex](#traversablewithindex)
   - [unfoldable](#unfoldable)
 - [utils](#utils)
   - [boolean](#boolean)
@@ -559,16 +556,6 @@ export declare const filterable: typeof filterable
 
 Added in v3.0.0
 
-## filterableWithIndex
-
-**Signature**
-
-```ts
-export declare const filterableWithIndex: typeof filterableWithIndex
-```
-
-Added in v3.0.0
-
 ## flattenable
 
 **Signature**
@@ -689,16 +676,6 @@ export declare const functor: typeof functor
 
 Added in v3.0.0
 
-## functorWithIndex
-
-**Signature**
-
-```ts
-export declare const functorWithIndex: typeof functorWithIndex
-```
-
-Added in v3.0.0
-
 ## invariant
 
 **Signature**
@@ -795,16 +772,6 @@ Added in v3.0.0
 
 ```ts
 export declare const traversableFilterable: typeof traversableFilterable
-```
-
-Added in v3.0.0
-
-## traversableWithIndex
-
-**Signature**
-
-```ts
-export declare const traversableWithIndex: typeof traversableWithIndex
 ```
 
 Added in v3.0.0

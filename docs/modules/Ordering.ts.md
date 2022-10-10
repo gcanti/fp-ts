@@ -1,6 +1,6 @@
 ---
 title: Ordering.ts
-nav_order: 53
+nav_order: 51
 parent: Modules
 ---
 

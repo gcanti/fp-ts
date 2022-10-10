@@ -1,6 +1,6 @@
 ---
 title: ReadonlyArray.ts
-nav_order: 63
+nav_order: 61
 parent: Modules
 ---
 
@@ -66,7 +66,6 @@ Added in v3.0.0
   - [Compactable](#compactable)
   - [Extendable](#extendable)
   - [Filterable](#filterable)
-  - [FilterableWithIndex](#filterablewithindex)
   - [Flattenable](#flattenable)
   - [FlattenableRecBreadthFirst](#flattenablerecbreadthfirst)
   - [FlattenableRecDepthFirst](#flattenablerecdepthfirst)
@@ -74,12 +73,10 @@ Added in v3.0.0
   - [FromOption](#fromoption)
   - [FromResult](#fromresult)
   - [Functor](#functor)
-  - [FunctorWithIndex](#functorwithindex)
   - [KleisliComposable](#kleislicomposable)
   - [Monad](#monad)
   - [Traversable](#traversable)
   - [TraversableFilterable](#traversablefilterable)
-  - [TraversableWithIndex](#traversablewithindex)
   - [Unfoldable](#unfoldable)
   - [getEq](#geteq)
   - [getIntersectionSemigroup](#getintersectionsemigroup)
@@ -821,16 +818,6 @@ export declare const Filterable: filterable.Filterable<ReadonlyArrayTypeLambda>
 
 Added in v3.0.0
 
-## FilterableWithIndex
-
-**Signature**
-
-```ts
-export declare const FilterableWithIndex: filterableWithIndex.FilterableWithIndex<ReadonlyArrayTypeLambda, number>
-```
-
-Added in v3.0.0
-
 ## Flattenable
 
 **Signature**
@@ -901,16 +888,6 @@ export declare const Functor: functor.Functor<ReadonlyArrayTypeLambda>
 
 Added in v3.0.0
 
-## FunctorWithIndex
-
-**Signature**
-
-```ts
-export declare const FunctorWithIndex: functorWithIndex.FunctorWithIndex<ReadonlyArrayTypeLambda, number>
-```
-
-Added in v3.0.0
-
 ## KleisliComposable
 
 **Signature**
@@ -947,16 +924,6 @@ Added in v3.0.0
 
 ```ts
 export declare const TraversableFilterable: traversableFilterable.TraversableFilterable<ReadonlyArrayTypeLambda>
-```
-
-Added in v3.0.0
-
-## TraversableWithIndex
-
-**Signature**
-
-```ts
-export declare const TraversableWithIndex: traversableWithIndex.TraversableWithIndex<ReadonlyArrayTypeLambda, number>
 ```
 
 Added in v3.0.0

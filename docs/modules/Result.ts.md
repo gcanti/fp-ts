@@ -1,6 +1,6 @@
 ---
 title: Result.ts
-nav_order: 65
+nav_order: 63
 parent: Modules
 ---
 

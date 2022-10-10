@@ -15,13 +15,11 @@ import type { Endomorphism } from './Endomorphism'
 import * as eq from './Eq'
 import type * as extendable from './Extendable'
 import * as filterable from './Filterable'
-import * as filterableWithIndex from './FilterableWithIndex'
 import * as fromOption_ from './FromOption'
 import * as fromResult_ from './FromResult'
 import type { LazyArg } from './Function'
 import { identity, pipe } from './Function'
 import * as functor from './Functor'
-import type * as functorWithIndex from './FunctorWithIndex'
 import type { TypeLambda, Kind } from './HKT'
 import * as _ from './internal'
 import type { Monad as Monad_ } from './Monad'
@@ -36,7 +34,6 @@ import type { Refinement } from './Refinement'
 import type { Semigroup } from './Semigroup'
 import type { Show } from './Show'
 import * as traversable from './Traversable'
-import type * as traversableWithIndex from './TraversableWithIndex'
 import type * as unfoldable from './Unfoldable'
 import * as traversableFilterable from './TraversableFilterable'
 import type { NonEmptyReadonlyArray } from './NonEmptyReadonlyArray'
@@ -1692,14 +1689,6 @@ export const unit: (self: ReadonlyArray<unknown>) => ReadonlyArray<void> = /*#__
  * @category instances
  * @since 3.0.0
  */
-export const FunctorWithIndex: functorWithIndex.FunctorWithIndex<ReadonlyArrayTypeLambda, number> = {
-  mapWithIndex
-}
-
-/**
- * @category instances
- * @since 3.0.0
- */
 export const Apply: apply.Apply<ReadonlyArrayTypeLambda> = {
   map,
   ap
@@ -1860,22 +1849,14 @@ export const partition: {
 } = /*#__PURE__*/ filterable.partition(Filterable)
 
 /**
- * @category instances
- * @since 3.0.0
- */
-export const FilterableWithIndex: filterableWithIndex.FilterableWithIndex<ReadonlyArrayTypeLambda, number> = {
-  partitionMapWithIndex,
-  filterMapWithIndex
-}
-
-/**
  * @category filtering
  * @since 3.0.0
  */
 export const filterWithIndex: {
   <C extends A, B extends A, A = C>(refinement: (i: number, a: A) => a is B): (fc: ReadonlyArray<C>) => ReadonlyArray<B>
   <B extends A, A = B>(predicate: (i: number, a: A) => boolean): (fb: ReadonlyArray<B>) => ReadonlyArray<B>
-} = /*#__PURE__*/ filterableWithIndex.filterWithIndex(FilterableWithIndex)
+} = <B extends A, A = B>(predicate: (i: number, a: A) => boolean): ((fb: ReadonlyArray<B>) => ReadonlyArray<B>) =>
+  filterMapWithIndex((i, b) => (predicate(i, b) ? _.some(b) : _.none))
 
 /**
  * @category filtering
@@ -1888,7 +1869,10 @@ export const partitionWithIndex: {
   <B extends A, A = B>(predicate: (i: number, a: A) => boolean): (
     fb: ReadonlyArray<B>
   ) => readonly [ReadonlyArray<B>, ReadonlyArray<B>]
-} = /*#__PURE__*/ filterableWithIndex.partitionWithIndex(FilterableWithIndex)
+} = <B extends A, A = B>(
+  predicate: (i: number, a: A) => boolean
+): ((fb: ReadonlyArray<B>) => readonly [ReadonlyArray<B>, ReadonlyArray<B>]) =>
+  partitionMapWithIndex((i, b) => (predicate(i, b) ? _.succeed(b) : _.fail(b)))
 
 /**
  * @category folding
@@ -1979,14 +1963,6 @@ export const sequence: <F extends TypeLambda>(
   F: applicative.Applicative<F>
 ) => <S, R, O, E, A>(fas: ReadonlyArray<Kind<F, S, R, O, E, A>>) => Kind<F, S, R, O, E, ReadonlyArray<A>> =
   /*#__PURE__*/ traversable.sequence(Traversable)
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const TraversableWithIndex: traversableWithIndex.TraversableWithIndex<ReadonlyArrayTypeLambda, number> = {
-  traverseWithIndex
-}
 
 /**
  * @category filtering

@@ -1,6 +1,6 @@
 ---
 title: NonEmptyReadonlyArray.ts
-nav_order: 48
+nav_order: 46
 parent: Modules
 ---
 
@@ -56,11 +56,9 @@ Added in v3.0.0
   - [Flattenable](#flattenable)
   - [FromIdentity](#fromidentity)
   - [Functor](#functor)
-  - [FunctorWithIndex](#functorwithindex-1)
   - [KleisliComposable](#kleislicomposable)
   - [Monad](#monad)
   - [Traversable](#traversable)
-  - [TraversableWithIndex](#traversablewithindex)
   - [getEq](#geteq)
   - [getSemigroup](#getsemigroup)
   - [getShow](#getshow)
@@ -509,16 +507,6 @@ export declare const Functor: functor.Functor<NonEmptyReadonlyArrayTypeLambda>
 
 Added in v3.0.0
 
-## FunctorWithIndex
-
-**Signature**
-
-```ts
-export declare const FunctorWithIndex: functorWithIndex.FunctorWithIndex<NonEmptyReadonlyArrayTypeLambda, number>
-```
-
-Added in v3.0.0
-
 ## KleisliComposable
 
 **Signature**
@@ -545,19 +533,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Traversable: traversable.Traversable<NonEmptyReadonlyArrayTypeLambda>
-```
-
-Added in v3.0.0
-
-## TraversableWithIndex
-
-**Signature**
-
-```ts
-export declare const TraversableWithIndex: traversableWithIndex.TraversableWithIndex<
-  NonEmptyReadonlyArrayTypeLambda,
-  number
->
 ```
 
 Added in v3.0.0
