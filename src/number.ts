@@ -8,12 +8,7 @@ import type * as show_ from './Show'
 import type { Semigroup } from './Semigroup'
 import type { Monoid } from './Monoid'
 import * as monoid from './Monoid'
-import type { Magma } from './Magma'
 import type { Refinement } from './Refinement'
-
-// -------------------------------------------------------------------------------------
-// refinements
-// -------------------------------------------------------------------------------------
 
 /**
  * @category refinements
@@ -21,9 +16,29 @@ import type { Refinement } from './Refinement'
  */
 export const isNumber: Refinement<unknown, number> = (u: unknown): u is number => typeof u === 'number'
 
-// -------------------------------------------------------------------------------------
-// instances
-// -------------------------------------------------------------------------------------
+/**
+ * @since 3.0.0
+ */
+export const sum =
+  (that: number) =>
+  (self: number): number =>
+    self + that
+
+/**
+ * @since 3.0.0
+ */
+export const multiply =
+  (that: number) =>
+  (self: number): number =>
+    self * that
+
+/**
+ * @since 3.0.0
+ */
+export const sub =
+  (that: number) =>
+  (self: number): number =>
+    self - that
 
 /**
  * @category instances
@@ -58,22 +73,6 @@ export const Show: show_.Show<number> = {
 }
 
 /**
- * @category instances
- * @since 3.0.0
- */
-export const MagmaSub: Magma<number> = {
-  combine: (that) => (self) => self - that
-}
-
-/**
- * @since 3.0.0
- */
-export const sum =
-  (that: number) =>
-  (self: number): number =>
-    self + that
-
-/**
  * `number` semigroup under addition.
  *
  * @example
@@ -90,27 +89,19 @@ export const SemigroupSum: Semigroup<number> = {
 }
 
 /**
- * @since 3.0.0
- */
-export const product =
-  (that: number) =>
-  (self: number): number =>
-    self * that
-
-/**
  * `number` semigroup under multiplication.
  *
  * @example
- * import { SemigroupProduct } from 'fp-ts/number'
+ * import { SemigroupMultiply } from 'fp-ts/number'
  * import { pipe } from 'fp-ts/Function'
  *
- * assert.deepStrictEqual(pipe(2, SemigroupProduct.combine(3)), 6)
+ * assert.deepStrictEqual(pipe(2, SemigroupMultiply.combine(3)), 6)
  *
  * @category instances
  * @since 3.0.0
  */
-export const SemigroupProduct: Semigroup<number> = {
-  combine: product
+export const SemigroupMultiply: Semigroup<number> = {
+  combine: multiply
 }
 
 /**
@@ -127,11 +118,6 @@ export const MonoidSum: Monoid<number> = {
 }
 
 /**
- * @since 3.0.0
- */
-export const sumAll: (collection: Iterable<number>) => number = /*#__PURE__*/ monoid.combineAll(MonoidSum)
-
-/**
  * `number` monoid under multiplication.
  *
  * The `empty` value is `1`.
@@ -139,12 +125,17 @@ export const sumAll: (collection: Iterable<number>) => number = /*#__PURE__*/ mo
  * @category instances
  * @since 3.0.0
  */
-export const MonoidProduct: Monoid<number> = {
-  combine: SemigroupProduct.combine,
+export const MonoidMultiply: Monoid<number> = {
+  combine: SemigroupMultiply.combine,
   empty: 1
 }
 
 /**
  * @since 3.0.0
  */
-export const productAll: (collection: Iterable<number>) => number = /*#__PURE__*/ monoid.combineAll(MonoidProduct)
+export const sumAll: (collection: Iterable<number>) => number = /*#__PURE__*/ monoid.combineAll(MonoidSum)
+
+/**
+ * @since 3.0.0
+ */
+export const multiplyAll: (collection: Iterable<number>) => number = /*#__PURE__*/ monoid.combineAll(MonoidMultiply)

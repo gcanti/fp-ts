@@ -14,10 +14,10 @@ Added in v3.0.0
 
 - [instances](#instances)
   - [Contravariant](#contravariant)
-  - [getMonoidAll](#getmonoidall)
-  - [getMonoidAny](#getmonoidany)
-  - [getSemigroupAll](#getsemigroupall)
-  - [getSemigroupAny](#getsemigroupany)
+  - [getMonoidAnd](#getmonoidand)
+  - [getMonoidOr](#getmonoidor)
+  - [getSemigroupAnd](#getsemigroupand)
+  - [getSemigroupOr](#getsemigroupor)
 - [model](#model)
   - [Predicate (interface)](#predicate-interface)
 - [type lambdas](#type-lambdas)
@@ -42,42 +42,42 @@ export declare const Contravariant: contravariant.Contravariant<PredicateTypeLam
 
 Added in v3.0.0
 
-## getMonoidAll
+## getMonoidAnd
 
 **Signature**
 
 ```ts
-export declare const getMonoidAll: <A>() => Monoid<Predicate<A>>
+export declare const getMonoidAnd: <A>() => Monoid<Predicate<A>>
 ```
 
 Added in v3.0.0
 
-## getMonoidAny
+## getMonoidOr
 
 **Signature**
 
 ```ts
-export declare const getMonoidAny: <A>() => Monoid<Predicate<A>>
+export declare const getMonoidOr: <A>() => Monoid<Predicate<A>>
 ```
 
 Added in v3.0.0
 
-## getSemigroupAll
+## getSemigroupAnd
 
 **Signature**
 
 ```ts
-export declare const getSemigroupAll: <A>() => Semigroup<Predicate<A>>
+export declare const getSemigroupAnd: <A>() => Semigroup<Predicate<A>>
 ```
 
 Added in v3.0.0
 
-## getSemigroupAny
+## getSemigroupOr
 
 **Signature**
 
 ```ts
-export declare const getSemigroupAny: <A>() => Semigroup<Predicate<A>>
+export declare const getSemigroupOr: <A>() => Semigroup<Predicate<A>>
 ```
 
 Added in v3.0.0

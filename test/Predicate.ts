@@ -28,7 +28,7 @@ describe('Predicate', () => {
   })
 
   it('getMonoidAny', () => {
-    const M = _.getMonoidAny<number>()
+    const M = _.getMonoidOr<number>()
     const predicate = pipe(isPositive, M.combine(isNegative))
     U.deepStrictEqual(predicate(0), false)
     U.deepStrictEqual(predicate(-1), true)
@@ -36,7 +36,7 @@ describe('Predicate', () => {
   })
 
   it('getMonoidAll', () => {
-    const M = _.getMonoidAll<number>()
+    const M = _.getMonoidAnd<number>()
     const predicate = pipe(isPositive, M.combine(lt2))
     U.deepStrictEqual(predicate(0), false)
     U.deepStrictEqual(predicate(-2), false)

@@ -137,7 +137,7 @@ export const struct = <S>(semigroups: { [K in keyof S]: Semigroup<S[K]> }): Semi
  * const S1 = tuple(S.Semigroup, N.SemigroupSum)
  * assert.deepStrictEqual(pipe(['a', 1], S1.combine(['b', 2])), ['ab', 3])
  *
- * const S2 = tuple(S.Semigroup, N.SemigroupSum, B.SemigroupAll)
+ * const S2 = tuple(S.Semigroup, N.SemigroupSum, B.SemigroupAnd)
  * assert.deepStrictEqual(pipe(['a', 1, true], S2.combine(['b', 2, false])), ['ab', 3, false])
  *
  * @since 3.0.0

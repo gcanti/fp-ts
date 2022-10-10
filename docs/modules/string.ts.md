@@ -21,6 +21,7 @@ Added in v3.0.0
 - [refinements](#refinements)
   - [isString](#isstring)
 - [utils](#utils)
+  - [concat](#concat)
   - [concatAll](#concatall)
   - [empty](#empty)
   - [endsWith](#endswith)
@@ -167,6 +168,16 @@ assert.deepStrictEqual(S.isString(1), false)
 Added in v3.0.0
 
 # utils
+
+## concat
+
+**Signature**
+
+```ts
+export declare const concat: (that: string) => (self: string) => string
+```
+
+Added in v3.0.0
 
 ## concatAll
 

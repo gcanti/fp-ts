@@ -15,15 +15,20 @@ Added in v3.0.0
 - [instances](#instances)
   - [Bounded](#bounded)
   - [Eq](#eq)
-  - [MagmaSub](#magmasub)
-  - [MonoidProduct](#monoidproduct)
+  - [MonoidMultiply](#monoidmultiply)
   - [MonoidSum](#monoidsum)
   - [Ord](#ord)
-  - [SemigroupProduct](#semigroupproduct)
+  - [SemigroupMultiply](#semigroupmultiply)
   - [SemigroupSum](#semigroupsum)
   - [Show](#show)
 - [refinements](#refinements)
   - [isNumber](#isnumber)
+- [utils](#utils)
+  - [multiply](#multiply)
+  - [multiplyAll](#multiplyall)
+  - [sub](#sub)
+  - [sum](#sum)
+  - [sumAll](#sumall)
 
 ---
 
@@ -49,17 +54,7 @@ export declare const Eq: eq.Eq<number>
 
 Added in v3.0.0
 
-## MagmaSub
-
-**Signature**
-
-```ts
-export declare const MagmaSub: Magma<number>
-```
-
-Added in v3.0.0
-
-## MonoidProduct
+## MonoidMultiply
 
 `number` monoid under multiplication.
 
@@ -68,7 +63,7 @@ The `empty` value is `1`.
 **Signature**
 
 ```ts
-export declare const MonoidProduct: Monoid<number>
+export declare const MonoidMultiply: Monoid<number>
 ```
 
 Added in v3.0.0
@@ -97,23 +92,23 @@ export declare const Ord: ord.Ord<number>
 
 Added in v3.0.0
 
-## SemigroupProduct
+## SemigroupMultiply
 
 `number` semigroup under multiplication.
 
 **Signature**
 
 ```ts
-export declare const SemigroupProduct: Semigroup<number>
+export declare const SemigroupMultiply: Semigroup<number>
 ```
 
 **Example**
 
 ```ts
-import { SemigroupProduct } from 'fp-ts/number'
+import { SemigroupMultiply } from 'fp-ts/number'
 import { pipe } from 'fp-ts/Function'
 
-assert.deepStrictEqual(pipe(2, SemigroupProduct.combine(3)), 6)
+assert.deepStrictEqual(pipe(2, SemigroupMultiply.combine(3)), 6)
 ```
 
 Added in v3.0.0
@@ -157,6 +152,58 @@ Added in v3.0.0
 
 ```ts
 export declare const isNumber: Refinement<unknown, number>
+```
+
+Added in v3.0.0
+
+# utils
+
+## multiply
+
+**Signature**
+
+```ts
+export declare const multiply: (that: number) => (self: number) => number
+```
+
+Added in v3.0.0
+
+## multiplyAll
+
+**Signature**
+
+```ts
+export declare const multiplyAll: (collection: Iterable<number>) => number
+```
+
+Added in v3.0.0
+
+## sub
+
+**Signature**
+
+```ts
+export declare const sub: (that: number) => (self: number) => number
+```
+
+Added in v3.0.0
+
+## sum
+
+**Signature**
+
+```ts
+export declare const sum: (that: number) => (self: number) => number
+```
+
+Added in v3.0.0
+
+## sumAll
+
+**Signature**
+
+```ts
+export declare const sumAll: (collection: Iterable<number>) => number
 ```
 
 Added in v3.0.0

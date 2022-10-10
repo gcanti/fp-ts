@@ -14,16 +14,21 @@ Added in v3.0.0
 
 - [instances](#instances)
   - [Eq](#eq)
-  - [MonoidAll](#monoidall)
-  - [MonoidAny](#monoidany)
+  - [MonoidAnd](#monoidand)
+  - [MonoidOr](#monoidor)
   - [Ord](#ord)
-  - [SemigroupAll](#semigroupall)
-  - [SemigroupAny](#semigroupany)
+  - [SemigroupAnd](#semigroupand)
+  - [SemigroupOr](#semigroupor)
   - [Show](#show)
 - [pattern matching](#pattern-matching)
   - [match](#match)
 - [refinements](#refinements)
   - [isBoolean](#isboolean)
+- [utils](#utils)
+  - [and](#and)
+  - [andAll](#andall)
+  - [or](#or)
+  - [orAll](#orall)
 
 ---
 
@@ -39,7 +44,7 @@ export declare const Eq: eq.Eq<boolean>
 
 Added in v3.0.0
 
-## MonoidAll
+## MonoidAnd
 
 `boolean` monoid under conjunction.
 
@@ -48,12 +53,12 @@ The `empty` value is `true`.
 **Signature**
 
 ```ts
-export declare const MonoidAll: Monoid<boolean>
+export declare const MonoidAnd: Monoid<boolean>
 ```
 
 Added in v3.0.0
 
-## MonoidAny
+## MonoidOr
 
 `boolean` monoid under disjunction.
 
@@ -62,7 +67,7 @@ The `empty` value is `false`.
 **Signature**
 
 ```ts
-export declare const MonoidAny: Monoid<boolean>
+export declare const MonoidOr: Monoid<boolean>
 ```
 
 Added in v3.0.0
@@ -77,47 +82,47 @@ export declare const Ord: ord.Ord<boolean>
 
 Added in v3.0.0
 
-## SemigroupAll
+## SemigroupAnd
 
 `boolean` semigroup under conjunction.
 
 **Signature**
 
 ```ts
-export declare const SemigroupAll: Semigroup<boolean>
+export declare const SemigroupAnd: Semigroup<boolean>
 ```
 
 **Example**
 
 ```ts
-import { SemigroupAll } from 'fp-ts/boolean'
+import { SemigroupAnd } from 'fp-ts/boolean'
 import { pipe } from 'fp-ts/Function'
 
-assert.deepStrictEqual(pipe(true, SemigroupAll.combine(true)), true)
-assert.deepStrictEqual(pipe(true, SemigroupAll.combine(false)), false)
+assert.deepStrictEqual(pipe(true, SemigroupAnd.combine(true)), true)
+assert.deepStrictEqual(pipe(true, SemigroupAnd.combine(false)), false)
 ```
 
 Added in v3.0.0
 
-## SemigroupAny
+## SemigroupOr
 
 `boolean` semigroup under disjunction.
 
 **Signature**
 
 ```ts
-export declare const SemigroupAny: Semigroup<boolean>
+export declare const SemigroupOr: Semigroup<boolean>
 ```
 
 **Example**
 
 ```ts
-import { SemigroupAny } from 'fp-ts/boolean'
+import { SemigroupOr } from 'fp-ts/boolean'
 import { pipe } from 'fp-ts/Function'
 
-assert.deepStrictEqual(pipe(true, SemigroupAny.combine(true)), true)
-assert.deepStrictEqual(pipe(true, SemigroupAny.combine(false)), true)
-assert.deepStrictEqual(pipe(false, SemigroupAny.combine(false)), false)
+assert.deepStrictEqual(pipe(true, SemigroupOr.combine(true)), true)
+assert.deepStrictEqual(pipe(true, SemigroupOr.combine(false)), true)
+assert.deepStrictEqual(pipe(false, SemigroupOr.combine(false)), false)
 ```
 
 Added in v3.0.0
@@ -177,6 +182,48 @@ Added in v3.0.0
 
 ```ts
 export declare const isBoolean: Refinement<unknown, boolean>
+```
+
+Added in v3.0.0
+
+# utils
+
+## and
+
+**Signature**
+
+```ts
+export declare const and: (that: boolean) => (self: boolean) => boolean
+```
+
+Added in v3.0.0
+
+## andAll
+
+**Signature**
+
+```ts
+export declare const andAll: (collection: Iterable<boolean>) => boolean
+```
+
+Added in v3.0.0
+
+## or
+
+**Signature**
+
+```ts
+export declare const or: (that: boolean) => (self: boolean) => boolean
+```
+
+Added in v3.0.0
+
+## orAll
+
+**Signature**
+
+```ts
+export declare const orAll: (collection: Iterable<boolean>) => boolean
 ```
 
 Added in v3.0.0

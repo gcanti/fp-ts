@@ -18,15 +18,6 @@ export interface Magma<S> {
 
 /**
  * The dual of a `Magma`, obtained by swapping the arguments of `combine`.
- *
- * @example
- * import { reverse, combineAll } from 'fp-ts/Magma'
- * import * as N from 'fp-ts/number'
- *
- * const subAll = combineAll(reverse(N.MagmaSub))(0)
- *
- * assert.deepStrictEqual(subAll([1, 2, 3]), 2)
- *
  * @since 3.0.0
  */
 export const reverse = <S>(Magma: Magma<S>): Magma<S> => ({
@@ -61,18 +52,6 @@ export const endo =
   })
 
 /**
- * Given a sequence of `as`, combine them and return the total.
- *
- * If `as` is empty, return the provided `startWith` value.
- *
- * @example
- * import { combineAll } from 'fp-ts/Magma'
- * import * as N from 'fp-ts/number'
- *
- * const subAll = combineAll(N.MagmaSub)(0)
- *
- * assert.deepStrictEqual(subAll([1, 2, 3]), -6)
- *
  * @since 3.0.0
  */
 export const combineAll =
