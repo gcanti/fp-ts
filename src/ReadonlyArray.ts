@@ -24,7 +24,6 @@ import * as functor from './Functor'
 import type * as functorWithIndex from './FunctorWithIndex'
 import type { TypeLambda, Kind } from './HKT'
 import * as _ from './internal'
-import type { Magma } from './Magma'
 import type { Monad as Monad_ } from './Monad'
 import type { Monoid } from './Monoid'
 import * as number from './number'
@@ -1210,10 +1209,13 @@ export const intersection = <A>(E: Eq<A>): Semigroup<ReadonlyArray<A>>['combine'
  *
  * @since 3.0.0
  */
-export const difference = <A>(E: Eq<A>): Magma<ReadonlyArray<A>>['combine'] => {
-  const elemE = elem(E)
-  return (that) => (self) => self.filter((a) => !elemE(a)(that))
-}
+export const difference =
+  <A>(Eq: Eq<A>) =>
+  (that: ReadonlyArray<A>) =>
+  (self: ReadonlyArray<A>): ReadonlyArray<A> => {
+    const elem_ = elem(Eq)
+    return self.filter((a) => !elem_(a)(that))
+  }
 
 /**
  * @category constructors
@@ -1572,14 +1574,6 @@ export const getUnionMonoid = <A>(E: Eq<A>): Monoid<ReadonlyArray<A>> => ({
  */
 export const getIntersectionSemigroup = <A>(E: Eq<A>): Semigroup<ReadonlyArray<A>> => ({
   combine: intersection(E)
-})
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const getDifferenceMagma = <A>(E: Eq<A>): Magma<ReadonlyArray<A>> => ({
-  combine: difference(E)
 })
 
 /**

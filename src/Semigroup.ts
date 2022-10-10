@@ -17,8 +17,6 @@
  */
 import { identity } from './Function'
 import * as _ from './internal'
-import type { Magma } from './Magma'
-import * as magma from './Magma'
 import type { Ord } from './Ord'
 import * as ord from './Ord'
 
@@ -26,7 +24,9 @@ import * as ord from './Ord'
  * @category model
  * @since 3.0.0
  */
-export interface Semigroup<S> extends Magma<S> {}
+export interface Semigroup<A> {
+  readonly combine: (that: A) => (self: A) => A
+}
 
 /**
  * Get a semigroup where `combine` will return the minimum, based on the provided order.
@@ -43,7 +43,7 @@ export interface Semigroup<S> extends Magma<S> {}
  * @category constructors
  * @since 3.0.0
  */
-export const min = <S>(Ord: Ord<S>): Semigroup<S> => ({
+export const min = <A>(Ord: Ord<A>): Semigroup<A> => ({
   combine: ord.min(Ord)
 })
 
@@ -62,7 +62,7 @@ export const min = <S>(Ord: Ord<S>): Semigroup<S> => ({
  * @category constructors
  * @since 3.0.0
  */
-export const max = <S>(Ord: Ord<S>): Semigroup<S> => ({
+export const max = <A>(Ord: Ord<A>): Semigroup<A> => ({
   combine: ord.max(Ord)
 })
 
@@ -86,7 +86,9 @@ export const constant = <S>(s: S): Semigroup<S> => ({
  *
  * @since 3.0.0
  */
-export const reverse: <S>(Semigroup: Semigroup<S>) => Semigroup<S> = magma.reverse
+export const reverse = <S>(Semigroup: Semigroup<S>): Semigroup<S> => ({
+  combine: (that) => (self) => Semigroup.combine(self)(that)
+})
 
 /**
  * Given a struct of semigroups returns a semigroup for the struct.
@@ -110,11 +112,11 @@ export const reverse: <S>(Semigroup: Semigroup<S>) => Semigroup<S> = magma.rever
  *
  * @since 3.0.0
  */
-export const struct = <S>(semigroups: { [K in keyof S]: Semigroup<S[K]> }): Semigroup<{
-  readonly [K in keyof S]: S[K]
+export const struct = <A>(semigroups: { [K in keyof A]: Semigroup<A[K]> }): Semigroup<{
+  readonly [K in keyof A]: A[K]
 }> => ({
   combine: (that) => (self) => {
-    const r: S = {} as any
+    const r: A = {} as any
     for (const k in semigroups) {
       if (_.has.call(semigroups, k)) {
         r[k] = semigroups[k].combine(that[k])(self[k])
@@ -142,9 +144,9 @@ export const struct = <S>(semigroups: { [K in keyof S]: Semigroup<S[K]> }): Semi
  *
  * @since 3.0.0
  */
-export const tuple = <S extends ReadonlyArray<unknown>>(
-  ...semigroups: { [K in keyof S]: Semigroup<S[K]> }
-): Semigroup<Readonly<S>> => ({
+export const tuple = <A extends ReadonlyArray<unknown>>(
+  ...semigroups: { [K in keyof A]: Semigroup<A[K]> }
+): Semigroup<Readonly<A>> => ({
   combine: (that) => (self) => semigroups.map((s, i) => s.combine(that[i])(self[i])) as any
 })
 
@@ -164,8 +166,8 @@ export const tuple = <S extends ReadonlyArray<unknown>>(
  * @since 3.0.0
  */
 export const intercalate =
-  <S>(separator: S) =>
-  (Semigroup: Semigroup<S>): Semigroup<S> => ({
+  <A>(separator: A) =>
+  (Semigroup: Semigroup<A>): Semigroup<A> => ({
     combine: (that) => (self) => Semigroup.combine(Semigroup.combine(that)(separator))(self)
   })
 
@@ -185,7 +187,7 @@ export const intercalate =
  * @category instances
  * @since 3.0.0
  */
-export const first = <S>(): Semigroup<S> => ({
+export const first = <A>(): Semigroup<A> => ({
   combine: () => identity
 })
 
@@ -201,7 +203,7 @@ export const first = <S>(): Semigroup<S> => ({
  * @category instances
  * @since 3.0.0
  */
-export const last = <S>(): Semigroup<S> => ({
+export const last = <A>(): Semigroup<A> => ({
   combine: (a) => () => a
 })
 
@@ -221,5 +223,13 @@ export const last = <S>(): Semigroup<S> => ({
  *
  * @since 3.0.0
  */
-export const combineAll: <S>(Semigroup: Semigroup<S>) => (startWith: S) => (collection: Iterable<S>) => S =
-  magma.combineAll
+export const combineAll =
+  <S>(Semigroup: Semigroup<S>) =>
+  (startWith: S) =>
+  (collection: Iterable<S>): S => {
+    let out: S = startWith
+    for (const s of collection) {
+      out = Semigroup.combine(s)(out)
+    }
+    return out
+  }

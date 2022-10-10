@@ -1,6 +1,6 @@
 ---
 title: Semigroup.ts
-nav_order: 68
+nav_order: 67
 parent: Modules
 ---
 
@@ -63,7 +63,7 @@ Get a semigroup where `combine` will return the maximum, based on the provided o
 **Signature**
 
 ```ts
-export declare const max: <S>(Ord: Ord<S>) => Semigroup<S>
+export declare const max: <A>(Ord: Ord<A>) => Semigroup<A>
 ```
 
 **Example**
@@ -87,7 +87,7 @@ Get a semigroup where `combine` will return the minimum, based on the provided o
 **Signature**
 
 ```ts
-export declare const min: <S>(Ord: Ord<S>) => Semigroup<S>
+export declare const min: <A>(Ord: Ord<A>) => Semigroup<A>
 ```
 
 **Example**
@@ -113,7 +113,7 @@ Always return the first argument.
 **Signature**
 
 ```ts
-export declare const first: <S>() => Semigroup<S>
+export declare const first: <A>() => Semigroup<A>
 ```
 
 **Example**
@@ -134,7 +134,7 @@ Always return the last argument.
 **Signature**
 
 ```ts
-export declare const last: <S>() => Semigroup<S>
+export declare const last: <A>() => Semigroup<A>
 ```
 
 **Example**
@@ -155,7 +155,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface Semigroup<S> extends Magma<S> {}
+export interface Semigroup<A> {
+  readonly combine: (that: A) => (self: A) => A
+}
 ```
 
 Added in v3.0.0
@@ -195,7 +197,7 @@ You can glue items between and stay associative.
 **Signature**
 
 ```ts
-export declare const intercalate: <S>(separator: S) => (Semigroup: Semigroup<S>) => Semigroup<S>
+export declare const intercalate: <A>(separator: A) => (Semigroup: Semigroup<A>) => Semigroup<A>
 ```
 
 **Example**
@@ -242,8 +244,8 @@ Given a struct of semigroups returns a semigroup for the struct.
 **Signature**
 
 ```ts
-export declare const struct: <S>(semigroups: { [K in keyof S]: Semigroup<S[K]> }) => Semigroup<{
-  readonly [K in keyof S]: S[K]
+export declare const struct: <A>(semigroups: { [K in keyof A]: Semigroup<A[K]> }) => Semigroup<{
+  readonly [K in keyof A]: A[K]
 }>
 ```
 
@@ -276,9 +278,9 @@ Given a tuple of semigroups returns a semigroup for the tuple.
 **Signature**
 
 ```ts
-export declare const tuple: <S extends readonly unknown[]>(
-  ...semigroups: { [K in keyof S]: Semigroup<S[K]> }
-) => Semigroup<Readonly<S>>
+export declare const tuple: <A extends readonly unknown[]>(
+  ...semigroups: { [K in keyof A]: Semigroup<A[K]> }
+) => Semigroup<Readonly<A>>
 ```
 
 **Example**

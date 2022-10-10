@@ -1125,11 +1125,11 @@ describe('ReadonlyArray', () => {
     U.deepStrictEqual(pipe([1, 2], S.combine([1, 2])), [1, 2])
   })
 
-  it('getDifferenceMagma', () => {
-    const M = _.getDifferenceMagma(N.Eq)
-    U.deepStrictEqual(pipe([1, 2], M.combine([3, 4])), [1, 2])
-    U.deepStrictEqual(pipe([1, 2], M.combine([2, 3])), [1])
-    U.deepStrictEqual(pipe([1, 2], M.combine([1, 2])), [])
+  it('difference', () => {
+    const difference = _.difference(N.Eq)
+    U.deepStrictEqual(pipe([1, 2], difference([3, 4])), [1, 2])
+    U.deepStrictEqual(pipe([1, 2], difference([2, 3])), [1])
+    U.deepStrictEqual(pipe([1, 2], difference([1, 2])), [])
     // is not a semigroup -> Counterexample: [[1],[],[1]]
   })
 

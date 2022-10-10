@@ -46,7 +46,6 @@ import * as syncOption from './SyncOption'
 import * as json from './Json'
 import * as kleisliCategory from './KleisliCategory'
 import * as kleisliComposable from './KleisliComposable'
-import * as magma from './Magma'
 import * as monad from './Monad'
 import * as monoid from './Monoid'
 import * as nonEmptyReadonlyArray from './NonEmptyReadonlyArray'
@@ -294,11 +293,6 @@ export {
    * @since 3.0.0
    */
   kleisliComposable,
-  /**
-   * @category type classes
-   * @since 3.0.0
-   */
-  magma,
   /**
    * @category type classes
    * @since 3.0.0

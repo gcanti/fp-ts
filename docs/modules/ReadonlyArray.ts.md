@@ -1,6 +1,6 @@
 ---
 title: ReadonlyArray.ts
-nav_order: 64
+nav_order: 63
 parent: Modules
 ---
 
@@ -81,7 +81,6 @@ Added in v3.0.0
   - [TraversableFilterable](#traversablefilterable)
   - [TraversableWithIndex](#traversablewithindex)
   - [Unfoldable](#unfoldable)
-  - [getDifferenceMagma](#getdifferencemagma)
   - [getEq](#geteq)
   - [getIntersectionSemigroup](#getintersectionsemigroup)
   - [getMonoid](#getmonoid)
@@ -972,16 +971,6 @@ export declare const Unfoldable: unfoldable.Unfoldable<ReadonlyArrayTypeLambda>
 
 Added in v3.0.0
 
-## getDifferenceMagma
-
-**Signature**
-
-```ts
-export declare const getDifferenceMagma: <A>(E: eq.Eq<A>) => Magma<readonly A[]>
-```
-
-Added in v3.0.0
-
 ## getEq
 
 Derives an `Eq` over the `ReadonlyArray` of a given element type from the `Eq` of that type. The derived `Eq` defines two
@@ -1590,7 +1579,7 @@ comparisons. The order and references of result values are determined by the fir
 **Signature**
 
 ```ts
-export declare const difference: <A>(E: eq.Eq<A>) => (that: readonly A[]) => (self: readonly A[]) => readonly A[]
+export declare const difference: <A>(Eq: eq.Eq<A>) => (that: readonly A[]) => (self: readonly A[]) => readonly A[]
 ```
 
 **Example**

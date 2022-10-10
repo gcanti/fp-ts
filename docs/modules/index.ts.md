@@ -77,7 +77,6 @@ Added in v3.0.0
   - [invariant](#invariant)
   - [kleisliCategory](#kleislicategory)
   - [kleisliComposable](#kleislicomposable)
-  - [magma](#magma)
   - [monad](#monad)
   - [monoid](#monoid)
   - [ord](#ord)
@@ -726,16 +725,6 @@ Added in v3.0.0
 
 ```ts
 export declare const kleisliComposable: typeof kleisliComposable
-```
-
-Added in v3.0.0
-
-## magma
-
-**Signature**
-
-```ts
-export declare const magma: typeof magma
 ```
 
 Added in v3.0.0
