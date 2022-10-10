@@ -4,7 +4,7 @@ import * as I from '../src/Sync'
 import * as IE from '../src/SyncResult'
 import * as N from '../src/number'
 import * as O from '../src/Option'
-import { gt } from '../src/Ord'
+import { gt } from '../src/typeclasses/Ord'
 import * as R from '../src/Reader'
 import * as RE from '../src/ReaderResult'
 import * as RIO from '../src/ReaderSync'
@@ -16,7 +16,7 @@ import * as S from '../src/string'
 import * as T from '../src/Async'
 import * as TE from '../src/AsyncResult'
 import * as U from './util'
-import * as filterable from '../src/Filterable'
+import * as filterable from '../src/typeclasses/Filterable'
 
 describe('ReaderAsyncResult', () => {
   describe('pipeables', () => {

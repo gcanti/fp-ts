@@ -1,7 +1,7 @@
 import * as _ from '../../src/NonEmptyReadonlyArray'
 import { pipe } from '../../src/Function'
-import type { Ord } from '../../src/Ord'
-import type { Eq } from '../../src/Eq'
+import type { Ord } from '../../src/typeclasses/Ord'
+import type { Eq } from '../../src/typeclasses/Eq'
 
 declare const ras: ReadonlyArray<string>
 declare const rneas: _.NonEmptyReadonlyArray<string>

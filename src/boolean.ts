@@ -2,12 +2,12 @@
  * @since 3.0.0
  */
 import type { LazyArg } from './Function'
-import type { Monoid } from './Monoid'
-import * as monoid from './Monoid'
-import type { Semigroup } from './Semigroup'
-import * as eq from './Eq'
-import type * as ord from './Ord'
-import type * as show_ from './Show'
+import type { Monoid } from './typeclasses/Monoid'
+import * as monoid from './typeclasses/Monoid'
+import type { Semigroup } from './typeclasses/Semigroup'
+import * as eq from './typeclasses/Eq'
+import type * as ord from './typeclasses/Ord'
+import type * as show_ from './typeclasses/Show'
 import type { Refinement } from './Refinement'
 
 // -------------------------------------------------------------------------------------

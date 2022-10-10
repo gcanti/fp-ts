@@ -1,4 +1,4 @@
-import * as _ from '../../src/Eq'
+import * as _ from '../../src/typeclasses/Eq'
 import * as S from '../../src/string'
 import * as N from '../../src/number'
 import * as B from '../../src/boolean'

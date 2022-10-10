@@ -1,4 +1,4 @@
-import * as _ from '../../src/WriterT'
+import * as _ from '../../src/transformers/WriterT'
 import * as RTE from '../../src/ReaderAsyncResult'
 import type { Writer } from '../../src/Writer'
 import * as string from '../../src/string'

@@ -11,21 +11,21 @@
  *
  * @since 3.0.0
  */
-import type * as kleisliCategory from './KleisliCategory'
-import type * as kleisliComposable from './KleisliComposable'
-import type * as applicative from './Applicative'
-import * as apply from './Apply'
-import * as flattenable from './Flattenable'
-import * as fromSync_ from './FromSync'
-import type * as fromAsync_ from './FromAsync'
+import type * as kleisliCategory from './typeclasses/KleisliCategory'
+import type * as kleisliComposable from './typeclasses/KleisliComposable'
+import type * as applicative from './typeclasses/Applicative'
+import * as apply from './typeclasses/Apply'
+import * as flattenable from './typeclasses/Flattenable'
+import * as fromSync_ from './typeclasses/FromSync'
+import type * as fromAsync_ from './typeclasses/FromAsync'
 import { flow, identity, pipe, SK } from './Function'
-import * as functor from './Functor'
+import * as functor from './typeclasses/Functor'
 import type { TypeLambda } from './HKT'
 import * as _ from './internal'
 import type { Sync } from './Sync'
-import type * as monad from './Monad'
-import type { Monoid } from './Monoid'
-import * as fromIdentity from './FromIdentity'
+import type * as monad from './typeclasses/Monad'
+import type { Monoid } from './typeclasses/Monoid'
+import * as fromIdentity from './typeclasses/FromIdentity'
 import type { NonEmptyReadonlyArray } from './NonEmptyReadonlyArray'
 
 /**

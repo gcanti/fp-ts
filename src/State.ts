@@ -1,19 +1,19 @@
 /**
  * @since 3.0.0
  */
-import type * as kleisliCategory from './KleisliCategory'
-import type * as kleisliComposable from './KleisliComposable'
-import type * as applicative from './Applicative'
-import * as apply from './Apply'
-import * as flattenable from './Flattenable'
+import type * as kleisliCategory from './typeclasses/KleisliCategory'
+import type * as kleisliComposable from './typeclasses/KleisliComposable'
+import type * as applicative from './typeclasses/Applicative'
+import * as apply from './typeclasses/Apply'
+import * as flattenable from './typeclasses/Flattenable'
 import type { Endomorphism } from './Endomorphism'
-import type { FromState as FromState_ } from './FromState'
+import type { FromState as FromState_ } from './typeclasses/FromState'
 import { flow, identity, SK } from './Function'
-import * as functor from './Functor'
+import * as functor from './typeclasses/Functor'
 import type { TypeLambda } from './HKT'
 import * as _ from './internal'
-import type * as monad from './Monad'
-import * as fromIdentity from './FromIdentity'
+import type * as monad from './typeclasses/Monad'
+import * as fromIdentity from './typeclasses/FromIdentity'
 import type { NonEmptyReadonlyArray } from './NonEmptyReadonlyArray'
 
 /**

@@ -1,7 +1,7 @@
 import * as assert from 'assert'
 import * as B from '../src/boolean'
 import * as _ from '../src/Function'
-import { combineAll } from '../src/Monoid'
+import { combineAll } from '../src/typeclasses/Monoid'
 import * as RA from '../src/ReadonlyArray'
 import * as S from '../src/string'
 import * as U from './util'

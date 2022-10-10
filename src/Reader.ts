@@ -1,18 +1,18 @@
 /**
  * @since 3.0.0
  */
-import type * as applicative from './Applicative'
-import * as apply from './Apply'
-import * as flattenable from './Flattenable'
-import * as fromIdentity from './FromIdentity'
-import type * as fromReader_ from './FromReader'
+import type * as applicative from './typeclasses/Applicative'
+import * as apply from './typeclasses/Apply'
+import * as flattenable from './typeclasses/Flattenable'
+import * as fromIdentity from './typeclasses/FromIdentity'
+import type * as fromReader_ from './typeclasses/FromReader'
 import { constant, flow, identity, SK } from './Function'
-import * as functor from './Functor'
+import * as functor from './typeclasses/Functor'
 import type { TypeLambda } from './HKT'
 import * as _ from './internal'
-import type * as kleisliCategory from './KleisliCategory'
-import type * as kleisliComposable from './KleisliComposable'
-import type * as monad from './Monad'
+import type * as kleisliCategory from './typeclasses/KleisliCategory'
+import type * as kleisliComposable from './typeclasses/KleisliComposable'
+import type * as monad from './typeclasses/Monad'
 import type { NonEmptyReadonlyArray } from './NonEmptyReadonlyArray'
 
 /**

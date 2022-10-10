@@ -1,6 +1,6 @@
 ---
 title: NonEmptyReadonlyArray.ts
-nav_order: 45
+nav_order: 15
 parent: Modules
 ---
 
@@ -1393,7 +1393,7 @@ export declare const sortBy: <B>(
 
 ```ts
 import * as RNEA from 'fp-ts/NonEmptyReadonlyArray'
-import { contramap } from 'fp-ts/Ord'
+import { contramap } from 'fp-ts/typeclasses/Ord'
 import * as S from 'fp-ts/string'
 import * as N from 'fp-ts/number'
 import { pipe } from 'fp-ts/Function'

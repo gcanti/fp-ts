@@ -1,5 +1,5 @@
 import type { Reader } from '../../src/Reader'
-import * as _ from '../../src/ReaderT'
+import * as _ from '../../src/transformers/ReaderT'
 import * as RTE from '../../src/ReaderAsyncResult'
 
 // -------------------------------------------------------------------------------------

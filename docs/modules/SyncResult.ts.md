@@ -1,6 +1,6 @@
 ---
 title: SyncResult.ts
-nav_order: 72
+nav_order: 34
 parent: Modules
 ---
 

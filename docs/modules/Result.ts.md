@@ -1,6 +1,6 @@
 ---
 title: Result.ts
-nav_order: 62
+nav_order: 28
 parent: Modules
 ---
 
@@ -437,7 +437,7 @@ export declare const getValidatedAlt: <E>(Semigroup: Semigroup<E>) => alt.Alt<Va
 ```ts
 import * as E from 'fp-ts/Result'
 import { pipe } from 'fp-ts/Function'
-import * as S from 'fp-ts/Semigroup'
+import * as S from 'fp-ts/typeclasses/Semigroup'
 import * as string from 'fp-ts/string'
 
 const parseString = (u: unknown): E.Result<string, string> =>
@@ -477,10 +477,10 @@ export declare const getValidatedApplicative: <E>(
 **Example**
 
 ```ts
-import * as A from 'fp-ts/Apply'
+import * as A from 'fp-ts/typeclasses/Apply'
 import * as E from 'fp-ts/Result'
 import { pipe } from 'fp-ts/Function'
-import * as S from 'fp-ts/Semigroup'
+import * as S from 'fp-ts/typeclasses/Semigroup'
 import * as string from 'fp-ts/string'
 
 const parseString = (u: unknown): E.Result<string, string> =>

@@ -1,6 +1,6 @@
 ---
 title: Endomorphism.ts
-nav_order: 19
+nav_order: 8
 parent: Modules
 ---
 

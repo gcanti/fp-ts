@@ -1,23 +1,23 @@
 /**
  * @since 3.0.0
  */
-import type * as applicative from './Applicative'
-import type { Apply } from './Apply'
-import type * as bifunctor from './Bifunctor'
-import type { Flattenable } from './Flattenable'
-import type * as comonad from './Comonad'
+import type * as applicative from './typeclasses/Applicative'
+import type { Apply } from './typeclasses/Apply'
+import type * as bifunctor from './typeclasses/Bifunctor'
+import type { Flattenable } from './typeclasses/Flattenable'
+import type * as comonad from './typeclasses/Comonad'
 import { flow, identity, pipe, SK } from './Function'
-import * as functor from './Functor'
+import * as functor from './typeclasses/Functor'
 import type { TypeLambda, Kind } from './HKT'
 import * as _ from './internal'
-import type { Monad } from './Monad'
-import type { Monoid } from './Monoid'
-import type { FromIdentity } from './FromIdentity'
+import type { Monad } from './typeclasses/Monad'
+import type { Monoid } from './typeclasses/Monoid'
+import type { FromIdentity } from './typeclasses/FromIdentity'
 import * as nonEmptyReadonlyArrayModule from './NonEmptyReadonlyArray'
 import type { NonEmptyReadonlyArray } from './NonEmptyReadonlyArray'
-import type { Semigroup } from './Semigroup'
-import type * as composable from './Composable'
-import type * as traversable from './Traversable'
+import type { Semigroup } from './typeclasses/Semigroup'
+import type * as composable from './typeclasses/Composable'
+import type * as traversable from './typeclasses/Traversable'
 
 /**
  * @category model

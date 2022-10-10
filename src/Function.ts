@@ -1,12 +1,12 @@
 /**
  * @since 3.0.0
  */
-import type * as category from './Category'
-import type * as composable from './Composable'
+import type * as category from './typeclasses/Category'
+import type * as composable from './typeclasses/Composable'
 import type { Endomorphism } from './Endomorphism'
 import type { TypeLambda } from './HKT'
-import type { Monoid } from './Monoid'
-import type { Semigroup } from './Semigroup'
+import type { Monoid } from './typeclasses/Monoid'
+import type { Semigroup } from './typeclasses/Semigroup'
 
 // -------------------------------------------------------------------------------------
 // type lambdas

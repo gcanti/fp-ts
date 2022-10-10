@@ -1,4 +1,4 @@
-import * as _ from '../../src/Flattenable'
+import * as _ from '../../src/typeclasses/Flattenable'
 import * as RTE from '../../src/ReaderAsyncResult'
 
 // -------------------------------------------------------------------------------------

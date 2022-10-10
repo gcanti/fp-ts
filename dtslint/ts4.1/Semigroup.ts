@@ -1,4 +1,4 @@
-import * as _ from '../../src/Semigroup'
+import * as _ from '../../src/typeclasses/Semigroup'
 import { pipe } from '../../src/Function'
 import * as S from '../../src/string'
 import * as N from '../../src/number'

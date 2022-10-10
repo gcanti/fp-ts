@@ -1,4 +1,4 @@
-import * as _ from '../../src/Apply'
+import * as _ from '../../src/typeclasses/Apply'
 import * as RTE from '../../src/ReaderAsyncResult'
 
 // -------------------------------------------------------------------------------------

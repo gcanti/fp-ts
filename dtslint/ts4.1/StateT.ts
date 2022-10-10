@@ -1,4 +1,4 @@
-import * as _ from '../../src/StateT'
+import * as _ from '../../src/transformers/StateT'
 import * as RTE from '../../src/ReaderAsyncResult'
 
 // -------------------------------------------------------------------------------------

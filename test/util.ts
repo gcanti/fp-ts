@@ -1,12 +1,12 @@
 import * as assert from 'assert'
-import type { Apply } from '../src/Apply'
-import type { FromAsync } from '../src/FromAsync'
+import type { Apply } from '../src/typeclasses/Apply'
+import type { FromAsync } from '../src/typeclasses/FromAsync'
 import { pipe } from '../src/Function'
 import type { TypeLambda, Kind } from '../src/HKT'
 import * as T from '../src/Async'
-import type * as Se from '../src/Semigroup'
+import type * as Se from '../src/typeclasses/Semigroup'
 import * as fc from 'fast-check'
-import type { Eq } from '../src/Eq'
+import type { Eq } from '../src/typeclasses/Eq'
 
 export const deepStrictEqual = <A>(actual: A, expected: A) => {
   assert.deepStrictEqual(actual, expected)

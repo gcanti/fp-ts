@@ -7,22 +7,22 @@
  *
  * @since 3.0.0
  */
-import type { Applicative } from './Applicative'
-import type { Apply } from './Apply'
-import type * as bifunctor from './Bifunctor'
-import type { Bounded } from './Bounded'
-import type * as contravariant from './Contravariant'
-import type { Eq } from './Eq'
-import * as eq from './Eq'
+import type { Applicative } from './typeclasses/Applicative'
+import type { Apply } from './typeclasses/Apply'
+import type * as bifunctor from './typeclasses/Bifunctor'
+import type { Bounded } from './typeclasses/Bounded'
+import type * as contravariant from './typeclasses/Contravariant'
+import type { Eq } from './typeclasses/Eq'
+import * as eq from './typeclasses/Eq'
 import { constant, unsafeCoerce } from './Function'
-import * as functor from './Functor'
+import * as functor from './typeclasses/Functor'
 import type { TypeLambda } from './HKT'
-import type { Monoid } from './Monoid'
-import type { Ord } from './Ord'
-import * as ord from './Ord'
-import type { FromIdentity } from './FromIdentity'
-import type { Semigroup } from './Semigroup'
-import type { Show } from './Show'
+import type { Monoid } from './typeclasses/Monoid'
+import type { Ord } from './typeclasses/Ord'
+import * as ord from './typeclasses/Ord'
+import type { FromIdentity } from './typeclasses/FromIdentity'
+import type { Semigroup } from './typeclasses/Semigroup'
+import type { Show } from './typeclasses/Show'
 
 // TODO Semigroupoid Const
 // TODO Invariant (Const a)

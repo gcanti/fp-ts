@@ -1,6 +1,6 @@
 ---
 title: ReadonlyArray.ts
-nav_order: 60
+nav_order: 26
 parent: Modules
 ---
 
@@ -1394,7 +1394,7 @@ export declare const chop: <A, B>(
 **Example**
 
 ```ts
-import { Eq } from 'fp-ts/Eq'
+import { Eq } from 'fp-ts/typeclasses/Eq'
 import * as N from 'fp-ts/number'
 import * as RA from 'fp-ts/ReadonlyArray'
 import { pipe } from 'fp-ts/Function'
@@ -2343,7 +2343,7 @@ export declare const sortBy: <B>(ords: readonly ord.Ord<B>[]) => <A extends B>(a
 
 ```ts
 import { sortBy } from 'fp-ts/ReadonlyArray'
-import { contramap } from 'fp-ts/Ord'
+import { contramap } from 'fp-ts/typeclasses/Ord'
 import * as S from 'fp-ts/string'
 import * as N from 'fp-ts/number'
 import { pipe } from 'fp-ts/Function'

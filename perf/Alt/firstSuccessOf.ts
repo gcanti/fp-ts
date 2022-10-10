@@ -1,5 +1,5 @@
 import * as Benchmark from 'benchmark'
-import * as alt from '../../src/Alt'
+import * as alt from '../../src/typeclasses/Alt'
 import { pipe } from '../../src/Function'
 import type { Kind, TypeLambda } from '../../src/HKT'
 import * as option from '../../src/Option'

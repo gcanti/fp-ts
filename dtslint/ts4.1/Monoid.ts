@@ -1,4 +1,4 @@
-import * as _ from '../../src/Monoid'
+import * as _ from '../../src/typeclasses/Monoid'
 import * as S from '../../src/string'
 import * as N from '../../src/number'
 import * as B from '../../src/boolean'

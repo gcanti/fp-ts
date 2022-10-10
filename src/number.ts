@@ -1,13 +1,13 @@
 /**
  * @since 3.0.0
  */
-import type * as bounded from './Bounded'
-import * as eq from './Eq'
-import type * as ord from './Ord'
-import type * as show_ from './Show'
-import type { Semigroup } from './Semigroup'
-import type { Monoid } from './Monoid'
-import * as monoid from './Monoid'
+import type * as bounded from './typeclasses/Bounded'
+import * as eq from './typeclasses/Eq'
+import type * as ord from './typeclasses/Ord'
+import type * as show_ from './typeclasses/Show'
+import type { Semigroup } from './typeclasses/Semigroup'
+import type { Monoid } from './typeclasses/Monoid'
+import * as monoid from './typeclasses/Monoid'
 import type { Refinement } from './Refinement'
 
 /**

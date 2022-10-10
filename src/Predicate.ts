@@ -1,11 +1,11 @@
 /**
  * @since 3.0.0
  */
-import type * as contravariant from './Contravariant'
+import type * as contravariant from './typeclasses/Contravariant'
 import { constFalse, constTrue, flow } from './Function'
 import type { TypeLambda } from './HKT'
-import type { Monoid } from './Monoid'
-import type { Semigroup } from './Semigroup'
+import type { Monoid } from './typeclasses/Monoid'
+import type { Semigroup } from './typeclasses/Semigroup'
 
 /**
  * @category model

@@ -1,4 +1,4 @@
-import * as _ from '../../src/OptionT'
+import * as _ from '../../src/transformers/OptionT'
 import * as RTE from '../../src/ReaderAsyncResult'
 import type { Option } from '../../src/Option'
 

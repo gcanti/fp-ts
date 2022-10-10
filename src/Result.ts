@@ -13,34 +13,34 @@
  *
  * @since 3.0.0
  */
-import type * as kleisliCategory from './KleisliCategory'
-import type * as kleisliComposable from './KleisliComposable'
-import * as alt from './Alt'
-import type * as applicative from './Applicative'
-import * as apply from './Apply'
-import * as bifunctor from './Bifunctor'
-import * as flattenable from './Flattenable'
-import type { Compactable } from './Compactable'
-import * as eq from './Eq'
-import type * as extendable from './Extendable'
-import type * as filterable from './Filterable'
-import type { Monoid } from './Monoid'
-import * as fromResult_ from './FromResult'
+import type * as kleisliCategory from './typeclasses/KleisliCategory'
+import type * as kleisliComposable from './typeclasses/KleisliComposable'
+import * as alt from './typeclasses/Alt'
+import type * as applicative from './typeclasses/Applicative'
+import * as apply from './typeclasses/Apply'
+import * as bifunctor from './typeclasses/Bifunctor'
+import * as flattenable from './typeclasses/Flattenable'
+import type { Compactable } from './typeclasses/Compactable'
+import * as eq from './typeclasses/Eq'
+import type * as extendable from './typeclasses/Extendable'
+import type * as filterable from './typeclasses/Filterable'
+import type { Monoid } from './typeclasses/Monoid'
+import * as fromResult_ from './typeclasses/FromResult'
 import { SK } from './Function'
 import { flow, identity, pipe } from './Function'
-import * as functor from './Functor'
+import * as functor from './typeclasses/Functor'
 import type { TypeLambda, Kind } from './HKT'
 import * as _ from './internal'
-import type * as monad from './Monad'
+import type * as monad from './typeclasses/Monad'
 import type { Option } from './Option'
-import * as fromIdentity from './FromIdentity'
+import * as fromIdentity from './typeclasses/FromIdentity'
 import type { Predicate } from './Predicate'
 import type { NonEmptyReadonlyArray } from './NonEmptyReadonlyArray'
 import type { Refinement } from './Refinement'
-import type { Semigroup } from './Semigroup'
-import type { Show } from './Show'
-import * as traversable from './Traversable'
-import type { TraversableFilterable } from './TraversableFilterable'
+import type { Semigroup } from './typeclasses/Semigroup'
+import type { Show } from './typeclasses/Show'
+import * as traversable from './typeclasses/Traversable'
+import type { TraversableFilterable } from './typeclasses/TraversableFilterable'
 
 /**
  * @category model
@@ -737,10 +737,10 @@ export const Applicative: applicative.Applicative<ResultTypeLambda> = {
  * get all errors you need to provide a way to combine them via a `Semigroup`.
  *
  * @example
- * import * as A from 'fp-ts/Apply'
+ * import * as A from 'fp-ts/typeclasses/Apply'
  * import * as E from 'fp-ts/Result'
  * import { pipe } from 'fp-ts/Function'
- * import * as S from 'fp-ts/Semigroup'
+ * import * as S from 'fp-ts/typeclasses/Semigroup'
  * import * as string from 'fp-ts/string'
  *
  * const parseString = (u: unknown): E.Result<string, string> =>
@@ -910,7 +910,7 @@ export const firstSuccessOf: <E, A>(startWith: Result<E, A>) => (collection: Ite
  * @example
  * import * as E from 'fp-ts/Result'
  * import { pipe } from 'fp-ts/Function'
- * import * as S from 'fp-ts/Semigroup'
+ * import * as S from 'fp-ts/typeclasses/Semigroup'
  * import * as string from 'fp-ts/string'
  *
  * const parseString = (u: unknown): E.Result<string, string> =>

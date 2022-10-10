@@ -1,4 +1,4 @@
-import * as _ from '../../src/TheseT'
+import * as _ from '../../src/transformers/TheseT'
 import * as RTE from '../../src/ReaderAsyncResult'
 import type { These } from '../../src/These'
 import * as string from '../../src/string'

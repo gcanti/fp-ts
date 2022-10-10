@@ -4,7 +4,7 @@ import { pipe } from '../src/Function'
 import * as glob from 'glob'
 import * as path from 'path'
 import * as O from '../src/Option'
-import * as M from '../src/Monoid'
+import * as M from '../src/typeclasses/Monoid'
 import * as string from '../src/string'
 
 // -------------------------------------------------------------------------------------

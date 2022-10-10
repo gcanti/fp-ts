@@ -1,8 +1,8 @@
 import * as T from '../../src/Async'
 import { pipe } from '../../src/Function'
 import * as N from '../../src/number'
-import type { Ord } from '../../src/Ord'
-import * as ord from '../../src/Ord'
+import type { Ord } from '../../src/typeclasses/Ord'
+import * as ord from '../../src/typeclasses/Ord'
 import * as _ from '../../src/ReadonlyArray'
 import * as E from '../../src/Result'
 

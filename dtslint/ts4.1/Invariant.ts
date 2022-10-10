@@ -1,5 +1,5 @@
 import type { TypeLambda } from '../../src/HKT'
-import { Invariant } from '../../src/Invariant'
+import { Invariant } from '../../src/typeclasses/Invariant'
 
 export interface Inv<A> {
   (a: A): [A, A]
