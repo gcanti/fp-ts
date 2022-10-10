@@ -358,62 +358,6 @@ export const intercalate = <A>(S: Semigroup<A>): ((middle: A) => (as: NonEmptyRe
 }
 
 /**
- * `NonEmptyReadonlyArray` comprehension.
- *
- * ```
- * [ f(x, y, ...) | x ← xs, y ← ys, ... ]
- * ```
- *
- * @example
- * import { comprehension } from 'fp-ts/NonEmptyReadonlyArray'
- *
- * assert.deepStrictEqual(comprehension([[1, 2, 3], ['a', 'b']], (a, b) => [a, b]), [
- *   [1, 'a'],
- *   [1, 'b'],
- *   [2, 'a'],
- *   [2, 'b'],
- *   [3, 'a'],
- *   [3, 'b']
- * ])
- *
- * @since 3.0.0
- */
-export function comprehension<A, B, C, D, R>(
-  input: readonly [
-    NonEmptyReadonlyArray<A>,
-    NonEmptyReadonlyArray<B>,
-    NonEmptyReadonlyArray<C>,
-    NonEmptyReadonlyArray<D>
-  ],
-  f: (a: A, b: B, c: C, d: D) => R
-): NonEmptyReadonlyArray<R>
-export function comprehension<A, B, C, R>(
-  input: readonly [NonEmptyReadonlyArray<A>, NonEmptyReadonlyArray<B>, NonEmptyReadonlyArray<C>],
-  f: (a: A, b: B, c: C) => R
-): NonEmptyReadonlyArray<R>
-export function comprehension<A, B, R>(
-  input: readonly [NonEmptyReadonlyArray<A>, NonEmptyReadonlyArray<B>],
-  f: (a: A, b: B) => R
-): NonEmptyReadonlyArray<R>
-export function comprehension<A, R>(
-  input: readonly [NonEmptyReadonlyArray<A>],
-  f: (a: A) => R
-): NonEmptyReadonlyArray<R>
-export function comprehension<A, R>(
-  input: NonEmptyReadonlyArray<NonEmptyReadonlyArray<A>>,
-  f: (...as: ReadonlyArray<A>) => R
-): NonEmptyReadonlyArray<R> {
-  const go = (as: ReadonlyArray<A>, input: ReadonlyArray<NonEmptyReadonlyArray<A>>): NonEmptyReadonlyArray<R> =>
-    _.isNonEmpty(input)
-      ? pipe(
-          head(input),
-          flatMap((head) => go(append(head)(as), tail(input)))
-        )
-      : [f(...as)]
-  return go(_.empty, input)
-}
-
-/**
  * @since 3.0.0
  */
 export const reverse = <A>(as: NonEmptyReadonlyArray<A>): NonEmptyReadonlyArray<A> =>

@@ -441,18 +441,22 @@ describe('NonEmptyReadonlyArray', () => {
     U.deepStrictEqual(_.range(-1, -2), [-1])
   })
 
-  it('comprehension', () => {
+  it('do notation', () => {
     U.deepStrictEqual(
-      _.comprehension([[1, 2, 3]], (a) => a * 2),
+      pipe(
+        _.Do,
+        _.bind('a', () => [1, 2, 3]),
+        _.map(({ a }) => a * 2)
+      ),
       [2, 4, 6]
     )
+
     U.deepStrictEqual(
-      _.comprehension(
-        [
-          [1, 2, 3],
-          ['a', 'b']
-        ],
-        (a, b) => [a, b]
+      pipe(
+        _.Do,
+        _.bind('a', () => [1, 2, 3]),
+        _.bind('b', () => ['a', 'b']),
+        _.map(({ a, b }) => [a, b] as const)
       ),
       [
         [1, 'a'],

@@ -148,63 +148,6 @@ export const matchRight =
     isNonEmpty(as) ? onNonEmpty(nonEmptyReadonlyArray.init(as), nonEmptyReadonlyArray.last(as)) : onEmpty()
 
 /**
- * `ReadonlyArray` comprehension.
- *
- * ```
- * [ f(x, y, ...) | x ← xs, y ← ys, ..., g(x, y, ...) ]
- * ```
- *
- * @example
- * import { comprehension } from 'fp-ts/ReadonlyArray'
- *
- * assert.deepStrictEqual(comprehension([[1, 2, 3], ['a', 'b']], (a, b) => [a, b], (a, b) => (a + b.length) % 2 === 0), [
- *   [1, 'a'],
- *   [1, 'b'],
- *   [3, 'a'],
- *   [3, 'b']
- * ])
- *
- * @category constructors
- * @since 3.0.0
- */
-export function comprehension<A, B, C, D, R>(
-  input: readonly [ReadonlyArray<A>, ReadonlyArray<B>, ReadonlyArray<C>, ReadonlyArray<D>],
-  f: (a: A, b: B, c: C, d: D) => R,
-  g?: (a: A, b: B, c: C, d: D) => boolean
-): ReadonlyArray<R>
-export function comprehension<A, B, C, R>(
-  input: readonly [ReadonlyArray<A>, ReadonlyArray<B>, ReadonlyArray<C>],
-  f: (a: A, b: B, c: C) => R,
-  g?: (a: A, b: B, c: C) => boolean
-): ReadonlyArray<R>
-export function comprehension<A, B, R>(
-  input: readonly [ReadonlyArray<A>, ReadonlyArray<B>],
-  f: (a: A, b: B) => R,
-  g?: (a: A, b: B) => boolean
-): ReadonlyArray<R>
-export function comprehension<A, R>(
-  input: readonly [ReadonlyArray<A>],
-  f: (a: A) => R,
-  g?: (a: A) => boolean
-): ReadonlyArray<R>
-export function comprehension<A, R>(
-  input: ReadonlyArray<ReadonlyArray<A>>,
-  f: (...as: ReadonlyArray<A>) => R,
-  g: (...as: ReadonlyArray<A>) => boolean = () => true
-): ReadonlyArray<R> {
-  const go = (as: ReadonlyArray<A>, input: ReadonlyArray<ReadonlyArray<A>>): ReadonlyArray<R> =>
-    isNonEmpty(input)
-      ? pipe(
-          nonEmptyReadonlyArray.head(input),
-          flatMap((head) => go(append(head)(as), nonEmptyReadonlyArray.tail(input)))
-        )
-      : g(...as)
-      ? [f(...as)]
-      : empty
-  return go(empty, input)
-}
-
-/**
  * @since 3.0.0
  */
 export const concat =

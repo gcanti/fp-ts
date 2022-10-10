@@ -1066,18 +1066,22 @@ describe('ReadonlyArray', () => {
     U.deepStrictEqual(pipe(2.2, f), ['a', 'a'])
   })
 
-  it('comprehension', () => {
+  it('do notation', () => {
     U.deepStrictEqual(
-      _.comprehension([[1, 2, 3]], (a) => a * 2),
+      pipe(
+        _.Do,
+        _.bind('a', () => [1, 2, 3]),
+        _.map(({ a }) => a * 2)
+      ),
       [2, 4, 6]
     )
+
     U.deepStrictEqual(
-      _.comprehension(
-        [
-          [1, 2, 3],
-          ['a', 'b']
-        ],
-        (a, b) => [a, b]
+      pipe(
+        _.Do,
+        _.bind('a', () => [1, 2, 3]),
+        _.bind('b', () => ['a', 'b']),
+        _.map(({ a, b }) => [a, b] as const)
       ),
       [
         [1, 'a'],
@@ -1088,14 +1092,14 @@ describe('ReadonlyArray', () => {
         [3, 'b']
       ]
     )
+
     U.deepStrictEqual(
-      _.comprehension(
-        [
-          [1, 2, 3],
-          ['a', 'b']
-        ],
-        (a, b) => [a, b],
-        (a, b) => (a + b.length) % 2 === 0
+      pipe(
+        _.Do,
+        _.bind('a', () => [1, 2, 3]),
+        _.bind('b', () => ['a', 'b']),
+        _.map(({ a, b }) => [a, b] as const),
+        _.tap(([a, b]) => _.guard((a + b.length) % 2 === 0))
       ),
       [
         [1, 'a'],
@@ -1149,17 +1153,6 @@ describe('ReadonlyArray', () => {
 
   it('empty', () => {
     U.deepStrictEqual(_.empty.length, 0)
-  })
-
-  it('do notation', () => {
-    U.deepStrictEqual(
-      pipe(
-        _.of(1),
-        _.bindTo('a'),
-        _.bind('b', () => _.of('b'))
-      ),
-      [{ a: 1, b: 'b' }]
-    )
   })
 
   it('apS', () => {
