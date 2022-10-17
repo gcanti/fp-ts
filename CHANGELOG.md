@@ -16,58 +16,7 @@
 **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
-# 2.13.0-rc.6
-
-How to install:
-
-```sh
-npm install fp-ts@rc
-```
-
-- **Bug Fix**
-  - package.json `exports` field: move `./*` to the end, closes #1786 (@gcanti)
-  - revert PR 1584 because is causing a regression (@gcanti)
-
-# 2.13.0-rc.4
-
-How to install:
-
-```sh
-npm install fp-ts@rc
-```
-
-- **Polish**
-  - `Either`
-    - remove useless type parameter in `exists` (@gcanti)
-  - `TaskEither`
-    - fix `fromPredicate` signature (@gcanti)
-  - `These`
-    - add missing `fromPredicate` (@gcanti)
-    - remove useless type parameter in `exists` (@gcanti)
-
-# 2.13.0-rc.3
-
-How to install:
-
-```sh
-npm install fp-ts@rc
-```
-
-- **New Feature**
-  - `ReaderTask`
-    - add `ReaderIO` constructors/combinators, #1773 (@thewilkybarkid)
-  - `ReaderTaskEither`
-    - add `ReaderIO` constructors/combinators, #1774 (@thewilkybarkid)
-- **Polish**
-  - backport from v3 some handy defaults defined in natural transformations/combinators/constructors (@gcanti)
-
-# 2.13.0-rc.2
-
-How to install:
-
-```sh
-npm install fp-ts@rc
-```
+# 2.13.0
 
 - **Experimental**
   - add `exports` field to `package.json` in order to support moduleResolution node12/nodenext, #1765 (@gcanti)
@@ -107,27 +56,17 @@ npm install fp-ts@rc
       - `reduceRight`
       - `reduceRightWithIndex`
       - `reduceWithIndex`
+  - `ReaderTask`
+    - add `ReaderIO` constructors/combinators, #1773 (@thewilkybarkid)
+  - `ReaderTaskEither`
+    - add `ReaderIO` constructors/combinators, #1774 (@thewilkybarkid)
+  - `TaskEither`
+    - add `chainTaskOptionKW`, #1744 (@AmirabbasJ)
 - **Bug Fix**
   - do notation
     - Ensuring that `bind` and `bindW` pass the correct params through rather than get rewritten by the function passed in, #1584 (@feydan)
 - **Polish**
-  - `Traversable`
-    - add more overloadings to traverse / sequence helpers, #1758 (@gcanti)
-  - `Writer`
-    - `getChain` requires a `Semigroup` instead of a `Monoid` (@gcanti)
-- **Deprecation**
-  - `function`
-    - deprecate uncurried `flip` function, #1748 (@thewilkybarkid)
-
-# 2.12.3
-
-- **Polish**
-  - `Apply`
-    - add `ap` overloadings, #1721 (@waynevanson)
-  - `ReadonlyRecord`
-    - fix `fromEntries` return type, closes #1745 (@gcanti)
-  - `TaskEither`
-    - add `chainTaskOptionKW`, #1744 (@AmirabbasJ)
+  - backport from v3 some handy defaults defined in natural transformations/combinators/constructors (@gcanti)
   - fix wrong type parameter order:
     - `FromIO`
       - `chainIOK`
@@ -159,6 +98,24 @@ npm install fp-ts@rc
     - `TaskEither`
       - `apFirstW`
       - `apSecondW`
+  - `Apply`
+    - add `ap` overloadings, #1721 (@waynevanson)
+  - `Either`
+    - remove useless type parameter in `exists` (@gcanti)
+  - `ReadonlyRecord`
+    - fix `fromEntries` return type, closes #1745 (@gcanti)
+  - `TaskEither`
+    - fix `fromPredicate` signature (@gcanti)
+  - `These`
+    - add missing `fromPredicate` (@gcanti)
+    - remove useless type parameter in `exists` (@gcanti)
+  - `Traversable`
+    - add more overloadings to traverse / sequence helpers, #1758 (@gcanti)
+  - `Writer`
+    - `getChain` requires a `Semigroup` instead of a `Monoid` (@gcanti)
+- **Deprecation**
+  - `function`
+    - deprecate uncurried `flip` function, #1748 (@thewilkybarkid)
 
 # 2.12.2
 

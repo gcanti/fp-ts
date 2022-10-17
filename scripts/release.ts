@@ -18,7 +18,7 @@ const exec =
       })
     })
 
-export const main = exec('npm publish --tag=rc', {
+export const main = exec('npm publish', {
   cwd: DIST
 })
 
