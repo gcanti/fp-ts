@@ -16,10 +16,8 @@
 **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
-# 2.13.0
+# 2.13.1
 
-- **Experimental**
-  - add `exports` field to `package.json` in order to support moduleResolution node12/nodenext, #1765 (@gcanti)
 - **New Feature**
   - new modules:
     - `ReaderIO`, #1738 (@sukovanej)
