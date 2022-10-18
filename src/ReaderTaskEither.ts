@@ -239,6 +239,12 @@ export const fromReaderEither: <R, E, A>(fa: ReaderEither<R, E, A>) => ReaderTas
   flow(ma, TE.fromEither)
 
 /**
+ * @category conversions
+ * @since 2.13.2
+ */
+export const fromReaderIO: <R, A, E = never>(fa: ReaderIO<R, A>) => ReaderTaskEither<R, E, A> = R.map(TE.fromIO)
+
+/**
  * @category pattern matching
  * @since 2.10.0
  */
