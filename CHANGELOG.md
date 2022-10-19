@@ -60,9 +60,6 @@ high state of flux, you're at risk of it changing without notice.
     - add `ReaderIO` constructors/combinators, #1774 (@thewilkybarkid)
   - `TaskEither`
     - add `chainTaskOptionKW`, #1744 (@AmirabbasJ)
-- **Bug Fix**
-  - do notation
-    - Ensuring that `bind` and `bindW` pass the correct params through rather than get rewritten by the function passed in, #1584 (@feydan)
 - **Polish**
   - backport from v3 some handy defaults defined in natural transformations/combinators/constructors (@gcanti)
   - fix wrong type parameter order:
