@@ -22,9 +22,7 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [combinators](#combinators)
-  - [mapWithIndex](#mapwithindex)
-- [type classes](#type-classes)
+- [model](#model)
   - [FunctorWithIndex (interface)](#functorwithindex-interface)
   - [FunctorWithIndex1 (interface)](#functorwithindex1-interface)
   - [FunctorWithIndex2 (interface)](#functorwithindex2-interface)
@@ -33,6 +31,8 @@ Added in v2.0.0
   - [FunctorWithIndex3C (interface)](#functorwithindex3c-interface)
   - [FunctorWithIndex4 (interface)](#functorwithindex4-interface)
 - [utils](#utils)
+  - [mapWithIndex](#mapwithindex)
+- [zone of death](#zone-of-death)
   - [~~FunctorWithIndexComposition11~~ (interface)](#functorwithindexcomposition11-interface)
   - [~~FunctorWithIndexComposition12C~~ (interface)](#functorwithindexcomposition12c-interface)
   - [~~FunctorWithIndexComposition12~~ (interface)](#functorwithindexcomposition12-interface)
@@ -45,28 +45,7 @@ Added in v2.0.0
 
 ---
 
-# combinators
-
-## mapWithIndex
-
-`mapWithIndex` composition.
-
-**Signature**
-
-```ts
-export declare function mapWithIndex<F extends URIS, I, G extends URIS, J>(
-  F: FunctorWithIndex1<F, I>,
-  G: FunctorWithIndex1<G, J>
-): <A, B>(f: (ij: readonly [I, J], a: A) => B) => (fa: Kind<F, Kind<G, A>>) => Kind<F, Kind<G, B>>
-export declare function mapWithIndex<F, I, G, J>(
-  F: FunctorWithIndex<F, I>,
-  G: FunctorWithIndex<G, J>
-): <A, B>(f: (ij: readonly [I, J], a: A) => B) => (fa: HKT<F, HKT<G, A>>) => HKT<F, HKT<G, B>>
-```
-
-Added in v2.10.0
-
-# type classes
+# model
 
 ## FunctorWithIndex (interface)
 
@@ -153,6 +132,27 @@ export interface FunctorWithIndex4<F extends URIS4, I> extends Functor4<F> {
 Added in v2.0.0
 
 # utils
+
+## mapWithIndex
+
+`mapWithIndex` composition.
+
+**Signature**
+
+```ts
+export declare function mapWithIndex<F extends URIS, I, G extends URIS, J>(
+  F: FunctorWithIndex1<F, I>,
+  G: FunctorWithIndex1<G, J>
+): <A, B>(f: (ij: readonly [I, J], a: A) => B) => (fa: Kind<F, Kind<G, A>>) => Kind<F, Kind<G, B>>
+export declare function mapWithIndex<F, I, G, J>(
+  F: FunctorWithIndex<F, I>,
+  G: FunctorWithIndex<G, J>
+): <A, B>(f: (ij: readonly [I, J], a: A) => B) => (fa: HKT<F, HKT<G, A>>) => HKT<F, HKT<G, B>>
+```
+
+Added in v2.10.0
+
+# zone of death
 
 ## ~~FunctorWithIndexComposition11~~ (interface)
 

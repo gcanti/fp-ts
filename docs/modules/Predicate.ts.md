@@ -1,6 +1,6 @@
 ---
 title: Predicate.ts
-nav_order: 74
+nav_order: 75
 parent: Modules
 ---
 
@@ -12,35 +12,23 @@ Added in v2.11.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Contravariant](#contravariant)
-  - [contramap](#contramap)
 - [instances](#instances)
-  - [Contravariant](#contravariant-1)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
+  - [Contravariant](#contravariant)
   - [getMonoidAll](#getmonoidall)
   - [getMonoidAny](#getmonoidany)
   - [getSemigroupAll](#getsemigroupall)
   - [getSemigroupAny](#getsemigroupany)
+- [type lambdas](#type-lambdas)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [Predicate (interface)](#predicate-interface)
   - [and](#and)
+  - [contramap](#contramap)
   - [not](#not)
   - [or](#or)
 
 ---
-
-# Contravariant
-
-## contramap
-
-**Signature**
-
-```ts
-export declare const contramap: <B, A>(f: (b: B) => A) => (predicate: Predicate<A>) => Predicate<B>
-```
-
-Added in v2.11.0
 
 # instances
 
@@ -50,26 +38,6 @@ Added in v2.11.0
 
 ```ts
 export declare const Contravariant: Contravariant1<'Predicate'>
-```
-
-Added in v2.11.0
-
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'Predicate'
-```
-
-Added in v2.11.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
 ```
 
 Added in v2.11.0
@@ -114,6 +82,28 @@ export declare const getSemigroupAny: <A = never>() => Semigroup<Predicate<A>>
 
 Added in v2.11.0
 
+# type lambdas
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'Predicate'
+```
+
+Added in v2.11.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
+```
+
+Added in v2.11.0
+
 # utils
 
 ## Predicate (interface)
@@ -134,6 +124,16 @@ Added in v2.11.0
 
 ```ts
 export declare const and: <A>(second: Predicate<A>) => (first: Predicate<A>) => Predicate<A>
+```
+
+Added in v2.11.0
+
+## contramap
+
+**Signature**
+
+```ts
+export declare const contramap: <B, A>(f: (b: B) => A) => (predicate: Predicate<A>) => Predicate<B>
 ```
 
 Added in v2.11.0

@@ -30,18 +30,14 @@ import { wiltDefault, Witherable2C, witherDefault } from './Witherable'
 
 import Option = O.Option
 
-// -------------------------------------------------------------------------------------
-// interop
-// -------------------------------------------------------------------------------------
-
 /**
- * @category interop
+ * @category conversions
  * @since 2.5.0
  */
 export const fromMap = <K, A>(m: Map<K, A>): ReadonlyMap<K, A> => new Map(m)
 
 /**
- * @category interop
+ * @category conversions
  * @since 2.5.0
  */
 export function toMap<K, A>(m: ReadonlyMap<K, A>): Map<K, A> {
@@ -84,9 +80,7 @@ export const isEmpty = <K, A>(m: ReadonlyMap<K, A>): boolean => m.size === 0
  *
  * @since 2.5.0
  */
-export function member<K>(
-  E: Eq<K>
-): {
+export function member<K>(E: Eq<K>): {
   (k: K): <A>(m: ReadonlyMap<K, A>) => boolean
   <A>(k: K, m: ReadonlyMap<K, A>): boolean
 }
@@ -112,9 +106,7 @@ interface Next<A> {
  *
  * @since 2.5.0
  */
-export function elem<A>(
-  E: Eq<A>
-): {
+export function elem<A>(E: Eq<A>): {
   (a: A): <K>(m: ReadonlyMap<K, A>) => boolean
   <K>(a: A, m: ReadonlyMap<K, A>): boolean
 }
@@ -126,7 +118,6 @@ export function elem<A>(E: Eq<A>): <K>(a: A, m?: ReadonlyMap<K, A>) => boolean |
     }
     const values = m.values()
     let e: Next<A>
-    // tslint:disable-next-line: strict-boolean-expressions
     while (!(e = values.next()).done) {
       const v = e.value
       if (E.equals(a, v)) {
@@ -142,35 +133,41 @@ export function elem<A>(E: Eq<A>): <K>(a: A, m?: ReadonlyMap<K, A>) => boolean |
  *
  * @since 2.5.0
  */
-export const keys = <K>(O: Ord<K>) => <A>(m: ReadonlyMap<K, A>): ReadonlyArray<K> =>
-  Array.from(m.keys()).sort(O.compare)
+export const keys =
+  <K>(O: Ord<K>) =>
+  <A>(m: ReadonlyMap<K, A>): ReadonlyArray<K> =>
+    Array.from(m.keys()).sort(O.compare)
 
 /**
  * Get a sorted `ReadonlyArray` of the values contained in a `ReadonlyMap`.
  *
  * @since 2.5.0
  */
-export const values = <A>(O: Ord<A>) => <K>(m: ReadonlyMap<K, A>): ReadonlyArray<A> =>
-  Array.from(m.values()).sort(O.compare)
+export const values =
+  <A>(O: Ord<A>) =>
+  <K>(m: ReadonlyMap<K, A>): ReadonlyArray<A> =>
+    Array.from(m.values()).sort(O.compare)
 
 /**
  * @since 2.5.0
  */
 export function collect<K>(O: Ord<K>): <A, B>(f: (k: K, a: A) => B) => (m: ReadonlyMap<K, A>) => ReadonlyArray<B> {
   const keysO = keys(O)
-  return <A, B>(f: (k: K, a: A) => B) => (m: ReadonlyMap<K, A>): ReadonlyArray<B> => {
-    const out: Array<B> = []
-    const ks = keysO(m)
-    for (const key of ks) {
-      out.push(f(key, m.get(key)!))
+  return <A, B>(f: (k: K, a: A) => B) =>
+    (m: ReadonlyMap<K, A>): ReadonlyArray<B> => {
+      const out: Array<B> = []
+      const ks = keysO(m)
+      for (const key of ks) {
+        out.push(f(key, m.get(key)!))
+      }
+      return out
     }
-    return out
-  }
 }
 
 /**
  * Get a sorted `ReadonlyArray` of the key/value pairs contained in a `ReadonlyMap`.
  *
+ * @category conversions
  * @since 2.5.0
  */
 export const toReadonlyArray = <K>(O: Ord<K>): (<A>(m: ReadonlyMap<K, A>) => ReadonlyArray<readonly [K, A]>) =>
@@ -179,7 +176,7 @@ export const toReadonlyArray = <K>(O: Ord<K>): (<A>(m: ReadonlyMap<K, A>) => Rea
 /**
  * Unfolds a map into a list of key/value pairs
  *
- * @category destructors
+ * @category conversions
  * @since 2.5.0
  */
 export function toUnfoldable<K, F extends URIS>(
@@ -202,7 +199,6 @@ export function toUnfoldable<K, F>(
 /**
  * Insert or replace a key/value pair in a `ReadonlyMap`.
  *
- * @category combinators
  * @since 2.10.0
  */
 export const upsertAt = <K>(E: Eq<K>): (<A>(k: K, a: A) => (m: ReadonlyMap<K, A>) => ReadonlyMap<K, A>) => {
@@ -228,7 +224,6 @@ export const upsertAt = <K>(E: Eq<K>): (<A>(k: K, a: A) => (m: ReadonlyMap<K, A>
 /**
  * Delete a key and value from a map
  *
- * @category combinators
  * @since 2.5.0
  */
 export const deleteAt = <K>(E: Eq<K>): ((k: K) => <A>(m: ReadonlyMap<K, A>) => ReadonlyMap<K, A>) => {
@@ -300,9 +295,7 @@ export function pop<K>(E: Eq<K>): (k: K) => <A>(m: ReadonlyMap<K, A>) => Option<
  *
  * @since 2.5.0
  */
-export function lookupWithKey<K>(
-  E: Eq<K>
-): {
+export function lookupWithKey<K>(E: Eq<K>): {
   (k: K): <A>(m: ReadonlyMap<K, A>) => Option<readonly [K, A]>
   <A>(k: K, m: ReadonlyMap<K, A>): Option<readonly [K, A]>
 }
@@ -316,7 +309,6 @@ export function lookupWithKey<K>(
     }
     const entries = m.entries()
     let e: Next<readonly [K, A]>
-    // tslint:disable-next-line: strict-boolean-expressions
     while (!(e = entries.next()).done) {
       const [ka, a] = e.value
       if (E.equals(ka, k)) {
@@ -333,9 +325,7 @@ export function lookupWithKey<K>(
  *
  * @since 2.5.0
  */
-export function lookup<K>(
-  E: Eq<K>
-): {
+export function lookup<K>(E: Eq<K>): {
   (k: K): <A>(m: ReadonlyMap<K, A>) => Option<A>
   <A>(k: K, m: ReadonlyMap<K, A>): Option<A>
 }
@@ -380,7 +370,6 @@ export function isSubmap<K, A>(
     }
     const entries = me.entries()
     let e: Next<readonly [K, A]>
-    // tslint:disable-next-line: strict-boolean-expressions
     while (!(e = entries.next()).done) {
       const [k, a] = e.value
       const d2OptA = lookupWithKeyS(k, that)
@@ -427,7 +416,6 @@ export function getMonoid<K, A>(SK: Eq<K>, SA: Semigroup<A>): Monoid<ReadonlyMap
       const r = new Map(mx)
       const entries = my.entries()
       let e: Next<readonly [K, A]>
-      // tslint:disable-next-line: strict-boolean-expressions
       while (!(e = entries.next()).done) {
         const [k, a] = e.value
         const mxOptA = lookupWithKeyS(k, mx)
@@ -501,7 +489,6 @@ const _mapWithIndex = <K, A, B>(fa: ReadonlyMap<K, A>, f: (k: K, a: A) => B): Re
   const m = new Map<K, B>()
   const entries = fa.entries()
   let e: Next<readonly [K, A]>
-  // tslint:disable-next-line: strict-boolean-expressions
   while (!(e = entries.next()).done) {
     const [key, a] = e.value
     m.set(key, f(key, a))
@@ -510,31 +497,28 @@ const _mapWithIndex = <K, A, B>(fa: ReadonlyMap<K, A>, f: (k: K, a: A) => B): Re
 }
 
 /**
- * @category combinators
  * @since 2.10.0
  */
-export const partitionMapWithIndex = <K, A, B, C>(f: (k: K, a: A) => Either<B, C>) => (
-  fa: ReadonlyMap<K, A>
-): Separated<ReadonlyMap<K, B>, ReadonlyMap<K, C>> => {
-  const left = new Map<K, B>()
-  const right = new Map<K, C>()
-  const entries = fa.entries()
-  let e: Next<readonly [K, A]>
-  // tslint:disable-next-line: strict-boolean-expressions
-  while (!(e = entries.next()).done) {
-    const [k, a] = e.value
-    const ei = f(k, a)
-    if (_.isLeft(ei)) {
-      left.set(k, ei.left)
-    } else {
-      right.set(k, ei.right)
+export const partitionMapWithIndex =
+  <K, A, B, C>(f: (k: K, a: A) => Either<B, C>) =>
+  (fa: ReadonlyMap<K, A>): Separated<ReadonlyMap<K, B>, ReadonlyMap<K, C>> => {
+    const left = new Map<K, B>()
+    const right = new Map<K, C>()
+    const entries = fa.entries()
+    let e: Next<readonly [K, A]>
+    while (!(e = entries.next()).done) {
+      const [k, a] = e.value
+      const ei = f(k, a)
+      if (_.isLeft(ei)) {
+        left.set(k, ei.left)
+      } else {
+        right.set(k, ei.right)
+      }
     }
+    return separated(left, right)
   }
-  return separated(left, right)
-}
 
 /**
- * @category combinators
  * @since 2.10.0
  */
 export function partitionWithIndex<K, A, B extends A>(
@@ -554,7 +538,6 @@ export function partitionWithIndex<K, A>(
     const right = new Map<K, A>()
     const entries = m.entries()
     let e: Next<readonly [K, A]>
-    // tslint:disable-next-line: strict-boolean-expressions
     while (!(e = entries.next()).done) {
       const [k, a] = e.value
       if (predicateWithIndex(k, a)) {
@@ -568,28 +551,25 @@ export function partitionWithIndex<K, A>(
 }
 
 /**
- * @category combinators
  * @since 2.10.0
  */
-export const filterMapWithIndex = <K, A, B>(f: (k: K, a: A) => Option<B>) => (
-  fa: ReadonlyMap<K, A>
-): ReadonlyMap<K, B> => {
-  const m = new Map<K, B>()
-  const entries = fa.entries()
-  let e: Next<readonly [K, A]>
-  // tslint:disable-next-line: strict-boolean-expressions
-  while (!(e = entries.next()).done) {
-    const [k, a] = e.value
-    const o = f(k, a)
-    if (_.isSome(o)) {
-      m.set(k, o.value)
+export const filterMapWithIndex =
+  <K, A, B>(f: (k: K, a: A) => Option<B>) =>
+  (fa: ReadonlyMap<K, A>): ReadonlyMap<K, B> => {
+    const m = new Map<K, B>()
+    const entries = fa.entries()
+    let e: Next<readonly [K, A]>
+    while (!(e = entries.next()).done) {
+      const [k, a] = e.value
+      const o = f(k, a)
+      if (_.isSome(o)) {
+        m.set(k, o.value)
+      }
     }
+    return m
   }
-  return m
-}
 
 /**
- * @category combinators
  * @since 2.10.0
  */
 export function filterWithIndex<K, A, B extends A>(
@@ -608,7 +588,6 @@ export function filterWithIndex<K, A>(
     const out = new Map<K, A>()
     const entries = m.entries()
     let e: Next<readonly [K, A]>
-    // tslint:disable-next-line: strict-boolean-expressions
     while (!(e = entries.next()).done) {
       const [k, a] = e.value
       if (predicateWithIndex(k, a)) {
@@ -618,10 +597,6 @@ export function filterWithIndex<K, A>(
     return out
   }
 }
-
-// -------------------------------------------------------------------------------------
-// non-pipeables
-// -------------------------------------------------------------------------------------
 
 const _map: Functor2<URI>['map'] = (fa, f) => _mapWithIndex(fa, (_, a) => f(a))
 const _filter: Filterable2<URI>['filter'] = <K, A>(fa: ReadonlyMap<K, A>, p: Predicate<A>) =>
@@ -637,19 +612,14 @@ const _partitionWithIndex = <K, A>(fa: ReadonlyMap<K, A>, p: (k: K, a: A) => boo
 const _partitionMapWithIndex = <K, A, B, C>(fa: ReadonlyMap<K, A>, f: (k: K, a: A) => Either<B, C>) =>
   pipe(fa, partitionMapWithIndex(f))
 
-// -------------------------------------------------------------------------------------
-// type class members
-// -------------------------------------------------------------------------------------
-
 /**
- * @category Compactable
+ * @category filtering
  * @since 2.5.0
  */
 export const compact = <K, A>(fa: ReadonlyMap<K, Option<A>>): ReadonlyMap<K, A> => {
   const m = new Map<K, A>()
   const entries = fa.entries()
   let e: Next<readonly [K, Option<A>]>
-  // tslint:disable-next-line: strict-boolean-expressions
   while (!(e = entries.next()).done) {
     const [k, oa] = e.value
     if (_.isSome(oa)) {
@@ -660,42 +630,45 @@ export const compact = <K, A>(fa: ReadonlyMap<K, Option<A>>): ReadonlyMap<K, A> 
 }
 
 /**
- * @category Filterable
+ * @category filtering
  * @since 2.5.0
  */
 export const filter: {
   <A, B extends A>(refinement: Refinement<A, B>): <K>(fa: ReadonlyMap<K, A>) => ReadonlyMap<K, B>
   <A>(predicate: Predicate<A>): <K, B extends A>(fb: ReadonlyMap<K, B>) => ReadonlyMap<K, B>
   <A>(predicate: Predicate<A>): <K>(fa: ReadonlyMap<K, A>) => ReadonlyMap<K, A>
-} = <A>(predicate: Predicate<A>) => <K>(fa: ReadonlyMap<K, A>) => _filter(fa, predicate)
+} =
+  <A>(predicate: Predicate<A>) =>
+  <K>(fa: ReadonlyMap<K, A>) =>
+    _filter(fa, predicate)
 
 /**
- * @category Filterable
+ * @category filtering
  * @since 2.5.0
  */
-export const filterMap: <A, B>(f: (a: A) => Option<B>) => <K>(fa: ReadonlyMap<K, A>) => ReadonlyMap<K, B> = (f) => (
-  fa
-) => _filterMap(fa, f)
+export const filterMap: <A, B>(f: (a: A) => Option<B>) => <K>(fa: ReadonlyMap<K, A>) => ReadonlyMap<K, B> =
+  (f) => (fa) =>
+    _filterMap(fa, f)
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
  * use the type constructor `F` to represent some computational context.
  *
- * @category Functor
+ * @category mapping
  * @since 2.5.0
  */
 export const map: <A, B>(f: (a: A) => B) => <K>(fa: ReadonlyMap<K, A>) => ReadonlyMap<K, B> = (f) => (fa) => _map(fa, f)
 
 /**
- * @category FunctorWithIndex
+ * @category mapping
  * @since 2.7.1
  */
-export const mapWithIndex: <K, A, B>(f: (k: K, a: A) => B) => (fa: ReadonlyMap<K, A>) => ReadonlyMap<K, B> = (f) => (
-  fa
-) => _mapWithIndex(fa, f)
+export const mapWithIndex: <K, A, B>(f: (k: K, a: A) => B) => (fa: ReadonlyMap<K, A>) => ReadonlyMap<K, B> =
+  (f) => (fa) =>
+    _mapWithIndex(fa, f)
 
 /**
- * @category Filterable
+ * @category filtering
  * @since 2.5.0
  */
 export const partition: {
@@ -706,10 +679,13 @@ export const partition: {
     fb: ReadonlyMap<K, B>
   ) => Separated<ReadonlyMap<K, B>, ReadonlyMap<K, B>>
   <A>(predicate: Predicate<A>): <K>(fa: ReadonlyMap<K, A>) => Separated<ReadonlyMap<K, A>, ReadonlyMap<K, A>>
-} = <A>(predicate: Predicate<A>) => <K>(fa: ReadonlyMap<K, A>) => _partition(fa, predicate)
+} =
+  <A>(predicate: Predicate<A>) =>
+  <K>(fa: ReadonlyMap<K, A>) =>
+    _partition(fa, predicate)
 
 /**
- * @category Filterable
+ * @category filtering
  * @since 2.5.0
  */
 export const partitionMap: <A, B, C>(
@@ -717,7 +693,7 @@ export const partitionMap: <A, B, C>(
 ) => <K>(fa: ReadonlyMap<K, A>) => Separated<ReadonlyMap<K, B>, ReadonlyMap<K, C>> = (f) => (fa) => _partitionMap(fa, f)
 
 /**
- * @category Compactable
+ * @category filtering
  * @since 2.5.0
  */
 export const separate = <K, A, B>(
@@ -727,7 +703,6 @@ export const separate = <K, A, B>(
   const right = new Map<K, B>()
   const entries = fa.entries()
   let e: Next<readonly [K, Either<A, B>]>
-  // tslint:disable-next-line: strict-boolean-expressions
   while (!(e = entries.next()).done) {
     const [k, ei] = e.value
     if (_.isLeft(ei)) {
@@ -739,18 +714,14 @@ export const separate = <K, A, B>(
   return separated(left, right)
 }
 
-// -------------------------------------------------------------------------------------
-// instances
-// -------------------------------------------------------------------------------------
-
 /**
- * @category instances
+ * @category type lambdas
  * @since 2.5.0
  */
 export const URI = 'ReadonlyMap'
 
 /**
- * @category instances
+ * @category type lambdas
  * @since 2.5.0
  */
 export type URI = typeof URI
@@ -796,15 +767,17 @@ export const getIntersectionSemigroup = <K, A>(E: Eq<K>, S: Semigroup<A>): Semig
  * @category instances
  * @since 2.11.0
  */
-export const getDifferenceMagma = <K>(E: Eq<K>) => <A>(): Magma<ReadonlyMap<K, A>> => {
-  const differenceE = difference(E)
-  return {
-    concat: (first, second) => differenceE(second)(first)
+export const getDifferenceMagma =
+  <K>(E: Eq<K>) =>
+  <A>(): Magma<ReadonlyMap<K, A>> => {
+    const differenceE = difference(E)
+    return {
+      concat: (first, second) => differenceE(second)(first)
+    }
   }
-}
 
 /**
- * @category instances
+ * @category filtering
  * @since 2.5.0
  */
 export function getFilterableWithIndex<K = never>(): FilterableWithIndex2C<URI, K, K> {
@@ -836,14 +809,10 @@ export const Functor: Functor2<URI> = {
 }
 
 /**
- * Derivable from `Functor`.
- *
- * @category combinators
+ * @category mapping
  * @since 2.10.0
  */
-export const flap =
-  /*#__PURE__*/
-  flap_(Functor)
+export const flap = /*#__PURE__*/ flap_(Functor)
 
 /**
  * @category instances
@@ -882,6 +851,7 @@ export const Filterable: Filterable2<URI> = {
 }
 
 /**
+ * @category folding
  * @since 2.11.0
  */
 export const reduce = <K>(O: Ord<K>): (<B, A>(b: B, f: (b: B, a: A) => B) => (m: ReadonlyMap<K, A>) => B) => {
@@ -890,6 +860,7 @@ export const reduce = <K>(O: Ord<K>): (<B, A>(b: B, f: (b: B, a: A) => B) => (m:
 }
 
 /**
+ * @category folding
  * @since 2.11.0
  */
 export const foldMap = <K>(O: Ord<K>): (<M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (m: ReadonlyMap<K, A>) => M) => {
@@ -901,6 +872,7 @@ export const foldMap = <K>(O: Ord<K>): (<M>(M: Monoid<M>) => <A>(f: (a: A) => M)
 }
 
 /**
+ * @category folding
  * @since 2.11.0
  */
 export const reduceRight = <K>(O: Ord<K>): (<B, A>(b: B, f: (a: A, b: B) => B) => (m: ReadonlyMap<K, A>) => B) => {
@@ -909,7 +881,7 @@ export const reduceRight = <K>(O: Ord<K>): (<B, A>(b: B, f: (a: A, b: B) => B) =
 }
 
 /**
- * @category instances
+ * @category folding
  * @since 2.10.0
  */
 export const getFoldable = <K>(O: Ord<K>): Foldable2C<URI, K> => {
@@ -929,6 +901,7 @@ export const getFoldable = <K>(O: Ord<K>): Foldable2C<URI, K> => {
 }
 
 /**
+ * @category folding
  * @since 2.11.0
  */
 export const reduceWithIndex = <K>(
@@ -945,6 +918,7 @@ export const reduceWithIndex = <K>(
 }
 
 /**
+ * @category folding
  * @since 2.11.0
  */
 export const foldMapWithIndex = <K>(
@@ -961,6 +935,7 @@ export const foldMapWithIndex = <K>(
 }
 
 /**
+ * @category folding
  * @since 2.11.0
  */
 export const reduceRightWithIndex = <K>(
@@ -980,7 +955,7 @@ export const reduceRightWithIndex = <K>(
 }
 
 /**
- * @category instances
+ * @category folding
  * @since 2.10.0
  */
 export const getFoldableWithIndex = <K>(O: Ord<K>): FoldableWithIndex2C<URI, K, K> => {
@@ -1004,7 +979,7 @@ export const getFoldableWithIndex = <K>(O: Ord<K>): FoldableWithIndex2C<URI, K, 
 }
 
 /**
- * @category instances
+ * @category traversing
  * @since 2.10.0
  */
 export const getTraversable = <K>(O: Ord<K>): Traversable2C<URI, K> => {
@@ -1023,7 +998,7 @@ export const getTraversable = <K>(O: Ord<K>): Traversable2C<URI, K> => {
 }
 
 /**
- * @category instances
+ * @category traversing
  * @since 2.10.0
  */
 export const getTraversableWithIndex = <K>(O: Ord<K>): TraversableWithIndex2C<URI, K, K> => {
@@ -1076,7 +1051,7 @@ export const getTraversableWithIndex = <K>(O: Ord<K>): TraversableWithIndex2C<UR
 }
 
 /**
- * @category instances
+ * @category filtering
  * @since 2.5.0
  */
 export function getWitherable<K>(O: Ord<K>): Witherable2C<URI, K> & TraversableWithIndex2C<URI, K, K> {
@@ -1182,31 +1157,32 @@ export const difference = <K>(
   E: Eq<K>
 ): (<A>(_second: ReadonlyMap<K, A>) => (first: ReadonlyMap<K, A>) => ReadonlyMap<K, A>) => {
   const memberE = member(E)
-  return <A>(second: ReadonlyMap<K, A>) => (first: ReadonlyMap<K, A>) => {
-    if (isEmpty(first)) {
-      return second
-    }
-    if (isEmpty(second)) {
-      return first
-    }
-    const out: Map<K, A> = new Map()
-    const firstEntries = first.entries()
-    let e: Next<readonly [K, A]>
-    while (!(e = firstEntries.next()).done) {
-      const [k, a] = e.value
-      if (!memberE(k)(second)) {
-        out.set(k, a)
+  return <A>(second: ReadonlyMap<K, A>) =>
+    (first: ReadonlyMap<K, A>) => {
+      if (isEmpty(first)) {
+        return second
       }
-    }
-    const secondEntries = second.entries()
-    while (!(e = secondEntries.next()).done) {
-      const [k, a] = e.value
-      if (!memberE(k)(first)) {
-        out.set(k, a)
+      if (isEmpty(second)) {
+        return first
       }
+      const out: Map<K, A> = new Map()
+      const firstEntries = first.entries()
+      let e: Next<readonly [K, A]>
+      while (!(e = firstEntries.next()).done) {
+        const [k, a] = e.value
+        if (!memberE(k)(second)) {
+          out.set(k, a)
+        }
+      }
+      const secondEntries = second.entries()
+      while (!(e = secondEntries.next()).done) {
+        const [k, a] = e.value
+        if (!memberE(k)(first)) {
+          out.set(k, a)
+        }
+      }
+      return out
     }
-    return out
-  }
 }
 
 // -------------------------------------------------------------------------------------
@@ -1216,16 +1192,18 @@ export const difference = <K>(
 /**
  * Use [`upsertAt`](#upsertat) instead.
  *
- * @category combinators
+ @category zone of death
  * @since 2.5.0
  * @deprecated
  */
 export const insertAt: <K>(E: Eq<K>) => <A>(k: K, a: A) => (m: ReadonlyMap<K, A>) => ReadonlyMap<K, A> = upsertAt
 
 /**
- * Use small, specific instances instead.
+ * This instance is deprecated, use small, specific instances instead.
+ * For example if a function needs a `Functor` instance, pass `RM.Functor` instead of `RM.readonlyMap`
+ * (where `RM` is from `import RM from 'fp-ts/ReadonlyMap'`)
  *
- * @category instances
+ * @category zone of death
  * @since 2.5.0
  * @deprecated
  */

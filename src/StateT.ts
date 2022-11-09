@@ -1,4 +1,9 @@
 /**
+ * The state monad transformer. It can be used to add state to other monads.
+ *
+ * The `of` function leaves the state unchanged, while `chain` uses the final state of the first computation
+ * as the initial state of the second.
+ *
  * @since 2.0.0
  */
 import { Chain, Chain1, Chain2, Chain2C, Chain3, Chain3C } from './Chain'
@@ -204,9 +209,8 @@ export function execute<F>(F: Functor<F>): <S>(s: S) => <A>(ma: StateT<F, S, A>)
 // deprecated
 // -------------------------------------------------------------------------------------
 
-// tslint:disable: deprecation
-
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -226,6 +230,7 @@ export interface StateM<M> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -245,6 +250,7 @@ export interface StateM1<M extends URIS> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -264,6 +270,7 @@ export interface StateM2<M extends URIS2> {
 }
 
 /**
+ * @category zone of death
  * @since 2.5.4
  * @deprecated
  */
@@ -283,6 +290,7 @@ export interface StateM2C<M extends URIS2, E> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -308,6 +316,7 @@ export interface StateM3<M extends URIS3> {
 }
 
 /**
+ * @category zone of death
  * @since 2.5.4
  * @deprecated
  */
@@ -330,6 +339,7 @@ export interface StateM3C<M extends URIS3, E> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */

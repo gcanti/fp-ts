@@ -239,6 +239,7 @@ export function chainOptionK<M>(
 }
 
 /**
+ * @category lifting
  * @since 2.10.0
  */
 export function fromPredicate<F extends URIS4>(
@@ -283,21 +284,19 @@ export function fromPredicate<F extends URIS>(
   <A>(predicate: Predicate<A>): <B extends A>(b: B) => Kind<F, Option<B>>
   <A>(predicate: Predicate<A>): (a: A) => Kind<F, Option<A>>
 }
-export function fromPredicate<F>(
-  F: Pointed<F>
-): {
+export function fromPredicate<F>(F: Pointed<F>): {
   <A, B extends A>(refinement: Refinement<A, B>): (a: A) => HKT<F, Option<B>>
   <A>(predicate: Predicate<A>): <B extends A>(b: B) => HKT<F, Option<B>>
   <A>(predicate: Predicate<A>): (a: A) => HKT<F, Option<A>>
 }
-export function fromPredicate<F>(
-  F: Pointed<F>
-): {
+export function fromPredicate<F>(F: Pointed<F>): {
   <A, B extends A>(refinement: Refinement<A, B>): (a: A) => HKT<F, Option<B>>
   <A>(predicate: Predicate<A>): <B extends A>(b: B) => HKT<F, Option<B>>
   <A>(predicate: Predicate<A>): (a: A) => HKT<F, Option<A>>
 } {
-  return <A>(predicate: Predicate<A>) => (a: A) => F.of(O.fromPredicate(predicate)(a))
+  return <A>(predicate: Predicate<A>) =>
+    (a: A) =>
+      F.of(O.fromPredicate(predicate)(a))
 }
 
 /**
@@ -321,11 +320,8 @@ export function fromEither<F>(F: Pointed<F>): <A>(e: Either<unknown, A>) => HKT<
   return flow(O.fromEither, F.of)
 }
 
-// -------------------------------------------------------------------------------------
-// destructors
-// -------------------------------------------------------------------------------------
-
 /**
+ * @category pattern matching
  * @since 2.10.0
  */
 export function match<F extends URIS4>(
@@ -425,10 +421,6 @@ export function getOrElse<M>(M: Monad<M>): <A>(onNone: Lazy<HKT<M, A>>) => (fa: 
 export function getOrElse<M>(M: Monad<M>): <A>(onNone: Lazy<HKT<M, A>>) => (fa: HKT<M, Option<A>>) => HKT<M, A> {
   return (onNone) => (fa) => M.chain(fa, O.match(onNone, M.of))
 }
-
-// -------------------------------------------------------------------------------------
-// type class members
-// -------------------------------------------------------------------------------------
 
 /**
  * @since 2.10.0
@@ -564,16 +556,15 @@ export function alt<M>(
 // deprecated
 // -------------------------------------------------------------------------------------
 
-// tslint:disable: deprecation
-
 /**
- * @category model
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
 export interface OptionT<M, A> extends HKT<M, Option<A>> {}
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -587,13 +578,14 @@ export interface OptionM<M> extends ApplicativeCompositionHKT1<M, O.URI> {
 }
 
 /**
- * @category model
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
 export type OptionT1<M extends URIS, A> = Kind<M, Option<A>>
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -607,13 +599,14 @@ export interface OptionM1<M extends URIS> extends ApplicativeComposition11<M, O.
 }
 
 /**
- * @category model
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
 export type OptionT2<M extends URIS2, E, A> = Kind2<M, E, Option<A>>
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -631,6 +624,7 @@ export interface OptionM2<M extends URIS2> extends ApplicativeComposition21<M, O
 }
 
 /**
+ * @category zone of death
  * @since 2.2.0
  * @deprecated
  */
@@ -648,6 +642,7 @@ export interface OptionM2C<M extends URIS2, E> extends ApplicativeComposition2C1
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */

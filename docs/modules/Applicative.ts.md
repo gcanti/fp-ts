@@ -28,7 +28,7 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [type classes](#type-classes)
+- [model](#model)
   - [Applicative (interface)](#applicative-interface)
   - [Applicative1 (interface)](#applicative1-interface)
   - [Applicative2 (interface)](#applicative2-interface)
@@ -38,6 +38,7 @@ Added in v2.0.0
   - [Applicative4 (interface)](#applicative4-interface)
 - [utils](#utils)
   - [getApplicativeMonoid](#getapplicativemonoid)
+- [zone of death](#zone-of-death)
   - [~~ApplicativeComposition11~~ (interface)](#applicativecomposition11-interface)
   - [~~ApplicativeComposition12C~~ (interface)](#applicativecomposition12c-interface)
   - [~~ApplicativeComposition12~~ (interface)](#applicativecomposition12-interface)
@@ -53,7 +54,7 @@ Added in v2.0.0
 
 ---
 
-# type classes
+# model
 
 ## Applicative (interface)
 
@@ -156,6 +157,8 @@ export declare function getApplicativeMonoid<F>(F: Applicative<F>): <A>(M: Monoi
 ```
 
 Added in v2.10.0
+
+# zone of death
 
 ## ~~ApplicativeComposition11~~ (interface)
 

@@ -6,7 +6,6 @@ import { increment } from '../src/function'
 
 describe('Applicative', () => {
   it('getApplicativeComposition', () => {
-    // tslint:disable-next-line: deprecation
     const AC = getApplicativeComposition(RA.Applicative, O.Applicative)
     U.deepStrictEqual(AC.of(1), [O.some(1)])
     U.deepStrictEqual(AC.map(AC.of(1), increment), [O.some(2)])

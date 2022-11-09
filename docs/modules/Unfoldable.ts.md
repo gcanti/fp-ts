@@ -1,6 +1,6 @@
 ---
 title: Unfoldable.ts
-nav_order: 115
+nav_order: 117
 parent: Modules
 ---
 
@@ -14,7 +14,7 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [type classes](#type-classes)
+- [model](#model)
   - [Unfoldable (interface)](#unfoldable-interface)
   - [Unfoldable1 (interface)](#unfoldable1-interface)
   - [Unfoldable2 (interface)](#unfoldable2-interface)
@@ -25,7 +25,7 @@ Added in v2.0.0
 
 ---
 
-# type classes
+# model
 
 ## Unfoldable (interface)
 

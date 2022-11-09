@@ -1,6 +1,6 @@
 ---
 title: Ring.ts
-nav_order: 90
+nav_order: 92
 parent: Modules
 ---
 
@@ -20,19 +20,44 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [combinators](#combinators)
-  - [tuple](#tuple)
-  - [~~getTupleRing~~](#gettuplering)
-- [instances](#instances)
-  - [~~getFunctionRing~~](#getfunctionring)
-- [type classes](#type-classes)
+- [model](#model)
   - [Ring (interface)](#ring-interface)
 - [utils](#utils)
   - [negate](#negate)
+  - [tuple](#tuple)
+- [zone of death](#zone-of-death)
+  - [~~getFunctionRing~~](#getfunctionring)
+  - [~~getTupleRing~~](#gettuplering)
 
 ---
 
-# combinators
+# model
+
+## Ring (interface)
+
+**Signature**
+
+```ts
+export interface Ring<A> extends Semiring<A> {
+  readonly sub: (x: A, y: A) => A
+}
+```
+
+Added in v2.0.0
+
+# utils
+
+## negate
+
+`negate x` can be used as a shorthand for `zero - x`
+
+**Signature**
+
+```ts
+export declare const negate: <A>(R: Ring<A>) => (a: A) => A
+```
+
+Added in v2.0.0
 
 ## tuple
 
@@ -62,21 +87,7 @@ assert.deepStrictEqual(R.zero, [0, 0, 0])
 
 Added in v2.10.0
 
-## ~~getTupleRing~~
-
-Use [`tuple`](#tuple) instead.
-
-**Signature**
-
-```ts
-export declare const getTupleRing: <T extends readonly Ring<any>[]>(
-  ...rings: T
-) => Ring<{ [K in keyof T]: T[K] extends Ring<infer A> ? A : never }>
-```
-
-Added in v2.0.0
-
-# instances
+# zone of death
 
 ## ~~getFunctionRing~~
 
@@ -90,30 +101,16 @@ export declare const getFunctionRing: <A, B>(R: Ring<B>) => Ring<(a: A) => B>
 
 Added in v2.0.0
 
-# type classes
+## ~~getTupleRing~~
 
-## Ring (interface)
-
-**Signature**
-
-```ts
-export interface Ring<A> extends Semiring<A> {
-  readonly sub: (x: A, y: A) => A
-}
-```
-
-Added in v2.0.0
-
-# utils
-
-## negate
-
-`negate x` can be used as a shorthand for `zero - x`
+Use [`tuple`](#tuple) instead.
 
 **Signature**
 
 ```ts
-export declare const negate: <A>(R: Ring<A>) => (a: A) => A
+export declare const getTupleRing: <T extends readonly Ring<any>[]>(
+  ...rings: T
+) => Ring<{ [K in keyof T]: T[K] extends Ring<infer A> ? A : never }>
 ```
 
 Added in v2.0.0

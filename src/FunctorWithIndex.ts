@@ -37,7 +37,7 @@ import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT
 // -------------------------------------------------------------------------------------
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface FunctorWithIndex<F, I> extends Functor<F> {
@@ -45,7 +45,7 @@ export interface FunctorWithIndex<F, I> extends Functor<F> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface FunctorWithIndex1<F extends URIS, I> extends Functor1<F> {
@@ -53,7 +53,7 @@ export interface FunctorWithIndex1<F extends URIS, I> extends Functor1<F> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface FunctorWithIndex2<F extends URIS2, I> extends Functor2<F> {
@@ -61,7 +61,7 @@ export interface FunctorWithIndex2<F extends URIS2, I> extends Functor2<F> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface FunctorWithIndex2C<F extends URIS2, I, E> extends Functor2C<F, E> {
@@ -69,7 +69,7 @@ export interface FunctorWithIndex2C<F extends URIS2, I, E> extends Functor2C<F, 
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface FunctorWithIndex3<F extends URIS3, I> extends Functor3<F> {
@@ -77,7 +77,7 @@ export interface FunctorWithIndex3<F extends URIS3, I> extends Functor3<F> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.2.0
  */
 export interface FunctorWithIndex3C<F extends URIS3, I, E> extends Functor3C<F, E> {
@@ -85,7 +85,7 @@ export interface FunctorWithIndex3C<F extends URIS3, I, E> extends Functor3C<F, 
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface FunctorWithIndex4<F extends URIS4, I> extends Functor4<F> {
@@ -99,7 +99,6 @@ export interface FunctorWithIndex4<F extends URIS4, I> extends Functor4<F> {
 /**
  * `mapWithIndex` composition.
  *
- * @category combinators
  * @since 2.10.0
  */
 export function mapWithIndex<F extends URIS, I, G extends URIS, J>(
@@ -121,9 +120,8 @@ export function mapWithIndex<F, I, G, J>(
 // deprecated
 // -------------------------------------------------------------------------------------
 
-// tslint:disable: deprecation
-
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -132,6 +130,7 @@ export interface FunctorWithIndexComposition<F, FI, G, GI> extends FunctorCompos
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -141,6 +140,7 @@ export interface FunctorWithIndexComposition11<F extends URIS, FI, G extends URI
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -150,6 +150,7 @@ export interface FunctorWithIndexComposition12<F extends URIS, FI, G extends URI
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -159,6 +160,7 @@ export interface FunctorWithIndexComposition12C<F extends URIS, FI, G extends UR
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -168,6 +170,7 @@ export interface FunctorWithIndexComposition21<F extends URIS2, FI, G extends UR
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -177,6 +180,7 @@ export interface FunctorWithIndexComposition2C1<F extends URIS2, FI, G extends U
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -189,6 +193,7 @@ export interface FunctorWithIndexComposition22<F extends URIS2, FI, G extends UR
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -203,6 +208,7 @@ export interface FunctorWithIndexComposition22C<F extends URIS2, FI, G extends U
 /**
  * Use [`mapWithIndex`](#mapwithindex) instead.
  *
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */

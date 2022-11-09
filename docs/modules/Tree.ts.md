@@ -1,6 +1,6 @@
 ---
 title: Tree.ts
-nav_order: 113
+nav_order: 115
 parent: Modules
 ---
 
@@ -18,94 +18,69 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Apply](#apply)
-  - [ap](#ap)
-- [Extend](#extend)
-  - [extend](#extend)
 - [Extract](#extract)
   - [extract](#extract)
-- [Foldable](#foldable)
-  - [foldMap](#foldmap)
-  - [reduce](#reduce)
-  - [reduceRight](#reduceright)
-- [Functor](#functor)
-  - [map](#map)
 - [Monad](#monad)
   - [chain](#chain)
-- [Pointed](#pointed)
-  - [of](#of)
-- [combinators](#combinators)
-  - [apFirst](#apfirst)
-  - [apSecond](#apsecond)
-  - [chainFirst](#chainfirst)
-  - [duplicate](#duplicate)
-  - [flap](#flap)
-  - [flatten](#flatten)
 - [constructors](#constructors)
   - [make](#make)
+  - [of](#of)
   - [unfoldForest](#unfoldforest)
   - [unfoldForestM](#unfoldforestm)
   - [unfoldTree](#unfoldtree)
   - [unfoldTreeM](#unfoldtreem)
-- [destructors](#destructors)
-  - [fold](#fold)
-- [instances](#instances)
-  - [Applicative](#applicative)
-  - [Apply](#apply-1)
-  - [Chain](#chain)
-  - [Comonad](#comonad)
-  - [Foldable](#foldable-1)
-  - [Functor](#functor-1)
-  - [Monad](#monad-1)
-  - [Pointed](#pointed-1)
-  - [Traversable](#traversable)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
-  - [getEq](#geteq)
-  - [getShow](#getshow)
-  - [~~tree~~](#tree)
-- [model](#model)
-  - [Forest (type alias)](#forest-type-alias)
-  - [Tree (interface)](#tree-interface)
-- [utils](#utils)
+- [do notation](#do-notation)
   - [Do](#do)
   - [apS](#aps)
   - [bind](#bind)
   - [bindTo](#bindto)
-  - [drawForest](#drawforest)
-  - [drawTree](#drawtree)
-  - [elem](#elem)
-  - [exists](#exists)
+  - [let](#let)
+- [folding](#folding)
+  - [fold](#fold)
+  - [foldMap](#foldmap)
+  - [reduce](#reduce)
+  - [reduceRight](#reduceright)
+- [instances](#instances)
+  - [Applicative](#applicative)
+  - [Apply](#apply)
+  - [Chain](#chain)
+  - [Comonad](#comonad)
+  - [Foldable](#foldable)
+  - [Functor](#functor)
+  - [Monad](#monad-1)
+  - [Pointed](#pointed)
+  - [Traversable](#traversable)
+  - [getEq](#geteq)
+  - [getShow](#getshow)
+- [mapping](#mapping)
+  - [flap](#flap)
+  - [map](#map)
+- [model](#model)
+  - [Forest (type alias)](#forest-type-alias)
+  - [Tree (interface)](#tree-interface)
+- [sequencing](#sequencing)
+  - [flatten](#flatten)
+- [traversing](#traversing)
   - [sequence](#sequence)
   - [traverse](#traverse)
+- [type lambdas](#type-lambdas)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
+- [utils](#utils)
+  - [ap](#ap)
+  - [apFirst](#apfirst)
+  - [apSecond](#apsecond)
+  - [chainFirst](#chainfirst)
+  - [drawForest](#drawforest)
+  - [drawTree](#drawtree)
+  - [duplicate](#duplicate)
+  - [elem](#elem)
+  - [exists](#exists)
+  - [extend](#extend)
+- [zone of death](#zone-of-death)
+  - [~~tree~~](#tree)
 
 ---
-
-# Apply
-
-## ap
-
-Apply a function to an argument under a type constructor.
-
-**Signature**
-
-```ts
-export declare const ap: <A>(fa: Tree<A>) => <B>(fab: Tree<(a: A) => B>) => Tree<B>
-```
-
-Added in v2.0.0
-
-# Extend
-
-## extend
-
-**Signature**
-
-```ts
-export declare const extend: <A, B>(f: (wa: Tree<A>) => B) => (wa: Tree<A>) => Tree<B>
-```
-
-Added in v2.0.0
 
 # Extract
 
@@ -118,53 +93,6 @@ export declare const extract: <A>(wa: Tree<A>) => A
 ```
 
 Added in v2.6.2
-
-# Foldable
-
-## foldMap
-
-**Signature**
-
-```ts
-export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Tree<A>) => M
-```
-
-Added in v2.0.0
-
-## reduce
-
-**Signature**
-
-```ts
-export declare const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Tree<A>) => B
-```
-
-Added in v2.0.0
-
-## reduceRight
-
-**Signature**
-
-```ts
-export declare const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Tree<A>) => B
-```
-
-Added in v2.0.0
-
-# Functor
-
-## map
-
-`map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
-use the type constructor `F` to represent some computational context.
-
-**Signature**
-
-```ts
-export declare const map: <A, B>(f: (a: A) => B) => (fa: Tree<A>) => Tree<B>
-```
-
-Added in v2.0.0
 
 # Monad
 
@@ -180,99 +108,6 @@ export declare const chain: <A, B>(f: (a: A) => Tree<B>) => (ma: Tree<A>) => Tre
 
 Added in v2.0.0
 
-# Pointed
-
-## of
-
-**Signature**
-
-```ts
-export declare const of: <A>(a: A) => Tree<A>
-```
-
-Added in v2.7.0
-
-# combinators
-
-## apFirst
-
-Combine two effectful actions, keeping only the result of the first.
-
-Derivable from `Apply`.
-
-**Signature**
-
-```ts
-export declare const apFirst: <B>(second: Tree<B>) => <A>(first: Tree<A>) => Tree<A>
-```
-
-Added in v2.0.0
-
-## apSecond
-
-Combine two effectful actions, keeping only the result of the second.
-
-Derivable from `Apply`.
-
-**Signature**
-
-```ts
-export declare const apSecond: <B>(second: Tree<B>) => <A>(first: Tree<A>) => Tree<B>
-```
-
-Added in v2.0.0
-
-## chainFirst
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-Derivable from `Chain`.
-
-**Signature**
-
-```ts
-export declare const chainFirst: <A, B>(f: (a: A) => Tree<B>) => (first: Tree<A>) => Tree<A>
-```
-
-Added in v2.0.0
-
-## duplicate
-
-Derivable from `Extend`.
-
-**Signature**
-
-```ts
-export declare const duplicate: <A>(wa: Tree<A>) => Tree<Tree<A>>
-```
-
-Added in v2.0.0
-
-## flap
-
-Derivable from `Functor`.
-
-**Signature**
-
-```ts
-export declare const flap: <A>(a: A) => <B>(fab: Tree<(a: A) => B>) => Tree<B>
-```
-
-Added in v2.10.0
-
-## flatten
-
-Derivable from `Chain`.
-
-**Signature**
-
-```ts
-export declare const flatten: <A>(mma: Tree<Tree<A>>) => Tree<A>
-```
-
-Added in v2.0.0
-
 # constructors
 
 ## make
@@ -284,6 +119,16 @@ export declare function make<A>(value: A, forest: Forest<A> = []): Tree<A>
 ```
 
 Added in v2.0.0
+
+## of
+
+**Signature**
+
+```ts
+export declare const of: <A>(a: A) => Tree<A>
+```
+
+Added in v2.7.0
 
 ## unfoldForest
 
@@ -373,7 +218,68 @@ export declare function unfoldTreeM<M>(
 
 Added in v2.0.0
 
-# destructors
+# do notation
+
+## Do
+
+**Signature**
+
+```ts
+export declare const Do: Tree<{}>
+```
+
+Added in v2.9.0
+
+## apS
+
+**Signature**
+
+```ts
+export declare const apS: <N, A, B>(
+  name: Exclude<N, keyof A>,
+  fb: Tree<B>
+) => (fa: Tree<A>) => Tree<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
+
+## bind
+
+**Signature**
+
+```ts
+export declare const bind: <N, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => Tree<B>
+) => (ma: Tree<A>) => Tree<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
+
+## bindTo
+
+**Signature**
+
+```ts
+export declare const bindTo: <N>(name: N) => <A>(fa: Tree<A>) => Tree<{ readonly [K in N]: A }>
+```
+
+Added in v2.8.0
+
+## let
+
+**Signature**
+
+```ts
+export declare const let: <N, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => (fa: Tree<A>) => Tree<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.13.0
+
+# folding
 
 ## fold
 
@@ -411,6 +317,36 @@ assert.deepStrictEqual(fold((_: number, bs: Array<number>) => (bs.length === 0 ?
 ```
 
 Added in v2.6.0
+
+## foldMap
+
+**Signature**
+
+```ts
+export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Tree<A>) => M
+```
+
+Added in v2.0.0
+
+## reduce
+
+**Signature**
+
+```ts
+export declare const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Tree<A>) => B
+```
+
+Added in v2.0.0
+
+## reduceRight
+
+**Signature**
+
+```ts
+export declare const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Tree<A>) => B
+```
+
+Added in v2.0.0
 
 # instances
 
@@ -504,26 +440,6 @@ export declare const Traversable: Traversable1<'Tree'>
 
 Added in v2.7.0
 
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'Tree'
-```
-
-Added in v2.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
-```
-
-Added in v2.0.0
-
 ## getEq
 
 **Signature**
@@ -544,14 +460,27 @@ export declare function getShow<A>(S: Show<A>): Show<Tree<A>>
 
 Added in v2.0.0
 
-## ~~tree~~
+# mapping
 
-Use small, specific instances instead.
+## flap
 
 **Signature**
 
 ```ts
-export declare const tree: Monad1<'Tree'> & Foldable1<'Tree'> & Traversable1<'Tree'> & Comonad1<'Tree'>
+export declare const flap: <A>(a: A) => <B>(fab: Tree<(a: A) => B>) => Tree<B>
+```
+
+Added in v2.10.0
+
+## map
+
+`map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
+use the type constructor `F` to represent some computational context.
+
+**Signature**
+
+```ts
+export declare const map: <A, B>(f: (a: A) => B) => (fa: Tree<A>) => Tree<B>
 ```
 
 Added in v2.0.0
@@ -581,53 +510,110 @@ export interface Tree<A> {
 
 Added in v2.0.0
 
+# sequencing
+
+## flatten
+
+**Signature**
+
+```ts
+export declare const flatten: <A>(mma: Tree<Tree<A>>) => Tree<A>
+```
+
+Added in v2.0.0
+
+# traversing
+
+## sequence
+
+**Signature**
+
+```ts
+export declare const sequence: Sequence1<'Tree'>
+```
+
+Added in v2.6.3
+
+## traverse
+
+**Signature**
+
+```ts
+export declare const traverse: PipeableTraverse1<'Tree'>
+```
+
+Added in v2.6.3
+
+# type lambdas
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'Tree'
+```
+
+Added in v2.0.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
+```
+
+Added in v2.0.0
+
 # utils
 
-## Do
+## ap
 
 **Signature**
 
 ```ts
-export declare const Do: Tree<{}>
+export declare const ap: <A>(fa: Tree<A>) => <B>(fab: Tree<(a: A) => B>) => Tree<B>
 ```
 
-Added in v2.9.0
+Added in v2.0.0
 
-## apS
+## apFirst
+
+Combine two effectful actions, keeping only the result of the first.
 
 **Signature**
 
 ```ts
-export declare const apS: <N, A, B>(
-  name: Exclude<N, keyof A>,
-  fb: Tree<B>
-) => (fa: Tree<A>) => Tree<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+export declare const apFirst: <B>(second: Tree<B>) => <A>(first: Tree<A>) => Tree<A>
 ```
 
-Added in v2.8.0
+Added in v2.0.0
 
-## bind
+## apSecond
+
+Combine two effectful actions, keeping only the result of the second.
 
 **Signature**
 
 ```ts
-export declare const bind: <N, A, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => Tree<B>
-) => (ma: Tree<A>) => Tree<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+export declare const apSecond: <B>(second: Tree<B>) => <A>(first: Tree<A>) => Tree<B>
 ```
 
-Added in v2.8.0
+Added in v2.0.0
 
-## bindTo
+## chainFirst
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
 
 **Signature**
 
 ```ts
-export declare const bindTo: <N>(name: N) => <A>(fa: Tree<A>) => Tree<{ readonly [K in N]: A }>
+export declare const chainFirst: <A, B>(f: (a: A) => Tree<B>) => (first: Tree<A>) => Tree<A>
 ```
 
-Added in v2.8.0
+Added in v2.0.0
 
 ## drawForest
 
@@ -671,6 +657,16 @@ assert.strictEqual(
 
 Added in v2.0.0
 
+## duplicate
+
+**Signature**
+
+```ts
+export declare const duplicate: <A>(wa: Tree<A>) => Tree<Tree<A>>
+```
+
+Added in v2.0.0
+
 ## elem
 
 **Signature**
@@ -691,22 +687,28 @@ export declare const exists: <A>(predicate: Predicate<A>) => (ma: Tree<A>) => bo
 
 Added in v2.11.0
 
-## sequence
+## extend
 
 **Signature**
 
 ```ts
-export declare const sequence: Sequence1<'Tree'>
+export declare const extend: <A, B>(f: (wa: Tree<A>) => B) => (wa: Tree<A>) => Tree<B>
 ```
 
-Added in v2.6.3
+Added in v2.0.0
 
-## traverse
+# zone of death
+
+## ~~tree~~
+
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `T.Functor` instead of `T.tree`
+(where `T` is from `import T from 'fp-ts/Tree'`)
 
 **Signature**
 
 ```ts
-export declare const traverse: PipeableTraverse1<'Tree'>
+export declare const tree: Monad1<'Tree'> & Foldable1<'Tree'> & Traversable1<'Tree'> & Comonad1<'Tree'>
 ```
 
-Added in v2.6.3
+Added in v2.0.0

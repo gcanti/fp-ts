@@ -16,7 +16,7 @@ import { ReadonlyRecord } from './ReadonlyRecord'
 // -------------------------------------------------------------------------------------
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Show<A> {
@@ -28,7 +28,6 @@ export interface Show<A> {
 // -------------------------------------------------------------------------------------
 
 /**
- * @category combinators
  * @since 2.10.0
  */
 export const struct = <A>(shows: { [K in keyof A]: Show<A[K]> }): Show<{ readonly [K in keyof A]: A[K] }> => ({
@@ -48,7 +47,6 @@ export const struct = <A>(shows: { [K in keyof A]: Show<A[K]> }): Show<{ readonl
 })
 
 /**
- * @category combinators
  * @since 2.10.0
  */
 export const tuple = <A extends ReadonlyArray<unknown>>(
@@ -64,7 +62,7 @@ export const tuple = <A extends ReadonlyArray<unknown>>(
 /**
  * Use [`tuple`](#tuple) instead.
  *
- * @category combinators
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -75,18 +73,17 @@ export const getTupleShow: <T extends ReadonlyArray<Show<any>>>(
 /**
  * Use [`struct`](#struct) instead.
  *
- * @category combinators
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
-export const getStructShow: <O extends ReadonlyRecord<string, any>>(
-  shows: { [K in keyof O]: Show<O[K]> }
-) => Show<O> = struct
+export const getStructShow: <O extends ReadonlyRecord<string, any>>(shows: { [K in keyof O]: Show<O[K]> }) => Show<O> =
+  struct
 
 /**
  * Use [`Show`](./boolean.ts.html#show) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -97,7 +94,7 @@ export const showBoolean: Show<boolean> = {
 /**
  * Use [`Show`](./string.ts.html#show) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -108,7 +105,7 @@ export const showString: Show<string> = {
 /**
  * Use [`Show`](./number.ts.html#show) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */

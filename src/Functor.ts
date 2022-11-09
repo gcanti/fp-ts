@@ -19,7 +19,7 @@ import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT
 // -------------------------------------------------------------------------------------
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Functor<F> {
@@ -28,7 +28,7 @@ export interface Functor<F> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Functor1<F extends URIS> {
@@ -37,7 +37,7 @@ export interface Functor1<F extends URIS> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Functor2<F extends URIS2> {
@@ -46,7 +46,7 @@ export interface Functor2<F extends URIS2> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Functor2C<F extends URIS2, E> {
@@ -56,7 +56,7 @@ export interface Functor2C<F extends URIS2, E> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Functor3<F extends URIS3> {
@@ -65,7 +65,7 @@ export interface Functor3<F extends URIS3> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.2.0
  */
 export interface Functor3C<F extends URIS3, E> {
@@ -75,7 +75,7 @@ export interface Functor3C<F extends URIS3, E> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Functor4<F extends URIS4> {
@@ -90,7 +90,6 @@ export interface Functor4<F extends URIS4> {
 /**
  * `map` composition.
  *
- * @category combinators
  * @since 2.10.0
  */
 export function map<F extends URIS3, G extends URIS>(
@@ -137,7 +136,7 @@ export function map<F, G>(
 }
 
 /**
- * @category combinators
+ * @category mapping
  * @since 2.10.0
  */
 export function flap<F extends URIS4>(
@@ -189,13 +188,75 @@ export function bindTo<F>(
   return (name) => (fa) => F.map(fa, (a) => ({ [name]: a } as any))
 }
 
+/**
+ * @since 2.13.0
+ */
+function let_<F extends URIS4>(
+  F: Functor4<F>
+): <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => <S, R, E>(
+  fa: Kind4<F, S, R, E, A>
+) => Kind4<F, S, R, E, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }>
+function let_<F extends URIS3>(
+  F: Functor3<F>
+): <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => <R, E>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }>
+function let_<F extends URIS3, E>(
+  F: Functor3C<F, E>
+): <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => <R>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }>
+function let_<F extends URIS2>(
+  F: Functor2<F>
+): <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => <E>(fa: Kind2<F, E, A>) => Kind2<F, E, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }>
+function let_<F extends URIS2, E>(
+  F: Functor2C<F, E>
+): <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => (fa: Kind2<F, E, A>) => Kind2<F, E, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }>
+function let_<F extends URIS>(
+  F: Functor1<F>
+): <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => (fa: Kind<F, A>) => Kind<F, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }>
+function let_<F>(
+  F: Functor<F>
+): <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => (fa: HKT<F, A>) => HKT<F, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }>
+function let_<F>(
+  F: Functor<F>
+): <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => (fa: HKT<F, A>) => HKT<F, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> {
+  return (name, f) => (fa) => F.map(fa, (a) => Object.assign({}, a, { [name]: f(a) }) as any)
+}
+
+export {
+  /**
+   * @since 2.13.0
+   */
+  let_ as let
+}
+
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
 
-// tslint:disable: deprecation
-
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -204,6 +265,7 @@ export interface FunctorComposition<F, G> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -212,6 +274,7 @@ export interface FunctorCompositionHKT1<F, G extends URIS> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -220,6 +283,7 @@ export interface FunctorCompositionHKT2<F, G extends URIS2> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -228,6 +292,7 @@ export interface FunctorCompositionHKT2C<F, G extends URIS2, E> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -236,6 +301,7 @@ export interface FunctorComposition11<F extends URIS, G extends URIS> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -244,6 +310,7 @@ export interface FunctorComposition12<F extends URIS, G extends URIS2> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -252,6 +319,7 @@ export interface FunctorComposition12C<F extends URIS, G extends URIS2, E> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -260,6 +328,7 @@ export interface FunctorComposition21<F extends URIS2, G extends URIS> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -268,6 +337,7 @@ export interface FunctorComposition2C1<F extends URIS2, G extends URIS, E> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -276,6 +346,7 @@ export interface FunctorComposition22<F extends URIS2, G extends URIS2> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -284,6 +355,7 @@ export interface FunctorComposition22C<F extends URIS2, G extends URIS2, E> {
 }
 
 /**
+ * @category zone of death
  * @since 2.2.0
  * @deprecated
  */
@@ -292,6 +364,7 @@ export interface FunctorComposition23<F extends URIS2, G extends URIS3> {
 }
 
 /**
+ * @category zone of death
  * @since 2.2.0
  * @deprecated
  */
@@ -302,6 +375,7 @@ export interface FunctorComposition23C<F extends URIS2, G extends URIS3, E> {
 /**
  * Use [`map`](#map) instead.
  *
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */

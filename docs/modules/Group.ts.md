@@ -16,12 +16,12 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [type classes](#type-classes)
+- [model](#model)
   - [Group (interface)](#group-interface)
 
 ---
 
-# type classes
+# model
 
 ## Group (interface)
 

@@ -1,6 +1,6 @@
 ---
 title: Monad.ts
-nav_order: 60
+nav_order: 61
 parent: Modules
 ---
 
@@ -24,7 +24,7 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [type classes](#type-classes)
+- [model](#model)
   - [Monad (interface)](#monad-interface)
   - [Monad1 (interface)](#monad1-interface)
   - [Monad2 (interface)](#monad2-interface)
@@ -35,7 +35,7 @@ Added in v2.0.0
 
 ---
 
-# type classes
+# model
 
 ## Monad (interface)
 

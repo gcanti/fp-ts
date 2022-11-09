@@ -25,7 +25,7 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [type classes](#type-classes)
+- [model](#model)
   - [Alternative (interface)](#alternative-interface)
   - [Alternative1 (interface)](#alternative1-interface)
   - [Alternative2 (interface)](#alternative2-interface)
@@ -35,10 +35,11 @@ Added in v2.0.0
   - [Alternative4 (interface)](#alternative4-interface)
 - [utils](#utils)
   - [altAll](#altall)
+  - [getAlternativeMonoid](#getalternativemonoid)
 
 ---
 
-# type classes
+# model
 
 ## Alternative (interface)
 
@@ -137,3 +138,33 @@ export declare function altAll<F>(F: Alternative<F>): <A>(as: ReadonlyArray<HKT<
 ```
 
 Added in v2.11.0
+
+## getAlternativeMonoid
+
+Lift a semigroup into a monoid alternative 'F', the inner values are concatenated using the provided `Semigroup`.
+
+**Signature**
+
+```ts
+export declare function getAlternativeMonoid<F extends URIS4>(
+  F: Alternative4<F>
+): <A, S, R, E>(S: Semigroup<A>) => Monoid<Kind4<F, S, R, E, A>>
+export declare function getAlternativeMonoid<F extends URIS3>(
+  F: Alternative3<F>
+): <A, R, E>(S: Semigroup<A>) => Monoid<Kind3<F, R, E, A>>
+export declare function getAlternativeMonoid<F extends URIS3, E>(
+  F: Alternative3C<F, E>
+): <A, R>(S: Semigroup<A>) => Monoid<Kind3<F, R, E, A>>
+export declare function getAlternativeMonoid<F extends URIS2>(
+  F: Alternative2<F>
+): <A, E>(S: Semigroup<A>) => Monoid<Kind2<F, E, A>>
+export declare function getAlternativeMonoid<F extends URIS2, E>(
+  F: Alternative2C<F, E>
+): <A>(S: Semigroup<A>) => Monoid<Kind2<F, E, A>>
+export declare function getAlternativeMonoid<F extends URIS>(
+  F: Alternative1<F>
+): <A>(S: Semigroup<A>) => Monoid<Kind<F, A>>
+export declare function getAlternativeMonoid<F>(F: Alternative<F>): <A>(S: Semigroup<A>) => Monoid<HKT<F, A>>
+```
+
+Added in v2.13.0

@@ -49,12 +49,7 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [combinators](#combinators)
-  - [ap](#ap)
-  - [apFirst](#apfirst)
-  - [apS](#aps)
-  - [apSecond](#apsecond)
-- [type classes](#type-classes)
+- [model](#model)
   - [Apply (interface)](#apply-interface)
   - [Apply1 (interface)](#apply1-interface)
   - [Apply2 (interface)](#apply2-interface)
@@ -63,13 +58,103 @@ Added in v2.0.0
   - [Apply3C (interface)](#apply3c-interface)
   - [Apply4 (interface)](#apply4-interface)
 - [utils](#utils)
+  - [ap](#ap)
+  - [apFirst](#apfirst)
+  - [apS](#aps)
+  - [apSecond](#apsecond)
   - [getApplySemigroup](#getapplysemigroup)
   - [sequenceS](#sequences)
   - [sequenceT](#sequencet)
 
 ---
 
-# combinators
+# model
+
+## Apply (interface)
+
+**Signature**
+
+```ts
+export interface Apply<F> extends Functor<F> {
+  readonly ap: <A, B>(fab: HKT<F, (a: A) => B>, fa: HKT<F, A>) => HKT<F, B>
+}
+```
+
+Added in v2.0.0
+
+## Apply1 (interface)
+
+**Signature**
+
+```ts
+export interface Apply1<F extends URIS> extends Functor1<F> {
+  readonly ap: <A, B>(fab: Kind<F, (a: A) => B>, fa: Kind<F, A>) => Kind<F, B>
+}
+```
+
+Added in v2.0.0
+
+## Apply2 (interface)
+
+**Signature**
+
+```ts
+export interface Apply2<F extends URIS2> extends Functor2<F> {
+  readonly ap: <E, A, B>(fab: Kind2<F, E, (a: A) => B>, fa: Kind2<F, E, A>) => Kind2<F, E, B>
+}
+```
+
+Added in v2.0.0
+
+## Apply2C (interface)
+
+**Signature**
+
+```ts
+export interface Apply2C<F extends URIS2, E> extends Functor2C<F, E> {
+  readonly ap: <A, B>(fab: Kind2<F, E, (a: A) => B>, fa: Kind2<F, E, A>) => Kind2<F, E, B>
+}
+```
+
+Added in v2.0.0
+
+## Apply3 (interface)
+
+**Signature**
+
+```ts
+export interface Apply3<F extends URIS3> extends Functor3<F> {
+  readonly ap: <R, E, A, B>(fab: Kind3<F, R, E, (a: A) => B>, fa: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
+}
+```
+
+Added in v2.0.0
+
+## Apply3C (interface)
+
+**Signature**
+
+```ts
+export interface Apply3C<F extends URIS3, E> extends Functor3C<F, E> {
+  readonly ap: <R, A, B>(fab: Kind3<F, R, E, (a: A) => B>, fa: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
+}
+```
+
+Added in v2.2.0
+
+## Apply4 (interface)
+
+**Signature**
+
+```ts
+export interface Apply4<F extends URIS4> extends Functor4<F> {
+  readonly ap: <S, R, E, A, B>(fab: Kind4<F, S, R, E, (a: A) => B>, fa: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, B>
+}
+```
+
+Added in v2.0.0
+
+# utils
 
 ## ap
 
@@ -78,16 +163,228 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function ap<F extends URIS2, G extends URIS2, E>(
+export declare function ap<F extends URIS4, G extends URIS4>(
+  F: Apply4<F>,
+  G: Apply4<G>
+): <FS, FR, FE, GS, GR, GE, A>(
+  fa: Kind4<F, FS, FR, FE, Kind4<G, GS, GR, GE, A>>
+) => <B>(fab: Kind4<F, FS, FR, FE, Kind4<G, GS, GR, GE, (a: A) => B>>) => Kind4<F, FS, FR, FE, Kind4<G, GS, GR, GE, B>>
+export declare function ap<F extends URIS4, G extends URIS3>(
+  F: Apply4<F>,
+  G: Apply3<G>
+): <S, FR, FE, GR, GE, A>(
+  fa: Kind4<F, S, FR, FE, Kind3<G, GR, GE, A>>
+) => <B>(fab: Kind4<F, S, FR, FE, Kind3<G, GR, GE, (a: A) => B>>) => Kind4<F, S, FR, FE, Kind3<G, GR, GE, B>>
+export declare function ap<F extends URIS4, G extends URIS3, GE>(
+  F: Apply4<F>,
+  G: Apply3C<G, GE>
+): <S, FR, FE, GR, A>(
+  fa: Kind4<F, S, FR, FE, Kind3<G, GR, GE, A>>
+) => <B>(fab: Kind4<F, S, FR, FE, Kind3<G, GR, GE, (a: A) => B>>) => Kind4<F, S, FR, FE, Kind3<G, GR, GE, B>>
+export declare function ap<F extends URIS4, G extends URIS2>(
+  F: Apply4<F>,
+  G: Apply2<G>
+): <S, R, FE, GE, A>(
+  fa: Kind4<F, S, R, FE, Kind2<G, GE, A>>
+) => <B>(fab: Kind4<F, S, R, FE, Kind2<G, GE, (a: A) => B>>) => Kind4<F, S, R, FE, Kind2<G, GE, B>>
+export declare function ap<F extends URIS4, G extends URIS2, GE>(
+  F: Apply4<F>,
+  G: Apply2C<G, GE>
+): <S, R, FE, A>(
+  fa: Kind4<F, S, R, FE, Kind2<G, GE, A>>
+) => <B>(fab: Kind4<F, S, R, FE, Kind2<G, GE, (a: A) => B>>) => Kind4<F, S, R, FE, Kind2<G, GE, B>>
+export declare function ap<F extends URIS4, G extends URIS>(
+  F: Apply4<F>,
+  G: Apply1<G>
+): <S, R, E, A>(
+  fa: Kind4<F, S, R, E, Kind<G, A>>
+) => <B>(fab: Kind4<F, S, R, E, Kind<G, (a: A) => B>>) => Kind4<F, S, R, E, Kind<G, B>>
+export declare function ap<F extends URIS3, FE, G extends URIS4>(
+  F: Apply3C<F, FE>,
+  G: Apply4<G>
+): <FR, S, GR, GE, A>(
+  fa: Kind3<F, FR, FE, Kind4<G, S, GR, GE, A>>
+) => <B>(fab: Kind3<F, FR, FE, Kind4<G, S, GR, GE, (a: A) => B>>) => Kind3<F, FR, FE, Kind4<G, S, GR, GE, B>>
+export declare function ap<F extends URIS3, FE, G extends URIS3>(
+  F: Apply3C<F, FE>,
+  G: Apply3<G>
+): <FR, GR, GE, A>(
+  fa: Kind3<F, FR, FE, Kind3<G, GR, GE, A>>
+) => <B>(fab: Kind3<F, FR, FE, Kind3<G, GR, GE, (a: A) => B>>) => Kind3<F, FR, FE, Kind3<G, GR, GE, B>>
+export declare function ap<F extends URIS3, FE, G extends URIS3, GE>(
+  F: Apply3C<F, FE>,
+  G: Apply3C<G, GE>
+): <FR, GR, A>(
+  fa: Kind3<F, FR, FE, Kind3<G, GR, GE, A>>
+) => <B>(fab: Kind3<F, FR, FE, Kind3<G, GR, GE, (a: A) => B>>) => Kind3<F, FR, FE, Kind3<G, GR, GE, B>>
+export declare function ap<F extends URIS3, FE, G extends URIS2>(
+  F: Apply3C<F, FE>,
+  G: Apply2<G>
+): <R, GE, A>(
+  fa: Kind3<F, R, FE, Kind2<G, GE, A>>
+) => <B>(fab: Kind3<F, R, FE, Kind2<G, GE, (a: A) => B>>) => Kind3<F, R, FE, Kind2<G, GE, B>>
+export declare function ap<F extends URIS3, FE, G extends URIS2, GE>(
+  F: Apply3C<F, FE>,
+  G: Apply2C<G, GE>
+): <R, A>(
+  fa: Kind3<F, R, FE, Kind2<G, GE, A>>
+) => <B>(fab: Kind3<F, R, FE, Kind2<G, GE, (a: A) => B>>) => Kind3<F, R, FE, Kind2<G, GE, B>>
+export declare function ap<F extends URIS3, E, G extends URIS>(
+  F: Apply3C<F, E>,
+  G: Apply1<G>
+): <R, A>(
+  fa: Kind3<F, R, E, Kind<G, A>>
+) => <B>(fab: Kind3<F, R, E, Kind<G, (a: A) => B>>) => Kind3<F, R, E, Kind<G, B>>
+export declare function ap<F extends URIS3, G extends URIS4>(
+  F: Apply3<F>,
+  G: Apply4<G>
+): <FR, FE, S, GR, GE, A>(
+  fa: Kind3<F, FR, FE, Kind4<G, S, GR, GE, A>>
+) => <B>(fab: Kind3<F, FR, FE, Kind4<G, S, GR, GE, (a: A) => B>>) => Kind3<F, FR, FE, Kind4<G, S, GR, GE, B>>
+export declare function ap<F extends URIS3, G extends URIS3>(
+  F: Apply3<F>,
+  G: Apply3<G>
+): <FR, FE, GR, GE, A>(
+  fa: Kind3<F, FR, FE, Kind3<G, GR, GE, A>>
+) => <B>(fab: Kind3<F, FR, FE, Kind3<G, GR, GE, (a: A) => B>>) => Kind3<F, FR, FE, Kind3<G, GR, GE, B>>
+export declare function ap<F extends URIS3, G extends URIS3, GE>(
+  F: Apply3<F>,
+  G: Apply3C<G, GE>
+): <FR, FE, GR, A>(
+  fa: Kind3<F, FR, FE, Kind3<G, GR, GE, A>>
+) => <B>(fab: Kind3<F, FR, FE, Kind3<G, GR, GE, (a: A) => B>>) => Kind3<F, FR, FE, Kind3<G, GR, GE, B>>
+export declare function ap<F extends URIS3, G extends URIS2>(
+  F: Apply3<F>,
+  G: Apply2<G>
+): <R, FE, GE, A>(
+  fa: Kind3<F, R, FE, Kind2<G, GE, A>>
+) => <B>(fab: Kind3<F, R, FE, Kind2<G, GE, (a: A) => B>>) => Kind3<F, R, FE, Kind2<G, GE, B>>
+export declare function ap<F extends URIS3, G extends URIS2, GE>(
+  F: Apply3<F>,
+  G: Apply2C<G, GE>
+): <R, FE, A>(
+  fa: Kind3<F, R, FE, Kind2<G, GE, A>>
+) => <B>(fab: Kind3<F, R, FE, Kind2<G, GE, (a: A) => B>>) => Kind3<F, R, FE, Kind2<G, GE, B>>
+export declare function ap<F extends URIS3, G extends URIS>(
+  F: Apply3<F>,
+  G: Apply1<G>
+): <R, E, A>(
+  fa: Kind3<F, R, E, Kind<G, A>>
+) => <B>(fab: Kind3<F, R, E, Kind<G, (a: A) => B>>) => Kind3<F, R, E, Kind<G, B>>
+export declare function ap<F extends URIS2, FE, G extends URIS4>(
+  F: Apply2C<F, FE>,
+  G: Apply4<G>
+): <S, R, GE, A>(
+  fa: Kind2<F, FE, Kind4<G, S, R, GE, A>>
+) => <B>(fab: Kind2<F, FE, Kind4<G, S, R, GE, (a: A) => B>>) => Kind2<F, FE, Kind4<G, S, R, GE, B>>
+export declare function ap<F extends URIS2, FE, G extends URIS3>(
+  F: Apply2C<F, FE>,
+  G: Apply3<G>
+): <R, GE, A>(
+  fa: Kind2<F, FE, Kind3<G, R, GE, A>>
+) => <B>(fab: Kind2<F, FE, Kind3<G, R, GE, (a: A) => B>>) => Kind2<F, FE, Kind3<G, R, GE, B>>
+export declare function ap<F extends URIS2, FE, G extends URIS3, GE>(
+  F: Apply2C<F, FE>,
+  G: Apply3C<G, GE>
+): <R, A>(
+  fa: Kind2<F, FE, Kind3<G, R, GE, A>>
+) => <B>(fab: Kind2<F, FE, Kind3<G, R, GE, (a: A) => B>>) => Kind2<F, FE, Kind3<G, R, GE, B>>
+export declare function ap<F extends URIS2, FE, G extends URIS2>(
+  F: Apply2C<F, FE>,
+  G: Apply2<G>
+): <GE, A>(
+  fa: Kind2<F, FE, Kind2<G, GE, A>>
+) => <B>(fab: Kind2<F, FE, Kind2<G, GE, (a: A) => B>>) => Kind2<F, FE, Kind2<G, GE, B>>
+export declare function ap<F extends URIS2, FE, G extends URIS2, GE>(
+  F: Apply2C<F, FE>,
+  G: Apply2C<G, GE>
+): <A>(
+  fa: Kind2<F, FE, Kind2<G, GE, A>>
+) => <B>(fab: Kind2<F, FE, Kind2<G, GE, (a: A) => B>>) => Kind2<F, FE, Kind2<G, GE, B>>
+export declare function ap<F extends URIS2, E, G extends URIS>(
+  F: Apply2C<F, E>,
+  G: Apply1<G>
+): <A>(fa: Kind2<F, E, Kind<G, A>>) => <B>(fab: Kind2<F, E, Kind<G, (a: A) => B>>) => Kind2<F, E, Kind<G, B>>
+export declare function ap<F extends URIS2, G extends URIS4>(
   F: Apply2<F>,
-  G: Apply2C<G, E>
+  G: Apply4<G>
+): <FE, S, R, GE, A>(
+  fa: Kind2<F, FE, Kind4<G, S, R, GE, A>>
+) => <B>(fab: Kind2<F, FE, Kind4<G, S, R, GE, (a: A) => B>>) => Kind2<F, FE, Kind4<G, S, R, GE, B>>
+export declare function ap<F extends URIS2, G extends URIS3>(
+  F: Apply2<F>,
+  G: Apply3<G>
+): <FE, R, GE, A>(
+  fa: Kind2<F, FE, Kind3<G, R, GE, A>>
+) => <B>(fab: Kind2<F, FE, Kind3<G, R, GE, (a: A) => B>>) => Kind2<F, FE, Kind3<G, R, GE, B>>
+export declare function ap<F extends URIS2, G extends URIS3, GE>(
+  F: Apply2<F>,
+  G: Apply3C<G, GE>
+): <FE, R, A>(
+  fa: Kind2<F, FE, Kind3<G, R, GE, A>>
+) => <B>(fab: Kind2<F, FE, Kind3<G, R, GE, (a: A) => B>>) => Kind2<F, FE, Kind3<G, R, GE, B>>
+export declare function ap<F extends URIS2, G extends URIS2>(
+  F: Apply2<F>,
+  G: Apply2<G>
+): <FE, GE, A>(
+  fa: Kind2<F, FE, Kind2<G, GE, A>>
+) => <B>(fab: Kind2<F, FE, Kind2<G, GE, (a: A) => B>>) => Kind2<F, FE, Kind2<G, GE, B>>
+export declare function ap<F extends URIS2, G extends URIS2, GE>(
+  F: Apply2<F>,
+  G: Apply2C<G, GE>
 ): <FE, A>(
-  fa: Kind2<F, FE, Kind2<G, E, A>>
-) => <B>(fab: Kind2<F, FE, Kind2<G, E, (a: A) => B>>) => Kind2<F, FE, Kind2<G, E, B>>
+  fa: Kind2<F, FE, Kind2<G, GE, A>>
+) => <B>(fab: Kind2<F, FE, Kind2<G, GE, (a: A) => B>>) => Kind2<F, FE, Kind2<G, GE, B>>
+export declare function ap<F extends URIS2, G extends URIS>(
+  F: Apply2<F>,
+  G: Apply1<G>
+): <E, A>(fa: Kind2<F, E, Kind<G, A>>) => <B>(fab: Kind2<F, E, Kind<G, (a: A) => B>>) => Kind2<F, E, Kind<G, B>>
+export declare function ap<F extends URIS, G extends URIS4>(
+  F: Apply1<F>,
+  G: Apply4<G>
+): <S, R, E, A>(
+  fa: Kind<F, Kind4<G, S, R, E, A>>
+) => <B>(fab: Kind<F, Kind4<G, S, R, E, (a: A) => B>>) => Kind<F, Kind4<G, S, R, E, B>>
+export declare function ap<F extends URIS, G extends URIS3>(
+  F: Apply1<F>,
+  G: Apply3<G>
+): <R, E, A>(
+  fa: Kind<F, Kind3<G, R, E, A>>
+) => <B>(fab: Kind<F, Kind3<G, R, E, (a: A) => B>>) => Kind<F, Kind3<G, R, E, B>>
+export declare function ap<F extends URIS, G extends URIS3, E>(
+  F: Apply1<F>,
+  G: Apply3C<G, E>
+): <R, A>(
+  fa: Kind<F, Kind3<G, R, E, A>>
+) => <B>(fab: Kind<F, Kind3<G, R, E, (a: A) => B>>) => Kind<F, Kind3<G, R, E, B>>
+export declare function ap<F extends URIS, G extends URIS2>(
+  F: Apply1<F>,
+  G: Apply2<G>
+): <E, A>(fa: Kind<F, Kind2<G, E, A>>) => <B>(fab: Kind<F, Kind2<G, E, (a: A) => B>>) => Kind<F, Kind2<G, E, B>>
 export declare function ap<F extends URIS, G extends URIS2, E>(
   F: Apply1<F>,
   G: Apply2C<G, E>
 ): <A>(fa: Kind<F, Kind2<G, E, A>>) => <B>(fab: Kind<F, Kind2<G, E, (a: A) => B>>) => Kind<F, Kind2<G, E, B>>
+export declare function ap<F extends URIS, G extends URIS>(
+  F: Apply1<F>,
+  G: Apply1<G>
+): <A>(fa: Kind<F, Kind<G, A>>) => <B>(fab: Kind<F, Kind<G, (a: A) => B>>) => Kind<F, Kind<G, B>>
+export declare function ap<F, G extends URIS4>(
+  F: Apply<F>,
+  G: Apply4<G>
+): <S, R, E, A>(
+  fa: HKT<F, Kind4<G, S, R, E, A>>
+) => <B>(fab: HKT<F, Kind4<G, S, R, E, (a: A) => B>>) => HKT<F, Kind4<G, S, R, E, B>>
+export declare function ap<F, G extends URIS3>(
+  F: Apply<F>,
+  G: Apply3<G>
+): <R, E, A>(
+  fa: HKT<F, Kind3<G, R, E, A>>
+) => <B>(fab: HKT<F, Kind3<G, R, E, (a: A) => B>>) => HKT<F, Kind3<G, R, E, B>>
+export declare function ap<F, G extends URIS3, E>(
+  F: Apply<F>,
+  G: Apply3C<G, E>
+): <R, A>(fa: HKT<F, Kind3<G, R, E, A>>) => <B>(fab: HKT<F, Kind3<G, R, E, (a: A) => B>>) => HKT<F, Kind3<G, R, E, B>>
 export declare function ap<F, G extends URIS2>(
   F: Apply<F>,
   G: Apply2<G>
@@ -214,94 +511,6 @@ export declare function apSecond<F>(A: Apply<F>): <B>(second: HKT<F, B>) => <A>(
 ```
 
 Added in v2.10.0
-
-# type classes
-
-## Apply (interface)
-
-**Signature**
-
-```ts
-export interface Apply<F> extends Functor<F> {
-  readonly ap: <A, B>(fab: HKT<F, (a: A) => B>, fa: HKT<F, A>) => HKT<F, B>
-}
-```
-
-Added in v2.0.0
-
-## Apply1 (interface)
-
-**Signature**
-
-```ts
-export interface Apply1<F extends URIS> extends Functor1<F> {
-  readonly ap: <A, B>(fab: Kind<F, (a: A) => B>, fa: Kind<F, A>) => Kind<F, B>
-}
-```
-
-Added in v2.0.0
-
-## Apply2 (interface)
-
-**Signature**
-
-```ts
-export interface Apply2<F extends URIS2> extends Functor2<F> {
-  readonly ap: <E, A, B>(fab: Kind2<F, E, (a: A) => B>, fa: Kind2<F, E, A>) => Kind2<F, E, B>
-}
-```
-
-Added in v2.0.0
-
-## Apply2C (interface)
-
-**Signature**
-
-```ts
-export interface Apply2C<F extends URIS2, E> extends Functor2C<F, E> {
-  readonly ap: <A, B>(fab: Kind2<F, E, (a: A) => B>, fa: Kind2<F, E, A>) => Kind2<F, E, B>
-}
-```
-
-Added in v2.0.0
-
-## Apply3 (interface)
-
-**Signature**
-
-```ts
-export interface Apply3<F extends URIS3> extends Functor3<F> {
-  readonly ap: <R, E, A, B>(fab: Kind3<F, R, E, (a: A) => B>, fa: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
-}
-```
-
-Added in v2.0.0
-
-## Apply3C (interface)
-
-**Signature**
-
-```ts
-export interface Apply3C<F extends URIS3, E> extends Functor3C<F, E> {
-  readonly ap: <R, A, B>(fab: Kind3<F, R, E, (a: A) => B>, fa: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
-}
-```
-
-Added in v2.2.0
-
-## Apply4 (interface)
-
-**Signature**
-
-```ts
-export interface Apply4<F extends URIS4> extends Functor4<F> {
-  readonly ap: <S, R, E, A, B>(fab: Kind4<F, S, R, E, (a: A) => B>, fa: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, B>
-}
-```
-
-Added in v2.0.0
-
-# utils
 
 ## getApplySemigroup
 

@@ -52,6 +52,7 @@ import * as identity from './Identity'
 import * as invariant from './Invariant'
 import * as io from './IO'
 import * as ioEither from './IOEither'
+import * as ioOption from './IOOption'
 import * as ioRef from './IORef'
 import * as joinSemilattice from './JoinSemilattice'
 import * as json from './Json'
@@ -78,6 +79,7 @@ import * as profunctor from './Profunctor'
 import * as random from './Random'
 import * as reader from './Reader'
 import * as readerEither from './ReaderEither'
+import * as readerIO from './ReaderIO'
 import * as readerT from './ReaderT'
 import * as readerTask from './ReaderTask'
 import * as readerTaskEither from './ReaderTaskEither'
@@ -123,26 +125,32 @@ import * as writerT from './WriterT'
 import * as zero from './Zero'
 export {
   /**
+   * @category model
    * @since 2.0.0
    */
   alt,
   /**
+   * @category model
    * @since 2.0.0
    */
   alternative,
   /**
+   * @category model
    * @since 2.0.0
    */
   applicative,
   /**
+   * @category model
    * @since 2.0.0
    */
   apply,
   /**
+   * @category data types
    * @since 2.0.0
    */
   array,
   /**
+   * @category model
    * @since 2.0.0
    */
   bifunctor,
@@ -151,50 +159,62 @@ export {
    */
   boolean,
   /**
+   * @category model
    * @since 2.0.0
    */
   booleanAlgebra,
   /**
+   * @category model
    * @since 2.0.0
    */
   bounded,
   /**
+   * @category model
    * @since 2.0.0
    */
   boundedDistributiveLattice,
   /**
+   * @category model
    * @since 2.0.0
    */
   boundedJoinSemilattice,
   /**
+   * @category model
    * @since 2.0.0
    */
   boundedLattice,
   /**
+   * @category model
    * @since 2.0.0
    */
   boundedMeetSemilattice,
   /**
+   * @category model
    * @since 2.0.0
    */
   category,
   /**
+   * @category model
    * @since 2.0.0
    */
   chain,
   /**
+   * @category model
    * @since 2.0.0
    */
   chainRec,
   /**
+   * @category model
    * @since 2.0.0
    */
   choice,
   /**
+   * @category model
    * @since 2.0.0
    */
   comonad,
   /**
+   * @category model
    * @since 2.0.0
    */
   compactable,
@@ -203,10 +223,12 @@ export {
    */
   console,
   /**
+   * @category data types
    * @since 2.0.0
    */
   const_ as const,
   /**
+   * @category model
    * @since 2.0.0
    */
   contravariant,
@@ -215,66 +237,82 @@ export {
    */
   date,
   /**
+   * @category model
    * @since 2.0.0
    */
   distributiveLattice,
   /**
+   * @category data types
    * @since 2.0.0
    */
   either,
   /**
+   * @category monad transformers
    * @since 2.0.0
    */
   eitherT,
   /**
+   * @category data types
    * @since 2.11.0
    */
   endomorphism,
   /**
+   * @category model
    * @since 2.0.0
    */
   extend,
   /**
+   * @category model
    * @since 2.0.0
    */
   field,
   /**
+   * @category model
    * @since 2.0.0
    */
   filterable,
   /**
+   * @category model
    * @since 2.0.0
    */
   filterableWithIndex,
   /**
+   * @category model
    * @since 2.0.0
    */
   foldable,
   /**
+   * @category model
    * @since 2.0.0
    */
   foldableWithIndex,
   /**
+   * @category model
    * @since 2.10.0
    */
   fromEither,
   /**
+   * @category model
    * @since 2.10.0
    */
   fromIO,
   /**
+   * @category model
    * @since 2.11.0
    */
   fromReader,
   /**
+   * @category model
    * @since 2.11.0
    */
   fromState,
   /**
+   * @category model
    * @since 2.10.0
    */
   fromTask,
   /**
+   * @category model
    * @since 2.11.0
    */
   fromThese,
@@ -283,18 +321,22 @@ export {
    */
   function_ as function,
   /**
+   * @category model
    * @since 2.0.0
    */
   functor,
   /**
+   * @category model
    * @since 2.0.0
    */
   functorWithIndex,
   /**
+   * @category model
    * @since 2.0.0
    */
   group,
   /**
+   * @category model
    * @since 2.0.0
    */
   heytingAlgebra,
@@ -303,26 +345,36 @@ export {
    */
   hkt,
   /**
+   * @category data types
    * @since 2.0.0
    */
   identity,
   /**
+   * @category model
    * @since 2.0.0
    */
   invariant,
   /**
+   * @category data types
    * @since 2.0.0
    */
   io,
   /**
+   * @category data types
    * @since 2.0.0
    */
   ioEither,
+  /**
+   * @category data types
+   * @since 2.12.0
+   */
+  ioOption,
   /**
    * @since 2.0.0
    */
   ioRef,
   /**
+   * @category model
    * @since 2.0.0
    */
   joinSemilattice,
@@ -331,38 +383,47 @@ export {
    */
   json,
   /**
+   * @category model
    * @since 2.0.0
    */
   lattice,
   /**
+   * @category model
    * @since 2.0.0
    */
   magma,
   /**
+   * @category data types
    * @since 2.0.0
    */
   map,
   /**
+   * @category model
    * @since 2.0.0
    */
   meetSemilattice,
   /**
+   * @category model
    * @since 2.0.0
    */
   monad,
   /**
+   * @category model
    * @since 2.0.0
    */
   monadIO,
   /**
+   * @category model
    * @since 2.0.0
    */
   monadTask,
   /**
+   * @category model
    * @since 2.0.0
    */
   monadThrow,
   /**
+   * @category model
    * @since 2.0.0
    */
   monoid,
@@ -371,6 +432,7 @@ export {
    */
   naturalTransformation,
   /**
+   * @category data types
    * @since 2.0.0
    */
   nonEmptyArray,
@@ -379,14 +441,17 @@ export {
    */
   number,
   /**
+   * @category data types
    * @since 2.0.0
    */
   option,
   /**
+   * @category monad transformers
    * @since 2.0.0
    */
   optionT,
   /**
+   * @category model
    * @since 2.0.0
    */
   ord,
@@ -399,14 +464,17 @@ export {
    */
   pipeable,
   /**
+   * @category model
    * @since 2.10.0
    */
   pointed,
   /**
+   * @category data types
    * @since 2.11.0
    */
   predicate,
   /**
+   * @category model
    * @since 2.0.0
    */
   profunctor,
@@ -415,102 +483,132 @@ export {
    */
   random,
   /**
+   * @category data types
    * @since 2.0.0
    */
   reader,
   /**
+   * @category data types
    * @since 2.0.0
    */
   readerEither,
   /**
+   * @category data types
+   * @since 2.0.0
+   */
+  readerIO,
+  /**
+   * @category monad transformers
    * @since 2.0.0
    */
   readerT,
   /**
+   * @category data types
    * @since 2.0.0
    */
   readerTaskEither,
   /**
+   * @category data types
    * @since 2.5.0
    */
   readonlyArray,
   /**
+   * @category data types
    * @since 2.5.0
    */
   readonlyMap,
   /**
+   * @category data types
    * @since 2.5.0
    */
   readonlyNonEmptyArray,
   /**
+   * @category data types
    * @since 2.5.0
    */
   readonlyRecord,
   /**
+   * @category data types
    * @since 2.5.0
    */
   readonlySet,
   /**
+   * @category data types
    * @since 2.5.0
    */
   readonlyTuple,
   /**
+   * @category data types
    * @since 2.3.0
    */
   readerTask,
   /**
+   * @category data types
    * @since 2.0.0
    */
   record,
   /**
+   * @category data types
    * @since 2.11.0
    */
   refinement,
   /**
+   * @category model
    * @since 2.0.0
    */
   ring,
   /**
+   * @category model
    * @since 2.0.0
    */
   semigroup,
   /**
+   * @category model
    * @since 2.0.0
    */
   semigroupoid,
   /**
+   * @category model
    * @since 2.0.0
    */
   semiring,
   /**
+   * @category data types
    * @since 2.10.0
    */
   separated,
   /**
+   * @category data types
    * @since 2.0.0
    */
   set,
   /**
+   * @category model
    * @since 2.0.0
    */
   eq,
   /**
+   * @category model
    * @since 2.0.0
    */
   show,
   /**
+   * @category data types
    * @since 2.0.0
    */
   state,
   /**
+   * @category data types
    * @since 2.0.0
    */
   stateReaderTaskEither,
   /**
+   * @category monad transformers
    * @since 2.0.0
    */
   stateT,
   /**
+   * @category data types
    * @since 2.0.0
    */
   store,
@@ -519,6 +617,7 @@ export {
    */
   string,
   /**
+   * @category model
    * @since 2.0.0
    */
   strong,
@@ -527,74 +626,93 @@ export {
    */
   struct,
   /**
+   * @category data types
    * @since 2.0.0
    */
   task,
   /**
+   * @category data types
    * @since 2.0.0
    */
   taskEither,
   /**
+   * @category data types
    * @since 2.10.0
    */
   taskOption,
   /**
+   * @category data types
    * @since 2.4.0
    */
   taskThese,
   /**
+   * @category data types
    * @since 2.0.0
    */
   these,
   /**
+   * @category monad transformers
    * @since 2.4.0
    */
   theseT,
   /**
+   * @category data types
    * @since 2.0.0
    */
   traced,
   /**
+   * @category model
    * @since 2.0.0
    */
   traversable,
   /**
+   * @category model
    * @since 2.0.0
    */
   traversableWithIndex,
   /**
+   * @category data types
    * @since 2.0.0
    */
   tree,
   /**
+   * @category data types
    * @since 2.0.0
    */
   tuple,
   /**
+   * @category model
    * @since 2.0.0
    */
   unfoldable,
   /**
+   * @category data types
    * @since 2.0.0
    */
   validationT,
   /**
+   * @category zone of death
    * @since 2.11.0
+   * @deprecated
    */
   void_ as void,
   /**
+   * @category model
    * @since 2.0.0
    */
   witherable,
   /**
+   * @category data types
    * @since 2.0.0
    */
   writer,
   /**
+   * @category monad transformers
    * @since 2.4.0
    */
   writerT,
   /**
+   * @category model
    * @since 2.11.0
    */
   zero

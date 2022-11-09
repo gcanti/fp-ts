@@ -1,6 +1,6 @@
 ---
 title: Semigroup.ts
-nav_order: 91
+nav_order: 93
 parent: Modules
 ---
 
@@ -48,202 +48,41 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [combinators](#combinators)
-  - [intercalate](#intercalate)
-  - [reverse](#reverse)
-  - [struct](#struct)
-  - [tuple](#tuple)
-  - [~~getDualSemigroup~~](#getdualsemigroup)
-  - [~~getIntercalateSemigroup~~](#getintercalatesemigroup)
-  - [~~getStructSemigroup~~](#getstructsemigroup)
-  - [~~getTupleSemigroup~~](#gettuplesemigroup)
 - [constructors](#constructors)
   - [constant](#constant)
   - [max](#max)
   - [min](#min)
-  - [~~getJoinSemigroup~~](#getjoinsemigroup)
-  - [~~getMeetSemigroup~~](#getmeetsemigroup)
 - [instances](#instances)
   - [first](#first)
   - [last](#last)
+- [model](#model)
+  - [Semigroup (interface)](#semigroup-interface)
+- [utils](#utils)
+  - [concatAll](#concatall)
+  - [intercalate](#intercalate)
+  - [reverse](#reverse)
+  - [struct](#struct)
+  - [tuple](#tuple)
+- [zone of death](#zone-of-death)
+  - [~~fold~~](#fold)
+  - [~~getDualSemigroup~~](#getdualsemigroup)
   - [~~getFirstSemigroup~~](#getfirstsemigroup)
   - [~~getFunctionSemigroup~~](#getfunctionsemigroup)
+  - [~~getIntercalateSemigroup~~](#getintercalatesemigroup)
+  - [~~getJoinSemigroup~~](#getjoinsemigroup)
   - [~~getLastSemigroup~~](#getlastsemigroup)
+  - [~~getMeetSemigroup~~](#getmeetsemigroup)
   - [~~getObjectSemigroup~~](#getobjectsemigroup)
+  - [~~getStructSemigroup~~](#getstructsemigroup)
+  - [~~getTupleSemigroup~~](#gettuplesemigroup)
   - [~~semigroupAll~~](#semigroupall)
   - [~~semigroupAny~~](#semigroupany)
   - [~~semigroupProduct~~](#semigroupproduct)
   - [~~semigroupString~~](#semigroupstring)
   - [~~semigroupSum~~](#semigroupsum)
   - [~~semigroupVoid~~](#semigroupvoid)
-- [type classes](#type-classes)
-  - [Semigroup (interface)](#semigroup-interface)
-- [utils](#utils)
-  - [concatAll](#concatall)
-  - [~~fold~~](#fold)
 
 ---
-
-# combinators
-
-## intercalate
-
-Between each pair of elements insert `middle`.
-
-**Signature**
-
-```ts
-export declare const intercalate: <A>(middle: A) => (S: Semigroup<A>) => Semigroup<A>
-```
-
-**Example**
-
-```ts
-import { intercalate } from 'fp-ts/Semigroup'
-import * as S from 'fp-ts/string'
-import { pipe } from 'fp-ts/function'
-
-const S1 = pipe(S.Semigroup, intercalate(' + '))
-
-assert.strictEqual(S1.concat('a', 'b'), 'a + b')
-```
-
-Added in v2.10.0
-
-## reverse
-
-The dual of a `Semigroup`, obtained by swapping the arguments of `concat`.
-
-**Signature**
-
-```ts
-export declare const reverse: <A>(S: Semigroup<A>) => Semigroup<A>
-```
-
-**Example**
-
-```ts
-import { reverse } from 'fp-ts/Semigroup'
-import * as S from 'fp-ts/string'
-
-assert.deepStrictEqual(reverse(S.Semigroup).concat('a', 'b'), 'ba')
-```
-
-Added in v2.10.0
-
-## struct
-
-Given a struct of semigroups returns a semigroup for the struct.
-
-**Signature**
-
-```ts
-export declare const struct: <A>(
-  semigroups: { [K in keyof A]: Semigroup<A[K]> }
-) => Semigroup<{ readonly [K in keyof A]: A[K] }>
-```
-
-**Example**
-
-```ts
-import { struct } from 'fp-ts/Semigroup'
-import * as N from 'fp-ts/number'
-
-interface Point {
-  readonly x: number
-  readonly y: number
-}
-
-const S = struct<Point>({
-  x: N.SemigroupSum,
-  y: N.SemigroupSum,
-})
-
-assert.deepStrictEqual(S.concat({ x: 1, y: 2 }, { x: 3, y: 4 }), { x: 4, y: 6 })
-```
-
-Added in v2.10.0
-
-## tuple
-
-Given a tuple of semigroups returns a semigroup for the tuple.
-
-**Signature**
-
-```ts
-export declare const tuple: <A extends readonly unknown[]>(
-  ...semigroups: { [K in keyof A]: Semigroup<A[K]> }
-) => Semigroup<Readonly<A>>
-```
-
-**Example**
-
-```ts
-import { tuple } from 'fp-ts/Semigroup'
-import * as B from 'fp-ts/boolean'
-import * as N from 'fp-ts/number'
-import * as S from 'fp-ts/string'
-
-const S1 = tuple(S.Semigroup, N.SemigroupSum)
-assert.deepStrictEqual(S1.concat(['a', 1], ['b', 2]), ['ab', 3])
-
-const S2 = tuple(S.Semigroup, N.SemigroupSum, B.SemigroupAll)
-assert.deepStrictEqual(S2.concat(['a', 1, true], ['b', 2, false]), ['ab', 3, false])
-```
-
-Added in v2.10.0
-
-## ~~getDualSemigroup~~
-
-Use [`reverse`](#reverse) instead.
-
-**Signature**
-
-```ts
-export declare const getDualSemigroup: <A>(S: Semigroup<A>) => Semigroup<A>
-```
-
-Added in v2.0.0
-
-## ~~getIntercalateSemigroup~~
-
-Use [`intercalate`](#intercalate) instead.
-
-**Signature**
-
-```ts
-export declare const getIntercalateSemigroup: <A>(middle: A) => (S: Semigroup<A>) => Semigroup<A>
-```
-
-Added in v2.5.0
-
-## ~~getStructSemigroup~~
-
-Use [`struct`](#struct) instead.
-
-**Signature**
-
-```ts
-export declare const getStructSemigroup: <O extends Readonly<Record<string, any>>>(
-  semigroups: { [K in keyof O]: Semigroup<O[K]> }
-) => Semigroup<O>
-```
-
-Added in v2.0.0
-
-## ~~getTupleSemigroup~~
-
-Use [`tuple`](#tuple) instead.
-
-**Signature**
-
-```ts
-export declare const getTupleSemigroup: <T extends readonly Semigroup<any>[]>(
-  ...semigroups: T
-) => Semigroup<{ [K in keyof T]: T[K] extends Semigroup<infer A> ? A : never }>
-```
-
-Added in v2.0.0
 
 # constructors
 
@@ -303,30 +142,6 @@ assert.deepStrictEqual(S1.concat(1, 2), 1)
 
 Added in v2.10.0
 
-## ~~getJoinSemigroup~~
-
-Use [`max`](#max) instead.
-
-**Signature**
-
-```ts
-export declare const getJoinSemigroup: <A>(O: Or.Ord<A>) => Semigroup<A>
-```
-
-Added in v2.0.0
-
-## ~~getMeetSemigroup~~
-
-Use [`min`](#min) instead.
-
-**Signature**
-
-```ts
-export declare const getMeetSemigroup: <A>(O: Or.Ord<A>) => Semigroup<A>
-```
-
-Added in v2.0.0
-
 # instances
 
 ## first
@@ -369,6 +184,182 @@ assert.deepStrictEqual(S.last<number>().concat(1, 2), 2)
 
 Added in v2.10.0
 
+# model
+
+## Semigroup (interface)
+
+**Signature**
+
+```ts
+export interface Semigroup<A> extends Magma<A> {}
+```
+
+Added in v2.0.0
+
+# utils
+
+## concatAll
+
+Given a sequence of `as`, concat them and return the total.
+
+If `as` is empty, return the provided `startWith` value.
+
+**Signature**
+
+```ts
+export declare const concatAll: <A>(S: Semigroup<A>) => (startWith: A) => (as: readonly A[]) => A
+```
+
+**Example**
+
+```ts
+import { concatAll } from 'fp-ts/Semigroup'
+import * as N from 'fp-ts/number'
+
+const sum = concatAll(N.SemigroupSum)(0)
+
+assert.deepStrictEqual(sum([1, 2, 3]), 6)
+assert.deepStrictEqual(sum([]), 0)
+```
+
+Added in v2.10.0
+
+## intercalate
+
+Between each pair of elements insert `middle`.
+
+**Signature**
+
+```ts
+export declare const intercalate: <A>(middle: A) => (S: Semigroup<A>) => Semigroup<A>
+```
+
+**Example**
+
+```ts
+import { intercalate } from 'fp-ts/Semigroup'
+import * as S from 'fp-ts/string'
+import { pipe } from 'fp-ts/function'
+
+const S1 = pipe(S.Semigroup, intercalate(' + '))
+
+assert.strictEqual(S1.concat('a', 'b'), 'a + b')
+```
+
+Added in v2.10.0
+
+## reverse
+
+The dual of a `Semigroup`, obtained by swapping the arguments of `concat`.
+
+**Signature**
+
+```ts
+export declare const reverse: <A>(S: Semigroup<A>) => Semigroup<A>
+```
+
+**Example**
+
+```ts
+import { reverse } from 'fp-ts/Semigroup'
+import * as S from 'fp-ts/string'
+
+assert.deepStrictEqual(reverse(S.Semigroup).concat('a', 'b'), 'ba')
+```
+
+Added in v2.10.0
+
+## struct
+
+Given a struct of semigroups returns a semigroup for the struct.
+
+**Signature**
+
+```ts
+export declare const struct: <A>(semigroups: { [K in keyof A]: Semigroup<A[K]> }) => Semigroup<{
+  readonly [K in keyof A]: A[K]
+}>
+```
+
+**Example**
+
+```ts
+import { struct } from 'fp-ts/Semigroup'
+import * as N from 'fp-ts/number'
+
+interface Point {
+  readonly x: number
+  readonly y: number
+}
+
+const S = struct<Point>({
+  x: N.SemigroupSum,
+  y: N.SemigroupSum,
+})
+
+assert.deepStrictEqual(S.concat({ x: 1, y: 2 }, { x: 3, y: 4 }), { x: 4, y: 6 })
+```
+
+Added in v2.10.0
+
+## tuple
+
+Given a tuple of semigroups returns a semigroup for the tuple.
+
+**Signature**
+
+```ts
+export declare const tuple: <A extends readonly unknown[]>(
+  ...semigroups: { [K in keyof A]: Semigroup<A[K]> }
+) => Semigroup<Readonly<A>>
+```
+
+**Example**
+
+```ts
+import { tuple } from 'fp-ts/Semigroup'
+import * as B from 'fp-ts/boolean'
+import * as N from 'fp-ts/number'
+import * as S from 'fp-ts/string'
+
+const S1 = tuple(S.Semigroup, N.SemigroupSum)
+assert.deepStrictEqual(S1.concat(['a', 1], ['b', 2]), ['ab', 3])
+
+const S2 = tuple(S.Semigroup, N.SemigroupSum, B.SemigroupAll)
+assert.deepStrictEqual(S2.concat(['a', 1, true], ['b', 2, false]), ['ab', 3, false])
+```
+
+Added in v2.10.0
+
+# zone of death
+
+## ~~fold~~
+
+Use [`concatAll`](#concatall) instead.
+
+**Signature**
+
+```ts
+export declare function fold<A>(S: Semigroup<A>): {
+  (startWith: A): (as: ReadonlyArray<A>) => A
+  (startWith: A, as: ReadonlyArray<A>): A
+}
+```
+
+Added in v2.0.0
+
+## ~~getDualSemigroup~~
+
+Use [`reverse`](#reverse) instead.
+
+**Signature**
+
+```ts
+export declare const getDualSemigroup: <A>(S: Semigroup<A>) => Semigroup<A>
+```
+
+Added in v2.0.0
+
 ## ~~getFirstSemigroup~~
 
 Use [`first`](#first) instead.
@@ -393,6 +384,30 @@ export declare const getFunctionSemigroup: <S>(S: Semigroup<S>) => <A = never>()
 
 Added in v2.0.0
 
+## ~~getIntercalateSemigroup~~
+
+Use [`intercalate`](#intercalate) instead.
+
+**Signature**
+
+```ts
+export declare const getIntercalateSemigroup: <A>(middle: A) => (S: Semigroup<A>) => Semigroup<A>
+```
+
+Added in v2.5.0
+
+## ~~getJoinSemigroup~~
+
+Use [`max`](#max) instead.
+
+**Signature**
+
+```ts
+export declare const getJoinSemigroup: <A>(O: Or.Ord<A>) => Semigroup<A>
+```
+
+Added in v2.0.0
+
 ## ~~getLastSemigroup~~
 
 Use [`last`](#last) instead.
@@ -405,6 +420,18 @@ export declare const getLastSemigroup: <A = never>() => Semigroup<A>
 
 Added in v2.0.0
 
+## ~~getMeetSemigroup~~
+
+Use [`min`](#min) instead.
+
+**Signature**
+
+```ts
+export declare const getMeetSemigroup: <A>(O: Or.Ord<A>) => Semigroup<A>
+```
+
+Added in v2.0.0
+
 ## ~~getObjectSemigroup~~
 
 Use [`getAssignSemigroup`](./struct.ts.html#getAssignSemigroup) instead.
@@ -413,6 +440,34 @@ Use [`getAssignSemigroup`](./struct.ts.html#getAssignSemigroup) instead.
 
 ```ts
 export declare const getObjectSemigroup: <A extends object = never>() => Semigroup<A>
+```
+
+Added in v2.0.0
+
+## ~~getStructSemigroup~~
+
+Use [`struct`](#struct) instead.
+
+**Signature**
+
+```ts
+export declare const getStructSemigroup: <O extends Readonly<Record<string, any>>>(semigroups: {
+  [K in keyof O]: Semigroup<O[K]>
+}) => Semigroup<O>
+```
+
+Added in v2.0.0
+
+## ~~getTupleSemigroup~~
+
+Use [`tuple`](#tuple) instead.
+
+**Signature**
+
+```ts
+export declare const getTupleSemigroup: <T extends readonly Semigroup<any>[]>(
+  ...semigroups: T
+) => Semigroup<{ [K in keyof T]: T[K] extends Semigroup<infer A> ? A : never }>
 ```
 
 Added in v2.0.0
@@ -485,63 +540,6 @@ Use `void` module instead.
 
 ```ts
 export declare const semigroupVoid: Semigroup<void>
-```
-
-Added in v2.0.0
-
-# type classes
-
-## Semigroup (interface)
-
-**Signature**
-
-```ts
-export interface Semigroup<A> extends Magma<A> {}
-```
-
-Added in v2.0.0
-
-# utils
-
-## concatAll
-
-Given a sequence of `as`, concat them and return the total.
-
-If `as` is empty, return the provided `startWith` value.
-
-**Signature**
-
-```ts
-export declare const concatAll: <A>(S: Semigroup<A>) => (startWith: A) => (as: readonly A[]) => A
-```
-
-**Example**
-
-```ts
-import { concatAll } from 'fp-ts/Semigroup'
-import * as N from 'fp-ts/number'
-
-const sum = concatAll(N.SemigroupSum)(0)
-
-assert.deepStrictEqual(sum([1, 2, 3]), 6)
-assert.deepStrictEqual(sum([]), 0)
-```
-
-Added in v2.10.0
-
-## ~~fold~~
-
-Use [`concatAll`](#concatall) instead.
-
-**Signature**
-
-```ts
-export declare function fold<A>(
-  S: Semigroup<A>
-): {
-  (startWith: A): (as: ReadonlyArray<A>) => A
-  (startWith: A, as: ReadonlyArray<A>): A
-}
 ```
 
 Added in v2.0.0

@@ -8,7 +8,7 @@ import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT
 // -------------------------------------------------------------------------------------
 
 /**
- * @category type classes
+ * @category model
  * @since 2.10.0
  */
 export interface Pointed<F> {
@@ -17,7 +17,7 @@ export interface Pointed<F> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.10.0
  */
 export interface Pointed1<F extends URIS> {
@@ -26,7 +26,7 @@ export interface Pointed1<F extends URIS> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.10.0
  */
 export interface Pointed2<F extends URIS2> {
@@ -35,7 +35,7 @@ export interface Pointed2<F extends URIS2> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.10.0
  */
 export interface Pointed2C<F extends URIS2, E> {
@@ -45,7 +45,7 @@ export interface Pointed2C<F extends URIS2, E> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.10.0
  */
 export interface Pointed3<F extends URIS3> {
@@ -54,7 +54,7 @@ export interface Pointed3<F extends URIS3> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.10.0
  */
 export interface Pointed3C<F extends URIS3, E> {
@@ -64,7 +64,7 @@ export interface Pointed3C<F extends URIS3, E> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.10.0
  */
 export interface Pointed4<F extends URIS4> {

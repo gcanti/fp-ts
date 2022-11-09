@@ -20,37 +20,138 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Contravariant](#contravariant)
-  - [contramap](#contramap)
-- [combinators](#combinators)
-  - [struct](#struct)
-  - [tuple](#tuple)
-  - [~~getStructEq~~](#getstructeq)
-  - [~~getTupleEq~~](#gettupleeq)
 - [constructors](#constructors)
   - [fromEquals](#fromequals)
 - [instances](#instances)
-  - [Contravariant](#contravariant-1)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
+  - [Contravariant](#contravariant)
   - [eqStrict](#eqstrict)
   - [getMonoid](#getmonoid)
   - [getSemigroup](#getsemigroup)
+- [model](#model)
+  - [Eq (interface)](#eq-interface)
+- [type lambdas](#type-lambdas)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
+- [utils](#utils)
+  - [contramap](#contramap)
+  - [struct](#struct)
+  - [tuple](#tuple)
+- [zone of death](#zone-of-death)
   - [~~eqBoolean~~](#eqboolean)
   - [~~eqDate~~](#eqdate)
   - [~~eqNumber~~](#eqnumber)
   - [~~eqString~~](#eqstring)
   - [~~eq~~](#eq)
-- [type classes](#type-classes)
-  - [Eq (interface)](#eq-interface)
-- [utils](#utils)
+  - [~~getStructEq~~](#getstructeq)
+  - [~~getTupleEq~~](#gettupleeq)
   - [~~strictEqual~~](#strictequal)
 
 ---
 
-# Contravariant
+# constructors
+
+## fromEquals
+
+**Signature**
+
+```ts
+export declare const fromEquals: <A>(equals: (x: A, y: A) => boolean) => Eq<A>
+```
+
+Added in v2.0.0
+
+# instances
+
+## Contravariant
+
+**Signature**
+
+```ts
+export declare const Contravariant: Contravariant1<'Eq'>
+```
+
+Added in v2.7.0
+
+## eqStrict
+
+**Signature**
+
+```ts
+export declare const eqStrict: Eq<unknown>
+```
+
+Added in v2.5.0
+
+## getMonoid
+
+**Signature**
+
+```ts
+export declare const getMonoid: <A>() => Monoid<Eq<A>>
+```
+
+Added in v2.6.0
+
+## getSemigroup
+
+**Signature**
+
+```ts
+export declare const getSemigroup: <A>() => Semigroup<Eq<A>>
+```
+
+Added in v2.10.0
+
+# model
+
+## Eq (interface)
+
+**Signature**
+
+```ts
+export interface Eq<A> {
+  readonly equals: (x: A, y: A) => boolean
+}
+```
+
+Added in v2.0.0
+
+# type lambdas
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'Eq'
+```
+
+Added in v2.0.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
+```
+
+Added in v2.0.0
+
+# utils
 
 ## contramap
+
+A typical use case for `contramap` would be like, given some `User` type, to construct an `Eq<User>`.
+
+We can do so with a function from `User -> X` where `X` is some value that we know how to compare
+for equality (meaning we have an `Eq<X>`)
+
+For example, given the following `User` type, we want to construct an `Eq<User>` that just looks at the `key` field
+for each user (since it's known to be unique).
+
+If we have a way of comparing `UUID`s for equality (`eqUUID: Eq<UUID>`) and we know how to go from `User -> UUID`,
+using `contramap` we can do this
 
 **Signature**
 
@@ -58,9 +159,39 @@ Added in v2.0.0
 export declare const contramap: <A, B>(f: (b: B) => A) => (fa: Eq<A>) => Eq<B>
 ```
 
-Added in v2.0.0
+**Example**
 
-# combinators
+```ts
+import { contramap, Eq } from 'fp-ts/Eq'
+import { pipe } from 'fp-ts/function'
+import * as S from 'fp-ts/string'
+
+type UUID = string
+
+interface User {
+  readonly key: UUID
+  readonly firstName: string
+  readonly lastName: string
+}
+
+const eqUUID: Eq<UUID> = S.Eq
+
+const eqUserByKey: Eq<User> = pipe(
+  eqUUID,
+  contramap((user) => user.key)
+)
+
+assert.deepStrictEqual(
+  eqUserByKey.equals({ key: 'k1', firstName: 'a1', lastName: 'b1' }, { key: 'k2', firstName: 'a1', lastName: 'b1' }),
+  false
+)
+assert.deepStrictEqual(
+  eqUserByKey.equals({ key: 'k1', firstName: 'a1', lastName: 'b1' }, { key: 'k1', firstName: 'a2', lastName: 'b1' }),
+  true
+)
+```
+
+Added in v2.0.0
 
 ## struct
 
@@ -99,105 +230,7 @@ assert.strictEqual(E.equals(['a', 1, true], ['a', 1, false]), false)
 
 Added in v2.10.0
 
-## ~~getStructEq~~
-
-Use [`struct`](#struct) instead.
-
-**Signature**
-
-```ts
-export declare const getStructEq: <O extends Readonly<Record<string, any>>>(eqs: { [K in keyof O]: Eq<O[K]> }) => Eq<O>
-```
-
-Added in v2.0.0
-
-## ~~getTupleEq~~
-
-Use [`tuple`](#tuple) instead.
-
-**Signature**
-
-```ts
-export declare const getTupleEq: <T extends readonly Eq<any>[]>(
-  ...eqs: T
-) => Eq<{ [K in keyof T]: T[K] extends Eq<infer A> ? A : never }>
-```
-
-Added in v2.0.0
-
-# constructors
-
-## fromEquals
-
-**Signature**
-
-```ts
-export declare const fromEquals: <A>(equals: (x: A, y: A) => boolean) => Eq<A>
-```
-
-Added in v2.0.0
-
-# instances
-
-## Contravariant
-
-**Signature**
-
-```ts
-export declare const Contravariant: Contravariant1<'Eq'>
-```
-
-Added in v2.7.0
-
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'Eq'
-```
-
-Added in v2.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
-```
-
-Added in v2.0.0
-
-## eqStrict
-
-**Signature**
-
-```ts
-export declare const eqStrict: Eq<unknown>
-```
-
-Added in v2.5.0
-
-## getMonoid
-
-**Signature**
-
-```ts
-export declare const getMonoid: <A>() => Monoid<Eq<A>>
-```
-
-Added in v2.6.0
-
-## getSemigroup
-
-**Signature**
-
-```ts
-export declare const getSemigroup: <A>() => Semigroup<Eq<A>>
-```
-
-Added in v2.10.0
+# zone of death
 
 ## ~~eqBoolean~~
 
@@ -249,7 +282,9 @@ Added in v2.0.0
 
 ## ~~eq~~
 
-Use small, specific instances instead.
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Contravariant` instance, pass `E.Contravariant` instead of `E.eq`
+(where `E` is from `import E from 'fp-ts/Eq'`)
 
 **Signature**
 
@@ -259,21 +294,31 @@ export declare const eq: Contravariant1<'Eq'>
 
 Added in v2.0.0
 
-# type classes
+## ~~getStructEq~~
 
-## Eq (interface)
+Use [`struct`](#struct) instead.
 
 **Signature**
 
 ```ts
-export interface Eq<A> {
-  readonly equals: (x: A, y: A) => boolean
-}
+export declare const getStructEq: <O extends Readonly<Record<string, any>>>(eqs: { [K in keyof O]: Eq<O[K]> }) => Eq<O>
 ```
 
 Added in v2.0.0
 
-# utils
+## ~~getTupleEq~~
+
+Use [`tuple`](#tuple) instead.
+
+**Signature**
+
+```ts
+export declare const getTupleEq: <T extends readonly Eq<any>[]>(
+  ...eqs: T
+) => Eq<{ [K in keyof T]: T[K] extends Eq<infer A> ? A : never }>
+```
+
+Added in v2.0.0
 
 ## ~~strictEqual~~
 

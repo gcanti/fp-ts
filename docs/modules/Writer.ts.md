@@ -1,6 +1,6 @@
 ---
 title: Writer.ts
-nav_order: 119
+nav_order: 121
 parent: Modules
 ---
 
@@ -12,36 +12,124 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Functor](#functor)
-  - [map](#map)
-- [combinators](#combinators)
-  - [censor](#censor)
-  - [flap](#flap)
-  - [listen](#listen)
-  - [listens](#listens)
-  - [pass](#pass)
+- [constructors](#constructors)
   - [tell](#tell)
 - [instances](#instances)
-  - [Functor](#functor-1)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
+  - [Functor](#functor)
   - [getApplicative](#getapplicative)
   - [getApply](#getapply)
   - [getChain](#getchain)
   - [getMonad](#getmonad)
   - [getPointed](#getpointed)
-  - [~~writer~~](#writer)
+- [mapping](#mapping)
+  - [flap](#flap)
+  - [map](#map)
 - [model](#model)
   - [Writer (interface)](#writer-interface)
+- [type lambdas](#type-lambdas)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
+  - [censor](#censor)
   - [evaluate](#evaluate)
   - [execute](#execute)
+  - [listen](#listen)
+  - [listens](#listens)
+  - [pass](#pass)
+- [zone of death](#zone-of-death)
   - [~~evalWriter~~](#evalwriter)
   - [~~execWriter~~](#execwriter)
+  - [~~writer~~](#writer)
 
 ---
 
-# Functor
+# constructors
+
+## tell
+
+Appends a value to the accumulator
+
+**Signature**
+
+```ts
+export declare const tell: <W>(w: W) => Writer<W, void>
+```
+
+Added in v2.0.0
+
+# instances
+
+## Functor
+
+**Signature**
+
+```ts
+export declare const Functor: Functor2<'Writer'>
+```
+
+Added in v2.7.0
+
+## getApplicative
+
+**Signature**
+
+```ts
+export declare const getApplicative: <W>(M: Monoid<W>) => Applicative2C<'Writer', W>
+```
+
+Added in v2.10.0
+
+## getApply
+
+**Signature**
+
+```ts
+export declare const getApply: <W>(S: Semigroup<W>) => Apply2C<'Writer', W>
+```
+
+Added in v2.10.0
+
+## getChain
+
+**Signature**
+
+```ts
+export declare function getChain<W>(S: Semigroup<W>): Chain2C<URI, W>
+```
+
+Added in v2.10.0
+
+## getMonad
+
+**Signature**
+
+```ts
+export declare function getMonad<W>(M: Monoid<W>): Monad2C<URI, W>
+```
+
+Added in v2.0.0
+
+## getPointed
+
+**Signature**
+
+```ts
+export declare const getPointed: <W>(M: Monoid<W>) => Pointed2C<'Writer', W>
+```
+
+Added in v2.10.0
+
+# mapping
+
+## flap
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <E, B>(fab: Writer<E, (a: A) => B>) => Writer<E, B>
+```
+
+Added in v2.10.0
 
 ## map
 
@@ -56,7 +144,43 @@ export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: Writer<E, A>) => Wri
 
 Added in v2.0.0
 
-# combinators
+# model
+
+## Writer (interface)
+
+**Signature**
+
+```ts
+export interface Writer<W, A> {
+  (): [A, W]
+}
+```
+
+Added in v2.0.0
+
+# type lambdas
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'Writer'
+```
+
+Added in v2.0.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
+```
+
+Added in v2.0.0
+
+# utils
 
 ## censor
 
@@ -70,17 +194,25 @@ export declare const censor: <W>(f: (w: W) => W) => <A>(fa: Writer<W, A>) => Wri
 
 Added in v2.0.0
 
-## flap
-
-Derivable from `Functor`.
+## evaluate
 
 **Signature**
 
 ```ts
-export declare const flap: <A>(a: A) => <E, B>(fab: Writer<E, (a: A) => B>) => Writer<E, B>
+export declare const evaluate: <W, A>(fa: Writer<W, A>) => A
 ```
 
-Added in v2.10.0
+Added in v2.8.0
+
+## execute
+
+**Signature**
+
+```ts
+export declare const execute: <W, A>(fa: Writer<W, A>) => W
+```
+
+Added in v2.8.0
 
 ## listen
 
@@ -118,147 +250,7 @@ export declare const pass: <W, A>(fa: Writer<W, [A, (w: W) => W]>) => Writer<W, 
 
 Added in v2.0.0
 
-## tell
-
-Appends a value to the accumulator
-
-**Signature**
-
-```ts
-export declare const tell: <W>(w: W) => Writer<W, void>
-```
-
-Added in v2.0.0
-
-# instances
-
-## Functor
-
-**Signature**
-
-```ts
-export declare const Functor: Functor2<'Writer'>
-```
-
-Added in v2.7.0
-
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'Writer'
-```
-
-Added in v2.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
-```
-
-Added in v2.0.0
-
-## getApplicative
-
-**Signature**
-
-```ts
-export declare const getApplicative: <W>(M: Monoid<W>) => Applicative2C<'Writer', W>
-```
-
-Added in v2.10.0
-
-## getApply
-
-**Signature**
-
-```ts
-export declare const getApply: <W>(S: Semigroup<W>) => Apply2C<'Writer', W>
-```
-
-Added in v2.10.0
-
-## getChain
-
-**Signature**
-
-```ts
-export declare function getChain<W>(M: Monoid<W>): Chain2C<URI, W>
-```
-
-Added in v2.10.0
-
-## getMonad
-
-**Signature**
-
-```ts
-export declare function getMonad<W>(M: Monoid<W>): Monad2C<URI, W>
-```
-
-Added in v2.0.0
-
-## getPointed
-
-**Signature**
-
-```ts
-export declare const getPointed: <W>(M: Monoid<W>) => Pointed2C<'Writer', W>
-```
-
-Added in v2.10.0
-
-## ~~writer~~
-
-Use [`Functor`](#functor) instead.
-
-**Signature**
-
-```ts
-export declare const writer: Functor2<'Writer'>
-```
-
-Added in v2.0.0
-
-# model
-
-## Writer (interface)
-
-**Signature**
-
-```ts
-export interface Writer<W, A> {
-  (): [A, W]
-}
-```
-
-Added in v2.0.0
-
-# utils
-
-## evaluate
-
-**Signature**
-
-```ts
-export declare const evaluate: <W, A>(fa: Writer<W, A>) => A
-```
-
-Added in v2.8.0
-
-## execute
-
-**Signature**
-
-```ts
-export declare const execute: <W, A>(fa: Writer<W, A>) => W
-```
-
-Added in v2.8.0
+# zone of death
 
 ## ~~evalWriter~~
 
@@ -280,6 +272,18 @@ Use [`execute`](#execute) instead
 
 ```ts
 export declare const execWriter: <W, A>(fa: Writer<W, A>) => W
+```
+
+Added in v2.0.0
+
+## ~~writer~~
+
+Use [`Functor`](#functor) instead.
+
+**Signature**
+
+```ts
+export declare const writer: Functor2<'Writer'>
 ```
 
 Added in v2.0.0

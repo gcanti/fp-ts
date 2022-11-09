@@ -25,19 +25,16 @@ import { HKT } from './HKT'
 // -------------------------------------------------------------------------------------
 
 /**
- * @category destructors
  * @since 2.0.0
  */
 export const fst: <A, E>(ea: [A, E]) => A = RT.fst
 
 /**
- * @category destructors
  * @since 2.0.0
  */
 export const snd: <A, E>(ea: [A, E]) => E = RT.snd
 
 /**
- * @category combinators
  * @since 2.0.0
  */
 export const swap = <A, E>(ea: [A, E]): [E, A] => [snd(ea), fst(ea)]
@@ -55,9 +52,11 @@ export function getApply<S>(S: Semigroup<S>): Apply2C<URI, S> {
   }
 }
 
-const of = <M>(M: Monoid<M>) => <A>(a: A): [A, M] => {
-  return [a, M.empty]
-}
+const of =
+  <M>(M: Monoid<M>) =>
+  <A>(a: A): [A, M] => {
+    return [a, M.empty]
+  }
 
 /**
  * @category instances
@@ -136,10 +135,6 @@ export function getChainRec<M>(M: Monoid<M>): ChainRec2C<URI, M> {
   }
 }
 
-// -------------------------------------------------------------------------------------
-// non-pipeables
-// -------------------------------------------------------------------------------------
-
 /* istanbul ignore next */
 const _compose: Semigroupoid2<URI>['compose'] = (bc, ab) => pipe(bc, compose(ab))
 /* istanbul ignore next */
@@ -165,26 +160,21 @@ function _traverse<F>(F: Applicative<F>): <A, S, B>(ta: [A, S], f: (a: A) => HKT
   return (ta, f) => pipe(ta, traverseF(f))
 }
 
-// -------------------------------------------------------------------------------------
-// type class members
-// -------------------------------------------------------------------------------------
-
 /**
  * Map a pair of functions over the two type arguments of the bifunctor.
  *
- * @category Bifunctor
+ * @category mapping
  * @since 2.0.0
  */
-export const bimap: <E, G, A, B>(mapSnd: (e: E) => G, mapFst: (a: A) => B) => (fa: [A, E]) => [B, G] = (f, g) => (
-  fa
-) => [g(fst(fa)), f(snd(fa))]
+export const bimap: <E, G, A, B>(mapSnd: (e: E) => G, mapFst: (a: A) => B) => (fa: [A, E]) => [B, G] = (f, g) => (fa) =>
+  [g(fst(fa)), f(snd(fa))]
 
 /**
  * Map a function over the first component of a `Tuple`.
  *
  * This is the `map` operation of the `Functor` instance.
  *
- * @category Functor
+ * @category mapping
  * @since 2.0.0
  */
 export const mapFst: <A, B>(f: (a: A) => B) => <E>(fa: [A, E]) => [B, E] = (f) => (fa) => [f(fst(fa)), snd(fa)]
@@ -194,32 +184,25 @@ export const mapFst: <A, B>(f: (a: A) => B) => <E>(fa: [A, E]) => [B, E] = (f) =
  *
  * This is the `mapLeft` operation of the `Bifunctor` instance.
  *
- * @category Bifunctor
+ * @category mapping
  * @since 2.10.0
  */
 export const mapSnd: <E, G>(f: (e: E) => G) => <A>(fa: [A, E]) => [A, G] = (f) => (fa) => [fst(fa), f(snd(fa))]
 
 /**
- * @category Semigroupoid
  * @since 2.0.0
  */
 export const compose: <A, B>(ab: [B, A]) => <C>(bc: [C, B]) => [C, A] = (ab) => (bc) => [fst(bc), snd(ab)]
 
 /**
- * @category Extend
  * @since 2.0.0
  */
 export const extend: <E, A, B>(f: (wa: [A, E]) => B) => (wa: [A, E]) => [B, E] = (f) => (wa) => [f(wa), snd(wa)]
 
 /**
- * Derivable from `Extend`.
- *
- * @category combinators
  * @since 2.0.0
  */
-export const duplicate: <E, A>(wa: [A, E]) => [[A, E], E] =
-  /*#__PURE__*/
-  extend(identity)
+export const duplicate: <E, A>(wa: [A, E]) => [[A, E], E] = /*#__PURE__*/ extend(identity)
 
 /**
  * @category Extract
@@ -228,24 +211,25 @@ export const duplicate: <E, A>(wa: [A, E]) => [[A, E], E] =
 export const extract: <E, A>(wa: [A, E]) => A = RT.extract
 
 /**
- * @category Foldable
+ * @category folding
  * @since 2.0.0
  */
 export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: [A, E]) => M = RT.foldMap
 
 /**
- * @category Foldable
+ * @category folding
  * @since 2.0.0
  */
 export const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => <E>(fa: [A, E]) => B = RT.reduce
 
 /**
- * @category Foldable
+ * @category folding
  * @since 2.0.0
  */
 export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: [A, E]) => B = RT.reduceRight
 
 /**
+ * @category traversing
  * @since 2.6.3
  */
 export const traverse: PipeableTraverse2<URI> = <F>(
@@ -255,26 +239,23 @@ export const traverse: PipeableTraverse2<URI> = <F>(
 }
 
 /**
+ * @category traversing
  * @since 2.6.3
  */
-export const sequence: Traversable2<URI>['sequence'] = <F>(F: Applicative<F>) => <A, E>(
-  fas: [HKT<F, A>, E]
-): HKT<F, [A, E]> => {
-  return F.map(fst(fas), (a) => [a, snd(fas)])
-}
-
-// -------------------------------------------------------------------------------------
-// instances
-// -------------------------------------------------------------------------------------
+export const sequence: Traversable2<URI>['sequence'] =
+  <F>(F: Applicative<F>) =>
+  <A, E>(fas: [HKT<F, A>, E]): HKT<F, [A, E]> => {
+    return F.map(fst(fas), (a) => [a, snd(fas)])
+  }
 
 /**
- * @category instances
+ * @category type lambdas
  * @since 2.0.0
  */
 export const URI = 'Tuple'
 
 /**
- * @category instances
+ * @category type lambdas
  * @since 2.0.0
  */
 export type URI = typeof URI
@@ -295,14 +276,10 @@ export const Functor: Functor2<URI> = {
 }
 
 /**
- * Derivable from `Functor`.
- *
- * @category combinators
+ * @category mapping
  * @since 2.10.0
  */
-export const flap =
-  /*#__PURE__*/
-  flap_(Functor)
+export const flap = /*#__PURE__*/ flap_(Functor)
 
 /**
  * @category instances
@@ -366,6 +343,7 @@ export const Traversable: Traversable2<URI> = {
 /**
  * Use [`mapFst`](#mapfst) instead.
  *
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -374,15 +352,18 @@ export const map: <A, B>(f: (a: A) => B) => <E>(fa: [A, E]) => [B, E] = mapFst
 /**
  * Use [`mapSnd`](#mapsnd) instead.
  *
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
 export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: [A, E]) => [A, G] = mapSnd
 
 /**
- * Use small, specific instances instead.
+ * This instance is deprecated, use small, specific instances instead.
+ * For example if a function needs a `Functor` instance, pass `T.Functor` instead of `T.tuple`
+ * (where `T` is from `import T from 'fp-ts/Tuple'`)
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */

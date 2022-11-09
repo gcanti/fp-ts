@@ -8,7 +8,7 @@ import { HKT2, Kind2, Kind3, URIS2, URIS3, URIS4, Kind4 } from './HKT'
 // -------------------------------------------------------------------------------------
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Bifunctor<F> {
@@ -18,7 +18,7 @@ export interface Bifunctor<F> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Bifunctor2<F extends URIS2> {
@@ -28,7 +28,7 @@ export interface Bifunctor2<F extends URIS2> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Bifunctor2C<F extends URIS2, E> {
@@ -39,7 +39,7 @@ export interface Bifunctor2C<F extends URIS2, E> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Bifunctor3<F extends URIS3> {
@@ -49,7 +49,7 @@ export interface Bifunctor3<F extends URIS3> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.2.0
  */
 export interface Bifunctor3C<F extends URIS3, E> {
@@ -60,7 +60,7 @@ export interface Bifunctor3C<F extends URIS3, E> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Bifunctor4<F extends URIS4> {

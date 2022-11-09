@@ -26,7 +26,12 @@ import { Chain2C } from './Chain'
 import { Either, Left, Right } from './Either'
 import { Eq, fromEquals } from './Eq'
 import { Foldable2 } from './Foldable'
-import { FromEither2, fromOption as fromOption_, fromOptionK as fromOptionK_ } from './FromEither'
+import {
+  FromEither2,
+  fromOption as fromOption_,
+  fromOptionK as fromOptionK_,
+  fromPredicate as fromPredicate_
+} from './FromEither'
 import { FromThese2 } from './FromThese'
 import { identity, Lazy, pipe } from './function'
 import { flap as flap_, Functor2 } from './Functor'
@@ -40,6 +45,7 @@ import { Option } from './Option'
 import { Pointed2 } from './Pointed'
 import { Predicate } from './Predicate'
 import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
+import { Refinement } from './Refinement'
 import { Semigroup } from './Semigroup'
 import { Show } from './Show'
 import { PipeableTraverse2, Traversable2 } from './Traversable'
@@ -125,32 +131,34 @@ export function both<E, A>(left: E, right: A): These<E, A> {
 /**
  * Less strict version of [`match`](#match).
  *
- * @category destructors
+ * The `W` suffix (short for **W**idening) means that the handler return types will be merged.
+ *
+ * @category pattern matching
  * @since 2.10.0
  */
-export const matchW = <E, B, A, C, D>(onLeft: (e: E) => B, onRight: (a: A) => C, onBoth: (e: E, a: A) => D) => (
-  fa: These<E, A>
-): B | C | D => {
-  switch (fa._tag) {
-    case 'Left':
-      return onLeft(fa.left)
-    case 'Right':
-      return onRight(fa.right)
-    case 'Both':
-      return onBoth(fa.left, fa.right)
+export const matchW =
+  <E, B, A, C, D>(onLeft: (e: E) => B, onRight: (a: A) => C, onBoth: (e: E, a: A) => D) =>
+  (fa: These<E, A>): B | C | D => {
+    switch (fa._tag) {
+      case 'Left':
+        return onLeft(fa.left)
+      case 'Right':
+        return onRight(fa.right)
+      case 'Both':
+        return onBoth(fa.left, fa.right)
+    }
   }
-}
 
 /**
  * Alias of [`matchW`](#matchw).
  *
- * @category destructors
+ * @category pattern matching
  * @since 2.10.0
  */
 export const foldW = matchW
 
 /**
- * @category destructors
+ * @category pattern matching
  * @since 2.10.0
  */
 export const match: <E, A, B>(
@@ -162,13 +170,12 @@ export const match: <E, A, B>(
 /**
  * Alias of [`match`](#match).
  *
- * @category destructors
+ * @category pattern matching
  * @since 2.0.0
  */
 export const fold = match
 
 /**
- * @category combinators
  * @since 2.4.0
  */
 export const swap: <E, A>(fa: These<E, A>) => These<A, E> = match(right, left, (e, a) => both(a, e))
@@ -330,7 +337,7 @@ export function getMonad<E>(S: Semigroup<E>): Monad2C<URI, E> & MonadThrow2C<URI
  * assert.deepStrictEqual(getLeft(right(1)), none)
  * assert.deepStrictEqual(getLeft(both('a', 1)), some('a'))
  *
- * @category destructors
+ * @category conversions
  * @since 2.0.0
  */
 export function getLeft<E, A>(fa: These<E, A>): Option<E> {
@@ -348,7 +355,7 @@ export function getLeft<E, A>(fa: These<E, A>): Option<E> {
  * assert.deepStrictEqual(getRight(right(1)), some(1))
  * assert.deepStrictEqual(getRight(both('a', 1)), some(1))
  *
- * @category destructors
+ * @category conversions
  * @since 2.0.0
  */
 export function getRight<E, A>(fa: These<E, A>): Option<A> {
@@ -398,7 +405,7 @@ export function rightOrBoth<A>(a: A): <E>(me: Option<E>) => These<E, A> {
  * assert.deepStrictEqual(getLeftOnly(right(1)), none)
  * assert.deepStrictEqual(getLeftOnly(both('a', 1)), none)
  *
- * @category destructors
+ * @category conversions
  * @since 2.0.0
  */
 export function getLeftOnly<E, A>(fa: These<E, A>): Option<E> {
@@ -416,7 +423,7 @@ export function getLeftOnly<E, A>(fa: These<E, A>): Option<E> {
  * assert.deepStrictEqual(getRightOnly(right(1)), some(1))
  * assert.deepStrictEqual(getRightOnly(both('a', 1)), none)
  *
- * @category destructors
+ * @category conversions
  * @since 2.0.0
  */
 export function getRightOnly<E, A>(fa: These<E, A>): Option<A> {
@@ -435,7 +442,7 @@ export function getRightOnly<E, A>(fa: These<E, A>): Option<A> {
  * assert.deepStrictEqual(fromOptions(none, some(1)), some(right(1)))
  * assert.deepStrictEqual(fromOptions(some('a'), some(1)), some(both('a', 1)))
  *
- * @category constructors
+ * @category conversions
  * @since 2.0.0
  */
 export const fromOptions = <E, A>(fe: Option<E>, fa: Option<A>): Option<These<E, A>> =>
@@ -446,10 +453,6 @@ export const fromOptions = <E, A>(fe: Option<E>, fa: Option<A>): Option<These<E,
     : _.isNone(fa)
     ? _.some(left(fe.value))
     : _.some(both(fe.value, fa.value))
-
-// -------------------------------------------------------------------------------------
-// non-pipeables
-// -------------------------------------------------------------------------------------
 
 const _map: Functor2<URI>['map'] = (fa, f) => pipe(fa, map(f))
 /* istanbul ignore next */
@@ -473,14 +476,10 @@ const _traverse = <F>(
   return (ta, f) => pipe(ta, traverseF(f))
 }
 
-// -------------------------------------------------------------------------------------
-// type class members
-// -------------------------------------------------------------------------------------
-
 /**
  * Map a pair of functions over the two type arguments of the bifunctor.
  *
- * @category Bifunctor
+ * @category mapping
  * @since 2.0.0
  */
 export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: These<E, A>) => These<G, B> = (f, g) => (fa) =>
@@ -489,7 +488,7 @@ export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: These<E
 /**
  * Map a function over the first type argument of a bifunctor.
  *
- * @category Bifunctor
+ * @category error handling
  * @since 2.0.0
  */
 export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: These<E, A>) => These<G, A> = (f) => (fa) =>
@@ -499,68 +498,67 @@ export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: These<E, A>) => These<G,
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
  * use the type constructor `F` to represent some computational context.
  *
- * @category Functor
+ * @category mapping
  * @since 2.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => <E>(fa: These<E, A>) => These<E, B> = (f) => (fa) =>
   isLeft(fa) ? fa : isRight(fa) ? right(f(fa.right)) : both(fa.left, f(fa.right))
 
 /**
- * @category Foldable
+ * @category folding
  * @since 2.0.0
  */
 export const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => <E>(fa: These<E, A>) => B = (b, f) => (fa) =>
   isLeft(fa) ? b : f(b, fa.right)
 
 /**
- * @category Foldable
+ * @category folding
  * @since 2.0.0
  */
 export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: These<E, A>) => M = (M) => (f) => (fa) =>
   isLeft(fa) ? M.empty : f(fa.right)
 
 /**
- * @category Foldable
+ * @category folding
  * @since 2.0.0
  */
 export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: These<E, A>) => B = (b, f) => (fa) =>
   isLeft(fa) ? b : f(fa.right, b)
 
 /**
+ * @category traversing
  * @since 2.6.3
  */
-export const traverse: PipeableTraverse2<URI> = <F>(
-  F: Applicative<F>
-): (<A, B>(f: (a: A) => HKT<F, B>) => <E>(ta: These<E, A>) => HKT<F, These<E, B>>) => (f) => (ta) =>
-  isLeft(ta) ? F.of(ta) : isRight(ta) ? F.map(f(ta.right), right) : F.map(f(ta.right), (b) => both(ta.left, b))
+export const traverse: PipeableTraverse2<URI> =
+  <F>(F: Applicative<F>): (<A, B>(f: (a: A) => HKT<F, B>) => <E>(ta: These<E, A>) => HKT<F, These<E, B>>) =>
+  (f) =>
+  (ta) =>
+    isLeft(ta) ? F.of(ta) : isRight(ta) ? F.map(f(ta.right), right) : F.map(f(ta.right), (b) => both(ta.left, b))
 
 /**
+ * @category traversing
  * @since 2.6.3
  */
-export const sequence: Traversable2<URI>['sequence'] = <F>(F: Applicative<F>) => <E, A>(
-  ta: These<E, HKT<F, A>>
-): HKT<F, These<E, A>> => {
-  return isLeft(ta) ? F.of(ta) : isRight(ta) ? F.map(ta.right, right) : F.map(ta.right, (b) => both(ta.left, b))
-}
+export const sequence: Traversable2<URI>['sequence'] =
+  <F>(F: Applicative<F>) =>
+  <E, A>(ta: These<E, HKT<F, A>>): HKT<F, These<E, A>> => {
+    return isLeft(ta) ? F.of(ta) : isRight(ta) ? F.map(ta.right, right) : F.map(ta.right, (b) => both(ta.left, b))
+  }
 
 /**
- * @category Pointed
+ * @category constructors
  * @since 2.0.0
  */
 export const of: <E = never, A = never>(right: A) => These<E, A> = right
 
-// -------------------------------------------------------------------------------------
-// instances
-// -------------------------------------------------------------------------------------
-
 /**
- * @category instances
+ * @category type lambdas
  * @since 2.0.0
  */
 export const URI = 'These'
 
 /**
- * @category instances
+ * @category type lambdas
  * @since 2.0.0
  */
 export type URI = typeof URI
@@ -581,14 +579,10 @@ export const Functor: Functor2<URI> = {
 }
 
 /**
- * Derivable from `Functor`.
- *
- * @category combinators
+ * @category mapping
  * @since 2.10.0
  */
-export const flap =
-  /*#__PURE__*/
-  flap_(Functor)
+export const flap = /*#__PURE__*/ flap_(Functor)
 
 /**
  * @category instances
@@ -653,20 +647,30 @@ export const FromEither: FromEither2<URI> = {
 }
 
 /**
- * @category natural transformations
- * @since 2.10.0
+ * @category lifting
+ * @since 2.13.0
  */
-export const fromOption =
-  /*#__PURE__*/
-  fromOption_(FromEither)
+export const fromPredicate: {
+  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => These<E, B>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <B extends A>(b: B) => These<E, B>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => These<E, A>
+} = /*#__PURE__*/ fromPredicate_(FromEither)
 
 /**
- * @category combinators
+ * @category conversions
  * @since 2.10.0
  */
-export const fromOptionK =
-  /*#__PURE__*/
-  fromOptionK_(FromEither)
+export const fromOption: <E>(onNone: Lazy<E>) => <A>(fa: Option<A>) => These<E, A> =
+  /*#__PURE__*/ fromOption_(FromEither)
+
+/**
+ * @category lifting
+ * @since 2.10.0
+ */
+export const fromOptionK: <E>(
+  onNone: Lazy<E>
+) => <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Option<B>) => (...a: A) => These<E, B> =
+  /*#__PURE__*/ fromOptionK_(FromEither)
 
 // -------------------------------------------------------------------------------------
 // utils
@@ -675,14 +679,19 @@ export const fromOptionK =
 /**
  * @since 2.11.0
  */
-export const elem = <A>(E: Eq<A>) => (a: A) => <E>(ma: These<E, A>): boolean =>
-  isLeft(ma) ? false : E.equals(a, ma.right)
+export const elem =
+  <A>(E: Eq<A>) =>
+  (a: A) =>
+  <E>(ma: These<E, A>): boolean =>
+    isLeft(ma) ? false : E.equals(a, ma.right)
 
 /**
  * @since 2.11.0
  */
-export const exists = <A>(predicate: Predicate<A>) => <E>(ma: These<E, A>): boolean =>
-  isLeft(ma) ? false : predicate(ma.right)
+export const exists =
+  <A>(predicate: Predicate<A>) =>
+  (ma: These<unknown, A>): boolean =>
+    isLeft(ma) ? false : predicate(ma.right)
 
 /**
  * @example
@@ -692,10 +701,13 @@ export const exists = <A>(predicate: Predicate<A>) => <E>(ma: These<E, A>): bool
  * assert.deepStrictEqual(toTuple2(() => 'a', () => 1)(right(2)), ['a', 2])
  * assert.deepStrictEqual(toTuple2(() => 'a', () => 1)(both('b', 2)), ['b', 2])
  *
+ * @category conversions
  * @since 2.10.0
  */
-export const toTuple2 = <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: These<E, A>): readonly [E, A] =>
-  isLeft(fa) ? [fa.left, a()] : isRight(fa) ? [e(), fa.right] : [fa.left, fa.right]
+export const toTuple2 =
+  <E, A>(e: Lazy<E>, a: Lazy<A>) =>
+  (fa: These<E, A>): readonly [E, A] =>
+    isLeft(fa) ? [fa.left, a()] : isRight(fa) ? [e(), fa.right] : [fa.left, fa.right]
 
 // -------------------------------------------------------------------------------------
 // deprecated
@@ -704,6 +716,7 @@ export const toTuple2 = <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: These<E, A>): rea
 /**
  * Use [`toTuple2`](#totuple2) instead.
  *
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -713,16 +726,10 @@ export const toTuple = <E, A>(e: E, a: A): ((fa: These<E, A>) => [E, A]) =>
     () => a
   ) as any
 
-// -------------------------------------------------------------------------------------
-// sequence T
-// -------------------------------------------------------------------------------------
-
 /**
  * @since 2.11.0
  */
-export const ApT: These<never, readonly []> =
-  /*#__PURE__*/
-  of(_.emptyReadonlyArray)
+export const ApT: These<never, readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
 
 // -------------------------------------------------------------------------------------
 // array utils
@@ -731,53 +738,58 @@ export const ApT: These<never, readonly []> =
 /**
  * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(getApplicative(S))`.
  *
+ * @category traversing
  * @since 2.11.0
  */
-export const traverseReadonlyNonEmptyArrayWithIndex = <E>(S: Semigroup<E>) => <A, B>(
-  f: (index: number, a: A) => These<E, B>
-) => (as: ReadonlyNonEmptyArray<A>): These<E, ReadonlyNonEmptyArray<B>> => {
-  let e: Option<E> = _.none
-  const t = f(0, _.head(as))
-  if (isLeft(t)) {
-    return t
-  }
-  if (isBoth(t)) {
-    e = _.some(t.left)
-  }
-  const out: NonEmptyArray<B> = [t.right]
-  for (let i = 1; i < as.length; i++) {
-    const t = f(i, as[i])
+export const traverseReadonlyNonEmptyArrayWithIndex =
+  <E>(S: Semigroup<E>) =>
+  <A, B>(f: (index: number, a: A) => These<E, B>) =>
+  (as: ReadonlyNonEmptyArray<A>): These<E, ReadonlyNonEmptyArray<B>> => {
+    let e: Option<E> = _.none
+    const t = f(0, _.head(as))
     if (isLeft(t)) {
       return t
     }
     if (isBoth(t)) {
-      e = _.isNone(e) ? _.some(t.left) : _.some(S.concat(e.value, t.left))
+      e = _.some(t.left)
     }
-    out.push(t.right)
+    const out: NonEmptyArray<B> = [t.right]
+    for (let i = 1; i < as.length; i++) {
+      const t = f(i, as[i])
+      if (isLeft(t)) {
+        return t
+      }
+      if (isBoth(t)) {
+        e = _.isNone(e) ? _.some(t.left) : _.some(S.concat(e.value, t.left))
+      }
+      out.push(t.right)
+    }
+    return _.isNone(e) ? right(out) : both(e.value, out)
   }
-  return _.isNone(e) ? right(out) : both(e.value, out)
-}
 
 /**
  * Equivalent to `ReadonlyArray#traverseWithIndex(getApplicative(S))`.
  *
+ * @category traversing
  * @since 2.11.0
  */
-export const traverseReadonlyArrayWithIndex = <E>(S: Semigroup<E>) => <A, B>(
-  f: (index: number, a: A) => These<E, B>
-): ((as: ReadonlyArray<A>) => These<E, ReadonlyArray<B>>) => {
-  const g = traverseReadonlyNonEmptyArrayWithIndex(S)(f)
-  return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
-}
+export const traverseReadonlyArrayWithIndex =
+  <E>(S: Semigroup<E>) =>
+  <A, B>(f: (index: number, a: A) => These<E, B>): ((as: ReadonlyArray<A>) => These<E, ReadonlyArray<B>>) => {
+    const g = traverseReadonlyNonEmptyArrayWithIndex(S)(f)
+    return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
+  }
 
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
 
 /**
- * Use small, specific instances instead.
+ * This instance is deprecated, use small, specific instances instead.
+ * For example if a function needs a `Functor` instance, pass `T.Functor` instead of `T.these`
+ * (where `T` is from `import T from 'fp-ts/These'`)
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */

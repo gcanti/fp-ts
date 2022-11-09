@@ -6,6 +6,7 @@ import * as T from '../src/Task'
 import * as TE from '../src/TaskEither'
 import * as _ from '../src/TaskOption'
 import * as U from './util'
+import * as E from '../src/Either'
 
 describe('TaskOption', () => {
   // -------------------------------------------------------------------------------------
@@ -89,9 +90,23 @@ describe('TaskOption', () => {
   // constructors
   // -------------------------------------------------------------------------------------
 
-  it('tryCatch', async () => {
-    U.deepStrictEqual(await _.tryCatch(() => Promise.resolve(1))(), O.some(1))
-    U.deepStrictEqual(await _.tryCatch(() => Promise.reject())(), O.none)
+  describe('tryCatch', () => {
+    test('with a resolving promise', async () => {
+      U.deepStrictEqual(await _.tryCatch(() => Promise.resolve(1))(), O.some(1))
+    })
+
+    test('with a rejected promise', async () => {
+      U.deepStrictEqual(await _.tryCatch(() => Promise.reject(1))(), O.none)
+    })
+
+    test('with a thrown error', async () => {
+      U.deepStrictEqual(
+        await _.tryCatch(() => {
+          throw new Error('Some error')
+        })(),
+        O.none
+      )
+    })
   })
 
   it('fromNullable', async () => {
@@ -238,7 +253,6 @@ describe('TaskOption', () => {
 
     // old
     it('sequenceArray', async () => {
-      // tslint:disable-next-line: readonly-array
       const log: Array<number | string> = []
       const some = (n: number): _.TaskOption<number> =>
         _.fromIO(() => {
@@ -253,17 +267,13 @@ describe('TaskOption', () => {
           }),
           T.map(() => O.none)
         )
-      // tslint:disable-next-line: deprecation
       U.deepStrictEqual(await pipe([some(1), some(2)], _.sequenceArray)(), O.some([1, 2]))
-      // tslint:disable-next-line: deprecation
       U.deepStrictEqual(await pipe([some(3), none('a')], _.sequenceArray)(), O.none)
-      // tslint:disable-next-line: deprecation
       U.deepStrictEqual(await pipe([none('b'), some(4)], _.sequenceArray)(), O.none)
       U.deepStrictEqual(log, [1, 2, 3, 'a', 'b', 4])
     })
 
     it('sequenceSeqArray', async () => {
-      // tslint:disable-next-line: readonly-array
       const log: Array<number | string> = []
       const some = (n: number): _.TaskOption<number> =>
         _.fromIO(() => {
@@ -278,21 +288,30 @@ describe('TaskOption', () => {
           }),
           T.map(() => O.none)
         )
-      // tslint:disable-next-line: deprecation
       U.deepStrictEqual(await pipe([some(1), some(2)], _.sequenceSeqArray)(), O.some([1, 2]))
-      // tslint:disable-next-line: deprecation
       U.deepStrictEqual(await pipe([some(3), none('a')], _.sequenceSeqArray)(), O.none)
-      // tslint:disable-next-line: deprecation
       U.deepStrictEqual(await pipe([none('b'), some(4)], _.sequenceSeqArray)(), O.none)
       U.deepStrictEqual(log, [1, 2, 3, 'a', 'b'])
     })
   })
 
-  it('tryCatchK', async () => {
-    const f = (n: number) => (n > 0 ? Promise.resolve(n) : Promise.reject(n))
-    const g = _.tryCatchK(f)
-    U.deepStrictEqual(await g(1)(), O.some(1))
-    U.deepStrictEqual(await g(-1)(), O.none)
+  describe('tryCatchK', () => {
+    test('with a resolved promise', async () => {
+      const g = _.tryCatchK((a: number) => Promise.resolve(a))
+      U.deepStrictEqual(await g(1)(), O.some(1))
+    })
+
+    test('with a rejected promise', async () => {
+      const g = _.tryCatchK((a: number) => Promise.reject(a))
+      U.deepStrictEqual(await g(-1)(), O.none)
+    })
+
+    test('with a thrown error', async () => {
+      const g = _.tryCatchK((_: number) => {
+        throw new Error('Some error')
+      })
+      U.deepStrictEqual(await g(-1)(), O.none)
+    })
   })
 
   it('match', async () => {
@@ -311,5 +330,32 @@ describe('TaskOption', () => {
     )
     U.deepStrictEqual(await pipe(_.some(1), f)(), 'some(1)')
     U.deepStrictEqual(await pipe(_.none, f)(), 'none')
+  })
+
+  it('fromEitherK', async () => {
+    const f = (s: string) => (s.length <= 2 ? E.right(s + '!') : E.left(s.length))
+    const g = _.fromEitherK(f)
+    U.deepStrictEqual(await g('')(), O.some('!'))
+    U.deepStrictEqual(await g('a')(), O.some('a!'))
+    U.deepStrictEqual(await g('aa')(), O.some('aa!'))
+    U.deepStrictEqual(await g('aaa')(), O.none)
+  })
+
+  it('chainEitherK', async () => {
+    const f = (s: string) => (s.length <= 2 ? E.right(s + '!') : E.left(s.length))
+    const g = _.chainEitherK(f)
+    U.deepStrictEqual(await g(_.of(''))(), O.some('!'))
+    U.deepStrictEqual(await g(_.of('a'))(), O.some('a!'))
+    U.deepStrictEqual(await g(_.of('aa'))(), O.some('aa!'))
+    U.deepStrictEqual(await g(_.of('aaa'))(), O.none)
+  })
+
+  it('chainFirstEitherK', async () => {
+    const f = (s: string) => (s.length <= 2 ? E.right(s + '!') : E.left(s.length))
+    const g = _.chainFirstEitherK(f)
+    U.deepStrictEqual(await g(_.of(''))(), O.some(''))
+    U.deepStrictEqual(await g(_.of('a'))(), O.some('a'))
+    U.deepStrictEqual(await g(_.of('aa'))(), O.some('aa'))
+    U.deepStrictEqual(await g(_.of('aaa'))(), O.none)
   })
 })

@@ -21,43 +21,18 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [combinators](#combinators)
-  - [reverse](#reverse)
-  - [~~getDualBooleanAlgebra~~](#getdualbooleanalgebra)
 - [instances](#instances)
   - [booleanAlgebraVoid](#booleanalgebravoid)
-  - [~~booleanAlgebraBoolean~~](#booleanalgebraboolean)
-  - [~~getFunctionBooleanAlgebra~~](#getfunctionbooleanalgebra)
-- [type classes](#type-classes)
+- [model](#model)
   - [BooleanAlgebra (interface)](#booleanalgebra-interface)
+- [utils](#utils)
+  - [reverse](#reverse)
+- [zone of death](#zone-of-death)
+  - [~~booleanAlgebraBoolean~~](#booleanalgebraboolean)
+  - [~~getDualBooleanAlgebra~~](#getdualbooleanalgebra)
+  - [~~getFunctionBooleanAlgebra~~](#getfunctionbooleanalgebra)
 
 ---
-
-# combinators
-
-## reverse
-
-Every boolean algebras has a dual algebra, which involves reversing one/zero as well as join/meet.
-
-**Signature**
-
-```ts
-export declare const reverse: <A>(B: BooleanAlgebra<A>) => BooleanAlgebra<A>
-```
-
-Added in v2.10.0
-
-## ~~getDualBooleanAlgebra~~
-
-Use [`reverse`](#reverse) instead.
-
-**Signature**
-
-```ts
-export declare const getDualBooleanAlgebra: <A>(B: BooleanAlgebra<A>) => BooleanAlgebra<A>
-```
-
-Added in v2.0.0
 
 # instances
 
@@ -71,6 +46,34 @@ export declare const booleanAlgebraVoid: BooleanAlgebra<void>
 
 Added in v2.0.0
 
+# model
+
+## BooleanAlgebra (interface)
+
+**Signature**
+
+```ts
+export interface BooleanAlgebra<A> extends HeytingAlgebra<A> {}
+```
+
+Added in v2.0.0
+
+# utils
+
+## reverse
+
+Every boolean algebras has a dual algebra, which involves reversing one/zero as well as join/meet.
+
+**Signature**
+
+```ts
+export declare const reverse: <A>(B: BooleanAlgebra<A>) => BooleanAlgebra<A>
+```
+
+Added in v2.10.0
+
+# zone of death
+
 ## ~~booleanAlgebraBoolean~~
 
 Use [`BooleanAlgebra`](./boolean.ts.html#booleanalgebra) instead.
@@ -79,6 +82,18 @@ Use [`BooleanAlgebra`](./boolean.ts.html#booleanalgebra) instead.
 
 ```ts
 export declare const booleanAlgebraBoolean: BooleanAlgebra<boolean>
+```
+
+Added in v2.0.0
+
+## ~~getDualBooleanAlgebra~~
+
+Use [`reverse`](#reverse) instead.
+
+**Signature**
+
+```ts
+export declare const getDualBooleanAlgebra: <A>(B: BooleanAlgebra<A>) => BooleanAlgebra<A>
 ```
 
 Added in v2.0.0
@@ -93,18 +108,6 @@ Use [`getBooleanAlgebra`](./function.ts.html#getbooleanalgebra) instead.
 export declare const getFunctionBooleanAlgebra: <B>(
   B: BooleanAlgebra<B>
 ) => <A = never>() => BooleanAlgebra<(a: A) => B>
-```
-
-Added in v2.0.0
-
-# type classes
-
-## BooleanAlgebra (interface)
-
-**Signature**
-
-```ts
-export interface BooleanAlgebra<A> extends HeytingAlgebra<A> {}
 ```
 
 Added in v2.0.0

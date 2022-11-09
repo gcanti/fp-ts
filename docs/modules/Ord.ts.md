@@ -1,6 +1,6 @@
 ---
 title: Ord.ts
-nav_order: 70
+nav_order: 71
 parent: Modules
 ---
 
@@ -20,33 +20,23 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Contravariant](#contravariant)
-  - [contramap](#contramap)
-- [combinators](#combinators)
-  - [reverse](#reverse)
-  - [tuple](#tuple)
-  - [~~getDualOrd~~](#getdualord)
-  - [~~getTupleOrd~~](#gettupleord)
 - [constructors](#constructors)
   - [fromCompare](#fromcompare)
 - [defaults](#defaults)
   - [equalsDefault](#equalsdefault)
 - [instances](#instances)
-  - [Contravariant](#contravariant-1)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
+  - [Contravariant](#contravariant)
   - [getMonoid](#getmonoid)
   - [getSemigroup](#getsemigroup)
-  - [~~ordBoolean~~](#ordboolean)
-  - [~~ordDate~~](#orddate)
-  - [~~ordNumber~~](#ordnumber)
-  - [~~ordString~~](#ordstring)
-  - [~~ord~~](#ord)
-- [type classes](#type-classes)
+- [model](#model)
   - [Ord (interface)](#ord-interface)
+- [type lambdas](#type-lambdas)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [between](#between)
   - [clamp](#clamp)
+  - [contramap](#contramap)
   - [equals](#equals)
   - [geq](#geq)
   - [gt](#gt)
@@ -54,85 +44,19 @@ Added in v2.0.0
   - [lt](#lt)
   - [max](#max)
   - [min](#min)
+  - [reverse](#reverse)
   - [trivial](#trivial)
+  - [tuple](#tuple)
+- [zone of death](#zone-of-death)
+  - [~~getDualOrd~~](#getdualord)
+  - [~~getTupleOrd~~](#gettupleord)
+  - [~~ordBoolean~~](#ordboolean)
+  - [~~ordDate~~](#orddate)
+  - [~~ordNumber~~](#ordnumber)
+  - [~~ordString~~](#ordstring)
+  - [~~ord~~](#ord)
 
 ---
-
-# Contravariant
-
-## contramap
-
-**Signature**
-
-```ts
-export declare const contramap: <A, B>(f: (b: B) => A) => (fa: Ord<A>) => Ord<B>
-```
-
-Added in v2.0.0
-
-# combinators
-
-## reverse
-
-**Signature**
-
-```ts
-export declare const reverse: <A>(O: Ord<A>) => Ord<A>
-```
-
-Added in v2.10.0
-
-## tuple
-
-Given a tuple of `Ord`s returns an `Ord` for the tuple.
-
-**Signature**
-
-```ts
-export declare const tuple: <A extends readonly unknown[]>(...ords: { [K in keyof A]: Ord<A[K]> }) => Ord<Readonly<A>>
-```
-
-**Example**
-
-```ts
-import { tuple } from 'fp-ts/Ord'
-import * as B from 'fp-ts/boolean'
-import * as S from 'fp-ts/string'
-import * as N from 'fp-ts/number'
-
-const O = tuple(S.Ord, N.Ord, B.Ord)
-assert.strictEqual(O.compare(['a', 1, true], ['b', 2, true]), -1)
-assert.strictEqual(O.compare(['a', 1, true], ['a', 2, true]), -1)
-assert.strictEqual(O.compare(['a', 1, true], ['a', 1, false]), 1)
-```
-
-Added in v2.10.0
-
-## ~~getDualOrd~~
-
-Use [`reverse`](#reverse) instead.
-
-**Signature**
-
-```ts
-export declare const getDualOrd: <A>(O: Ord<A>) => Ord<A>
-```
-
-Added in v2.0.0
-
-## ~~getTupleOrd~~
-
-Use [`tuple`](#tuple) instead.
-
-**Signature**
-
-```ts
-export declare const getTupleOrd: <T extends readonly Ord<any>[]>(
-  ...ords: T
-) => Ord<{ [K in keyof T]: T[K] extends Ord<infer A> ? A : never }>
-```
-
-Added in v2.0.0
 
 # constructors
 
@@ -169,26 +93,6 @@ export declare const Contravariant: Contravariant1<'Ord'>
 ```
 
 Added in v2.7.0
-
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'Ord'
-```
-
-Added in v2.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
-```
-
-Added in v2.0.0
 
 ## getMonoid
 
@@ -268,75 +172,61 @@ Added in v2.4.0
 
 ## getSemigroup
 
+A typical use case for the `Semigroup` instance of `Ord` is merging two or more orderings.
+
+For example the following snippet builds an `Ord` for a type `User` which
+sorts by `created` date descending, and **then** `lastName`
+
 **Signature**
 
 ```ts
 export declare const getSemigroup: <A = never>() => Semigroup<Ord<A>>
 ```
 
-Added in v2.0.0
-
-## ~~ordBoolean~~
-
-Use [`Ord`](./boolean.ts.html#ord) instead.
-
-**Signature**
+**Example**
 
 ```ts
-export declare const ordBoolean: Ord<boolean>
+import * as D from 'fp-ts/Date'
+import { pipe } from 'fp-ts/function'
+import { contramap, getSemigroup, Ord, reverse } from 'fp-ts/Ord'
+import * as RA from 'fp-ts/ReadonlyArray'
+import * as S from 'fp-ts/string'
+
+interface User {
+  readonly id: string
+  readonly lastName: string
+  readonly created: Date
+}
+
+const ordByLastName: Ord<User> = pipe(
+  S.Ord,
+  contramap((user) => user.lastName)
+)
+
+const ordByCreated: Ord<User> = pipe(
+  D.Ord,
+  contramap((user) => user.created)
+)
+
+const ordUserByCreatedDescThenLastName = getSemigroup<User>().concat(reverse(ordByCreated), ordByLastName)
+
+assert.deepStrictEqual(
+  RA.sort(ordUserByCreatedDescThenLastName)([
+    { id: 'c', lastName: 'd', created: new Date(1973, 10, 30) },
+    { id: 'a', lastName: 'b', created: new Date(1973, 10, 30) },
+    { id: 'e', lastName: 'f', created: new Date(1980, 10, 30) },
+  ]),
+  [
+    { id: 'e', lastName: 'f', created: new Date(1980, 10, 30) },
+    { id: 'a', lastName: 'b', created: new Date(1973, 10, 30) },
+    { id: 'c', lastName: 'd', created: new Date(1973, 10, 30) },
+  ]
+)
 ```
 
 Added in v2.0.0
 
-## ~~ordDate~~
-
-Use [`Ord`](./Date.ts.html#ord) instead.
-
-**Signature**
-
-```ts
-export declare const ordDate: Ord<Date>
-```
-
-Added in v2.0.0
-
-## ~~ordNumber~~
-
-Use [`Ord`](./number.ts.html#ord) instead.
-
-**Signature**
-
-```ts
-export declare const ordNumber: Ord<number>
-```
-
-Added in v2.0.0
-
-## ~~ordString~~
-
-Use [`Ord`](./string.ts.html#ord) instead.
-
-**Signature**
-
-```ts
-export declare const ordString: Ord<string>
-```
-
-Added in v2.0.0
-
-## ~~ord~~
-
-Use [`Contravariant`](#contravariant) instead.
-
-**Signature**
-
-```ts
-export declare const ord: Contravariant1<'Ord'>
-```
-
-Added in v2.0.0
-
-# type classes
+# model
 
 ## Ord (interface)
 
@@ -346,6 +236,28 @@ Added in v2.0.0
 export interface Ord<A> extends Eq<A> {
   readonly compare: (first: A, second: A) => Ordering
 }
+```
+
+Added in v2.0.0
+
+# type lambdas
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'Ord'
+```
+
+Added in v2.0.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
 ```
 
 Added in v2.0.0
@@ -372,6 +284,59 @@ Clamp a value between a minimum and a maximum
 
 ```ts
 export declare const clamp: <A>(O: Ord<A>) => (low: A, hi: A) => (a: A) => A
+```
+
+Added in v2.0.0
+
+## contramap
+
+A typical use case for `contramap` would be like, given some `User` type, to construct an `Ord<User>`.
+
+We can do so with a function from `User -> X` where `X` is some value that we know how to compare
+for ordering (meaning we have an `Ord<X>`)
+
+For example, given the following `User` type, there are lots of possible choices for `X`,
+but let's say we want to sort a list of users by `lastName`.
+
+If we have a way of comparing `lastName`s for ordering (`ordLastName: Ord<string>`) and we know how to go from `User -> string`,
+using `contramap` we can do this
+
+**Signature**
+
+```ts
+export declare const contramap: <A, B>(f: (b: B) => A) => (fa: Ord<A>) => Ord<B>
+```
+
+**Example**
+
+```ts
+import { pipe } from 'fp-ts/function'
+import { contramap, Ord } from 'fp-ts/Ord'
+import * as RA from 'fp-ts/ReadonlyArray'
+import * as S from 'fp-ts/string'
+
+interface User {
+  readonly firstName: string
+  readonly lastName: string
+}
+
+const ordLastName: Ord<string> = S.Ord
+
+const ordByLastName: Ord<User> = pipe(
+  ordLastName,
+  contramap((user) => user.lastName)
+)
+
+assert.deepStrictEqual(
+  RA.sort(ordByLastName)([
+    { firstName: 'a', lastName: 'd' },
+    { firstName: 'c', lastName: 'b' },
+  ]),
+  [
+    { firstName: 'c', lastName: 'b' },
+    { firstName: 'a', lastName: 'd' },
+  ]
+)
 ```
 
 Added in v2.0.0
@@ -458,6 +423,16 @@ export declare const min: <A>(O: Ord<A>) => (first: A, second: A) => A
 
 Added in v2.0.0
 
+## reverse
+
+**Signature**
+
+```ts
+export declare const reverse: <A>(O: Ord<A>) => Ord<A>
+```
+
+Added in v2.10.0
+
 ## trivial
 
 **Signature**
@@ -467,3 +442,117 @@ export declare const trivial: Ord<unknown>
 ```
 
 Added in v2.11.0
+
+## tuple
+
+Given a tuple of `Ord`s returns an `Ord` for the tuple.
+
+**Signature**
+
+```ts
+export declare const tuple: <A extends readonly unknown[]>(...ords: { [K in keyof A]: Ord<A[K]> }) => Ord<Readonly<A>>
+```
+
+**Example**
+
+```ts
+import { tuple } from 'fp-ts/Ord'
+import * as B from 'fp-ts/boolean'
+import * as S from 'fp-ts/string'
+import * as N from 'fp-ts/number'
+
+const O = tuple(S.Ord, N.Ord, B.Ord)
+assert.strictEqual(O.compare(['a', 1, true], ['b', 2, true]), -1)
+assert.strictEqual(O.compare(['a', 1, true], ['a', 2, true]), -1)
+assert.strictEqual(O.compare(['a', 1, true], ['a', 1, false]), 1)
+```
+
+Added in v2.10.0
+
+# zone of death
+
+## ~~getDualOrd~~
+
+Use [`reverse`](#reverse) instead.
+
+**Signature**
+
+```ts
+export declare const getDualOrd: <A>(O: Ord<A>) => Ord<A>
+```
+
+Added in v2.0.0
+
+## ~~getTupleOrd~~
+
+Use [`tuple`](#tuple) instead.
+
+**Signature**
+
+```ts
+export declare const getTupleOrd: <T extends readonly Ord<any>[]>(
+  ...ords: T
+) => Ord<{ [K in keyof T]: T[K] extends Ord<infer A> ? A : never }>
+```
+
+Added in v2.0.0
+
+## ~~ordBoolean~~
+
+Use [`Ord`](./boolean.ts.html#ord) instead.
+
+**Signature**
+
+```ts
+export declare const ordBoolean: Ord<boolean>
+```
+
+Added in v2.0.0
+
+## ~~ordDate~~
+
+Use [`Ord`](./Date.ts.html#ord) instead.
+
+**Signature**
+
+```ts
+export declare const ordDate: Ord<Date>
+```
+
+Added in v2.0.0
+
+## ~~ordNumber~~
+
+Use [`Ord`](./number.ts.html#ord) instead.
+
+**Signature**
+
+```ts
+export declare const ordNumber: Ord<number>
+```
+
+Added in v2.0.0
+
+## ~~ordString~~
+
+Use [`Ord`](./string.ts.html#ord) instead.
+
+**Signature**
+
+```ts
+export declare const ordString: Ord<string>
+```
+
+Added in v2.0.0
+
+## ~~ord~~
+
+Use [`Contravariant`](#contravariant) instead.
+
+**Signature**
+
+```ts
+export declare const ord: Contravariant1<'Ord'>
+```
+
+Added in v2.0.0

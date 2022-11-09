@@ -9,7 +9,7 @@ import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3, URIS4, Kind4 } from './HKT
 // -------------------------------------------------------------------------------------
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Extend<W> extends Functor<W> {
@@ -17,7 +17,7 @@ export interface Extend<W> extends Functor<W> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Extend1<W extends URIS> extends Functor1<W> {
@@ -25,7 +25,7 @@ export interface Extend1<W extends URIS> extends Functor1<W> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Extend2<W extends URIS2> extends Functor2<W> {
@@ -33,7 +33,7 @@ export interface Extend2<W extends URIS2> extends Functor2<W> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Extend2C<W extends URIS2, E> extends Functor2C<W, E> {
@@ -41,7 +41,7 @@ export interface Extend2C<W extends URIS2, E> extends Functor2C<W, E> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Extend3<W extends URIS3> extends Functor3<W> {
@@ -49,7 +49,7 @@ export interface Extend3<W extends URIS3> extends Functor3<W> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.2.0
  */
 export interface Extend3C<W extends URIS3, E> extends Functor3C<W, E> {
@@ -57,7 +57,7 @@ export interface Extend3C<W extends URIS3, E> extends Functor3C<W, E> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Extend4<W extends URIS4> extends Functor4<W> {

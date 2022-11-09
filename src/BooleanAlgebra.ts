@@ -18,7 +18,7 @@ import { getBooleanAlgebra } from './function'
 // -------------------------------------------------------------------------------------
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface BooleanAlgebra<A> extends HeytingAlgebra<A> {}
@@ -30,7 +30,6 @@ export interface BooleanAlgebra<A> extends HeytingAlgebra<A> {}
 /**
  * Every boolean algebras has a dual algebra, which involves reversing one/zero as well as join/meet.
  *
- * @category combinators
  * @since 2.10.0
  */
 export const reverse = <A>(B: BooleanAlgebra<A>): BooleanAlgebra<A> => ({
@@ -66,7 +65,7 @@ export const booleanAlgebraVoid: BooleanAlgebra<void> = {
 /**
  * Use [`reverse`](#reverse) instead.
  *
- * @category combinators
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -75,7 +74,7 @@ export const getDualBooleanAlgebra = reverse
 /**
  * Use [`BooleanAlgebra`](./boolean.ts.html#booleanalgebra) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -91,10 +90,9 @@ export const booleanAlgebraBoolean: BooleanAlgebra<boolean> = {
 /**
  * Use [`getBooleanAlgebra`](./function.ts.html#getbooleanalgebra) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
-export const getFunctionBooleanAlgebra: <B>(
-  B: BooleanAlgebra<B>
-) => <A = never>() => BooleanAlgebra<(a: A) => B> = getBooleanAlgebra
+export const getFunctionBooleanAlgebra: <B>(B: BooleanAlgebra<B>) => <A = never>() => BooleanAlgebra<(a: A) => B> =
+  getBooleanAlgebra

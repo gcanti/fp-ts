@@ -39,7 +39,7 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [type classes](#type-classes)
+- [model](#model)
   - [Choice (interface)](#choice-interface)
   - [Choice2 (interface)](#choice2-interface)
   - [Choice3 (interface)](#choice3-interface)
@@ -48,11 +48,12 @@ Added in v2.0.0
   - [fanIn](#fanin)
   - [split](#split)
   - [~~fanin~~](#fanin)
+- [zone of death](#zone-of-death)
   - [~~splitChoice~~](#splitchoice)
 
 ---
 
-# type classes
+# model
 
 ## Choice (interface)
 
@@ -212,6 +213,8 @@ export declare function fanin<F>(
 ```
 
 Added in v2.0.0
+
+# zone of death
 
 ## ~~splitChoice~~
 

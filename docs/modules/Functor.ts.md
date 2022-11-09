@@ -22,10 +22,9 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [combinators](#combinators)
+- [mapping](#mapping)
   - [flap](#flap)
-  - [map](#map)
-- [type classes](#type-classes)
+- [model](#model)
   - [Functor (interface)](#functor-interface)
   - [Functor1 (interface)](#functor1-interface)
   - [Functor2 (interface)](#functor2-interface)
@@ -35,6 +34,10 @@ Added in v2.0.0
   - [Functor4 (interface)](#functor4-interface)
 - [utils](#utils)
   - [bindTo](#bindto)
+  - [let](#let)
+  - [let\_](#let_)
+  - [map](#map)
+- [zone of death](#zone-of-death)
   - [~~FunctorComposition11~~ (interface)](#functorcomposition11-interface)
   - [~~FunctorComposition12C~~ (interface)](#functorcomposition12c-interface)
   - [~~FunctorComposition12~~ (interface)](#functorcomposition12-interface)
@@ -52,7 +55,7 @@ Added in v2.0.0
 
 ---
 
-# combinators
+# mapping
 
 ## flap
 
@@ -74,54 +77,7 @@ export declare function flap<F>(F: Functor<F>): <A>(a: A) => <B>(fab: HKT<F, (a:
 
 Added in v2.10.0
 
-## map
-
-`map` composition.
-
-**Signature**
-
-```ts
-export declare function map<F extends URIS3, G extends URIS>(
-  F: Functor3<F>,
-  G: Functor1<G>
-): <A, B>(f: (a: A) => B) => <R, E>(fa: Kind3<F, R, E, Kind<G, A>>) => Kind3<F, R, E, Kind<G, B>>
-export declare function map<F extends URIS2, G extends URIS2>(
-  F: Functor2<F>,
-  G: Functor2<G>
-): <A, B>(f: (a: A) => B) => <EF, EG>(fa: Kind2<F, EF, Kind2<G, EG, A>>) => Kind2<F, EF, Kind2<G, EG, B>>
-export declare function map<F extends URIS2, G extends URIS>(
-  F: Functor2<F>,
-  G: Functor1<G>
-): <A, B>(f: (a: A) => B) => <E>(fa: Kind2<F, E, Kind<G, A>>) => Kind2<F, E, Kind<G, B>>
-export declare function map<F extends URIS, G extends URIS3>(
-  F: Functor1<F>,
-  G: Functor3<G>
-): <A, B>(f: (a: A) => B) => <R, E>(fa: Kind<F, Kind3<G, R, E, A>>) => Kind<F, Kind3<G, R, E, B>>
-export declare function map<F extends URIS, G extends URIS2>(
-  F: Functor1<F>,
-  G: Functor2<G>
-): <A, B>(f: (a: A) => B) => <E>(fa: Kind<F, Kind2<G, E, A>>) => Kind<F, Kind2<G, E, B>>
-export declare function map<F extends URIS, G extends URIS>(
-  F: Functor1<F>,
-  G: Functor1<G>
-): <A, B>(f: (a: A) => B) => (fa: Kind<F, Kind<G, A>>) => Kind<F, Kind<G, B>>
-export declare function map<F, G extends URIS2>(
-  F: Functor<F>,
-  G: Functor2<G>
-): <A, B>(f: (a: A) => B) => <E>(fa: HKT<F, Kind2<G, E, A>>) => HKT<F, Kind2<G, E, B>>
-export declare function map<F, G extends URIS>(
-  F: Functor<F>,
-  G: Functor1<G>
-): <A, B>(f: (a: A) => B) => (fa: HKT<F, Kind<G, A>>) => HKT<F, Kind<G, B>>
-export declare function map<F, G>(
-  F: Functor<F>,
-  G: Functor<G>
-): <A, B>(f: (a: A) => B) => (fa: HKT<F, HKT<G, A>>) => HKT<F, HKT<G, B>>
-```
-
-Added in v2.10.0
-
-# type classes
+# model
 
 ## Functor (interface)
 
@@ -247,6 +203,118 @@ export declare function bindTo<F>(
 ```
 
 Added in v2.10.0
+
+## let
+
+**Signature**
+
+```ts
+export declare const let: typeof let_
+```
+
+Added in v2.13.0
+
+## let\_
+
+**Signature**
+
+```ts
+function let_<F extends URIS4>(
+  F: Functor4<F>
+): <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => <S, R, E>(
+  fa: Kind4<F, S, R, E, A>
+) => Kind4<F, S, R, E, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }>
+function let_<F extends URIS3>(
+  F: Functor3<F>
+): <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => <R, E>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }>
+function let_<F extends URIS3, E>(
+  F: Functor3C<F, E>
+): <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => <R>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }>
+function let_<F extends URIS2>(
+  F: Functor2<F>
+): <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => <E>(fa: Kind2<F, E, A>) => Kind2<F, E, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }>
+function let_<F extends URIS2, E>(
+  F: Functor2C<F, E>
+): <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => (fa: Kind2<F, E, A>) => Kind2<F, E, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }>
+function let_<F extends URIS>(
+  F: Functor1<F>
+): <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => (fa: Kind<F, A>) => Kind<F, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }>
+function let_<F>(
+  F: Functor<F>
+): <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => (fa: HKT<F, A>) => HKT<F, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.13.0
+
+## map
+
+`map` composition.
+
+**Signature**
+
+```ts
+export declare function map<F extends URIS3, G extends URIS>(
+  F: Functor3<F>,
+  G: Functor1<G>
+): <A, B>(f: (a: A) => B) => <R, E>(fa: Kind3<F, R, E, Kind<G, A>>) => Kind3<F, R, E, Kind<G, B>>
+export declare function map<F extends URIS2, G extends URIS2>(
+  F: Functor2<F>,
+  G: Functor2<G>
+): <A, B>(f: (a: A) => B) => <EF, EG>(fa: Kind2<F, EF, Kind2<G, EG, A>>) => Kind2<F, EF, Kind2<G, EG, B>>
+export declare function map<F extends URIS2, G extends URIS>(
+  F: Functor2<F>,
+  G: Functor1<G>
+): <A, B>(f: (a: A) => B) => <E>(fa: Kind2<F, E, Kind<G, A>>) => Kind2<F, E, Kind<G, B>>
+export declare function map<F extends URIS, G extends URIS3>(
+  F: Functor1<F>,
+  G: Functor3<G>
+): <A, B>(f: (a: A) => B) => <R, E>(fa: Kind<F, Kind3<G, R, E, A>>) => Kind<F, Kind3<G, R, E, B>>
+export declare function map<F extends URIS, G extends URIS2>(
+  F: Functor1<F>,
+  G: Functor2<G>
+): <A, B>(f: (a: A) => B) => <E>(fa: Kind<F, Kind2<G, E, A>>) => Kind<F, Kind2<G, E, B>>
+export declare function map<F extends URIS, G extends URIS>(
+  F: Functor1<F>,
+  G: Functor1<G>
+): <A, B>(f: (a: A) => B) => (fa: Kind<F, Kind<G, A>>) => Kind<F, Kind<G, B>>
+export declare function map<F, G extends URIS2>(
+  F: Functor<F>,
+  G: Functor2<G>
+): <A, B>(f: (a: A) => B) => <E>(fa: HKT<F, Kind2<G, E, A>>) => HKT<F, Kind2<G, E, B>>
+export declare function map<F, G extends URIS>(
+  F: Functor<F>,
+  G: Functor1<G>
+): <A, B>(f: (a: A) => B) => (fa: HKT<F, Kind<G, A>>) => HKT<F, Kind<G, B>>
+export declare function map<F, G>(
+  F: Functor<F>,
+  G: Functor<G>
+): <A, B>(f: (a: A) => B) => (fa: HKT<F, HKT<G, A>>) => HKT<F, HKT<G, B>>
+```
+
+Added in v2.10.0
+
+# zone of death
 
 ## ~~FunctorComposition11~~ (interface)
 

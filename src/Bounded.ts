@@ -7,14 +7,16 @@
  *
  * @since 2.0.0
  */
-import { Ord, ordNumber } from './Ord'
+import * as O from './Ord'
+
+import Ord = O.Ord
 
 // -------------------------------------------------------------------------------------
 // model
 // -------------------------------------------------------------------------------------
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Bounded<A> extends Ord<A> {
@@ -23,21 +25,47 @@ export interface Bounded<A> extends Ord<A> {
 }
 
 // -------------------------------------------------------------------------------------
-// deprecated
+// utils
 // -------------------------------------------------------------------------------------
 
-// tslint:disable: deprecation
+/**
+ * Clamp a value between bottom and top values.
+ *
+ * @category utils
+ * @since 2.12.0
+ */
+export const clamp = <A>(B: Bounded<A>): ((a: A) => A) => O.clamp(B)(B.bottom, B.top)
+
+/**
+ * Reverses the Ord of a bound and swaps top and bottom values.
+ *
+ * @category utils
+ * @since 2.12.0
+ */
+export const reverse = <A>(B: Bounded<A>): Bounded<A> => {
+  const R = O.reverse(B)
+  return {
+    equals: R.equals,
+    compare: R.compare,
+    top: B.bottom,
+    bottom: B.top
+  }
+}
+
+// -------------------------------------------------------------------------------------
+// deprecated
+// -------------------------------------------------------------------------------------
 
 /**
  * Use [`Bounded`](./number.ts.html#bounded) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
 export const boundedNumber: Bounded<number> = {
-  equals: ordNumber.equals,
-  compare: ordNumber.compare,
+  equals: O.ordNumber.equals,
+  compare: O.ordNumber.compare,
   top: Infinity,
   bottom: -Infinity
 }

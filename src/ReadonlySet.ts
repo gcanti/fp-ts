@@ -14,12 +14,8 @@ import { Semigroup } from './Semigroup'
 import { Separated, separated } from './Separated'
 import { Show } from './Show'
 
-// -------------------------------------------------------------------------------------
-// interop
-// -------------------------------------------------------------------------------------
-
 /**
- * @category interop
+ * @category conversions
  * @since 2.5.0
  */
 export const fromSet = <A>(s: Set<A>): ReadonlySet<A> => new Set(s)
@@ -39,28 +35,26 @@ export const singleton = <A>(a: A): ReadonlySet<A> => new Set([a])
 /**
  * Create a `ReadonlySet` from a `ReadonlyArray`
  *
- * @category constructors
+ * @category conversions
  * @since 2.10.0
  */
-export const fromReadonlyArray = <A>(E: Eq<A>) => (as: ReadonlyArray<A>): ReadonlySet<A> => {
-  const len = as.length
-  const out = new Set<A>()
-  const has = elem(E)
-  for (let i = 0; i < len; i++) {
-    const a = as[i]
-    if (!has(a, out)) {
-      out.add(a)
+export const fromReadonlyArray =
+  <A>(E: Eq<A>) =>
+  (as: ReadonlyArray<A>): ReadonlySet<A> => {
+    const len = as.length
+    const out = new Set<A>()
+    const has = elem(E)
+    for (let i = 0; i < len; i++) {
+      const a = as[i]
+      if (!has(a, out)) {
+        out.add(a)
+      }
     }
+    return out
   }
-  return out
-}
-
-// -------------------------------------------------------------------------------------
-// destructors
-// -------------------------------------------------------------------------------------
 
 /**
- * @category destructors
+ * @category conversions
  * @since 2.5.0
  */
 export function toSet<A>(s: ReadonlySet<A>): Set<A> {
@@ -75,7 +69,6 @@ interface Next<A> {
 /**
  * Projects a Set through a function
  *
- * @category combinators
  * @since 2.5.0
  */
 export function map<B>(E: Eq<B>): <A>(f: (x: A) => B) => (set: ReadonlySet<A>) => ReadonlySet<B> {
@@ -93,7 +86,6 @@ export function map<B>(E: Eq<B>): <A>(f: (x: A) => B) => (set: ReadonlySet<A>) =
 }
 
 /**
- * @category combinators
  * @since 2.5.0
  */
 export function chain<B>(E: Eq<B>): <A>(f: (x: A) => ReadonlySet<B>) => (set: ReadonlySet<A>) => ReadonlySet<B> {
@@ -112,7 +104,6 @@ export function chain<B>(E: Eq<B>): <A>(f: (x: A) => ReadonlySet<B>) => (set: Re
 }
 
 /**
- * @category combinators
  * @since 2.5.0
  */
 export function filter<A, B extends A>(refinement: Refinement<A, B>): (set: ReadonlySet<A>) => ReadonlySet<B>
@@ -123,7 +114,6 @@ export function filter<A>(predicate: Predicate<A>): (set: ReadonlySet<A>) => Rea
     const values = set.values()
     let e: Next<A>
     const r = new Set<A>()
-    // tslint:disable-next-line: strict-boolean-expressions
     while (!(e = values.next()).done) {
       const a = e.value
       if (predicate(a)) {
@@ -154,7 +144,6 @@ export function partition<A>(
     let e: Next<A>
     const right = new Set<A>()
     const left = new Set<A>()
-    // tslint:disable-next-line: strict-boolean-expressions
     while (!(e = values.next()).done) {
       const a = e.value
       if (predicate(a)) {
@@ -171,12 +160,9 @@ export function partition<A>(
 /**
  * Form the union of two sets
  *
- * @category combinators
  * @since 2.5.0
  */
-export function union<A>(
-  E: Eq<A>
-): {
+export function union<A>(E: Eq<A>): {
   (that: ReadonlySet<A>): (me: ReadonlySet<A>) => ReadonlySet<A>
   (me: ReadonlySet<A>, that: ReadonlySet<A>): ReadonlySet<A>
 }
@@ -209,12 +195,9 @@ export function union<A>(
 /**
  * The set of elements which are in both the first and second set
  *
- * @category combinators
  * @since 2.5.0
  */
-export function intersection<A>(
-  E: Eq<A>
-): {
+export function intersection<A>(E: Eq<A>): {
   (that: ReadonlySet<A>): (me: ReadonlySet<A>) => ReadonlySet<A>
   (me: ReadonlySet<A>, that: ReadonlySet<A>): ReadonlySet<A>
 }
@@ -247,31 +230,31 @@ export function partitionMap<B, C>(
   EB: Eq<B>,
   EC: Eq<C>
 ): <A>(f: (a: A) => Either<B, C>) => (set: ReadonlySet<A>) => Separated<ReadonlySet<B>, ReadonlySet<C>> {
-  return <A>(f: (a: A) => Either<B, C>) => (set: ReadonlySet<A>) => {
-    const values = set.values()
-    let e: Next<A>
-    const left = new Set<B>()
-    const right = new Set<C>()
-    const hasB = elem(EB)
-    const hasC = elem(EC)
-    // tslint:disable-next-line: strict-boolean-expressions
-    while (!(e = values.next()).done) {
-      const v = f(e.value)
-      switch (v._tag) {
-        case 'Left':
-          if (!hasB(v.left, left)) {
-            left.add(v.left)
-          }
-          break
-        case 'Right':
-          if (!hasC(v.right, right)) {
-            right.add(v.right)
-          }
-          break
+  return <A>(f: (a: A) => Either<B, C>) =>
+    (set: ReadonlySet<A>) => {
+      const values = set.values()
+      let e: Next<A>
+      const left = new Set<B>()
+      const right = new Set<C>()
+      const hasB = elem(EB)
+      const hasC = elem(EC)
+      while (!(e = values.next()).done) {
+        const v = f(e.value)
+        switch (v._tag) {
+          case 'Left':
+            if (!hasB(v.left, left)) {
+              left.add(v.left)
+            }
+            break
+          case 'Right':
+            if (!hasC(v.right, right)) {
+              right.add(v.right)
+            }
+            break
+        }
       }
+      return separated(left, right)
     }
-    return separated(left, right)
-  }
 }
 
 // TODO: remove non-curried overloading in v3
@@ -285,12 +268,9 @@ export function partitionMap<B, C>(
  *
  * assert.deepStrictEqual(pipe(new Set([1, 2]), difference(N.Eq)(new Set([1, 3]))), new Set([2]))
  *
- * @category combinators
  * @since 2.5.0
  */
-export function difference<A>(
-  E: Eq<A>
-): {
+export function difference<A>(E: Eq<A>): {
   (that: ReadonlySet<A>): (me: ReadonlySet<A>) => ReadonlySet<A>
   (me: ReadonlySet<A>, that: ReadonlySet<A>): ReadonlySet<A>
 }
@@ -324,6 +304,7 @@ export function foldMap<A, M>(O: Ord<A>, M: Monoid<M>): (f: (a: A) => M) => (fa:
 }
 
 /**
+ * @category folding
  * @since 2.11.0
  */
 export const reduceRight = <A>(O: Ord<A>): (<B>(b: B, f: (a: A, b: B) => B) => (fa: ReadonlySet<A>) => B) => {
@@ -334,7 +315,6 @@ export const reduceRight = <A>(O: Ord<A>): (<B>(b: B, f: (a: A, b: B) => B) => (
 /**
  * Insert a value into a set
  *
- * @category combinators
  * @since 2.5.0
  */
 export function insert<A>(E: Eq<A>): (a: A) => (set: ReadonlySet<A>) => ReadonlySet<A> {
@@ -353,18 +333,19 @@ export function insert<A>(E: Eq<A>): (a: A) => (set: ReadonlySet<A>) => Readonly
 /**
  * Delete a value from a set
  *
- * @category combinators
  * @since 2.5.0
  */
-export const remove = <A>(E: Eq<A>) => (a: A) => (set: ReadonlySet<A>): ReadonlySet<A> =>
-  filter((ax: A) => !E.equals(a, ax))(set)
+export const remove =
+  <A>(E: Eq<A>) =>
+  (a: A) =>
+  (set: ReadonlySet<A>): ReadonlySet<A> =>
+    filter((ax: A) => !E.equals(a, ax))(set)
 
 /**
  * Checks an element is a member of a set;
  * If yes, removes the value from the set
  * If no, inserts the value to the set
  *
- * @category combinators
  * @since 2.10.0
  */
 export const toggle = <A>(E: Eq<A>): ((a: A) => (set: ReadonlySet<A>) => ReadonlySet<A>) => {
@@ -375,7 +356,6 @@ export const toggle = <A>(E: Eq<A>): ((a: A) => (set: ReadonlySet<A>) => Readonl
 }
 
 /**
- * @category combinators
  * @since 2.5.0
  */
 export const compact = <A>(E: Eq<A>): ((fa: ReadonlySet<Option<A>>) => ReadonlySet<A>) => filterMap(E)(identity)
@@ -411,7 +391,6 @@ export function separate<E, A>(
 }
 
 /**
- * @category combinators
  * @since 2.5.0
  */
 export function filterMap<B>(E: Eq<B>): <A>(f: (a: A) => Option<B>) => (fa: ReadonlySet<A>) => ReadonlySet<B> {
@@ -454,21 +433,26 @@ export const size = <A>(set: ReadonlySet<A>): number => set.size
 /**
  * @since 2.5.0
  */
-export const some = <A>(predicate: Predicate<A>) => (set: ReadonlySet<A>): boolean => {
-  const values = set.values()
-  let e: Next<A>
-  let found = false
-  // tslint:disable-next-line: strict-boolean-expressions
-  while (!found && !(e = values.next()).done) {
-    found = predicate(e.value)
+export const some =
+  <A>(predicate: Predicate<A>) =>
+  (set: ReadonlySet<A>): boolean => {
+    const values = set.values()
+    let e: Next<A>
+    let found = false
+    while (!found && !(e = values.next()).done) {
+      found = predicate(e.value)
+    }
+    return found
   }
-  return found
-}
 
 /**
  * @since 2.5.0
  */
-export const every = <A>(predicate: Predicate<A>): ((set: ReadonlySet<A>) => boolean) => not(some(not(predicate)))
+export function every<A, B extends A>(refinement: Refinement<A, B>): Refinement<ReadonlySet<A>, ReadonlySet<B>>
+export function every<A>(predicate: Predicate<A>): Predicate<ReadonlySet<A>>
+export function every<A>(predicate: Predicate<A>): Predicate<ReadonlySet<A>> {
+  return not(some(not(predicate)))
+}
 
 // TODO: remove non-curried overloading in v3
 /**
@@ -476,9 +460,7 @@ export const every = <A>(predicate: Predicate<A>): ((set: ReadonlySet<A>) => boo
  *
  * @since 2.5.0
  */
-export function isSubset<A>(
-  E: Eq<A>
-): {
+export function isSubset<A>(E: Eq<A>): {
   (that: ReadonlySet<A>): (me: ReadonlySet<A>) => boolean
   (me: ReadonlySet<A>, that: ReadonlySet<A>): boolean
 }
@@ -501,9 +483,7 @@ export function isSubset<A>(
  *
  * @since 2.5.0
  */
-export function elem<A>(
-  E: Eq<A>
-): {
+export function elem<A>(E: Eq<A>): {
   (a: A): (set: ReadonlySet<A>) => boolean
   (a: A, set: ReadonlySet<A>): boolean
 }
@@ -516,7 +496,6 @@ export function elem<A>(E: Eq<A>): (a: A, set?: ReadonlySet<A>) => boolean | ((s
     const values = set.values()
     let e: Next<A>
     let found = false
-    // tslint:disable-next-line: strict-boolean-expressions
     while (!found && !(e = values.next()).done) {
       found = E.equals(a, e.value)
     }
@@ -527,26 +506,25 @@ export function elem<A>(E: Eq<A>): (a: A, set?: ReadonlySet<A>) => boolean | ((s
 /**
  * Get a sorted `ReadonlyArray` of the values contained in a `ReadonlySet`.
  *
+ * @category conversions
  * @since 2.5.0
  */
-export const toReadonlyArray = <A>(O: Ord<A>) => (set: ReadonlySet<A>): ReadonlyArray<A> => {
-  const out: Array<A> = []
-  set.forEach((e) => out.push(e))
-  return out.sort(O.compare)
-}
-
-// -------------------------------------------------------------------------------------
-// instances
-// -------------------------------------------------------------------------------------
+export const toReadonlyArray =
+  <A>(O: Ord<A>) =>
+  (set: ReadonlySet<A>): ReadonlyArray<A> => {
+    const out: Array<A> = []
+    set.forEach((e) => out.push(e))
+    return out.sort(O.compare)
+  }
 
 /**
- * @category instances
+ * @category type lambdas
  * @since 2.11.0
  */
 export const URI = 'ReadonlySet'
 
 /**
- * @category instances
+ * @category type lambdas
  * @since 2.11.0
  */
 export type URI = typeof URI
@@ -622,7 +600,7 @@ export const getDifferenceMagma = <A>(E: Eq<A>): Magma<ReadonlySet<A>> => ({
 /**
  * Use [`fromReadonlyArray`](#fromreadonlyarray) instead.
  *
- * @category constructors
+ * @category zone of death
  * @since 2.5.0
  * @deprecated
  */

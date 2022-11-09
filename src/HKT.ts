@@ -45,24 +45,28 @@ export interface HKT4<URI, S, R, E, A> extends HKT3<URI, R, E, A> {
  * `* -> *` constructors
  * @since 2.0.0
  */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export interface URItoKind<A> {}
 
 /**
  * `* -> * -> *` constructors
  * @since 2.0.0
  */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export interface URItoKind2<E, A> {}
 
 /**
  * `* -> * -> * -> *` constructors
  * @since 2.0.0
  */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export interface URItoKind3<R, E, A> {}
 
 /**
  * `* -> * -> * -> * -> *` constructors
  * @since 2.0.0
  */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export interface URItoKind4<S, R, E, A> {}
 
 //

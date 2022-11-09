@@ -1,6 +1,6 @@
 ---
 title: OptionT.ts
-nav_order: 69
+nav_order: 70
 parent: Modules
 ---
 
@@ -12,10 +12,10 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [model](#model)
-  - [~~OptionT1~~ (type alias)](#optiont1-type-alias)
-  - [~~OptionT2~~ (type alias)](#optiont2-type-alias)
-  - [~~OptionT~~ (interface)](#optiont-interface)
+- [lifting](#lifting)
+  - [fromPredicate](#frompredicate)
+- [pattern matching](#pattern-matching)
+  - [match](#match)
 - [utils](#utils)
   - [alt](#alt)
   - [ap](#ap)
@@ -27,52 +27,112 @@ Added in v2.0.0
   - [fromNullable](#fromnullable)
   - [fromNullableK](#fromnullablek)
   - [fromOptionK](#fromoptionk)
-  - [fromPredicate](#frompredicate)
   - [getOrElse](#getorelse)
   - [map](#map)
-  - [match](#match)
   - [matchE](#matche)
   - [some](#some)
   - [zero](#zero)
+- [zone of death](#zone-of-death)
   - [~~OptionM1~~ (interface)](#optionm1-interface)
   - [~~OptionM2C~~ (interface)](#optionm2c-interface)
   - [~~OptionM2~~ (interface)](#optionm2-interface)
   - [~~OptionM~~ (interface)](#optionm-interface)
+  - [~~OptionT1~~ (type alias)](#optiont1-type-alias)
+  - [~~OptionT2~~ (type alias)](#optiont2-type-alias)
+  - [~~OptionT~~ (interface)](#optiont-interface)
   - [~~getOptionM~~](#getoptionm)
 
 ---
 
-# model
+# lifting
 
-## ~~OptionT1~~ (type alias)
-
-**Signature**
-
-```ts
-export type OptionT1<M extends URIS, A> = Kind<M, Option<A>>
-```
-
-Added in v2.0.0
-
-## ~~OptionT2~~ (type alias)
+## fromPredicate
 
 **Signature**
 
 ```ts
-export type OptionT2<M extends URIS2, E, A> = Kind2<M, E, Option<A>>
+export declare function fromPredicate<F extends URIS4>(
+  F: Pointed4<F>
+): {
+  <A, B extends A>(refinement: Refinement<A, B>): <S, R, E>(a: A) => Kind4<F, S, R, E, Option<B>>
+  <A>(predicate: Predicate<A>): <S, R, E, B extends A>(b: B) => Kind4<F, S, R, E, Option<B>>
+  <A>(predicate: Predicate<A>): <S, R, E>(a: A) => Kind4<F, S, R, E, Option<A>>
+}
+export declare function fromPredicate<F extends URIS3>(
+  F: Pointed3<F>
+): {
+  <A, B extends A>(refinement: Refinement<A, B>): <R, E>(a: A) => Kind3<F, R, E, Option<B>>
+  <A>(predicate: Predicate<A>): <R, E, B extends A>(b: B) => Kind3<F, R, E, Option<B>>
+  <A>(predicate: Predicate<A>): <R, E>(a: A) => Kind3<F, R, E, Option<A>>
+}
+export declare function fromPredicate<F extends URIS3, E>(
+  F: Pointed3C<F, E>
+): {
+  <A, B extends A>(refinement: Refinement<A, B>): <R>(a: A) => Kind3<F, R, E, Option<B>>
+  <A>(predicate: Predicate<A>): <R, B extends A>(b: B) => Kind3<F, R, E, Option<B>>
+  <A>(predicate: Predicate<A>): <R>(a: A) => Kind3<F, R, E, Option<A>>
+}
+export declare function fromPredicate<F extends URIS2>(
+  F: Pointed2<F>
+): {
+  <A, B extends A>(refinement: Refinement<A, B>): <E>(a: A) => Kind2<F, E, Option<B>>
+  <A>(predicate: Predicate<A>): <E, B extends A>(b: B) => Kind2<F, E, Option<B>>
+  <A>(predicate: Predicate<A>): <E>(a: A) => Kind2<F, E, Option<A>>
+}
+export declare function fromPredicate<F extends URIS2, E>(
+  F: Pointed2C<F, E>
+): {
+  <A, B extends A>(refinement: Refinement<A, B>): (a: A) => Kind2<F, E, Option<B>>
+  <A>(predicate: Predicate<A>): <B extends A>(b: B) => Kind2<F, E, Option<B>>
+  <A>(predicate: Predicate<A>): (a: A) => Kind2<F, E, Option<A>>
+}
+export declare function fromPredicate<F extends URIS>(
+  F: Pointed1<F>
+): {
+  <A, B extends A>(refinement: Refinement<A, B>): (a: A) => Kind<F, Option<B>>
+  <A>(predicate: Predicate<A>): <B extends A>(b: B) => Kind<F, Option<B>>
+  <A>(predicate: Predicate<A>): (a: A) => Kind<F, Option<A>>
+}
+export declare function fromPredicate<F>(F: Pointed<F>): {
+  <A, B extends A>(refinement: Refinement<A, B>): (a: A) => HKT<F, Option<B>>
+  <A>(predicate: Predicate<A>): <B extends A>(b: B) => HKT<F, Option<B>>
+  <A>(predicate: Predicate<A>): (a: A) => HKT<F, Option<A>>
+}
 ```
 
-Added in v2.0.0
+Added in v2.10.0
 
-## ~~OptionT~~ (interface)
+# pattern matching
+
+## match
 
 **Signature**
 
 ```ts
-export interface OptionT<M, A> extends HKT<M, Option<A>> {}
+export declare function match<F extends URIS4>(
+  F: Functor4<F>
+): <B, A>(onNone: () => B, onSome: (a: A) => B) => <S, R, E>(ma: Kind4<F, S, R, E, Option<A>>) => Kind4<F, S, R, E, B>
+export declare function match<F extends URIS3>(
+  F: Functor3<F>
+): <B, A>(onNone: () => B, onSome: (a: A) => B) => <R, E>(ma: Kind3<F, R, E, Option<A>>) => Kind3<F, R, E, B>
+export declare function match<F extends URIS3, E>(
+  F: Functor3C<F, E>
+): <B, A>(onNone: () => B, onSome: (a: A) => B) => <R>(ma: Kind3<F, R, E, Option<A>>) => Kind3<F, R, E, B>
+export declare function match<F extends URIS2>(
+  F: Functor2<F>
+): <B, A>(onNone: () => B, onSome: (a: A) => B) => <E>(ma: Kind2<F, E, Option<A>>) => Kind2<F, E, B>
+export declare function match<F extends URIS2, E>(
+  F: Functor2C<F, E>
+): <B, A>(onNone: () => B, onSome: (a: A) => B) => (ma: Kind2<F, E, Option<A>>) => Kind2<F, E, B>
+export declare function match<F extends URIS>(
+  F: Functor1<F>
+): <B, A>(onNone: () => B, onSome: (a: A) => B) => (ma: Kind<F, Option<A>>) => Kind<F, B>
+export declare function match<F>(
+  F: Functor<F>
+): <B, A>(onNone: () => B, onSome: (a: A) => B) => (ma: HKT<F, Option<A>>) => HKT<F, B>
 ```
 
-Added in v2.0.0
+Added in v2.10.0
 
 # utils
 
@@ -393,64 +453,6 @@ export declare function fromOptionK<F>(
 
 Added in v2.10.0
 
-## fromPredicate
-
-**Signature**
-
-```ts
-export declare function fromPredicate<F extends URIS4>(
-  F: Pointed4<F>
-): {
-  <A, B extends A>(refinement: Refinement<A, B>): <S, R, E>(a: A) => Kind4<F, S, R, E, Option<B>>
-  <A>(predicate: Predicate<A>): <S, R, E, B extends A>(b: B) => Kind4<F, S, R, E, Option<B>>
-  <A>(predicate: Predicate<A>): <S, R, E>(a: A) => Kind4<F, S, R, E, Option<A>>
-}
-export declare function fromPredicate<F extends URIS3>(
-  F: Pointed3<F>
-): {
-  <A, B extends A>(refinement: Refinement<A, B>): <R, E>(a: A) => Kind3<F, R, E, Option<B>>
-  <A>(predicate: Predicate<A>): <R, E, B extends A>(b: B) => Kind3<F, R, E, Option<B>>
-  <A>(predicate: Predicate<A>): <R, E>(a: A) => Kind3<F, R, E, Option<A>>
-}
-export declare function fromPredicate<F extends URIS3, E>(
-  F: Pointed3C<F, E>
-): {
-  <A, B extends A>(refinement: Refinement<A, B>): <R>(a: A) => Kind3<F, R, E, Option<B>>
-  <A>(predicate: Predicate<A>): <R, B extends A>(b: B) => Kind3<F, R, E, Option<B>>
-  <A>(predicate: Predicate<A>): <R>(a: A) => Kind3<F, R, E, Option<A>>
-}
-export declare function fromPredicate<F extends URIS2>(
-  F: Pointed2<F>
-): {
-  <A, B extends A>(refinement: Refinement<A, B>): <E>(a: A) => Kind2<F, E, Option<B>>
-  <A>(predicate: Predicate<A>): <E, B extends A>(b: B) => Kind2<F, E, Option<B>>
-  <A>(predicate: Predicate<A>): <E>(a: A) => Kind2<F, E, Option<A>>
-}
-export declare function fromPredicate<F extends URIS2, E>(
-  F: Pointed2C<F, E>
-): {
-  <A, B extends A>(refinement: Refinement<A, B>): (a: A) => Kind2<F, E, Option<B>>
-  <A>(predicate: Predicate<A>): <B extends A>(b: B) => Kind2<F, E, Option<B>>
-  <A>(predicate: Predicate<A>): (a: A) => Kind2<F, E, Option<A>>
-}
-export declare function fromPredicate<F extends URIS>(
-  F: Pointed1<F>
-): {
-  <A, B extends A>(refinement: Refinement<A, B>): (a: A) => Kind<F, Option<B>>
-  <A>(predicate: Predicate<A>): <B extends A>(b: B) => Kind<F, Option<B>>
-  <A>(predicate: Predicate<A>): (a: A) => Kind<F, Option<A>>
-}
-export declare function fromPredicate<F>(
-  F: Pointed<F>
-): {
-  <A, B extends A>(refinement: Refinement<A, B>): (a: A) => HKT<F, Option<B>>
-  <A>(predicate: Predicate<A>): <B extends A>(b: B) => HKT<F, Option<B>>
-  <A>(predicate: Predicate<A>): (a: A) => HKT<F, Option<A>>
-}
-```
-
-Added in v2.10.0
-
 ## getOrElse
 
 **Signature**
@@ -503,36 +505,6 @@ export declare function map<F extends URIS>(
   F: Functor1<F>
 ): <A, B>(f: (a: A) => B) => (fa: Kind<F, Option<A>>) => Kind<F, Option<B>>
 export declare function map<F>(F: Functor<F>): <A, B>(f: (a: A) => B) => (fa: HKT<F, Option<A>>) => HKT<F, Option<B>>
-```
-
-Added in v2.10.0
-
-## match
-
-**Signature**
-
-```ts
-export declare function match<F extends URIS4>(
-  F: Functor4<F>
-): <B, A>(onNone: () => B, onSome: (a: A) => B) => <S, R, E>(ma: Kind4<F, S, R, E, Option<A>>) => Kind4<F, S, R, E, B>
-export declare function match<F extends URIS3>(
-  F: Functor3<F>
-): <B, A>(onNone: () => B, onSome: (a: A) => B) => <R, E>(ma: Kind3<F, R, E, Option<A>>) => Kind3<F, R, E, B>
-export declare function match<F extends URIS3, E>(
-  F: Functor3C<F, E>
-): <B, A>(onNone: () => B, onSome: (a: A) => B) => <R>(ma: Kind3<F, R, E, Option<A>>) => Kind3<F, R, E, B>
-export declare function match<F extends URIS2>(
-  F: Functor2<F>
-): <B, A>(onNone: () => B, onSome: (a: A) => B) => <E>(ma: Kind2<F, E, Option<A>>) => Kind2<F, E, B>
-export declare function match<F extends URIS2, E>(
-  F: Functor2C<F, E>
-): <B, A>(onNone: () => B, onSome: (a: A) => B) => (ma: Kind2<F, E, Option<A>>) => Kind2<F, E, B>
-export declare function match<F extends URIS>(
-  F: Functor1<F>
-): <B, A>(onNone: () => B, onSome: (a: A) => B) => (ma: Kind<F, Option<A>>) => Kind<F, B>
-export declare function match<F>(
-  F: Functor<F>
-): <B, A>(onNone: () => B, onSome: (a: A) => B) => (ma: HKT<F, Option<A>>) => HKT<F, B>
 ```
 
 Added in v2.10.0
@@ -614,6 +586,8 @@ export declare function zero<F>(F: Pointed<F>): <A>() => HKT<F, Option<A>>
 
 Added in v2.10.0
 
+# zone of death
+
 ## ~~OptionM1~~ (interface)
 
 **Signature**
@@ -686,6 +660,36 @@ export interface OptionM<M> extends ApplicativeCompositionHKT1<M, O.URI> {
   readonly fromM: <A>(ma: HKT<M, A>) => OptionT<M, A>
   readonly none: <A = never>() => OptionT<M, A>
 }
+```
+
+Added in v2.0.0
+
+## ~~OptionT1~~ (type alias)
+
+**Signature**
+
+```ts
+export type OptionT1<M extends URIS, A> = Kind<M, Option<A>>
+```
+
+Added in v2.0.0
+
+## ~~OptionT2~~ (type alias)
+
+**Signature**
+
+```ts
+export type OptionT2<M extends URIS2, E, A> = Kind2<M, E, Option<A>>
+```
+
+Added in v2.0.0
+
+## ~~OptionT~~ (interface)
+
+**Signature**
+
+```ts
+export interface OptionT<M, A> extends HKT<M, Option<A>> {}
 ```
 
 Added in v2.0.0

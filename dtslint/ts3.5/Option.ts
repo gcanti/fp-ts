@@ -29,11 +29,11 @@ flow(f, _.fromNullable)('foo')
 // Do
 //
 
-// $ExpectType Option<{ readonly a: number; readonly b: string; }>
+// $ExpectType Option<{ readonly a1: number; readonly a2: string; }>
 pipe(
   _.Do,
-  _.bind('a', () => _.of(1)),
-  _.bind('b', () => _.of('b'))
+  _.bind('a1', () => _.of(1)),
+  _.bind('a2', () => _.of('b'))
 )
 
 // -------------------------------------------------------------------------------------

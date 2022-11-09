@@ -1,6 +1,6 @@
 ---
 title: Strong.ts
-nav_order: 102
+nav_order: 104
 parent: Modules
 ---
 
@@ -38,7 +38,7 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [type classes](#type-classes)
+- [model](#model)
   - [Strong (interface)](#strong-interface)
   - [Strong2 (interface)](#strong2-interface)
   - [Strong3 (interface)](#strong3-interface)
@@ -46,12 +46,13 @@ Added in v2.0.0
 - [utils](#utils)
   - [fanOut](#fanout)
   - [split](#split)
+- [zone of death](#zone-of-death)
   - [~~fanout~~](#fanout)
   - [~~splitStrong~~](#splitstrong)
 
 ---
 
-# type classes
+# model
 
 ## Strong (interface)
 
@@ -182,6 +183,8 @@ export declare function split<F>(
 ```
 
 Added in v2.10.0
+
+# zone of death
 
 ## ~~fanout~~
 

@@ -23,6 +23,7 @@ has_toc: false
 - [spectacles-ts](https://github.com/anthonyjoeseph/spectacles-ts/) - A simple facade built on top of monocle-ts (autocompletes possible combinators)
 - [newtype-ts](https://github.com/gcanti/newtype-ts) - Implementation of newtypes in TypeScript
 - [logging-ts](https://github.com/gcanti/logging-ts) - Composable loggers for TypeScript
+- [logger-fp-ts](https://github.com/thewilkybarkid/logger-fp-ts) - Logger built on top of logging-ts
 - [fp-ts-routing](https://github.com/gcanti/fp-ts-routing) - A type-safe bidirectional routing library for TypeScript
 - [parser-ts](https://github.com/gcanti/parser-ts) - String parser combinators for TypeScript
 - [remote-data-ts](https://github.com/devex-web-frontend/remote-data-ts) - RemoteData type (check [this article](https://medium.com/@gcanti/slaying-a-ui-antipattern-with-flow-5eed0cfb627b))

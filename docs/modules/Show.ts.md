@@ -1,6 +1,6 @@
 ---
 title: Show.ts
-nav_order: 96
+nav_order: 98
 parent: Modules
 ---
 
@@ -19,21 +19,35 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [combinators](#combinators)
+- [model](#model)
+  - [Show (interface)](#show-interface)
+- [utils](#utils)
   - [struct](#struct)
   - [tuple](#tuple)
+- [zone of death](#zone-of-death)
   - [~~getStructShow~~](#getstructshow)
   - [~~getTupleShow~~](#gettupleshow)
-- [instances](#instances)
   - [~~showBoolean~~](#showboolean)
   - [~~showNumber~~](#shownumber)
   - [~~showString~~](#showstring)
-- [type classes](#type-classes)
-  - [Show (interface)](#show-interface)
 
 ---
 
-# combinators
+# model
+
+## Show (interface)
+
+**Signature**
+
+```ts
+export interface Show<A> {
+  readonly show: (a: A) => string
+}
+```
+
+Added in v2.0.0
+
+# utils
 
 ## struct
 
@@ -57,6 +71,8 @@ export declare const tuple: <A extends readonly unknown[]>(
 
 Added in v2.10.0
 
+# zone of death
+
 ## ~~getStructShow~~
 
 Use [`struct`](#struct) instead.
@@ -64,9 +80,9 @@ Use [`struct`](#struct) instead.
 **Signature**
 
 ```ts
-export declare const getStructShow: <O extends Readonly<Record<string, any>>>(
-  shows: { [K in keyof O]: Show<O[K]> }
-) => Show<O>
+export declare const getStructShow: <O extends Readonly<Record<string, any>>>(shows: {
+  [K in keyof O]: Show<O[K]>
+}) => Show<O>
 ```
 
 Added in v2.0.0
@@ -84,8 +100,6 @@ export declare const getTupleShow: <T extends readonly Show<any>[]>(
 ```
 
 Added in v2.0.0
-
-# instances
 
 ## ~~showBoolean~~
 
@@ -119,20 +133,6 @@ Use [`Show`](./string.ts.html#show) instead.
 
 ```ts
 export declare const showString: Show<string>
-```
-
-Added in v2.0.0
-
-# type classes
-
-## Show (interface)
-
-**Signature**
-
-```ts
-export interface Show<A> {
-  readonly show: (a: A) => string
-}
 ```
 
 Added in v2.0.0

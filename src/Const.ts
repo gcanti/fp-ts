@@ -132,10 +132,6 @@ export function getApplicative<E>(M: Monoid<E>): Applicative2C<URI, E> {
   }
 }
 
-// -------------------------------------------------------------------------------------
-// non-pipeables
-// -------------------------------------------------------------------------------------
-
 const _contramap: Contravariant2<URI>['contramap'] = (fa, f) => pipe(fa, contramap(f))
 /* istanbul ignore next */
 const _map: Functor2<URI>['map'] = (fa, f) => pipe(fa, map(f))
@@ -144,12 +140,7 @@ const _bimap: Bifunctor2<URI>['bimap'] = (fa, f, g) => pipe(fa, bimap(f, g))
 /* istanbul ignore next */
 const _mapLeft: Bifunctor2<URI>['mapLeft'] = (fa, f) => pipe(fa, mapLeft(f))
 
-// -------------------------------------------------------------------------------------
-// type class members
-// -------------------------------------------------------------------------------------
-
 /**
- * @category Contravariant
  * @since 2.0.0
  */
 export const contramap: <A, B>(f: (b: B) => A) => <E>(fa: Const<E, A>) => Const<E, B> = () => unsafeCoerce
@@ -158,7 +149,7 @@ export const contramap: <A, B>(f: (b: B) => A) => <E>(fa: Const<E, A>) => Const<
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
  * use the type constructor `F` to represent some computational context.
  *
- * @category Functor
+ * @category mapping
  * @since 2.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => <E>(fa: Const<E, A>) => Const<E, B> = () => unsafeCoerce
@@ -166,7 +157,7 @@ export const map: <A, B>(f: (a: A) => B) => <E>(fa: Const<E, A>) => Const<E, B> 
 /**
  * Map a pair of functions over the two type arguments of the bifunctor.
  *
- * @category Bifunctor
+ * @category mapping
  * @since 2.6.2
  */
 export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: Const<E, A>) => Const<G, B> = (f) => (fa) =>
@@ -175,23 +166,19 @@ export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: Const<E
 /**
  * Map a function over the first type argument of a bifunctor.
  *
- * @category Bifunctor
+ * @category error handling
  * @since 2.6.2
  */
 export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: Const<E, A>) => Const<G, A> = (f) => (fa) => make(f(fa))
 
-// -------------------------------------------------------------------------------------
-// instances
-// -------------------------------------------------------------------------------------
-
 /**
- * @category instances
+ * @category type lambdas
  * @since 2.0.0
  */
 export const URI = 'Const'
 
 /**
- * @category instances
+ * @category type lambdas
  * @since 2.0.0
  */
 export type URI = typeof URI
@@ -212,14 +199,10 @@ export const Functor: Functor2<URI> = {
 }
 
 /**
- * Derivable from `Functor`.
- *
- * @category combinators
+ * @category mapping
  * @since 2.10.0
  */
-export const flap =
-  /*#__PURE__*/
-  flap_(Functor)
+export const flap = /*#__PURE__*/ flap_(Functor)
 
 /**
  * @category instances
@@ -245,9 +228,11 @@ export const Bifunctor: Bifunctor2<URI> = {
 // -------------------------------------------------------------------------------------
 
 /**
- * Use small, specific instances instead.
+ * This instance is deprecated, use small, specific instances instead.
+ * For example if a function needs a `Functor` instance, pass `C.Functor` instead of `C.const_`
+ * (where `C` is from `import C from 'fp-ts/Const'`)
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */

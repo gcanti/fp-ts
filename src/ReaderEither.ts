@@ -31,7 +31,8 @@ import {
   fromEitherK as fromEitherK_,
   fromOption as fromOption_,
   fromOptionK as fromOptionK_,
-  fromPredicate as fromPredicate_
+  fromPredicate as fromPredicate_,
+  chainFirstEitherK as chainFirstEitherK_
 } from './FromEither'
 import {
   ask as ask_,
@@ -42,13 +43,12 @@ import {
   fromReaderK as fromReaderK_
 } from './FromReader'
 import { flow, identity, Lazy, pipe, SK } from './function'
-import { bindTo as bindTo_, flap as flap_, Functor3 } from './Functor'
+import { let as let__, bindTo as bindTo_, flap as flap_, Functor3 } from './Functor'
 import * as _ from './internal'
 import { Monad3, Monad3C } from './Monad'
 import { MonadThrow3, MonadThrow3C } from './MonadThrow'
 import { Monoid } from './Monoid'
-import { NaturalTransformation13C } from './NaturalTransformation'
-import { URI as OURI } from './Option'
+import { Option } from './Option'
 import { Pointed3 } from './Pointed'
 import { Predicate } from './Predicate'
 import * as R from './Reader'
@@ -77,69 +77,60 @@ export interface ReaderEither<R, E, A> extends Reader<R, Either<E, A>> {}
  * @category constructors
  * @since 2.0.0
  */
-export const left: <R, E = never, A = never>(e: E) => ReaderEither<R, E, A> =
-  /*#__PURE__*/
-  ET.left(R.Pointed)
+export const left: <R, E = never, A = never>(e: E) => ReaderEither<R, E, A> = /*#__PURE__*/ ET.left(R.Pointed)
 
 /**
  * @category constructors
  * @since 2.0.0
  */
-export const right: <R, E = never, A = never>(a: A) => ReaderEither<R, E, A> =
-  /*#__PURE__*/
-  ET.right(R.Pointed)
+export const right: <R, E = never, A = never>(a: A) => ReaderEither<R, E, A> = /*#__PURE__*/ ET.right(R.Pointed)
 
 /**
  * @category constructors
  * @since 2.0.0
  */
 export const rightReader: <R, E = never, A = never>(ma: Reader<R, A>) => ReaderEither<R, E, A> =
-  /*#__PURE__*/
-  ET.rightF(R.Functor)
+  /*#__PURE__*/ ET.rightF(R.Functor)
 
 /**
  * @category constructors
  * @since 2.0.0
  */
-export const leftReader: <R, E = never, A = never>(me: Reader<R, E>) => ReaderEither<R, E, A> =
-  /*#__PURE__*/
-  ET.leftF(R.Functor)
+export const leftReader: <R, E = never, A = never>(me: Reader<R, E>) => ReaderEither<R, E, A> = /*#__PURE__*/ ET.leftF(
+  R.Functor
+)
 
 // -------------------------------------------------------------------------------------
-// natural transformations
+// conversions
 // -------------------------------------------------------------------------------------
 
 /**
- * @category natural transformations
+ * @category conversions
  * @since 2.0.0
  */
-export const fromEither: FromEither3<URI>['fromEither'] = R.of
+export const fromEither: <E, A, R = unknown>(fa: Either<E, A>) => ReaderEither<R, E, A> = R.of
 
 /**
- * @category natural transformations
+ * @category conversions
  * @since 2.11.0
  */
-export const fromReader: FromReader3<URI>['fromReader'] = rightReader
-
-// -------------------------------------------------------------------------------------
-// destructors
-// -------------------------------------------------------------------------------------
+export const fromReader: <R, A, E = never>(fa: Reader<R, A>) => ReaderEither<R, E, A> = rightReader
 
 /**
- * @category destructors
+ * @category pattern matching
  * @since 2.10.0
  */
 export const match: <E, B, A>(
   onLeft: (e: E) => B,
   onRight: (a: A) => B
-) => <R>(ma: ReaderEither<R, E, A>) => Reader<R, B> =
-  /*#__PURE__*/
-  ET.match(R.Functor)
+) => <R>(ma: ReaderEither<R, E, A>) => Reader<R, B> = /*#__PURE__*/ ET.match(R.Functor)
 
 /**
  * Less strict version of [`match`](#match).
  *
- * @category destructors
+ * The `W` suffix (short for **W**idening) means that the handler return types will be merged.
+ *
+ * @category pattern matching
  * @since 2.10.0
  */
 export const matchW: <E, B, A, C>(
@@ -148,20 +139,20 @@ export const matchW: <E, B, A, C>(
 ) => <R>(ma: Reader<R, Either<E, A>>) => Reader<R, B | C> = match as any
 
 /**
- * @category destructors
+ * The `E` suffix (short for **E**ffect) means that the handlers return an effect (`Reader`).
+ *
+ * @category pattern matching
  * @since 2.10.0
  */
 export const matchE: <R, E, A, B>(
   onLeft: (e: E) => Reader<R, B>,
   onRight: (a: A) => Reader<R, B>
-) => (ma: ReaderEither<R, E, A>) => Reader<R, B> =
-  /*#__PURE__*/
-  ET.matchE(R.Monad)
+) => (ma: ReaderEither<R, E, A>) => Reader<R, B> = /*#__PURE__*/ ET.matchE(R.Monad)
 
 /**
  * Alias of [`matchE`](#matche).
  *
- * @category destructors
+ * @category pattern matching
  * @since 2.0.0
  */
 export const fold = matchE
@@ -169,7 +160,9 @@ export const fold = matchE
 /**
  * Less strict version of [`matchE`](#matche).
  *
- * @category destructors
+ * The `W` suffix (short for **W**idening) means that the handler return types will be merged.
+ *
+ * @category pattern matching
  * @since 2.10.0
  */
 export const matchEW: <E, R2, B, A, R3, C>(
@@ -180,40 +173,35 @@ export const matchEW: <E, R2, B, A, R3, C>(
 /**
  * Alias of [`matchEW`](#matchew).
  *
- * @category destructors
+ * @category pattern matching
  * @since 2.10.0
  */
 export const foldW = matchEW
 
 /**
- * @category destructors
+ * @category error handling
  * @since 2.0.0
  */
 export const getOrElse: <E, R, A>(onLeft: (e: E) => Reader<R, A>) => (ma: ReaderEither<R, E, A>) => Reader<R, A> =
-  /*#__PURE__*/
-  ET.getOrElse(R.Monad)
+  /*#__PURE__*/ ET.getOrElse(R.Monad)
 
 /**
  * Less strict version of [`getOrElse`](#getorelse).
  *
- * @category destructors
+ * The `W` suffix (short for **W**idening) means that the handler return type will be merged.
+ *
+ * @category error handling
  * @since 2.6.0
  */
 export const getOrElseW: <R2, E, B>(
   onLeft: (e: E) => Reader<R2, B>
 ) => <R1, A>(ma: ReaderEither<R1, E, A>) => Reader<R1 & R2, A | B> = getOrElse as any
 
-// -------------------------------------------------------------------------------------
-// interop
-// -------------------------------------------------------------------------------------
-
 /**
- * @category interop
+ * @category conversions
  * @since 2.10.0
  */
-export const toUnion: <R, E, A>(fa: ReaderEither<R, E, A>) => Reader<R, E | A> =
-  /*#__PURE__*/
-  ET.toUnion(R.Functor)
+export const toUnion: <R, E, A>(fa: ReaderEither<R, E, A>) => Reader<R, E | A> = /*#__PURE__*/ ET.toUnion(R.Functor)
 
 // -------------------------------------------------------------------------------------
 // combinators
@@ -223,7 +211,6 @@ export const toUnion: <R, E, A>(fa: ReaderEither<R, E, A>) => Reader<R, E | A> =
  * Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
  * `contramap`).
  *
- * @category combinators
  * @since 2.0.0
  */
 export const local: <R2, R1>(f: (r2: R2) => R1) => <E, A>(ma: ReaderEither<R1, E, A>) => ReaderEither<R2, E, A> =
@@ -232,7 +219,9 @@ export const local: <R2, R1>(f: (r2: R2) => R1) => <E, A>(ma: ReaderEither<R1, E
 /**
  * Less strict version of [`asksReaderEither`](#asksreadereither).
  *
- * @category combinators
+ * The `W` suffix (short for **W**idening) means that the environment types will be merged.
+ *
+ * @category constructors
  * @since 2.11.0
  */
 export const asksReaderEitherW: <R1, R2, E, A>(f: (r1: R1) => ReaderEither<R2, E, A>) => ReaderEither<R1 & R2, E, A> =
@@ -241,27 +230,26 @@ export const asksReaderEitherW: <R1, R2, E, A>(f: (r1: R1) => ReaderEither<R2, E
 /**
  * Effectfully accesses the environment.
  *
- * @category combinators
+ * @category constructors
  * @since 2.11.0
  */
-export const asksReaderEither: <R, E, A>(
-  f: (r: R) => ReaderEither<R, E, A>
-) => ReaderEither<R, E, A> = asksReaderEitherW
+export const asksReaderEither: <R, E, A>(f: (r: R) => ReaderEither<R, E, A>) => ReaderEither<R, E, A> =
+  asksReaderEitherW
 
 /**
- * @category combinators
+ * @category error handling
  * @since 2.0.0
  */
 export const orElse: <E1, R, E2, A>(
   onLeft: (e: E1) => ReaderEither<R, E2, A>
-) => (ma: ReaderEither<R, E1, A>) => ReaderEither<R, E2, A> =
-  /*#__PURE__*/
-  ET.orElse(R.Monad)
+) => (ma: ReaderEither<R, E1, A>) => ReaderEither<R, E2, A> = /*#__PURE__*/ ET.orElse(R.Monad)
 
 /**
  * Less strict version of [`orElse`](#orelse).
  *
- * @category combinators
+ * The `W` suffix (short for **W**idening) means that the environment types and the return types will be merged.
+ *
+ * @category error handling
  * @since 2.10.0
  */
 export const orElseW: <E1, R1, E2, B>(
@@ -269,17 +257,17 @@ export const orElseW: <E1, R1, E2, B>(
 ) => <R2, A>(ma: ReaderEither<R2, E1, A>) => ReaderEither<R1 & R2, E2, A | B> = orElse as any
 
 /**
- * @category combinators
+ * @category error handling
  * @since 2.11.0
  */
 export const orElseFirst: <E, R, B>(
   onLeft: (e: E) => ReaderEither<R, E, B>
-) => <A>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A> =
-  /*#__PURE__*/
-  ET.orElseFirst(R.Monad)
+) => <A>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A> = /*#__PURE__*/ ET.orElseFirst(R.Monad)
 
 /**
- * @category combinators
+ * The `W` suffix (short for **W**idening) means that the environment types and the return types will be merged.
+ *
+ * @category error handling
  * @since 2.11.0
  */
 export const orElseFirstW: <E1, R2, E2, B>(
@@ -287,26 +275,17 @@ export const orElseFirstW: <E1, R2, E2, B>(
 ) => <R1, A>(ma: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, A> = orElseFirst as any
 
 /**
- * @category combinators
+ * @category error handling
  * @since 2.11.0
  */
 export const orLeft: <E1, R, E2>(
   onLeft: (e: E1) => Reader<R, E2>
-) => <A>(fa: ReaderEither<R, E1, A>) => ReaderEither<R, E2, A> =
-  /*#__PURE__*/
-  ET.orLeft(R.Monad)
+) => <A>(fa: ReaderEither<R, E1, A>) => ReaderEither<R, E2, A> = /*#__PURE__*/ ET.orLeft(R.Monad)
 
 /**
- * @category combinators
  * @since 2.0.0
  */
-export const swap: <R, E, A>(ma: ReaderEither<R, E, A>) => ReaderEither<R, A, E> =
-  /*#__PURE__*/
-  ET.swap(R.Functor)
-
-// -------------------------------------------------------------------------------------
-// non-pipeables
-// -------------------------------------------------------------------------------------
+export const swap: <R, E, A>(ma: ReaderEither<R, E, A>) => ReaderEither<R, A, E> = /*#__PURE__*/ ET.swap(R.Functor)
 
 /* istanbul ignore next */
 const _map: Monad3<URI>['map'] = (fa, f) => pipe(fa, map(f))
@@ -321,60 +300,48 @@ const _chain: Monad3<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 /* istanbul ignore next */
 const _alt: Alt3<URI>['alt'] = (fa, that) => pipe(fa, alt(that))
 
-// -------------------------------------------------------------------------------------
-// type class members
-// -------------------------------------------------------------------------------------
-
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
  * use the type constructor `F` to represent some computational context.
  *
- * @category Functor
+ * @category mapping
  * @since 2.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => <R, E>(fa: ReaderEither<R, E, A>) => ReaderEither<R, E, B> =
-  /*#__PURE__*/
-  ET.map(R.Functor)
+  /*#__PURE__*/ ET.map(R.Functor)
 
 /**
  * Map a pair of functions over the two last type arguments of the bifunctor.
  *
- * @category Bifunctor
+ * @category mapping
  * @since 2.0.0
  */
 export const bimap: <E, G, A, B>(
   f: (e: E) => G,
   g: (a: A) => B
-) => <R>(fa: ReaderEither<R, E, A>) => ReaderEither<R, G, B> =
-  /*#__PURE__*/
-  ET.bimap(R.Functor)
+) => <R>(fa: ReaderEither<R, E, A>) => ReaderEither<R, G, B> = /*#__PURE__*/ ET.bimap(R.Functor)
 
 /**
  * Map a function over the second type argument of a bifunctor.
  *
- * @category Bifunctor
+ * @category error handling
  * @since 2.0.0
  */
 export const mapLeft: <E, G>(f: (e: E) => G) => <R, A>(fa: ReaderEither<R, E, A>) => ReaderEither<R, G, A> =
-  /*#__PURE__*/
-  ET.mapLeft(R.Functor)
+  /*#__PURE__*/ ET.mapLeft(R.Functor)
 
 /**
- * Apply a function to an argument under a type constructor.
- *
- * @category Apply
  * @since 2.0.0
  */
 export const ap: <R, E, A>(
   fa: ReaderEither<R, E, A>
-) => <B>(fab: ReaderEither<R, E, (a: A) => B>) => ReaderEither<R, E, B> =
-  /*#__PURE__*/
-  ET.ap(R.Apply)
+) => <B>(fab: ReaderEither<R, E, (a: A) => B>) => ReaderEither<R, E, B> = /*#__PURE__*/ ET.ap(R.Apply)
 
 /**
  * Less strict version of [`ap`](#ap).
  *
- * @category Apply
+ * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
+ *
  * @since 2.8.0
  */
 export const apW: <R2, E2, A>(
@@ -382,27 +349,27 @@ export const apW: <R2, E2, A>(
 ) => <R1, E1, B>(fab: ReaderEither<R1, E1, (a: A) => B>) => ReaderEither<R1 & R2, E1 | E2, B> = ap as any
 
 /**
- * @category Pointed
+ * @category constructors
  * @since 2.8.5
  */
-export const of: <R, E = never, A = never>(a: A) => ReaderEither<R, E, A> = right
+export const of: <R = unknown, E = never, A = never>(a: A) => ReaderEither<R, E, A> = right
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
- * @category Monad
+ * @category sequencing
  * @since 2.0.0
  */
 export const chain: <R, E, A, B>(
   f: (a: A) => ReaderEither<R, E, B>
-) => (ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B> =
-  /*#__PURE__*/
-  ET.chain(R.Monad)
+) => (ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B> = /*#__PURE__*/ ET.chain(R.Monad)
 
 /**
  * Less strict version of [`chain`](#chain).
  *
- * @category Monad
+ * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
+ *
+ * @category sequencing
  * @since 2.6.0
  */
 export const chainW: <R2, E2, A, B>(
@@ -412,19 +379,17 @@ export const chainW: <R2, E2, A, B>(
 /**
  * Less strict version of [`flatten`](#flatten).
  *
- * @category combinators
+ * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
+ *
+ * @category sequencing
  * @since 2.11.0
  */
 export const flattenW: <R1, R2, E1, E2, A>(
   mma: ReaderEither<R1, E1, ReaderEither<R2, E2, A>>
-) => ReaderEither<R1 & R2, E1 | E2, A> =
-  /*#__PURE__*/
-  chainW(identity)
+) => ReaderEither<R1 & R2, E1 | E2, A> = /*#__PURE__*/ chainW(identity)
 
 /**
- * Derivable from `Chain`.
- *
- * @category combinators
+ * @category sequencing
  * @since 2.0.0
  */
 export const flatten: <R, E, A>(mma: ReaderEither<R, E, ReaderEither<R, E, A>>) => ReaderEither<R, E, A> = flattenW
@@ -433,17 +398,18 @@ export const flatten: <R, E, A>(mma: ReaderEither<R, E, ReaderEither<R, E, A>>) 
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
  * types of kind `* -> *`.
  *
- * @category Alt
+ * @category error handling
  * @since 2.0.0
  */
 export const alt: <R, E, A>(that: () => ReaderEither<R, E, A>) => (fa: ReaderEither<R, E, A>) => ReaderEither<R, E, A> =
-  /*#__PURE__*/
-  ET.alt(R.Monad)
+  /*#__PURE__*/ ET.alt(R.Monad)
 
 /**
  * Less strict version of [`alt`](#alt).
  *
- * @category Alt
+ * The `W` suffix (short for **W**idening) means that the environment, the error and the return types will be merged.
+ *
+ * @category error handling
  * @since 2.9.0
  */
 export const altW: <R2, E2, B>(
@@ -451,23 +417,18 @@ export const altW: <R2, E2, B>(
 ) => <R1, E1, A>(fa: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2, A | B> = alt as any
 
 /**
- * @category MonadThrow
  * @since 2.7.0
  */
 export const throwError: MonadThrow3<URI>['throwError'] = left
 
-// -------------------------------------------------------------------------------------
-// instances
-// -------------------------------------------------------------------------------------
-
 /**
- * @category instances
+ * @category type lambdas
  * @since 2.0.0
  */
 export const URI = 'ReaderEither'
 
 /**
- * @category instances
+ * @category type lambdas
  * @since 2.0.0
  */
 export type URI = typeof URI
@@ -479,7 +440,7 @@ declare module './HKT' {
 }
 
 /**
- * @category instances
+ * @category filtering
  * @since 2.10.0
  */
 export const getCompactable = <E>(M: Monoid<E>): Compactable3C<URI, E> => {
@@ -493,7 +454,7 @@ export const getCompactable = <E>(M: Monoid<E>): Compactable3C<URI, E> => {
 }
 
 /**
- * @category instances
+ * @category filtering
  * @since 2.10.0
  */
 export function getFilterable<E>(M: Monoid<E>): Filterable3C<URI, E> {
@@ -518,7 +479,12 @@ export function getFilterable<E>(M: Monoid<E>): Filterable3C<URI, E> {
 }
 
 /**
- * @category instances
+ * The default [`Applicative`](#applicative) instance returns the first error, if you want to
+ * get all errors you need to provide a way to concatenate them via a `Semigroup`.
+ *
+ * See [`getApplicativeValidation`](./Either.ts.html#getapplicativevalidation).
+ *
+ * @category error handling
  * @since 2.7.0
  */
 export function getApplicativeReaderValidation<E>(S: Semigroup<E>): Applicative3C<URI, E> {
@@ -533,7 +499,12 @@ export function getApplicativeReaderValidation<E>(S: Semigroup<E>): Applicative3
 }
 
 /**
- * @category instances
+ * The default [`Alt`](#alt) instance returns the last error, if you want to
+ * get all errors you need to provide a way to concatenate them via a `Semigroup`.
+ *
+ * See [`getAltValidation`](./Either.ts.html#getaltvalidation).
+ *
+ * @category error handling
  * @since 2.7.0
  */
 export function getAltReaderValidation<E>(S: Semigroup<E>): Alt3C<URI, E> {
@@ -556,14 +527,10 @@ export const Functor: Functor3<URI> = {
 }
 
 /**
- * Derivable from `Functor`.
- *
- * @category combinators
+ * @category mapping
  * @since 2.10.0
  */
-export const flap =
-  /*#__PURE__*/
-  flap_(Functor)
+export const flap = /*#__PURE__*/ flap_(Functor)
 
 /**
  * @category instances
@@ -587,46 +554,38 @@ export const Apply: Apply3<URI> = {
 /**
  * Combine two effectful actions, keeping only the result of the first.
  *
- * Derivable from `Apply`.
- *
- * @category combinators
  * @since 2.0.0
  */
-export const apFirst =
-  /*#__PURE__*/
-  apFirst_(Apply)
+export const apFirst = /*#__PURE__*/ apFirst_(Apply)
 
 /**
  * Less strict version of [`apFirst`](#apfirst)
  *
- * @category combinators
+ * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
+ *
  * @since 2.12.0
  */
-export const apFirstW: <R2, E2, A, B>(
+export const apFirstW: <R2, E2, B>(
   second: ReaderEither<R2, E2, B>
-) => <R1, E1>(first: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, A> = apFirst as any
+) => <R1, E1, A>(first: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, A> = apFirst as any
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
  *
- * Derivable from `Apply`.
- *
- * @category combinators
  * @since 2.0.0
  */
-export const apSecond =
-  /*#__PURE__*/
-  apSecond_(Apply)
+export const apSecond = /*#__PURE__*/ apSecond_(Apply)
 
 /**
  * Less strict version of [`apSecond`](#apsecond)
  *
- * @category combinators
+ * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
+ *
  * @since 2.12.0
  */
-export const apSecondW: <R2, E2, A, B>(
+export const apSecondW: <R2, E2, B>(
   second: ReaderEither<R2, E2, B>
-) => <R1, E1>(first: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, B> = apSecond as any
+) => <R1, E1, A>(first: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, B> = apSecond as any
 
 /**
  * @category instances
@@ -666,23 +625,19 @@ export const Monad: Monad3<URI> = {
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
- * Derivable from `Chain`.
- *
- * @category combinators
+ * @category sequencing
  * @since 2.0.0
  */
 export const chainFirst: <R, E, A, B>(
   f: (a: A) => ReaderEither<R, E, B>
-) => (ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A> =
-  /*#__PURE__*/
-  chainFirst_(Chain)
+) => (ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A> = /*#__PURE__*/ chainFirst_(Chain)
 
 /**
  * Less strict version of [`chainFirst`](#chainfirst)
  *
- * Derivable from `Chain`.
+ * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
  *
- * @category combinators
+ * @category sequencing
  * @since 2.8.0
  */
 export const chainFirstW: <R2, E2, A, B>(
@@ -724,9 +679,7 @@ export const FromReader: FromReader3<URI> = {
  * @category constructors
  * @since 2.0.0
  */
-export const ask: <R, E = never>() => ReaderEither<R, E, R> =
-  /*#__PURE__*/
-  ask_(FromReader)
+export const ask: <R, E = never>() => ReaderEither<R, E, R> = /*#__PURE__*/ ask_(FromReader)
 
 /**
  * Projects a value from the global context in a `ReaderEither`.
@@ -734,59 +687,55 @@ export const ask: <R, E = never>() => ReaderEither<R, E, R> =
  * @category constructors
  * @since 2.0.0
  */
-export const asks: <R, A, E = never>(f: (r: R) => A) => ReaderEither<R, E, A> =
-  /*#__PURE__*/
-  asks_(FromReader)
+export const asks: <R, A, E = never>(f: (r: R) => A) => ReaderEither<R, E, A> = /*#__PURE__*/ asks_(FromReader)
 
 /**
- * @category combinators
+ * @category lifting
  * @since 2.11.0
  */
 export const fromReaderK: <A extends ReadonlyArray<unknown>, R, B>(
   f: (...a: A) => Reader<R, B>
-) => <E = never>(...a: A) => ReaderEither<R, E, B> =
-  /*#__PURE__*/
-  fromReaderK_(FromReader)
+) => <E = never>(...a: A) => ReaderEither<R, E, B> = /*#__PURE__*/ fromReaderK_(FromReader)
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.11.0
  */
 export const chainReaderK: <A, R, B>(
   f: (a: A) => Reader<R, B>
-) => <E = never>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B> =
-  /*#__PURE__*/
-  chainReaderK_(FromReader, Chain)
+) => <E>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B> = /*#__PURE__*/ chainReaderK_(FromReader, Chain)
 
 /**
  * Less strict version of [`chainReaderK`](#chainreaderk).
  *
- * @category combinators
+ * The `W` suffix (short for **W**idening) means that the environment types will be merged.
+ *
+ * @category sequencing
  * @since 2.11.0
  */
 export const chainReaderKW: <A, R2, B>(
   f: (a: A) => Reader<R2, B>
-) => <R1, E = never>(ma: ReaderEither<R1, E, A>) => ReaderEither<R1 & R2, E, B> = chainReaderK as any
+) => <R1, E>(ma: ReaderEither<R1, E, A>) => ReaderEither<R1 & R2, E, B> = chainReaderK as any
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.11.0
  */
 export const chainFirstReaderK: <A, R, B>(
   f: (a: A) => Reader<R, B>
-) => <E = never>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A> =
-  /*#__PURE__*/
-  chainFirstReaderK_(FromReader, Chain)
+) => <E>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A> = /*#__PURE__*/ chainFirstReaderK_(FromReader, Chain)
 
 /**
  * Less strict version of [`chainReaderK`](#chainreaderk).
  *
- * @category combinators
+ * The `W` suffix (short for **W**idening) means that the environment types will be merged.
+ *
+ * @category sequencing
  * @since 2.11.0
  */
 export const chainFirstReaderKW: <A, R1, B>(
   f: (a: A) => Reader<R1, B>
-) => <R2, E = never>(ma: ReaderEither<R2, E, A>) => ReaderEither<R1 & R2, E, A> = chainFirstReaderK as any
+) => <R2, E>(ma: ReaderEither<R2, E, A>) => ReaderEither<R1 & R2, E, A> = chainFirstReaderK as any
 
 /**
  * @category instances
@@ -811,43 +760,45 @@ export const FromEither: FromEither3<URI> = {
 }
 
 /**
- * @category natural transformations
+ * @category conversions
  * @since 2.0.0
  */
-export const fromOption: <E>(onNone: Lazy<E>) => NaturalTransformation13C<OURI, URI, E> =
-  /*#__PURE__*/
-  fromOption_(FromEither)
+export const fromOption: <E>(onNone: Lazy<E>) => <A, R = unknown>(fa: Option<A>) => ReaderEither<R, E, A> =
+  /*#__PURE__*/ fromOption_(FromEither)
 
 /**
- * @category combinators
+ * @category lifting
  * @since 2.10.0
  */
-export const fromOptionK =
-  /*#__PURE__*/
-  fromOptionK_(FromEither)
+export const fromOptionK: <E>(
+  onNone: Lazy<E>
+) => <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => Option<B>
+) => <R = unknown>(...a: A) => ReaderEither<R, E, B> = /*#__PURE__*/ fromOptionK_(FromEither)
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.10.0
  */
-export const chainOptionK =
-  /*#__PURE__*/
-  chainOptionK_(FromEither, Chain)
+export const chainOptionK: <E>(
+  onNone: Lazy<E>
+) => <A, B>(f: (a: A) => Option<B>) => <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B> =
+  /*#__PURE__*/ chainOptionK_(FromEither, Chain)
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.4.0
  */
 export const chainEitherK: <E, A, B>(
   f: (a: A) => E.Either<E, B>
-) => <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B> =
-  /*#__PURE__*/
-  chainEitherK_(FromEither, Chain)
+) => <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B> = /*#__PURE__*/ chainEitherK_(FromEither, Chain)
 
 /**
  * Less strict version of [`chainEitherK`](#chaineitherk).
  *
- * @category combinators
+ * The `W` suffix (short for **W**idening) means that the error types will be merged.
+ *
+ * @category sequencing
  * @since 2.6.1
  */
 export const chainEitherKW: <E2, A, B>(
@@ -855,19 +806,37 @@ export const chainEitherKW: <E2, A, B>(
 ) => <R, E1>(ma: ReaderEither<R, E1, A>) => ReaderEither<R, E1 | E2, B> = chainEitherK as any
 
 /**
- * @category constructors
+ * @category sequencing
+ * @since 2.12.0
+ */
+export const chainFirstEitherK: <A, E, B>(
+  f: (a: A) => E.Either<E, B>
+) => <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A> = /*#__PURE__*/ chainFirstEitherK_(FromEither, Chain)
+
+/**
+ * Less strict version of [`chainFirstEitherK`](#chainfirsteitherk).
+ *
+ * The `W` suffix (short for **W**idening) means that the environment types will be merged.
+ *
+ * @category sequencing
+ * @since 2.12.0
+ */
+export const chainFirstEitherKW: <A, E2, B>(
+  f: (a: A) => Either<E2, B>
+) => <R, E1>(ma: ReaderEither<R, E1, A>) => ReaderEither<R, E1 | E2, A> = chainFirstEitherK as any
+
+/**
+ * @category lifting
  * @since 2.0.0
  */
 export const fromPredicate: {
-  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <R>(a: A) => ReaderEither<R, E, B>
-  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R, B extends A>(b: B) => ReaderEither<R, E, B>
-  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(a: A) => ReaderEither<R, E, A>
-} =
-  /*#__PURE__*/
-  fromPredicate_(FromEither)
+  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <R = unknown>(a: A) => ReaderEither<R, E, B>
+  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R = unknown, B extends A = A>(b: B) => ReaderEither<R, E, B>
+  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R = unknown>(a: A) => ReaderEither<R, E, A>
+} = /*#__PURE__*/ fromPredicate_(FromEither)
 
 /**
- * @category combinators
+ * @category filtering
  * @since 2.0.0
  */
 export const filterOrElse: {
@@ -878,14 +847,14 @@ export const filterOrElse: {
     mb: ReaderEither<R, E, B>
   ) => ReaderEither<R, E, B>
   <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A>
-} =
-  /*#__PURE__*/
-  filterOrElse_(FromEither, Chain)
+} = /*#__PURE__*/ filterOrElse_(FromEither, Chain)
 
 /**
  * Less strict version of [`filterOrElse`](#filterorelse).
  *
- * @category combinators
+ * The `W` suffix (short for **W**idening) means that the error types will be merged.
+ *
+ * @category filtering
  * @since 2.9.0
  */
 export const filterOrElseW: {
@@ -901,41 +870,49 @@ export const filterOrElseW: {
 } = filterOrElse
 
 /**
- * @category combinators
+ * @category lifting
  * @since 2.4.0
  */
 export const fromEitherK: <E, A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => E.Either<E, B>
-) => <R>(...a: A) => ReaderEither<R, E, B> =
-  /*#__PURE__*/
-  fromEitherK_(FromEither)
+) => <R = unknown>(...a: A) => ReaderEither<R, E, B> = /*#__PURE__*/ fromEitherK_(FromEither)
 
 // -------------------------------------------------------------------------------------
 // do notation
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category do notation
  * @since 2.9.0
  */
-export const Do: ReaderEither<unknown, never, {}> =
-  /*#__PURE__*/
-  of(_.emptyRecord)
+export const Do: ReaderEither<unknown, never, {}> = /*#__PURE__*/ of(_.emptyRecord)
 
 /**
+ * @category do notation
  * @since 2.8.0
  */
-export const bindTo =
-  /*#__PURE__*/
-  bindTo_(Functor)
+export const bindTo = /*#__PURE__*/ bindTo_(Functor)
+
+const let_ = /*#__PURE__*/ let__(Functor)
+
+export {
+  /**
+   * @category do notation
+   * @since 2.13.0
+   */
+  let_ as let
+}
 
 /**
+ * @category do notation
  * @since 2.8.0
  */
-export const bind =
-  /*#__PURE__*/
-  bind_(Chain)
+export const bind = /*#__PURE__*/ bind_(Chain)
 
 /**
+ * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
+ *
+ * @category do notation
  * @since 2.8.0
  */
 export const bindW: <N extends string, A, R2, E2, B>(
@@ -945,18 +922,18 @@ export const bindW: <N extends string, A, R2, E2, B>(
   fa: ReaderEither<R1, E1, A>
 ) => ReaderEither<R1 & R2, E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bind as any
 
-// -------------------------------------------------------------------------------------
-// pipeable sequence S
-// -------------------------------------------------------------------------------------
-
 /**
+ * @category do notation
  * @since 2.8.0
  */
-export const apS =
-  /*#__PURE__*/
-  apS_(Apply)
+export const apS = /*#__PURE__*/ apS_(Apply)
 
 /**
+ * Less strict version of [`apS`](#aps).
+ *
+ * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
+ *
+ * @category do notation
  * @since 2.8.0
  */
 export const apSW: <A, N extends string, R2, E2, B>(
@@ -966,16 +943,10 @@ export const apSW: <A, N extends string, R2, E2, B>(
   fa: ReaderEither<R1, E1, A>
 ) => ReaderEither<R1 & R2, E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apS as any
 
-// -------------------------------------------------------------------------------------
-// sequence T
-// -------------------------------------------------------------------------------------
-
 /**
  * @since 2.11.0
  */
-export const ApT: ReaderEither<unknown, never, readonly []> =
-  /*#__PURE__*/
-  of(_.emptyReadonlyArray)
+export const ApT: ReaderEither<unknown, never, readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
 
 // -------------------------------------------------------------------------------------
 // array utils
@@ -984,6 +955,7 @@ export const ApT: ReaderEither<unknown, never, readonly []> =
 /**
  * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Applicative)`.
  *
+ * @category traversing
  * @since 2.11.0
  */
 export const traverseReadonlyNonEmptyArrayWithIndex = <A, R, E, B>(
@@ -994,6 +966,7 @@ export const traverseReadonlyNonEmptyArrayWithIndex = <A, R, E, B>(
 /**
  * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
  *
+ * @category traversing
  * @since 2.11.0
  */
 export const traverseReadonlyArrayWithIndex = <A, R, E, B>(
@@ -1004,6 +977,9 @@ export const traverseReadonlyArrayWithIndex = <A, R, E, B>(
 }
 
 /**
+ * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
+ *
+ * @category traversing
  * @since 2.9.0
  */
 export const traverseArrayWithIndex: <R, E, A, B>(
@@ -1011,6 +987,9 @@ export const traverseArrayWithIndex: <R, E, A, B>(
 ) => (as: ReadonlyArray<A>) => ReaderEither<R, E, ReadonlyArray<B>> = traverseReadonlyArrayWithIndex
 
 /**
+ * Equivalent to `ReadonlyArray#traverse(Applicative)`.
+ *
+ * @category traversing
  * @since 2.9.0
  */
 export const traverseArray = <R, E, A, B>(
@@ -1018,24 +997,25 @@ export const traverseArray = <R, E, A, B>(
 ): ((as: ReadonlyArray<A>) => ReaderEither<R, E, ReadonlyArray<B>>) => traverseReadonlyArrayWithIndex((_, a) => f(a))
 
 /**
+ * Equivalent to `ReadonlyArray#sequence(Applicative)`.
+ *
+ * @category traversing
  * @since 2.9.0
  */
 export const sequenceArray: <R, E, A>(
   arr: ReadonlyArray<ReaderEither<R, E, A>>
-) => ReaderEither<R, E, ReadonlyArray<A>> =
-  /*#__PURE__*/
-  traverseArray(identity)
+) => ReaderEither<R, E, ReadonlyArray<A>> = /*#__PURE__*/ traverseArray(identity)
 
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
 
-// tslint:disable: deprecation
-
 /**
- * Use small, specific instances instead.
+ * This instance is deprecated, use small, specific instances instead.
+ * For example if a function needs a `Functor` instance, pass `RE.Functor` instead of `RE.readerEither`
+ * (where `R` is from `import R from 'fp-ts/ReaderEither'`)
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1054,29 +1034,27 @@ export const readerEither: Monad3<URI> & Bifunctor3<URI> & Alt3<URI> & MonadThro
 /**
  * Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
 export const getApplySemigroup: <R, E, A>(S: Semigroup<A>) => Semigroup<ReaderEither<R, E, A>> =
-  /*#__PURE__*/
-  getApplySemigroup_(Apply)
+  /*#__PURE__*/ getApplySemigroup_(Apply)
 
 /**
  * Use [`getApplicativeMonoid`](./Applicative.ts.html#getapplicativemonoid) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
 export const getApplyMonoid: <R, E, A>(M: Monoid<A>) => Monoid<ReaderEither<R, E, A>> =
-  /*#__PURE__*/
-  getApplicativeMonoid(Applicative)
+  /*#__PURE__*/ getApplicativeMonoid(Applicative)
 
 /**
  * Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1086,7 +1064,7 @@ export const getSemigroup = <R, E, A>(S: Semigroup<A>): Semigroup<ReaderEither<R
 /**
  * Use [`getApplicativeReaderValidation`](#getapplicativereadervalidation) and [`getAltReaderValidation`](#getaltreadervalidation) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.3.0
  * @deprecated
  */

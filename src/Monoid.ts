@@ -44,7 +44,7 @@ import * as Se from './Semigroup'
 // -------------------------------------------------------------------------------------
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Monoid<A> extends Se.Semigroup<A> {
@@ -109,7 +109,6 @@ export const max = <A>(B: Bounded<A>): Monoid<A> => ({
  *
  * assert.deepStrictEqual(reverse(S.Monoid).concat('a', 'b'), 'ba')
  *
- * @category combinators
  * @since 2.10.0
  */
 export const reverse = <A>(M: Monoid<A>): Monoid<A> => ({
@@ -136,7 +135,6 @@ export const reverse = <A>(M: Monoid<A>): Monoid<A> => ({
  *
  * assert.deepStrictEqual(M.concat({ x: 1, y: 2 }, { x: 3, y: 4 }), { x: 4, y: 6 })
  *
- * @category combinators
  * @since 2.10.0
  */
 export const struct = <A>(monoids: { [K in keyof A]: Monoid<A[K]> }): Monoid<{ readonly [K in keyof A]: A[K] }> => {
@@ -167,7 +165,6 @@ export const struct = <A>(monoids: { [K in keyof A]: Monoid<A[K]> }): Monoid<{ r
  * const M2 = tuple(S.Monoid, N.MonoidSum, B.MonoidAll)
  * assert.deepStrictEqual(M2.concat(['a', 1, true], ['b', 2, false]), ['ab', 3, false])
  *
- * @category combinators
  * @since 2.10.0
  */
 export const tuple = <A extends ReadonlyArray<unknown>>(
@@ -202,12 +199,10 @@ export const concatAll = <A>(M: Monoid<A>): ((as: ReadonlyArray<A>) => A) => Se.
 // deprecated
 // -------------------------------------------------------------------------------------
 
-// tslint:disable: deprecation
-
 /**
  * Use [`Monoid`](./void.ts.html#monoid) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -219,7 +214,7 @@ export const monoidVoid: Monoid<void> = {
 /**
  * Use [`tuple`](#tuple) instead.
  *
- * @category combinators
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -230,18 +225,18 @@ export const getTupleMonoid: <T extends ReadonlyArray<Monoid<any>>>(
 /**
  * Use [`struct`](#struct) instead.
  *
- * @category combinators
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
-export const getStructMonoid: <O extends ReadonlyRecord<string, any>>(
-  monoids: { [K in keyof O]: Monoid<O[K]> }
-) => Monoid<O> = struct
+export const getStructMonoid: <O extends ReadonlyRecord<string, any>>(monoids: {
+  [K in keyof O]: Monoid<O[K]>
+}) => Monoid<O> = struct
 
 /**
  * Use [`reverse`](#reverse) instead.
  *
- * @category combinators
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -250,7 +245,7 @@ export const getDualMonoid = reverse
 /**
  * Use [`max`](#max) instead.
  *
- * @category constructors
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -259,7 +254,7 @@ export const getJoinMonoid = max
 /**
  * Use [`min`](#min) instead.
  *
- * @category constructors
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -268,6 +263,7 @@ export const getMeetMonoid = min
 /**
  * Use [`concatAll`](#concatall) instead.
  *
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -276,7 +272,7 @@ export const fold = concatAll
 /**
  * Use [`MonoidAll`](./boolean.ts.html#monoidall) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -288,7 +284,7 @@ export const monoidAll: Monoid<boolean> = {
 /**
  * Use [`MonoidAny`](./boolean.ts.html#monoidany) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -300,7 +296,7 @@ export const monoidAny: Monoid<boolean> = {
 /**
  * Use [`getMonoid`](./function.ts.html#getmonoid) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -311,7 +307,7 @@ export const getFunctionMonoid: <M>(M: Monoid<M>) => <A = never>() => Monoid<(a:
  *
  * **Note**. The execution order in [`getEndomorphismMonoid`](./function.ts.html#getendomorphismmonoid) is reversed.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -320,7 +316,7 @@ export const getEndomorphismMonoid = <A = never>(): Monoid<Endomorphism<A>> => r
 /**
  * Use [`Monoid`](./string.ts.html#monoid) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -332,7 +328,7 @@ export const monoidString: Monoid<string> = {
 /**
  * Use [`MonoidSum`](./number.ts.html#monoidsum) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -344,7 +340,7 @@ export const monoidSum: Monoid<number> = {
 /**
  * Use [`MonoidProduct`](./number.ts.html#monoidproduct) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */

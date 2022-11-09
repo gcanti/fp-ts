@@ -1,6 +1,6 @@
 ---
 title: MeetSemilattice.ts
-nav_order: 59
+nav_order: 60
 parent: Modules
 ---
 
@@ -21,12 +21,12 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [type classes](#type-classes)
+- [model](#model)
   - [MeetSemilattice (interface)](#meetsemilattice-interface)
 
 ---
 
-# type classes
+# model
 
 ## MeetSemilattice (interface)
 

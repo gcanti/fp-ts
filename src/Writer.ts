@@ -24,21 +24,24 @@ export interface Writer<W, A> {
 }
 
 // -------------------------------------------------------------------------------------
-// combinators
+// constructors
 // -------------------------------------------------------------------------------------
 
 /**
  * Appends a value to the accumulator
  *
- * @category combinators
+ * @category constructors
  * @since 2.0.0
  */
 export const tell: <W>(w: W) => Writer<W, void> = (w) => () => [undefined, w]
 
+// -------------------------------------------------------------------------------------
+// combinators
+// -------------------------------------------------------------------------------------
+
 /**
  * Modifies the result to include the changes to the accumulator
  *
- * @category combinators
  * @since 2.0.0
  */
 export const listen: <W, A>(fa: Writer<W, A>) => Writer<W, [A, W]> = (fa) => () => {
@@ -49,7 +52,6 @@ export const listen: <W, A>(fa: Writer<W, A>) => Writer<W, [A, W]> = (fa) => () 
 /**
  * Applies the returned function to the accumulator
  *
- * @category combinators
  * @since 2.0.0
  */
 export const pass: <W, A>(fa: Writer<W, [A, (w: W) => W]>) => Writer<W, A> = (fa) => () => {
@@ -60,7 +62,6 @@ export const pass: <W, A>(fa: Writer<W, [A, (w: W) => W]>) => Writer<W, A> = (fa
 /**
  * Projects a value from modifications made to the accumulator during an action
  *
- * @category combinators
  * @since 2.0.0
  */
 export const listens: <W, B>(f: (w: W) => B) => <A>(fa: Writer<W, A>) => Writer<W, [A, B]> = (f) => (fa) => () => {
@@ -71,7 +72,6 @@ export const listens: <W, B>(f: (w: W) => B) => <A>(fa: Writer<W, A>) => Writer<
 /**
  * Modify the final accumulator value by applying a function
  *
- * @category combinators
  * @since 2.0.0
  */
 export const censor: <W>(f: (w: W) => W) => <A>(fa: Writer<W, A>) => Writer<W, A> = (f) => (fa) => () => {
@@ -79,22 +79,14 @@ export const censor: <W>(f: (w: W) => W) => <A>(fa: Writer<W, A>) => Writer<W, A
   return [a, f(w)]
 }
 
-// -------------------------------------------------------------------------------------
-// non-pipeables
-// -------------------------------------------------------------------------------------
-
 /* istanbul ignore next */
 const _map: Functor2<URI>['map'] = (fa, f) => pipe(fa, map(f))
-
-// -------------------------------------------------------------------------------------
-// type class members
-// -------------------------------------------------------------------------------------
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
  * use the type constructor `F` to represent some computational context.
  *
- * @category Functor
+ * @category mapping
  * @since 2.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => <E>(fa: Writer<E, A>) => Writer<E, B> = (f) => (fa) => () => {
@@ -102,18 +94,14 @@ export const map: <A, B>(f: (a: A) => B) => <E>(fa: Writer<E, A>) => Writer<E, B
   return [f(a), w]
 }
 
-// -------------------------------------------------------------------------------------
-// instances
-// -------------------------------------------------------------------------------------
-
 /**
- * @category instances
+ * @category type lambdas
  * @since 2.0.0
  */
 export const URI = 'Writer'
 
 /**
- * @category instances
+ * @category type lambdas
  * @since 2.0.0
  */
 export type URI = typeof URI
@@ -169,8 +157,8 @@ export const getApplicative = <W>(M: Monoid<W>): Applicative2C<URI, W> => {
  * @category instances
  * @since 2.10.0
  */
-export function getChain<W>(M: Monoid<W>): Chain2C<URI, W> {
-  const A = getApply(M)
+export function getChain<W>(S: Semigroup<W>): Chain2C<URI, W> {
+  const A = getApply(S)
   return {
     URI,
     _E: undefined as any,
@@ -179,7 +167,7 @@ export function getChain<W>(M: Monoid<W>): Chain2C<URI, W> {
     chain: (fa, f) => () => {
       const [a, w1] = fa()
       const [b, w2] = f(a)()
-      return [b, M.concat(w1, w2)]
+      return [b, S.concat(w1, w2)]
     }
   }
 }
@@ -211,14 +199,10 @@ export const Functor: Functor2<URI> = {
 }
 
 /**
- * Derivable from `Functor`.
- *
- * @category combinators
+ * @category mapping
  * @since 2.10.0
  */
-export const flap =
-  /*#__PURE__*/
-  flap_(Functor)
+export const flap = /*#__PURE__*/ flap_(Functor)
 
 // -------------------------------------------------------------------------------------
 // utils
@@ -241,6 +225,7 @@ export const execute: <W, A>(fa: Writer<W, A>) => W = (fa) => fa()[1]
 /**
  * Use [`evaluate`](#evaluate) instead
  *
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -249,6 +234,7 @@ export const evalWriter: <W, A>(fa: Writer<W, A>) => A = (fa) => fa()[0]
 /**
  * Use [`execute`](#execute) instead
  *
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -257,7 +243,7 @@ export const execWriter: <W, A>(fa: Writer<W, A>) => W = (fa) => fa()[1]
 /**
  * Use [`Functor`](#functor) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */

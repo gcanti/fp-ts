@@ -37,7 +37,7 @@ import { Monoid } from './Monoid'
 // -------------------------------------------------------------------------------------
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface FoldableWithIndex<F, I> extends Foldable<F> {
@@ -47,7 +47,7 @@ export interface FoldableWithIndex<F, I> extends Foldable<F> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface FoldableWithIndex1<F extends URIS, I> extends Foldable1<F> {
@@ -57,7 +57,7 @@ export interface FoldableWithIndex1<F extends URIS, I> extends Foldable1<F> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface FoldableWithIndex2<F extends URIS2, I> extends Foldable2<F> {
@@ -67,7 +67,7 @@ export interface FoldableWithIndex2<F extends URIS2, I> extends Foldable2<F> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface FoldableWithIndex2C<F extends URIS2, I, E> extends Foldable2C<F, E> {
@@ -77,7 +77,7 @@ export interface FoldableWithIndex2C<F extends URIS2, I, E> extends Foldable2C<F
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface FoldableWithIndex3<F extends URIS3, I> extends Foldable3<F> {
@@ -87,7 +87,7 @@ export interface FoldableWithIndex3<F extends URIS3, I> extends Foldable3<F> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.2.0
  */
 export interface FoldableWithIndex3C<F extends URIS3, I, E> extends Foldable3C<F, E> {
@@ -97,7 +97,7 @@ export interface FoldableWithIndex3C<F extends URIS3, I, E> extends Foldable3C<F
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface FoldableWithIndex4<F extends URIS4, I> extends Foldable4<F> {
@@ -113,7 +113,6 @@ export interface FoldableWithIndex4<F extends URIS4, I> extends Foldable4<F> {
 /**
  * `reduceWithIndex` composition.
  *
- * @category combinators
  * @since 2.10.0
  */
 export function reduceWithIndex<F extends URIS, I, G extends URIS, J>(
@@ -135,7 +134,6 @@ export function reduceWithIndex<F, I, G, J>(
 /**
  * `foldMapWithIndex` composition.
  *
- * @category combinators
  * @since 2.10.0
  */
 export function foldMapWithIndex<F extends URIS, I, G extends URIS, J>(
@@ -160,7 +158,6 @@ export function foldMapWithIndex<F, I, G, J>(
 /**
  * `reduceRightWithIndex` composition.
  *
- * @category combinators
  * @since 2.10.0
  */
 export function reduceRightWithIndex<F extends URIS, I, G extends URIS, J>(
@@ -183,9 +180,8 @@ export function reduceRightWithIndex<F, I, G, J>(
 // deprecated
 // -------------------------------------------------------------------------------------
 
-// tslint:disable: deprecation
-
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -196,6 +192,7 @@ export interface FoldableWithIndexComposition<F, FI, G, GI> extends FoldableComp
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -207,6 +204,7 @@ export interface FoldableWithIndexComposition11<F extends URIS, FI, G extends UR
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -218,6 +216,7 @@ export interface FoldableWithIndexComposition12<F extends URIS, FI, G extends UR
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -229,6 +228,7 @@ export interface FoldableWithIndexComposition12C<F extends URIS, FI, G extends U
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -242,6 +242,7 @@ export interface FoldableWithIndexComposition21<F extends URIS2, FI, G extends U
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -253,6 +254,7 @@ export interface FoldableWithIndexComposition2C1<F extends URIS2, FI, G extends 
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -274,6 +276,7 @@ export interface FoldableWithIndexComposition22<F extends URIS2, FI, G extends U
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -299,6 +302,7 @@ export interface FoldableWithIndexComposition22C<F extends URIS2, FI, G extends 
  *
  * instead.
  *
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */

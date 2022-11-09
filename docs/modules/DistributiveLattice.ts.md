@@ -19,7 +19,7 @@ Added in v2.0.0
 
 - [constructors](#constructors)
   - [getMinMaxDistributiveLattice](#getminmaxdistributivelattice)
-- [type classes](#type-classes)
+- [model](#model)
   - [DistributiveLattice (interface)](#distributivelattice-interface)
 
 ---
@@ -36,7 +36,7 @@ export declare function getMinMaxDistributiveLattice<A>(O: Ord<A>): Distributive
 
 Added in v2.0.0
 
-# type classes
+# model
 
 ## DistributiveLattice (interface)
 

@@ -1,6 +1,6 @@
 ---
 title: Traced.ts
-nav_order: 110
+nav_order: 112
 parent: Modules
 ---
 
@@ -12,27 +12,60 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Functor](#functor)
-  - [map](#map)
-- [combinators](#combinators)
-  - [flap](#flap)
 - [instances](#instances)
-  - [Functor](#functor-1)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
+  - [Functor](#functor)
   - [getComonad](#getcomonad)
-  - [~~traced~~](#traced)
+- [mapping](#mapping)
+  - [flap](#flap)
+  - [map](#map)
 - [model](#model)
   - [Traced (interface)](#traced-interface)
+- [type lambdas](#type-lambdas)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [censor](#censor)
   - [listen](#listen)
   - [listens](#listens)
   - [tracks](#tracks)
+- [zone of death](#zone-of-death)
+  - [~~traced~~](#traced)
 
 ---
 
-# Functor
+# instances
+
+## Functor
+
+**Signature**
+
+```ts
+export declare const Functor: Functor2<'Traced'>
+```
+
+Added in v2.7.0
+
+## getComonad
+
+**Signature**
+
+```ts
+export declare function getComonad<P>(monoid: Monoid<P>): Comonad2C<URI, P>
+```
+
+Added in v2.0.0
+
+# mapping
+
+## flap
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <E, B>(fab: Traced<E, (a: A) => B>) => Traced<E, B>
+```
+
+Added in v2.10.0
 
 ## map
 
@@ -47,31 +80,21 @@ export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: Traced<E, A>) => Tra
 
 Added in v2.0.0
 
-# combinators
+# model
 
-## flap
-
-Derivable from `Functor`.
+## Traced (interface)
 
 **Signature**
 
 ```ts
-export declare const flap: <A>(a: A) => <E, B>(fab: Traced<E, (a: A) => B>) => Traced<E, B>
+export interface Traced<P, A> {
+  (p: P): A
+}
 ```
 
-Added in v2.10.0
+Added in v2.0.0
 
-# instances
-
-## Functor
-
-**Signature**
-
-```ts
-export declare const Functor: Functor2<'Traced'>
-```
-
-Added in v2.7.0
+# type lambdas
 
 ## URI
 
@@ -89,42 +112,6 @@ Added in v2.0.0
 
 ```ts
 export type URI = typeof URI
-```
-
-Added in v2.0.0
-
-## getComonad
-
-**Signature**
-
-```ts
-export declare function getComonad<P>(monoid: Monoid<P>): Comonad2C<URI, P>
-```
-
-Added in v2.0.0
-
-## ~~traced~~
-
-Use [`Functor`](#functor) instead.
-
-**Signature**
-
-```ts
-export declare const traced: Functor2<'Traced'>
-```
-
-Added in v2.0.0
-
-# model
-
-## Traced (interface)
-
-**Signature**
-
-```ts
-export interface Traced<P, A> {
-  (p: P): A
-}
 ```
 
 Added in v2.0.0
@@ -175,6 +162,20 @@ Extracts a value at a relative position which depends on the current value.
 
 ```ts
 export declare function tracks<P, A>(M: Monoid<P>, f: (a: A) => P): (wa: Traced<P, A>) => A
+```
+
+Added in v2.0.0
+
+# zone of death
+
+## ~~traced~~
+
+Use [`Functor`](#functor) instead.
+
+**Signature**
+
+```ts
+export declare const traced: Functor2<'Traced'>
 ```
 
 Added in v2.0.0

@@ -9,7 +9,7 @@ import { HKT, HKT2, Kind2, Kind3, Kind4, URIS2, URIS3, URIS4 } from './HKT'
 // -------------------------------------------------------------------------------------
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Profunctor<F> {
@@ -19,7 +19,7 @@ export interface Profunctor<F> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Profunctor2<F extends URIS2> extends Functor2<F> {
@@ -27,7 +27,7 @@ export interface Profunctor2<F extends URIS2> extends Functor2<F> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Profunctor2C<F extends URIS2, E> extends Functor2C<F, E> {
@@ -35,7 +35,7 @@ export interface Profunctor2C<F extends URIS2, E> extends Functor2C<F, E> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Profunctor3<F extends URIS3> extends Functor3<F> {
@@ -43,7 +43,7 @@ export interface Profunctor3<F extends URIS3> extends Functor3<F> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.2.0
  */
 export interface Profunctor3C<F extends URIS3, E> extends Functor3C<F, E> {
@@ -51,7 +51,7 @@ export interface Profunctor3C<F extends URIS3, E> extends Functor3C<F, E> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Profunctor4<F extends URIS4> extends Functor4<F> {

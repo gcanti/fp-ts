@@ -21,11 +21,7 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [combinators](#combinators)
-  - [foldMapWithIndex](#foldmapwithindex)
-  - [reduceRightWithIndex](#reducerightwithindex)
-  - [reduceWithIndex](#reducewithindex)
-- [type classes](#type-classes)
+- [model](#model)
   - [FoldableWithIndex (interface)](#foldablewithindex-interface)
   - [FoldableWithIndex1 (interface)](#foldablewithindex1-interface)
   - [FoldableWithIndex2 (interface)](#foldablewithindex2-interface)
@@ -34,6 +30,10 @@ Added in v2.0.0
   - [FoldableWithIndex3C (interface)](#foldablewithindex3c-interface)
   - [FoldableWithIndex4 (interface)](#foldablewithindex4-interface)
 - [utils](#utils)
+  - [foldMapWithIndex](#foldmapwithindex)
+  - [reduceRightWithIndex](#reducerightwithindex)
+  - [reduceWithIndex](#reducewithindex)
+- [zone of death](#zone-of-death)
   - [~~FoldableWithIndexComposition11~~ (interface)](#foldablewithindexcomposition11-interface)
   - [~~FoldableWithIndexComposition12C~~ (interface)](#foldablewithindexcomposition12c-interface)
   - [~~FoldableWithIndexComposition12~~ (interface)](#foldablewithindexcomposition12-interface)
@@ -46,66 +46,7 @@ Added in v2.0.0
 
 ---
 
-# combinators
-
-## foldMapWithIndex
-
-`foldMapWithIndex` composition.
-
-**Signature**
-
-```ts
-export declare function foldMapWithIndex<F extends URIS, I, G extends URIS, J>(
-  F: FoldableWithIndex1<F, I>,
-  G: FoldableWithIndex1<G, J>
-): <M>(M: Monoid<M>) => <A>(f: (ij: readonly [I, J], a: A) => M) => (fga: Kind<F, Kind<G, A>>) => M
-export declare function foldMapWithIndex<F, I, G, J>(
-  F: FoldableWithIndex<F, I>,
-  G: FoldableWithIndex<G, J>
-): <M>(M: Monoid<M>) => <A>(f: (ij: readonly [I, J], a: A) => M) => (fga: HKT<F, HKT<G, A>>) => M
-```
-
-Added in v2.10.0
-
-## reduceRightWithIndex
-
-`reduceRightWithIndex` composition.
-
-**Signature**
-
-```ts
-export declare function reduceRightWithIndex<F extends URIS, I, G extends URIS, J>(
-  F: FoldableWithIndex1<F, I>,
-  G: FoldableWithIndex1<G, J>
-): <B, A>(b: B, f: (ij: readonly [I, J], a: A, b: B) => B) => (fga: Kind<F, Kind<G, A>>) => B
-export declare function reduceRightWithIndex<F, I, G, J>(
-  F: FoldableWithIndex<F, I>,
-  G: FoldableWithIndex<G, J>
-): <B, A>(b: B, f: (ij: readonly [I, J], a: A, b: B) => B) => (fga: HKT<F, HKT<G, A>>) => B
-```
-
-Added in v2.10.0
-
-## reduceWithIndex
-
-`reduceWithIndex` composition.
-
-**Signature**
-
-```ts
-export declare function reduceWithIndex<F extends URIS, I, G extends URIS, J>(
-  F: FoldableWithIndex1<F, I>,
-  G: FoldableWithIndex1<G, J>
-): <B, A>(b: B, f: (ij: readonly [I, J], b: B, a: A) => B) => (fga: Kind<F, Kind<G, A>>) => B
-export declare function reduceWithIndex<F, I, G, J>(
-  F: FoldableWithIndex<F, I>,
-  G: FoldableWithIndex<G, J>
-): <B, A>(b: B, f: (ij: readonly [I, J], b: B, a: A) => B) => (fga: HKT<F, HKT<G, A>>) => B
-```
-
-Added in v2.10.0
-
-# type classes
+# model
 
 ## FoldableWithIndex (interface)
 
@@ -206,6 +147,65 @@ export interface FoldableWithIndex4<F extends URIS4, I> extends Foldable4<F> {
 Added in v2.0.0
 
 # utils
+
+## foldMapWithIndex
+
+`foldMapWithIndex` composition.
+
+**Signature**
+
+```ts
+export declare function foldMapWithIndex<F extends URIS, I, G extends URIS, J>(
+  F: FoldableWithIndex1<F, I>,
+  G: FoldableWithIndex1<G, J>
+): <M>(M: Monoid<M>) => <A>(f: (ij: readonly [I, J], a: A) => M) => (fga: Kind<F, Kind<G, A>>) => M
+export declare function foldMapWithIndex<F, I, G, J>(
+  F: FoldableWithIndex<F, I>,
+  G: FoldableWithIndex<G, J>
+): <M>(M: Monoid<M>) => <A>(f: (ij: readonly [I, J], a: A) => M) => (fga: HKT<F, HKT<G, A>>) => M
+```
+
+Added in v2.10.0
+
+## reduceRightWithIndex
+
+`reduceRightWithIndex` composition.
+
+**Signature**
+
+```ts
+export declare function reduceRightWithIndex<F extends URIS, I, G extends URIS, J>(
+  F: FoldableWithIndex1<F, I>,
+  G: FoldableWithIndex1<G, J>
+): <B, A>(b: B, f: (ij: readonly [I, J], a: A, b: B) => B) => (fga: Kind<F, Kind<G, A>>) => B
+export declare function reduceRightWithIndex<F, I, G, J>(
+  F: FoldableWithIndex<F, I>,
+  G: FoldableWithIndex<G, J>
+): <B, A>(b: B, f: (ij: readonly [I, J], a: A, b: B) => B) => (fga: HKT<F, HKT<G, A>>) => B
+```
+
+Added in v2.10.0
+
+## reduceWithIndex
+
+`reduceWithIndex` composition.
+
+**Signature**
+
+```ts
+export declare function reduceWithIndex<F extends URIS, I, G extends URIS, J>(
+  F: FoldableWithIndex1<F, I>,
+  G: FoldableWithIndex1<G, J>
+): <B, A>(b: B, f: (ij: readonly [I, J], b: B, a: A) => B) => (fga: Kind<F, Kind<G, A>>) => B
+export declare function reduceWithIndex<F, I, G, J>(
+  F: FoldableWithIndex<F, I>,
+  G: FoldableWithIndex<G, J>
+): <B, A>(b: B, f: (ij: readonly [I, J], b: B, a: A) => B) => (fga: HKT<F, HKT<G, A>>) => B
+```
+
+Added in v2.10.0
+
+# zone of death
 
 ## ~~FoldableWithIndexComposition11~~ (interface)
 

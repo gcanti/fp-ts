@@ -14,11 +14,7 @@ Added in v2.10.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [combinators](#combinators)
-  - [chainFirstTaskK](#chainfirsttaskk)
-  - [chainTaskK](#chaintaskk)
-  - [fromTaskK](#fromtaskk)
-- [type classes](#type-classes)
+- [model](#model)
   - [FromTask (interface)](#fromtask-interface)
   - [FromTask1 (interface)](#fromtask1-interface)
   - [FromTask2 (interface)](#fromtask2-interface)
@@ -26,10 +22,100 @@ Added in v2.10.0
   - [FromTask3 (interface)](#fromtask3-interface)
   - [FromTask3C (interface)](#fromtask3c-interface)
   - [FromTask4 (interface)](#fromtask4-interface)
+- [utils](#utils)
+  - [chainFirstTaskK](#chainfirsttaskk)
+  - [chainTaskK](#chaintaskk)
+  - [fromTaskK](#fromtaskk)
 
 ---
 
-# combinators
+# model
+
+## FromTask (interface)
+
+**Signature**
+
+```ts
+export interface FromTask<F> extends FromIO<F> {
+  readonly fromTask: <A>(fa: Task<A>) => HKT<F, A>
+}
+```
+
+Added in v2.10.0
+
+## FromTask1 (interface)
+
+**Signature**
+
+```ts
+export interface FromTask1<F extends URIS> extends FromIO1<F> {
+  readonly fromTask: <A>(fa: Task<A>) => Kind<F, A>
+}
+```
+
+Added in v2.10.0
+
+## FromTask2 (interface)
+
+**Signature**
+
+```ts
+export interface FromTask2<F extends URIS2> extends FromIO2<F> {
+  readonly fromTask: <A, E>(fa: Task<A>) => Kind2<F, E, A>
+}
+```
+
+Added in v2.10.0
+
+## FromTask2C (interface)
+
+**Signature**
+
+```ts
+export interface FromTask2C<F extends URIS2, E> extends FromIO2C<F, E> {
+  readonly fromTask: <A>(fa: Task<A>) => Kind2<F, E, A>
+}
+```
+
+Added in v2.10.0
+
+## FromTask3 (interface)
+
+**Signature**
+
+```ts
+export interface FromTask3<F extends URIS3> extends FromIO3<F> {
+  readonly fromTask: <A, R, E>(fa: Task<A>) => Kind3<F, R, E, A>
+}
+```
+
+Added in v2.10.0
+
+## FromTask3C (interface)
+
+**Signature**
+
+```ts
+export interface FromTask3C<F extends URIS3, E> extends FromIO3C<F, E> {
+  readonly fromTask: <A, R>(fa: Task<A>) => Kind3<F, R, E, A>
+}
+```
+
+Added in v2.10.0
+
+## FromTask4 (interface)
+
+**Signature**
+
+```ts
+export interface FromTask4<F extends URIS4> extends FromIO4<F> {
+  readonly fromTask: <A, S, R, E>(fa: Task<A>) => Kind4<F, S, R, E, A>
+}
+```
+
+Added in v2.10.0
+
+# utils
 
 ## chainFirstTaskK
 
@@ -47,7 +133,7 @@ export declare function chainFirstTaskK<M extends URIS3>(
 export declare function chainFirstTaskK<M extends URIS3, E>(
   F: FromTask3C<M, E>,
   M: Chain3C<M, E>
-): <A, B>(f: (a: A) => Task<B>) => <R, E>(first: Kind3<M, R, E, A>) => Kind3<M, R, E, A>
+): <A, B>(f: (a: A) => Task<B>) => <R>(first: Kind3<M, R, E, A>) => Kind3<M, R, E, A>
 export declare function chainFirstTaskK<M extends URIS2>(
   F: FromTask2<M>,
   M: Chain2<M>
@@ -55,7 +141,7 @@ export declare function chainFirstTaskK<M extends URIS2>(
 export declare function chainFirstTaskK<M extends URIS2, E>(
   F: FromTask2C<M, E>,
   M: Chain2C<M, E>
-): <A, B>(f: (a: A) => Task<B>) => <E>(first: Kind2<M, E, A>) => Kind2<M, E, A>
+): <A, B>(f: (a: A) => Task<B>) => (first: Kind2<M, E, A>) => Kind2<M, E, A>
 export declare function chainFirstTaskK<M extends URIS>(
   F: FromTask1<M>,
   M: Chain1<M>
@@ -84,7 +170,7 @@ export declare function chainTaskK<M extends URIS3>(
 export declare function chainTaskK<M extends URIS3, E>(
   F: FromTask3C<M, E>,
   M: Chain3C<M, E>
-): <A, B>(f: (a: A) => Task<B>) => <R, E>(first: Kind3<M, R, E, A>) => Kind3<M, R, E, B>
+): <A, B>(f: (a: A) => Task<B>) => <R>(first: Kind3<M, R, E, A>) => Kind3<M, R, E, B>
 export declare function chainTaskK<M extends URIS2>(
   F: FromTask2<M>,
   M: Chain2<M>
@@ -92,7 +178,7 @@ export declare function chainTaskK<M extends URIS2>(
 export declare function chainTaskK<M extends URIS2, E>(
   F: FromTask2C<M, E>,
   M: Chain2C<M, E>
-): <A, B>(f: (a: A) => Task<B>) => <E>(first: Kind2<M, E, A>) => Kind2<M, E, B>
+): <A, B>(f: (a: A) => Task<B>) => (first: Kind2<M, E, A>) => Kind2<M, E, B>
 export declare function chainTaskK<M extends URIS>(
   F: FromTask1<M>,
   M: Chain1<M>
@@ -131,92 +217,6 @@ export declare function fromTaskK<F extends URIS>(
 export declare function fromTaskK<F>(
   F: FromTask<F>
 ): <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Task<B>) => (...a: A) => HKT<F, B>
-```
-
-Added in v2.10.0
-
-# type classes
-
-## FromTask (interface)
-
-**Signature**
-
-```ts
-export interface FromTask<F> extends FromIO<F> {
-  readonly fromTask: <A>(fa: Task<A>) => HKT<F, A>
-}
-```
-
-Added in v2.10.0
-
-## FromTask1 (interface)
-
-**Signature**
-
-```ts
-export interface FromTask1<F extends URIS> extends FromIO1<F> {
-  readonly fromTask: NaturalTransformation11<URI, F>
-}
-```
-
-Added in v2.10.0
-
-## FromTask2 (interface)
-
-**Signature**
-
-```ts
-export interface FromTask2<F extends URIS2> extends FromIO2<F> {
-  readonly fromTask: NaturalTransformation12<URI, F>
-}
-```
-
-Added in v2.10.0
-
-## FromTask2C (interface)
-
-**Signature**
-
-```ts
-export interface FromTask2C<F extends URIS2, E> extends FromIO2C<F, E> {
-  readonly fromTask: NaturalTransformation12C<URI, F, E>
-}
-```
-
-Added in v2.10.0
-
-## FromTask3 (interface)
-
-**Signature**
-
-```ts
-export interface FromTask3<F extends URIS3> extends FromIO3<F> {
-  readonly fromTask: NaturalTransformation13<URI, F>
-}
-```
-
-Added in v2.10.0
-
-## FromTask3C (interface)
-
-**Signature**
-
-```ts
-export interface FromTask3C<F extends URIS3, E> extends FromIO3C<F, E> {
-  readonly fromTask: NaturalTransformation13C<URI, F, E>
-}
-```
-
-Added in v2.10.0
-
-## FromTask4 (interface)
-
-**Signature**
-
-```ts
-export interface FromTask4<F extends URIS4> extends FromIO4<F> {
-  readonly fromTask: NaturalTransformation14<URI, F>
-}
 ```
 
 Added in v2.10.0

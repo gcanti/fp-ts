@@ -55,9 +55,7 @@ export const isEmpty: <K, A>(m: Map<K, A>) => boolean = RM.isEmpty
  *
  * @since 2.0.0
  */
-export const member: <K>(
-  E: Eq<K>
-) => {
+export const member: <K>(E: Eq<K>) => {
   (k: K): <A>(m: Map<K, A>) => boolean
   <A>(k: K, m: Map<K, A>): boolean
 } = RM.member
@@ -68,9 +66,7 @@ export const member: <K>(
  *
  * @since 2.0.0
  */
-export const elem: <A>(
-  E: Eq<A>
-) => {
+export const elem: <A>(E: Eq<A>) => {
   (a: A): <K>(m: Map<K, A>) => boolean
   <K>(a: A, m: Map<K, A>): boolean
 } = RM.elem
@@ -80,28 +76,35 @@ export const elem: <A>(
  *
  * @since 2.0.0
  */
-export const keys = <K>(O: Ord<K>) => <A>(m: Map<K, A>): Array<K> => Array.from(m.keys()).sort(O.compare)
+export const keys =
+  <K>(O: Ord<K>) =>
+  <A>(m: Map<K, A>): Array<K> =>
+    Array.from(m.keys()).sort(O.compare)
 
 /**
  * Get a sorted `Array` of the values contained in a `Map`.
  *
  * @since 2.0.0
  */
-export const values = <A>(O: Ord<A>) => <K>(m: Map<K, A>): Array<A> => Array.from(m.values()).sort(O.compare)
+export const values =
+  <A>(O: Ord<A>) =>
+  <K>(m: Map<K, A>): Array<A> =>
+    Array.from(m.values()).sort(O.compare)
 
 /**
  * @since 2.0.0
  */
 export function collect<K>(O: Ord<K>): <A, B>(f: (k: K, a: A) => B) => (m: Map<K, A>) => Array<B> {
   const keysO = keys(O)
-  return <A, B>(f: (k: K, a: A) => B) => (m: Map<K, A>): Array<B> => {
-    const out: Array<B> = []
-    const ks = keysO(m)
-    for (const key of ks) {
-      out.push(f(key, m.get(key)!))
+  return <A, B>(f: (k: K, a: A) => B) =>
+    (m: Map<K, A>): Array<B> => {
+      const out: Array<B> = []
+      const ks = keysO(m)
+      for (const key of ks) {
+        out.push(f(key, m.get(key)!))
+      }
+      return out
     }
-    return out
-  }
 }
 
 /**
@@ -132,7 +135,6 @@ export function toUnfoldable<K, F>(ord: Ord<K>, U: Unfoldable<F>): <A>(d: Map<K,
 /**
  * Insert or replace a key/value pair in a `Map`.
  *
- * @category combinators
  * @since 2.0.0
  */
 export const upsertAt = <K>(E: Eq<K>): (<A>(k: K, a: A) => (m: Map<K, A>) => Map<K, A>) => {
@@ -158,7 +160,6 @@ export const upsertAt = <K>(E: Eq<K>): (<A>(k: K, a: A) => (m: Map<K, A>) => Map
 /**
  * Delete a key and value from a map
  *
- * @category combinators
  * @since 2.0.0
  */
 export const deleteAt = <K>(E: Eq<K>): ((k: K) => <A>(m: Map<K, A>) => Map<K, A>) => {
@@ -228,9 +229,7 @@ interface Next<A> {
  *
  * @since 2.0.0
  */
-export function lookupWithKey<K>(
-  E: Eq<K>
-): {
+export function lookupWithKey<K>(E: Eq<K>): {
   (k: K): <A>(m: Map<K, A>) => Option<[K, A]>
   <A>(k: K, m: Map<K, A>): Option<[K, A]>
 }
@@ -244,7 +243,6 @@ export function lookupWithKey<K>(
     }
     const entries = m.entries()
     let e: Next<[K, A]>
-    // tslint:disable-next-line: strict-boolean-expressions
     while (!(e = entries.next()).done) {
       const [ka, a] = e.value
       if (E.equals(ka, k)) {
@@ -261,9 +259,7 @@ export function lookupWithKey<K>(
  *
  * @since 2.0.0
  */
-export const lookup: <K>(
-  E: Eq<K>
-) => {
+export const lookup: <K>(E: Eq<K>) => {
   (k: K): <A>(m: Map<K, A>) => Option<A>
   <A>(k: K, m: Map<K, A>): Option<A>
 } = RM.lookup
@@ -307,7 +303,6 @@ export function getMonoid<K, A>(SK: Eq<K>, SA: Semigroup<A>): Monoid<Map<K, A>> 
       const r = new Map(mx)
       const entries = my.entries()
       let e: Next<[K, A]>
-      // tslint:disable-next-line: strict-boolean-expressions
       while (!(e = entries.next()).done) {
         const [k, a] = e.value
         const mxOptA = lookupWithKeyS(k, mx)
@@ -372,7 +367,6 @@ const _mapWithIndex = <K, A, B>(fa: Map<K, A>, f: (k: K, a: A) => B): Map<K, B> 
   const m = new Map<K, B>()
   const entries = fa.entries()
   let e: Next<[K, A]>
-  // tslint:disable-next-line: strict-boolean-expressions
   while (!(e = entries.next()).done) {
     const [key, a] = e.value
     m.set(key, f(key, a))
@@ -381,31 +375,28 @@ const _mapWithIndex = <K, A, B>(fa: Map<K, A>, f: (k: K, a: A) => B): Map<K, B> 
 }
 
 /**
- * @category combinators
  * @since 2.10.0
  */
-export const partitionMapWithIndex = <K, A, B, C>(f: (k: K, a: A) => Either<B, C>) => (
-  fa: Map<K, A>
-): Separated<Map<K, B>, Map<K, C>> => {
-  const left = new Map<K, B>()
-  const right = new Map<K, C>()
-  const entries = fa.entries()
-  let e: Next<[K, A]>
-  // tslint:disable-next-line: strict-boolean-expressions
-  while (!(e = entries.next()).done) {
-    const [k, a] = e.value
-    const ei = f(k, a)
-    if (_.isLeft(ei)) {
-      left.set(k, ei.left)
-    } else {
-      right.set(k, ei.right)
+export const partitionMapWithIndex =
+  <K, A, B, C>(f: (k: K, a: A) => Either<B, C>) =>
+  (fa: Map<K, A>): Separated<Map<K, B>, Map<K, C>> => {
+    const left = new Map<K, B>()
+    const right = new Map<K, C>()
+    const entries = fa.entries()
+    let e: Next<[K, A]>
+    while (!(e = entries.next()).done) {
+      const [k, a] = e.value
+      const ei = f(k, a)
+      if (_.isLeft(ei)) {
+        left.set(k, ei.left)
+      } else {
+        right.set(k, ei.right)
+      }
     }
+    return separated(left, right)
   }
-  return separated(left, right)
-}
 
 /**
- * @category combinators
  * @since 2.10.0
  */
 export function partitionWithIndex<K, A, B extends A>(
@@ -425,7 +416,6 @@ export function partitionWithIndex<K, A>(
     const right = new Map<K, A>()
     const entries = fa.entries()
     let e: Next<[K, A]>
-    // tslint:disable-next-line: strict-boolean-expressions
     while (!(e = entries.next()).done) {
       const [k, a] = e.value
       if (predicateWithIndex(k, a)) {
@@ -439,26 +429,25 @@ export function partitionWithIndex<K, A>(
 }
 
 /**
- * @category combinators
  * @since 2.10.0
  */
-export const filterMapWithIndex = <K, A, B>(f: (k: K, a: A) => Option<B>) => (fa: Map<K, A>): Map<K, B> => {
-  const m = new Map<K, B>()
-  const entries = fa.entries()
-  let e: Next<[K, A]>
-  // tslint:disable-next-line: strict-boolean-expressions
-  while (!(e = entries.next()).done) {
-    const [k, a] = e.value
-    const o = f(k, a)
-    if (_.isSome(o)) {
-      m.set(k, o.value)
+export const filterMapWithIndex =
+  <K, A, B>(f: (k: K, a: A) => Option<B>) =>
+  (fa: Map<K, A>): Map<K, B> => {
+    const m = new Map<K, B>()
+    const entries = fa.entries()
+    let e: Next<[K, A]>
+    while (!(e = entries.next()).done) {
+      const [k, a] = e.value
+      const o = f(k, a)
+      if (_.isSome(o)) {
+        m.set(k, o.value)
+      }
     }
+    return m
   }
-  return m
-}
 
 /**
- * @category combinators
  * @since 2.10.0
  */
 export function filterWithIndex<K, A, B extends A>(p: (k: K, a: A) => a is B): (m: Map<K, A>) => Map<K, B>
@@ -469,7 +458,6 @@ export function filterWithIndex<K, A>(p: (k: K, a: A) => boolean): (m: Map<K, A>
     const out = new Map<K, A>()
     const entries = m.entries()
     let e: Next<[K, A]>
-    // tslint:disable-next-line: strict-boolean-expressions
     while (!(e = entries.next()).done) {
       const [k, a] = e.value
       if (p(k, a)) {
@@ -479,10 +467,6 @@ export function filterWithIndex<K, A>(p: (k: K, a: A) => boolean): (m: Map<K, A>
     return out
   }
 }
-
-// -------------------------------------------------------------------------------------
-// non-pipeables
-// -------------------------------------------------------------------------------------
 
 const _map: Functor2<URI>['map'] = (fa, f) => _mapWithIndex(fa, (_, a) => f(a))
 const _filter: Filterable2<URI>['filter'] = <K, A>(fa: Map<K, A>, p: Predicate<A>) =>
@@ -497,19 +481,14 @@ const _partitionWithIndex = <K, A>(fa: Map<K, A>, p: (k: K, a: A) => boolean) =>
 const _partitionMapWithIndex = <K, A, B, C>(fa: Map<K, A>, f: (k: K, a: A) => Either<B, C>) =>
   pipe(fa, partitionMapWithIndex(f))
 
-// -------------------------------------------------------------------------------------
-// type class members
-// -------------------------------------------------------------------------------------
-
 /**
- * @category Compactable
+ * @category filtering
  * @since 2.0.0
  */
 export const compact = <K, A>(fa: Map<K, Option<A>>): Map<K, A> => {
   const m = new Map<K, A>()
   const entries = fa.entries()
   let e: Next<[K, Option<A>]>
-  // tslint:disable-next-line: strict-boolean-expressions
   while (!(e = entries.next()).done) {
     const [k, oa] = e.value
     if (_.isSome(oa)) {
@@ -520,17 +499,20 @@ export const compact = <K, A>(fa: Map<K, Option<A>>): Map<K, A> => {
 }
 
 /**
- * @category Filterable
+ * @category filtering
  * @since 2.0.0
  */
 export const filter: {
   <A, B extends A>(refinement: Refinement<A, B>): <K>(fa: Map<K, A>) => Map<K, B>
   <A>(predicate: Predicate<A>): <K, B extends A>(fb: Map<K, B>) => Map<K, B>
   <A>(predicate: Predicate<A>): <K>(fa: Map<K, A>) => Map<K, A>
-} = <A>(predicate: Predicate<A>) => <K>(fa: Map<K, A>) => _filter(fa, predicate)
+} =
+  <A>(predicate: Predicate<A>) =>
+  <K>(fa: Map<K, A>) =>
+    _filter(fa, predicate)
 
 /**
- * @category Filterable
+ * @category filtering
  * @since 2.0.0
  */
 export const filterMap: <A, B>(f: (a: A) => Option<B>) => <K>(fa: Map<K, A>) => Map<K, B> = (f) => (fa) =>
@@ -540,30 +522,33 @@ export const filterMap: <A, B>(f: (a: A) => Option<B>) => <K>(fa: Map<K, A>) => 
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
  * use the type constructor `F` to represent some computational context.
  *
- * @category Functor
+ * @category mapping
  * @since 2.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => <K>(fa: Map<K, A>) => Map<K, B> = (f) => (fa) => _map(fa, f)
 
 /**
- * @category FunctorWithIndex
+ * @category mapping
  * @since 2.7.1
  */
 export const mapWithIndex: <K, A, B>(f: (k: K, a: A) => B) => (fa: Map<K, A>) => Map<K, B> = (f) => (fa) =>
   _mapWithIndex(fa, f)
 
 /**
- * @category Filterable
+ * @category filtering
  * @since 2.0.0
  */
 export const partition: {
   <A, B extends A>(refinement: Refinement<A, B>): <K>(fa: Map<K, A>) => Separated<Map<K, A>, Map<K, B>>
   <A>(predicate: Predicate<A>): <K, B extends A>(fb: Map<K, B>) => Separated<Map<K, B>, Map<K, B>>
   <A>(predicate: Predicate<A>): <K>(fa: Map<K, A>) => Separated<Map<K, A>, Map<K, A>>
-} = <A>(predicate: Predicate<A>) => <K>(fa: Map<K, A>) => _partition(fa, predicate)
+} =
+  <A>(predicate: Predicate<A>) =>
+  <K>(fa: Map<K, A>) =>
+    _partition(fa, predicate)
 
 /**
- * @category Filterable
+ * @category filtering
  * @since 2.0.0
  */
 export const partitionMap: <A, B, C>(
@@ -571,7 +556,7 @@ export const partitionMap: <A, B, C>(
 ) => <K>(fa: Map<K, A>) => Separated<Map<K, B>, Map<K, C>> = (f) => (fa) => _partitionMap(fa, f)
 
 /**
- * @category Compactable
+ * @category filtering
  * @since 2.0.0
  */
 export const separate = <K, A, B>(fa: Map<K, Either<A, B>>): Separated<Map<K, A>, Map<K, B>> => {
@@ -579,7 +564,6 @@ export const separate = <K, A, B>(fa: Map<K, Either<A, B>>): Separated<Map<K, A>
   const right = new Map<K, B>()
   const entries = fa.entries()
   let e: Next<[K, Either<A, B>]>
-  // tslint:disable-next-line: strict-boolean-expressions
   while (!(e = entries.next()).done) {
     const [k, ei] = e.value
     if (_.isLeft(ei)) {
@@ -591,18 +575,14 @@ export const separate = <K, A, B>(fa: Map<K, Either<A, B>>): Separated<Map<K, A>
   return separated(left, right)
 }
 
-// -------------------------------------------------------------------------------------
-// instances
-// -------------------------------------------------------------------------------------
-
 /**
- * @category instances
+ * @category type lambdas
  * @since 2.0.0
  */
 export const URI = 'Map'
 
 /**
- * @category instances
+ * @category type lambdas
  * @since 2.0.0
  */
 export type URI = typeof URI
@@ -648,15 +628,17 @@ export const getIntersectionSemigroup = <K, A>(E: Eq<K>, S: Semigroup<A>): Semig
  * @category instances
  * @since 2.11.0
  */
-export const getDifferenceMagma = <K>(E: Eq<K>) => <A>(): Magma<Map<K, A>> => {
-  const differenceE = difference(E)
-  return {
-    concat: (first, second) => differenceE(second)(first)
+export const getDifferenceMagma =
+  <K>(E: Eq<K>) =>
+  <A>(): Magma<Map<K, A>> => {
+    const differenceE = difference(E)
+    return {
+      concat: (first, second) => differenceE(second)(first)
+    }
   }
-}
 
 /**
- * @category instances
+ * @category filtering
  * @since 2.0.0
  */
 export function getFilterableWithIndex<K = never>(): FilterableWithIndex2C<URI, K, K> {
@@ -679,7 +661,7 @@ export function getFilterableWithIndex<K = never>(): FilterableWithIndex2C<URI, 
 }
 
 /**
- * @category instances
+ * @category filtering
  * @since 2.0.0
  */
 export function getWitherable<K>(O: Ord<K>): Witherable2C<URI, K> & TraversableWithIndex2C<URI, K, K> {
@@ -710,22 +692,25 @@ export function getWitherable<K>(O: Ord<K>): Witherable2C<URI, K> & TraversableW
 }
 
 /**
+ * @category folding
  * @since 2.11.0
  */
 export const reduce: <K>(O: Ord<K>) => <B, A>(b: B, f: (b: B, a: A) => B) => (m: Map<K, A>) => B = RM.reduce
 
 /**
+ * @category folding
  * @since 2.11.0
  */
 export const foldMap: <K>(O: Ord<K>) => <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (m: Map<K, A>) => M = RM.foldMap
 
 /**
+ * @category folding
  * @since 2.11.0
  */
 export const reduceRight: <K>(O: Ord<K>) => <B, A>(b: B, f: (a: A, b: B) => B) => (m: Map<K, A>) => B = RM.reduceRight
 
 /**
- * @category instances
+ * @category folding
  * @since 2.11.0
  */
 export const getFoldable = <K>(O: Ord<K>): Foldable2C<URI, K> => {
@@ -736,25 +721,28 @@ export const getFoldable = <K>(O: Ord<K>): Foldable2C<URI, K> => {
 }
 
 /**
+ * @category folding
  * @since 2.11.0
  */
 export const reduceWithIndex: <K>(O: Ord<K>) => <B, A>(b: B, f: (k: K, b: B, a: A) => B) => (m: Map<K, A>) => B =
   RM.reduceWithIndex
 
 /**
+ * @category folding
  * @since 2.11.0
  */
 export const foldMapWithIndex: <K>(O: Ord<K>) => <M>(M: Monoid<M>) => <A>(f: (k: K, a: A) => M) => (m: Map<K, A>) => M =
   RM.foldMapWithIndex
 
 /**
+ * @category folding
  * @since 2.11.0
  */
 export const reduceRightWithIndex: <K>(O: Ord<K>) => <B, A>(b: B, f: (k: K, a: A, b: B) => B) => (m: Map<K, A>) => B =
   RM.reduceRightWithIndex
 
 /**
- * @category instances
+ * @category folding
  * @since 2.10.0
  */
 export const getFoldableWithIndex = <K>(O: Ord<K>): FoldableWithIndex2C<URI, K, K> => {
@@ -765,7 +753,7 @@ export const getFoldableWithIndex = <K>(O: Ord<K>): FoldableWithIndex2C<URI, K, 
 }
 
 /**
- * @category instances
+ * @category traversing
  * @since 2.10.0
  */
 export const getTraversableWithIndex = <K>(O: Ord<K>): TraversableWithIndex2C<URI, K, K> => {
@@ -825,14 +813,10 @@ export const Functor: Functor2<URI> = {
 }
 
 /**
- * Derivable from `Functor`.
- *
- * @category combinators
+ * @category mapping
  * @since 2.10.0
  */
-export const flap =
-  /*#__PURE__*/
-  flap_(Functor)
+export const flap = /*#__PURE__*/ flap_(Functor)
 
 /**
  * @category instances
@@ -899,15 +883,16 @@ export const intersection = <K, A>(E: Eq<K>, M: Magma<A>): ((second: Map<K, A>) 
  */
 export const difference = <K>(E: Eq<K>): (<A>(_second: Map<K, A>) => (first: Map<K, A>) => Map<K, A>) => {
   const differenceE = RM.difference(E)
-  return <A>(second: Map<K, A>) => (first: Map<K, A>) => {
-    if (isEmpty(first)) {
-      return copy(second)
+  return <A>(second: Map<K, A>) =>
+    (first: Map<K, A>) => {
+      if (isEmpty(first)) {
+        return copy(second)
+      }
+      if (isEmpty(second)) {
+        return copy(first)
+      }
+      return differenceE(second)(first) as any
     }
-    if (isEmpty(second)) {
-      return copy(first)
-    }
-    return differenceE(second)(first) as any
-  }
 }
 
 // -------------------------------------------------------------------------------------
@@ -917,6 +902,7 @@ export const difference = <K>(E: Eq<K>): (<A>(_second: Map<K, A>) => (first: Map
 /**
  * Use a `new Map()` instead.
  *
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -925,7 +911,7 @@ export const empty = new Map<never, never>()
 /**
  * Use [`upsertAt`](#upsertat) instead.
  *
- * @category combinators
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -934,7 +920,7 @@ export const insertAt: <K>(E: Eq<K>) => <A>(k: K, a: A) => (m: Map<K, A>) => Map
 /**
  * Use [`Filterable`](#filterable) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */

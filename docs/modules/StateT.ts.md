@@ -1,10 +1,15 @@
 ---
 title: StateT.ts
-nav_order: 99
+nav_order: 101
 parent: Modules
 ---
 
 ## StateT overview
+
+The state monad transformer. It can be used to add state to other monads.
+
+The `of` function leaves the state unchanged, while `chain` uses the final state of the first computation
+as the initial state of the second.
 
 Added in v2.0.0
 
@@ -26,6 +31,7 @@ Added in v2.0.0
   - [fromState](#fromstate)
   - [map](#map)
   - [of](#of)
+- [zone of death](#zone-of-death)
   - [~~StateM1~~ (interface)](#statem1-interface)
   - [~~StateM2C~~ (interface)](#statem2c-interface)
   - [~~StateM2~~ (interface)](#statem2-interface)
@@ -267,6 +273,8 @@ export declare function of<F>(F: Pointed<F>): <A, S>(a: A) => StateT<F, S, A>
 ```
 
 Added in v2.10.0
+
+# zone of death
 
 ## ~~StateM1~~ (interface)
 

@@ -64,12 +64,12 @@ v1 (deprecated)
 {: .label .label-red .mt-5 }
 
 ```ts
-import * as O from 'fp-ts/lib/Option'
+import * as O from 'fp-ts/Option'
 
 O.some(1)
-  .map(n => n * 2)
-  .chain(n => (n === 0 ? O.none : O.some(1 / n)))
-  .filter(n => n > 1)
+  .map((n) => n * 2)
+  .chain((n) => (n === 0 ? O.none : O.some(1 / n)))
+  .filter((n) => n > 1)
   .foldL(
     () => 'ko',
     () => 'ok'
@@ -80,14 +80,14 @@ v2 (new)
 {: .label .label-green .mt-5 }
 
 ```ts
-import * as O from 'fp-ts/lib/Option'
-import { pipe } from 'fp-ts/lib/pipeable'
+import * as O from 'fp-ts/Option'
+import { pipe } from 'fp-ts/pipeable'
 
 pipe(
   O.some(1),
-  O.map(n => n * 2),
-  O.chain(n => (n === 0 ? O.none : O.some(1 / n))),
-  O.filter(n => n > 1),
+  O.map((n) => n * 2),
+  O.chain((n) => (n === 0 ? O.none : O.some(1 / n))),
+  O.filter((n) => n > 1),
   O.fold(
     () => 'ko',
     () => 'ok'
@@ -98,14 +98,14 @@ pipe(
 We recommend to use `pipe` even if you work with just one function, as it allows TypeScript to infer the types automatically. It's also easier to migrate existing code, because the argument order remains the same.
 
 ```ts
-import * as O from 'fp-ts/lib/Option'
-import { pipe } from 'fp-ts/lib/pipeable'
+import * as O from 'fp-ts/Option'
+import { pipe } from 'fp-ts/function'
 
 pipe(
   O.some(1),
   O.fold(
     () => 'ko',
-    n => `ok: ${n}`
+    (n) => `ok: ${n}`
   )
 )
 ```
@@ -120,11 +120,11 @@ v1 (deprecated)
 {: .label .label-red .mt-5 }
 
 ```ts
-import { Task } from 'fp-ts/lib/Task'
+import { Task } from 'fp-ts/Task'
 
 const deepThought = new Task<number>(() => Promise.resolve(42))
 
-deepThought.run().then(n => {
+deepThought.run().then((n) => {
   console.log(`The answer is ${n}.`)
 })
 ```
@@ -133,11 +133,11 @@ v2 (new)
 {: .label .label-green .mt-5 }
 
 ```ts
-import { Task } from 'fp-ts/lib/Task'
+import { Task } from 'fp-ts/Task'
 
 const deepThought: Task<number> = () => Promise.resolve(42)
 
-deepThought().then(n => {
+deepThought().then((n) => {
   console.log(`The answer is ${n}.`)
 })
 ```
@@ -150,7 +150,7 @@ v1 (deprecated)
 {: .label .label-red .mt-5 }
 
 ```ts
-import * as O from 'fp-ts/lib/Option'
+import * as O from 'fp-ts/Option'
 
 O.some(1).getOrElse(0) // Direct
 O.some(1).getOrElseL(() => 0) // Lazy, i.e. only run if needed
@@ -162,8 +162,8 @@ v2 (new)
 In `fp-ts@2.x` the API has been simplified, only the lazy variants have been kept with the `L` suffix removed.
 
 ```ts
-import * as O from 'fp-ts/lib/Option'
-import { pipe } from 'fp-ts/lib/pipeable'
+import * as O from 'fp-ts/Option'
+import { pipe } from 'fp-ts/function'
 
 pipe(
   O.some(1),

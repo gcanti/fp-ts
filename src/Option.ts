@@ -10,6 +10,54 @@
  * An option could be looked at as a collection or foldable structure with either one or zero elements.
  * Another way to look at `Option` is: it represents the effect of a possibly failing computation.
  *
+ *
+ * @example
+ * import * as O from 'fp-ts/Option'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * const double = (n: number): number => n * 2
+ *
+ * export const imperative = (as: ReadonlyArray<number>): string => {
+ *   const head = (as: ReadonlyArray<number>): number => {
+ *     if (as.length === 0) {
+ *       throw new Error()
+ *     }
+ *     return as[0]
+ *   }
+ *   const inverse = (n: number): number => {
+ *     if (n === 0) {
+ *       throw new Error()
+ *     }
+ *     return 1 / n
+ *   }
+ *   try {
+ *     return `Result is ${inverse(double(head(as)))}`
+ *   } catch (e) {
+ *     return 'no result'
+ *   }
+ * }
+ *
+ * export const functional = (as: ReadonlyArray<number>): string => {
+ *   const head = <A>(as: ReadonlyArray<A>): O.Option<A> =>
+ *     as.length === 0 ? O.none : O.some(as[0])
+ *   const inverse = (n: number): O.Option<number> =>
+ *     n === 0 ? O.none : O.some(1 / n)
+ *   return pipe(
+ *     as,
+ *     head,
+ *     O.map(double),
+ *     O.chain(inverse),
+ *     O.match(
+ *       () => 'no result', // onNone handler
+ *       (head) => `Result is ${head}` // onSome handler
+ *     )
+ *   )
+ * }
+ *
+ * assert.deepStrictEqual(imperative([1, 2, 3]), functional([1, 2, 3]))
+ * assert.deepStrictEqual(imperative([]), functional([]))
+ * assert.deepStrictEqual(imperative([0]), functional([0]))
+ *
  * @since 2.0.0
  */
 import { Alt1 } from './Alt'
@@ -29,9 +77,14 @@ import { Eq } from './Eq'
 import { Extend1 } from './Extend'
 import { Filterable1 } from './Filterable'
 import { Foldable1 } from './Foldable'
-import { chainEitherK as chainEitherK_, FromEither1, fromEitherK as fromEitherK_ } from './FromEither'
+import {
+  chainEitherK as chainEitherK_,
+  FromEither1,
+  fromEitherK as fromEitherK_,
+  chainFirstEitherK as chainFirstEitherK_
+} from './FromEither'
 import { constNull, constUndefined, flow, identity, Lazy, pipe } from './function'
-import { bindTo as bindTo_, flap as flap_, Functor1 } from './Functor'
+import { let as let__, bindTo as bindTo_, flap as flap_, Functor1 } from './Functor'
 import { HKT } from './HKT'
 import * as _ from './internal'
 import { Monad1 } from './Monad'
@@ -108,7 +161,7 @@ export const some: <A>(a: A) => Option<A> = _.some
  * assert.deepStrictEqual(getOption(-1), none)
  * assert.deepStrictEqual(getOption(1), some(1))
  *
- * @category constructors
+ * @category lifting
  * @since 2.0.0
  */
 export function fromPredicate<A, B extends A>(refinement: Refinement<A, B>): (a: A) => Option<B>
@@ -148,10 +201,6 @@ export const getLeft = <E, A>(ma: Either<E, A>): Option<E> => (ma._tag === 'Righ
  */
 export const getRight = <E, A>(ma: Either<E, A>): Option<A> => (ma._tag === 'Left' ? none : some(ma.right))
 
-// -------------------------------------------------------------------------------------
-// non-pipeables
-// -------------------------------------------------------------------------------------
-
 const _map: Monad1<URI>['map'] = (fa, f) => pipe(fa, map(f))
 const _ap: Monad1<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
 const _chain: Monad1<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
@@ -180,18 +229,14 @@ const _partition: Filterable1<URI>['partition'] = <A>(fa: Option<A>, predicate: 
 /* istanbul ignore next */
 const _partitionMap: Filterable1<URI>['partitionMap'] = (fa, f) => pipe(fa, partitionMap(f))
 
-// -------------------------------------------------------------------------------------
-// instances
-// -------------------------------------------------------------------------------------
-
 /**
- * @category instances
+ * @category type lambdas
  * @since 2.0.0
  */
 export const URI = 'Option'
 
 /**
- * @category instances
+ * @category type lambdas
  * @since 2.0.0
  */
 export type URI = typeof URI
@@ -286,7 +331,7 @@ export const getMonoid = <A>(S: Semigroup<A>): Monoid<Option<A>> => ({
 })
 
 /**
- * @category instance operations
+ * @category mapping
  * @since 2.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => (fa: Option<A>) => Option<B> = (f) => (fa) =>
@@ -302,10 +347,10 @@ export const Functor: Functor1<URI> = {
 }
 
 /**
- * @category instance operations
+ * @category constructors
  * @since 2.7.0
  */
-export const of: Pointed1<URI>['of'] = some
+export const of: <A>(a: A) => Option<A> = some
 
 /**
  * @category instances
@@ -317,7 +362,6 @@ export const Pointed: Pointed1<URI> = {
 }
 
 /**
- * @category instance operations
  * @since 2.0.0
  */
 export const ap: <A>(fa: Option<A>) => <B>(fab: Option<(a: A) => B>) => Option<B> = (fa) => (fab) =>
@@ -347,7 +391,7 @@ export const Applicative: Applicative1<URI> = {
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
- * @category instance operations
+ * @category sequencing
  * @since 2.0.0
  */
 export const chain: <A, B>(f: (a: A) => Option<B>) => (ma: Option<A>) => Option<B> = (f) => (ma) =>
@@ -377,21 +421,21 @@ export const Monad: Monad1<URI> = {
 }
 
 /**
- * @category instance operations
+ * @category folding
  * @since 2.0.0
  */
 export const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Option<A>) => B = (b, f) => (fa) =>
   isNone(fa) ? b : f(b, fa.value)
 
 /**
- * @category instance operations
+ * @category folding
  * @since 2.0.0
  */
 export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Option<A>) => M = (M) => (f) => (fa) =>
   isNone(fa) ? M.empty : f(fa.value)
 
 /**
- * @category instance operations
+ * @category folding
  * @since 2.0.0
  */
 export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Option<A>) => B = (b, f) => (fa) =>
@@ -411,7 +455,9 @@ export const Foldable: Foldable1<URI> = {
 /**
  * Less strict version of [`alt`](#alt).
  *
- * @category instance operations
+ * The `W` suffix (short for **W**idening) means that the return types will be merged.
+ *
+ * @category error handling
  * @since 2.9.0
  */
 export const altW: <B>(that: Lazy<Option<B>>) => <A>(fa: Option<A>) => Option<A | B> = (that) => (fa) =>
@@ -423,14 +469,28 @@ export const altW: <B>(that: Lazy<Option<B>>) => <A>(fa: Option<A>) => Option<A 
  *
  * In case of `Option` returns the left-most non-`None` value.
  *
+ * | x       | y       | pipe(x, alt(() => y) |
+ * | ------- | ------- | -------------------- |
+ * | none    | none    | none                 |
+ * | some(a) | none    | some(a)              |
+ * | none    | some(b) | some(b)              |
+ * | some(a) | some(b) | some(a)              |
+ *
  * @example
  * import * as O from 'fp-ts/Option'
  * import { pipe } from 'fp-ts/function'
  *
  * assert.deepStrictEqual(
  *   pipe(
+ *     O.none,
+ *     O.alt(() => O.none)
+ *   ),
+ *   O.none
+ * )
+ * assert.deepStrictEqual(
+ *   pipe(
  *     O.some('a'),
- *     O.alt(() => O.some('b'))
+ *     O.alt<string>(() => O.none)
  *   ),
  *   O.some('a')
  * )
@@ -441,8 +501,15 @@ export const altW: <B>(that: Lazy<Option<B>>) => <A>(fa: Option<A>) => Option<A 
  *   ),
  *   O.some('b')
  * )
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     O.some('a'),
+ *     O.alt(() => O.some('b'))
+ *   ),
+ *   O.some('a')
+ * )
  *
- * @category instance operations
+ * @category error handling
  * @since 2.0.0
  */
 export const alt: <A>(that: Lazy<Option<A>>) => (fa: Option<A>) => Option<A> = altW
@@ -458,10 +525,9 @@ export const Alt: Alt1<URI> = {
 }
 
 /**
- * @category instance operations
  * @since 2.7.0
  */
-export const zero: Zero1<URI>['zero'] = () => none
+export const zero: <A>() => Option<A> = () => none
 
 /**
  * @category instances
@@ -473,12 +539,10 @@ export const Zero: Zero1<URI> = {
 }
 
 /**
- * @category constructors
+ * @category do notation
  * @since 2.11.0
  */
-export const guard =
-  /*#__PURE__*/
-  guard_(Zero, Pointed)
+export const guard = /*#__PURE__*/ guard_(Zero, Pointed)
 
 /**
  * @category instances
@@ -494,7 +558,6 @@ export const Alternative: Alternative1<URI> = {
 }
 
 /**
- * @category instance operations
  * @since 2.0.0
  */
 export const extend: <A, B>(f: (wa: Option<A>) => B) => (wa: Option<A>) => Option<B> = (f) => (wa) =>
@@ -511,19 +574,15 @@ export const Extend: Extend1<URI> = {
 }
 
 /**
- * @category instance operations
+ * @category filtering
  * @since 2.0.0
  */
-export const compact: <A>(fa: Option<Option<A>>) => Option<A> =
-  /*#__PURE__*/
-  chain(identity)
+export const compact: <A>(fa: Option<Option<A>>) => Option<A> = /*#__PURE__*/ chain(identity)
 
-const defaultSeparated =
-  /*#__PURE__*/
-  separated(none, none)
+const defaultSeparated = /*#__PURE__*/ separated(none, none)
 
 /**
- * @category instance operations
+ * @category filtering
  * @since 2.0.0
  */
 export const separate: <A, B>(ma: Option<Either<A, B>>) => Separated<Option<A>, Option<B>> = (ma) =>
@@ -540,34 +599,40 @@ export const Compactable: Compactable1<URI> = {
 }
 
 /**
- * @category instance operations
+ * @category filtering
  * @since 2.0.0
  */
 export const filter: {
   <A, B extends A>(refinement: Refinement<A, B>): (fa: Option<A>) => Option<B>
   <A>(predicate: Predicate<A>): <B extends A>(fb: Option<B>) => Option<B>
   <A>(predicate: Predicate<A>): (fa: Option<A>) => Option<A>
-} = <A>(predicate: Predicate<A>) => (fa: Option<A>) => (isNone(fa) ? none : predicate(fa.value) ? fa : none)
+} =
+  <A>(predicate: Predicate<A>) =>
+  (fa: Option<A>) =>
+    isNone(fa) ? none : predicate(fa.value) ? fa : none
 
 /**
- * @category instance operations
+ * @category filtering
  * @since 2.0.0
  */
 export const filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: Option<A>) => Option<B> = (f) => (fa) =>
   isNone(fa) ? none : f(fa.value)
 
 /**
- * @category instance operations
+ * @category filtering
  * @since 2.0.0
  */
 export const partition: {
   <A, B extends A>(refinement: Refinement<A, B>): (fa: Option<A>) => Separated<Option<A>, Option<B>>
   <A>(predicate: Predicate<A>): <B extends A>(fb: Option<B>) => Separated<Option<B>, Option<B>>
   <A>(predicate: Predicate<A>): (fa: Option<A>) => Separated<Option<A>, Option<A>>
-} = <A>(predicate: Predicate<A>) => (fa: Option<A>) => separated(_filter(fa, not(predicate)), _filter(fa, predicate))
+} =
+  <A>(predicate: Predicate<A>) =>
+  (fa: Option<A>) =>
+    separated(_filter(fa, not(predicate)), _filter(fa, predicate))
 
 /**
- * @category instance operations
+ * @category filtering
  * @since 2.0.0
  */
 export const partitionMap: <A, B, C>(
@@ -590,20 +655,23 @@ export const Filterable: Filterable1<URI> = {
 }
 
 /**
- * @category instance operations
+ * @category traversing
  * @since 2.6.3
  */
-export const traverse: PipeableTraverse1<URI> = <F>(F: ApplicativeHKT<F>) => <A, B>(f: (a: A) => HKT<F, B>) => (
-  ta: Option<A>
-): HKT<F, Option<B>> => (isNone(ta) ? F.of(none) : F.map(f(ta.value), some))
+export const traverse: PipeableTraverse1<URI> =
+  <F>(F: ApplicativeHKT<F>) =>
+  <A, B>(f: (a: A) => HKT<F, B>) =>
+  (ta: Option<A>): HKT<F, Option<B>> =>
+    isNone(ta) ? F.of(none) : F.map(f(ta.value), some)
 
 /**
- * @category instance operations
+ * @category traversing
  * @since 2.6.3
  */
-export const sequence: Traversable1<URI>['sequence'] = <F>(F: ApplicativeHKT<F>) => <A>(
-  ta: Option<HKT<F, A>>
-): HKT<F, Option<A>> => (isNone(ta) ? F.of(none) : F.map(ta.value, some))
+export const sequence: Traversable1<URI>['sequence'] =
+  <F>(F: ApplicativeHKT<F>) =>
+  <A>(ta: Option<HKT<F, A>>): HKT<F, Option<A>> =>
+    isNone(ta) ? F.of(none) : F.map(ta.value, some)
 
 /**
  * @category instances
@@ -619,16 +687,12 @@ export const Traversable: Traversable1<URI> = {
   sequence
 }
 
-const _wither: Witherable1<URI>['wither'] =
-  /*#__PURE__*/
-  witherDefault(Traversable, Compactable)
+const _wither: Witherable1<URI>['wither'] = /*#__PURE__*/ witherDefault(Traversable, Compactable)
 
-const _wilt: Witherable1<URI>['wilt'] =
-  /*#__PURE__*/
-  wiltDefault(Traversable, Compactable)
+const _wilt: Witherable1<URI>['wilt'] = /*#__PURE__*/ wiltDefault(Traversable, Compactable)
 
 /**
- * @category instance operations
+ * @category filtering
  * @since 2.6.5
  */
 export const wither: PipeableWither1<URI> = <F>(
@@ -639,7 +703,7 @@ export const wither: PipeableWither1<URI> = <F>(
 }
 
 /**
- * @category instance operations
+ * @category filtering
  * @since 2.6.5
  */
 export const wilt: PipeableWilt1<URI> = <F>(
@@ -672,7 +736,6 @@ export const Witherable: Witherable1<URI> = {
 }
 
 /**
- * @category instance operations
  * @since 2.7.0
  */
 export const throwError: MonadThrow1<URI>['throwError'] = () => none
@@ -695,10 +758,10 @@ export const MonadThrow: MonadThrow1<URI> = {
  *
  * Alias of [getRight](#getright)
  *
- * @category natural transformations
+ * @category conversions
  * @since 2.0.0
  */
-export const fromEither: FromEither1<URI>['fromEither'] = getRight
+export const fromEither: <A>(fa: Either<unknown, A>) => Option<A> = getRight
 
 /**
  * @category instances
@@ -741,23 +804,23 @@ export const isSome: <A>(fa: Option<A>) => fa is Some<A> = _.isSome
  */
 export const isNone = (fa: Option<unknown>): fa is None => fa._tag === 'None'
 
-// -------------------------------------------------------------------------------------
-// destructors
-// -------------------------------------------------------------------------------------
-
 /**
  * Less strict version of [`match`](#match).
  *
- * @category destructors
+ * The `W` suffix (short for **W**idening) means that the handler return types will be merged.
+ *
+ * @category pattern matching
  * @since 2.10.0
  */
-export const matchW = <B, A, C>(onNone: Lazy<B>, onSome: (a: A) => C) => (ma: Option<A>): B | C =>
-  isNone(ma) ? onNone() : onSome(ma.value)
+export const matchW =
+  <B, A, C>(onNone: Lazy<B>, onSome: (a: A) => C) =>
+  (ma: Option<A>): B | C =>
+    isNone(ma) ? onNone() : onSome(ma.value)
 
 /**
  * Alias of [`matchW`](#matchw).
  *
- * @category destructors
+ * @category pattern matching
  * @since 2.10.0
  */
 export const foldW = matchW
@@ -786,7 +849,7 @@ export const foldW = matchW
  *   'a none'
  * )
  *
- * @category destructors
+ * @category pattern matching
  * @since 2.10.0
  */
 export const match: <A, B>(onNone: Lazy<B>, onSome: (a: A) => B) => (ma: Option<A>) => B = matchW
@@ -794,7 +857,7 @@ export const match: <A, B>(onNone: Lazy<B>, onSome: (a: A) => B) => (ma: Option<
 /**
  * Alias of [`match`](#match).
  *
- * @category destructors
+ * @category pattern matching
  * @since 2.0.0
  */
 export const fold = match
@@ -802,10 +865,15 @@ export const fold = match
 /**
  * Less strict version of [`getOrElse`](#getorelse).
  *
- * @category destructors
+ * The `W` suffix (short for **W**idening) means that the handler return type will be merged.
+ *
+ * @category error handling
  * @since 2.6.0
  */
-export const getOrElseW = <B>(onNone: Lazy<B>) => <A>(ma: Option<A>): A | B => (isNone(ma) ? onNone() : ma.value)
+export const getOrElseW =
+  <B>(onNone: Lazy<B>) =>
+  <A>(ma: Option<A>): A | B =>
+    isNone(ma) ? onNone() : ma.value
 
 /**
  * Extracts the value out of the structure, if it exists. Otherwise returns the given default value
@@ -829,53 +897,33 @@ export const getOrElseW = <B>(onNone: Lazy<B>) => <A>(ma: Option<A>): A | B => (
  *   0
  * )
  *
- * @category destructors
+ * @category error handling
  * @since 2.0.0
  */
 export const getOrElse: <A>(onNone: Lazy<A>) => (ma: Option<A>) => A = getOrElseW
 
-// -------------------------------------------------------------------------------------
-// combinators
-// -------------------------------------------------------------------------------------
-
 /**
- * Derivable from `Functor`.
- *
- * @category combinators
+ * @category mapping
  * @since 2.10.0
  */
-export const flap =
-  /*#__PURE__*/
-  flap_(Functor)
+export const flap = /*#__PURE__*/ flap_(Functor)
 
 /**
  * Combine two effectful actions, keeping only the result of the first.
  *
- * Derivable from `Apply`.
- *
- * @category combinators
  * @since 2.0.0
  */
-export const apFirst =
-  /*#__PURE__*/
-  apFirst_(Apply)
+export const apFirst = /*#__PURE__*/ apFirst_(Apply)
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
  *
- * Derivable from `Apply`.
- *
- * @category combinators
  * @since 2.0.0
  */
-export const apSecond =
-  /*#__PURE__*/
-  apSecond_(Apply)
+export const apSecond = /*#__PURE__*/ apSecond_(Apply)
 
 /**
- * Derivable from `Chain`.
- *
- * @category combinators
+ * @category sequencing
  * @since 2.0.0
  */
 export const flatten: <A>(mma: Option<Option<A>>) => Option<A> = compact
@@ -884,44 +932,38 @@ export const flatten: <A>(mma: Option<Option<A>>) => Option<A> = compact
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
- * Derivable from `Chain`.
- *
- * @category combinators
+ * @category sequencing
  * @since 2.0.0
  */
-export const chainFirst =
-  /*#__PURE__*/
-  chainFirst_(Chain)
+export const chainFirst: <A, B>(f: (a: A) => Option<B>) => (first: Option<A>) => Option<A> =
+  /*#__PURE__*/ chainFirst_(Chain)
 
 /**
- * Derivable from `Extend`.
- *
- * @category combinators
  * @since 2.0.0
  */
-export const duplicate: <A>(ma: Option<A>) => Option<Option<A>> =
-  /*#__PURE__*/
-  extend(identity)
+export const duplicate: <A>(ma: Option<A>) => Option<Option<A>> = /*#__PURE__*/ extend(identity)
 
 /**
- * @category combinators
+ * @category lifting
  * @since 2.11.0
  */
-export const fromEitherK =
-  /*#__PURE__*/
-  fromEitherK_(FromEither)
+export const fromEitherK: <E, A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => Either<E, B>
+) => (...a: A) => Option<B> = /*#__PURE__*/ fromEitherK_(FromEither)
 
 /**
- * @category combinators
+ * @category sequencing
  * @since 2.11.0
  */
-export const chainEitherK =
-  /*#__PURE__*/
-  chainEitherK_(FromEither, Chain)
+export const chainEitherK: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Option<A>) => Option<B> =
+  /*#__PURE__*/ chainEitherK_(FromEither, Chain)
 
-// -------------------------------------------------------------------------------------
-// interop
-// -------------------------------------------------------------------------------------
+/**
+ * @category sequencing
+ * @since 2.12.0
+ */
+export const chainFirstEitherK: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Option<A>) => Option<A> =
+  /*#__PURE__*/ chainFirstEitherK_(FromEither, Chain)
 
 /**
  * Constructs a new `Option` from a nullable type. If the value is `null` or `undefined`, returns `None`, otherwise
@@ -934,7 +976,7 @@ export const chainEitherK =
  * assert.deepStrictEqual(fromNullable(null), none)
  * assert.deepStrictEqual(fromNullable(1), some(1))
  *
- * @category interop
+ * @category conversions
  * @since 2.0.0
  */
 export const fromNullable = <A>(a: A): Option<NonNullable<A>> => (a == null ? none : some(a as NonNullable<A>))
@@ -973,8 +1015,10 @@ export const tryCatch = <A>(f: Lazy<A>): Option<A> => {
  * @category interop
  * @since 2.10.0
  */
-export const tryCatchK = <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => B): ((...a: A) => Option<B>) => (...a) =>
-  tryCatch(() => f(...a))
+export const tryCatchK =
+  <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => B): ((...a: A) => Option<B>) =>
+  (...a) =>
+    tryCatch(() => f(...a))
 
 /**
  * Returns a *smart constructor* from a function that returns a nullable value.
@@ -992,7 +1036,7 @@ export const tryCatchK = <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => B
  * assert.deepStrictEqual(g('1'), some(1))
  * assert.deepStrictEqual(g('a'), none)
  *
- * @category interop
+ * @category lifting
  * @since 2.9.0
  */
 export const fromNullableK: <A extends ReadonlyArray<unknown>, B>(
@@ -1040,11 +1084,13 @@ export const fromNullableK: <A extends ReadonlyArray<unknown>, B>(
  *   none
  * )
  *
- * @category interop
+ * @category sequencing
  * @since 2.9.0
  */
-export const chainNullableK = <A, B>(f: (a: A) => B | null | undefined) => (ma: Option<A>): Option<NonNullable<B>> =>
-  isNone(ma) ? none : fromNullable(f(ma.value))
+export const chainNullableK =
+  <A, B>(f: (a: A) => B | null | undefined) =>
+  (ma: Option<A>): Option<NonNullable<B>> =>
+    isNone(ma) ? none : fromNullable(f(ma.value))
 
 /**
  * Extracts the value out of the structure, if it exists. Otherwise returns `null`.
@@ -1068,12 +1114,10 @@ export const chainNullableK = <A, B>(f: (a: A) => B | null | undefined) => (ma: 
  *   null
  * )
  *
- * @category interop
+ * @category conversions
  * @since 2.0.0
  */
-export const toNullable: <A>(ma: Option<A>) => A | null =
-  /*#__PURE__*/
-  match(constNull, identity)
+export const toNullable: <A>(ma: Option<A>) => A | null = /*#__PURE__*/ match(constNull, identity)
 
 /**
  * Extracts the value out of the structure, if it exists. Otherwise returns `undefined`.
@@ -1097,12 +1141,10 @@ export const toNullable: <A>(ma: Option<A>) => A | null =
  *   undefined
  * )
  *
- * @category interop
+ * @category conversions
  * @since 2.0.0
  */
-export const toUndefined: <A>(ma: Option<A>) => A | undefined =
-  /*#__PURE__*/
-  match(constUndefined, identity)
+export const toUndefined: <A>(ma: Option<A>) => A | undefined = /*#__PURE__*/ match(constUndefined, identity)
 
 // -------------------------------------------------------------------------------------
 // utils
@@ -1122,9 +1164,7 @@ export const toUndefined: <A>(ma: Option<A>) => A | undefined =
  *
  * @since 2.0.0
  */
-export function elem<A>(
-  E: Eq<A>
-): {
+export function elem<A>(E: Eq<A>): {
   (a: A): (ma: Option<A>) => boolean
   (a: A, ma: Option<A>): boolean
 }
@@ -1169,55 +1209,53 @@ export function elem<A>(E: Eq<A>): (a: A, ma?: Option<A>) => boolean | ((ma: Opt
  *
  * @since 2.0.0
  */
-export const exists = <A>(predicate: Predicate<A>) => (ma: Option<A>): boolean =>
-  isNone(ma) ? false : predicate(ma.value)
+export const exists =
+  <A>(predicate: Predicate<A>) =>
+  (ma: Option<A>): boolean =>
+    isNone(ma) ? false : predicate(ma.value)
 
 // -------------------------------------------------------------------------------------
 // do notation
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category do notation
  * @since 2.9.0
  */
-export const Do: Option<{}> =
-  /*#__PURE__*/
-  of(_.emptyRecord)
+export const Do: Option<{}> = /*#__PURE__*/ of(_.emptyRecord)
 
 /**
+ * @category do notation
  * @since 2.8.0
  */
-export const bindTo =
-  /*#__PURE__*/
-  bindTo_(Functor)
+export const bindTo = /*#__PURE__*/ bindTo_(Functor)
+
+const let_ = /*#__PURE__*/ let__(Functor)
+
+export {
+  /**
+   * @category do notation
+   * @since 2.13.0
+   */
+  let_ as let
+}
 
 /**
+ * @category do notation
  * @since 2.8.0
  */
-export const bind =
-  /*#__PURE__*/
-  bind_(Chain)
-
-// -------------------------------------------------------------------------------------
-// pipeable sequence S
-// -------------------------------------------------------------------------------------
+export const bind = /*#__PURE__*/ bind_(Chain)
 
 /**
+ * @category do notation
  * @since 2.8.0
  */
-export const apS =
-  /*#__PURE__*/
-  apS_(Apply)
-
-// -------------------------------------------------------------------------------------
-// sequence T
-// -------------------------------------------------------------------------------------
+export const apS = /*#__PURE__*/ apS_(Apply)
 
 /**
  * @since 2.11.0
  */
-export const ApT: Option<readonly []> =
-  /*#__PURE__*/
-  of(_.emptyReadonlyArray)
+export const ApT: Option<readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
 
 // -------------------------------------------------------------------------------------
 // array utils
@@ -1226,29 +1264,31 @@ export const ApT: Option<readonly []> =
 /**
  * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Applicative)`.
  *
+ * @category traversing
  * @since 2.11.0
  */
-export const traverseReadonlyNonEmptyArrayWithIndex = <A, B>(f: (index: number, a: A) => Option<B>) => (
-  as: ReadonlyNonEmptyArray<A>
-): Option<ReadonlyNonEmptyArray<B>> => {
-  const o = f(0, _.head(as))
-  if (isNone(o)) {
-    return none
-  }
-  const out: NonEmptyArray<B> = [o.value]
-  for (let i = 1; i < as.length; i++) {
-    const o = f(i, as[i])
+export const traverseReadonlyNonEmptyArrayWithIndex =
+  <A, B>(f: (index: number, a: A) => Option<B>) =>
+  (as: ReadonlyNonEmptyArray<A>): Option<ReadonlyNonEmptyArray<B>> => {
+    const o = f(0, _.head(as))
     if (isNone(o)) {
       return none
     }
-    out.push(o.value)
+    const out: NonEmptyArray<B> = [o.value]
+    for (let i = 1; i < as.length; i++) {
+      const o = f(i, as[i])
+      if (isNone(o)) {
+        return none
+      }
+      out.push(o.value)
+    }
+    return some(out)
   }
-  return some(out)
-}
 
 /**
  * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
  *
+ * @category traversing
  * @since 2.11.0
  */
 export const traverseReadonlyArrayWithIndex = <A, B>(
@@ -1259,6 +1299,9 @@ export const traverseReadonlyArrayWithIndex = <A, B>(
 }
 
 /**
+ * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
+ *
+ * @category traversing
  * @since 2.9.0
  */
 export const traverseArrayWithIndex: <A, B>(
@@ -1266,27 +1309,31 @@ export const traverseArrayWithIndex: <A, B>(
 ) => (as: ReadonlyArray<A>) => Option<ReadonlyArray<B>> = traverseReadonlyArrayWithIndex
 
 /**
+ * Equivalent to `ReadonlyArray#traverse(Applicative)`.
+ *
+ * @category traversing
  * @since 2.9.0
  */
 export const traverseArray = <A, B>(f: (a: A) => Option<B>): ((as: ReadonlyArray<A>) => Option<ReadonlyArray<B>>) =>
   traverseReadonlyArrayWithIndex((_, a) => f(a))
 
 /**
+ * Equivalent to `ReadonlyArray#sequence(Applicative)`.
+ *
+ * @category traversing
  * @since 2.9.0
  */
 export const sequenceArray: <A>(arr: ReadonlyArray<Option<A>>) => Option<ReadonlyArray<A>> =
-  /*#__PURE__*/
-  traverseArray(identity)
+  /*#__PURE__*/ traverseArray(identity)
 
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
 
-// tslint:disable: deprecation
-
 /**
  * Use `Refinement` module instead.
  *
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1297,16 +1344,18 @@ export function getRefinement<A, B extends A>(getOption: (a: A) => Option<B>): R
 /**
  * Use [`chainNullableK`](#chainnullablek) instead.
  *
- * @category combinators
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
 export const mapNullable = chainNullableK
 
 /**
- * Use small, specific instances instead.
+ * This instance is deprecated, use small, specific instances instead.
+ * For example if a function needs a `Functor` instance, pass `O.Functor` instead of `O.option`
+ * (where `O` is from `import O from 'fp-ts/Option'`)
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1343,24 +1392,20 @@ export const option: Monad1<URI> &
 /**
  * Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
-export const getApplySemigroup: <A>(S: Semigroup<A>) => Semigroup<Option<A>> =
-  /*#__PURE__*/
-  getApplySemigroup_(Apply)
+export const getApplySemigroup: <A>(S: Semigroup<A>) => Semigroup<Option<A>> = /*#__PURE__*/ getApplySemigroup_(Apply)
 
 /**
  * Use [`getApplicativeMonoid`](./Applicative.ts.html#getapplicativemonoid) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
-export const getApplyMonoid: <A>(M: Monoid<A>) => Monoid<Option<A>> =
-  /*#__PURE__*/
-  getApplicativeMonoid(Applicative)
+export const getApplyMonoid: <A>(M: Monoid<A>) => Monoid<Option<A>> = /*#__PURE__*/ getApplicativeMonoid(Applicative)
 
 /**
  * Use
@@ -1392,7 +1437,7 @@ export const getApplyMonoid: <A>(M: Monoid<A>) => Monoid<Option<A>> =
  * assert.deepStrictEqual(M.concat(none, some(2)), some(2))
  * assert.deepStrictEqual(M.concat(some(1), some(2)), some(1))
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -1428,7 +1473,7 @@ export const getFirstMonoid = <A = never>(): Monoid<Option<A>> => getMonoid(firs
  * assert.deepStrictEqual(M.concat(none, some(2)), some(2))
  * assert.deepStrictEqual(M.concat(some(1), some(2)), some(2))
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */

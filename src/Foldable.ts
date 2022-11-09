@@ -12,7 +12,7 @@ import { Monoid } from './Monoid'
 // -------------------------------------------------------------------------------------
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Foldable<F> {
@@ -23,7 +23,7 @@ export interface Foldable<F> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Foldable1<F extends URIS> {
@@ -34,7 +34,7 @@ export interface Foldable1<F extends URIS> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Foldable2<F extends URIS2> {
@@ -45,7 +45,7 @@ export interface Foldable2<F extends URIS2> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Foldable2C<F extends URIS2, E> {
@@ -57,7 +57,7 @@ export interface Foldable2C<F extends URIS2, E> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Foldable3<F extends URIS3> {
@@ -68,7 +68,7 @@ export interface Foldable3<F extends URIS3> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.2.0
  */
 export interface Foldable3C<F extends URIS3, E> {
@@ -80,7 +80,7 @@ export interface Foldable3C<F extends URIS3, E> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Foldable4<F extends URIS4> {
@@ -97,7 +97,6 @@ export interface Foldable4<F extends URIS4> {
 /**
  * `reduce` composition.
  *
- * @category combinators
  * @since 2.10.0
  */
 export function reduce<F extends URIS, G extends URIS>(
@@ -118,7 +117,6 @@ export function reduce<F, G>(
 /**
  * `foldMap` composition.
  *
- * @category combinators
  * @since 2.10.0
  */
 export function foldMap<F extends URIS, G extends URIS>(
@@ -143,7 +141,6 @@ export function foldMap<F, G>(
 /**
  * `reduceRight` composition.
  *
- * @category combinators
  * @since 2.10.0
  */
 export function reduceRight<F extends URIS, G extends URIS>(
@@ -229,19 +226,22 @@ export function reduceM<M, F>(
 export function intercalate<M, F extends URIS3>(
   M: Monoid<M>,
   F: Foldable3<F>
-): <R, E>(sep: M, fm: Kind3<F, R, E, M>) => M
-export function intercalate<M, F extends URIS2>(M: Monoid<M>, F: Foldable2<F>): <E>(sep: M, fm: Kind2<F, E, M>) => M
-export function intercalate<M, F extends URIS2, E>(M: Monoid<M>, F: Foldable2C<F, E>): (sep: M, fm: Kind2<F, E, M>) => M
-export function intercalate<M, F extends URIS>(M: Monoid<M>, F: Foldable1<F>): (sep: M, fm: Kind<F, M>) => M
-export function intercalate<M, F>(M: Monoid<M>, F: Foldable<F>): (sep: M, fm: HKT<F, M>) => M
-export function intercalate<M, F>(M: Monoid<M>, F: Foldable<F>): (sep: M, fm: HKT<F, M>) => M {
+): <R, E>(middle: M, fm: Kind3<F, R, E, M>) => M
+export function intercalate<M, F extends URIS2>(M: Monoid<M>, F: Foldable2<F>): <E>(middle: M, fm: Kind2<F, E, M>) => M
+export function intercalate<M, F extends URIS2, E>(
+  M: Monoid<M>,
+  F: Foldable2C<F, E>
+): (middle: M, fm: Kind2<F, E, M>) => M
+export function intercalate<M, F extends URIS>(M: Monoid<M>, F: Foldable1<F>): (middle: M, fm: Kind<F, M>) => M
+export function intercalate<M, F>(M: Monoid<M>, F: Foldable<F>): (middle: M, fm: HKT<F, M>) => M
+export function intercalate<M, F>(M: Monoid<M>, F: Foldable<F>): (middle: M, fm: HKT<F, M>) => M {
   interface Acc<M> {
     readonly init: boolean
     readonly acc: M
   }
-  return (sep, fm) => {
+  return (middle, fm) => {
     const go = ({ init, acc }: Acc<M>, x: M): Acc<M> =>
-      init ? { init: false, acc: x } : { init: false, acc: M.concat(M.concat(acc, sep), x) }
+      init ? { init: false, acc: x } : { init: false, acc: M.concat(M.concat(acc, middle), x) }
     return F.reduce(fm, { init: true, acc: M.empty }, go).acc
   }
 }
@@ -326,11 +326,10 @@ export function traverse_<M, F>(
 // deprecated
 // -------------------------------------------------------------------------------------
 
-// tslint:disable: deprecation
-
 /**
  * Use [`reduceM`](#reducem) instead
  *
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -373,12 +372,14 @@ export function foldM<M, F>(
 /**
  * Use [`toReadonlyArray`](#toreadonlyarray) instead
  *
+ * @category zone of death
  * @since 2.8.0
  * @deprecated
  */
 export const toArray = toReadonlyArray
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -389,6 +390,7 @@ export interface FoldableComposition<F, G> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -399,6 +401,7 @@ export interface FoldableComposition11<F extends URIS, G extends URIS> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -409,6 +412,7 @@ export interface FoldableComposition12<F extends URIS, G extends URIS2> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -419,6 +423,7 @@ export interface FoldableComposition12C<F extends URIS, G extends URIS2, E> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -429,6 +434,7 @@ export interface FoldableComposition21<F extends URIS2, G extends URIS> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -439,6 +445,7 @@ export interface FoldableComposition2C1<F extends URIS2, G extends URIS, E> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -449,6 +456,7 @@ export interface FoldableComposition22<F extends URIS2, G extends URIS2> {
 }
 
 /**
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -467,6 +475,7 @@ export interface FoldableComposition22C<F extends URIS2, G extends URIS2, E> {
  *
  * instead.
  *
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */

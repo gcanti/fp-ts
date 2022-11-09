@@ -3,7 +3,6 @@ import * as O from '../src/Option'
 import { getOptionM } from '../src/OptionT'
 import * as T from '../src/Task'
 
-// tslint:disable-next-line: deprecation
 const MT = getOptionM(T.Monad)
 
 describe('OptionT', () => {

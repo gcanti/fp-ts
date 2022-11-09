@@ -73,21 +73,12 @@ export function experiment<F>(F: FunctorHKT<F>): <S>(f: (s: S) => HKT<F, S>) => 
   return (f) => (wa) => F.map(f(wa.pos), (s) => wa.peek(s))
 }
 
-// -------------------------------------------------------------------------------------
-// non-pipeables
-// -------------------------------------------------------------------------------------
-
 /* istanbul ignore next */
 const _map: Functor2<URI>['map'] = (fa, f) => pipe(fa, map(f))
 /* istanbul ignore next */
 const _extend: Extend2<URI>['extend'] = (wa, f) => pipe(wa, extend(f))
 
-// -------------------------------------------------------------------------------------
-// type class members
-// -------------------------------------------------------------------------------------
-
 /**
- * @category Extend
  * @since 2.0.0
  */
 export const extend: <E, A, B>(f: (wa: Store<E, A>) => B) => (wa: Store<E, A>) => Store<E, B> = (f) => (wa) => ({
@@ -102,20 +93,15 @@ export const extend: <E, A, B>(f: (wa: Store<E, A>) => B) => (wa: Store<E, A>) =
 export const extract: <E, A>(wa: Store<E, A>) => A = (wa) => wa.peek(wa.pos)
 
 /**
- * Derivable from `Extend`.
- *
- * @category combinators
  * @since 2.0.0
  */
-export const duplicate: <E, A>(wa: Store<E, A>) => Store<E, Store<E, A>> =
-  /*#__PURE__*/
-  extend(identity)
+export const duplicate: <E, A>(wa: Store<E, A>) => Store<E, Store<E, A>> = /*#__PURE__*/ extend(identity)
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
  * use the type constructor `F` to represent some computational context.
  *
- * @category Functor
+ * @category mapping
  * @since 2.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => <E>(fa: Store<E, A>) => Store<E, B> = (f) => (fa) => ({
@@ -123,18 +109,14 @@ export const map: <A, B>(f: (a: A) => B) => <E>(fa: Store<E, A>) => Store<E, B> 
   pos: fa.pos
 })
 
-// -------------------------------------------------------------------------------------
-// instances
-// -------------------------------------------------------------------------------------
-
 /**
- * @category instances
+ * @category type lambdas
  * @since 2.0.0
  */
 export const URI = 'Store'
 
 /**
- * @category instances
+ * @category type lambdas
  * @since 2.0.0
  */
 export type URI = typeof URI
@@ -155,14 +137,10 @@ export const Functor: Functor2<URI> = {
 }
 
 /**
- * Derivable from `Functor`.
- *
- * @category combinators
+ * @category mapping
  * @since 2.10.0
  */
-export const flap =
-  /*#__PURE__*/
-  flap_(Functor)
+export const flap = /*#__PURE__*/ flap_(Functor)
 
 /**
  * @category instances
@@ -180,9 +158,11 @@ export const Comonad: Comonad2<URI> = {
 // -------------------------------------------------------------------------------------
 
 /**
- * Use small, specific instances instead.
+ * This instance is deprecated, use small, specific instances instead.
+ * For example if a function needs a `Comonad` instance, pass `S.Comonad` instead of `S.store`
+ * (where `S` is from `import S from 'fp-ts/Store'`)
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */

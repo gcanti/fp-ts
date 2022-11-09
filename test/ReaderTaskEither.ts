@@ -1,12 +1,13 @@
 import { sequenceT } from '../src/Apply'
 import * as E from '../src/Either'
-import { flow, pipe, SK } from '../src/function'
+import { constVoid, flow, pipe, SK } from '../src/function'
 import * as I from '../src/IO'
 import * as IE from '../src/IOEither'
 import * as N from '../src/number'
 import * as O from '../src/Option'
 import * as R from '../src/Reader'
 import * as RE from '../src/ReaderEither'
+import * as RIO from '../src/ReaderIO'
 import * as RT from '../src/ReaderTask'
 import * as _ from '../src/ReaderTaskEither'
 import * as RA from '../src/ReadonlyArray'
@@ -230,6 +231,14 @@ describe('ReaderTaskEither', () => {
     U.deepStrictEqual(await _.leftIO(I.of(1))({})(), E.left(1))
   })
 
+  it('rightReaderIO', async () => {
+    U.deepStrictEqual(await _.rightReaderIO(RIO.of(1))({})(), E.right(1))
+  })
+
+  it('leftReaderIO', async () => {
+    U.deepStrictEqual(await _.leftReaderIO(RIO.of(1))({})(), E.left(1))
+  })
+
   it('fromIOEither', async () => {
     U.deepStrictEqual(await _.fromIOEither(() => E.right(1))({})(), E.right(1))
     U.deepStrictEqual(await _.fromIOEither(() => E.left('error'))({})(), E.left('error'))
@@ -328,7 +337,6 @@ describe('ReaderTaskEither', () => {
 
   describe('getSemigroup', () => {
     it('concat', async () => {
-      // tslint:disable-next-line: deprecation
       const S = _.getSemigroup(N.SemigroupSum)
       U.deepStrictEqual(await S.concat(_.left('a'), _.left('b'))({})(), E.left('a'))
       U.deepStrictEqual(await S.concat(_.left('a'), _.right(2))({})(), E.right(2))
@@ -338,7 +346,6 @@ describe('ReaderTaskEither', () => {
   })
 
   it('getApplyMonoid', async () => {
-    // tslint:disable-next-line: deprecation
     const M = _.getApplyMonoid(N.MonoidSum)
 
     U.deepStrictEqual(await M.concat(_.right(1), _.right(2))({})(), E.right(3))
@@ -355,7 +362,6 @@ describe('ReaderTaskEither', () => {
   it('getApplicativeReaderTaskValidation', async () => {
     const A = _.getApplicativeReaderTaskValidation(T.ApplicativePar, S.Semigroup)
     U.deepStrictEqual(await sequenceT(A)(_.left('a'), _.left('b'))(null)(), E.left('ab'))
-    // tslint:disable-next-line: deprecation
     const AV = _.getReaderTaskValidation(S.Semigroup)
     U.deepStrictEqual(await sequenceT(AV)(_.left('a'), _.left('b'))(null)(), E.left('ab'))
   })
@@ -363,13 +369,11 @@ describe('ReaderTaskEither', () => {
   it('getAltReaderTaskValidation', async () => {
     const A = _.getAltReaderTaskValidation(S.Semigroup)
     U.deepStrictEqual(await A.alt(_.left('a'), () => _.left('b'))(null)(), E.left('ab'))
-    // tslint:disable-next-line: deprecation
     const AV = _.getReaderTaskValidation(S.Semigroup)
     U.deepStrictEqual(await AV.alt(_.left('a'), () => _.left('b'))(null)(), E.left('ab'))
   })
 
   describe('bracket', () => {
-    // tslint:disable-next-line: readonly-array
     let log: Array<string> = []
 
     const acquireFailure = _.left('acquire failure')
@@ -427,6 +431,23 @@ describe('ReaderTaskEither', () => {
     })
   })
 
+  it('bracketW', async () => {
+    const acquire = _.right<{ readonly a: string }, string, string>('string')
+    const use = (_a: string) => _.right<{ readonly b: number }, number, string>('test')
+    const release = (_a: string, _e: E.Either<number, string>) =>
+      _.right<{ readonly c: boolean }, Error, void>(constVoid())
+    const res = await _.bracketW(
+      acquire,
+      use,
+      release
+    )({
+      a: 'string',
+      b: 5,
+      c: true
+    })()
+    U.deepStrictEqual(res, E.right('test'))
+  })
+
   it('chainEitherK', async () => {
     const f = (s: string) => E.right(s.length)
     U.deepStrictEqual(await pipe(_.right('a'), _.chainEitherK(f))(undefined)(), E.right(1))
@@ -477,6 +498,31 @@ describe('ReaderTaskEither', () => {
     U.deepStrictEqual(await pipe(_.right<{}, never, string>('a'), _.chainFirstReaderEitherKW(f))({})(), E.right('a'))
   })
 
+  it('fromReaderIOK', async () => {
+    const f = (s: string) => RIO.of(s.length)
+    U.deepStrictEqual(await _.fromReaderIOK(f)('a')(undefined)(), E.right(1))
+  })
+
+  it('chainReaderIOKW', async () => {
+    const f = (s: string) => RIO.of(s.length)
+    U.deepStrictEqual(await pipe(_.right('a'), _.chainReaderIOKW(f))({})(), E.right(1))
+  })
+
+  it('chainReaderIOK', async () => {
+    const f = (s: string) => RIO.of(s.length)
+    U.deepStrictEqual(await pipe(_.right('a'), _.chainReaderIOK(f))(undefined)(), E.right(1))
+  })
+
+  it('chainFirstReaderIOKW', async () => {
+    const f = (s: string) => RIO.of(s.length)
+    U.deepStrictEqual(await pipe(_.right('a'), _.chainFirstReaderIOKW(f))({})(), E.right('a'))
+  })
+
+  it('chainFirstReaderIOK', async () => {
+    const f = (s: string) => RIO.of(s.length)
+    U.deepStrictEqual(await pipe(_.right('a'), _.chainFirstReaderIOK(f))({})(), E.right('a'))
+  })
+
   // -------------------------------------------------------------------------------------
   // utils
   // -------------------------------------------------------------------------------------
@@ -486,9 +532,10 @@ describe('ReaderTaskEither', () => {
       await pipe(
         _.right<void, string, number>(1),
         _.bindTo('a'),
-        _.bind('b', () => _.right('b'))
+        _.bind('b', () => _.right('b')),
+        _.let('c', ({ a, b }) => [a, b])
       )(undefined)(),
-      E.right({ a: 1, b: 'b' })
+      E.right({ a: 1, b: 'b', c: [1, 'b'] })
     )
   })
 
@@ -596,7 +643,6 @@ describe('ReaderTaskEither', () => {
 
     // old
     it('sequenceArray', async () => {
-      // tslint:disable-next-line: readonly-array
       const log: Array<number | string> = []
       const right = (n: number): _.ReaderTaskEither<undefined, string, number> =>
         _.rightIO(() => {
@@ -608,17 +654,13 @@ describe('ReaderTaskEither', () => {
           log.push(s)
           return s
         })
-      // tslint:disable-next-line: deprecation
       U.deepStrictEqual(await pipe([right(1), right(2)], _.sequenceArray)(undefined)(), E.right([1, 2]))
-      // tslint:disable-next-line: deprecation
       U.deepStrictEqual(await pipe([right(3), left('a')], _.sequenceArray)(undefined)(), E.left('a'))
-      // tslint:disable-next-line: deprecation
       U.deepStrictEqual(await pipe([left('b'), right(4)], _.sequenceArray)(undefined)(), E.left('b'))
       U.deepStrictEqual(log, [1, 2, 3, 'a', 'b', 4])
     })
 
     it('sequenceSeqArray', async () => {
-      // tslint:disable-next-line: readonly-array
       const log: Array<number | string> = []
       const right = (n: number): _.ReaderTaskEither<undefined, string, number> =>
         _.rightIO(() => {
@@ -630,11 +672,8 @@ describe('ReaderTaskEither', () => {
           log.push(s)
           return s
         })
-      // tslint:disable-next-line: deprecation
       U.deepStrictEqual(await pipe([right(1), right(2)], _.sequenceSeqArray)(undefined)(), E.right([1, 2]))
-      // tslint:disable-next-line: deprecation
       U.deepStrictEqual(await pipe([right(3), left('a')], _.sequenceSeqArray)(undefined)(), E.left('a'))
-      // tslint:disable-next-line: deprecation
       U.deepStrictEqual(await pipe([left('b'), right(4)], _.sequenceSeqArray)(undefined)(), E.left('b'))
       U.deepStrictEqual(log, [1, 2, 3, 'a', 'b'])
     })
@@ -673,5 +712,26 @@ describe('ReaderTaskEither', () => {
     )
     U.deepStrictEqual(await f(_.right(1))({})(), 'right')
     U.deepStrictEqual(await f(_.left(''))({})(), 'left')
+  })
+
+  it('fromNullable', async () => {
+    const testNullable = _.fromNullable('foo')
+    U.deepStrictEqual(await testNullable(1)(undefined)(), E.right(1))
+    U.deepStrictEqual(await testNullable(null)(undefined)(), E.left('foo'))
+    U.deepStrictEqual(await testNullable(undefined)(undefined)(), E.left('foo'))
+  })
+
+  it('fromNullableK', async () => {
+    const f = _.fromNullableK('foo')((n: number) => (n > 0 ? n : n === 0 ? null : undefined))
+    U.deepStrictEqual(await f(1)(undefined)(), E.right(1))
+    U.deepStrictEqual(await f(0)(undefined)(), E.left('foo'))
+    U.deepStrictEqual(await f(-1)(undefined)(), E.left('foo'))
+  })
+
+  it('chainNullableK', async () => {
+    const f = _.chainNullableK('foo')((n: number) => (n > 0 ? n : n === 0 ? null : undefined))
+    U.deepStrictEqual(await f(_.of(1))(undefined)(), E.right(1))
+    U.deepStrictEqual(await f(_.of(0))(undefined)(), E.left('foo'))
+    U.deepStrictEqual(await f(_.of(-1))(undefined)(), E.left('foo'))
   })
 })

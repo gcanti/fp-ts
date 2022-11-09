@@ -12,9 +12,6 @@ Functional programming in TypeScript
   <a href="https://github.com/gcanti/fp-ts/actions">
     <img src="https://github.com/gcanti/fp-ts/actions/workflows/main.yml/badge.svg?branch=master" alt="build status" height="20">
   </a>
-  <a href="https://david-dm.org/gcanti/fp-ts">
-    <img src="https://img.shields.io/david/gcanti/fp-ts.svg?style=flat-square" alt="dependency status" height="20">
-  </a>
   <a href="https://www.npmjs.com/package/fp-ts">
     <img src="https://img.shields.io/npm/dm/fp-ts.svg" alt="npm downloads" height="20">
   </a>
@@ -72,7 +69,7 @@ Make sure to always have a single version of `fp-ts` installed in your project. 
 If you need help with `fp-ts` check out:
 
 - this [Discord server](https://discord.gg/HVWmBBXM8A)
-- the `#fp-ts` channel on [FP slack](https://fpchat-invite.herokuapp.com).
+- the `#fp-ts` channel on [FP slack](https://fpslack.com/).
 
 # Development
 

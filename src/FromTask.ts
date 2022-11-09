@@ -7,22 +7,14 @@ import { Chain, Chain1, Chain2, Chain2C, Chain3, Chain3C, Chain4, chainFirst } f
 import { FromIO, FromIO1, FromIO2, FromIO2C, FromIO3, FromIO3C, FromIO4 } from './FromIO'
 import { flow } from './function'
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
-import {
-  NaturalTransformation11,
-  NaturalTransformation12,
-  NaturalTransformation12C,
-  NaturalTransformation13,
-  NaturalTransformation13C,
-  NaturalTransformation14
-} from './NaturalTransformation'
-import { Task, URI } from './Task'
+import { Task } from './Task'
 
 // -------------------------------------------------------------------------------------
 // model
 // -------------------------------------------------------------------------------------
 
 /**
- * @category type classes
+ * @category model
  * @since 2.10.0
  */
 export interface FromTask<F> extends FromIO<F> {
@@ -30,51 +22,51 @@ export interface FromTask<F> extends FromIO<F> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.10.0
  */
 export interface FromTask1<F extends URIS> extends FromIO1<F> {
-  readonly fromTask: NaturalTransformation11<URI, F>
+  readonly fromTask: <A>(fa: Task<A>) => Kind<F, A>
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.10.0
  */
 export interface FromTask2<F extends URIS2> extends FromIO2<F> {
-  readonly fromTask: NaturalTransformation12<URI, F>
+  readonly fromTask: <A, E>(fa: Task<A>) => Kind2<F, E, A>
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.10.0
  */
 export interface FromTask2C<F extends URIS2, E> extends FromIO2C<F, E> {
-  readonly fromTask: NaturalTransformation12C<URI, F, E>
+  readonly fromTask: <A>(fa: Task<A>) => Kind2<F, E, A>
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.10.0
  */
 export interface FromTask3<F extends URIS3> extends FromIO3<F> {
-  readonly fromTask: NaturalTransformation13<URI, F>
+  readonly fromTask: <A, R, E>(fa: Task<A>) => Kind3<F, R, E, A>
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.10.0
  */
 export interface FromTask3C<F extends URIS3, E> extends FromIO3C<F, E> {
-  readonly fromTask: NaturalTransformation13C<URI, F, E>
+  readonly fromTask: <A, R>(fa: Task<A>) => Kind3<F, R, E, A>
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.10.0
  */
 export interface FromTask4<F extends URIS4> extends FromIO4<F> {
-  readonly fromTask: NaturalTransformation14<URI, F>
+  readonly fromTask: <A, S, R, E>(fa: Task<A>) => Kind4<F, S, R, E, A>
 }
 
 // -------------------------------------------------------------------------------------
@@ -82,7 +74,6 @@ export interface FromTask4<F extends URIS4> extends FromIO4<F> {
 // -------------------------------------------------------------------------------------
 
 /**
- * @category combinators
  * @since 2.10.0
  */
 export function fromTaskK<F extends URIS4>(
@@ -113,7 +104,6 @@ export function fromTaskK<F>(
 }
 
 /**
- * @category combinators
  * @since 2.10.0
  */
 export function chainTaskK<M extends URIS4>(
@@ -127,7 +117,7 @@ export function chainTaskK<M extends URIS3>(
 export function chainTaskK<M extends URIS3, E>(
   F: FromTask3C<M, E>,
   M: Chain3C<M, E>
-): <A, B>(f: (a: A) => Task<B>) => <R, E>(first: Kind3<M, R, E, A>) => Kind3<M, R, E, B>
+): <A, B>(f: (a: A) => Task<B>) => <R>(first: Kind3<M, R, E, A>) => Kind3<M, R, E, B>
 export function chainTaskK<M extends URIS2>(
   F: FromTask2<M>,
   M: Chain2<M>
@@ -135,7 +125,7 @@ export function chainTaskK<M extends URIS2>(
 export function chainTaskK<M extends URIS2, E>(
   F: FromTask2C<M, E>,
   M: Chain2C<M, E>
-): <A, B>(f: (a: A) => Task<B>) => <E>(first: Kind2<M, E, A>) => Kind2<M, E, B>
+): <A, B>(f: (a: A) => Task<B>) => (first: Kind2<M, E, A>) => Kind2<M, E, B>
 export function chainTaskK<M extends URIS>(
   F: FromTask1<M>,
   M: Chain1<M>
@@ -155,7 +145,6 @@ export function chainTaskK<M>(
 }
 
 /**
- * @category combinators
  * @since 2.10.0
  */
 export function chainFirstTaskK<M extends URIS4>(
@@ -169,7 +158,7 @@ export function chainFirstTaskK<M extends URIS3>(
 export function chainFirstTaskK<M extends URIS3, E>(
   F: FromTask3C<M, E>,
   M: Chain3C<M, E>
-): <A, B>(f: (a: A) => Task<B>) => <R, E>(first: Kind3<M, R, E, A>) => Kind3<M, R, E, A>
+): <A, B>(f: (a: A) => Task<B>) => <R>(first: Kind3<M, R, E, A>) => Kind3<M, R, E, A>
 export function chainFirstTaskK<M extends URIS2>(
   F: FromTask2<M>,
   M: Chain2<M>
@@ -177,7 +166,7 @@ export function chainFirstTaskK<M extends URIS2>(
 export function chainFirstTaskK<M extends URIS2, E>(
   F: FromTask2C<M, E>,
   M: Chain2C<M, E>
-): <A, B>(f: (a: A) => Task<B>) => <E>(first: Kind2<M, E, A>) => Kind2<M, E, A>
+): <A, B>(f: (a: A) => Task<B>) => (first: Kind2<M, E, A>) => Kind2<M, E, A>
 export function chainFirstTaskK<M extends URIS>(
   F: FromTask1<M>,
   M: Chain1<M>

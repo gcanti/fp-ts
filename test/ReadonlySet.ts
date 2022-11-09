@@ -184,15 +184,10 @@ describe('ReadonlySet', () => {
   })
 
   it('fromArray', () => {
-    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.fromArray(N.Eq)([]), new Set([]))
-    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.fromArray(N.Eq)([1]), new Set([1]))
-    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.fromArray(N.Eq)([1, 1]), new Set([1]))
-    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.fromArray(N.Eq)([1, 2]), new Set([1, 2]))
-    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.fromArray(fooEq)(['a', 'a', 'b'].map(foo)), new Set(['a', 'b'].map(foo)))
   })
 

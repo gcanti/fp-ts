@@ -7,7 +7,6 @@ import { separated } from '../src/Separated'
 
 describe('Compactable', () => {
   it('getCompactableComposition', () => {
-    // tslint:disable-next-line: deprecation
     const C = getCompactableComposition(RA.Functor, { ...RA.Functor, ...RA.Compactable })
     U.deepStrictEqual(
       C.map([[1], [2]], (n) => n * 2),

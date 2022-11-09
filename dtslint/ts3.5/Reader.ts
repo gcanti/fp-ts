@@ -15,9 +15,9 @@ pipe(
 // Do
 //
 
-// $ExpectType Reader<string, { readonly a: number; readonly b: string; }>
+// $ExpectType Reader<string, { readonly a1: number; readonly a2: string; }>
 pipe(
   _.Do,
-  _.bind('a', () => _.of<string, number>(1)),
-  _.bind('b', () => _.of<string, string>('b'))
+  _.bind('a1', () => _.of<string, number>(1)),
+  _.bind('a2', () => _.of<string, string>('b'))
 )

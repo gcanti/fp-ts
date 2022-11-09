@@ -8,7 +8,6 @@ import { separated } from '../src/Separated'
 
 describe('Filterable', () => {
   it('getFilterableComposition', () => {
-    // tslint:disable-next-line: deprecation
     const F = getFilterableComposition(RA.Functor, RA.Filterable)
 
     U.deepStrictEqual(F.map([[1]], increment), [[2]])

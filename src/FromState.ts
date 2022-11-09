@@ -7,12 +7,6 @@ import { Chain, Chain2, Chain3, Chain4 } from './Chain'
 import { Endomorphism } from './Endomorphism'
 import { flow } from './function'
 import { HKT2, Kind2, Kind3, Kind4, URIS2, URIS3, URIS4 } from './HKT'
-import {
-  NaturalTransformation22,
-  NaturalTransformation23R,
-  NaturalTransformation23RC,
-  NaturalTransformation24S
-} from './NaturalTransformation'
 import * as S from './State'
 
 import State = S.State
@@ -22,7 +16,7 @@ import State = S.State
 // -------------------------------------------------------------------------------------
 
 /**
- * @category type classes
+ * @category model
  * @since 2.11.0
  */
 export interface FromState<F> {
@@ -31,40 +25,40 @@ export interface FromState<F> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.11.0
  */
 export interface FromState2<F extends URIS2> {
   readonly URI: F
-  readonly fromState: NaturalTransformation22<S.URI, F>
+  readonly fromState: <S, A>(fa: State<S, A>) => Kind2<F, S, A>
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.11.0
  */
 export interface FromState3<F extends URIS3> {
   readonly URI: F
-  readonly fromState: NaturalTransformation23R<S.URI, F>
+  readonly fromState: <S, A, E>(fa: State<S, A>) => Kind3<F, S, E, A>
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.11.0
  */
 export interface FromState3C<F extends URIS3, E> {
   readonly URI: F
   readonly _E: E
-  readonly fromState: NaturalTransformation23RC<S.URI, F, E>
+  readonly fromState: <S, A>(fa: State<S, A>) => Kind3<F, S, E, A>
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.11.0
  */
 export interface FromState4<F extends URIS4> {
   readonly URI: F
-  readonly fromState: NaturalTransformation24S<S.URI, F>
+  readonly fromState: <S, A, R, E>(fa: State<S, A>) => Kind4<F, S, R, E, A>
 }
 
 // -------------------------------------------------------------------------------------
@@ -128,7 +122,6 @@ export function gets<F>(F: FromState<F>): <S, A>(f: (s: S) => A) => HKT2<F, S, A
 // -------------------------------------------------------------------------------------
 
 /**
- * @category combinators
  * @since 2.11.0
  */
 export function fromStateK<F extends URIS4>(
@@ -153,7 +146,6 @@ export function fromStateK<F>(
 }
 
 /**
- * @category combinators
  * @since 2.11.0
  */
 export function chainStateK<M extends URIS4>(

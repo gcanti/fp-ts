@@ -1,6 +1,6 @@
 ---
 title: Pointed.ts
-nav_order: 73
+nav_order: 74
 parent: Modules
 ---
 
@@ -12,7 +12,7 @@ Added in v2.10.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [type classes](#type-classes)
+- [model](#model)
   - [Pointed (interface)](#pointed-interface)
   - [Pointed1 (interface)](#pointed1-interface)
   - [Pointed2 (interface)](#pointed2-interface)
@@ -23,7 +23,7 @@ Added in v2.10.0
 
 ---
 
-# type classes
+# model
 
 ## Pointed (interface)
 

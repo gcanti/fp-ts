@@ -18,28 +18,17 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [instances](#instances)
-  - [~~boundedNumber~~](#boundednumber)
-- [type classes](#type-classes)
+- [model](#model)
   - [Bounded (interface)](#bounded-interface)
+- [utils](#utils)
+  - [clamp](#clamp)
+  - [reverse](#reverse)
+- [zone of death](#zone-of-death)
+  - [~~boundedNumber~~](#boundednumber)
 
 ---
 
-# instances
-
-## ~~boundedNumber~~
-
-Use [`Bounded`](./number.ts.html#bounded) instead.
-
-**Signature**
-
-```ts
-export declare const boundedNumber: Bounded<number>
-```
-
-Added in v2.0.0
-
-# type classes
+# model
 
 ## Bounded (interface)
 
@@ -50,6 +39,46 @@ export interface Bounded<A> extends Ord<A> {
   readonly top: A
   readonly bottom: A
 }
+```
+
+Added in v2.0.0
+
+# utils
+
+## clamp
+
+Clamp a value between bottom and top values.
+
+**Signature**
+
+```ts
+export declare const clamp: <A>(B: Bounded<A>) => (a: A) => A
+```
+
+Added in v2.12.0
+
+## reverse
+
+Reverses the Ord of a bound and swaps top and bottom values.
+
+**Signature**
+
+```ts
+export declare const reverse: <A>(B: Bounded<A>) => Bounded<A>
+```
+
+Added in v2.12.0
+
+# zone of death
+
+## ~~boundedNumber~~
+
+Use [`Bounded`](./number.ts.html#bounded) instead.
+
+**Signature**
+
+```ts
+export declare const boundedNumber: Bounded<number>
 ```
 
 Added in v2.0.0

@@ -22,7 +22,7 @@ import { Bifunctor2 } from './Bifunctor'
 /**
  * A `Separated` type which holds `left` and `right` parts.
  *
- * @category type classes
+ * @category model
  * @since 2.10.0
  */
 export interface Separated<E, A> {
@@ -40,58 +40,52 @@ export interface Separated<E, A> {
  */
 export const separated = <E, A>(left: E, right: A): Separated<E, A> => ({ left, right })
 
-// -------------------------------------------------------------------------------------
-// non-pipeables
-// -------------------------------------------------------------------------------------
-
 const _map: Functor2<URI>['map'] = (fa, f) => pipe(fa, map(f))
 const _mapLeft: Bifunctor2<URI>['mapLeft'] = (fa, f) => pipe(fa, mapLeft(f))
 const _bimap: Bifunctor2<URI>['bimap'] = (fa, g, f) => pipe(fa, bimap(g, f))
-
-// -------------------------------------------------------------------------------------
-// type class members
-// -------------------------------------------------------------------------------------
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
  * use the type constructor `F` to represent some computational context.
  *
- * @category Functor
+ * @category mapping
  * @since 2.10.0
  */
-export const map = <A, B>(f: (a: A) => B) => <E>(fa: Separated<E, A>): Separated<E, B> =>
-  separated(left(fa), f(right(fa)))
+export const map =
+  <A, B>(f: (a: A) => B) =>
+  <E>(fa: Separated<E, A>): Separated<E, B> =>
+    separated(left(fa), f(right(fa)))
 
 /**
  * Map a function over the first type argument of a bifunctor.
  *
- * @category Bifunctor
+ * @category error handling
  * @since 2.10.0
  */
-export const mapLeft = <E, G>(f: (e: E) => G) => <A>(fa: Separated<E, A>): Separated<G, A> =>
-  separated(f(left(fa)), right(fa))
+export const mapLeft =
+  <E, G>(f: (e: E) => G) =>
+  <A>(fa: Separated<E, A>): Separated<G, A> =>
+    separated(f(left(fa)), right(fa))
 
 /**
  * Map a pair of functions over the two type arguments of the bifunctor.
  *
- * @category Bifunctor
+ * @category mapping
  * @since 2.10.0
  */
-export const bimap = <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: Separated<E, A>): Separated<G, B> =>
-  separated(f(left(fa)), g(right(fa)))
-
-// -------------------------------------------------------------------------------------
-// instances
-// -------------------------------------------------------------------------------------
+export const bimap =
+  <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) =>
+  (fa: Separated<E, A>): Separated<G, B> =>
+    separated(f(left(fa)), g(right(fa)))
 
 /**
- * @category instances
+ * @category type lambdas
  * @since 2.10.0
  */
 export const URI = 'Separated'
 
 /**
- * @category instances
+ * @category type lambdas
  * @since 2.10.0
  */
 export type URI = typeof URI
@@ -122,14 +116,10 @@ export const Functor: Functor2<URI> = {
 }
 
 /**
- * Derivable from `Functor`.
- *
- * @category combinators
+ * @category mapping
  * @since 2.10.0
  */
-export const flap =
-  /*#__PURE__*/
-  flap_(Functor)
+export const flap = /*#__PURE__*/ flap_(Functor)
 
 // -------------------------------------------------------------------------------------
 // utils

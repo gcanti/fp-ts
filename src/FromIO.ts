@@ -6,22 +6,14 @@
 import { Chain, Chain1, Chain2, Chain2C, Chain3, Chain3C, Chain4, chainFirst } from './Chain'
 import { flow } from './function'
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
-import { IO, URI } from './IO'
-import {
-  NaturalTransformation11,
-  NaturalTransformation12,
-  NaturalTransformation12C,
-  NaturalTransformation13,
-  NaturalTransformation13C,
-  NaturalTransformation14
-} from './NaturalTransformation'
+import { IO } from './IO'
 
 // -------------------------------------------------------------------------------------
 // model
 // -------------------------------------------------------------------------------------
 
 /**
- * @category type classes
+ * @category model
  * @since 2.10.0
  */
 export interface FromIO<F> {
@@ -30,59 +22,59 @@ export interface FromIO<F> {
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.10.0
  */
 export interface FromIO1<F extends URIS> {
   readonly URI: F
-  readonly fromIO: NaturalTransformation11<URI, F>
+  readonly fromIO: <A>(fa: IO<A>) => Kind<F, A>
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.10.0
  */
 export interface FromIO2<F extends URIS2> {
   readonly URI: F
-  readonly fromIO: NaturalTransformation12<URI, F>
+  readonly fromIO: <A, E>(fa: IO<A>) => Kind2<F, E, A>
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.10.0
  */
 export interface FromIO2C<F extends URIS2, E> {
   readonly URI: F
   readonly _E: E
-  readonly fromIO: NaturalTransformation12C<URI, F, E>
+  readonly fromIO: <A>(fa: IO<A>) => Kind2<F, E, A>
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.10.0
  */
 export interface FromIO3<F extends URIS3> {
   readonly URI: F
-  readonly fromIO: NaturalTransformation13<URI, F>
+  readonly fromIO: <A, R, E>(fa: IO<A>) => Kind3<F, R, E, A>
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.10.0
  */
 export interface FromIO3C<F extends URIS3, E> {
   readonly URI: F
   readonly _E: E
-  readonly fromIO: NaturalTransformation13C<URI, F, E>
+  readonly fromIO: <A, R>(fa: IO<A>) => Kind3<F, R, E, A>
 }
 
 /**
- * @category type classes
+ * @category model
  * @since 2.10.0
  */
 export interface FromIO4<F extends URIS4> {
   readonly URI: F
-  readonly fromIO: NaturalTransformation14<URI, F>
+  readonly fromIO: <A, S, R, E>(fa: IO<A>) => Kind4<F, S, R, E, A>
 }
 
 // -------------------------------------------------------------------------------------
@@ -90,7 +82,6 @@ export interface FromIO4<F extends URIS4> {
 // -------------------------------------------------------------------------------------
 
 /**
- * @category combinators
  * @since 2.10.0
  */
 export function fromIOK<F extends URIS4>(
@@ -121,7 +112,6 @@ export function fromIOK<F>(
 }
 
 /**
- * @category combinators
  * @since 2.10.0
  */
 export function chainIOK<M extends URIS4>(
@@ -135,7 +125,7 @@ export function chainIOK<M extends URIS3>(
 export function chainIOK<M extends URIS3, E>(
   F: FromIO3C<M, E>,
   M: Chain3C<M, E>
-): <A, B>(f: (a: A) => IO<B>) => <R, E>(first: Kind3<M, R, E, A>) => Kind3<M, R, E, B>
+): <A, B>(f: (a: A) => IO<B>) => <R>(first: Kind3<M, R, E, A>) => Kind3<M, R, E, B>
 export function chainIOK<M extends URIS2>(
   F: FromIO2<M>,
   M: Chain2<M>
@@ -143,7 +133,7 @@ export function chainIOK<M extends URIS2>(
 export function chainIOK<M extends URIS2, E>(
   F: FromIO2C<M, E>,
   M: Chain2C<M, E>
-): <A, B>(f: (a: A) => IO<B>) => <E>(first: Kind2<M, E, A>) => Kind2<M, E, B>
+): <A, B>(f: (a: A) => IO<B>) => (first: Kind2<M, E, A>) => Kind2<M, E, B>
 export function chainIOK<M extends URIS>(
   F: FromIO1<M>,
   M: Chain1<M>
@@ -157,7 +147,6 @@ export function chainIOK<M>(F: FromIO<M>, M: Chain<M>): <A, B>(f: (a: A) => IO<B
 }
 
 /**
- * @category combinators
  * @since 2.10.0
  */
 export function chainFirstIOK<M extends URIS4>(

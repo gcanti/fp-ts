@@ -17,7 +17,7 @@ import { Semiring } from './Semiring'
 // -------------------------------------------------------------------------------------
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Ring<A> extends Semiring<A> {
@@ -42,7 +42,6 @@ export interface Ring<A> extends Semiring<A> {
  * assert.deepStrictEqual(R.sub([1, 2, 3], [4, 5, 6]), [-3, -3, -3])
  * assert.deepStrictEqual(R.zero, [0, 0, 0])
  *
- * @category combinators
  * @since 2.10.0
  */
 export const tuple = <A extends ReadonlyArray<unknown>>(...rings: { [K in keyof A]: Ring<A[K]> }): Ring<Readonly<A>> =>
@@ -63,7 +62,10 @@ export const tuple = <A extends ReadonlyArray<unknown>>(...rings: { [K in keyof 
  *
  * @since 2.0.0
  */
-export const negate = <A>(R: Ring<A>) => (a: A) => R.sub(R.zero, a)
+export const negate =
+  <A>(R: Ring<A>) =>
+  (a: A): A =>
+    R.sub(R.zero, a)
 
 // -------------------------------------------------------------------------------------
 // deprecated
@@ -72,7 +74,7 @@ export const negate = <A>(R: Ring<A>) => (a: A) => R.sub(R.zero, a)
 /**
  * Use [`tuple`](#tuple) instead.
  *
- * @category combinators
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */
@@ -83,7 +85,7 @@ export const getTupleRing: <T extends ReadonlyArray<Ring<any>>>(
 /**
  * Use [`getRing`](./function.ts.html#getring) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */

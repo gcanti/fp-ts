@@ -11,7 +11,7 @@ import { Eq } from './Eq'
 // -------------------------------------------------------------------------------------
 
 /**
- * @category type classes
+ * @category model
  * @since 2.0.0
  */
 export interface Field<A> extends Ring<A> {
@@ -53,7 +53,7 @@ export function lcm<A>(E: Eq<A>, F: Field<A>): (x: A, y: A) => A {
 /**
  * Use [`Field`](./number.ts.html#field) instead.
  *
- * @category instances
+ * @category zone of death
  * @since 2.0.0
  * @deprecated
  */

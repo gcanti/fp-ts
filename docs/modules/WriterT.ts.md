@@ -1,6 +1,6 @@
 ---
 title: WriterT.ts
-nav_order: 120
+nav_order: 122
 parent: Modules
 ---
 
@@ -81,9 +81,7 @@ export interface WriterM<M> {
   readonly pass: <W, A>(fa: WriterT<M, W, [A, (w: W) => W]>) => WriterT<M, W, A>
   readonly listens: <W, A, B>(fa: WriterT<M, W, A>, f: (w: W) => B) => WriterT<M, W, [A, B]>
   readonly censor: <W, A>(fa: WriterT<M, W, A>, f: (w: W) => W) => WriterT<M, W, A>
-  readonly getMonad: <W>(
-    M: Monoid<W>
-  ) => {
+  readonly getMonad: <W>(M: Monoid<W>) => {
     readonly _E: W
     readonly map: <A, B>(ma: WriterT<M, W, A>, f: (a: A) => B) => WriterT<M, W, B>
     readonly of: <A>(a: A) => WriterT<M, W, A>
@@ -109,9 +107,7 @@ export interface WriterM1<M extends URIS> {
   readonly pass: <W, A>(fa: WriterT1<M, W, [A, (w: W) => W]>) => WriterT1<M, W, A>
   readonly listens: <W, A, B>(fa: WriterT1<M, W, A>, f: (w: W) => B) => WriterT1<M, W, [A, B]>
   readonly censor: <W, A>(fa: WriterT1<M, W, A>, f: (w: W) => W) => WriterT1<M, W, A>
-  readonly getMonad: <W>(
-    M: Monoid<W>
-  ) => {
+  readonly getMonad: <W>(M: Monoid<W>) => {
     readonly _E: W
     readonly map: <A, B>(ma: WriterT1<M, W, A>, f: (a: A) => B) => WriterT1<M, W, B>
     readonly of: <A>(a: A) => WriterT1<M, W, A>
@@ -137,9 +133,7 @@ export interface WriterM2<M extends URIS2> {
   readonly pass: <E, W, A>(fa: WriterT2<M, E, W, [A, (w: W) => W]>) => WriterT2<M, E, W, A>
   readonly listens: <E, W, A, B>(fa: WriterT2<M, E, W, A>, f: (w: W) => B) => WriterT2<M, E, W, [A, B]>
   readonly censor: <E, W, A>(fa: WriterT2<M, E, W, A>, f: (w: W) => W) => WriterT2<M, E, W, A>
-  readonly getMonad: <W>(
-    M: Monoid<W>
-  ) => {
+  readonly getMonad: <W>(M: Monoid<W>) => {
     readonly _E: W
     readonly map: <E, A, B>(ma: WriterT2<M, E, W, A>, f: (a: A) => B) => WriterT2<M, E, W, B>
     readonly of: <E, A>(a: A) => WriterT2<M, E, W, A>
@@ -165,9 +159,7 @@ export interface WriterM2C<M extends URIS2, E> {
   readonly pass: <W, A>(fa: WriterT2<M, E, W, [A, (w: W) => W]>) => WriterT2<M, E, W, A>
   readonly listens: <W, A, B>(fa: WriterT2<M, E, W, A>, f: (w: W) => B) => WriterT2<M, E, W, [A, B]>
   readonly censor: <W, A>(fa: WriterT2<M, E, W, A>, f: (w: W) => W) => WriterT2<M, E, W, A>
-  readonly getMonad: <W>(
-    M: Monoid<W>
-  ) => {
+  readonly getMonad: <W>(M: Monoid<W>) => {
     readonly _E: W
     readonly map: <A, B>(ma: WriterT2<M, E, W, A>, f: (a: A) => B) => WriterT2<M, E, W, B>
     readonly of: <A>(a: A) => WriterT2<M, E, W, A>
@@ -193,9 +185,7 @@ export interface WriterM3<M extends URIS3> {
   readonly pass: <R, E, W, A>(fa: WriterT3<M, R, E, W, [A, (w: W) => W]>) => WriterT3<M, R, E, W, A>
   readonly listens: <R, E, W, A, B>(fa: WriterT3<M, R, E, W, A>, f: (w: W) => B) => WriterT3<M, R, E, W, [A, B]>
   readonly censor: <R, E, W, A>(fa: WriterT3<M, R, E, W, A>, f: (w: W) => W) => WriterT3<M, R, E, W, A>
-  readonly getMonad: <W>(
-    M: Monoid<W>
-  ) => {
+  readonly getMonad: <W>(M: Monoid<W>) => {
     readonly _E: W
     readonly map: <R, E, A, B>(ma: WriterT3<M, R, E, W, A>, f: (a: A) => B) => WriterT3<M, R, E, W, B>
     readonly of: <R, E, A>(a: A) => WriterT3<M, R, E, W, A>

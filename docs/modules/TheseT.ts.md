@@ -1,6 +1,6 @@
 ---
 title: TheseT.ts
-nav_order: 109
+nav_order: 111
 parent: Modules
 ---
 
@@ -12,10 +12,6 @@ Added in v2.4.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [model](#model)
-  - [~~TheseT1~~ (type alias)](#theset1-type-alias)
-  - [~~TheseT2~~ (type alias)](#theset2-type-alias)
-  - [~~TheseT~~ (interface)](#theset-interface)
 - [utils](#utils)
   - [ap](#ap)
   - [bimap](#bimap)
@@ -31,44 +27,16 @@ Added in v2.4.0
   - [rightF](#rightf)
   - [swap](#swap)
   - [toTuple2](#totuple2)
+- [zone of death](#zone-of-death)
   - [~~TheseM1~~ (interface)](#thesem1-interface)
   - [~~TheseM2~~ (interface)](#thesem2-interface)
   - [~~TheseM~~ (interface)](#thesem-interface)
+  - [~~TheseT1~~ (type alias)](#theset1-type-alias)
+  - [~~TheseT2~~ (type alias)](#theset2-type-alias)
+  - [~~TheseT~~ (interface)](#theset-interface)
   - [~~getTheseM~~](#getthesem)
 
 ---
-
-# model
-
-## ~~TheseT1~~ (type alias)
-
-**Signature**
-
-```ts
-export type TheseT1<M extends URIS, E, A> = Kind<M, These<E, A>>
-```
-
-Added in v2.4.0
-
-## ~~TheseT2~~ (type alias)
-
-**Signature**
-
-```ts
-export type TheseT2<M extends URIS2, R, E, A> = Kind2<M, R, These<E, A>>
-```
-
-Added in v2.4.0
-
-## ~~TheseT~~ (interface)
-
-**Signature**
-
-```ts
-export interface TheseT<M, E, A> extends HKT<M, These<E, A>> {}
-```
-
-Added in v2.4.0
 
 # utils
 
@@ -147,12 +115,10 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export declare function both<F extends URIS3>(F: Pointed3<F>): <E, A, R, FE>(e: E, a: A) => Kind3<F, R, FE, These<E, A>>
-export declare function both<F extends URIS3, FE>(
-  F: Pointed3C<F, FE>
-): <E, A, R>(e: E, a: A) => Kind3<F, R, FE, These<E, A>>
-export declare function both<F extends URIS2>(F: Pointed2<F>): <E, A, FE>(e: E, a: A) => Kind2<F, FE, These<E, A>>
-export declare function both<F extends URIS2, FE>(F: Pointed2C<F, FE>): <E, A>(e: E, a: A) => Kind2<F, FE, These<E, A>>
+export declare function both<F extends URIS3>(F: Pointed3<F>): <E, A, S, R>(e: E, a: A) => Kind3<F, S, R, These<E, A>>
+export declare function both<F extends URIS3, R>(F: Pointed3C<F, R>): <E, A>(e: E, a: A) => Kind3<F, R, R, These<E, A>>
+export declare function both<F extends URIS2>(F: Pointed2<F>): <E, A, R>(e: E, a: A) => Kind2<F, R, These<E, A>>
+export declare function both<F extends URIS2, R>(F: Pointed2C<F, R>): <E, A>(e: E, a: A) => Kind2<F, R, These<E, A>>
 export declare function both<F extends URIS>(F: Pointed1<F>): <E, A>(e: E, a: A) => Kind<F, These<E, A>>
 export declare function both<F>(F: Pointed<F>): <E, A = never>(e: E, a: A) => HKT<F, These<E, A>>
 ```
@@ -490,6 +456,8 @@ export declare function toTuple2<F>(
 
 Added in v2.10.0
 
+# zone of death
+
 ## ~~TheseM1~~ (interface)
 
 **Signature**
@@ -512,9 +480,7 @@ export interface TheseM1<M extends URIS> {
   readonly right: <E, A>(a: A) => TheseT1<M, E, A>
   readonly both: <E, A>(e: E, a: A) => TheseT1<M, E, A>
   readonly toTuple: <E, A>(fa: TheseT1<M, E, A>, e: E, a: A) => Kind<M, [E, A]>
-  readonly getMonad: <E>(
-    S: Semigroup<E>
-  ) => {
+  readonly getMonad: <E>(S: Semigroup<E>) => {
     readonly _E: E
     readonly map: <A, B>(ma: TheseT1<M, E, A>, f: (a: A) => B) => TheseT1<M, E, B>
     readonly of: <A>(a: A) => TheseT1<M, E, A>
@@ -548,9 +514,7 @@ export interface TheseM2<M extends URIS2> {
   readonly right: <R, E, A>(a: A) => TheseT2<M, R, E, A>
   readonly both: <R, E, A>(e: E, a: A) => TheseT2<M, R, E, A>
   readonly toTuple: <R, E, A>(fa: TheseT2<M, R, E, A>, e: E, a: A) => Kind2<M, R, [E, A]>
-  readonly getMonad: <E>(
-    S: Semigroup<E>
-  ) => {
+  readonly getMonad: <E>(S: Semigroup<E>) => {
     readonly _E: E
     readonly map: <R, A, B>(ma: TheseT2<M, R, E, A>, f: (a: A) => B) => TheseT2<M, R, E, B>
     readonly of: <R, A>(a: A) => TheseT2<M, R, E, A>
@@ -584,9 +548,7 @@ export interface TheseM<M> {
   readonly right: <E, A>(a: A) => TheseT<M, E, A>
   readonly both: <E, A>(e: E, a: A) => TheseT<M, E, A>
   readonly toTuple: <E, A>(fa: TheseT<M, E, A>, e: E, a: A) => HKT<M, [E, A]>
-  readonly getMonad: <E>(
-    S: Semigroup<E>
-  ) => {
+  readonly getMonad: <E>(S: Semigroup<E>) => {
     readonly _E: E
     readonly map: <A, B>(ma: TheseT<M, E, A>, f: (a: A) => B) => TheseT<M, E, B>
     readonly of: <A>(a: A) => TheseT<M, E, A>
@@ -594,6 +556,36 @@ export interface TheseM<M> {
     readonly chain: <A, B>(ma: TheseT<M, E, A>, f: (a: A) => TheseT<M, E, B>) => TheseT<M, E, B>
   }
 }
+```
+
+Added in v2.4.0
+
+## ~~TheseT1~~ (type alias)
+
+**Signature**
+
+```ts
+export type TheseT1<M extends URIS, E, A> = Kind<M, These<E, A>>
+```
+
+Added in v2.4.0
+
+## ~~TheseT2~~ (type alias)
+
+**Signature**
+
+```ts
+export type TheseT2<M extends URIS2, R, E, A> = Kind2<M, R, These<E, A>>
+```
+
+Added in v2.4.0
+
+## ~~TheseT~~ (interface)
+
+**Signature**
+
+```ts
+export interface TheseT<M, E, A> extends HKT<M, These<E, A>> {}
 ```
 
 Added in v2.4.0
