@@ -14,6 +14,7 @@ Added in v2.0.0
 
 - [utils](#utils)
   - [random](#random)
+  - [randomArrayElem](#randomarrayelem)
   - [randomBool](#randombool)
   - [randomElem](#randomelem)
   - [randomInt](#randomint)
@@ -35,6 +36,18 @@ export declare const random: IO<number>
 ```
 
 Added in v2.0.0
+
+## randomArrayElem
+
+Returns a random element of a `ReadonlyArray`.
+
+**Signature**
+
+```ts
+export declare const randomArrayElem: <A>(as: readonly A[]) => IOOption<A>
+```
+
+Added in v2.13.2
 
 ## randomBool
 

@@ -1,8 +1,10 @@
 /**
  * @since 2.0.0
  */
+import { flow, pipe } from './function'
 import { IO, map } from './IO'
-import { pipe } from './function'
+import { fromIO, IOOption, none } from './IOOption'
+import { match } from './ReadonlyArray'
 import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 
 /**
@@ -59,4 +61,15 @@ export const randomElem = <A>(as: ReadonlyNonEmptyArray<A>): IO<A> =>
   pipe(
     randomInt(0, as.length - 1),
     map((i) => as[i])
+  )
+
+/**
+ * Returns a random element of a `ReadonlyArray`.
+ *
+ * @since 2.13.2
+ */
+export const randomArrayElem = <A>(as: ReadonlyArray<A>): IOOption<A> =>
+  pipe(
+    as,
+    match(() => none, flow(randomElem, fromIO))
   )

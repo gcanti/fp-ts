@@ -1,5 +1,6 @@
-import * as U from './util'
+import { isSome, none } from '../src/Option'
 import * as _ from '../src/Random'
+import * as U from './util'
 
 describe('Random', () => {
   it('random', () => {
@@ -32,5 +33,11 @@ describe('Random', () => {
   it('randomElem', () => {
     const e = _.randomElem([1, 2, 3])()
     U.deepStrictEqual(e >= 1 && e <= 3, true)
+  })
+
+  it('randomArrayElem', () => {
+    const eOption = _.randomArrayElem([1, 2, 3])()
+    U.deepStrictEqual(_.randomArrayElem([])(), none)
+    U.deepStrictEqual(isSome(eOption) && eOption.value >= 1 && eOption.value <= 3, true)
   })
 })
