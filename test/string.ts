@@ -25,6 +25,12 @@ describe('string', () => {
     U.deepStrictEqual(_.isEmpty('a'), false)
   })
 
+  it('isString', () => {
+    U.deepStrictEqual(_.isString(_.empty), true)
+    U.deepStrictEqual(_.isString('a'), true)
+    U.deepStrictEqual(_.isString(1), false)
+  })
+
   it('size', () => {
     U.deepStrictEqual(_.size(_.empty), 0)
     U.deepStrictEqual(_.size(''), 0)
