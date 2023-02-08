@@ -693,4 +693,10 @@ describe('ReadonlyNonEmptyArray', () => {
     U.deepStrictEqual(_.concat(['a'], _.empty), ['a'])
     U.deepStrictEqual(_.concat(_.empty, ['b']), ['b'])
   })
+
+  it('isOutOfBound', () => {
+    U.deepStrictEqual(_.isOutOfBound(0, ['a']), false)
+    U.deepStrictEqual(_.isOutOfBound(100, ['a']), true)
+    U.deepStrictEqual(_.isOutOfBound(-1, ['a']), true)
+  })
 })

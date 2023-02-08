@@ -1431,4 +1431,10 @@ describe('ReadonlyArray', () => {
     U.strictEqual(g(0), _.empty)
     U.deepStrictEqual(g(1), [1])
   })
+
+  it('isOutOfBound', () => {
+    U.deepStrictEqual(_.isOutOfBound(0, ['a']), false)
+    U.deepStrictEqual(_.isOutOfBound(100, ['a']), true)
+    U.deepStrictEqual(_.isOutOfBound(-1, ['a']), true)
+  })
 })
