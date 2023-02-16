@@ -100,6 +100,28 @@ _.mapWithIndex((_k: 'a', n: number) => n > 2)(l1) // $ExpectType Readonly<Record
 _.mapWithIndex((_k: string, n: number) => n > 2)(d1) // $ExpectType Readonly<Record<string, boolean>>
 _.mapWithIndex((_k: 'a1' | 'a2', n: number) => n > 2)(r1) // $ExpectType Readonly<Record<"a1" | "a2", boolean>>
 
+// $ExpectType Readonly<Record<string, boolean>>
+pipe(
+  d1,
+  _.mapWithIndex(
+    (
+      _key, // $ExpectType string
+      value // $ExpectType number
+    ) => value > 0
+  )
+)
+
+// $ExpectType Readonly<Record<"a1" | "a2", boolean>>
+pipe(
+  r1,
+  _.mapWithIndex(
+    (
+      _key, // $ExpectType "a1" | "a2"
+      value // $ExpectType number
+    ) => value > 0
+  )
+)
+
 //
 // map
 //
@@ -108,6 +130,18 @@ _.map((n: number) => n > 2)({ a: 1 }) // $ExpectType Readonly<Record<"a", boolea
 _.map((n: number) => n > 2)(l1) // $ExpectType Readonly<Record<"a", boolean>>
 _.map((n: number) => n > 2)(d1) // $ExpectType Readonly<Record<string, boolean>>
 _.map((n: number) => n > 2)(r1) // $ExpectType Readonly<Record<"a1" | "a2", boolean>>
+
+const constStruct = { a: 1, b: 2 } as const
+
+function mapToBoolean(): { [K in keyof typeof constStruct]: boolean } {
+  return pipe(
+    constStruct,
+    _.map(() => true)
+  )
+}
+
+// $ExpectType { readonly a: boolean; readonly b: boolean; }
+mapToBoolean()
 
 //
 // reduceWithIndex
