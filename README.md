@@ -17,7 +17,7 @@ Functional programming in TypeScript
   </a>
 </p>
 
-# Typed functional programming in TypeScript
+# Introduction
 
 `fp-ts` is a library for _typed functional programming_ in TypeScript.
 
@@ -30,6 +30,26 @@ A distinctive feature of `fp-ts` with respect to other functional libraries is i
 - [Haskell](https://www.haskell.org)
 - [PureScript](https://www.purescript.org)
 - [Scala](https://www.scala-lang.org)
+
+# Sponsors
+
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://unsplash.com/">
+        <img src="https://avatars.githubusercontent.com/u/9951955?s=200&v=4" width="200px;" alt="Unsplash" />
+      </a>
+      <br />
+      <b>Unsplash</b>
+      <br />
+      <a href="https://unsplash.com/">https://unsplash.com/</a>
+      <br />
+      <p width="200px">
+        The internet’s source for visuals.<br/>
+        Powered by creators everywhere.
+    </td>
+  </tr>
+</table>
 
 # Installation
 
