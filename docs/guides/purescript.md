@@ -179,6 +179,10 @@ TypeScript
 import { Functor1 } from 'fp-ts/Functor'
 import { pipe } from 'fp-ts/function'
 
+const URI = 'Option'
+
+type URI = typeof URI
+
 const functorOption: Functor1<URI> = {
   URI,
   map: (fa, f) =>
