@@ -10,6 +10,7 @@ has_toc: false
 
 - [Mostly adequate guide to FP](https://github.com/MostlyAdequate/mostly-adequate-guide) by [@DrBoolean](https://github.com/DrBoolean)
 - [The State monad](https://paulgray.net/the-state-monad/) by Paul Gray
+- [Functional Programming with TypeScript](https://www.youtube.com/playlist?list=PLuPevXgCPUIMbCxBEnc1dNwboH6e2ImQo) by Sahand Javid
 
 ## Getting started with fp-ts series
 
