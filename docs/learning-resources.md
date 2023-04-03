@@ -56,3 +56,4 @@ has_toc: false
 - [The ReaderTaskMonad](https://andywhite.xyz/posts/) by Andy White
 - [FP-TS for HTTP-requests](https://kimmosaaskilahti.fi/blog/2019-08-29-fp-ts/) by Kimmo Sasskilahti
 - [Basic introduction to FP-TS](https://davetayls.me/blog/2018/06/09/fp-ts-02-handling-error-cases) by Dave Tayls
+- [Practical guide to FP-TS](https://rlee.dev/practical-guide-to-fp-ts-part-1) by Ryan Lee
