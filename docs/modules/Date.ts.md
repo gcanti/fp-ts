@@ -17,6 +17,7 @@ Added in v2.0.0
 - [instances](#instances)
   - [Eq](#eq)
   - [Ord](#ord)
+  - [Show](#show)
   - [eqDate](#eqdate)
   - [eqMonth](#eqmonth)
   - [eqYear](#eqyear)
@@ -68,6 +69,24 @@ assert.deepStrictEqual(Ord.compare(new Date(1, 1, 2020), new Date(1, 1, 2021)), 
 ```
 
 Added in v2.10.0
+
+## Show
+
+**Signature**
+
+```ts
+export declare const Show: Sh.Show<Date>
+```
+
+**Example**
+
+```ts
+import { Show } from 'fp-ts/Date'
+
+assert.deepStrictEqual(Show.show(new Date(2020, 0, 1)), '2020-01-01T00:00:00.000Z')
+```
+
+Added in v2.11.9
 
 ## eqDate
 

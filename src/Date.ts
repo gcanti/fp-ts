@@ -6,6 +6,7 @@ import { pipe } from './function'
 import { IO } from './IO'
 import * as O from './Ord'
 import * as N from './number'
+import * as Sh from './Show'
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -56,6 +57,19 @@ export const Ord: O.Ord<Date> = /*#__PURE__*/ pipe(
   N.Ord,
   /*#__PURE__*/ O.contramap((date) => date.valueOf())
 )
+
+/**
+ * @example
+ * import { Show } from 'fp-ts/Date'
+ *
+ * assert.deepStrictEqual(Show.show(new Date(2020, 0, 1)), '2020-01-01T00:00:00.000Z')
+ *
+ * @category instances
+ * @since 2.11.9
+ */
+export const Show: Sh.Show<Date> = {
+  show: (a) => a.toISOString()
+}
 
 // -------------------------------------------------------------------------------------
 // utils
