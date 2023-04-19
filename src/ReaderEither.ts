@@ -786,6 +786,19 @@ export const chainOptionK: <E>(
   /*#__PURE__*/ chainOptionK_(FromEither, Chain)
 
 /**
+ * Less strict version of [`chainOptionK`](#chainoptionk).
+ *
+ * The `W` suffix (short for **W**idening) means that the error types will be merged.
+ *
+ * @category sequencing
+ * @since 2.13.2
+ */
+export const chainOptionKW: <E2>(
+  onNone: Lazy<E2>
+) => <A, B>(f: (a: A) => Option<B>) => <R, E1>(ma: ReaderEither<R, E1, A>) => ReaderEither<R, E1 | E2, B> =
+  /*#__PURE__*/ chainOptionK as any
+
+/**
  * @category sequencing
  * @since 2.4.0
  */

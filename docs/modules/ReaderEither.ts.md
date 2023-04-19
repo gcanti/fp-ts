@@ -94,6 +94,7 @@ Added in v2.0.0
   - [chainFirstReaderKW](#chainfirstreaderkw)
   - [chainFirstW](#chainfirstw)
   - [chainOptionK](#chainoptionk)
+  - [chainOptionKW](#chainoptionkw)
   - [chainReaderK](#chainreaderk)
   - [chainReaderKW](#chainreaderkw)
   - [chainW](#chainw)
@@ -1060,6 +1061,22 @@ export declare const chainOptionK: <E>(
 ```
 
 Added in v2.10.0
+
+## chainOptionKW
+
+Less strict version of [`chainOptionK`](#chainoptionk).
+
+The `W` suffix (short for **W**idening) means that the error types will be merged.
+
+**Signature**
+
+```ts
+export declare const chainOptionKW: <E2>(
+  onNone: Lazy<E2>
+) => <A, B>(f: (a: A) => Option<B>) => <R, E1>(ma: ReaderEither<R, E1, A>) => ReaderEither<R, E2 | E1, B>
+```
+
+Added in v2.13.2
 
 ## chainReaderK
 
