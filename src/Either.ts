@@ -1208,6 +1208,18 @@ export const chainOptionK: <E>(
 )
 
 /**
+ * Less strict version of [`chainOptionK`](#chainoptionk).
+ *
+ * The `W` suffix (short for **W**idening) means that the error types will be merged.
+ *
+ * @category sequencing
+ * @since 2.13.2
+ */
+export const chainOptionKW: <E2>(
+  onNone: Lazy<E2>
+) => <A, B>(f: (a: A) => Option<B>) => <E1>(ma: Either<E1, A>) => Either<E1 | E2, B> = /*#__PURE__*/ chainOptionK as any
+
+/**
  * @example
  * import * as E from 'fp-ts/Either'
  * import { pipe } from 'fp-ts/function'

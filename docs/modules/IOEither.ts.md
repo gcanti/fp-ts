@@ -102,6 +102,7 @@ Added in v2.0.0
   - [chainFirstW](#chainfirstw)
   - [chainIOK](#chainiok)
   - [chainOptionK](#chainoptionk)
+  - [chainOptionKW](#chainoptionkw)
   - [chainW](#chainw)
   - [flatten](#flatten)
   - [flattenW](#flattenw)
@@ -1036,6 +1037,22 @@ export declare const chainOptionK: <E>(
 ```
 
 Added in v2.10.0
+
+## chainOptionKW
+
+Less strict version of [`chainOptionK`](#chainoptionk).
+
+The `W` suffix (short for **W**idening) means that the error types will be merged.
+
+**Signature**
+
+```ts
+export declare const chainOptionKW: <E2>(
+  onNone: Lazy<E2>
+) => <A, B>(f: (a: A) => Option<B>) => <E1>(ma: IOEither<E1, A>) => IOEither<E2 | E1, B>
+```
+
+Added in v2.13.2
 
 ## chainW
 

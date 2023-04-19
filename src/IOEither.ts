@@ -763,6 +763,19 @@ export const chainOptionK: <E>(
 )
 
 /**
+ * Less strict version of [`chainOptionK`](#chainoptionk).
+ *
+ * The `W` suffix (short for **W**idening) means that the error types will be merged.
+ *
+ * @category sequencing
+ * @since 2.13.2
+ */
+export const chainOptionKW: <E2>(
+  onNone: Lazy<E2>
+) => <A, B>(f: (a: A) => Option<B>) => <E1>(ma: IOEither<E1, A>) => IOEither<E1 | E2, B> =
+  /*#__PURE__*/ chainOptionK as any
+
+/**
  * @category sequencing
  * @since 2.4.0
  */
