@@ -22,7 +22,7 @@ import { Eq, fromEquals } from './Eq'
 import { Extend1 } from './Extend'
 import { Foldable1 } from './Foldable'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
-import { flow, identity, Lazy, pipe, SK } from './function'
+import { dual, flow, identity, Lazy, pipe, SK } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1, let as let__ } from './Functor'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { HKT } from './HKT'
@@ -617,7 +617,6 @@ const _map: Functor1<URI>['map'] = (fa, f) => pipe(fa, map(f))
 /* istanbul ignore next */
 const _mapWithIndex: FunctorWithIndex1<URI, number>['mapWithIndex'] = (fa, f) => pipe(fa, mapWithIndex(f))
 const _ap: Apply1<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
-const _chain: Monad1<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 /* istanbul ignore next */
 const _extend: Extend1<URI>['extend'] = (wa, f) => pipe(wa, extend(f))
 /* istanbul ignore next */
@@ -721,8 +720,6 @@ export const ap = <A>(
 ): (<B>(fab: ReadonlyNonEmptyArray<(a: A) => B>) => ReadonlyNonEmptyArray<B>) => chain((f) => pipe(as, map(f)))
 
 /**
- * Composes computations in sequence, using the return value of one computation to determine the next computation.
- *
  * @example
  * import * as RNEA from 'fp-ts/ReadonlyNonEmptyArray'
  * import { pipe } from 'fp-ts/function'
@@ -730,17 +727,35 @@ export const ap = <A>(
  * assert.deepStrictEqual(
  *   pipe(
  *     [1, 2, 3],
- *     RNEA.chain((n) => [`a${n}`, `b${n}`])
+ *     RNEA.flatMap((n) => [`a${n}`, `b${n}`])
  *   ),
  *   ['a1', 'b1', 'a2', 'b2', 'a3', 'b3']
  * )
  *
  * @category sequencing
+ * @since 2.14.0
+ */
+export const flatMap: {
+  <A, B>(f: (a: A) => ReadonlyNonEmptyArray<B>): (ma: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B>
+  <A, B>(ma: ReadonlyNonEmptyArray<A>, f: (a: A) => ReadonlyNonEmptyArray<B>): ReadonlyNonEmptyArray<B>
+} = /*#__PURE__*/ dual(
+  2,
+  <A, B>(ma: ReadonlyNonEmptyArray<A>, f: (a: A) => ReadonlyNonEmptyArray<B>): ReadonlyNonEmptyArray<B> =>
+    pipe(
+      ma,
+      chainWithIndex((_, a) => f(a))
+    )
+)
+
+/**
+ * Alias of `flatMap`.
+ *
+ * @category sequencing
  * @since 2.5.0
  */
-export const chain = <A, B>(
+export const chain: <A, B>(
   f: (a: A) => ReadonlyNonEmptyArray<B>
-): ((ma: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B>) => chainWithIndex((_, a) => f(a))
+) => (ma: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B> = flatMap
 
 /**
  * @since 2.5.0
@@ -1031,7 +1046,7 @@ export const Chain: Chain1<URI> = {
   URI,
   map: _map,
   ap: _ap,
-  chain: _chain
+  chain: flatMap
 }
 
 /**
@@ -1066,7 +1081,7 @@ export const Monad: Monad1<URI> = {
   map: _map,
   ap: _ap,
   of,
-  chain: _chain
+  chain: flatMap
 }
 
 /**
@@ -1459,7 +1474,7 @@ export const readonlyNonEmptyArray: Monad1<URI> &
   map: _map,
   mapWithIndex: _mapWithIndex,
   ap: _ap,
-  chain: _chain,
+  chain: flatMap,
   extend: _extend,
   extract: extract,
   reduce: _reduce,
