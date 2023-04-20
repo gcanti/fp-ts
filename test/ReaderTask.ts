@@ -32,6 +32,12 @@ describe('ReaderTask', () => {
     U.deepStrictEqual(await pipe(_.of('a'), _.apSecond(_.of('b')))({})(), 'b')
   })
 
+  it('flatMap', async () => {
+    const f = (a: string) => _.of(a.length)
+    U.deepStrictEqual(await pipe(_.of('foo'), _.flatMap(f))({})(), 3)
+    U.deepStrictEqual(await _.flatMap(_.of('foo'), f)({})(), 3)
+  })
+
   it('chain', async () => {
     const f = (a: string) => _.of(a.length)
     U.deepStrictEqual(await pipe(_.of('foo'), _.chain(f))({})(), 3)

@@ -25,7 +25,7 @@ import {
   FromTask2,
   fromTaskK as fromTaskK_
 } from './FromTask'
-import { flow, identity, pipe, SK } from './function'
+import { dual, flow, identity, pipe, SK } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor2, let as let__ } from './Functor'
 import * as _ from './internal'
 import { IO } from './IO'
@@ -121,7 +121,6 @@ const _apSeq: Apply2<URI>['ap'] = (fab, fa) =>
     fab,
     chain((f) => pipe(fa, map(f)))
   )
-const _chain: Chain2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
@@ -158,25 +157,31 @@ export const apW: <R2, A>(
 export const of: <R = unknown, A = never>(a: A) => ReaderTask<R, A> = /*#__PURE__*/ RT.of(T.Pointed)
 
 /**
- * Composes computations in sequence, using the return value of one computation to determine the next computation.
+ * @category sequencing
+ * @since 2.14.0
+ */
+export const flatMap: {
+  <A, R2, B>(f: (a: A) => ReaderTask<R2, B>): <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B>
+  <R1, A, R2, B>(ma: ReaderTask<R1, A>, f: (a: A) => ReaderTask<R2, B>): ReaderTask<R1 & R2, B>
+} = /*#__PURE__*/ dual(2, RT.flatMap(T.Monad))
+
+/**
+ * Alias of `flatMap`.
  *
  * @category sequencing
  * @since 2.3.0
  */
-export const chain: <A, R, B>(f: (a: A) => ReaderTask<R, B>) => (ma: ReaderTask<R, A>) => ReaderTask<R, B> =
-  /*#__PURE__*/ RT.chain(T.Monad)
+export const chain: <A, R, B>(f: (a: A) => ReaderTask<R, B>) => (ma: ReaderTask<R, A>) => ReaderTask<R, B> = flatMap
 
 /**
- * Less strict version of  [`chain`](#chain).
- *
- * The `W` suffix (short for **W**idening) means that the environment types will be merged.
+ * Alias of `flatMap`.
  *
  * @category sequencing
  * @since 2.6.7
  */
 export const chainW: <R2, A, B>(
   f: (a: A) => ReaderTask<R2, B>
-) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B> = chain as any
+) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B> = flatMap
 
 /**
  * Less strict version of [`flatten`](#flatten).
@@ -309,7 +314,7 @@ export const Chain: Chain2<URI> = {
   URI,
   map: _map,
   ap: _apPar,
-  chain: _chain
+  chain: flatMap
 }
 
 /**
@@ -321,7 +326,7 @@ export const Monad: Monad2<URI> = {
   map: _map,
   of,
   ap: _apPar,
-  chain: _chain
+  chain: flatMap
 }
 
 /**
@@ -333,7 +338,7 @@ export const MonadIO: MonadIO2<URI> = {
   map: _map,
   of,
   ap: _apPar,
-  chain: _chain,
+  chain: flatMap,
   fromIO
 }
 
@@ -346,7 +351,7 @@ export const MonadTask: MonadTask2<URI> = {
   map: _map,
   of,
   ap: _apPar,
-  chain: _chain,
+  chain: flatMap,
   fromIO,
   fromTask
 }
@@ -748,7 +753,7 @@ export const readerTask: MonadTask2<URI> = {
   map: _map,
   of,
   ap: _apPar,
-  chain: _chain,
+  chain: flatMap,
   fromIO,
   fromTask
 }
@@ -768,7 +773,7 @@ export const readerTaskSeq: typeof readerTask = {
   map: _map,
   of,
   ap: _apSeq,
-  chain: _chain,
+  chain: flatMap,
   fromIO,
   fromTask
 }

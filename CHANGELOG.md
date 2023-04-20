@@ -26,6 +26,7 @@ high state of flux, you're at risk of it changing without notice.
   - `Reader`
   - `ReaderEither`
   - `ReaderIO`
+  - `ReaderTask`
 
 # 2.13.2
 
