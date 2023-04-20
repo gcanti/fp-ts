@@ -245,7 +245,7 @@ export const of: <A>(a: A) => IOOption<A> = some
 export const flatMap: {
   <A, B>(f: (a: A) => IOOption<B>): (ma: IOOption<A>) => IOOption<B>
   <A, B>(ma: IOOption<A>, f: (a: A) => IOOption<B>): IOOption<B>
-} = dual(2, OT.flatMap(I.Monad))
+} = /*#__PURE__*/ dual(2, OT.flatMap(I.Monad))
 
 /**
  * Alias of `flatMap`.

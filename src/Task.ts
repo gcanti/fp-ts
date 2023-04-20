@@ -132,7 +132,7 @@ export const of: <A>(a: A) => Task<A> = (a) => () => Promise.resolve(a)
 export const flatMap: {
   <A, B>(f: (a: A) => Task<B>): (ma: Task<A>) => Task<B>
   <A, B>(ma: Task<A>, f: (a: A) => Task<B>): Task<B>
-} = dual(
+} = /*#__PURE__*/ dual(
   2,
   <A, B>(ma: Task<A>, f: (a: A) => Task<B>): Task<B> =>
     () =>

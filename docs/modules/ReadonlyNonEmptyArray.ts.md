@@ -79,6 +79,7 @@ Added in v2.5.0
   - [chain](#chain)
   - [chainFirst](#chainfirst)
   - [chainWithIndex](#chainwithindex)
+  - [flatMap](#flatmap)
   - [flatten](#flatten)
   - [traverseWithIndex](#traversewithindex)
 - [traversing](#traversing)
@@ -722,7 +723,7 @@ Added in v2.11.0
 
 ## chain
 
-Composes computations in sequence, using the return value of one computation to determine the next computation.
+Alias of `flatMap`.
 
 **Signature**
 
@@ -730,21 +731,6 @@ Composes computations in sequence, using the return value of one computation to 
 export declare const chain: <A, B>(
   f: (a: A) => ReadonlyNonEmptyArray<B>
 ) => (ma: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B>
-```
-
-**Example**
-
-```ts
-import * as RNEA from 'fp-ts/ReadonlyNonEmptyArray'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(
-  pipe(
-    [1, 2, 3],
-    RNEA.chain((n) => [`a${n}`, `b${n}`])
-  ),
-  ['a1', 'b1', 'a2', 'b2', 'a3', 'b3']
-)
 ```
 
 Added in v2.5.0
@@ -790,6 +776,34 @@ export declare const chainWithIndex: <A, B>(
 ```
 
 Added in v2.10.0
+
+## flatMap
+
+**Signature**
+
+```ts
+export declare const flatMap: {
+  <A, B>(f: (a: A) => ReadonlyNonEmptyArray<B>): (ma: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B>
+  <A, B>(ma: ReadonlyNonEmptyArray<A>, f: (a: A) => ReadonlyNonEmptyArray<B>): ReadonlyNonEmptyArray<B>
+}
+```
+
+**Example**
+
+```ts
+import * as RNEA from 'fp-ts/ReadonlyNonEmptyArray'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(
+  pipe(
+    [1, 2, 3],
+    RNEA.flatMap((n) => [`a${n}`, `b${n}`])
+  ),
+  ['a1', 'b1', 'a2', 'b2', 'a3', 'b3']
+)
+```
+
+Added in v2.14.0
 
 ## flatten
 

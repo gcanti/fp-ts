@@ -34,6 +34,7 @@ Added in v2.0.0
 - [sequencing](#sequencing)
   - [chain](#chain)
   - [chainFirst](#chainfirst)
+  - [flatMap](#flatmap)
   - [flatten](#flatten)
 - [traversing](#traversing)
   - [sequenceArray](#sequencearray)
@@ -236,12 +237,12 @@ Added in v2.0.0
 
 ## chain
 
-Composes computations in sequence, using the return value of one computation to determine the next computation.
+Alias of `flatMap`.
 
 **Signature**
 
 ```ts
-export declare const chain: <E, A, B>(f: (a: A) => State<E, B>) => (ma: State<E, A>) => State<E, B>
+export declare const chain: <S, A, B>(f: (a: A) => State<S, B>) => (ma: State<S, A>) => State<S, B>
 ```
 
 Added in v2.0.0
@@ -258,6 +259,19 @@ export declare const chainFirst: <S, A, B>(f: (a: A) => State<S, B>) => (ma: Sta
 ```
 
 Added in v2.0.0
+
+## flatMap
+
+**Signature**
+
+```ts
+export declare const flatMap: {
+  <A, S, B>(f: (a: A) => State<S, B>): (ma: State<S, A>) => State<S, B>
+  <S, A, B>(ma: State<S, A>, f: (a: A) => State<S, B>): State<S, B>
+}
+```
+
+Added in v2.14.0
 
 ## flatten
 

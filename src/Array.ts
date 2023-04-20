@@ -1586,7 +1586,7 @@ export const ap: <A>(fa: Array<A>) => <B>(fab: Array<(a: A) => B>) => Array<B> =
 export const flatMap: {
   <A, B>(f: (a: A) => Array<B>): (ma: Array<A>) => Array<B>
   <A, B>(ma: Array<A>, f: (a: A) => Array<B>): Array<B>
-} = dual(
+} = /*#__PURE__*/ dual(
   2,
   <A, B>(ma: Array<A>, f: (a: A) => Array<B>): Array<B> =>
     pipe(

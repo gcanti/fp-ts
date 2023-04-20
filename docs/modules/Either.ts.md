@@ -158,6 +158,7 @@ Added in v2.0.0
   - [chainOptionK](#chainoptionk)
   - [chainOptionKW](#chainoptionkw)
   - [chainW](#chainw)
+  - [flatMap](#flatmap)
   - [flatten](#flatten)
   - [flattenW](#flattenw)
 - [traversing](#traversing)
@@ -1327,7 +1328,7 @@ Added in v2.0.0
 
 ## chain
 
-Composes computations in sequence, using the return value of one computation to determine the next computation.
+Alias of `flatMap`.
 
 **Signature**
 
@@ -1408,9 +1409,7 @@ Added in v2.13.2
 
 ## chainW
 
-Less strict version of [`chain`](#chain).
-
-The `W` suffix (short for **W**idening) means that the error types will be merged.
+Alias of `flatMap`.
 
 **Signature**
 
@@ -1418,30 +1417,20 @@ The `W` suffix (short for **W**idening) means that the error types will be merge
 export declare const chainW: <E2, A, B>(f: (a: A) => Either<E2, B>) => <E1>(ma: Either<E1, A>) => Either<E2 | E1, B>
 ```
 
-**Example**
+Added in v2.6.0
+
+## flatMap
+
+**Signature**
 
 ```ts
-import * as E from 'fp-ts/Either'
-import { pipe } from 'fp-ts/function'
-
-const e1: E.Either<string, number> = E.right(1)
-const e2: E.Either<number, number> = E.right(2)
-
-export const result1 = pipe(
-  // @ts-expect-error
-  e1,
-  E.chain(() => e2)
-)
-
-// merged error types -----v-------------v
-// const result2: E.Either<string | number, number>
-export const result2 = pipe(
-  e1, // no error
-  E.chainW(() => e2)
-)
+export declare const flatMap: {
+  <A, E2, B>(f: (a: A) => Either<E2, B>): <E1>(ma: Either<E1, A>) => Either<E2 | E1, B>
+  <E1, A, E2, B>(ma: Either<E1, A>, f: (a: A) => Either<E2, B>): Either<E1 | E2, B>
+}
 ```
 
-Added in v2.6.0
+Added in v2.14.0
 
 ## flatten
 

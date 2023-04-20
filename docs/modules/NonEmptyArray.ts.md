@@ -77,6 +77,7 @@ Added in v2.0.0
   - [chain](#chain)
   - [chainFirst](#chainfirst)
   - [chainWithIndex](#chainwithindex)
+  - [flatMap](#flatmap)
   - [flatten](#flatten)
   - [traverseWithIndex](#traversewithindex)
 - [traversing](#traversing)
@@ -686,27 +687,12 @@ Added in v2.11.0
 
 ## chain
 
-Composes computations in sequence, using the return value of one computation to determine the next computation.
+Alias of `flatMap`.
 
 **Signature**
 
 ```ts
 export declare const chain: <A, B>(f: (a: A) => NonEmptyArray<B>) => (ma: NonEmptyArray<A>) => NonEmptyArray<B>
-```
-
-**Example**
-
-```ts
-import * as NEA from 'fp-ts/NonEmptyArray'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(
-  pipe(
-    [1, 2, 3],
-    NEA.chain((n) => [`a${n}`, `b${n}`])
-  ),
-  ['a1', 'b1', 'a2', 'b2', 'a3', 'b3']
-)
 ```
 
 Added in v2.0.0
@@ -735,6 +721,34 @@ export declare const chainWithIndex: <A, B>(
 ```
 
 Added in v2.10.0
+
+## flatMap
+
+**Signature**
+
+```ts
+export declare const flatMap: {
+  <A, B>(f: (a: A) => NonEmptyArray<B>): (ma: NonEmptyArray<A>) => NonEmptyArray<B>
+  <A, B>(ma: NonEmptyArray<A>, f: (a: A) => NonEmptyArray<B>): NonEmptyArray<B>
+}
+```
+
+**Example**
+
+```ts
+import * as NEA from 'fp-ts/NonEmptyArray'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(
+  pipe(
+    [1, 2, 3],
+    NEA.flatMap((n) => [`a${n}`, `b${n}`])
+  ),
+  ['a1', 'b1', 'a2', 'b2', 'a3', 'b3']
+)
+```
+
+Added in v2.14.0
 
 ## flatten
 

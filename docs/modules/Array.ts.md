@@ -112,6 +112,7 @@ Added in v2.0.0
   - [chainRecBreadthFirst](#chainrecbreadthfirst)
   - [chainRecDepthFirst](#chainrecdepthfirst)
   - [chainWithIndex](#chainwithindex)
+  - [flatMap](#flatmap)
   - [flatten](#flatten)
   - [traverseWithIndex](#traversewithindex)
 - [traversing](#traversing)
@@ -1701,31 +1702,12 @@ Added in v2.0.0
 
 ## chain
 
-Composes computations in sequence, using the return value of one computation to
-determine the next computation.
-
-In other words it takes a function `f` that produces an array from a single element of
-the base type `A` and returns a new function which applies `f` to each element of the
-input array (like [`map`](#map)) and, instead of returning an array of arrays, concatenates the
-results into a single array (like [`flatten`](#flatten)).
-
-This is the `chain` component of the array `Monad`.
+Alias of `flatMap`.
 
 **Signature**
 
 ```ts
 export declare const chain: <A, B>(f: (a: A) => B[]) => (ma: A[]) => B[]
-```
-
-**Example**
-
-```ts
-import { chain, map, replicate } from 'fp-ts/Array'
-import { pipe } from 'fp-ts/function'
-
-const f = (n: number) => replicate(n, `${n}`)
-assert.deepStrictEqual(pipe([1, 2, 3], map(f)), [['1'], ['2', '2'], ['3', '3', '3']])
-assert.deepStrictEqual(pipe([1, 2, 3], chain(f)), ['1', '2', '2', '3', '3', '3'])
 ```
 
 Added in v2.0.0
@@ -1806,6 +1788,35 @@ assert.deepStrictEqual(pipe(['a', 'b', 'c'], chainWithIndex(f)), ['a0', 'a0', 'b
 ```
 
 Added in v2.7.0
+
+## flatMap
+
+Composes computations in sequence, using the return value of one computation to
+determine the next computation.
+
+In other words it takes a function `f` that produces an array from a single element of
+the base type `A` and returns a new function which applies `f` to each element of the
+input array (like [`map`](#map)) and, instead of returning an array of arrays, concatenates the
+results into a single array (like [`flatten`](#flatten)).
+
+**Signature**
+
+```ts
+export declare const flatMap: { <A, B>(f: (a: A) => B[]): (ma: A[]) => B[]; <A, B>(ma: A[], f: (a: A) => B[]): B[] }
+```
+
+**Example**
+
+```ts
+import { flatMap, map, replicate } from 'fp-ts/Array'
+import { pipe } from 'fp-ts/function'
+
+const f = (n: number) => replicate(n, `${n}`)
+assert.deepStrictEqual(pipe([1, 2, 3], map(f)), [['1'], ['2', '2'], ['3', '3', '3']])
+assert.deepStrictEqual(pipe([1, 2, 3], flatMap(f)), ['1', '2', '2', '3', '3', '3'])
+```
+
+Added in v2.14.0
 
 ## flatten
 

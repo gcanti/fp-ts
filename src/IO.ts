@@ -78,7 +78,7 @@ export const of: <A>(a: A) => IO<A> = constant
 export const flatMap: {
   <A, B>(f: (a: A) => IO<B>): (ma: IO<A>) => IO<B>
   <A, B>(ma: IO<A>, f: (a: A) => IO<B>): IO<B>
-} = dual(
+} = /*#__PURE__*/ dual(
   2,
   <A, B>(ma: IO<A>, f: (a: A) => IO<B>): IO<B> =>
     () =>

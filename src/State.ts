@@ -100,7 +100,7 @@ export const of: <S, A>(a: A) => State<S, A> = (a) => (s) => [a, s]
 export const flatMap: {
   <A, S, B>(f: (a: A) => State<S, B>): (ma: State<S, A>) => State<S, B>
   <S, A, B>(ma: State<S, A>, f: (a: A) => State<S, B>): State<S, B>
-} = dual(
+} = /*#__PURE__*/ dual(
   2,
   <S, A, B>(ma: State<S, A>, f: (a: A) => State<S, B>): State<S, B> =>
     (s1) => {

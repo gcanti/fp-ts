@@ -78,7 +78,7 @@ export const of: <A>(a: A) => Identity<A> = id
 export const flatMap: {
   <A, B>(f: (a: A) => Identity<B>): (ma: Identity<A>) => Identity<B>
   <A, B>(ma: Identity<A>, f: (a: A) => Identity<B>): Identity<B>
-} = dual(2, <A, B>(ma: Identity<A>, f: (a: A) => Identity<B>): Identity<B> => f(ma))
+} = /*#__PURE__*/ dual(2, <A, B>(ma: Identity<A>, f: (a: A) => Identity<B>): Identity<B> => f(ma))
 
 /**
  * Alias of `flatMap`.
