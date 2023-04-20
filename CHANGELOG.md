@@ -30,6 +30,7 @@ high state of flux, you're at risk of it changing without notice.
   - `ReaderTaskEither`
   - `StateReaderTaskEither`
   - `TaskEither`
+  - `NonEmptyArray`
 
 # 2.13.2
 
