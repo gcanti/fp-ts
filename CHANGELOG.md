@@ -39,6 +39,7 @@ high state of flux, you're at risk of it changing without notice.
   - `IOOption`
   - `Option`
   - `ReadonlyArray`
+  - `State`
 
 # 2.13.2
 
