@@ -41,6 +41,7 @@ high state of flux, you're at risk of it changing without notice.
   - `ReadonlyArray`
   - `State`
   - `Task`
+  - `TaskOption`
 
 # 2.13.2
 
