@@ -728,6 +728,7 @@ export function toUnion<F>(F: Functor<F>): <E, A>(fa: HKT<F, Either<E, A>>) => H
 // deprecated
 // -------------------------------------------------------------------------------------
 
+// eslint-disable-next-line import/first
 import URI = E.URI
 
 /**

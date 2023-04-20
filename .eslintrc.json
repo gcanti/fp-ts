@@ -2,12 +2,12 @@
   "parserOptions": {
     "project": "./tsconfig.json"
   },
-  "plugins": ["deprecation"],
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended"
   ],
+  "plugins": ["deprecation", "import", "simple-import-sort"],
   "rules": {
     "@typescript-eslint/array-type": ["warn", { "default": "generic", "readonly": "generic" }],
     "@typescript-eslint/prefer-readonly": "warn",
@@ -20,6 +20,13 @@
     "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
     "prefer-rest-params": "off",
     "prefer-spread": "off",
-    "deprecation/deprecation": "off"
+    "deprecation/deprecation": "off",
+    "import/first": "error",
+    "import/no-cycle": "error",
+    "import/newline-after-import": "error",
+    "import/no-duplicates": "error",
+    "import/no-unresolved": "off",
+    "import/order": "off",
+    "simple-import-sort/imports": "error"
   }
 }
