@@ -20,7 +20,7 @@ import { FilterableWithIndex1, PredicateWithIndex, RefinementWithIndex } from '.
 import { Foldable1 } from './Foldable'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
 import { FromEither1, fromEitherK as fromEitherK_ } from './FromEither'
-import { identity, Lazy, pipe } from './function'
+import { dual, identity, Lazy, pipe } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1, let as let__ } from './Functor'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { HKT } from './HKT'
@@ -1428,7 +1428,6 @@ const _map: Monad1<URI>['map'] = (fa, f) => pipe(fa, map(f))
 /* istanbul ignore next */
 const _mapWithIndex: FunctorWithIndex1<URI, number>['mapWithIndex'] = (fa, f) => pipe(fa, mapWithIndex(f))
 const _ap: Apply1<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
-const _chain: Chain1<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 /* istanbul ignore next */
 const _filter: Filterable1<URI>['filter'] = <A>(fa: Array<A>, predicate: Predicate<A>) => pipe(fa, filter(predicate))
 /* istanbul ignore next */
@@ -1573,24 +1572,36 @@ export const ap: <A>(fa: Array<A>) => <B>(fab: Array<(a: A) => B>) => Array<B> =
  * input array (like [`map`](#map)) and, instead of returning an array of arrays, concatenates the
  * results into a single array (like [`flatten`](#flatten)).
  *
- * This is the `chain` component of the array `Monad`.
- *
  * @example
- * import { chain, map, replicate } from 'fp-ts/Array'
+ * import { flatMap, map, replicate } from 'fp-ts/Array'
  * import { pipe } from 'fp-ts/function'
  *
  * const f = (n: number) => replicate(n, `${n}`);
  * assert.deepStrictEqual(pipe([1, 2, 3], map(f)), [["1"], ["2", "2"], ["3", "3", "3"]]);
- * assert.deepStrictEqual(pipe([1, 2, 3], chain(f)), ["1", "2", "2", "3", "3", "3"]);
+ * assert.deepStrictEqual(pipe([1, 2, 3], flatMap(f)), ["1", "2", "2", "3", "3", "3"]);
+ *
+ * @category sequencing
+ * @since 2.14.0
+ */
+export const flatMap: {
+  <A, B>(f: (a: A) => Array<B>): (ma: Array<A>) => Array<B>
+  <A, B>(ma: Array<A>, f: (a: A) => Array<B>): Array<B>
+} = dual(
+  2,
+  <A, B>(ma: Array<A>, f: (a: A) => Array<B>): Array<B> =>
+    pipe(
+      ma,
+      chainWithIndex((_, a) => f(a))
+    )
+)
+
+/**
+ * Alias of `flatMap`.
  *
  * @category sequencing
  * @since 2.0.0
  */
-export const chain: <A, B>(f: (a: A) => Array<B>) => (ma: Array<A>) => Array<B> = (f) => (ma) =>
-  pipe(
-    ma,
-    chainWithIndex((_, a) => f(a))
-  )
+export const chain: <A, B>(f: (a: A) => Array<B>) => (ma: Array<A>) => Array<B> = flatMap
 
 /**
  * Takes an array of arrays of `A` and flattens them into an array of `A`
@@ -2489,7 +2500,7 @@ export const Chain: Chain1<URI> = {
   URI,
   map: _map,
   ap: _ap,
-  chain: _chain
+  chain: flatMap
 }
 
 /**
@@ -2530,7 +2541,7 @@ export const Monad: Monad1<URI> = {
   map: _map,
   ap: _ap,
   of,
-  chain: _chain
+  chain: flatMap
 }
 
 /**
@@ -2733,7 +2744,7 @@ export const ChainRecDepthFirst: ChainRec1<URI> = {
   URI,
   map: _map,
   ap: _ap,
-  chain: _chain,
+  chain: flatMap,
   chainRec: _chainRecDepthFirst
 }
 
@@ -2752,7 +2763,7 @@ export const ChainRecBreadthFirst: ChainRec1<URI> = {
   URI,
   map: _map,
   ap: _ap,
-  chain: _chain,
+  chain: flatMap,
   chainRec: _chainRecBreadthFirst
 }
 
@@ -2974,7 +2985,7 @@ export const array: FunctorWithIndex1<URI, number> &
   map: _map,
   ap: _ap,
   of,
-  chain: _chain,
+  chain: flatMap,
   filter: _filter,
   filterMap: _filterMap,
   partition: _partition,

@@ -125,6 +125,20 @@ describe('Array', () => {
       U.deepStrictEqual(pipe([1, 2], _.apSecond(['a', 'b', 'c'])), ['a', 'b', 'c', 'a', 'b', 'c'])
     })
 
+    it('flatMap', () => {
+      U.deepStrictEqual(
+        pipe(
+          [1, 2, 3],
+          _.flatMap((n) => [n, n + 1])
+        ),
+        [1, 2, 2, 3, 3, 4]
+      )
+      U.deepStrictEqual(
+        _.flatMap([1, 2, 3], (n) => [n, n + 1]),
+        [1, 2, 2, 3, 3, 4]
+      )
+    })
+
     it('chain', () => {
       U.deepStrictEqual(
         pipe(
