@@ -24,6 +24,8 @@ high state of flux, you're at risk of it changing without notice.
   - add `flatMap`
 - `IOEither`
   - add `flatMap`
+- `Reader`
+  - add `flatMap`
 
 # 2.13.2
 
