@@ -29,6 +29,7 @@ high state of flux, you're at risk of it changing without notice.
   - `ReaderTask`
   - `ReaderTaskEither`
   - `StateReaderTaskEither`
+  - `TaskEither`
 
 # 2.13.2
 

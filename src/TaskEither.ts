@@ -49,7 +49,7 @@ import {
   FromTask2,
   fromTaskK as fromTaskK_
 } from './FromTask'
-import { flow, identity, Lazy, pipe, SK } from './function'
+import { dual, flow, identity, Lazy, pipe, SK } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor2, let as let__ } from './Functor'
 import * as _ from './internal'
 import { IO } from './IO'
@@ -460,8 +460,6 @@ const _apSeq: Apply2<URI>['ap'] = (fab, fa) =>
     chain((f) => pipe(fa, map(f)))
   )
 /* istanbul ignore next */
-const _chain: Chain2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
-/* istanbul ignore next */
 const _bimap: Bifunctor2<URI>['bimap'] = (fa, f, g) => pipe(fa, bimap(f, g))
 /* istanbul ignore next */
 const _mapLeft: Bifunctor2<URI>['mapLeft'] = (fa, f) => pipe(fa, mapLeft(f))
@@ -515,25 +513,31 @@ export const apW: <E2, A>(
 ) => <E1, B>(fab: TaskEither<E1, (a: A) => B>) => TaskEither<E1 | E2, B> = ap as any
 
 /**
- * Composes computations in sequence, using the return value of one computation to determine the next computation.
+ * @category sequencing
+ * @since 2.14.0
+ */
+export const flatMap: {
+  <A, E2, B>(f: (a: A) => TaskEither<E2, B>): <E1>(ma: TaskEither<E1, A>) => TaskEither<E1 | E2, B>
+  <E1, A, E2, B>(ma: TaskEither<E1, A>, f: (a: A) => TaskEither<E2, B>): TaskEither<E1 | E2, B>
+} = /*#__PURE__*/ dual(2, ET.flatMap(T.Monad))
+
+/**
+ * Alias of `flatMap`.
  *
  * @category sequencing
  * @since 2.0.0
  */
-export const chain: <E, A, B>(f: (a: A) => TaskEither<E, B>) => (ma: TaskEither<E, A>) => TaskEither<E, B> =
-  /*#__PURE__*/ ET.chain(T.Monad)
+export const chain: <E, A, B>(f: (a: A) => TaskEither<E, B>) => (ma: TaskEither<E, A>) => TaskEither<E, B> = flatMap
 
 /**
- * Less strict version of [`chain`](#chain).
- *
- * The `W` suffix (short for **W**idening) means that the error types will be merged.
+ * Alias of `flatMap`.
  *
  * @category sequencing
  * @since 2.6.0
  */
 export const chainW: <E2, A, B>(
   f: (a: A) => TaskEither<E2, B>
-) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E1 | E2, B> = chain as any
+) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E1 | E2, B> = flatMap
 
 /**
  * Less strict version of [`flatten`](#flatten).
@@ -877,7 +881,7 @@ export const Chain: Chain2<URI> = {
   URI,
   map: _map,
   ap: _apPar,
-  chain: _chain
+  chain: flatMap
 }
 
 /**
@@ -888,7 +892,7 @@ export const Monad: Monad2<URI> = {
   URI,
   map: _map,
   ap: _apPar,
-  chain: _chain,
+  chain: flatMap,
   of
 }
 
@@ -900,7 +904,7 @@ export const MonadIO: MonadIO2<URI> = {
   URI,
   map: _map,
   ap: _apPar,
-  chain: _chain,
+  chain: flatMap,
   of,
   fromIO
 }
@@ -913,7 +917,7 @@ export const MonadTask: MonadTask2<URI> = {
   URI,
   map: _map,
   ap: _apPar,
-  chain: _chain,
+  chain: flatMap,
   of,
   fromIO,
   fromTask
@@ -927,7 +931,7 @@ export const MonadThrow: MonadThrow2<URI> = {
   URI,
   map: _map,
   ap: _apPar,
-  chain: _chain,
+  chain: flatMap,
   of,
   throwError
 }
@@ -1484,7 +1488,7 @@ export const taskEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadTask2<
   map: _map,
   of,
   ap: _apPar,
-  chain: _chain,
+  chain: flatMap,
   alt: _alt,
   fromIO,
   fromTask,
@@ -1508,7 +1512,7 @@ export const taskEitherSeq: typeof taskEither = {
   map: _map,
   of,
   ap: _apSeq,
-  chain: _chain,
+  chain: flatMap,
   alt: _alt,
   fromIO,
   fromTask,
@@ -1563,7 +1567,7 @@ export function getTaskValidation<E>(
     map: _map,
     ap: applicativeTaskValidation.ap,
     of,
-    chain: _chain,
+    chain: flatMap,
     bimap: _bimap,
     mapLeft: _mapLeft,
     alt: altTaskValidation.alt,
