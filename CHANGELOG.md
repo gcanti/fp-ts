@@ -34,6 +34,7 @@ high state of flux, you're at risk of it changing without notice.
   - `ReadonlyNonEmptyArray`
   - `Tree`
   - `Array`
+  - `Identity`
 
 # 2.13.2
 

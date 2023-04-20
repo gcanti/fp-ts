@@ -10,7 +10,7 @@ import { Comonad1 } from './Comonad'
 import { Eq } from './Eq'
 import { Extend1 } from './Extend'
 import { Foldable1 } from './Foldable'
-import { identity as id, pipe } from './function'
+import { dual, identity as id, pipe } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1, let as let__ } from './Functor'
 import { HKT } from './HKT'
 import * as _ from './internal'
@@ -32,7 +32,6 @@ export type Identity<A> = A
 
 const _map: Monad1<URI>['map'] = (fa, f) => pipe(fa, map(f))
 const _ap: Monad1<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
-const _chain: Monad1<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 /* istanbul ignore next */
 const _reduce: Foldable1<URI>['reduce'] = (fa, b, f) => pipe(fa, reduce(b, f))
 /* istanbul ignore next */
@@ -73,12 +72,21 @@ export const ap: <A>(fa: Identity<A>) => <B>(fab: Identity<(a: A) => B>) => Iden
 export const of: <A>(a: A) => Identity<A> = id
 
 /**
- * Composes computations in sequence, using the return value of one computation to determine the next computation.
+ * @category sequencing
+ * @since 2.14.0
+ */
+export const flatMap: {
+  <A, B>(f: (a: A) => Identity<B>): (ma: Identity<A>) => Identity<B>
+  <A, B>(ma: Identity<A>, f: (a: A) => Identity<B>): Identity<B>
+} = dual(2, <A, B>(ma: Identity<A>, f: (a: A) => Identity<B>): Identity<B> => f(ma))
+
+/**
+ * Alias of `flatMap`.
  *
  * @category sequencing
  * @since 2.0.0
  */
-export const chain: <A, B>(f: (a: A) => Identity<B>) => (ma: Identity<A>) => Identity<B> = (f) => (ma) => f(ma)
+export const chain: <A, B>(f: (a: A) => Identity<B>) => (ma: Identity<A>) => Identity<B> = flatMap
 
 /**
  * @since 2.0.0
@@ -256,7 +264,7 @@ export const Chain: Chain1<URI> = {
   URI,
   map: _map,
   ap: _ap,
-  chain: _chain
+  chain: flatMap
 }
 
 /**
@@ -268,7 +276,7 @@ export const Monad: Monad1<URI> = {
   map: _map,
   ap: _ap,
   of,
-  chain: _chain
+  chain: flatMap
 }
 
 /**
@@ -334,7 +342,7 @@ export const ChainRec: ChainRec1<URI> = {
   URI,
   map: _map,
   ap: _ap,
-  chain: _chain,
+  chain: flatMap,
   chainRec: _chainRec
 }
 
@@ -394,7 +402,7 @@ export const identity: Monad1<URI> & Foldable1<URI> & Traversable1<URI> & Alt1<U
   map: _map,
   ap: _ap,
   of,
-  chain: _chain,
+  chain: flatMap,
   reduce: _reduce,
   foldMap: _foldMap,
   reduceRight: _reduceRight,
