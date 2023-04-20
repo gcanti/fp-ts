@@ -79,6 +79,15 @@ describe('Task', () => {
     await deepStrictEqual(a, b, 'b', ['b', 'a'])
   })
 
+  it('flatMap', async () => {
+    const f =
+      (n: number): _.Task<number> =>
+      () =>
+        Promise.resolve(n * 2)
+    U.deepStrictEqual(await pipe(delay(1, 2), _.flatMap(f))(), 4)
+    U.deepStrictEqual(await _.flatMap(delay(1, 2), f)(), 4)
+  })
+
   it('chain', async () => {
     const f =
       (n: number): _.Task<number> =>

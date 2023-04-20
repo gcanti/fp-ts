@@ -21,7 +21,7 @@ import {
 import { bind as bind_, Chain1, chainFirst as chainFirst_ } from './Chain'
 import { chainFirstIOK as chainFirstIOK_, chainIOK as chainIOK_, FromIO1, fromIOK as fromIOK_ } from './FromIO'
 import { FromTask1 } from './FromTask'
-import { identity, pipe } from './function'
+import { dual, identity, pipe } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1, let as let__ } from './Functor'
 import * as _ from './internal'
 import { IO } from './IO'
@@ -102,7 +102,6 @@ const _apSeq: Apply1<URI>['ap'] = (fab, fa) =>
     fab,
     chain((f) => pipe(fa, map(f)))
   )
-const _chain: Chain1<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
@@ -127,15 +126,28 @@ export const ap: <A>(fa: Task<A>) => <B>(fab: Task<(a: A) => B>) => Task<B> = (f
 export const of: <A>(a: A) => Task<A> = (a) => () => Promise.resolve(a)
 
 /**
- * Composes computations in sequence, using the return value of one computation to determine the next computation.
+ * @category sequencing
+ * @since 2.14.0
+ */
+export const flatMap: {
+  <A, B>(f: (a: A) => Task<B>): (ma: Task<A>) => Task<B>
+  <A, B>(ma: Task<A>, f: (a: A) => Task<B>): Task<B>
+} = dual(
+  2,
+  <A, B>(ma: Task<A>, f: (a: A) => Task<B>): Task<B> =>
+    () =>
+      Promise.resolve()
+        .then(ma)
+        .then((a) => f(a)())
+)
+
+/**
+ * Alias of `flatMap`.
  *
  * @category sequencing
  * @since 2.0.0
  */
-export const chain: <A, B>(f: (a: A) => Task<B>) => (ma: Task<A>) => Task<B> = (f) => (ma) => () =>
-  Promise.resolve()
-    .then(ma)
-    .then((a) => f(a)())
+export const chain: <A, B>(f: (a: A) => Task<B>) => (ma: Task<A>) => Task<B> = flatMap
 
 /**
  * @category sequencing
@@ -284,7 +296,7 @@ export const Chain: Chain1<URI> = {
   URI,
   map: _map,
   ap: _apPar,
-  chain: _chain
+  chain: flatMap
 }
 
 /**
@@ -296,7 +308,7 @@ export const Monad: Monad1<URI> = {
   map: _map,
   of,
   ap: _apPar,
-  chain: _chain
+  chain: flatMap
 }
 
 /**
@@ -308,7 +320,7 @@ export const MonadIO: MonadIO1<URI> = {
   map: _map,
   of,
   ap: _apPar,
-  chain: _chain,
+  chain: flatMap,
   fromIO
 }
 
@@ -328,7 +340,7 @@ export const MonadTask: MonadTask1<URI> = {
   map: _map,
   of,
   ap: _apPar,
-  chain: _chain,
+  chain: flatMap,
   fromIO,
   fromTask
 }
@@ -581,7 +593,7 @@ export const task: Monad1<URI> & MonadTask1<URI> = {
   map: _map,
   of,
   ap: _apPar,
-  chain: _chain,
+  chain: flatMap,
   fromIO,
   fromTask
 }
@@ -600,7 +612,7 @@ export const taskSeq: Monad1<URI> & MonadTask1<URI> = {
   map: _map,
   of,
   ap: _apSeq,
-  chain: _chain,
+  chain: flatMap,
   fromIO,
   fromTask
 }
