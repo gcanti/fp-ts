@@ -15,7 +15,8 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "forceConsistentCasingInFileNames": true,
-    "stripInternal": true
+    "stripInternal": true,
+    "skipLibCheck": true
   },
   "include": ["./src", "./test", "./scripts", "./perf", "./dtslint"]
 }
