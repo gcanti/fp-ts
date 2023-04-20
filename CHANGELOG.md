@@ -26,6 +26,8 @@ high state of flux, you're at risk of it changing without notice.
   - add `flatMap`
 - `Reader`
   - add `flatMap`
+- `ReaderEither`
+  - add `flatMap`
 
 # 2.13.2
 

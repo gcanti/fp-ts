@@ -321,6 +321,9 @@ export function chain<M>(
 }
 
 /** @internal */
+export function flatMap<M extends URIS2>(
+  M: Monad2<M>
+): <ME, E, A, B>(ma: Kind2<M, ME, Either<E, A>>, f: (a: A) => Kind2<M, ME, Either<E, B>>) => Kind2<M, ME, Either<E, B>>
 export function flatMap<M extends URIS>(
   M: Monad1<M>
 ): <E, A, B>(ma: Kind<M, Either<E, A>>, f: (a: A) => Kind<M, Either<E, B>>) => Kind<M, Either<E, B>>
