@@ -24,6 +24,12 @@ describe('IO', () => {
       U.deepStrictEqual(pipe(_.of('a'), _.apSecond(_.of('b')))(), 'b')
     })
 
+    it('flatMap', () => {
+      const f = (n: number) => _.of(n * 2)
+      U.deepStrictEqual(pipe(_.of(1), _.flatMap(f))(), 2)
+      U.deepStrictEqual(_.flatMap(_.of(1), f)(), 2)
+    })
+
     it('chain', () => {
       const f = (n: number) => _.of(n * 2)
       U.deepStrictEqual(pipe(_.of(1), _.chain(f))(), 2)

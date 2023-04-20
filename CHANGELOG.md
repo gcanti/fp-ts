@@ -35,6 +35,7 @@ high state of flux, you're at risk of it changing without notice.
   - `Tree`
   - `Array`
   - `Identity`
+  - `IO`
 
 # 2.13.2
 

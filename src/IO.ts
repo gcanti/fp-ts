@@ -18,7 +18,7 @@ import { apFirst as apFirst_, Apply1, apS as apS_, apSecond as apSecond_, getApp
 import { bind as bind_, Chain1, chainFirst as chainFirst_ } from './Chain'
 import { ChainRec1 } from './ChainRec'
 import { FromIO1 } from './FromIO'
-import { constant, identity } from './function'
+import { constant, dual, identity } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1, let as let__ } from './Functor'
 import * as _ from './internal'
 import { Monad1 } from './Monad'
@@ -43,7 +43,6 @@ export interface IO<A> {
 
 const _map: Monad1<URI>['map'] = (ma, f) => () => f(ma())
 const _ap: Monad1<URI>['ap'] = (mab, ma) => () => mab()(ma())
-const _chain: Monad1<URI>['chain'] = (ma, f) => () => f(ma())()
 const _chainRec: ChainRec1<URI>['chainRec'] = (a, f) => () => {
   let e = f(a)()
   while (e._tag === 'Left') {
@@ -73,12 +72,26 @@ export const ap: <A>(fa: IO<A>) => <B>(fab: IO<(a: A) => B>) => IO<B> = (fa) => 
 export const of: <A>(a: A) => IO<A> = constant
 
 /**
- * Composes computations in sequence, using the return value of one computation to determine the next computation.
+ * @category sequencing
+ * @since 2.14.0
+ */
+export const flatMap: {
+  <A, B>(f: (a: A) => IO<B>): (ma: IO<A>) => IO<B>
+  <A, B>(ma: IO<A>, f: (a: A) => IO<B>): IO<B>
+} = dual(
+  2,
+  <A, B>(ma: IO<A>, f: (a: A) => IO<B>): IO<B> =>
+    () =>
+      f(ma())()
+)
+
+/**
+ * Alias of `flatMap`.
  *
  * @category sequencing
  * @since 2.0.0
  */
-export const chain: <A, B>(f: (a: A) => IO<B>) => (ma: IO<A>) => IO<B> = (f) => (ma) => _chain(ma, f)
+export const chain: <A, B>(f: (a: A) => IO<B>) => (ma: IO<A>) => IO<B> = flatMap
 
 /**
  * @category sequencing
@@ -171,7 +184,7 @@ export const Chain: Chain1<URI> = {
   URI,
   map: _map,
   ap: _ap,
-  chain: _chain
+  chain: flatMap
 }
 
 /**
@@ -183,7 +196,7 @@ export const Monad: Monad1<URI> = {
   map: _map,
   ap: _ap,
   of,
-  chain: _chain
+  chain: flatMap
 }
 
 /**
@@ -211,7 +224,7 @@ export const MonadIO: MonadIO1<URI> = {
   map: _map,
   ap: _ap,
   of,
-  chain: _chain,
+  chain: flatMap,
   fromIO
 }
 
@@ -223,7 +236,7 @@ export const ChainRec: ChainRec1<URI> = {
   URI,
   map: _map,
   ap: _ap,
-  chain: _chain,
+  chain: flatMap,
   chainRec: _chainRec
 }
 
@@ -359,7 +372,7 @@ export const io: Monad1<URI> & MonadIO1<URI> & ChainRec1<URI> = {
   map: _map,
   of,
   ap: _ap,
-  chain: _chain,
+  chain: flatMap,
   fromIO,
   chainRec: _chainRec
 }
