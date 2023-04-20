@@ -16,7 +16,7 @@ import { FilterableWithIndex1, PredicateWithIndex, RefinementWithIndex } from '.
 import { Foldable1 } from './Foldable'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
 import { FromEither1, fromEitherK as fromEitherK_ } from './FromEither'
-import { identity, Lazy, pipe } from './function'
+import { dual, identity, Lazy, pipe } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1, let as let__ } from './Functor'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { HKT } from './HKT'
@@ -1362,7 +1362,6 @@ export function difference<A>(
 const _map: Monad1<URI>['map'] = (fa, f) => pipe(fa, map(f))
 const _mapWithIndex: FunctorWithIndex1<URI, number>['mapWithIndex'] = (fa, f) => pipe(fa, mapWithIndex(f))
 const _ap: Apply1<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
-const _chain: Chain1<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 const _filter: Filterable1<URI>['filter'] = <A>(fa: ReadonlyArray<A>, predicate: Predicate<A>) =>
   pipe(fa, filter(predicate))
 const _filterMap: Filterable1<URI>['filterMap'] = (fa, f) => pipe(fa, filterMap(f))
@@ -1494,26 +1493,40 @@ export const ap: <A>(fa: ReadonlyArray<A>) => <B>(fab: ReadonlyArray<(a: A) => B
  * assert.deepStrictEqual(
  *   pipe(
  *     [1, 2, 3],
- *     RA.chain((n) => [`a${n}`, `b${n}`])
+ *     RA.flatMap((n) => [`a${n}`, `b${n}`])
  *   ),
  *   ['a1', 'b1', 'a2', 'b2', 'a3', 'b3']
  * )
  * assert.deepStrictEqual(
  *   pipe(
  *     [1, 2, 3],
- *     RA.chain(() => [])
+ *     RA.flatMap(() => [])
  *   ),
  *   []
  * )
  *
  * @category sequencing
+ * @since 2.14.0
+ */
+export const flatMap: {
+  <A, B>(f: (a: A) => ReadonlyArray<B>): (ma: ReadonlyArray<A>) => ReadonlyArray<B>
+  <A, B>(ma: ReadonlyArray<A>, f: (a: A) => ReadonlyArray<B>): ReadonlyArray<B>
+} = dual(
+  2,
+  <A, B>(ma: ReadonlyArray<A>, f: (a: A) => ReadonlyArray<B>): ReadonlyArray<B> =>
+    pipe(
+      ma,
+      chainWithIndex((_, a) => f(a))
+    )
+)
+
+/**
+ * Alias of `flatMap`.
+ *
+ * @category sequencing
  * @since 2.5.0
  */
-export const chain: <A, B>(f: (a: A) => ReadonlyArray<B>) => (ma: ReadonlyArray<A>) => ReadonlyArray<B> = (f) => (ma) =>
-  pipe(
-    ma,
-    chainWithIndex((_, a) => f(a))
-  )
+export const chain: <A, B>(f: (a: A) => ReadonlyArray<B>) => (ma: ReadonlyArray<A>) => ReadonlyArray<B> = flatMap
 
 /**
  * @category sequencing
@@ -2057,7 +2070,7 @@ export const Chain: Chain1<URI> = {
   URI,
   map: _map,
   ap: _ap,
-  chain: _chain
+  chain: flatMap
 }
 
 /**
@@ -2069,7 +2082,7 @@ export const Monad: Monad1<URI> = {
   map: _map,
   ap: _ap,
   of,
-  chain: _chain
+  chain: flatMap
 }
 
 /**
@@ -2291,7 +2304,7 @@ export const ChainRecDepthFirst: ChainRec1<URI> = {
   URI,
   map: _map,
   ap: _ap,
-  chain: _chain,
+  chain: flatMap,
   chainRec: _chainRecDepthFirst
 }
 
@@ -2333,7 +2346,7 @@ export const ChainRecBreadthFirst: ChainRec1<URI> = {
   URI,
   map: _map,
   ap: _ap,
-  chain: _chain,
+  chain: flatMap,
   chainRec: _chainRecBreadthFirst
 }
 
@@ -2619,7 +2632,7 @@ export const readonlyArray: FunctorWithIndex1<URI, number> &
   map: _map,
   ap: _ap,
   of,
-  chain: _chain,
+  chain: flatMap,
   filter: _filter,
   filterMap: _filterMap,
   partition: _partition,
