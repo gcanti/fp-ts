@@ -61,6 +61,31 @@ describe('TaskEither', () => {
     )
   })
 
+  it('flatMap', async () => {
+    U.deepStrictEqual(
+      await pipe(
+        _.right('foo'),
+        _.flatMap((a) => (a.length > 2 ? _.right(a.length) : _.left('foo')))
+      )(),
+      E.right(3)
+    )
+    U.deepStrictEqual(
+      await _.flatMap(_.right('foo'), (a) => (a.length > 2 ? _.right(a.length) : _.left('foo')))(),
+      E.right(3)
+    )
+    U.deepStrictEqual(
+      await pipe(
+        _.right('a'),
+        _.flatMap((a) => (a.length > 2 ? _.right(a.length) : _.left('foo')))
+      )(),
+      E.left('foo')
+    )
+    U.deepStrictEqual(
+      await _.flatMap(_.right('a'), (a) => (a.length > 2 ? _.right(a.length) : _.left('foo')))(),
+      E.left('foo')
+    )
+  })
+
   it('chain', async () => {
     U.deepStrictEqual(
       await pipe(
