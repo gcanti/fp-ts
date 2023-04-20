@@ -24,6 +24,20 @@ describe('IOOption', () => {
     U.deepStrictEqual(pipe(_.none, _.ap(_.none))(), O.none)
   })
 
+  it('flatMap', () => {
+    const f = (n: number) => _.some(n * 2)
+    const g = () => _.none
+    U.deepStrictEqual(pipe(_.some(1), _.flatMap(f))(), O.some(2))
+    U.deepStrictEqual(pipe(_.none, _.flatMap(f))(), O.none)
+    U.deepStrictEqual(pipe(_.some(1), _.flatMap(g))(), O.none)
+    U.deepStrictEqual(pipe(_.none, _.flatMap(g))(), O.none)
+
+    U.deepStrictEqual(_.flatMap(_.some(1), f)(), O.some(2))
+    U.deepStrictEqual(_.flatMap(_.none, f)(), O.none)
+    U.deepStrictEqual(_.flatMap(_.some(1), g)(), O.none)
+    U.deepStrictEqual(_.flatMap(_.none, g)(), O.none)
+  })
+
   it('chain', () => {
     const f = (n: number) => _.some(n * 2)
     const g = () => _.none

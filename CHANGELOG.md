@@ -36,6 +36,7 @@ high state of flux, you're at risk of it changing without notice.
   - `Array`
   - `Identity`
   - `IO`
+  - `IOOption`
 
 # 2.13.2
 
