@@ -1,6 +1,6 @@
 import * as B from '../src/boolean'
 import { pipe } from '../src/function'
-import { Monoid,struct } from '../src/Monoid'
+import { Monoid, struct } from '../src/Monoid'
 import * as _ from '../src/Traced'
 import * as U from './util'
 

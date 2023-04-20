@@ -18,7 +18,7 @@ import { Monoid } from './Monoid'
 import * as RT from './ReadonlyTuple'
 import { Semigroup } from './Semigroup'
 import { Semigroupoid2 } from './Semigroupoid'
-import { PipeableTraverse2,Traversable2 } from './Traversable'
+import { PipeableTraverse2, Traversable2 } from './Traversable'
 
 // -------------------------------------------------------------------------------------
 // model

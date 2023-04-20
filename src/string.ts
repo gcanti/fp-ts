@@ -4,7 +4,7 @@
 import * as E from './Eq'
 import * as M from './Monoid'
 import * as O from './Ord'
-import { isNonEmpty,ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
+import { isNonEmpty, ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import { Refinement } from './Refinement'
 import * as S from './Semigroup'
 import * as Sh from './Show'

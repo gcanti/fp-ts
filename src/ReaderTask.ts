@@ -26,7 +26,7 @@ import {
   fromTaskK as fromTaskK_
 } from './FromTask'
 import { flow, identity, pipe, SK } from './function'
-import { bindTo as bindTo_, flap as flap_, Functor2,let as let__ } from './Functor'
+import { bindTo as bindTo_, flap as flap_, Functor2, let as let__ } from './Functor'
 import * as _ from './internal'
 import { IO } from './IO'
 import { Monad2 } from './Monad'
