@@ -20,14 +20,12 @@ high state of flux, you're at risk of it changing without notice.
 
 **New Feature**
 
-- `Either`
-  - add `flatMap`
-- `IOEither`
-  - add `flatMap`
-- `Reader`
-  - add `flatMap`
-- `ReaderEither`
-  - add `flatMap`
+- add `flatMap` to
+  - `Either`
+  - `IOEither`
+  - `Reader`
+  - `ReaderEither`
+  - `ReaderIO`
 
 # 2.13.2
 

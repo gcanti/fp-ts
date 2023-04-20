@@ -13,7 +13,7 @@ import {
   FromReader2,
   fromReaderK as fromReaderK_
 } from './FromReader'
-import { flow, identity, pipe, SK } from './function'
+import { dual, flow, identity, pipe, SK } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor2 } from './Functor'
 import * as _ from './internal'
 import * as I from './IO'
@@ -83,7 +83,6 @@ export const asksReaderIO: <R, A>(f: (r: R) => ReaderIO<R, A>) => ReaderIO<R, A>
 
 const _map: Functor2<URI>['map'] = (fa, f) => pipe(fa, map(f))
 const _ap: Apply2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
-const _chain: Chain2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
@@ -117,24 +116,30 @@ export const apW: <R2, A>(fa: ReaderIO<R2, A>) => <R1, B>(fab: ReaderIO<R1, (a: 
 export const of: <R = unknown, A = never>(a: A) => ReaderIO<R, A> = /*#__PURE__*/ RT.of(I.Pointed)
 
 /**
- * Composes computations in sequence, using the return value of one computation to determine the next computation.
+ * @category sequencing
+ * @since 2.14.0
+ */
+export const flatMap: {
+  <A, R2, B>(f: (a: A) => ReaderIO<R2, B>): <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, B>
+  <R1, A, R2, B>(ma: ReaderIO<R1, A>, f: (a: A) => ReaderIO<R2, B>): ReaderIO<R1 & R2, B>
+} = /*#__PURE__*/ dual(2, RT.flatMap(I.Monad))
+
+/**
+ * Alias of `flatMap`.
  *
  * @category sequencing
  * @since 2.13.0
  */
-export const chain: <A, R, B>(f: (a: A) => ReaderIO<R, B>) => (ma: ReaderIO<R, A>) => ReaderIO<R, B> =
-  /*#__PURE__*/ RT.chain(I.Monad)
+export const chain: <A, R, B>(f: (a: A) => ReaderIO<R, B>) => (ma: ReaderIO<R, A>) => ReaderIO<R, B> = flatMap
 
 /**
- * Less strict version of  [`chain`](#chain).
- *
- * The `W` suffix (short for **W**idening) means that the environment types will be merged.
+ * Alias of `flatMap`.
  *
  * @category sequencing
  * @since 2.13.0
  */
 export const chainW: <A, R2, B>(f: (a: A) => ReaderIO<R2, B>) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, B> =
-  chain as any
+  flatMap
 
 /**
  * Less strict version of [`flatten`](#flatten).
@@ -238,7 +243,7 @@ export const Chain: Chain2<URI> = {
   URI,
   map: _map,
   ap: _ap,
-  chain: _chain
+  chain: flatMap
 }
 
 /**
@@ -250,7 +255,7 @@ export const Monad: Monad2<URI> = {
   map: _map,
   of,
   ap: _ap,
-  chain: _chain
+  chain: flatMap
 }
 
 /**
@@ -262,7 +267,7 @@ export const MonadIO: MonadIO2<URI> = {
   map: _map,
   of,
   ap: _ap,
-  chain: _chain,
+  chain: flatMap,
   fromIO
 }
 
