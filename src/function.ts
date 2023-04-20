@@ -779,7 +779,7 @@ export const dual: {
     isDataFirst: (args: IArguments) => boolean,
     body: DataFirst
   ): DataLast & DataFirst
-} = (arity, body) => {
+} = (arity: any, body: any) => {
   const isDataFirst: (args: IArguments) => boolean = typeof arity === 'number' ? (args) => args.length >= arity : arity
   return function (this: any) {
     const args = Array.from(arguments)

@@ -22,6 +22,8 @@ high state of flux, you're at risk of it changing without notice.
 
 - `Either`
   - add `flatMap`
+- `IOEither`
+  - add `flatMap`
 
 # 2.13.2
 

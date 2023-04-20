@@ -85,6 +85,14 @@ describe('Either', () => {
       U.deepStrictEqual(pipe(_.left<string, string>('maError'), _.apSecondW(f)), _.left('maError'))
     })
 
+    it('flatMap', () => {
+      const f = (s: string) => _.right<string, number>(s.length)
+      U.deepStrictEqual(pipe(_.right('abc'), _.flatMap(f)), _.right(3))
+      U.deepStrictEqual(_.flatMap(_.right('abc'), f), _.right(3))
+      U.deepStrictEqual(pipe(_.left<string, string>('maError'), _.flatMap(f)), _.left('maError'))
+      U.deepStrictEqual(_.flatMap(_.left<string, string>('maError'), f), _.left('maError'))
+    })
+
     it('chain', () => {
       const f = (s: string) => _.right<string, number>(s.length)
       U.deepStrictEqual(pipe(_.right('abc'), _.chain(f)), _.right(3))

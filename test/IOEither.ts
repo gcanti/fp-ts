@@ -106,6 +106,14 @@ describe('IOEither', () => {
       U.deepStrictEqual(pipe(fa, _.apSecondW(fb))(), E.right(1))
     })
 
+    it('flatMap', () => {
+      const f = (a: string) => (a.length > 2 ? _.right(a.length) : _.left('foo'))
+      U.deepStrictEqual(pipe(_.right('foo'), _.flatMap(f))(), E.right(3))
+      U.deepStrictEqual(_.flatMap(_.right('foo'), f)(), E.right(3))
+      U.deepStrictEqual(pipe(_.right('a'), _.flatMap(f))(), E.left('foo'))
+      U.deepStrictEqual(_.flatMap(_.right('a'), f)(), E.left('foo'))
+    })
+
     it('chain', () => {
       const f = (a: string) => (a.length > 2 ? _.right(a.length) : _.left('foo'))
       U.deepStrictEqual(pipe(_.right('foo'), _.chain(f))(), E.right(3))

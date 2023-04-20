@@ -316,7 +316,21 @@ export function chain<M>(
 export function chain<M>(
   M: Monad<M>
 ): <A, E, B>(f: (a: A) => HKT<M, Either<E, B>>) => (ma: HKT<M, Either<E, A>>) => HKT<M, Either<E, B>> {
-  return (f) => (ma) => M.chain(ma, (e) => (E.isLeft(e) ? M.of(e) : f(e.right)))
+  const flatMapM = flatMap(M)
+  return (f) => (ma) => flatMapM(ma, f)
+}
+
+/** @internal */
+export function flatMap<M extends URIS>(
+  M: Monad1<M>
+): <E, A, B>(ma: Kind<M, Either<E, A>>, f: (a: A) => Kind<M, Either<E, B>>) => Kind<M, Either<E, B>>
+export function flatMap<M>(
+  M: Monad<M>
+): <E, A, B>(ma: HKT<M, Either<E, A>>, f: (a: A) => HKT<M, Either<E, B>>) => HKT<M, Either<E, B>>
+export function flatMap<M>(
+  M: Monad<M>
+): <E, A, B>(ma: HKT<M, Either<E, A>>, f: (a: A) => HKT<M, Either<E, B>>) => HKT<M, Either<E, B>> {
+  return (ma, f) => M.chain(ma, (e) => (E.isLeft(e) ? M.of(e) : f(e.right)))
 }
 
 /**

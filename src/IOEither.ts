@@ -41,7 +41,7 @@ import {
   fromPredicate as fromPredicate_
 } from './FromEither'
 import { chainFirstIOK as chainFirstIOK_, chainIOK as chainIOK_, FromIO2, fromIOK as fromIOK_ } from './FromIO'
-import { flow, identity, Lazy, pipe, SK } from './function'
+import { dual, flow, identity, Lazy, pipe, SK } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor2, let as let__ } from './Functor'
 import * as _ from './internal'
 import * as I from './IO'
@@ -290,8 +290,6 @@ const _apSeq: Apply2<URI>['ap'] = (fab, fa) =>
     chain((f) => pipe(fa, map(f)))
   )
 /* istanbul ignore next */
-const _chain: Chain2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
-/* istanbul ignore next */
 const _bimap: Bifunctor2<URI>['bimap'] = (fa, f, g) => pipe(fa, bimap(f, g))
 /* istanbul ignore next */
 const _mapLeft: Bifunctor2<URI>['mapLeft'] = (fa, f) => pipe(fa, mapLeft(f))
@@ -349,24 +347,30 @@ export const apW: <E2, A>(fa: IOEither<E2, A>) => <E1, B>(fab: IOEither<E1, (a: 
 export const of: <E = never, A = never>(a: A) => IOEither<E, A> = right
 
 /**
- * Composes computations in sequence, using the return value of one computation to determine the next computation.
+ * @category sequencing
+ * @since 2.14.0
+ */
+export const flatMap: {
+  <A, E2, B>(f: (a: A) => IOEither<E2, B>): <E1>(ma: IOEither<E1, A>) => IOEither<E1 | E2, B>
+  <E1, A, E2, B>(ma: IOEither<E1, A>, f: (a: A) => IOEither<E2, B>): IOEither<E1 | E2, B>
+} = /*#__PURE__*/ dual(2, ET.flatMap(I.Monad))
+
+/**
+ * Alias of `flatMap`.
  *
  * @category sequencing
  * @since 2.0.0
  */
-export const chain: <E, A, B>(f: (a: A) => IOEither<E, B>) => (ma: IOEither<E, A>) => IOEither<E, B> =
-  /*#__PURE__*/ ET.chain(I.Monad)
+export const chain: <E, A, B>(f: (a: A) => IOEither<E, B>) => (ma: IOEither<E, A>) => IOEither<E, B> = flatMap
 
 /**
- * Less strict version of [`chain`](#chain).
- *
- * The `W` suffix (short for **W**idening) means that the error types will be merged.
+ * Alias of `flatMap`.
  *
  * @category sequencing
  * @since 2.6.0
  */
 export const chainW: <E2, A, B>(f: (a: A) => IOEither<E2, B>) => <E1>(ma: IOEither<E1, A>) => IOEither<E1 | E2, B> =
-  chain as any
+  flatMap
 
 /**
  * Less strict version of [`flatten`](#flatten).
@@ -622,7 +626,7 @@ export const Chain: Chain2<URI> = {
   URI,
   map: _map,
   ap: _ap,
-  chain: _chain
+  chain: flatMap
 }
 
 /**
@@ -634,7 +638,7 @@ export const Monad: Monad2<URI> = {
   map: _map,
   ap: _ap,
   of,
-  chain: _chain
+  chain: flatMap
 }
 
 /**
@@ -678,7 +682,7 @@ export const MonadIO: MonadIO2<URI> = {
   map: _map,
   ap: _ap,
   of,
-  chain: _chain,
+  chain: flatMap,
   fromIO: fromIO
 }
 
@@ -691,7 +695,7 @@ export const MonadThrow: MonadThrow2<URI> = {
   map: _map,
   ap: _ap,
   of,
-  chain: _chain,
+  chain: flatMap,
   throwError
 }
 
@@ -1128,7 +1132,7 @@ export const ioEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadIO2<URI>
   map: _map,
   of,
   ap: _ap,
-  chain: _chain,
+  chain: flatMap,
   alt: _alt,
   fromIO,
   throwError
@@ -1182,7 +1186,7 @@ export function getIOValidation<E>(
     map: _map,
     ap: applicativeIOValidation.ap,
     of,
-    chain: _chain,
+    chain: flatMap,
     bimap: _bimap,
     mapLeft: _mapLeft,
     alt: altIOValidation.alt,
