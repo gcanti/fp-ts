@@ -5,7 +5,7 @@ import { Applicative2 } from './Applicative'
 import { apFirst as apFirst_, Apply2, apS as apS_, apSecond as apSecond_ } from './Apply'
 import { bind as bind_, Chain2, chainFirst as chainFirst_ } from './Chain'
 import { FromState2 } from './FromState'
-import { identity, pipe } from './function'
+import { dual, identity, pipe } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor2, let as let__ } from './Functor'
 import * as _ from './internal'
 import { Monad2 } from './Monad'
@@ -65,8 +65,6 @@ export const gets: <S, A>(f: (s: S) => A) => State<S, A> = (f) => (s) => [f(s), 
 const _map: Monad2<URI>['map'] = (fa, f) => pipe(fa, map(f))
 /* istanbul ignore next */
 const _ap: Monad2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
-/* istanbul ignore next */
-const _chain: Monad2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
@@ -96,15 +94,28 @@ export const ap: <E, A>(fa: State<E, A>) => <B>(fab: State<E, (a: A) => B>) => S
 export const of: <S, A>(a: A) => State<S, A> = (a) => (s) => [a, s]
 
 /**
- * Composes computations in sequence, using the return value of one computation to determine the next computation.
+ * @category sequencing
+ * @since 2.14.0
+ */
+export const flatMap: {
+  <A, S, B>(f: (a: A) => State<S, B>): (ma: State<S, A>) => State<S, B>
+  <S, A, B>(ma: State<S, A>, f: (a: A) => State<S, B>): State<S, B>
+} = dual(
+  2,
+  <S, A, B>(ma: State<S, A>, f: (a: A) => State<S, B>): State<S, B> =>
+    (s1) => {
+      const [a, s2] = ma(s1)
+      return f(a)(s2)
+    }
+)
+
+/**
+ * Alias of `flatMap`.
  *
  * @category sequencing
  * @since 2.0.0
  */
-export const chain: <E, A, B>(f: (a: A) => State<E, B>) => (ma: State<E, A>) => State<E, B> = (f) => (ma) => (s1) => {
-  const [a, s2] = ma(s1)
-  return f(a)(s2)
-}
+export const chain: <S, A, B>(f: (a: A) => State<S, B>) => (ma: State<S, A>) => State<S, B> = flatMap
 
 /**
  * @category sequencing
@@ -197,7 +208,7 @@ export const Chain: Chain2<URI> = {
   URI,
   map: _map,
   ap: _ap,
-  chain: _chain
+  chain: flatMap
 }
 
 /**
@@ -209,7 +220,7 @@ export const Monad: Monad2<URI> = {
   map: _map,
   ap: _ap,
   of,
-  chain: _chain
+  chain: flatMap
 }
 
 /**

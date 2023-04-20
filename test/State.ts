@@ -23,6 +23,13 @@ describe('State', () => {
       U.deepStrictEqual(pipe(_.of('a'), _.apSecond(_.of('b')))(0), ['b', 0])
     })
 
+    it('flatMap', () => {
+      const f = (_n: number) => (s: number) => tuple(s - 1, s + 1)
+      const x = (s: number) => tuple(s - 1, s + 1)
+      U.deepStrictEqual(pipe(x, _.flatMap(f))(0), [0, 2])
+      U.deepStrictEqual(_.flatMap(x, f)(0), [0, 2])
+    })
+
     it('chain', () => {
       const f = (_n: number) => (s: number) => tuple(s - 1, s + 1)
       const x = (s: number) => tuple(s - 1, s + 1)
