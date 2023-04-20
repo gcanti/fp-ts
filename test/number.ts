@@ -1,5 +1,5 @@
-import * as U from './util'
 import * as _ from '../src/number'
+import * as U from './util'
 
 describe('string', () => {
   it('Ord', () => {

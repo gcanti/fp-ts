@@ -6,12 +6,12 @@ import { apFirst as apFirst_, Apply2, apS as apS_, apSecond as apSecond_ } from 
 import { bind as bind_, Chain2, chainFirst as chainFirst_ } from './Chain'
 import { FromState2 } from './FromState'
 import { identity, pipe } from './function'
-import { let as let__, bindTo as bindTo_, flap as flap_, Functor2 } from './Functor'
+import { bindTo as bindTo_, flap as flap_, Functor2,let as let__ } from './Functor'
+import * as _ from './internal'
 import { Monad2 } from './Monad'
 import { NonEmptyArray } from './NonEmptyArray'
 import { Pointed2 } from './Pointed'
 import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
-import * as _ from './internal'
 
 // -------------------------------------------------------------------------------------
 // model

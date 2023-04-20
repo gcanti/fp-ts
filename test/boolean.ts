@@ -1,5 +1,5 @@
-import * as U from './util'
 import * as _ from '../src/boolean'
+import * as U from './util'
 
 describe('boolean', () => {
   // -------------------------------------------------------------------------------------

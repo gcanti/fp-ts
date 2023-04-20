@@ -1,6 +1,7 @@
 import * as assert from 'assert'
 import * as fc from 'fast-check'
 import { isDeepStrictEqual } from 'util'
+
 import * as B from '../src/boolean'
 import * as E from '../src/Either'
 import * as Eq from '../src/Eq'

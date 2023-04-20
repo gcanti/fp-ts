@@ -3,7 +3,7 @@
  */
 import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3 } from './Applicative'
 import { constant, pipe } from './function'
-import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3, URIS4, Kind4 } from './HKT'
+import { HKT, Kind, Kind2, Kind3, Kind4,URIS, URIS2, URIS3, URIS4 } from './HKT'
 import { Monad, Monad1, Monad2, Monad2C, Monad3, Monad3C } from './Monad'
 import { Monoid } from './Monoid'
 

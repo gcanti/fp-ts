@@ -1,11 +1,11 @@
-import * as U from './util'
 import * as Eq from '../src/Eq'
 import { identity, pipe } from '../src/function'
-import * as T from '../src/Task'
+import * as N from '../src/number'
 import * as O from '../src/Option'
 import * as S from '../src/string'
+import * as T from '../src/Task'
 import * as _ from '../src/Tree'
-import * as N from '../src/number'
+import * as U from './util'
 
 describe('Tree', () => {
   describe('pipeables', () => {

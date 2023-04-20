@@ -1,13 +1,13 @@
-import * as U from './util'
 import * as E from '../src/Either'
 import { identity, pipe } from '../src/function'
 import * as N from '../src/number'
 import * as _ from '../src/Option'
 import * as RA from '../src/ReadonlyArray'
+import { ReadonlyNonEmptyArray } from '../src/ReadonlyNonEmptyArray'
+import { separated } from '../src/Separated'
 import * as S from '../src/string'
 import * as T from '../src/Task'
-import { separated } from '../src/Separated'
-import { ReadonlyNonEmptyArray } from '../src/ReadonlyNonEmptyArray'
+import * as U from './util'
 
 const p = (n: number): boolean => n > 2
 

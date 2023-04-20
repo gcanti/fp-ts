@@ -1,12 +1,12 @@
+import * as E from '../src/Either'
 import { pipe, SK } from '../src/function'
-import * as O from '../src/Option'
-import * as RA from '../src/ReadonlyArray'
-import { ReadonlyNonEmptyArray } from '../src/ReadonlyNonEmptyArray'
 import * as I from '../src/IO'
 import * as IE from '../src/IOEither'
 import * as _ from '../src/IOOption'
+import * as O from '../src/Option'
+import * as RA from '../src/ReadonlyArray'
+import { ReadonlyNonEmptyArray } from '../src/ReadonlyNonEmptyArray'
 import * as U from './util'
-import * as E from '../src/Either'
 
 describe('IOOption', () => {
   // -------------------------------------------------------------------------------------

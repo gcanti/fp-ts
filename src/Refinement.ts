@@ -1,9 +1,9 @@
 /**
  * @since 2.11.0
  */
-import { Option } from './Option'
-import * as _ from './internal'
 import { Either } from './Either'
+import * as _ from './internal'
+import { Option } from './Option'
 
 // -------------------------------------------------------------------------------------
 // model

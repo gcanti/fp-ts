@@ -1,4 +1,5 @@
 import * as assert from 'assert'
+
 import * as A from '../src/Array'
 import { left, right } from '../src/Either'
 import { identity, pipe } from '../src/function'

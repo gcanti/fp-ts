@@ -1,7 +1,7 @@
-import * as U from './util'
 import * as N from '../src/number'
 import * as _ from '../src/Show'
 import * as S from '../src/string'
+import * as U from './util'
 
 describe('Show', () => {
   it('struct', () => {

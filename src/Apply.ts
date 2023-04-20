@@ -35,11 +35,11 @@
  *
  * @since 2.0.0
  */
-import { Functor, Functor1, Functor2, Functor2C, Functor3, Functor4, Functor3C } from './Functor'
-import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 import { tuple } from './function'
-import { Semigroup } from './Semigroup'
+import { Functor, Functor1, Functor2, Functor2C, Functor3, Functor3C,Functor4 } from './Functor'
+import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 import * as _ from './internal'
+import { Semigroup } from './Semigroup'
 
 // -------------------------------------------------------------------------------------
 // model

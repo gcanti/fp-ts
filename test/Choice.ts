@@ -1,7 +1,7 @@
-import * as U from './util'
 import { fanin, splitChoice } from '../src/Choice'
 import { left, right } from '../src/Either'
 import * as R from '../src/Reader'
+import * as U from './util'
 
 describe('Choice', () => {
   it('splitChoice', () => {

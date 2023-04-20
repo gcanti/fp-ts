@@ -18,6 +18,7 @@ import {
   Functor2C,
   Functor3C,
   FunctorComposition,
+  FunctorComposition2C1,
   FunctorComposition11,
   FunctorComposition12,
   FunctorComposition12C,
@@ -26,7 +27,6 @@ import {
   FunctorComposition22C,
   FunctorComposition23,
   FunctorComposition23C,
-  FunctorComposition2C1,
   getFunctorComposition,
   map
 } from './Functor'

@@ -1,11 +1,11 @@
-import * as U from './util'
-import * as RA from '../src/ReadonlyArray'
-import * as I from '../src/IO'
-import * as O from '../src/Option'
-import * as T from '../src/Tree'
 import * as _ from '../src/Foldable'
 import { pipe } from '../src/function'
+import * as I from '../src/IO'
+import * as O from '../src/Option'
+import * as RA from '../src/ReadonlyArray'
 import * as S from '../src/string'
+import * as T from '../src/Tree'
+import * as U from './util'
 
 export const ArrayOptionURI = 'ArrayOption'
 

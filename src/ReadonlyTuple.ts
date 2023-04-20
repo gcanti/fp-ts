@@ -8,6 +8,7 @@ import { Chain2C } from './Chain'
 import { ChainRec2C } from './ChainRec'
 import { Comonad2 } from './Comonad'
 import { Either } from './Either'
+import { Extend2 } from './Extend'
 import { Foldable2 } from './Foldable'
 import { identity, pipe } from './function'
 import { flap as flap_, Functor2 } from './Functor'
@@ -17,7 +18,6 @@ import { Monoid } from './Monoid'
 import { Semigroup } from './Semigroup'
 import { Semigroupoid2 } from './Semigroupoid'
 import { PipeableTraverse2, Traversable2 } from './Traversable'
-import { Extend2 } from './Extend'
 
 // -------------------------------------------------------------------------------------
 // model

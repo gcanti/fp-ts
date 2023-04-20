@@ -1,4 +1,5 @@
 import * as assert from 'assert'
+
 import { Either, left, right } from '../src/Either'
 import { Eq, fromEquals } from '../src/Eq'
 import { identity, pipe } from '../src/function'

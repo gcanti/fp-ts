@@ -17,17 +17,17 @@
  *
  * @since 2.0.0
  */
-import { Apply, Apply1, Apply2, Apply2C, Apply3, Apply3C, Apply4, ap, getApplySemigroup } from './Apply'
+import { ap, Apply, Apply1, Apply2, Apply2C, Apply3, Apply3C, Apply4, getApplySemigroup } from './Apply'
 import { pipe } from './function'
 import {
   FunctorComposition,
+  FunctorComposition2C1,
   FunctorComposition11,
   FunctorComposition12,
   FunctorComposition12C,
   FunctorComposition21,
   FunctorComposition22,
   FunctorComposition22C,
-  FunctorComposition2C1,
   FunctorCompositionHKT1,
   FunctorCompositionHKT2,
   FunctorCompositionHKT2C,

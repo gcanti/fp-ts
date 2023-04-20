@@ -1,7 +1,7 @@
-import * as U from './util'
-import * as RA from '../src/ReadonlyArray'
 import { getFoldableWithIndexComposition } from '../src/FoldableWithIndex'
+import * as RA from '../src/ReadonlyArray'
 import * as S from '../src/string'
+import * as U from './util'
 
 describe('FoldableWithIndex', () => {
   it('getFoldableWithIndexComposition', () => {

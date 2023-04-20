@@ -12,10 +12,10 @@ import { Functor, Functor1, Functor2, Functor2C, Functor3, Functor3C, Functor4 }
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 import { Monad, Monad1, Monad2, Monad2C, Monad3 } from './Monad'
 import {
-  NaturalTransformation22,
-  NaturalTransformation12,
-  NaturalTransformation11,
   NaturalTransformation,
+  NaturalTransformation11,
+  NaturalTransformation12,
+  NaturalTransformation22,
   NaturalTransformation23R,
   NaturalTransformation24S
 } from './NaturalTransformation'

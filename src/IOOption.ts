@@ -21,15 +21,17 @@ import {
   partitionMap as partitionMap_
 } from './Filterable'
 import {
-  FromEither1,
   chainEitherK as chainEitherK_,
   chainFirstEitherK as chainFirstEitherK_,
+  FromEither1,
   fromEitherK as fromEitherK_
 } from './FromEither'
 import { chainFirstIOK as chainFirstIOK_, chainIOK as chainIOK_, FromIO1, fromIOK as fromIOK_ } from './FromIO'
 import { flow, identity, Lazy, pipe, SK } from './function'
-import { let as let__, bindTo as bindTo_, flap as flap_, Functor1 } from './Functor'
+import { bindTo as bindTo_, flap as flap_, Functor1,let as let__ } from './Functor'
 import * as _ from './internal'
+import * as I from './IO'
+import { IOEither } from './IOEither'
 import { Monad1 } from './Monad'
 import { MonadIO1 } from './MonadIO'
 import * as O from './Option'
@@ -39,9 +41,7 @@ import { Predicate } from './Predicate'
 import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import { Refinement } from './Refinement'
 import { Separated } from './Separated'
-import * as I from './IO'
-import { IOEither } from './IOEither'
-import { Zero1, guard as guard_ } from './Zero'
+import { guard as guard_,Zero1 } from './Zero'
 
 import IO = I.IO
 import Option = O.Option

@@ -3,6 +3,7 @@
  */
 import { Alt, Alt1, Alt2, Alt2C, Alt3, Alt3C, Alt4 } from './Alt'
 import {
+  apFirst as apFirst_,
   Apply,
   Apply1,
   Apply2,
@@ -10,7 +11,6 @@ import {
   Apply3,
   Apply3C,
   Apply4,
-  apFirst as apFirst_,
   apSecond as apSecond_
 } from './Apply'
 import { Bifunctor, Bifunctor2, Bifunctor2C, Bifunctor3, Bifunctor3C, Bifunctor4 } from './Bifunctor'
@@ -24,7 +24,6 @@ import {
   Compactable3C,
   Compactable4
 } from './Compactable'
-import { Separated } from './Separated'
 import {
   Contravariant,
   Contravariant1,
@@ -67,8 +66,6 @@ import {
   FoldableWithIndex4
 } from './FoldableWithIndex'
 import { identity, Lazy, pipe as pipeFromFunctionModule } from './function'
-import { Predicate } from './Predicate'
-import { Refinement } from './Refinement'
 import { Functor, Functor1, Functor2, Functor2C, Functor3, Functor3C, Functor4 } from './Functor'
 import {
   FunctorWithIndex,
@@ -91,7 +88,9 @@ import {
 } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { Option } from './Option'
+import { Predicate } from './Predicate'
 import { Profunctor, Profunctor2, Profunctor2C, Profunctor3, Profunctor3C, Profunctor4 } from './Profunctor'
+import { Refinement } from './Refinement'
 import {
   Semigroupoid,
   Semigroupoid2,
@@ -100,6 +99,7 @@ import {
   Semigroupoid3C,
   Semigroupoid4
 } from './Semigroupoid'
+import { Separated } from './Separated'
 
 // -------------------------------------------------------------------------------------
 // pipeable helpers

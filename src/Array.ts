@@ -21,7 +21,7 @@ import { Foldable1 } from './Foldable'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
 import { FromEither1, fromEitherK as fromEitherK_ } from './FromEither'
 import { identity, Lazy, pipe } from './function'
-import { let as let__, bindTo as bindTo_, flap as flap_, Functor1 } from './Functor'
+import { bindTo as bindTo_, flap as flap_, Functor1,let as let__ } from './Functor'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { HKT } from './HKT'
 import * as _ from './internal'
@@ -36,7 +36,7 @@ import { Predicate } from './Predicate'
 import * as RA from './ReadonlyArray'
 import { Refinement } from './Refinement'
 import { Semigroup } from './Semigroup'
-import { separated, Separated } from './Separated'
+import { Separated,separated } from './Separated'
 import { Show } from './Show'
 import { PipeableTraverse1, Traversable1 } from './Traversable'
 import { PipeableTraverseWithIndex1, TraversableWithIndex1 } from './TraversableWithIndex'
@@ -49,7 +49,7 @@ import {
   Witherable1,
   witherDefault
 } from './Witherable'
-import { Zero1, guard as guard_ } from './Zero'
+import { guard as guard_,Zero1 } from './Zero'
 
 import NonEmptyArray = NEA.NonEmptyArray
 

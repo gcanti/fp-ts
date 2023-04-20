@@ -1,7 +1,6 @@
 /**
  * @since 2.0.0
  */
-import { Separated } from './Separated'
 import { Either } from './Either'
 import {
   Filterable,
@@ -9,20 +8,19 @@ import {
   Filterable2,
   Filterable2C,
   Filterable3,
-  Filterable4,
-  Filterable3C
-} from './Filterable'
+  Filterable3C,
+  Filterable4} from './Filterable'
 import {
   FunctorWithIndex,
   FunctorWithIndex1,
   FunctorWithIndex2,
   FunctorWithIndex2C,
   FunctorWithIndex3,
-  FunctorWithIndex4,
-  FunctorWithIndex3C
-} from './FunctorWithIndex'
-import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3, URIS4, Kind4 } from './HKT'
+  FunctorWithIndex3C,
+  FunctorWithIndex4} from './FunctorWithIndex'
+import { HKT, Kind, Kind2, Kind3, Kind4,URIS, URIS2, URIS3, URIS4 } from './HKT'
 import { Option } from './Option'
+import { Separated } from './Separated'
 
 // -------------------------------------------------------------------------------------
 // model

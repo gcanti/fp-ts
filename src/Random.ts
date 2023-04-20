@@ -1,8 +1,8 @@
 /**
  * @since 2.0.0
  */
-import { IO, map } from './IO'
 import { pipe } from './function'
+import { IO, map } from './IO'
 import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 
 /**

@@ -1,3 +1,4 @@
+import * as E from '../src/Either'
 import { pipe, SK } from '../src/function'
 import * as O from '../src/Option'
 import * as RA from '../src/ReadonlyArray'
@@ -6,7 +7,6 @@ import * as T from '../src/Task'
 import * as TE from '../src/TaskEither'
 import * as _ from '../src/TaskOption'
 import * as U from './util'
-import * as E from '../src/Either'
 
 describe('TaskOption', () => {
   // -------------------------------------------------------------------------------------

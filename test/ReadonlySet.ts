@@ -1,14 +1,15 @@
 import * as assert from 'assert'
+
 import { getMonoid } from '../src/Array'
 import { left, right } from '../src/Either'
 import * as Eq from '../src/Eq'
 import { pipe } from '../src/function'
+import * as N from '../src/number'
 import { none, some as optionSome } from '../src/Option'
 import * as _ from '../src/ReadonlySet'
-import * as S from '../src/string'
-import * as N from '../src/number'
-import * as U from './util'
 import { separated } from '../src/Separated'
+import * as S from '../src/string'
+import * as U from './util'
 
 const gte2 = (n: number) => n >= 2
 

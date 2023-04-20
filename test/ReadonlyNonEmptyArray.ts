@@ -1,4 +1,5 @@
 import * as assert from 'assert'
+
 import * as B from '../src/boolean'
 import { Endomorphism } from '../src/Endomorphism'
 import * as Eq from '../src/Eq'

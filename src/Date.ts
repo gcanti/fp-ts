@@ -4,8 +4,8 @@
 import * as E from './Eq'
 import { pipe } from './function'
 import { IO } from './IO'
-import * as O from './Ord'
 import * as N from './number'
+import * as O from './Ord'
 
 // -------------------------------------------------------------------------------------
 // instances

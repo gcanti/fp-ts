@@ -19,13 +19,13 @@ import {
   Foldable3C,
   Foldable4,
   FoldableComposition,
+  FoldableComposition2C1,
   FoldableComposition11,
   FoldableComposition12,
   FoldableComposition12C,
   FoldableComposition21,
   FoldableComposition22,
   FoldableComposition22C,
-  FoldableComposition2C1,
   getFoldableComposition
 } from './Foldable'
 import { pipe } from './function'

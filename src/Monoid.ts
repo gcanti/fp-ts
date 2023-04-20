@@ -33,8 +33,8 @@
  * @since 2.0.0
  */
 import { Bounded } from './Bounded'
-import { getMonoid as getFM } from './function'
 import { Endomorphism, getMonoid as getEM } from './Endomorphism'
+import { getMonoid as getFM } from './function'
 import * as _ from './internal'
 import { ReadonlyRecord } from './ReadonlyRecord'
 import * as Se from './Semigroup'

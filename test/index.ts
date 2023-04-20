@@ -1,6 +1,7 @@
 import * as assert from 'assert'
 import * as glob from 'glob'
 import * as path from 'path'
+
 import * as _ from '../src'
 
 const getExportName = (name: string): string => {
