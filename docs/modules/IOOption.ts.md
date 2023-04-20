@@ -89,6 +89,7 @@ Added in v2.12.0
   - [chainIOK](#chainiok)
   - [chainNullableK](#chainnullablek)
   - [chainOptionK](#chainoptionk)
+  - [flatMap](#flatmap)
   - [flatten](#flatten)
 - [traversing](#traversing)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
@@ -714,6 +715,8 @@ Added in v2.12.0
 
 ## chain
 
+Alias of `flatMap`.
+
 **Signature**
 
 ```ts
@@ -796,6 +799,19 @@ export declare const chainOptionK: <A, B>(f: (a: A) => O.Option<B>) => (ma: IOOp
 ```
 
 Added in v2.12.0
+
+## flatMap
+
+**Signature**
+
+```ts
+export declare const flatMap: {
+  <A, B>(f: (a: A) => IOOption<B>): (ma: IOOption<A>) => IOOption<B>
+  <A, B>(ma: IOOption<A>, f: (a: A) => IOOption<B>): IOOption<B>
+}
+```
+
+Added in v2.14.0
 
 ## flatten
 

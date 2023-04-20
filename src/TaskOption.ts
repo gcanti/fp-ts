@@ -287,7 +287,7 @@ export const of: <A>(a: A) => TaskOption<A> = some
 export const flatMap: {
   <A, B>(f: (a: A) => TaskOption<B>): (ma: TaskOption<A>) => TaskOption<B>
   <A, B>(ma: TaskOption<A>, f: (a: A) => TaskOption<B>): TaskOption<B>
-} = dual(2, OT.flatMap(T.Monad))
+} = /*#__PURE__*/ dual(2, OT.flatMap(T.Monad))
 
 /**
  * Alias of `flatMap`.

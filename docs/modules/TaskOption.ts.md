@@ -84,7 +84,6 @@ Added in v2.10.0
   - [matchEW](#matchew)
   - [matchW](#matchw)
 - [sequencing](#sequencing)
-  - [chain](#chain)
   - [chainEitherK](#chaineitherk)
   - [chainFirst](#chainfirst)
   - [chainFirstEitherK](#chainfirsteitherk)
@@ -94,6 +93,7 @@ Added in v2.10.0
   - [chainNullableK](#chainnullablek)
   - [chainOptionK](#chainoptionk)
   - [chainTaskK](#chaintaskk)
+  - [flatMap](#flatmap)
   - [flatten](#flatten)
 - [traversing](#traversing)
   - [sequenceArray](#sequencearray)
@@ -114,6 +114,7 @@ Added in v2.10.0
   - [ap](#ap)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
+  - [chain](#chain)
   - [zero](#zero)
 
 ---
@@ -826,16 +827,6 @@ Added in v2.10.0
 
 # sequencing
 
-## chain
-
-**Signature**
-
-```ts
-export declare const chain: <A, B>(f: (a: A) => TaskOption<B>) => (ma: TaskOption<A>) => TaskOption<B>
-```
-
-Added in v2.10.0
-
 ## chainEitherK
 
 **Signature**
@@ -930,6 +921,19 @@ export declare const chainTaskK: <A, B>(f: (a: A) => T.Task<B>) => (first: TaskO
 ```
 
 Added in v2.10.0
+
+## flatMap
+
+**Signature**
+
+```ts
+export declare const flatMap: {
+  <A, B>(f: (a: A) => TaskOption<B>): (ma: TaskOption<A>) => TaskOption<B>
+  <A, B>(ma: TaskOption<A>, f: (a: A) => TaskOption<B>): TaskOption<B>
+}
+```
+
+Added in v2.14.0
 
 ## flatten
 
@@ -1141,6 +1145,18 @@ Combine two effectful actions, keeping only the result of the second.
 
 ```ts
 export declare const apSecond: <B>(second: TaskOption<B>) => <A>(first: TaskOption<A>) => TaskOption<B>
+```
+
+Added in v2.10.0
+
+## chain
+
+Alias of `flatMap`.
+
+**Signature**
+
+```ts
+export declare const chain: <A, B>(f: (a: A) => TaskOption<B>) => (ma: TaskOption<A>) => TaskOption<B>
 ```
 
 Added in v2.10.0

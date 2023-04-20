@@ -20,8 +20,6 @@ Added in v2.0.0
 
 - [Extract](#extract)
   - [extract](#extract)
-- [Monad](#monad)
-  - [chain](#chain)
 - [constructors](#constructors)
   - [make](#make)
   - [of](#of)
@@ -47,7 +45,7 @@ Added in v2.0.0
   - [Comonad](#comonad)
   - [Foldable](#foldable)
   - [Functor](#functor)
-  - [Monad](#monad-1)
+  - [Monad](#monad)
   - [Pointed](#pointed)
   - [Traversable](#traversable)
   - [getEq](#geteq)
@@ -59,6 +57,8 @@ Added in v2.0.0
   - [Forest (type alias)](#forest-type-alias)
   - [Tree (interface)](#tree-interface)
 - [sequencing](#sequencing)
+  - [chain](#chain)
+  - [flatMap](#flatmap)
   - [flatten](#flatten)
 - [traversing](#traversing)
   - [sequence](#sequence)
@@ -93,20 +93,6 @@ export declare const extract: <A>(wa: Tree<A>) => A
 ```
 
 Added in v2.6.2
-
-# Monad
-
-## chain
-
-Composes computations in sequence, using the return value of one computation to determine the next computation.
-
-**Signature**
-
-```ts
-export declare const chain: <A, B>(f: (a: A) => Tree<B>) => (ma: Tree<A>) => Tree<B>
-```
-
-Added in v2.0.0
 
 # constructors
 
@@ -511,6 +497,31 @@ export interface Tree<A> {
 Added in v2.0.0
 
 # sequencing
+
+## chain
+
+Alias of `flatMap`.
+
+**Signature**
+
+```ts
+export declare const chain: <A, B>(f: (a: A) => Tree<B>) => (ma: Tree<A>) => Tree<B>
+```
+
+Added in v2.0.0
+
+## flatMap
+
+**Signature**
+
+```ts
+export declare const flatMap: {
+  <A, B>(f: (a: A) => Tree<B>): (ma: Tree<A>) => Tree<B>
+  <A, B>(ma: Tree<A>, f: (a: A) => Tree<B>): Tree<B>
+}
+```
+
+Added in v2.14.0
 
 ## flatten
 

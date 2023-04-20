@@ -157,6 +157,7 @@ Added in v2.0.0
   - [chainFirst](#chainfirst)
   - [chainFirstEitherK](#chainfirsteitherk)
   - [chainNullableK](#chainnullablek)
+  - [flatMap](#flatmap)
   - [flatten](#flatten)
 - [traversing](#traversing)
   - [sequence](#sequence)
@@ -1244,7 +1245,7 @@ Added in v2.0.0
 
 ## chain
 
-Composes computations in sequence, using the return value of one computation to determine the next computation.
+Alias of `flatMap`.
 
 **Signature**
 
@@ -1341,6 +1342,19 @@ assert.deepStrictEqual(
 ```
 
 Added in v2.9.0
+
+## flatMap
+
+**Signature**
+
+```ts
+export declare const flatMap: {
+  <A, B>(f: (a: A) => Option<B>): (ma: Option<A>) => Option<B>
+  <A, B>(ma: Option<A>, f: (a: A) => Option<B>): Option<B>
+}
+```
+
+Added in v2.14.0
 
 ## flatten
 

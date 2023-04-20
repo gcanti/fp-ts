@@ -57,6 +57,7 @@ Added in v2.0.0
   - [chainFirst](#chainfirst)
   - [chainFirstIOK](#chainfirstiok)
   - [chainIOK](#chainiok)
+  - [flatMap](#flatmap)
   - [flatten](#flatten)
 - [traversing](#traversing)
   - [sequenceArray](#sequencearray)
@@ -387,7 +388,7 @@ Added in v2.0.0
 
 ## chain
 
-Composes computations in sequence, using the return value of one computation to determine the next computation.
+Alias of `flatMap`.
 
 **Signature**
 
@@ -429,6 +430,19 @@ export declare const chainIOK: <A, B>(f: (a: A) => IO<B>) => (first: Task<A>) =>
 ```
 
 Added in v2.4.0
+
+## flatMap
+
+**Signature**
+
+```ts
+export declare const flatMap: {
+  <A, B>(f: (a: A) => Task<B>): (ma: Task<A>) => Task<B>
+  <A, B>(ma: Task<A>, f: (a: A) => Task<B>): Task<B>
+}
+```
+
+Added in v2.14.0
 
 ## flatten
 

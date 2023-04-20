@@ -110,6 +110,7 @@ Added in v2.5.0
   - [chainRecBreadthFirst](#chainrecbreadthfirst)
   - [chainRecDepthFirst](#chainrecdepthfirst)
   - [chainWithIndex](#chainwithindex)
+  - [flatMap](#flatmap)
   - [flatten](#flatten)
   - [traverseWithIndex](#traversewithindex)
 - [traversing](#traversing)
@@ -1249,34 +1250,12 @@ Added in v2.5.0
 
 ## chain
 
-Composes computations in sequence, using the return value of one computation to determine the next computation.
+Alias of `flatMap`.
 
 **Signature**
 
 ```ts
 export declare const chain: <A, B>(f: (a: A) => readonly B[]) => (ma: readonly A[]) => readonly B[]
-```
-
-**Example**
-
-```ts
-import * as RA from 'fp-ts/ReadonlyArray'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(
-  pipe(
-    [1, 2, 3],
-    RA.chain((n) => [`a${n}`, `b${n}`])
-  ),
-  ['a1', 'b1', 'a2', 'b2', 'a3', 'b3']
-)
-assert.deepStrictEqual(
-  pipe(
-    [1, 2, 3],
-    RA.chain(() => [])
-  ),
-  []
-)
 ```
 
 Added in v2.5.0
@@ -1345,6 +1324,43 @@ export declare const chainWithIndex: <A, B>(f: (i: number, a: A) => readonly B[]
 ```
 
 Added in v2.7.0
+
+## flatMap
+
+Composes computations in sequence, using the return value of one computation to determine the next computation.
+
+**Signature**
+
+```ts
+export declare const flatMap: {
+  <A, B>(f: (a: A) => readonly B[]): (ma: readonly A[]) => readonly B[]
+  <A, B>(ma: readonly A[], f: (a: A) => readonly B[]): readonly B[]
+}
+```
+
+**Example**
+
+```ts
+import * as RA from 'fp-ts/ReadonlyArray'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(
+  pipe(
+    [1, 2, 3],
+    RA.flatMap((n) => [`a${n}`, `b${n}`])
+  ),
+  ['a1', 'b1', 'a2', 'b2', 'a3', 'b3']
+)
+assert.deepStrictEqual(
+  pipe(
+    [1, 2, 3],
+    RA.flatMap(() => [])
+  ),
+  []
+)
+```
+
+Added in v2.14.0
 
 ## flatten
 

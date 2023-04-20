@@ -394,7 +394,7 @@ export const Applicative: Applicative1<URI> = {
 export const flatMap: {
   <A, B>(f: (a: A) => Option<B>): (ma: Option<A>) => Option<B>
   <A, B>(ma: Option<A>, f: (a: A) => Option<B>): Option<B>
-} = dual(2, <A, B>(ma: Option<A>, f: (a: A) => Option<B>): Option<B> => (isNone(ma) ? none : f(ma.value)))
+} = /*#__PURE__*/ dual(2, <A, B>(ma: Option<A>, f: (a: A) => Option<B>): Option<B> => (isNone(ma) ? none : f(ma.value)))
 
 /**
  * Alias of `flatMap`.

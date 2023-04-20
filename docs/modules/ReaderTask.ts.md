@@ -72,6 +72,7 @@ Added in v2.3.0
   - [chainReaderKW](#chainreaderkw)
   - [chainTaskK](#chaintaskk)
   - [chainW](#chainw)
+  - [flatMap](#flatmap)
   - [flatten](#flatten)
   - [flattenW](#flattenw)
 - [traversing](#traversing)
@@ -534,7 +535,7 @@ Added in v2.3.0
 
 ## chain
 
-Composes computations in sequence, using the return value of one computation to determine the next computation.
+Alias of `flatMap`.
 
 **Signature**
 
@@ -723,9 +724,7 @@ Added in v2.4.0
 
 ## chainW
 
-Less strict version of [`chain`](#chain).
-
-The `W` suffix (short for **W**idening) means that the environment types will be merged.
+Alias of `flatMap`.
 
 **Signature**
 
@@ -736,6 +735,19 @@ export declare const chainW: <R2, A, B>(
 ```
 
 Added in v2.6.7
+
+## flatMap
+
+**Signature**
+
+```ts
+export declare const flatMap: {
+  <A, R2, B>(f: (a: A) => ReaderTask<R2, B>): <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B>
+  <R1, A, R2, B>(ma: ReaderTask<R1, A>, f: (a: A) => ReaderTask<R2, B>): ReaderTask<R1 & R2, B>
+}
+```
+
+Added in v2.14.0
 
 ## flatten
 

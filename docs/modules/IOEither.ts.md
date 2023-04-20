@@ -104,6 +104,7 @@ Added in v2.0.0
   - [chainOptionK](#chainoptionk)
   - [chainOptionKW](#chainoptionkw)
   - [chainW](#chainw)
+  - [flatMap](#flatmap)
   - [flatten](#flatten)
   - [flattenW](#flattenw)
 - [traversing](#traversing)
@@ -917,7 +918,7 @@ Added in v2.10.0
 
 ## chain
 
-Composes computations in sequence, using the return value of one computation to determine the next computation.
+Alias of `flatMap`.
 
 **Signature**
 
@@ -1056,9 +1057,7 @@ Added in v2.13.2
 
 ## chainW
 
-Less strict version of [`chain`](#chain).
-
-The `W` suffix (short for **W**idening) means that the error types will be merged.
+Alias of `flatMap`.
 
 **Signature**
 
@@ -1069,6 +1068,19 @@ export declare const chainW: <E2, A, B>(
 ```
 
 Added in v2.6.0
+
+## flatMap
+
+**Signature**
+
+```ts
+export declare const flatMap: {
+  <A, E2, B>(f: (a: A) => IOEither<E2, B>): <E1>(ma: IOEither<E1, A>) => IOEither<E2 | E1, B>
+  <E1, A, E2, B>(ma: IOEither<E1, A>, f: (a: A) => IOEither<E2, B>): IOEither<E1 | E2, B>
+}
+```
+
+Added in v2.14.0
 
 ## flatten
 
