@@ -43,7 +43,7 @@ import {
   FromTask4,
   fromTaskK as fromTaskK_
 } from './FromTask'
-import { flow, identity, Lazy, pipe } from './function'
+import { dual, flow, identity, Lazy, pipe } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor4, let as let__ } from './Functor'
 import * as _ from './internal'
 import { IO } from './IO'
@@ -358,8 +358,6 @@ const _map: Monad4<URI>['map'] = (fa, f) => pipe(fa, map(f))
 /* istanbul ignore next */
 const _ap: Monad4<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
 /* istanbul ignore next */
-const _chain: Monad4<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
-/* istanbul ignore next */
 const _alt: <S, R, E, A>(
   fa: StateReaderTaskEither<S, R, E, A>,
   that: Lazy<StateReaderTaskEither<S, R, E, A>>
@@ -446,26 +444,38 @@ export const apW: <S, R2, E2, A>(
 export const of: <S, R = unknown, E = never, A = never>(a: A) => StateReaderTaskEither<S, R, E, A> = right
 
 /**
- * Composes computations in sequence, using the return value of one computation to determine the next computation.
+ * @category sequencing
+ * @since 2.14.0
+ */
+export const flatMap: {
+  <A, S, R2, E2, B>(f: (a: A) => StateReaderTaskEither<S, R2, E2, B>): <R1, E1>(
+    ma: StateReaderTaskEither<S, R1, E1, A>
+  ) => StateReaderTaskEither<S, R1 & R2, E1 | E2, B>
+  <S, R1, E1, A, R2, E2, B>(
+    ma: StateReaderTaskEither<S, R1, E1, A>,
+    f: (a: A) => StateReaderTaskEither<S, R2, E2, B>
+  ): StateReaderTaskEither<S, R1 & R2, E1 | E2, B>
+} = /*#__PURE__*/ dual(2, ST.flatMap(RTE.Monad))
+
+/**
+ * Alias of `flatMap`.
  *
  * @category sequencing
  * @since 2.0.0
  */
 export const chain: <S, R, E, A, B>(
   f: (a: A) => StateReaderTaskEither<S, R, E, B>
-) => (ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> = /*#__PURE__*/ ST.chain(RTE.Chain)
+) => (ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> = flatMap
 
 /**
- * Less strict version of [`chain`](#chain).
- *
- * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
+ * Alias of `flatMap`.
  *
  * @category sequencing
  * @since 2.6.0
  */
 export const chainW: <S, R2, E2, A, B>(
   f: (a: A) => StateReaderTaskEither<S, R2, E2, B>
-) => <R1, E1>(ma: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E1 | E2, B> = chain as any
+) => <R1, E1>(ma: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E1 | E2, B> = flatMap
 
 /**
  * Less strict version of [`flatten`](#flatten).
@@ -629,7 +639,7 @@ export const Chain: Chain4<URI> = {
   URI,
   map: _map,
   ap: _ap,
-  chain: _chain
+  chain: flatMap
 }
 
 /**
@@ -703,7 +713,7 @@ export const Monad: Monad4<URI> = {
   map: _map,
   ap: _ap,
   of,
-  chain: _chain
+  chain: flatMap
 }
 
 /**
@@ -715,7 +725,7 @@ export const MonadIO: MonadIO4<URI> = {
   map: _map,
   ap: _ap,
   of,
-  chain: _chain,
+  chain: flatMap,
   fromIO
 }
 
@@ -728,7 +738,7 @@ export const MonadTask: MonadTask4<URI> = {
   map: _map,
   ap: _ap,
   of,
-  chain: _chain,
+  chain: flatMap,
   fromIO,
   fromTask
 }
@@ -742,7 +752,7 @@ export const MonadThrow: MonadThrow4<URI> = {
   map: _map,
   ap: _ap,
   of,
-  chain: _chain,
+  chain: flatMap,
   throwError
 }
 
@@ -1282,7 +1292,7 @@ export const stateReaderTaskEither: Monad4<URI> & Bifunctor4<URI> & Alt4<URI> & 
   map: _map,
   of,
   ap: _ap,
-  chain: _chain,
+  chain: flatMap,
   bimap: _bimap,
   mapLeft: _mapLeft,
   alt: _alt,
@@ -1306,7 +1316,7 @@ export const stateReaderTaskEitherSeq: typeof stateReaderTaskEither = {
   map: _map,
   of,
   ap: _ap,
-  chain: _chain,
+  chain: flatMap,
   bimap: _bimap,
   mapLeft: _mapLeft,
   alt: _alt,
