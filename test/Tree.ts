@@ -43,6 +43,14 @@ describe('Tree', () => {
     U.deepStrictEqual(pipe(_.make('a'), _.apSecond(_.make('b'))), _.make('b'))
   })
 
+  it('flatMap', () => {
+    const f = (n: number) => _.of(n * 2)
+    const fa = _.make(1, [_.make(2), _.make(3)])
+    const expected = _.make(2, [_.make(4), _.make(6)])
+    U.deepStrictEqual(pipe(fa, _.flatMap(f)), expected)
+    U.deepStrictEqual(_.flatMap(fa, f), expected)
+  })
+
   it('chain', () => {
     const f = (n: number) => _.of(n * 2)
     const fa = _.make(1, [_.make(2), _.make(3)])

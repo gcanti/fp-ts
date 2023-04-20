@@ -32,6 +32,7 @@ high state of flux, you're at risk of it changing without notice.
   - `TaskEither`
   - `NonEmptyArray`
   - `ReadonlyNonEmptyArray`
+  - `Tree`
 
 # 2.13.2
 

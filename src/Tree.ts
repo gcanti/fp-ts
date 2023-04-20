@@ -15,7 +15,7 @@ import { Comonad1 } from './Comonad'
 import { Eq, fromEquals } from './Eq'
 import { Extend1 } from './Extend'
 import { Foldable1 } from './Foldable'
-import { identity, pipe } from './function'
+import { dual, identity, pipe } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1, let as let__ } from './Functor'
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 import * as _ from './internal'
@@ -261,8 +261,6 @@ const _ap: Monad1<URI>['ap'] = (fab, fa) =>
     chain((f) => pipe(fa, map(f)))
   )
 /* istanbul ignore next */
-const _chain = <A, B>(ma: Tree<A>, f: (a: A) => Tree<B>): Tree<B> => pipe(ma, chain(f))
-/* istanbul ignore next */
 const _reduce = <A, B>(fa: Tree<A>, b: B, f: (b: B, a: A) => B): B => pipe(fa, reduce(b, f))
 /* istanbul ignore next */
 const _foldMap: Foldable1<URI>['foldMap'] = (M) => {
@@ -285,21 +283,28 @@ const _traverse = <F>(F: ApplicativeHKT<F>): (<A, B>(ta: Tree<A>, f: (a: A) => H
 export const ap: <A>(fa: Tree<A>) => <B>(fab: Tree<(a: A) => B>) => Tree<B> = (fa) => (fab) => _ap(fab, fa)
 
 /**
- * Composes computations in sequence, using the return value of one computation to determine the next computation.
+ * @category sequencing
+ * @since 2.14.0
+ */
+export const flatMap: {
+  <A, B>(f: (a: A) => Tree<B>): (ma: Tree<A>) => Tree<B>
+  <A, B>(ma: Tree<A>, f: (a: A) => Tree<B>): Tree<B>
+} = /*#__PURE__*/ dual(2, <A, B>(ma: Tree<A>, f: (a: A) => Tree<B>): Tree<B> => {
+  const { value, forest } = f(ma.value)
+  const concat = A.getMonoid<Tree<B>>().concat
+  return {
+    value,
+    forest: concat(forest, ma.forest.map(chain(f)))
+  }
+})
+
+/**
+ * Alias of `flatMap`.
  *
- * @category Monad
+ * @category sequencing
  * @since 2.0.0
  */
-export const chain =
-  <A, B>(f: (a: A) => Tree<B>) =>
-  (ma: Tree<A>): Tree<B> => {
-    const { value, forest } = f(ma.value)
-    const concat = A.getMonoid<Tree<B>>().concat
-    return {
-      value,
-      forest: concat(forest, ma.forest.map(chain(f)))
-    }
-  }
+export const chain: <A, B>(f: (a: A) => Tree<B>) => (ma: Tree<A>) => Tree<B> = flatMap
 
 /**
  * @since 2.0.0
@@ -495,7 +500,7 @@ export const Chain: Chain1<URI> = {
   URI,
   map: _map,
   ap: _ap,
-  chain: _chain
+  chain: flatMap
 }
 
 /**
@@ -507,7 +512,7 @@ export const Monad: Monad1<URI> = {
   map: _map,
   ap: _ap,
   of,
-  chain: _chain
+  chain: flatMap
 }
 
 /**
@@ -630,7 +635,7 @@ export const tree: Monad1<URI> & Foldable1<URI> & Traversable1<URI> & Comonad1<U
   map: _map,
   of,
   ap: _ap,
-  chain: _chain,
+  chain: flatMap,
   reduce: _reduce,
   foldMap: _foldMap,
   reduceRight: _reduceRight,
