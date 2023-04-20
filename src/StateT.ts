@@ -142,7 +142,9 @@ export function chain<M>(
 export function flatMap<M extends URIS3>(
   M: Chain3<M>
 ): <S, R, E, A, B>(ma: StateT3<M, S, R, E, A>, f: (a: A) => StateT3<M, S, R, E, B>) => StateT<M, S, B>
+/** @internal */
 export function flatMap<M>(M: Chain<M>): <S, A, B>(ma: StateT<M, S, A>, f: (a: A) => StateT<M, S, B>) => StateT<M, S, B>
+/** @internal */
 export function flatMap<M>(
   M: Chain<M>
 ): <S, A, B>(ma: StateT<M, S, A>, f: (a: A) => StateT<M, S, B>) => StateT<M, S, B> {

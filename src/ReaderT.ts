@@ -145,9 +145,11 @@ export function chain<M>(
 export function flatMap<M extends URIS>(
   M: Chain1<M>
 ): <R, A, B>(ma: Reader<R, Kind<M, A>>, f: (a: A) => Reader<R, Kind<M, B>>) => Reader<R, Kind<M, B>>
+/** @internal */
 export function flatMap<M>(
   M: Chain<M>
 ): <R, A, B>(ma: Reader<R, HKT<M, A>>, f: (a: A) => Reader<R, HKT<M, B>>) => Reader<R, HKT<M, B>>
+/** @internal */
 export function flatMap<M>(
   M: Chain<M>
 ): <R, A, B>(ma: Reader<R, HKT<M, A>>, f: (a: A) => Reader<R, HKT<M, B>>) => Reader<R, HKT<M, B>> {

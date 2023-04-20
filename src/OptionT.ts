@@ -519,9 +519,11 @@ export function chain<M>(
 export function flatMap<M extends URIS>(
   M: Monad1<M>
 ): <A, B>(ma: Kind<M, Option<A>>, f: (a: A) => Kind<M, Option<B>>) => Kind<M, Option<B>>
+/** @internal */
 export function flatMap<M>(
   M: Monad<M>
 ): <A, B>(ma: HKT<M, Option<A>>, f: (a: A) => HKT<M, Option<B>>) => HKT<M, Option<B>>
+/** @internal */
 export function flatMap<M>(
   M: Monad<M>
 ): <A, B>(ma: HKT<M, Option<A>>, f: (a: A) => HKT<M, Option<B>>) => HKT<M, Option<B>> {
