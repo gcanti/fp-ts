@@ -16,6 +16,13 @@
 **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 2.14.0
+
+**New Feature**
+
+- `Either`
+  - add `flatMap`
+
 # 2.13.2
 
 - add `chainOptionKW`, #1846 (@DenisFrezzato)

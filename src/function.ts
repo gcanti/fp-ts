@@ -768,3 +768,24 @@ export const getEndomorphismMonoid = <A = never>(): Monoid<Endomorphism<A>> => (
   concat: (first, second) => flow(first, second),
   empty: identity
 })
+
+/** @internal */
+export const dual: {
+  <DataLast extends (...args: Array<any>) => any, DataFirst extends (...args: Array<any>) => any>(
+    arity: Parameters<DataFirst>['length'],
+    body: DataFirst
+  ): DataLast & DataFirst
+  <DataLast extends (...args: Array<any>) => any, DataFirst extends (...args: Array<any>) => any>(
+    isDataFirst: (args: IArguments) => boolean,
+    body: DataFirst
+  ): DataLast & DataFirst
+} = (arity, body) => {
+  const isDataFirst: (args: IArguments) => boolean = typeof arity === 'number' ? (args) => args.length >= arity : arity
+  return function (this: any) {
+    const args = Array.from(arguments)
+    if (isDataFirst(arguments)) {
+      return body.apply(this, args)
+    }
+    return (self: any) => body(self, ...args)
+  }
+}
