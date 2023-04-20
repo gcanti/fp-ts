@@ -160,9 +160,9 @@ export const right: <E = never, A = never>(a: A) => Either<E, A> = _.right
  * @since 2.14.0
  */
 export const flatMap: {
-  <E2, A, B>(f: (a: A) => Either<E2, B>): <E1>(ma: Either<E1, A>) => Either<E1 | E2, B>
+  <A, E2, B>(f: (a: A) => Either<E2, B>): <E1>(ma: Either<E1, A>) => Either<E1 | E2, B>
   <E1, A, E2, B>(ma: Either<E1, A>, f: (a: A) => Either<E2, B>): Either<E1 | E2, B>
-} = dual(
+} = /*#__PURE__*/ dual(
   2,
   <E1, A, E2, B>(ma: Either<E1, A>, f: (a: A) => Either<E2, B>): Either<E1 | E2, B> => (isLeft(ma) ? ma : f(ma.right))
 )
@@ -532,29 +532,7 @@ export const Applicative: Applicative2<URI> = {
 }
 
 /**
- * Less strict version of [`chain`](#chain).
- *
- * The `W` suffix (short for **W**idening) means that the error types will be merged.
- *
- * @example
- * import * as E from 'fp-ts/Either'
- * import { pipe } from 'fp-ts/function'
- *
- * const e1: E.Either<string, number> = E.right(1)
- * const e2: E.Either<number, number> = E.right(2)
- *
- * export const result1 = pipe(
- *   // @ts-expect-error
- *   e1,
- *   E.chain(() => e2)
- * )
- *
- * // merged error types -----v-------------v
- * // const result2: E.Either<string | number, number>
- * export const result2 = pipe(
- *   e1, // no error
- *   E.chainW(() => e2)
- * )
+ * Alias of `flatMap`.
  *
  * @category sequencing
  * @since 2.6.0
@@ -562,7 +540,7 @@ export const Applicative: Applicative2<URI> = {
 export const chainW: <E2, A, B>(f: (a: A) => Either<E2, B>) => <E1>(ma: Either<E1, A>) => Either<E2 | E1, B> = flatMap
 
 /**
- * Composes computations in sequence, using the return value of one computation to determine the next computation.
+ * Alias of `flatMap`.
  *
  * @category sequencing
  * @since 2.0.0
