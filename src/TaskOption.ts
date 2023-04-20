@@ -28,7 +28,7 @@ import {
   FromTask1,
   fromTaskK as fromTaskK_
 } from './FromTask'
-import { flow, identity, Lazy, pipe, SK } from './function'
+import { dual, flow, identity, Lazy, pipe, SK } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1, let as let__ } from './Functor'
 import * as _ from './internal'
 import { IO } from './IO'
@@ -282,11 +282,19 @@ export const of: <A>(a: A) => TaskOption<A> = some
 
 /**
  * @category sequencing
+ * @since 2.14.0
+ */
+export const flatMap: {
+  <A, B>(f: (a: A) => TaskOption<B>): (ma: TaskOption<A>) => TaskOption<B>
+  <A, B>(ma: TaskOption<A>, f: (a: A) => TaskOption<B>): TaskOption<B>
+} = dual(2, OT.flatMap(T.Monad))
+
+/**
+ * Alias of `flatMap`.
+ *
  * @since 2.10.0
  */
-export const chain: <A, B>(f: (a: A) => TaskOption<B>) => (ma: TaskOption<A>) => TaskOption<B> = /*#__PURE__*/ OT.chain(
-  T.Monad
-)
+export const chain: <A, B>(f: (a: A) => TaskOption<B>) => (ma: TaskOption<A>) => TaskOption<B> = flatMap
 
 /**
  * @category sequencing
@@ -379,8 +387,6 @@ export const partitionMap: <A, B, C>(
 
 const _map: Functor1<URI>['map'] = (fa, f) => pipe(fa, map(f))
 const _ap: Apply1<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
-/* istanbul ignore next */
-const _chain: Monad1<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 /* istanbul ignore next */
 const _alt: Alt1<URI>['alt'] = (fa, that) => pipe(fa, alt(that))
 /* istanbul ignore next */
@@ -514,7 +520,7 @@ export const Chain: Chain1<URI> = {
   URI,
   map: _map,
   ap: _ap,
-  chain: _chain
+  chain: flatMap
 }
 
 /**
@@ -574,7 +580,7 @@ export const Monad: Monad1<URI> = {
   map: _map,
   ap: _ap,
   of,
-  chain: _chain
+  chain: flatMap
 }
 
 /**
@@ -586,7 +592,7 @@ export const MonadIO: MonadIO1<URI> = {
   map: _map,
   ap: _ap,
   of,
-  chain: _chain,
+  chain: flatMap,
   fromIO
 }
 
@@ -599,7 +605,7 @@ export const MonadTask: MonadTask1<URI> = {
   map: _map,
   ap: _ap,
   of,
-  chain: _chain,
+  chain: flatMap,
   fromIO,
   fromTask
 }

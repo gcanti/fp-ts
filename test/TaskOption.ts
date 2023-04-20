@@ -24,6 +24,20 @@ describe('TaskOption', () => {
     U.deepStrictEqual(await pipe(_.none, _.ap(_.none))(), O.none)
   })
 
+  it('flatMap', async () => {
+    const f = (n: number) => _.some(n * 2)
+    const g = () => _.none
+    U.deepStrictEqual(await pipe(_.some(1), _.flatMap(f))(), O.some(2))
+    U.deepStrictEqual(await pipe(_.none, _.flatMap(f))(), O.none)
+    U.deepStrictEqual(await pipe(_.some(1), _.flatMap(g))(), O.none)
+    U.deepStrictEqual(await pipe(_.none, _.flatMap(g))(), O.none)
+
+    U.deepStrictEqual(await _.flatMap(_.some(1), f)(), O.some(2))
+    U.deepStrictEqual(await _.flatMap(_.none, f)(), O.none)
+    U.deepStrictEqual(await _.flatMap(_.some(1), g)(), O.none)
+    U.deepStrictEqual(await _.flatMap(_.none, g)(), O.none)
+  })
+
   it('chain', async () => {
     const f = (n: number) => _.some(n * 2)
     const g = () => _.none
