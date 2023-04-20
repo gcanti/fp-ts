@@ -44,7 +44,7 @@ import { Category2 } from './Category'
 import { bind as bind_, Chain2, chainFirst as chainFirst_ } from './Chain'
 import { Choice2 } from './Choice'
 import * as E from './Either'
-import { constant, flow, identity, pipe } from './function'
+import { constant, dual, flow, identity, pipe } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor2, let as let__ } from './Functor'
 import * as _ from './internal'
 import { Monad2 } from './Monad'
@@ -150,8 +150,6 @@ export const asksReader: <R, A>(f: (r: R) => Reader<R, A>) => Reader<R, A> = ask
 const _map: Monad2<URI>['map'] = (fa, f) => pipe(fa, map(f))
 /* istanbul ignore next */
 const _ap: Monad2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
-/* istanbul ignore next */
-const _chain: Monad2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 const _compose: Category2<URI>['compose'] = (bc, ab) => pipe(bc, compose(ab))
 const _promap: Profunctor2<URI>['promap'] = (fea, f, g) => pipe(fea, promap(f, g))
 
@@ -187,24 +185,34 @@ export const ap: <R, A>(fa: Reader<R, A>) => <B>(fab: Reader<R, (a: A) => B>) =>
 export const of: <R = unknown, A = never>(a: A) => Reader<R, A> = constant
 
 /**
- * Less strict version of [`chain`](#chain).
- *
- * The `W` suffix (short for **W**idening) means that the environment types will be merged.
+ * @category sequencing
+ * @since 2.14.0
+ */
+export const flatMap: {
+  <A, R2, B>(f: (a: A) => Reader<R2, B>): <R1>(ma: Reader<R1, A>) => Reader<R1 & R2, B>
+  <R1, A, R2, B>(ma: Reader<R1, A>, f: (a: A) => Reader<R2, B>): Reader<R1 & R2, B>
+} = /*#__PURE__*/ dual(
+  2,
+  <R1, A, R2, B>(ma: Reader<R1, A>, f: (a: A) => Reader<R2, B>): Reader<R1 & R2, B> =>
+    (r) =>
+      f(ma(r))(r)
+)
+
+/**
+ * Alias of `flatMap`.
  *
  * @category sequencing
  * @since 2.6.0
  */
-export const chainW: <R2, A, B>(f: (a: A) => Reader<R2, B>) => <R1>(ma: Reader<R1, A>) => Reader<R1 & R2, B> =
-  (f) => (fa) => (r) =>
-    f(fa(r))(r)
+export const chainW: <R2, A, B>(f: (a: A) => Reader<R2, B>) => <R1>(ma: Reader<R1, A>) => Reader<R1 & R2, B> = flatMap
 
 /**
- * Composes computations in sequence, using the return value of one computation to determine the next computation.
+ * Alias of `flatMap`.
  *
  * @category sequencing
  * @since 2.0.0
  */
-export const chain: <A, R, B>(f: (a: A) => Reader<R, B>) => (ma: Reader<R, A>) => Reader<R, B> = chainW
+export const chain: <A, R, B>(f: (a: A) => Reader<R, B>) => (ma: Reader<R, A>) => Reader<R, B> = flatMap
 
 /**
  * Less strict version of [`flatten`](#flatten).
@@ -372,7 +380,7 @@ export const Chain: Chain2<URI> = {
   URI,
   map: _map,
   ap: _ap,
-  chain: _chain
+  chain: flatMap
 }
 
 /**
@@ -384,7 +392,7 @@ export const Monad: Monad2<URI> = {
   map: _map,
   of,
   ap: _ap,
-  chain: _chain
+  chain: flatMap
 }
 
 /**
@@ -602,7 +610,7 @@ export const reader: Monad2<URI> & Profunctor2<URI> & Category2<URI> & Strong2<U
   map: _map,
   of,
   ap: _ap,
-  chain: _chain,
+  chain: flatMap,
   promap: _promap,
   compose: _compose,
   id,
