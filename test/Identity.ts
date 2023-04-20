@@ -25,6 +25,12 @@ describe('Identity', () => {
       U.deepStrictEqual(pipe('a', _.apSecond('b')), 'b')
     })
 
+    it('flatMap', () => {
+      const f = (n: number) => n * 2
+      U.deepStrictEqual(pipe(1, _.flatMap(f)), 2)
+      U.deepStrictEqual(_.flatMap(1, f), 2)
+    })
+
     it('chain', () => {
       const f = (n: number) => n * 2
       U.deepStrictEqual(pipe(1, _.chain(f)), 2)
