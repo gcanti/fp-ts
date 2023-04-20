@@ -33,6 +33,7 @@ high state of flux, you're at risk of it changing without notice.
   - `NonEmptyArray`
   - `ReadonlyNonEmptyArray`
   - `Tree`
+  - `Array`
 
 # 2.13.2
 
