@@ -1,4 +1,5 @@
 import * as assert from 'assert'
+
 import { Apply, Apply1, Apply2, Apply2C, Apply3, Apply4, sequenceT } from '../src/Apply'
 import { FromTask, FromTask1, FromTask2, FromTask3, FromTask4 } from '../src/FromTask'
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from '../src/HKT'

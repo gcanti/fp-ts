@@ -1,9 +1,9 @@
-import * as U from './util'
 import { sequenceS, sequenceT } from '../src/Apply'
-import * as RA from '../src/ReadonlyArray'
 import * as E from '../src/Either'
-import * as O from '../src/Option'
 import { pipe } from '../src/function'
+import * as O from '../src/Option'
+import * as RA from '../src/ReadonlyArray'
+import * as U from './util'
 
 describe('Apply', () => {
   it('sequenceT', () => {

@@ -1,10 +1,11 @@
-import * as ast from 'ts-morph'
-import * as RA from '../src/ReadonlyArray'
-import { pipe } from '../src/function'
 import * as glob from 'glob'
 import * as path from 'path'
-import * as O from '../src/Option'
+import * as ast from 'ts-morph'
+
+import { pipe } from '../src/function'
 import * as M from '../src/Monoid'
+import * as O from '../src/Option'
+import * as RA from '../src/ReadonlyArray'
 import * as string from '../src/string'
 
 // -------------------------------------------------------------------------------------

@@ -26,9 +26,9 @@ import {
 } from './Applicative'
 import { getApplySemigroup } from './Apply'
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
-import { Zero, Zero1, Zero2, Zero2C, Zero3, Zero3C, Zero4 } from './Zero'
 import { Monoid } from './Monoid'
 import { Semigroup } from './Semigroup'
+import { Zero, Zero1, Zero2, Zero2C, Zero3, Zero3C, Zero4 } from './Zero'
 
 // -------------------------------------------------------------------------------------
 // model

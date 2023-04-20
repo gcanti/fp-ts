@@ -1,4 +1,5 @@
 import * as path from 'path'
+
 import * as E from '../src/Either'
 import { pipe } from '../src/function'
 import * as J from '../src/Json'

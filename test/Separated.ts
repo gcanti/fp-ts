@@ -1,7 +1,8 @@
 import * as fc from 'fast-check'
 import { isDeepStrictEqual } from 'util'
-import * as _ from '../src/Separated'
+
 import { pipe } from '../src/function'
+import * as _ from '../src/Separated'
 
 describe('Separated', () => {
   describe('pipeables', () => {

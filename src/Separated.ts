@@ -11,9 +11,9 @@
  * @since 2.10.0
  */
 
+import { Bifunctor2 } from './Bifunctor'
 import { pipe } from './function'
 import { flap as flap_, Functor2 } from './Functor'
-import { Bifunctor2 } from './Bifunctor'
 
 // -------------------------------------------------------------------------------------
 // model

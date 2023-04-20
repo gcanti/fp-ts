@@ -1,7 +1,8 @@
-import * as TE from '../src/TaskEither'
-import { flow } from '../src/function'
 import * as fs from 'fs'
 import G from 'glob'
+
+import { flow } from '../src/function'
+import * as TE from '../src/TaskEither'
 
 export interface FileSystem {
   readonly readFile: (path: string) => TE.TaskEither<Error, string>

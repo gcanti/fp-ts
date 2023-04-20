@@ -1,16 +1,16 @@
-import * as U from './util'
 import { sequenceT } from '../src/Apply'
 import * as E from '../src/Either'
 import { constVoid, identity, pipe, SK } from '../src/function'
 import * as I from '../src/IO'
 import * as _ from '../src/IOEither'
+import * as N from '../src/number'
 import * as O from '../src/Option'
 import { pipeable } from '../src/pipeable'
 import * as RA from '../src/ReadonlyArray'
-import * as N from '../src/number'
-import * as S from '../src/string'
-import { left, right } from '../src/Separated'
 import { ReadonlyNonEmptyArray } from '../src/ReadonlyNonEmptyArray'
+import { left, right } from '../src/Separated'
+import * as S from '../src/string'
+import * as U from './util'
 
 describe('IOEither', () => {
   describe('pipeables', () => {

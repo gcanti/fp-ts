@@ -1,7 +1,7 @@
-import * as U from './util'
 import { pipe, tuple } from '../src/function'
 import * as S from '../src/string'
 import * as _ from '../src/Writer'
+import * as U from './util'
 
 describe('Writer', () => {
   describe('pipeables', () => {

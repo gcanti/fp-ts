@@ -2,9 +2,9 @@
  * @since 2.0.0
  */
 import { Comonad2C } from './Comonad'
+import { pipe } from './function'
 import { flap as flap_, Functor2 } from './Functor'
 import { Monoid } from './Monoid'
-import { pipe } from './function'
 
 // -------------------------------------------------------------------------------------
 // model

@@ -22,8 +22,9 @@ import { bind as bind_, Chain1, chainFirst as chainFirst_ } from './Chain'
 import { chainFirstIOK as chainFirstIOK_, chainIOK as chainIOK_, FromIO1, fromIOK as fromIOK_ } from './FromIO'
 import { FromTask1 } from './FromTask'
 import { identity, pipe } from './function'
-import { let as let__, bindTo as bindTo_, flap as flap_, Functor1 } from './Functor'
+import { bindTo as bindTo_, flap as flap_, Functor1,let as let__ } from './Functor'
 import * as _ from './internal'
+import { IO } from './IO'
 import { Monad1 } from './Monad'
 import { MonadIO1 } from './MonadIO'
 import { MonadTask1 } from './MonadTask'
@@ -32,7 +33,6 @@ import { NonEmptyArray } from './NonEmptyArray'
 import { Pointed1 } from './Pointed'
 import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import { Semigroup } from './Semigroup'
-import { IO } from './IO'
 
 // -------------------------------------------------------------------------------------
 // model

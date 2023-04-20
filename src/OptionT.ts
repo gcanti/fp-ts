@@ -2,9 +2,9 @@
  * @since 2.0.0
  */
 import {
+  ApplicativeComposition2C1,
   ApplicativeComposition11,
   ApplicativeComposition21,
-  ApplicativeComposition2C1,
   ApplicativeCompositionHKT1
 } from './Applicative'
 import { ap as ap_, Apply, Apply1, Apply2, Apply2C, Apply3, Apply3C, Apply4 } from './Apply'

@@ -12,7 +12,7 @@ import { Predicate } from './Predicate'
 import * as RS from './ReadonlySet'
 import { Refinement } from './Refinement'
 import { Semigroup } from './Semigroup'
-import { separated, Separated } from './Separated'
+import { Separated,separated } from './Separated'
 import { Show } from './Show'
 
 /**

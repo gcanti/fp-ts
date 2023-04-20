@@ -1,10 +1,10 @@
-import * as U from './util'
 import { left, right } from '../src/Either'
-import * as N from '../src/number'
 import { identity, pipe } from '../src/function'
 import * as _ from '../src/Identity'
+import * as N from '../src/number'
 import * as O from '../src/Option'
 import * as S from '../src/string'
+import * as U from './util'
 
 describe('Identity', () => {
   describe('pipeables', () => {

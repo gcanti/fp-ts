@@ -1,4 +1,5 @@
 import * as assert from 'assert'
+
 import * as A from '../src/Array'
 import * as E from '../src/Either'
 import { pipe, SK, tuple } from '../src/function'

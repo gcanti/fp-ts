@@ -1,11 +1,12 @@
-import * as U from './util'
+import * as assert from 'assert'
+
 import { pipe, SK } from '../src/function'
 import * as I from '../src/IO'
 import * as RA from '../src/ReadonlyArray'
-import * as _ from '../src/Task'
-import * as assert from 'assert'
-import * as S from '../src/string'
 import * as RNEA from '../src/ReadonlyNonEmptyArray'
+import * as S from '../src/string'
+import * as _ from '../src/Task'
+import * as U from './util'
 
 const delayReject =
   <A>(n: number, a: A): _.Task<A> =>

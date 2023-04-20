@@ -3,11 +3,11 @@
  */
 import * as E from './Eq'
 import * as M from './Monoid'
-import * as S from './Semigroup'
 import * as O from './Ord'
-import * as Sh from './Show'
+import { isNonEmpty,ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import { Refinement } from './Refinement'
-import { ReadonlyNonEmptyArray, isNonEmpty } from './ReadonlyNonEmptyArray'
+import * as S from './Semigroup'
+import * as Sh from './Show'
 
 // -------------------------------------------------------------------------------------
 // instances

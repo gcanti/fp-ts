@@ -1,15 +1,16 @@
-import * as U from './util'
-import * as RA from '../src/ReadonlyArray'
+import * as assert from 'assert'
+
 import * as C from '../src/Const'
 import * as E from '../src/Either'
+import { pipe } from '../src/function'
 import { fold } from '../src/Monoid'
+import * as N from '../src/number'
 import * as O from '../src/Option'
 import { pipeable } from '../src/pipeable'
 import * as R from '../src/Reader'
-import { pipe } from '../src/function'
-import * as N from '../src/number'
+import * as RA from '../src/ReadonlyArray'
 import { separated } from '../src/Separated'
-import * as assert from 'assert'
+import * as U from './util'
 
 describe('pipeable', () => {
   it('{}', () => {

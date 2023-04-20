@@ -1,6 +1,6 @@
-import * as U from './util'
 import * as _ from '../src/Field'
 import * as N from '../src/number'
+import * as U from './util'
 
 describe('Field', () => {
   it('gcd', () => {
