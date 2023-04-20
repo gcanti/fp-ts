@@ -81,9 +81,10 @@ import {
   chainEitherK as chainEitherK_,
   chainFirstEitherK as chainFirstEitherK_,
   FromEither1,
-  fromEitherK as fromEitherK_} from './FromEither'
+  fromEitherK as fromEitherK_
+} from './FromEither'
 import { constNull, constUndefined, flow, identity, Lazy, pipe } from './function'
-import { bindTo as bindTo_, flap as flap_, Functor1,let as let__ } from './Functor'
+import { bindTo as bindTo_, flap as flap_, Functor1, let as let__ } from './Functor'
 import { HKT } from './HKT'
 import * as _ from './internal'
 import { Monad1 } from './Monad'
@@ -100,7 +101,7 @@ import { Separated, separated } from './Separated'
 import { Show } from './Show'
 import { PipeableTraverse1, Traversable1 } from './Traversable'
 import { PipeableWilt1, PipeableWither1, wiltDefault, Witherable1, witherDefault } from './Witherable'
-import { guard as guard_,Zero1 } from './Zero'
+import { guard as guard_, Zero1 } from './Zero'
 
 // -------------------------------------------------------------------------------------
 // model

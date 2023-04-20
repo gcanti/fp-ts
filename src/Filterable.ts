@@ -46,7 +46,7 @@ import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT
 import { getLeft, getRight, Option } from './Option'
 import { not, Predicate } from './Predicate'
 import { Refinement } from './Refinement'
-import { Separated,separated } from './Separated'
+import { Separated, separated } from './Separated'
 
 // -------------------------------------------------------------------------------------
 // model

@@ -32,7 +32,8 @@ import {
   fromEitherK as fromEitherK_,
   fromOption as fromOption_,
   fromOptionK as fromOptionK_,
-  fromPredicate as fromPredicate_} from './FromEither'
+  fromPredicate as fromPredicate_
+} from './FromEither'
 import {
   ask as ask_,
   asks as asks_,
@@ -42,7 +43,7 @@ import {
   fromReaderK as fromReaderK_
 } from './FromReader'
 import { flow, identity, Lazy, pipe, SK } from './function'
-import { bindTo as bindTo_, flap as flap_, Functor3,let as let__ } from './Functor'
+import { bindTo as bindTo_, flap as flap_, Functor3, let as let__ } from './Functor'
 import * as _ from './internal'
 import { Monad3, Monad3C } from './Monad'
 import { MonadThrow3, MonadThrow3C } from './MonadThrow'

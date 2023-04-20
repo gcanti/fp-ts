@@ -9,7 +9,8 @@ import {
   Filterable2C,
   Filterable3,
   Filterable3C,
-  Filterable4} from './Filterable'
+  Filterable4
+} from './Filterable'
 import {
   FunctorWithIndex,
   FunctorWithIndex1,
@@ -17,8 +18,9 @@ import {
   FunctorWithIndex2C,
   FunctorWithIndex3,
   FunctorWithIndex3C,
-  FunctorWithIndex4} from './FunctorWithIndex'
-import { HKT, Kind, Kind2, Kind3, Kind4,URIS, URIS2, URIS3, URIS4 } from './HKT'
+  FunctorWithIndex4
+} from './FunctorWithIndex'
+import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 import { Option } from './Option'
 import { Separated } from './Separated'
 
