@@ -83,7 +83,7 @@ import {
   FromEither1,
   fromEitherK as fromEitherK_
 } from './FromEither'
-import { constNull, constUndefined, flow, identity, Lazy, pipe } from './function'
+import { constNull, constUndefined, dual, flow, identity, Lazy, pipe } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1, let as let__ } from './Functor'
 import { HKT } from './HKT'
 import * as _ from './internal'
@@ -203,7 +203,6 @@ export const getRight = <E, A>(ma: Either<E, A>): Option<A> => (ma._tag === 'Lef
 
 const _map: Monad1<URI>['map'] = (fa, f) => pipe(fa, map(f))
 const _ap: Monad1<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
-const _chain: Monad1<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 const _reduce: Foldable1<URI>['reduce'] = (fa, b, f) => pipe(fa, reduce(b, f))
 const _foldMap: Foldable1<URI>['foldMap'] = (M) => {
   const foldMapM = foldMap(M)
@@ -389,13 +388,21 @@ export const Applicative: Applicative1<URI> = {
 }
 
 /**
- * Composes computations in sequence, using the return value of one computation to determine the next computation.
+ * @category sequencing
+ * @since 2.14.0
+ */
+export const flatMap: {
+  <A, B>(f: (a: A) => Option<B>): (ma: Option<A>) => Option<B>
+  <A, B>(ma: Option<A>, f: (a: A) => Option<B>): Option<B>
+} = dual(2, <A, B>(ma: Option<A>, f: (a: A) => Option<B>): Option<B> => (isNone(ma) ? none : f(ma.value)))
+
+/**
+ * Alias of `flatMap`.
  *
  * @category sequencing
  * @since 2.0.0
  */
-export const chain: <A, B>(f: (a: A) => Option<B>) => (ma: Option<A>) => Option<B> = (f) => (ma) =>
-  isNone(ma) ? none : f(ma.value)
+export const chain: <A, B>(f: (a: A) => Option<B>) => (ma: Option<A>) => Option<B> = flatMap
 
 /**
  * @category instances
@@ -405,7 +412,7 @@ export const Chain: Chain1<URI> = {
   URI,
   map: _map,
   ap: _ap,
-  chain: _chain
+  chain: flatMap
 }
 
 /**
@@ -417,7 +424,7 @@ export const Monad: Monad1<URI> = {
   map: _map,
   ap: _ap,
   of,
-  chain: _chain
+  chain: flatMap
 }
 
 /**
@@ -749,7 +756,7 @@ export const MonadThrow: MonadThrow1<URI> = {
   map: _map,
   ap: _ap,
   of,
-  chain: _chain,
+  chain: flatMap,
   throwError
 }
 
@@ -1369,7 +1376,7 @@ export const option: Monad1<URI> &
   map: _map,
   of,
   ap: _ap,
-  chain: _chain,
+  chain: flatMap,
   reduce: _reduce,
   foldMap: _foldMap,
   reduceRight: _reduceRight,

@@ -37,6 +37,7 @@ high state of flux, you're at risk of it changing without notice.
   - `Identity`
   - `IO`
   - `IOOption`
+  - `Option`
 
 # 2.13.2
 
