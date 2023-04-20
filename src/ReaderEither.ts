@@ -42,7 +42,7 @@ import {
   FromReader3,
   fromReaderK as fromReaderK_
 } from './FromReader'
-import { flow, identity, Lazy, pipe, SK } from './function'
+import { dual, flow, identity, Lazy, pipe, SK } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor3, let as let__ } from './Functor'
 import * as _ from './internal'
 import { Monad3, Monad3C } from './Monad'
@@ -296,8 +296,6 @@ const _mapLeft: Bifunctor3<URI>['mapLeft'] = (fa, f) => pipe(fa, mapLeft(f))
 /* istanbul ignore next */
 const _ap: Monad3<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
 /* istanbul ignore next */
-const _chain: Monad3<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
-/* istanbul ignore next */
 const _alt: Alt3<URI>['alt'] = (fa, that) => pipe(fa, alt(that))
 
 /**
@@ -355,26 +353,39 @@ export const apW: <R2, E2, A>(
 export const of: <R = unknown, E = never, A = never>(a: A) => ReaderEither<R, E, A> = right
 
 /**
- * Composes computations in sequence, using the return value of one computation to determine the next computation.
+ * @category sequencing
+ * @since 2.14.0
+ */
+export const flatMap: {
+  <A, R2, E2, B>(f: (a: A) => ReaderEither<R2, E2, B>): <R1, E1>(
+    ma: ReaderEither<R1, E1, A>
+  ) => ReaderEither<R1 & R2, E1 | E2, B>
+  <R1, E1, A, R2, E2, B>(ma: ReaderEither<R1, E1, A>, f: (a: A) => ReaderEither<R2, E2, B>): ReaderEither<
+    R1 & R2,
+    E1 | E2,
+    B
+  >
+} = /*#__PURE__*/ dual(2, ET.flatMap(R.Monad))
+
+/**
+ * Alias of `flatMap`.
  *
  * @category sequencing
  * @since 2.0.0
  */
 export const chain: <R, E, A, B>(
   f: (a: A) => ReaderEither<R, E, B>
-) => (ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B> = /*#__PURE__*/ ET.chain(R.Monad)
+) => (ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B> = flatMap
 
 /**
- * Less strict version of [`chain`](#chain).
- *
- * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
+ * Alias of `flatMap`.
  *
  * @category sequencing
  * @since 2.6.0
  */
 export const chainW: <R2, E2, A, B>(
   f: (a: A) => ReaderEither<R2, E2, B>
-) => <R1, E1>(ma: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, B> = chain as any
+) => <R1, E1>(ma: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, B> = flatMap
 
 /**
  * Less strict version of [`flatten`](#flatten).
@@ -606,7 +617,7 @@ export const Chain: Chain3<URI> = {
   URI,
   map: _map,
   ap: _ap,
-  chain: _chain
+  chain: flatMap
 }
 
 /**
@@ -618,7 +629,7 @@ export const Monad: Monad3<URI> = {
   map: _map,
   ap: _ap,
   of,
-  chain: _chain
+  chain: flatMap
 }
 
 /**
@@ -746,7 +757,7 @@ export const MonadThrow: MonadThrow3<URI> = {
   map: _map,
   ap: _ap,
   of,
-  chain: _chain,
+  chain: flatMap,
   throwError
 }
 
@@ -1039,7 +1050,7 @@ export const readerEither: Monad3<URI> & Bifunctor3<URI> & Alt3<URI> & MonadThro
   map: _map,
   of,
   ap: _ap,
-  chain: _chain,
+  chain: flatMap,
   alt: _alt,
   throwError: left
 }
@@ -1092,7 +1103,7 @@ export function getReaderValidation<E>(
     map: _map,
     ap: applicativeReaderValidation.ap,
     of,
-    chain: _chain,
+    chain: flatMap,
     bimap: _bimap,
     mapLeft: _mapLeft,
     alt: altReaderValidation.alt,
