@@ -1,6 +1,7 @@
 {
   "typescript.tsdk": "./node_modules/typescript/lib",
-  "eslint.validate": ["markdown", "javascript", "typescript"],
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "eslint.validate": ["typescript"],
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
   },

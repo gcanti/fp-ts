@@ -86,7 +86,7 @@ import {
   fromOptionK as fromOptionK_,
   fromPredicate as fromPredicate_
 } from './FromEither'
-import { flow, identity, Lazy, pipe } from './function'
+import { dual, flow, identity, Lazy, pipe } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor2, let as let__ } from './Functor'
 import { HKT } from './HKT'
 import * as _ from './internal'
@@ -155,10 +155,20 @@ export const left: <E = never, A = never>(e: E) => Either<E, A> = _.left
  */
 export const right: <E = never, A = never>(a: A) => Either<E, A> = _.right
 
+/**
+ * @category sequencing
+ * @since 2.14.0
+ */
+export const flatMap: {
+  <E2, A, B>(f: (a: A) => Either<E2, B>): <E1>(ma: Either<E1, A>) => Either<E1 | E2, B>
+  <E1, A, E2, B>(ma: Either<E1, A>, f: (a: A) => Either<E2, B>): Either<E1 | E2, B>
+} = dual(
+  2,
+  <E1, A, E2, B>(ma: Either<E1, A>, f: (a: A) => Either<E2, B>): Either<E1 | E2, B> => (isLeft(ma) ? ma : f(ma.right))
+)
+
 const _map: Monad2<URI>['map'] = (fa, f) => pipe(fa, map(f))
 const _ap: Monad2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
-/* istanbul ignore next */
-const _chain: Monad2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 /* istanbul ignore next */
 const _reduce: Foldable2<URI>['reduce'] = (fa, b, f) => pipe(fa, reduce(b, f))
 /* istanbul ignore next */
@@ -549,10 +559,7 @@ export const Applicative: Applicative2<URI> = {
  * @category sequencing
  * @since 2.6.0
  */
-export const chainW =
-  <E2, A, B>(f: (a: A) => Either<E2, B>) =>
-  <E1>(ma: Either<E1, A>): Either<E1 | E2, B> =>
-    isLeft(ma) ? ma : f(ma.right)
+export const chainW: <E2, A, B>(f: (a: A) => Either<E2, B>) => <E1>(ma: Either<E1, A>) => Either<E2 | E1, B> = flatMap
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
@@ -560,7 +567,7 @@ export const chainW =
  * @category sequencing
  * @since 2.0.0
  */
-export const chain: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Either<E, A>) => Either<E, B> = chainW
+export const chain: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Either<E, A>) => Either<E, B> = flatMap
 
 /**
  * @category instances
@@ -570,7 +577,7 @@ export const Chain: Chain2<URI> = {
   URI,
   map: _map,
   ap: _ap,
-  chain: _chain
+  chain: flatMap
 }
 
 /**
@@ -582,7 +589,7 @@ export const Monad: Monad2<URI> = {
   map: _map,
   ap: _ap,
   of,
-  chain: _chain
+  chain: flatMap
 }
 
 /**
@@ -869,7 +876,7 @@ export const ChainRec: ChainRec2<URI> = {
   URI,
   map: _map,
   ap: _ap,
-  chain: _chain,
+  chain: flatMap,
   chainRec: _chainRec
 }
 
@@ -887,7 +894,7 @@ export const MonadThrow: MonadThrow2<URI> = {
   map: _map,
   ap: _ap,
   of,
-  chain: _chain,
+  chain: flatMap,
   throwError
 }
 
@@ -1670,7 +1677,7 @@ export const either: Monad2<URI> &
   map: _map,
   of,
   ap: _ap,
-  chain: _chain,
+  chain: flatMap,
   reduce: _reduce,
   foldMap: _foldMap,
   reduceRight: _reduceRight,
@@ -1751,7 +1758,7 @@ export function getValidation<E>(
     _E: undefined as any,
     map: _map,
     of,
-    chain: _chain,
+    chain: flatMap,
     bimap: _bimap,
     mapLeft: _mapLeft,
     reduce: _reduce,
