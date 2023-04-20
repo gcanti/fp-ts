@@ -81,6 +81,12 @@ describe('StateReaderTaskEither', () => {
       U.deepStrictEqual(e, E.right(6))
     })
 
+    it('flatMap', async () => {
+      const f = (s: string) => (s.length > 2 ? _.right(s.length) : _.right(0))
+      U.deepStrictEqual(await pipe(_.right('aaa'), _.flatMap(f), _.evaluate(state))({})(), E.right(3))
+      U.deepStrictEqual(await pipe(_.flatMap(_.right('aaa'), f), _.evaluate(state))({})(), E.right(3))
+    })
+
     it('chain', async () => {
       const f = (s: string) => (s.length > 2 ? _.right(s.length) : _.right(0))
       const e = await pipe(_.right('aaa'), _.chain(f), _.evaluate(state))({})()
