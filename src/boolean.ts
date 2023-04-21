@@ -4,6 +4,7 @@
 import * as BA from './BooleanAlgebra'
 import * as E from './Eq'
 import { Lazy } from './function'
+import * as J from './Json'
 import { Monoid } from './Monoid'
 import * as O from './Ord'
 import { Refinement } from './Refinement'
@@ -182,6 +183,4 @@ export const Ord: O.Ord<boolean> = {
  * @category instances
  * @since 2.10.0
  */
-export const Show: S.Show<boolean> = {
-  show: (b) => JSON.stringify(b)
-}
+export const Show: S.Show<boolean> = J.Show

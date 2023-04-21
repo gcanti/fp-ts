@@ -3,6 +3,21 @@ import { pipe } from '../../src/function'
 import * as _ from '../../src/Json'
 
 //
+// Show
+//
+
+// $ExpectError
+_.Show.show(undefined)
+// $ExpectError
+_.Show.show(() => {})
+// $ExpectError
+_.Show.show(Symbol())
+// $ExpectError
+_.Show.show({ a: undefined })
+// $ExpectError
+_.Show.show({ ...{ a: undefined } })
+
+//
 // stringify
 //
 

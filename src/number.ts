@@ -4,6 +4,7 @@
 import * as B from './Bounded'
 import * as E from './Eq'
 import * as F from './Field'
+import * as J from './Json'
 import { Magma } from './Magma'
 import { Monoid } from './Monoid'
 import * as O from './Ord'
@@ -57,9 +58,7 @@ export const Bounded: B.Bounded<number> = {
  * @category instances
  * @since 2.10.0
  */
-export const Show: S.Show<number> = {
-  show: (n) => JSON.stringify(n)
-}
+export const Show: S.Show<number> = J.Show
 
 /**
  * @category instances
