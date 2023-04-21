@@ -51,10 +51,10 @@ export declare class IORef<A> {
 **Example**
 
 ```ts
-import { io } from 'fp-ts/IO'
+import { flatMap } from 'fp-ts/IO'
 import { newIORef } from 'fp-ts/IORef'
 
-assert.strictEqual(io.chain(newIORef(1), (ref) => io.chain(ref.write(2), () => ref.read))(), 2)
+assert.strictEqual(flatMap(newIORef(1), (ref) => flatMap(ref.write(2), () => ref.read))(), 2)
 ```
 
 Added in v2.0.0
