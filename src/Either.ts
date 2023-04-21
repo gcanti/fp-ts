@@ -47,7 +47,7 @@
  *     as,
  *     head,
  *     E.map(double),
- *     E.chain(inverse),
+ *     E.flatMap(inverse),
  *     E.match(
  *       (err) => `Error is ${err}`, // onLeft handler
  *       (head) => `Result is ${head}` // onRight handler

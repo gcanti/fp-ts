@@ -52,7 +52,7 @@ export const functional = (as: ReadonlyArray<number>): string => {
     as,
     head,
     O.map(double),
-    O.chain(inverse),
+    O.flatMap(inverse),
     O.match(
       () => 'no result', // onNone handler
       (head) => `Result is ${head}` // onSome handler

@@ -38,6 +38,6 @@ const nameDo: T.Task<void> = pipe(
   T.chainFirst(() => putStrLn('And your last name? ')),
   T.bind('last', () => getLine),
   T.bind('full', ({ first, last }) => T.of(first + ' ' + last)),
-  T.chain(({ full }) => putStrLn('Pleased to meet you, ' + full + '!'))
+  T.flatMap(({ full }) => putStrLn('Pleased to meet you, ' + full + '!'))
 )
 ```

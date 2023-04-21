@@ -891,20 +891,7 @@ export const bracketW: <E1, A, E2, B, E3>(
   use: (a: A) => IOEither<E2, B>,
   release: (a: A, e: E.Either<E2, B>) => IOEither<E3, void>
 ) => IOEither<E1 | E2 | E3, B> = (acquire, use, release) =>
-  pipe(
-    acquire,
-    chainW((a) =>
-      pipe(
-        use(a),
-        I.chain((e) =>
-          pipe(
-            release(a, e),
-            chainW(() => I.of(e))
-          )
-        )
-      )
-    )
-  )
+  flatMap(acquire, (a) => I.flatMap(use(a), (e) => flatMap(release(a, e), () => I.of(e))))
 
 // -------------------------------------------------------------------------------------
 // do notation

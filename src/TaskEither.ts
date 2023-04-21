@@ -1259,20 +1259,7 @@ export const bracketW: <E1, A, E2, B, E3>(
   use: (a: A) => TaskEither<E2, B>,
   release: (a: A, e: E.Either<E2, B>) => TaskEither<E3, void>
 ) => TaskEither<E1 | E2 | E3, B> = (acquire, use, release) =>
-  pipe(
-    acquire,
-    chainW((a) =>
-      pipe(
-        use(a),
-        T.chain((e) =>
-          pipe(
-            release(a, e),
-            chainW(() => T.of(e))
-          )
-        )
-      )
-    )
-  )
+  flatMap(acquire, (a) => T.flatMap(use(a), (e) => flatMap(release(a, e), () => T.of(e))))
 
 // -------------------------------------------------------------------------------------
 // do notation

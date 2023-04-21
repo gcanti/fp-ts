@@ -46,7 +46,7 @@
  *     as,
  *     head,
  *     O.map(double),
- *     O.chain(inverse),
+ *     O.flatMap(inverse),
  *     O.match(
  *       () => 'no result', // onNone handler
  *       (head) => `Result is ${head}` // onSome handler
