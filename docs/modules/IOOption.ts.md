@@ -289,7 +289,7 @@ Added in v2.13.0
 **Signature**
 
 ```ts
-export declare const alt: <A>(second: Lazy<IOOption<A>>) => (first: IOOption<A>) => IOOption<A>
+export declare const alt: <A>(second: LazyArg<IOOption<A>>) => (first: IOOption<A>) => IOOption<A>
 ```
 
 Added in v2.12.0
@@ -303,7 +303,7 @@ The `W` suffix (short for **W**idening) means that the return types will be merg
 **Signature**
 
 ```ts
-export declare const altW: <B>(second: Lazy<IOOption<B>>) => <A>(first: IOOption<A>) => IOOption<B | A>
+export declare const altW: <B>(second: LazyArg<IOOption<B>>) => <A>(first: IOOption<A>) => IOOption<B | A>
 ```
 
 Added in v2.12.0
@@ -313,7 +313,7 @@ Added in v2.12.0
 **Signature**
 
 ```ts
-export declare const getOrElse: <A>(onNone: Lazy<I.IO<A>>) => (fa: IOOption<A>) => I.IO<A>
+export declare const getOrElse: <A>(onNone: LazyArg<I.IO<A>>) => (fa: IOOption<A>) => I.IO<A>
 ```
 
 Added in v2.12.0
@@ -327,7 +327,7 @@ The `W` suffix (short for **W**idening) means that the handler return type will 
 **Signature**
 
 ```ts
-export declare const getOrElseW: <B>(onNone: Lazy<I.IO<B>>) => <A>(ma: IOOption<A>) => I.IO<B | A>
+export declare const getOrElseW: <B>(onNone: LazyArg<I.IO<B>>) => <A>(ma: IOOption<A>) => I.IO<B | A>
 ```
 
 Added in v2.12.0

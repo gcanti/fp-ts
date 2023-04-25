@@ -86,7 +86,7 @@ import {
   fromOptionK as fromOptionK_,
   fromPredicate as fromPredicate_
 } from './FromEither'
-import { dual, flow, identity, Lazy, pipe } from './function'
+import { dual, flow, identity, LazyArg, pipe } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor2, let as let__ } from './Functor'
 import { HKT } from './HKT'
 import * as _ from './internal'
@@ -749,7 +749,7 @@ export const Bifunctor: Bifunctor2<URI> = {
  * @category error handling
  * @since 2.9.0
  */
-export const altW: <E2, B>(that: Lazy<Either<E2, B>>) => <E1, A>(fa: Either<E1, A>) => Either<E2, A | B> =
+export const altW: <E2, B>(that: LazyArg<Either<E2, B>>) => <E1, A>(fa: Either<E1, A>) => Either<E2, A | B> =
   (that) => (fa) =>
     isLeft(fa) ? that() : fa
 
@@ -802,7 +802,7 @@ export const altW: <E2, B>(that: Lazy<Either<E2, B>>) => <E1, A>(fa: Either<E1, 
  * @category error handling
  * @since 2.0.0
  */
-export const alt: <E, A>(that: Lazy<Either<E, A>>) => (fa: Either<E, A>) => Either<E, A> = altW
+export const alt: <E, A>(that: LazyArg<Either<E, A>>) => (fa: Either<E, A>) => Either<E, A> = altW
 
 /**
  * @category instances
@@ -932,7 +932,7 @@ export const fromPredicate: {
  * @category conversions
  * @since 2.0.0
  */
-export const fromOption: <E>(onNone: Lazy<E>) => <A>(fa: Option<A>) => Either<E, A> =
+export const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => Either<E, A> =
   /*#__PURE__*/ fromOption_(FromEither)
 
 // -------------------------------------------------------------------------------------
@@ -1161,7 +1161,7 @@ export const duplicate: <E, A>(ma: Either<E, A>) => Either<E, Either<E, A>> = /*
  * @since 2.10.0
  */
 export const fromOptionK: <E>(
-  onNone: Lazy<E>
+  onNone: LazyArg<E>
 ) => <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Option<B>) => (...a: A) => Either<E, B> =
   /*#__PURE__*/ fromOptionK_(FromEither)
 
@@ -1170,7 +1170,7 @@ export const fromOptionK: <E>(
  * @since 2.11.0
  */
 export const chainOptionK: <E>(
-  onNone: Lazy<E>
+  onNone: LazyArg<E>
 ) => <A, B>(f: (a: A) => Option<B>) => (ma: Either<E, A>) => Either<E, B> = /*#__PURE__*/ chainOptionK_(
   FromEither,
   Chain
@@ -1185,7 +1185,7 @@ export const chainOptionK: <E>(
  * @since 2.13.2
  */
 export const chainOptionKW: <E2>(
-  onNone: Lazy<E2>
+  onNone: LazyArg<E2>
 ) => <A, B>(f: (a: A) => Option<B>) => <E1>(ma: Either<E1, A>) => Either<E1 | E2, B> = /*#__PURE__*/ chainOptionK as any
 
 /**
@@ -1318,7 +1318,7 @@ export const fromNullable =
  * @category interop
  * @since 2.0.0
  */
-export const tryCatch = <E, A>(f: Lazy<A>, onThrow: (e: unknown) => E): Either<E, A> => {
+export const tryCatch = <E, A>(f: LazyArg<A>, onThrow: (e: unknown) => E): Either<E, A> => {
   try {
     return right(f())
   } catch (e) {

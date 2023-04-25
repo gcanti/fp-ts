@@ -223,7 +223,7 @@ Added in v2.7.0
 **Signature**
 
 ```ts
-export declare const fromOption: <E>(onNone: Lazy<E>) => <A>(fa: Option<A>) => IOEither<E, A>
+export declare const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => IOEither<E, A>
 ```
 
 Added in v2.0.0
@@ -341,7 +341,7 @@ types of kind `* -> *`.
 **Signature**
 
 ```ts
-export declare const alt: <E, A>(that: Lazy<IOEither<E, A>>) => (fa: IOEither<E, A>) => IOEither<E, A>
+export declare const alt: <E, A>(that: LazyArg<IOEither<E, A>>) => (fa: IOEither<E, A>) => IOEither<E, A>
 ```
 
 Added in v2.0.0
@@ -355,7 +355,9 @@ The `W` suffix (short for **W**idening) means that the error and the return type
 **Signature**
 
 ```ts
-export declare const altW: <E2, B>(that: Lazy<IOEither<E2, B>>) => <E1, A>(fa: IOEither<E1, A>) => IOEither<E2, B | A>
+export declare const altW: <E2, B>(
+  that: LazyArg<IOEither<E2, B>>
+) => <E1, A>(fa: IOEither<E1, A>) => IOEither<E2, B | A>
 ```
 
 Added in v2.9.0
@@ -703,7 +705,7 @@ See also [`tryCatchK`](#trycatchk).
 **Signature**
 
 ```ts
-export declare const tryCatch: <E, A>(f: Lazy<A>, onThrow: (reason: unknown) => E) => IOEither<E, A>
+export declare const tryCatch: <E, A>(f: LazyArg<A>, onThrow: (reason: unknown) => E) => IOEither<E, A>
 ```
 
 Added in v2.0.0
@@ -783,7 +785,7 @@ Added in v2.10.0
 
 ```ts
 export declare const fromOptionK: <E>(
-  onNone: Lazy<E>
+  onNone: LazyArg<E>
 ) => <A extends readonly unknown[], B>(f: (...a: A) => Option<B>) => (...a: A) => IOEither<E, B>
 ```
 
@@ -1050,7 +1052,7 @@ Added in v2.10.0
 
 ```ts
 export declare const chainOptionK: <E>(
-  onNone: Lazy<E>
+  onNone: LazyArg<E>
 ) => <A, B>(f: (a: A) => Option<B>) => (ma: IOEither<E, A>) => IOEither<E, B>
 ```
 
@@ -1066,7 +1068,7 @@ The `W` suffix (short for **W**idening) means that the error types will be merge
 
 ```ts
 export declare const chainOptionKW: <E2>(
-  onNone: Lazy<E2>
+  onNone: LazyArg<E2>
 ) => <A, B>(f: (a: A) => Option<B>) => <E1>(ma: IOEither<E1, A>) => IOEither<E2 | E1, B>
 ```
 

@@ -172,7 +172,7 @@ Alias of [`match`](#match).
 **Signature**
 
 ```ts
-export declare const fold: <A>(onFalse: Lazy<A>, onTrue: Lazy<A>) => (value: boolean) => A
+export declare const fold: <A>(onFalse: LazyArg<A>, onTrue: LazyArg<A>) => (value: boolean) => A
 ```
 
 Added in v2.2.0
@@ -184,7 +184,7 @@ Alias of [`matchW`](#matchw).
 **Signature**
 
 ```ts
-export declare const foldW: <A, B>(onFalse: Lazy<A>, onTrue: Lazy<B>) => (value: boolean) => A | B
+export declare const foldW: <A, B>(onFalse: LazyArg<A>, onTrue: LazyArg<B>) => (value: boolean) => A | B
 ```
 
 Added in v2.10.0
@@ -198,7 +198,7 @@ If `value` is false, `onFalse()` is returned, otherwise `onTrue()`.
 **Signature**
 
 ```ts
-export declare const match: <A>(onFalse: Lazy<A>, onTrue: Lazy<A>) => (value: boolean) => A
+export declare const match: <A>(onFalse: LazyArg<A>, onTrue: LazyArg<A>) => (value: boolean) => A
 ```
 
 **Example**
@@ -233,7 +233,7 @@ The `W` suffix (short for **W**idening) means that the handler return types will
 **Signature**
 
 ```ts
-export declare const matchW: <A, B>(onFalse: Lazy<A>, onTrue: Lazy<B>) => (value: boolean) => A | B
+export declare const matchW: <A, B>(onFalse: LazyArg<A>, onTrue: LazyArg<B>) => (value: boolean) => A | B
 ```
 
 Added in v2.10.0

@@ -164,21 +164,23 @@ Returns a pipeable `alt`
 ```ts
 export declare function alt<F extends URIS4>(
   F: Alt4<F>
-): <S, R, E, A>(that: Lazy<Kind4<F, S, R, E, A>>) => (fa: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, A>
+): <S, R, E, A>(that: LazyArg<Kind4<F, S, R, E, A>>) => (fa: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, A>
 export declare function alt<F extends URIS3>(
   F: Alt3<F>
-): <R, E, A>(that: Lazy<Kind3<F, R, E, A>>) => (fa: Kind3<F, R, E, A>) => Kind3<F, R, E, A>
+): <R, E, A>(that: LazyArg<Kind3<F, R, E, A>>) => (fa: Kind3<F, R, E, A>) => Kind3<F, R, E, A>
 export declare function alt<F extends URIS3, E>(
   F: Alt3C<F, E>
-): <R, A>(that: Lazy<Kind3<F, R, E, A>>) => (fa: Kind3<F, R, E, A>) => Kind3<F, R, E, A>
+): <R, A>(that: LazyArg<Kind3<F, R, E, A>>) => (fa: Kind3<F, R, E, A>) => Kind3<F, R, E, A>
 export declare function alt<F extends URIS2>(
   F: Alt2<F>
-): <E, A>(that: Lazy<Kind2<F, E, A>>) => (fa: Kind2<F, E, A>) => Kind2<F, E, A>
+): <E, A>(that: LazyArg<Kind2<F, E, A>>) => (fa: Kind2<F, E, A>) => Kind2<F, E, A>
 export declare function alt<F extends URIS2, E>(
   F: Alt2C<F, E>
-): <A>(that: Lazy<Kind2<F, E, A>>) => (fa: Kind2<F, E, A>) => Kind2<F, E, A>
-export declare function alt<F extends URIS>(F: Alt1<F>): <A>(that: Lazy<Kind<F, A>>) => (fa: Kind<F, A>) => Kind<F, A>
-export declare function alt<F>(F: Alt<F>): <A>(that: Lazy<HKT<F, A>>) => (fa: HKT<F, A>) => HKT<F, A>
+): <A>(that: LazyArg<Kind2<F, E, A>>) => (fa: Kind2<F, E, A>) => Kind2<F, E, A>
+export declare function alt<F extends URIS>(
+  F: Alt1<F>
+): <A>(that: LazyArg<Kind<F, A>>) => (fa: Kind<F, A>) => Kind<F, A>
+export declare function alt<F>(F: Alt<F>): <A>(that: LazyArg<HKT<F, A>>) => (fa: HKT<F, A>) => HKT<F, A>
 ```
 
 Added in v2.13.0
@@ -1041,7 +1043,7 @@ Added in v2.13.0
 
 ```ts
 export interface PipeableAlt3C<F extends URIS3, E> {
-  readonly alt: <R, A>(that: Lazy<Kind3<F, R, E, A>>) => (fa: Kind3<F, R, E, A>) => Kind3<F, R, E, A>
+  readonly alt: <R, A>(that: LazyArg<Kind3<F, R, E, A>>) => (fa: Kind3<F, R, E, A>) => Kind3<F, R, E, A>
 }
 ```
 
@@ -1236,7 +1238,7 @@ Added in v2.2.0
 
 ```ts
 export interface PipeableMonadThrow3C<F extends URIS3, E> {
-  readonly fromOption: (onNone: Lazy<E>) => <R, A>(ma: Option<A>) => Kind3<F, R, E, A>
+  readonly fromOption: (onNone: LazyArg<E>) => <R, A>(ma: Option<A>) => Kind3<F, R, E, A>
   readonly fromEither: <R, A>(ma: Either<E, A>) => Kind3<F, R, E, A>
   readonly fromPredicate: {
     <A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <U>(a: A) => Kind3<F, U, E, B>
@@ -1297,7 +1299,7 @@ Added in v2.0.0
 
 ```ts
 export interface PipeableAlt1<F extends URIS> {
-  readonly alt: <A>(that: Lazy<Kind<F, A>>) => (fa: Kind<F, A>) => Kind<F, A>
+  readonly alt: <A>(that: LazyArg<Kind<F, A>>) => (fa: Kind<F, A>) => Kind<F, A>
 }
 ```
 
@@ -1309,7 +1311,7 @@ Added in v2.0.0
 
 ```ts
 export interface PipeableAlt2C<F extends URIS2, E> {
-  readonly alt: <A>(that: Lazy<Kind2<F, E, A>>) => (fa: Kind2<F, E, A>) => Kind2<F, E, A>
+  readonly alt: <A>(that: LazyArg<Kind2<F, E, A>>) => (fa: Kind2<F, E, A>) => Kind2<F, E, A>
 }
 ```
 
@@ -1321,7 +1323,7 @@ Added in v2.0.0
 
 ```ts
 export interface PipeableAlt2<F extends URIS2> {
-  readonly alt: <E, A>(that: Lazy<Kind2<F, E, A>>) => (fa: Kind2<F, E, A>) => Kind2<F, E, A>
+  readonly alt: <E, A>(that: LazyArg<Kind2<F, E, A>>) => (fa: Kind2<F, E, A>) => Kind2<F, E, A>
 }
 ```
 
@@ -1333,7 +1335,7 @@ Added in v2.0.0
 
 ```ts
 export interface PipeableAlt3<F extends URIS3> {
-  readonly alt: <R, E, A>(that: Lazy<Kind3<F, R, E, A>>) => (fa: Kind3<F, R, E, A>) => Kind3<F, R, E, A>
+  readonly alt: <R, E, A>(that: LazyArg<Kind3<F, R, E, A>>) => (fa: Kind3<F, R, E, A>) => Kind3<F, R, E, A>
 }
 ```
 
@@ -1345,7 +1347,7 @@ Added in v2.0.0
 
 ```ts
 export interface PipeableAlt4<F extends URIS4> {
-  readonly alt: <S, R, E, A>(that: Lazy<Kind4<F, S, R, E, A>>) => (fa: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, A>
+  readonly alt: <S, R, E, A>(that: LazyArg<Kind4<F, S, R, E, A>>) => (fa: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, A>
 }
 ```
 
@@ -1357,7 +1359,7 @@ Added in v2.0.0
 
 ```ts
 export interface PipeableAlt<F> {
-  readonly alt: <A>(that: Lazy<HKT<F, A>>) => (fa: HKT<F, A>) => HKT<F, A>
+  readonly alt: <A>(that: LazyArg<HKT<F, A>>) => (fa: HKT<F, A>) => HKT<F, A>
 }
 ```
 
@@ -2446,7 +2448,7 @@ Added in v2.0.0
 
 ```ts
 export interface PipeableMonadThrow1<F extends URIS> {
-  readonly fromOption: <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => Kind<F, A>
+  readonly fromOption: <E>(onNone: LazyArg<E>) => <A>(ma: Option<A>) => Kind<F, A>
   readonly fromEither: <E, A>(ma: Either<E, A>) => Kind<F, A>
   readonly fromPredicate: {
     <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => Kind<F, B>
@@ -2467,7 +2469,7 @@ Added in v2.0.0
 
 ```ts
 export interface PipeableMonadThrow2C<F extends URIS2, E> {
-  readonly fromOption: (onNone: Lazy<E>) => <A>(ma: Option<A>) => Kind2<F, E, A>
+  readonly fromOption: (onNone: LazyArg<E>) => <A>(ma: Option<A>) => Kind2<F, E, A>
   readonly fromEither: <A>(ma: Either<E, A>) => Kind2<F, E, A>
   readonly fromPredicate: {
     <A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => Kind2<F, E, B>
@@ -2488,7 +2490,7 @@ Added in v2.0.0
 
 ```ts
 export interface PipeableMonadThrow2<F extends URIS2> {
-  readonly fromOption: <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => Kind2<F, E, A>
+  readonly fromOption: <E>(onNone: LazyArg<E>) => <A>(ma: Option<A>) => Kind2<F, E, A>
   readonly fromEither: <E, A>(ma: Either<E, A>) => Kind2<F, E, A>
   readonly fromPredicate: {
     <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => Kind2<F, E, B>
@@ -2509,7 +2511,7 @@ Added in v2.0.0
 
 ```ts
 export interface PipeableMonadThrow3<F extends URIS3> {
-  readonly fromOption: <E>(onNone: Lazy<E>) => <R, A>(ma: Option<A>) => Kind3<F, R, E, A>
+  readonly fromOption: <E>(onNone: LazyArg<E>) => <R, A>(ma: Option<A>) => Kind3<F, R, E, A>
   readonly fromEither: <R, E, A>(ma: Either<E, A>) => Kind3<F, R, E, A>
   readonly fromPredicate: {
     <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <U>(a: A) => Kind3<F, U, E, B>
@@ -2532,7 +2534,7 @@ Added in v2.0.0
 
 ```ts
 export interface PipeableMonadThrow4<F extends URIS4> {
-  readonly fromOption: <E>(onNone: Lazy<E>) => <S, R, A>(ma: Option<A>) => Kind4<F, S, R, E, A>
+  readonly fromOption: <E>(onNone: LazyArg<E>) => <S, R, A>(ma: Option<A>) => Kind4<F, S, R, E, A>
   readonly fromEither: <S, R, E, A>(ma: Either<E, A>) => Kind4<F, S, R, E, A>
   readonly fromPredicate: {
     <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <S, R>(a: A) => Kind4<F, S, R, E, B>
@@ -2555,7 +2557,7 @@ Added in v2.0.0
 
 ```ts
 export interface PipeableMonadThrow<F> {
-  readonly fromOption: <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => HKT<F, A>
+  readonly fromOption: <E>(onNone: LazyArg<E>) => <A>(ma: Option<A>) => HKT<F, A>
   readonly fromEither: <E, A>(ma: Either<E, A>) => HKT<F, A>
   readonly fromPredicate: {
     <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => HKT<F, B>

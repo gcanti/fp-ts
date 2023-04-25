@@ -42,7 +42,7 @@ import {
   FromReader3,
   fromReaderK as fromReaderK_
 } from './FromReader'
-import { dual, flow, identity, Lazy, pipe, SK } from './function'
+import { dual, flow, identity, LazyArg, pipe, SK } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor3, let as let__ } from './Functor'
 import * as _ from './internal'
 import { Monad3, Monad3C } from './Monad'
@@ -754,7 +754,7 @@ export const FromEither: FromEither3<URI> = {
  * @category conversions
  * @since 2.0.0
  */
-export const fromOption: <E>(onNone: Lazy<E>) => <A, R = unknown>(fa: Option<A>) => ReaderEither<R, E, A> =
+export const fromOption: <E>(onNone: LazyArg<E>) => <A, R = unknown>(fa: Option<A>) => ReaderEither<R, E, A> =
   /*#__PURE__*/ fromOption_(FromEither)
 
 /**
@@ -762,7 +762,7 @@ export const fromOption: <E>(onNone: Lazy<E>) => <A, R = unknown>(fa: Option<A>)
  * @since 2.10.0
  */
 export const fromOptionK: <E>(
-  onNone: Lazy<E>
+  onNone: LazyArg<E>
 ) => <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => Option<B>
 ) => <R = unknown>(...a: A) => ReaderEither<R, E, B> = /*#__PURE__*/ fromOptionK_(FromEither)
@@ -772,7 +772,7 @@ export const fromOptionK: <E>(
  * @since 2.10.0
  */
 export const chainOptionK: <E>(
-  onNone: Lazy<E>
+  onNone: LazyArg<E>
 ) => <A, B>(f: (a: A) => Option<B>) => <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B> =
   /*#__PURE__*/ chainOptionK_(FromEither, Chain)
 
@@ -785,7 +785,7 @@ export const chainOptionK: <E>(
  * @since 2.13.2
  */
 export const chainOptionKW: <E2>(
-  onNone: Lazy<E2>
+  onNone: LazyArg<E2>
 ) => <A, B>(f: (a: A) => Option<B>) => <R, E1>(ma: ReaderEither<R, E1, A>) => ReaderEither<R, E1 | E2, B> =
   /*#__PURE__*/ chainOptionK as any
 

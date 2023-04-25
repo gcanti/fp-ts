@@ -13,5 +13,6 @@
     "target": "es5",
     "lib": ["es2015"],
     "skipLibCheck": true
-  }
+  },
+  "exclude": ["../../node_modules"]
 }

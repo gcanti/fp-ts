@@ -33,7 +33,7 @@ Added in v2.0.0
 export interface ValidationM1<M extends URIS, E> extends ApplicativeComposition12C<M, E.URI, E> {
   readonly chain: <A, B>(ma: ValidationT1<M, E, A>, f: (a: A) => ValidationT1<M, E, B>) => ValidationT1<M, E, B>
 
-  readonly alt: <A>(fa: ValidationT1<M, E, A>, that: Lazy<ValidationT1<M, E, A>>) => ValidationT1<M, E, A>
+  readonly alt: <A>(fa: ValidationT1<M, E, A>, that: LazyArg<ValidationT1<M, E, A>>) => ValidationT1<M, E, A>
 }
 ```
 
@@ -51,7 +51,10 @@ export interface ValidationM2<M extends URIS2, E> extends ApplicativeComposition
     f: (a: A) => ValidationT2<M, R, E, B>
   ) => ValidationT2<M, R, E, B>
 
-  readonly alt: <R, A>(fa: ValidationT2<M, R, E, A>, that: Lazy<ValidationT2<M, R, E, A>>) => ValidationT2<M, R, E, A>
+  readonly alt: <R, A>(
+    fa: ValidationT2<M, R, E, A>,
+    that: LazyArg<ValidationT2<M, R, E, A>>
+  ) => ValidationT2<M, R, E, A>
 }
 ```
 
@@ -65,7 +68,7 @@ Added in v2.0.0
 export interface ValidationM<M, E> extends ApplicativeCompositionHKT2C<M, E.URI, E> {
   readonly chain: <A, B>(ma: ValidationT<M, E, A>, f: (a: A) => ValidationT<M, E, B>) => ValidationT<M, E, B>
 
-  readonly alt: <A>(fa: ValidationT<M, E, A>, that: Lazy<ValidationT<M, E, A>>) => ValidationT<M, E, A>
+  readonly alt: <A>(fa: ValidationT<M, E, A>, that: LazyArg<ValidationT<M, E, A>>) => ValidationT<M, E, A>
 }
 ```
 

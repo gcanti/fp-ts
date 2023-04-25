@@ -1,16 +1,16 @@
+import { Chain3C } from '../../src/Chain'
+import * as Eq from '../../src/Eq'
+import * as O from '../../src/Option'
 import * as P from '../../src/pipeable'
-import * as T from '../../src/Task'
-import * as TE from '../../src/TaskEither'
+import * as R from '../../src/Reader'
 import * as RTE from '../../src/ReaderTaskEither'
+import * as RA from '../../src/ReadonlyArray'
+import * as RT from '../../src/ReadonlyTuple'
 import * as SRTE from '../../src/StateReaderTaskEither'
 import * as S from '../../src/string'
+import * as T from '../../src/Task'
+import * as TE from '../../src/TaskEither'
 import * as TH from '../../src/These'
-import { Chain3C } from '../../src/Chain'
-import * as O from '../../src/Option'
-import * as Eq from '../../src/Eq'
-import * as RA from '../../src/ReadonlyArray'
-import * as R from '../../src/Reader'
-import * as RT from '../../src/ReadonlyTuple'
 
 const TEApplicative = TE.getApplicativeTaskValidation(T.ApplyPar, S.Semigroup)
 const TEAlt = TE.getAltTaskValidation(S.Semigroup)
@@ -167,22 +167,22 @@ P.reduceRightWithIndex(RA.FoldableWithIndex)
 // alt
 //
 
-// $ExpectType <A>(that: Lazy<Option<A>>) => (fa: Option<A>) => Option<A>
+// $ExpectType <A>(that: LazyArg<Option<A>>) => (fa: Option<A>) => Option<A>
 P.alt(O.Alt)
 
-// $ExpectType <E, A>(that: Lazy<TaskEither<E, A>>) => (fa: TaskEither<E, A>) => TaskEither<E, A>
+// $ExpectType <E, A>(that: LazyArg<TaskEither<E, A>>) => (fa: TaskEither<E, A>) => TaskEither<E, A>
 P.alt(TE.Alt)
 
-// $ExpectType <A>(that: Lazy<TaskEither<string, A>>) => (fa: TaskEither<string, A>) => TaskEither<string, A>
+// $ExpectType <A>(that: LazyArg<TaskEither<string, A>>) => (fa: TaskEither<string, A>) => TaskEither<string, A>
 P.alt(TEAlt)
 
-// $ExpectType <R, E, A>(that: Lazy<ReaderTaskEither<R, E, A>>) => (fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
+// $ExpectType <R, E, A>(that: LazyArg<ReaderTaskEither<R, E, A>>) => (fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
 P.alt(RTE.Alt)
 
-// $ExpectType <R, A>(that: Lazy<ReaderTaskEither<R, string, A>>) => (fa: ReaderTaskEither<R, string, A>) => ReaderTaskEither<R, string, A>
+// $ExpectType <R, A>(that: LazyArg<ReaderTaskEither<R, string, A>>) => (fa: ReaderTaskEither<R, string, A>) => ReaderTaskEither<R, string, A>
 P.alt(RTEAlt)
 
-// $ExpectType <S, R, E, A>(that: Lazy<StateReaderTaskEither<S, R, E, A>>) => (fa: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A>
+// $ExpectType <S, R, E, A>(that: LazyArg<StateReaderTaskEither<S, R, E, A>>) => (fa: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A>
 P.alt(SRTE.Alt)
 
 //

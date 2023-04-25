@@ -342,7 +342,7 @@ In case of `ReadonlyNonEmptyArray` concatenates the inputs into a single array.
 
 ```ts
 export declare const alt: <A>(
-  that: Lazy<ReadonlyNonEmptyArray<A>>
+  that: LazyArg<ReadonlyNonEmptyArray<A>>
 ) => (as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
 ```
 
@@ -373,7 +373,7 @@ The `W` suffix (short for **W**idening) means that the return types will be merg
 
 ```ts
 export declare const altW: <B>(
-  that: Lazy<ReadonlyNonEmptyArray<B>>
+  that: LazyArg<ReadonlyNonEmptyArray<B>>
 ) => <A>(as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B | A>
 ```
 

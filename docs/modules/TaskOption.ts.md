@@ -292,7 +292,7 @@ Added in v2.13.0
 **Signature**
 
 ```ts
-export declare const alt: <A>(second: Lazy<TaskOption<A>>) => (first: TaskOption<A>) => TaskOption<A>
+export declare const alt: <A>(second: LazyArg<TaskOption<A>>) => (first: TaskOption<A>) => TaskOption<A>
 ```
 
 Added in v2.10.0
@@ -306,7 +306,7 @@ The `W` suffix (short for **W**idening) means that the return types will be merg
 **Signature**
 
 ```ts
-export declare const altW: <B>(second: Lazy<TaskOption<B>>) => <A>(first: TaskOption<A>) => TaskOption<B | A>
+export declare const altW: <B>(second: LazyArg<TaskOption<B>>) => <A>(first: TaskOption<A>) => TaskOption<B | A>
 ```
 
 Added in v2.10.0
@@ -316,7 +316,7 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export declare const getOrElse: <A>(onNone: Lazy<T.Task<A>>) => (fa: TaskOption<A>) => T.Task<A>
+export declare const getOrElse: <A>(onNone: LazyArg<T.Task<A>>) => (fa: TaskOption<A>) => T.Task<A>
 ```
 
 Added in v2.10.0
@@ -330,7 +330,7 @@ The `W` suffix (short for **W**idening) means that the handler return type will 
 **Signature**
 
 ```ts
-export declare const getOrElseW: <B>(onNone: Lazy<T.Task<B>>) => <A>(ma: TaskOption<A>) => T.Task<B | A>
+export declare const getOrElseW: <B>(onNone: LazyArg<T.Task<B>>) => <A>(ma: TaskOption<A>) => T.Task<B | A>
 ```
 
 Added in v2.10.0
@@ -608,7 +608,7 @@ See also [`tryCatchK`](#trycatchk).
 **Signature**
 
 ```ts
-export declare const tryCatch: <A>(f: Lazy<Promise<A>>) => TaskOption<A>
+export declare const tryCatch: <A>(f: LazyArg<Promise<A>>) => TaskOption<A>
 ```
 
 Added in v2.10.0

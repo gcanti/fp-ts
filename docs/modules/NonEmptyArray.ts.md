@@ -321,7 +321,7 @@ In case of `NonEmptyArray` concatenates the inputs into a single array.
 **Signature**
 
 ```ts
-export declare const alt: <A>(that: Lazy<NonEmptyArray<A>>) => (fa: NonEmptyArray<A>) => NonEmptyArray<A>
+export declare const alt: <A>(that: LazyArg<NonEmptyArray<A>>) => (fa: NonEmptyArray<A>) => NonEmptyArray<A>
 ```
 
 **Example**
@@ -350,7 +350,7 @@ The `W` suffix (short for **W**idening) means that the return types will be merg
 **Signature**
 
 ```ts
-export declare const altW: <B>(that: Lazy<NonEmptyArray<B>>) => <A>(as: NonEmptyArray<A>) => NonEmptyArray<B | A>
+export declare const altW: <B>(that: LazyArg<NonEmptyArray<B>>) => <A>(as: NonEmptyArray<A>) => NonEmptyArray<B | A>
 ```
 
 **Example**

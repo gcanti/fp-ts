@@ -20,7 +20,7 @@ import { FilterableWithIndex1, PredicateWithIndex, RefinementWithIndex } from '.
 import { Foldable1 } from './Foldable'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
 import { FromEither1, fromEitherK as fromEitherK_ } from './FromEither'
-import { dual, identity, Lazy, pipe } from './function'
+import { dual, identity, LazyArg, pipe } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1, let as let__ } from './Functor'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { HKT } from './HKT'
@@ -259,7 +259,7 @@ export const fromEither: <A>(fa: Either<unknown, A>) => Array<A> = (e) => (_.isL
  * @since 2.11.0
  */
 export const matchW =
-  <B, A, C>(onEmpty: Lazy<B>, onNonEmpty: (as: NonEmptyArray<A>) => C) =>
+  <B, A, C>(onEmpty: LazyArg<B>, onNonEmpty: (as: NonEmptyArray<A>) => C) =>
   (as: Array<A>): B | C =>
     isNonEmpty(as) ? onNonEmpty(as) : onEmpty()
 
@@ -281,7 +281,7 @@ export const matchW =
  * @category pattern matching
  * @since 2.11.0
  */
-export const match: <B, A>(onEmpty: Lazy<B>, onNonEmpty: (as: NonEmptyArray<A>) => B) => (as: Array<A>) => B = matchW
+export const match: <B, A>(onEmpty: LazyArg<B>, onNonEmpty: (as: NonEmptyArray<A>) => B) => (as: Array<A>) => B = matchW
 
 /**
  * Less strict version of [`matchLeft`](#matchleft). It will work when `onEmpty` and
@@ -301,7 +301,7 @@ export const match: <B, A>(onEmpty: Lazy<B>, onNonEmpty: (as: NonEmptyArray<A>) 
  * @since 2.11.0
  */
 export const matchLeftW =
-  <B, A, C>(onEmpty: Lazy<B>, onNonEmpty: (head: A, tail: Array<A>) => C) =>
+  <B, A, C>(onEmpty: LazyArg<B>, onNonEmpty: (head: A, tail: Array<A>) => C) =>
   (as: Array<A>): B | C =>
     isNonEmpty(as) ? onNonEmpty(NEA.head(as), NEA.tail(as)) : onEmpty()
 
@@ -318,7 +318,7 @@ export const matchLeftW =
  * @category pattern matching
  * @since 2.10.0
  */
-export const matchLeft: <B, A>(onEmpty: Lazy<B>, onNonEmpty: (head: A, tail: Array<A>) => B) => (as: Array<A>) => B =
+export const matchLeft: <B, A>(onEmpty: LazyArg<B>, onNonEmpty: (head: A, tail: Array<A>) => B) => (as: Array<A>) => B =
   matchLeftW
 
 /**
@@ -327,7 +327,7 @@ export const matchLeft: <B, A>(onEmpty: Lazy<B>, onNonEmpty: (head: A, tail: Arr
  * @category pattern matching
  * @since 2.0.0
  */
-export const foldLeft: <A, B>(onEmpty: Lazy<B>, onNonEmpty: (head: A, tail: Array<A>) => B) => (as: Array<A>) => B =
+export const foldLeft: <A, B>(onEmpty: LazyArg<B>, onNonEmpty: (head: A, tail: Array<A>) => B) => (as: Array<A>) => B =
   matchLeft
 
 /**
@@ -348,7 +348,7 @@ export const foldLeft: <A, B>(onEmpty: Lazy<B>, onNonEmpty: (head: A, tail: Arra
  * @since 2.11.0
  */
 export const matchRightW =
-  <B, A, C>(onEmpty: Lazy<B>, onNonEmpty: (init: Array<A>, last: A) => C) =>
+  <B, A, C>(onEmpty: LazyArg<B>, onNonEmpty: (init: Array<A>, last: A) => C) =>
   (as: Array<A>): B | C =>
     isNonEmpty(as) ? onNonEmpty(NEA.init(as), NEA.last(as)) : onEmpty()
 
@@ -368,8 +368,10 @@ export const matchRightW =
  * @category pattern matching
  * @since 2.10.0
  */
-export const matchRight: <B, A>(onEmpty: Lazy<B>, onNonEmpty: (init: Array<A>, last: A) => B) => (as: Array<A>) => B =
-  matchRightW
+export const matchRight: <B, A>(
+  onEmpty: LazyArg<B>,
+  onNonEmpty: (init: Array<A>, last: A) => B
+) => (as: Array<A>) => B = matchRightW
 
 /**
  * Alias of [`matchRight`](#matchright).
@@ -377,7 +379,7 @@ export const matchRight: <B, A>(onEmpty: Lazy<B>, onNonEmpty: (init: Array<A>, l
  * @category pattern matching
  * @since 2.0.0
  */
-export const foldRight: <A, B>(onEmpty: Lazy<B>, onNonEmpty: (init: Array<A>, last: A) => B) => (as: Array<A>) => B =
+export const foldRight: <A, B>(onEmpty: LazyArg<B>, onNonEmpty: (init: Array<A>, last: A) => B) => (as: Array<A>) => B =
   matchRight
 
 // -------------------------------------------------------------------------------------
@@ -1879,7 +1881,7 @@ export const partitionMapWithIndex =
  * @since 2.9.0
  */
 export const altW =
-  <B>(that: Lazy<Array<B>>) =>
+  <B>(that: LazyArg<Array<B>>) =>
   <A>(fa: Array<A>): Array<A | B> =>
     (fa as Array<A | B>).concat(that())
 
@@ -1904,7 +1906,7 @@ export const altW =
  * @category error handling
  * @since 2.0.0
  */
-export const alt: <A>(that: Lazy<Array<A>>) => (fa: Array<A>) => Array<A> = altW
+export const alt: <A>(that: LazyArg<Array<A>>) => (fa: Array<A>) => Array<A> = altW
 
 /**
  * Same as [`filter`](#filter), but passing also the index to the iterating function.

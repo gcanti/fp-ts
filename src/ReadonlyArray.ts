@@ -16,7 +16,7 @@ import { FilterableWithIndex1, PredicateWithIndex, RefinementWithIndex } from '.
 import { Foldable1 } from './Foldable'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
 import { FromEither1, fromEitherK as fromEitherK_ } from './FromEither'
-import { dual, identity, Lazy, pipe } from './function'
+import { dual, identity, LazyArg, pipe } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1, let as let__ } from './Functor'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { HKT } from './HKT'
@@ -188,7 +188,7 @@ export const fromEither: <A>(fa: Either<unknown, A>) => ReadonlyArray<A> = (e) =
  * @since 2.11.0
  */
 export const matchW =
-  <B, A, C>(onEmpty: Lazy<B>, onNonEmpty: (as: ReadonlyNonEmptyArray<A>) => C) =>
+  <B, A, C>(onEmpty: LazyArg<B>, onNonEmpty: (as: ReadonlyNonEmptyArray<A>) => C) =>
   (as: ReadonlyArray<A>): B | C =>
     isNonEmpty(as) ? onNonEmpty(as) : onEmpty()
 
@@ -197,7 +197,7 @@ export const matchW =
  * @since 2.11.0
  */
 export const match: <B, A>(
-  onEmpty: Lazy<B>,
+  onEmpty: LazyArg<B>,
   onNonEmpty: (as: ReadonlyNonEmptyArray<A>) => B
 ) => (as: ReadonlyArray<A>) => B = matchW
 
@@ -208,7 +208,7 @@ export const match: <B, A>(
  * @since 2.11.0
  */
 export const matchLeftW =
-  <B, A, C>(onEmpty: Lazy<B>, onNonEmpty: (head: A, tail: ReadonlyArray<A>) => C) =>
+  <B, A, C>(onEmpty: LazyArg<B>, onNonEmpty: (head: A, tail: ReadonlyArray<A>) => C) =>
   (as: ReadonlyArray<A>): B | C =>
     isNonEmpty(as) ? onNonEmpty(RNEA.head(as), RNEA.tail(as)) : onEmpty()
 
@@ -225,7 +225,7 @@ export const matchLeftW =
  * @since 2.10.0
  */
 export const matchLeft: <B, A>(
-  onEmpty: Lazy<B>,
+  onEmpty: LazyArg<B>,
   onNonEmpty: (head: A, tail: ReadonlyArray<A>) => B
 ) => (as: ReadonlyArray<A>) => B = matchLeftW
 
@@ -236,7 +236,7 @@ export const matchLeft: <B, A>(
  * @since 2.5.0
  */
 export const foldLeft: <A, B>(
-  onEmpty: Lazy<B>,
+  onEmpty: LazyArg<B>,
   onNonEmpty: (head: A, tail: ReadonlyArray<A>) => B
 ) => (as: ReadonlyArray<A>) => B = matchLeft
 
@@ -247,7 +247,7 @@ export const foldLeft: <A, B>(
  * @since 2.11.0
  */
 export const matchRightW =
-  <B, A, C>(onEmpty: Lazy<B>, onNonEmpty: (init: ReadonlyArray<A>, last: A) => C) =>
+  <B, A, C>(onEmpty: LazyArg<B>, onNonEmpty: (init: ReadonlyArray<A>, last: A) => C) =>
   (as: ReadonlyArray<A>): B | C =>
     isNonEmpty(as) ? onNonEmpty(RNEA.init(as), RNEA.last(as)) : onEmpty()
 
@@ -258,7 +258,7 @@ export const matchRightW =
  * @since 2.10.0
  */
 export const matchRight: <B, A>(
-  onEmpty: Lazy<B>,
+  onEmpty: LazyArg<B>,
   onNonEmpty: (init: ReadonlyArray<A>, last: A) => B
 ) => (as: ReadonlyArray<A>) => B = matchRightW
 
@@ -269,7 +269,7 @@ export const matchRight: <B, A>(
  * @since 2.5.0
  */
 export const foldRight: <A, B>(
-  onEmpty: Lazy<B>,
+  onEmpty: LazyArg<B>,
   onNonEmpty: (init: ReadonlyArray<A>, last: A) => B
 ) => (as: ReadonlyArray<A>) => B = matchRight
 
@@ -1447,7 +1447,7 @@ export const zero: <A>() => ReadonlyArray<A> = () => empty
  * @since 2.9.0
  */
 export const altW =
-  <B>(that: Lazy<ReadonlyArray<B>>) =>
+  <B>(that: LazyArg<ReadonlyArray<B>>) =>
   <A>(fa: ReadonlyArray<A>): ReadonlyArray<A | B> =>
     (fa as ReadonlyArray<A | B>).concat(that())
 
@@ -1472,7 +1472,7 @@ export const altW =
  * @category error handling
  * @since 2.5.0
  */
-export const alt: <A>(that: Lazy<ReadonlyArray<A>>) => (fa: ReadonlyArray<A>) => ReadonlyArray<A> = altW
+export const alt: <A>(that: LazyArg<ReadonlyArray<A>>) => (fa: ReadonlyArray<A>) => ReadonlyArray<A> = altW
 
 /**
  * @since 2.5.0
@@ -2568,7 +2568,6 @@ export const apS = /*#__PURE__*/ apS_(Apply)
  * @since 2.5.0
  */
 export const chain: <A, B>(f: (a: A) => ReadonlyArray<B>) => (ma: ReadonlyArray<A>) => ReadonlyArray<B> = flatMap
-
 
 // -------------------------------------------------------------------------------------
 // deprecated

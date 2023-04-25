@@ -22,7 +22,7 @@ import { Eq } from './Eq'
 import { Extend1 } from './Extend'
 import { Foldable1 } from './Foldable'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
-import { dual, identity, Lazy, pipe } from './function'
+import { dual, identity, LazyArg, pipe } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1, let as let__ } from './Functor'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { HKT } from './HKT'
@@ -674,7 +674,7 @@ const _traverseWithIndex: TraversableWithIndex1<URI, number>['traverseWithIndex'
  * @since 2.9.0
  */
 export const altW =
-  <B>(that: Lazy<NonEmptyArray<B>>) =>
+  <B>(that: LazyArg<NonEmptyArray<B>>) =>
   <A>(as: NonEmptyArray<A>): NonEmptyArray<A | B> =>
     pipe(as, concatW(that()))
 
@@ -699,7 +699,7 @@ export const altW =
  * @category error handling
  * @since 2.6.2
  */
-export const alt: <A>(that: Lazy<NonEmptyArray<A>>) => (fa: NonEmptyArray<A>) => NonEmptyArray<A> = altW
+export const alt: <A>(that: LazyArg<NonEmptyArray<A>>) => (fa: NonEmptyArray<A>) => NonEmptyArray<A> = altW
 
 /**
  * Apply a function to an argument under a type constructor.

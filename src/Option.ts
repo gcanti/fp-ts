@@ -83,7 +83,7 @@ import {
   FromEither1,
   fromEitherK as fromEitherK_
 } from './FromEither'
-import { constNull, constUndefined, dual, flow, identity, Lazy, pipe } from './function'
+import { constNull, constUndefined, dual, flow, identity, LazyArg, pipe } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1, let as let__ } from './Functor'
 import { HKT } from './HKT'
 import * as _ from './internal'
@@ -459,7 +459,7 @@ export const Foldable: Foldable1<URI> = {
  * @category error handling
  * @since 2.9.0
  */
-export const altW: <B>(that: Lazy<Option<B>>) => <A>(fa: Option<A>) => Option<A | B> = (that) => (fa) =>
+export const altW: <B>(that: LazyArg<Option<B>>) => <A>(fa: Option<A>) => Option<A | B> = (that) => (fa) =>
   isNone(fa) ? that() : fa
 
 /**
@@ -511,7 +511,7 @@ export const altW: <B>(that: Lazy<Option<B>>) => <A>(fa: Option<A>) => Option<A 
  * @category error handling
  * @since 2.0.0
  */
-export const alt: <A>(that: Lazy<Option<A>>) => (fa: Option<A>) => Option<A> = altW
+export const alt: <A>(that: LazyArg<Option<A>>) => (fa: Option<A>) => Option<A> = altW
 
 /**
  * @category instances
@@ -812,7 +812,7 @@ export const isNone = (fa: Option<unknown>): fa is None => fa._tag === 'None'
  * @since 2.10.0
  */
 export const matchW =
-  <B, A, C>(onNone: Lazy<B>, onSome: (a: A) => C) =>
+  <B, A, C>(onNone: LazyArg<B>, onSome: (a: A) => C) =>
   (ma: Option<A>): B | C =>
     isNone(ma) ? onNone() : onSome(ma.value)
 
@@ -851,7 +851,7 @@ export const foldW = matchW
  * @category pattern matching
  * @since 2.10.0
  */
-export const match: <A, B>(onNone: Lazy<B>, onSome: (a: A) => B) => (ma: Option<A>) => B = matchW
+export const match: <A, B>(onNone: LazyArg<B>, onSome: (a: A) => B) => (ma: Option<A>) => B = matchW
 
 /**
  * Alias of [`match`](#match).
@@ -870,7 +870,7 @@ export const fold = match
  * @since 2.6.0
  */
 export const getOrElseW =
-  <B>(onNone: Lazy<B>) =>
+  <B>(onNone: LazyArg<B>) =>
   <A>(ma: Option<A>): A | B =>
     isNone(ma) ? onNone() : ma.value
 
@@ -899,7 +899,7 @@ export const getOrElseW =
  * @category error handling
  * @since 2.0.0
  */
-export const getOrElse: <A>(onNone: Lazy<A>) => (ma: Option<A>) => A = getOrElseW
+export const getOrElse: <A>(onNone: LazyArg<A>) => (ma: Option<A>) => A = getOrElseW
 
 /**
  * @category mapping
@@ -1000,7 +1000,7 @@ export const fromNullable = <A>(a: A): Option<NonNullable<A>> => (a == null ? no
  * @category interop
  * @since 2.0.0
  */
-export const tryCatch = <A>(f: Lazy<A>): Option<A> => {
+export const tryCatch = <A>(f: LazyArg<A>): Option<A> => {
   try {
     return some(f())
   } catch (e) {

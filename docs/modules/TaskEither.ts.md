@@ -286,7 +286,7 @@ Added in v2.12.0
 **Signature**
 
 ```ts
-export declare const fromOption: <E>(onNone: Lazy<E>) => <A>(fa: Option<A>) => TaskEither<E, A>
+export declare const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => TaskEither<E, A>
 ```
 
 Added in v2.0.0
@@ -306,7 +306,7 @@ Added in v2.7.0
 **Signature**
 
 ```ts
-export declare const fromTaskOption: <E>(onNone: Lazy<E>) => <A>(fa: TaskOption<A>) => TaskEither<E, A>
+export declare const fromTaskOption: <E>(onNone: LazyArg<E>) => <A>(fa: TaskOption<A>) => TaskEither<E, A>
 ```
 
 Added in v2.11.0
@@ -428,7 +428,7 @@ See also [orElse](#orelse).
 **Signature**
 
 ```ts
-export declare const alt: <E, A>(that: Lazy<TaskEither<E, A>>) => (fa: TaskEither<E, A>) => TaskEither<E, A>
+export declare const alt: <E, A>(that: LazyArg<TaskEither<E, A>>) => (fa: TaskEither<E, A>) => TaskEither<E, A>
 ```
 
 **Example**
@@ -477,7 +477,7 @@ The `W` suffix (short for **W**idening) means that the error and the return type
 
 ```ts
 export declare const altW: <E2, B>(
-  that: Lazy<TaskEither<E2, B>>
+  that: LazyArg<TaskEither<E2, B>>
 ) => <E1, A>(fa: TaskEither<E1, A>) => TaskEither<E2, B | A>
 ```
 
@@ -990,7 +990,7 @@ See also [`tryCatchK`](#trycatchk).
 **Signature**
 
 ```ts
-export declare const tryCatch: <E, A>(f: Lazy<Promise<A>>, onRejected: (reason: unknown) => E) => TaskEither<E, A>
+export declare const tryCatch: <E, A>(f: LazyArg<Promise<A>>, onRejected: (reason: unknown) => E) => TaskEither<E, A>
 ```
 
 **Example**
@@ -1110,7 +1110,7 @@ Added in v2.12.0
 
 ```ts
 export declare const fromOptionK: <E>(
-  onNone: Lazy<E>
+  onNone: LazyArg<E>
 ) => <A extends readonly unknown[], B>(f: (...a: A) => Option<B>) => (...a: A) => TaskEither<E, B>
 ```
 
@@ -1148,7 +1148,7 @@ Added in v2.10.0
 
 ```ts
 export declare const fromTaskOptionK: <E>(
-  onNone: Lazy<E>
+  onNone: LazyArg<E>
 ) => <A extends readonly unknown[], B>(f: (...a: A) => TaskOption<B>) => (...a: A) => TaskEither<E, B>
 ```
 
@@ -1455,7 +1455,7 @@ Added in v2.12.0
 
 ```ts
 export declare const chainOptionK: <E>(
-  onNone: Lazy<E>
+  onNone: LazyArg<E>
 ) => <A, B>(f: (a: A) => Option<B>) => (ma: TaskEither<E, A>) => TaskEither<E, B>
 ```
 
@@ -1471,7 +1471,7 @@ The `W` suffix (short for **W**idening) means that the error types will be merge
 
 ```ts
 export declare const chainOptionKW: <E2>(
-  onNone: Lazy<E2>
+  onNone: LazyArg<E2>
 ) => <A, B>(f: (a: A) => Option<B>) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
 ```
 
@@ -1493,7 +1493,7 @@ Added in v2.10.0
 
 ```ts
 export declare const chainTaskOptionK: <E>(
-  onNone: Lazy<E>
+  onNone: LazyArg<E>
 ) => <A, B>(f: (a: A) => TaskOption<B>) => (ma: TaskEither<E, A>) => TaskEither<E, B>
 ```
 
@@ -1507,7 +1507,7 @@ The `W` suffix (short for **W**idening) means that the error types will be merge
 
 ```ts
 export declare const chainTaskOptionKW: <E2>(
-  onNone: Lazy<E2>
+  onNone: LazyArg<E2>
 ) => <A, B>(f: (a: A) => TaskOption<B>) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
 ```
 

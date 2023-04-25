@@ -49,7 +49,7 @@ import {
   FromTask2,
   fromTaskK as fromTaskK_
 } from './FromTask'
-import { dual, flow, identity, Lazy, pipe, SK } from './function'
+import { dual, flow, identity, LazyArg, pipe, SK } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor2, let as let__ } from './Functor'
 import * as _ from './internal'
 import { IO } from './IO'
@@ -154,7 +154,7 @@ export const fromIOEither: <E, A>(fa: IOEither<E, A>) => TaskEither<E, A> = T.fr
  * @category conversions
  * @since 2.11.0
  */
-export const fromTaskOption: <E>(onNone: Lazy<E>) => <A>(fa: TaskOption<A>) => TaskEither<E, A> = (onNone) =>
+export const fromTaskOption: <E>(onNone: LazyArg<E>) => <A>(fa: TaskOption<A>) => TaskEither<E, A> = (onNone) =>
   T.map(E.fromOption(onNone))
 
 /**
@@ -253,7 +253,7 @@ export const getOrElseW: <E, B>(onLeft: (e: E) => Task<B>) => <A>(ma: TaskEither
  * @since 2.0.0
  */
 export const tryCatch =
-  <E, A>(f: Lazy<Promise<A>>, onRejected: (reason: unknown) => E): TaskEither<E, A> =>
+  <E, A>(f: LazyArg<Promise<A>>, onRejected: (reason: unknown) => E): TaskEither<E, A> =>
   async () => {
     try {
       return await f().then(_.right)
@@ -399,7 +399,7 @@ export const swap: <E, A>(ma: TaskEither<E, A>) => TaskEither<A, E> = /*#__PURE_
  * @since 2.11.0
  */
 export const fromTaskOptionK = <E>(
-  onNone: Lazy<E>
+  onNone: LazyArg<E>
 ): (<A extends ReadonlyArray<unknown>, B>(f: (...a: A) => TaskOption<B>) => (...a: A) => TaskEither<E, B>) => {
   const from = fromTaskOption(onNone)
   return (f) => flow(f, from)
@@ -412,7 +412,7 @@ export const fromTaskOptionK = <E>(
  * @since 2.12.3
  */
 export const chainTaskOptionKW =
-  <E2>(onNone: Lazy<E2>) =>
+  <E2>(onNone: LazyArg<E2>) =>
   <A, B>(f: (a: A) => TaskOption<B>) =>
   <E1>(ma: TaskEither<E1, A>): TaskEither<E1 | E2, B> =>
     flatMap(ma, fromTaskOptionK<E1 | E2>(onNone)(f))
@@ -422,7 +422,7 @@ export const chainTaskOptionKW =
  * @since 2.11.0
  */
 export const chainTaskOptionK: <E>(
-  onNone: Lazy<E>
+  onNone: LazyArg<E>
 ) => <A, B>(f: (a: A) => TaskOption<B>) => (ma: TaskEither<E, A>) => TaskEither<E, B> = chainTaskOptionKW
 
 /**
@@ -576,7 +576,7 @@ export const flatten: <E, A>(mma: TaskEither<E, TaskEither<E, A>>) => TaskEither
  * @category error handling
  * @since 2.0.0
  */
-export const alt: <E, A>(that: Lazy<TaskEither<E, A>>) => (fa: TaskEither<E, A>) => TaskEither<E, A> =
+export const alt: <E, A>(that: LazyArg<TaskEither<E, A>>) => (fa: TaskEither<E, A>) => TaskEither<E, A> =
   /*#__PURE__*/ ET.alt(T.Monad)
 
 /**
@@ -587,8 +587,9 @@ export const alt: <E, A>(that: Lazy<TaskEither<E, A>>) => (fa: TaskEither<E, A>)
  * @category error handling
  * @since 2.9.0
  */
-export const altW: <E2, B>(that: Lazy<TaskEither<E2, B>>) => <E1, A>(fa: TaskEither<E1, A>) => TaskEither<E2, A | B> =
-  alt as any
+export const altW: <E2, B>(
+  that: LazyArg<TaskEither<E2, B>>
+) => <E1, A>(fa: TaskEither<E1, A>) => TaskEither<E2, A | B> = alt as any
 
 /**
  * @category constructors
@@ -969,7 +970,7 @@ export const FromEither: FromEither2<URI> = {
  * @category conversions
  * @since 2.0.0
  */
-export const fromOption: <E>(onNone: Lazy<E>) => <A>(fa: Option<A>) => TaskEither<E, A> =
+export const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => TaskEither<E, A> =
   /*#__PURE__*/ fromOption_(FromEither)
 
 /**
@@ -977,7 +978,7 @@ export const fromOption: <E>(onNone: Lazy<E>) => <A>(fa: Option<A>) => TaskEithe
  * @since 2.10.0
  */
 export const fromOptionK: <E>(
-  onNone: Lazy<E>
+  onNone: LazyArg<E>
 ) => <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Option<B>) => (...a: A) => TaskEither<E, B> =
   /*#__PURE__*/ fromOptionK_(FromEither)
 
@@ -986,7 +987,7 @@ export const fromOptionK: <E>(
  * @since 2.10.0
  */
 export const chainOptionK: <E>(
-  onNone: Lazy<E>
+  onNone: LazyArg<E>
 ) => <A, B>(f: (a: A) => Option<B>) => (ma: TaskEither<E, A>) => TaskEither<E, B> = /*#__PURE__*/ chainOptionK_(
   FromEither,
   Chain
@@ -1001,7 +1002,7 @@ export const chainOptionK: <E>(
  * @since 2.13.2
  */
 export const chainOptionKW: <E2>(
-  onNone: Lazy<E2>
+  onNone: LazyArg<E2>
 ) => <A, B>(f: (a: A) => Option<B>) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E1 | E2, B> =
   /*#__PURE__*/ chainOptionK as any
 

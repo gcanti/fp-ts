@@ -19,5 +19,6 @@
     "skipLibCheck": true,
     "types": ["vitest/globals"]
   },
-  "include": ["./src", "./test", "./scripts", "./perf", "./dtslint"]
+  "include": ["./src", "./test", "./scripts", "./perf", "./dtslint"],
+  "exclude": ["./node_modules"]
 }

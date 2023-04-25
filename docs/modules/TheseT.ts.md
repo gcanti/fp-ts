@@ -436,22 +436,22 @@ Added in v2.10.0
 ```ts
 export declare function toTuple2<F extends URIS3>(
   F: Functor3<F>
-): <E, A>(e: Lazy<E>, a: Lazy<A>) => <R, FE>(fa: Kind3<F, R, FE, These<E, A>>) => Kind3<F, R, FE, readonly [E, A]>
+): <E, A>(e: LazyArg<E>, a: LazyArg<A>) => <R, FE>(fa: Kind3<F, R, FE, These<E, A>>) => Kind3<F, R, FE, readonly [E, A]>
 export declare function toTuple2<F extends URIS3, FE>(
   F: Functor3C<F, FE>
-): <E, A>(e: Lazy<E>, a: Lazy<A>) => <R>(fa: Kind3<F, R, FE, These<E, A>>) => Kind3<F, R, FE, readonly [E, A]>
+): <E, A>(e: LazyArg<E>, a: LazyArg<A>) => <R>(fa: Kind3<F, R, FE, These<E, A>>) => Kind3<F, R, FE, readonly [E, A]>
 export declare function toTuple2<F extends URIS2>(
   F: Functor2<F>
-): <E, A>(e: Lazy<E>, a: Lazy<A>) => <FE>(fa: Kind2<F, FE, These<E, A>>) => Kind2<F, FE, readonly [E, A]>
+): <E, A>(e: LazyArg<E>, a: LazyArg<A>) => <FE>(fa: Kind2<F, FE, These<E, A>>) => Kind2<F, FE, readonly [E, A]>
 export declare function toTuple2<F extends URIS2, FE>(
   F: Functor2C<F, FE>
-): <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: Kind2<F, FE, These<E, A>>) => Kind2<F, FE, readonly [E, A]>
+): <E, A>(e: LazyArg<E>, a: LazyArg<A>) => (fa: Kind2<F, FE, These<E, A>>) => Kind2<F, FE, readonly [E, A]>
 export declare function toTuple2<F extends URIS>(
   F: Functor1<F>
-): <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: Kind<F, These<E, A>>) => Kind<F, readonly [E, A]>
+): <E, A>(e: LazyArg<E>, a: LazyArg<A>) => (fa: Kind<F, These<E, A>>) => Kind<F, readonly [E, A]>
 export declare function toTuple2<F>(
   F: Functor<F>
-): <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: HKT<F, These<E, A>>) => HKT<F, readonly [E, A]>
+): <E, A>(e: LazyArg<E>, a: LazyArg<A>) => (fa: HKT<F, These<E, A>>) => HKT<F, readonly [E, A]>
 ```
 
 Added in v2.10.0

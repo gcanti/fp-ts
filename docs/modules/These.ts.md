@@ -193,7 +193,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const fromOption: <E>(onNone: Lazy<E>) => <A>(fa: Option<A>) => These<E, A>
+export declare const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => These<E, A>
 ```
 
 Added in v2.10.0
@@ -319,7 +319,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const toTuple2: <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: These<E, A>) => readonly [E, A]
+export declare const toTuple2: <E, A>(e: LazyArg<E>, a: LazyArg<A>) => (fa: These<E, A>) => readonly [E, A]
 ```
 
 **Example**
@@ -548,7 +548,7 @@ Added in v2.0.0
 
 ```ts
 export declare const fromOptionK: <E>(
-  onNone: Lazy<E>
+  onNone: LazyArg<E>
 ) => <A extends readonly unknown[], B>(f: (...a: A) => Option<B>) => (...a: A) => These<E, B>
 ```
 

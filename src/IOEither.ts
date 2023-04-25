@@ -41,7 +41,7 @@ import {
   fromPredicate as fromPredicate_
 } from './FromEither'
 import { chainFirstIOK as chainFirstIOK_, chainIOK as chainIOK_, FromIO2, fromIOK as fromIOK_ } from './FromIO'
-import { dual, flow, identity, Lazy, pipe, SK } from './function'
+import { dual, flow, identity, LazyArg, pipe, SK } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor2, let as let__ } from './Functor'
 import * as _ from './internal'
 import * as I from './IO'
@@ -197,7 +197,7 @@ export const getOrElseW: <E, B>(onLeft: (e: E) => IO<B>) => <A>(ma: IOEither<E, 
  * @since 2.0.0
  */
 export const tryCatch =
-  <E, A>(f: Lazy<A>, onThrow: (reason: unknown) => E): IOEither<E, A> =>
+  <E, A>(f: LazyArg<A>, onThrow: (reason: unknown) => E): IOEither<E, A> =>
   () =>
     E.tryCatch(f, onThrow)
 
@@ -376,9 +376,8 @@ export const flatten: <E, A>(mma: IOEither<E, IOEither<E, A>>) => IOEither<E, A>
  * @category error handling
  * @since 2.0.0
  */
-export const alt: <E, A>(that: Lazy<IOEither<E, A>>) => (fa: IOEither<E, A>) => IOEither<E, A> = /*#__PURE__*/ ET.alt(
-  I.Monad
-)
+export const alt: <E, A>(that: LazyArg<IOEither<E, A>>) => (fa: IOEither<E, A>) => IOEither<E, A> =
+  /*#__PURE__*/ ET.alt(I.Monad)
 
 /**
  * Less strict version of [`alt`](#alt).
@@ -388,7 +387,7 @@ export const alt: <E, A>(that: Lazy<IOEither<E, A>>) => (fa: IOEither<E, A>) => 
  * @category error handling
  * @since 2.9.0
  */
-export const altW: <E2, B>(that: Lazy<IOEither<E2, B>>) => <E1, A>(fa: IOEither<E1, A>) => IOEither<E2, A | B> =
+export const altW: <E2, B>(that: LazyArg<IOEither<E2, B>>) => <E1, A>(fa: IOEither<E1, A>) => IOEither<E2, A | B> =
   alt as any
 
 /**
@@ -723,7 +722,7 @@ export const FromEither: FromEither2<URI> = {
  * @category conversions
  * @since 2.0.0
  */
-export const fromOption: <E>(onNone: Lazy<E>) => <A>(fa: Option<A>) => IOEither<E, A> =
+export const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => IOEither<E, A> =
   /*#__PURE__*/ fromOption_(FromEither)
 
 /**
@@ -731,7 +730,7 @@ export const fromOption: <E>(onNone: Lazy<E>) => <A>(fa: Option<A>) => IOEither<
  * @since 2.10.0
  */
 export const fromOptionK: <E>(
-  onNone: Lazy<E>
+  onNone: LazyArg<E>
 ) => <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Option<B>) => (...a: A) => IOEither<E, B> =
   /*#__PURE__*/ fromOptionK_(FromEither)
 
@@ -740,7 +739,7 @@ export const fromOptionK: <E>(
  * @since 2.10.0
  */
 export const chainOptionK: <E>(
-  onNone: Lazy<E>
+  onNone: LazyArg<E>
 ) => <A, B>(f: (a: A) => Option<B>) => (ma: IOEither<E, A>) => IOEither<E, B> = /*#__PURE__*/ chainOptionK_(
   FromEither,
   Chain
@@ -755,7 +754,7 @@ export const chainOptionK: <E>(
  * @since 2.13.2
  */
 export const chainOptionKW: <E2>(
-  onNone: Lazy<E2>
+  onNone: LazyArg<E2>
 ) => <A, B>(f: (a: A) => Option<B>) => <E1>(ma: IOEither<E1, A>) => IOEither<E1 | E2, B> =
   /*#__PURE__*/ chainOptionK as any
 

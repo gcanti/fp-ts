@@ -43,7 +43,7 @@ import {
   FromTask4,
   fromTaskK as fromTaskK_
 } from './FromTask'
-import { dual, flow, identity, Lazy, pipe } from './function'
+import { dual, flow, identity, LazyArg, pipe } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor4, let as let__ } from './Functor'
 import * as _ from './internal'
 import { IO } from './IO'
@@ -360,7 +360,7 @@ const _ap: Monad4<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
 /* istanbul ignore next */
 const _alt: <S, R, E, A>(
   fa: StateReaderTaskEither<S, R, E, A>,
-  that: Lazy<StateReaderTaskEither<S, R, E, A>>
+  that: LazyArg<StateReaderTaskEither<S, R, E, A>>
 ) => StateReaderTaskEither<S, R, E, A> = (fa, that) => (s) =>
   pipe(
     fa(s),
@@ -502,7 +502,7 @@ export const altW =
  * @since 2.6.2
  */
 export const alt: <S, R, E, A>(
-  that: Lazy<StateReaderTaskEither<S, R, E, A>>
+  that: LazyArg<StateReaderTaskEither<S, R, E, A>>
 ) => (fa: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A> = altW
 
 /**
@@ -873,7 +873,7 @@ export const FromEither: FromEither4<URI> = {
  * @since 2.0.0
  */
 export const fromOption: <E>(
-  onNone: Lazy<E>
+  onNone: LazyArg<E>
 ) => <A, S, R = unknown>(fa: Option<A>) => StateReaderTaskEither<S, R, E, A> = /*#__PURE__*/ fromOption_(FromEither)
 
 /**
@@ -881,7 +881,7 @@ export const fromOption: <E>(
  * @since 2.10.0
  */
 export const fromOptionK: <E>(
-  onNone: Lazy<E>
+  onNone: LazyArg<E>
 ) => <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => Option<B>
 ) => <S, R = unknown>(...a: A) => StateReaderTaskEither<S, R, E, B> = /*#__PURE__*/ fromOptionK_(FromEither)
@@ -891,7 +891,7 @@ export const fromOptionK: <E>(
  * @since 2.10.0
  */
 export const chainOptionK: <E>(
-  onNone: Lazy<E>
+  onNone: LazyArg<E>
 ) => <A, B>(
   f: (a: A) => Option<B>
 ) => <S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> = /*#__PURE__*/ chainOptionK_(
@@ -908,7 +908,7 @@ export const chainOptionK: <E>(
  * @since 2.13.2
  */
 export const chainOptionKW: <E2>(
-  onNone: Lazy<E2>
+  onNone: LazyArg<E2>
 ) => <A, B>(
   f: (a: A) => Option<B>
 ) => <S, R, E1>(ma: StateReaderTaskEither<S, R, E1, A>) => StateReaderTaskEither<S, R, E1 | E2, B> =

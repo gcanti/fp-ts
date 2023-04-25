@@ -27,7 +27,7 @@ import {
   fromEitherK as fromEitherK_
 } from './FromEither'
 import { chainFirstIOK as chainFirstIOK_, chainIOK as chainIOK_, FromIO1, fromIOK as fromIOK_ } from './FromIO'
-import { dual, flow, identity, Lazy, pipe, SK } from './function'
+import { dual, flow, identity, LazyArg, pipe, SK } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1, let as let__ } from './Functor'
 import * as _ from './internal'
 import * as I from './IO'
@@ -154,7 +154,7 @@ export const matchEW: <B, C, A>(onNone: () => IO<B>, onSome: (a: A) => IO<C>) =>
  * @category error handling
  * @since 2.12.0
  */
-export const getOrElse: <A>(onNone: Lazy<IO<A>>) => (fa: IOOption<A>) => IO<A> = /*#__PURE__*/ OT.getOrElse(I.Monad)
+export const getOrElse: <A>(onNone: LazyArg<IO<A>>) => (fa: IOOption<A>) => IO<A> = /*#__PURE__*/ OT.getOrElse(I.Monad)
 
 /**
  * Less strict version of [`getOrElse`](#getorelse).
@@ -164,7 +164,7 @@ export const getOrElse: <A>(onNone: Lazy<IO<A>>) => (fa: IOOption<A>) => IO<A> =
  * @category error handling
  * @since 2.12.0
  */
-export const getOrElseW: <B>(onNone: Lazy<IO<B>>) => <A>(ma: IOOption<A>) => IO<A | B> = getOrElse as any
+export const getOrElseW: <B>(onNone: LazyArg<IO<B>>) => <A>(ma: IOOption<A>) => IO<A | B> = getOrElse as any
 
 /**
  * @category conversions
@@ -257,7 +257,9 @@ export const flatten: <A>(mma: IOOption<IOOption<A>>) => IOOption<A> = /*#__PURE
  * @category error handling
  * @since 2.12.0
  */
-export const alt: <A>(second: Lazy<IOOption<A>>) => (first: IOOption<A>) => IOOption<A> = /*#__PURE__*/ OT.alt(I.Monad)
+export const alt: <A>(second: LazyArg<IOOption<A>>) => (first: IOOption<A>) => IOOption<A> = /*#__PURE__*/ OT.alt(
+  I.Monad
+)
 
 /**
  * Less strict version of [`alt`](#alt).
@@ -267,7 +269,7 @@ export const alt: <A>(second: Lazy<IOOption<A>>) => (first: IOOption<A>) => IOOp
  * @category error handling
  * @since 2.12.0
  */
-export const altW: <B>(second: Lazy<IOOption<B>>) => <A>(first: IOOption<A>) => IOOption<A | B> = alt as any
+export const altW: <B>(second: LazyArg<IOOption<B>>) => <A>(first: IOOption<A>) => IOOption<A | B> = alt as any
 
 /**
  * @since 2.12.0
