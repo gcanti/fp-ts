@@ -2,7 +2,7 @@ import * as B from '../src/boolean'
 import * as _ from '../src/BooleanAlgebra'
 import * as U from './util'
 
-describe('BooleanAlgebra', () => {
+describe.concurrent('BooleanAlgebra', () => {
   it('booleanAlgebraBoolean', () => {
     const BA = _.booleanAlgebraBoolean
     U.deepStrictEqual(BA.implies(true, true), true)

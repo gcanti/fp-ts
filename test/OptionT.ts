@@ -5,7 +5,7 @@ import * as U from './util'
 
 const MT = getOptionM(T.Monad)
 
-describe('OptionT', () => {
+describe.concurrent('OptionT', () => {
   it('map', async () => {
     const greetingT = MT.of('welcome')
     const excitedGreetingT = MT.map(greetingT, (s) => s + '!')

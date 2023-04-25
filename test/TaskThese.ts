@@ -9,7 +9,7 @@ import * as _ from '../src/TaskThese'
 import * as TH from '../src/These'
 import * as U from './util'
 
-describe('TaskThese', () => {
+describe.concurrent('TaskThese', () => {
   // -------------------------------------------------------------------------------------
   // pipeables
   // -------------------------------------------------------------------------------------
@@ -37,7 +37,7 @@ describe('TaskThese', () => {
   // instances
   // -------------------------------------------------------------------------------------
 
-  describe('getApplicative', () => {
+  describe.concurrent('getApplicative', () => {
     it('Par', async () => {
       await U.assertSeq(_.getApplicative(T.ApplicativeSeq, S.Semigroup), _.FromTask, (fa) => fa())
     })
@@ -57,7 +57,7 @@ describe('TaskThese', () => {
     U.deepStrictEqual(await SSN.concat(_.both('a', 1), _.both('b', 2))(), TH.both('ab', 3))
   })
 
-  describe('getMonad', () => {
+  describe.concurrent('getMonad', () => {
     const M = _.getMonad(S.Monoid)
     it('map', async () => {
       const f = (n: number): number => n * 2

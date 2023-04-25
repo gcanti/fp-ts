@@ -2,7 +2,7 @@ import * as _ from '../src/Bounded'
 import * as N from '../src/number'
 import * as U from './util'
 
-describe('Bounded', () => {
+describe.concurrent('Bounded', () => {
   it('clamp', () => {
     const B: _.Bounded<number> = {
       ...N.Ord,

@@ -18,8 +18,8 @@ const p = (n: number) => n > 2
 
 const noPrototype = Object.create(null)
 
-describe('ReadonlyRecord', () => {
-  describe('pipeables', () => {
+describe.concurrent('ReadonlyRecord', () => {
+  describe.concurrent('pipeables', () => {
     it('collect', () => {
       const x: { readonly a: string; readonly b: boolean } = { a: 'c', b: false }
       U.deepStrictEqual(_.collect(S.Ord)((key, val) => ({ key: key, value: val }))(x), [
@@ -277,7 +277,7 @@ describe('ReadonlyRecord', () => {
       )
     })
 
-    describe('traverseWithIndex', () => {
+    describe.concurrent('traverseWithIndex', () => {
       it('simple Traversal', () => {
         const f = (k: string, n: number): O.Option<number> => (k !== 'a' ? O.some(n) : O.none)
         const traverseWithIndex = _.traverseWithIndex(O.Applicative)(f)

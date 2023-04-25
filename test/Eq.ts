@@ -6,8 +6,8 @@ import * as N from '../src/number'
 import * as S from '../src/string'
 import * as U from './util'
 
-describe('Eq', () => {
-  describe('pipeables', () => {
+describe.concurrent('Eq', () => {
+  describe.concurrent('pipeables', () => {
     it('contramap', () => {
       const E = pipe(
         S.Eq,

@@ -5,7 +5,7 @@ import * as N from '../src/number'
 import * as S from '../src/string'
 import * as U from './util'
 
-describe('Monoid', () => {
+describe.concurrent('Monoid', () => {
   it('tuple', () => {
     const M1 = _.tuple(S.Monoid, N.MonoidSum)
     U.deepStrictEqual(M1.concat(['a', 1], ['b', 2]), ['ab', 3])

@@ -8,7 +8,7 @@ import * as RR from '../src/ReadonlyRecord'
 import * as S from '../src/string'
 import * as U from './util'
 
-describe('Ord', () => {
+describe.concurrent('Ord', () => {
   it('tuple', () => {
     const O = _.tuple(S.Ord, N.Ord, B.Ord)
     U.deepStrictEqual(O.compare(['a', 1, true], ['b', 2, true]), -1)

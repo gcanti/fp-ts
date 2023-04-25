@@ -8,7 +8,7 @@ import * as TE from '../src/TaskEither'
 import * as _ from '../src/TaskOption'
 import * as U from './util'
 
-describe('TaskOption', () => {
+describe.concurrent('TaskOption', () => {
   // -------------------------------------------------------------------------------------
   // type class members
   // -------------------------------------------------------------------------------------
@@ -104,7 +104,7 @@ describe('TaskOption', () => {
   // constructors
   // -------------------------------------------------------------------------------------
 
-  describe('tryCatch', () => {
+  describe.concurrent('tryCatch', () => {
     test('with a resolving promise', async () => {
       U.deepStrictEqual(await _.tryCatch(() => Promise.resolve(1))(), O.some(1))
     })
@@ -206,7 +206,7 @@ describe('TaskOption', () => {
     U.deepStrictEqual(await f(_.none)(), O.none)
   })
 
-  describe('array utils', () => {
+  describe.concurrent('array utils', () => {
     const input: ReadonlyNonEmptyArray<string> = ['a', 'b']
 
     it('traverseReadonlyArrayWithIndex', async () => {
@@ -309,7 +309,7 @@ describe('TaskOption', () => {
     })
   })
 
-  describe('tryCatchK', () => {
+  describe.concurrent('tryCatchK', () => {
     test('with a resolved promise', async () => {
       const g = _.tryCatchK((a: number) => Promise.resolve(a))
       U.deepStrictEqual(await g(1)(), O.some(1))

@@ -9,7 +9,7 @@ export const ArrayOptionURI = 'ArrayOption'
 
 export type ArrayOptionURI = typeof ArrayOptionURI
 
-describe('Traversable', () => {
+describe.concurrent('Traversable', () => {
   it('getTraversableComposition', () => {
     const T = _.getTraversableComposition(RA.Traversable, O.Traversable)
     U.deepStrictEqual(

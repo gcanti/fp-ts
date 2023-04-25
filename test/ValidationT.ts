@@ -4,8 +4,8 @@ import { semigroupString } from '../src/Semigroup'
 import * as _ from '../src/ValidationT'
 import * as U from './util'
 
-describe('ValidationT', () => {
-  describe('getValidationM', () => {
+describe.concurrent('ValidationT', () => {
+  describe.concurrent('getValidationM', () => {
     const VT = _.getValidationM(semigroupString, IO.Monad)
 
     it('chain', () => {

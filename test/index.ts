@@ -27,7 +27,7 @@ function getModuleNames(): ReadonlyArray<string> {
     .filter((name) => name !== 'internal')
 }
 
-describe('index', () => {
+describe.concurrent('index', () => {
   it('check exported modules', () => {
     const moduleNames = getModuleNames()
     moduleNames.forEach((name) => {
