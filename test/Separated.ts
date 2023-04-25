@@ -4,8 +4,8 @@ import { isDeepStrictEqual } from 'util'
 import { pipe } from '../src/function'
 import * as _ from '../src/Separated'
 
-describe('Separated', () => {
-  describe('pipeables', () => {
+describe.concurrent('Separated', () => {
+  describe.concurrent('pipeables', () => {
     it('mapLeft', () =>
       fc.assert(
         fc.property(fc.integer(), fc.integer(), (left, right) => {

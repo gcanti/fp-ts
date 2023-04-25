@@ -19,8 +19,8 @@ import * as U from './util'
 
 /* tslint:disable:readonly-array */
 
-describe('Array', () => {
-  describe('pipeables', () => {
+describe.concurrent('Array', () => {
+  describe.concurrent('pipeables', () => {
     it('traverse', () => {
       const traverse = _.traverse(O.Applicative)((n: number): O.Option<number> => (n % 2 === 0 ? O.none : O.some(n)))
       U.deepStrictEqual(traverse([1, 2]), O.none)
@@ -82,7 +82,7 @@ describe('Array', () => {
     })
   })
 
-  describe('pipeables', () => {
+  describe.concurrent('pipeables', () => {
     it('map', () => {
       U.deepStrictEqual(
         pipe(
@@ -941,7 +941,7 @@ describe('Array', () => {
     assertSplitAt(empty, 3, empty, [])
   })
 
-  describe('chunksOf', () => {
+  describe.concurrent('chunksOf', () => {
     it('should split an array into length-n pieces', () => {
       U.deepStrictEqual(_.chunksOf(2)([1, 2, 3, 4, 5]), [[1, 2], [3, 4], [5]])
       U.deepStrictEqual(_.chunksOf(2)([1, 2, 3, 4, 5, 6]), [
@@ -1162,7 +1162,7 @@ describe('Array', () => {
     U.deepStrictEqual(pipe([1, 2, 3], _.copy), [1, 2, 3])
   })
 
-  describe('fromPredicate', () => {
+  describe.concurrent('fromPredicate', () => {
     it('can create an array from a Refinement', () => {
       const refinement: Refinement<unknown, string> = (a): a is string => typeof a === 'string'
       U.deepStrictEqual(_.fromPredicate(refinement)('hello'), ['hello'])

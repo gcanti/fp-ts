@@ -11,8 +11,8 @@ import { left, right } from '../src/Separated'
 import * as S from '../src/string'
 import * as U from './util'
 
-describe('ReaderEither', () => {
-  describe('pipeables', () => {
+describe.concurrent('ReaderEither', () => {
+  describe.concurrent('pipeables', () => {
     it('map', () => {
       U.deepStrictEqual(pipe(_.right(1), _.map(U.double))({}), E.right(2))
     })
@@ -185,7 +185,7 @@ describe('ReaderEither', () => {
     U.deepStrictEqual(pipe(_.left('a'), f)({}), E.left('a!'))
   })
 
-  describe('getSemigroup', () => {
+  describe.concurrent('getSemigroup', () => {
     it('concat', () => {
       const S = _.getSemigroup(N.SemigroupSum)
       const e1 = S.concat(_.left('a'), _.left('b'))({})
@@ -202,7 +202,7 @@ describe('ReaderEither', () => {
     })
   })
 
-  describe('getApplyMonoid', () => {
+  describe.concurrent('getApplyMonoid', () => {
     const M = _.getApplyMonoid(S.Monoid)
 
     it('concat (right)', () => {
@@ -277,7 +277,7 @@ describe('ReaderEither', () => {
     )
   })
 
-  describe('array utils', () => {
+  describe.concurrent('array utils', () => {
     const input: ReadonlyNonEmptyArray<string> = ['a', 'b']
 
     it('traverseReadonlyArrayWithIndex', () => {

@@ -6,7 +6,7 @@ const isPositive: _.Predicate<number> = (n) => n > 0
 const isNegative: _.Predicate<number> = (n) => n < 0
 const lt2: _.Predicate<number> = (n) => n < 2
 
-describe('Predicate', () => {
+describe.concurrent('Predicate', () => {
   it('contramap', () => {
     type A = {
       readonly a: number

@@ -4,8 +4,8 @@ import * as _ from '../src/Store'
 import * as S from '../src/string'
 import * as U from './util'
 
-describe('Store', () => {
-  describe('pipeables', () => {
+describe.concurrent('Store', () => {
+  describe.concurrent('pipeables', () => {
     it('map', () => {
       const wa: _.Store<string, number> = { peek: S.size, pos: 'a' }
       U.deepStrictEqual(

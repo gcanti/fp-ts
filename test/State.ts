@@ -4,8 +4,8 @@ import { ReadonlyNonEmptyArray } from '../src/ReadonlyNonEmptyArray'
 import * as _ from '../src/State'
 import * as U from './util'
 
-describe('State', () => {
-  describe('pipeables', () => {
+describe.concurrent('State', () => {
+  describe.concurrent('pipeables', () => {
     it('map', () => {
       const x = (s: number) => tuple(s - 1, s + 1)
       U.deepStrictEqual(pipe(x, _.map(U.double))(0), [-2, 1])
@@ -95,7 +95,7 @@ describe('State', () => {
     U.deepStrictEqual(pipe(_.of(1), _.bindTo('a'), _.apS('b', _.of('b')))(undefined), [{ a: 1, b: 'b' }, undefined])
   })
 
-  describe('array utils', () => {
+  describe.concurrent('array utils', () => {
     const input: ReadonlyNonEmptyArray<string> = ['a', 'b']
 
     it('traverseReadonlyArrayWithIndex', () => {

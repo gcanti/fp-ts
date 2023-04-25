@@ -2,7 +2,7 @@ import { pipe } from '../src/function'
 import * as _ from '../src/struct'
 import * as U from './util'
 
-describe('struct', () => {
+describe.concurrent('struct', () => {
   it('getAssignSemigroup', () => {
     type T = {
       readonly foo?: number

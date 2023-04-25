@@ -19,7 +19,7 @@ const fooEq: Eq.Eq<Foo> = {
   equals: (a: Foo, b: Foo) => a.x === b.x
 }
 
-describe('Set', () => {
+describe.concurrent('Set', () => {
   it('toArray', () => {
     U.deepStrictEqual(_.toArray(N.Ord)(new Set()), [])
     U.deepStrictEqual(_.toArray(N.Ord)(new Set([1, 2, 3])), [1, 2, 3])

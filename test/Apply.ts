@@ -5,7 +5,7 @@ import * as O from '../src/Option'
 import * as RA from '../src/ReadonlyArray'
 import * as U from './util'
 
-describe('Apply', () => {
+describe.concurrent('Apply', () => {
   it('sequenceT', () => {
     const sequenceTOption = sequenceT(O.Applicative)
     U.deepStrictEqual(sequenceTOption(O.some(1)), O.some([1]))

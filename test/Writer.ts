@@ -3,8 +3,8 @@ import * as S from '../src/string'
 import * as _ from '../src/Writer'
 import * as U from './util'
 
-describe('Writer', () => {
-  describe('pipeables', () => {
+describe.concurrent('Writer', () => {
+  describe.concurrent('pipeables', () => {
     it('map', () => {
       const x: _.Writer<string, number> = () => [1, 'a']
       U.deepStrictEqual(pipe(x, _.map(U.double))(), [2, 'a'])
@@ -67,7 +67,7 @@ describe('Writer', () => {
     )
   })
 
-  describe('getMonad', () => {
+  describe.concurrent('getMonad', () => {
     const M = _.getMonad(S.Monoid)
 
     it('of', () => {

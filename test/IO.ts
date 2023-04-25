@@ -6,8 +6,8 @@ import * as RA from '../src/ReadonlyArray'
 import { ReadonlyNonEmptyArray } from '../src/ReadonlyNonEmptyArray'
 import * as U from './util'
 
-describe('IO', () => {
-  describe('pipeables', () => {
+describe.concurrent('IO', () => {
+  describe.concurrent('pipeables', () => {
     it('map', () => {
       U.deepStrictEqual(pipe(_.of(1), _.map(U.double))(), 2)
     })
@@ -89,7 +89,7 @@ describe('IO', () => {
     U.deepStrictEqual(pipe(_.of(1), _.bindTo('a'), _.apS('b', _.of('b')))(), { a: 1, b: 'b' })
   })
 
-  describe('array utils', () => {
+  describe.concurrent('array utils', () => {
     const input: ReadonlyNonEmptyArray<string> = ['a', 'b']
 
     it('traverseReadonlyArrayWithIndex', () => {

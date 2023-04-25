@@ -21,7 +21,7 @@ const fooEq: Eq.Eq<Foo> = {
   equals: (a: Foo, b: Foo) => a.x === b.x
 }
 
-describe('ReadonlySet', () => {
+describe.concurrent('ReadonlySet', () => {
   it('toReadonlyArray', () => {
     U.deepStrictEqual(_.toReadonlyArray(N.Ord)(new Set()), [])
     U.deepStrictEqual(_.toReadonlyArray(N.Ord)(new Set([1, 2, 3])), [1, 2, 3])

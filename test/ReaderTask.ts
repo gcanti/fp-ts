@@ -11,7 +11,7 @@ import * as S from '../src/string'
 import * as T from '../src/Task'
 import * as U from './util'
 
-describe('ReaderTask', () => {
+describe.concurrent('ReaderTask', () => {
   // -------------------------------------------------------------------------------------
   // pipeables
   // -------------------------------------------------------------------------------------
@@ -205,7 +205,7 @@ describe('ReaderTask', () => {
     U.deepStrictEqual(await pipe(_.of(1), _.bindTo('a'), _.apS('b', _.of('b')))(undefined)(), { a: 1, b: 'b' })
   })
 
-  describe('array utils', () => {
+  describe.concurrent('array utils', () => {
     const input: ReadonlyNonEmptyArray<string> = ['a', 'b']
 
     it('traverseReadonlyArrayWithIndex', async () => {

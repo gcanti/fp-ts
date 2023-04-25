@@ -1,7 +1,7 @@
 import * as _ from '../src/Random'
 import * as U from './util'
 
-describe('Random', () => {
+describe.concurrent('Random', () => {
   it('random', () => {
     const n = _.random()
     U.deepStrictEqual(typeof n, 'number')

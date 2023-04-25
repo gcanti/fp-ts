@@ -7,8 +7,8 @@ import * as S from '../src/string'
 import * as _ from '../src/These'
 import * as U from './util'
 
-describe('These', () => {
-  describe('pipeables', () => {
+describe.concurrent('These', () => {
+  describe.concurrent('pipeables', () => {
     it('map', () => {
       const f = _.map(U.double)
       U.deepStrictEqual(pipe(_.left(2), f), _.left(2))

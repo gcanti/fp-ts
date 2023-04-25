@@ -8,8 +8,8 @@ import * as S from '../src/string'
 import * as _ from '../src/Tuple'
 import * as U from './util'
 
-describe('Tuple', () => {
-  describe('pipeables', () => {
+describe.concurrent('Tuple', () => {
+  describe.concurrent('pipeables', () => {
     it('compose', () => {
       U.deepStrictEqual(pipe([true, 2] as [boolean, number], _.compose([1, 'a'])), [true, 'a'])
     })

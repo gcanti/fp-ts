@@ -31,7 +31,7 @@ const assertOp =
     assert.deepStrictEqual(log, expectedLog)
   }
 
-describe('Task', () => {
+describe.concurrent('Task', () => {
   // -------------------------------------------------------------------------------------
   // safety
   // -------------------------------------------------------------------------------------
@@ -126,7 +126,7 @@ describe('Task', () => {
     await U.assertPar(_.ApplicativePar, _.FromTask, (fa) => fa())
   })
 
-  describe('getRaceMonoid', () => {
+  describe.concurrent('getRaceMonoid', () => {
     const M = _.getRaceMonoid<number>()
 
     it('concat', async () => {
@@ -190,7 +190,7 @@ describe('Task', () => {
     U.deepStrictEqual(await pipe(_.of(1), _.bindTo('a'), _.apS('b', _.of('b')))(), { a: 1, b: 'b' })
   })
 
-  describe('array utils', () => {
+  describe.concurrent('array utils', () => {
     const input: RNEA.ReadonlyNonEmptyArray<string> = ['a', 'b']
 
     it('traverseReadonlyArrayWithIndex', async () => {

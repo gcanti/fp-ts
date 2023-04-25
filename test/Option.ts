@@ -11,8 +11,8 @@ import * as U from './util'
 
 const p = (n: number): boolean => n > 2
 
-describe('Option', () => {
-  describe('pipeables', () => {
+describe.concurrent('Option', () => {
+  describe.concurrent('pipeables', () => {
     it('map', () => {
       U.deepStrictEqual(pipe(_.some(2), _.map(U.double)), _.some(4))
       U.deepStrictEqual(pipe(_.none, _.map(U.double)), _.none)
@@ -223,7 +223,7 @@ describe('Option', () => {
     })
   })
 
-  describe('constructors', () => {
+  describe.concurrent('constructors', () => {
     it('fromEither', () => {
       U.deepStrictEqual(_.fromEither(E.left('a')), _.none)
       U.deepStrictEqual(_.fromEither(E.right(1)), _.some(1))
@@ -490,7 +490,7 @@ describe('Option', () => {
     U.deepStrictEqual(f(-1), _.none)
   })
 
-  describe('array utils', () => {
+  describe.concurrent('array utils', () => {
     const input: ReadonlyNonEmptyArray<string> = ['a', 'b']
 
     it('traverseReadonlyArrayWithIndex', () => {
