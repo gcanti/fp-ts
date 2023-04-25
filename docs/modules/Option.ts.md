@@ -132,6 +132,8 @@ Added in v2.0.0
 - [interop](#interop)
   - [tryCatch](#trycatch)
   - [tryCatchK](#trycatchk)
+- [legacy](#legacy)
+  - [chain](#chain)
 - [lifting](#lifting)
   - [fromEitherK](#fromeitherk)
   - [fromNullableK](#fromnullablek)
@@ -152,7 +154,6 @@ Added in v2.0.0
   - [isNone](#isnone)
   - [isSome](#issome)
 - [sequencing](#sequencing)
-  - [chain](#chain)
   - [chainEitherK](#chaineitherk)
   - [chainFirst](#chainfirst)
   - [chainFirstEitherK](#chainfirsteitherk)
@@ -987,6 +988,20 @@ export declare const tryCatchK: <A extends readonly unknown[], B>(f: (...a: A) =
 
 Added in v2.10.0
 
+# legacy
+
+## chain
+
+Alias of `flatMap`.
+
+**Signature**
+
+```ts
+export declare const chain: <A, B>(f: (a: A) => Option<B>) => (ma: Option<A>) => Option<B>
+```
+
+Added in v2.0.0
+
 # lifting
 
 ## fromEitherK
@@ -1242,18 +1257,6 @@ assert.strictEqual(isSome(none), false)
 Added in v2.0.0
 
 # sequencing
-
-## chain
-
-Alias of `flatMap`.
-
-**Signature**
-
-```ts
-export declare const chain: <A, B>(f: (a: A) => Option<B>) => (ma: Option<A>) => Option<B>
-```
-
-Added in v2.0.0
 
 ## chainEitherK
 

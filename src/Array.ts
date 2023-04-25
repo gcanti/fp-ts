@@ -1311,10 +1311,7 @@ export function comprehension<A, R>(
 ): Array<R> {
   const go = (scope: Array<A>, input: Array<Array<A>>): Array<R> =>
     isNonEmpty(input)
-      ? pipe(
-          NEA.head(input),
-          chain((x) => go(pipe(scope, append(x)), NEA.tail(input)))
-        )
+      ? flatMap(NEA.head(input), (a) => go(pipe(scope, append(a)), NEA.tail(input)))
       : g(...scope)
       ? [f(...scope)]
       : []
@@ -1561,7 +1558,8 @@ export const map: <A, B>(f: (a: A) => B) => (fa: Array<A>) => Array<B> = (f) => 
  *
  * @since 2.0.0
  */
-export const ap: <A>(fa: Array<A>) => <B>(fab: Array<(a: A) => B>) => Array<B> = (fa) => chain((f) => pipe(fa, map(f)))
+export const ap: <A>(fa: Array<A>) => <B>(fab: Array<(a: A) => B>) => Array<B> = (fa) =>
+  flatMap((f) => pipe(fa, map(f)))
 
 /**
  * Composes computations in sequence, using the return value of one computation to
@@ -1596,14 +1594,6 @@ export const flatMap: {
 )
 
 /**
- * Alias of `flatMap`.
- *
- * @category sequencing
- * @since 2.0.0
- */
-export const chain: <A, B>(f: (a: A) => Array<B>) => (ma: Array<A>) => Array<B> = flatMap
-
-/**
  * Takes an array of arrays of `A` and flattens them into an array of `A`
  * by concatenating the elements of each array in order.
  *
@@ -1615,7 +1605,7 @@ export const chain: <A, B>(f: (a: A) => Array<B>) => (ma: Array<A>) => Array<B> 
  * @category sequencing
  * @since 2.5.0
  */
-export const flatten: <A>(mma: Array<Array<A>>) => Array<A> = /*#__PURE__*/ chain(identity)
+export const flatten: <A>(mma: Array<Array<A>>) => Array<A> = /*#__PURE__*/ flatMap(identity)
 
 /**
  * Same as [`map`](#map), but the iterating function takes both the index and the value
@@ -2911,6 +2901,18 @@ export const bind = /*#__PURE__*/ bind_(Chain)
  * @since 2.8.0
  */
 export const apS = /*#__PURE__*/ apS_(Apply)
+
+// -------------------------------------------------------------------------------------
+// legacy
+// -------------------------------------------------------------------------------------
+
+/**
+ * Alias of `flatMap`.
+ *
+ * @category legacy
+ * @since 2.0.0
+ */
+export const chain: <A, B>(f: (a: A) => Array<B>) => (ma: Array<A>) => Array<B> = flatMap
 
 // -------------------------------------------------------------------------------------
 // deprecated

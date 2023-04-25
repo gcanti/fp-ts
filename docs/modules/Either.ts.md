@@ -130,6 +130,9 @@ Added in v2.0.0
 - [interop](#interop)
   - [tryCatch](#trycatch)
   - [tryCatchK](#trycatchk)
+- [legacy](#legacy)
+  - [chain](#chain)
+  - [chainW](#chainw)
 - [lifting](#lifting)
   - [fromNullableK](#fromnullablek)
   - [fromOptionK](#fromoptionk)
@@ -151,13 +154,11 @@ Added in v2.0.0
   - [isLeft](#isleft)
   - [isRight](#isright)
 - [sequencing](#sequencing)
-  - [chain](#chain)
   - [chainFirst](#chainfirst)
   - [chainFirstW](#chainfirstw)
   - [chainNullableK](#chainnullablek)
   - [chainOptionK](#chainoptionk)
   - [chainOptionKW](#chainoptionkw)
-  - [chainW](#chainw)
   - [flatMap](#flatmap)
   - [flatten](#flatten)
   - [flattenW](#flattenw)
@@ -1087,6 +1088,32 @@ export declare const tryCatchK: <A extends readonly unknown[], B, E>(
 
 Added in v2.10.0
 
+# legacy
+
+## chain
+
+Alias of `flatMap`.
+
+**Signature**
+
+```ts
+export declare const chain: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Either<E, A>) => Either<E, B>
+```
+
+Added in v2.0.0
+
+## chainW
+
+Alias of `flatMap`.
+
+**Signature**
+
+```ts
+export declare const chainW: <E2, A, B>(f: (a: A) => Either<E2, B>) => <E1>(ma: Either<E1, A>) => Either<E2 | E1, B>
+```
+
+Added in v2.6.0
+
 # lifting
 
 ## fromNullableK
@@ -1326,18 +1353,6 @@ Added in v2.0.0
 
 # sequencing
 
-## chain
-
-Alias of `flatMap`.
-
-**Signature**
-
-```ts
-export declare const chain: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Either<E, A>) => Either<E, B>
-```
-
-Added in v2.0.0
-
 ## chainFirst
 
 Composes computations in sequence, using the return value of one computation to determine the next computation and
@@ -1406,18 +1421,6 @@ export declare const chainOptionKW: <E2>(
 ```
 
 Added in v2.13.2
-
-## chainW
-
-Alias of `flatMap`.
-
-**Signature**
-
-```ts
-export declare const chainW: <E2, A, B>(f: (a: A) => Either<E2, B>) => <E1>(ma: Either<E1, A>) => Either<E2 | E1, B>
-```
-
-Added in v2.6.0
 
 ## flatMap
 

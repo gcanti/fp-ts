@@ -116,11 +116,7 @@ export const asksReaderTask: <R, A>(f: (r: R) => ReaderTask<R, A>) => ReaderTask
 
 const _map: Functor2<URI>['map'] = (fa, f) => pipe(fa, map(f))
 const _apPar: Apply2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
-const _apSeq: Apply2<URI>['ap'] = (fab, fa) =>
-  pipe(
-    fab,
-    chain((f) => pipe(fa, map(f)))
-  )
+const _apSeq: Apply2<URI>['ap'] = (fab, fa) => flatMap(fab, (f) => pipe(fa, map(f)))
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
@@ -166,24 +162,6 @@ export const flatMap: {
 } = /*#__PURE__*/ dual(2, RT.flatMap(T.Monad))
 
 /**
- * Alias of `flatMap`.
- *
- * @category sequencing
- * @since 2.3.0
- */
-export const chain: <A, R, B>(f: (a: A) => ReaderTask<R, B>) => (ma: ReaderTask<R, A>) => ReaderTask<R, B> = flatMap
-
-/**
- * Alias of `flatMap`.
- *
- * @category sequencing
- * @since 2.6.7
- */
-export const chainW: <R2, A, B>(
-  f: (a: A) => ReaderTask<R2, B>
-) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B> = flatMap
-
-/**
  * Less strict version of [`flatten`](#flatten).
  *
  * The `W` suffix (short for **W**idening) means that the environment types will be merged.
@@ -192,7 +170,7 @@ export const chainW: <R2, A, B>(
  * @since 2.11.0
  */
 export const flattenW: <R1, R2, A>(mma: ReaderTask<R1, ReaderTask<R2, A>>) => ReaderTask<R1 & R2, A> =
-  /*#__PURE__*/ chainW(identity)
+  /*#__PURE__*/ flatMap(identity)
 
 /**
  * @category sequencing
@@ -497,7 +475,7 @@ export const fromReaderIOK =
  */
 export const chainReaderIOKW: <A, R2, B>(
   f: (a: A) => ReaderIO<R2, B>
-) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B> = (f) => chainW(fromReaderIOK(f))
+) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B> = (f) => flatMap(fromReaderIOK(f))
 
 /**
  * @category sequencing
@@ -724,6 +702,28 @@ export const traverseSeqArrayWithIndex: <R, A, B>(
 export const traverseSeqArray = <R, A, B>(
   f: (a: A) => ReaderTask<R, B>
 ): ((as: ReadonlyArray<A>) => ReaderTask<R, ReadonlyArray<B>>) => traverseReadonlyArrayWithIndexSeq((_, a) => f(a))
+
+// -------------------------------------------------------------------------------------
+// legacy
+// -------------------------------------------------------------------------------------
+
+/**
+ * Alias of `flatMap`.
+ *
+ * @category legacy
+ * @since 2.3.0
+ */
+export const chain: <A, R, B>(f: (a: A) => ReaderTask<R, B>) => (ma: ReaderTask<R, A>) => ReaderTask<R, B> = flatMap
+
+/**
+ * Alias of `flatMap`.
+ *
+ * @category legacy
+ * @since 2.6.7
+ */
+export const chainW: <R2, A, B>(
+  f: (a: A) => ReaderTask<R2, B>
+) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B> = flatMap
 
 // -------------------------------------------------------------------------------------
 // deprecated

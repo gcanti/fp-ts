@@ -532,22 +532,6 @@ export const Applicative: Applicative2<URI> = {
 }
 
 /**
- * Alias of `flatMap`.
- *
- * @category sequencing
- * @since 2.6.0
- */
-export const chainW: <E2, A, B>(f: (a: A) => Either<E2, B>) => <E1>(ma: Either<E1, A>) => Either<E2 | E1, B> = flatMap
-
-/**
- * Alias of `flatMap`.
- *
- * @category sequencing
- * @since 2.0.0
- */
-export const chain: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Either<E, A>) => Either<E, B> = flatMap
-
-/**
  * @category instances
  * @since 2.10.0
  */
@@ -1150,7 +1134,7 @@ export const chainFirstW: <E2, A, B>(f: (a: A) => Either<E2, B>) => <E1>(ma: Eit
  * @since 2.11.0
  */
 export const flattenW: <E1, E2, A>(mma: Either<E1, Either<E2, A>>) => Either<E1 | E2, A> =
-  /*#__PURE__*/ chainW(identity)
+  /*#__PURE__*/ flatMap(identity)
 
 /**
  * The `flatten` function is the conventional monad join operator. It is used to remove one level of monadic structure, projecting its bound argument into the outer level.
@@ -1377,7 +1361,7 @@ export const chainNullableK = <E>(
   e: E
 ): (<A, B>(f: (a: A) => B | null | undefined) => (ma: Either<E, A>) => Either<E, NonNullable<B>>) => {
   const from = fromNullableK(e)
-  return (f) => chain(from(f))
+  return (f) => flatMap(from(f))
 }
 
 /**
@@ -1573,6 +1557,26 @@ export const traverseArray = <E, A, B>(
  */
 export const sequenceArray: <E, A>(as: ReadonlyArray<Either<E, A>>) => Either<E, ReadonlyArray<A>> =
   /*#__PURE__*/ traverseArray(identity)
+
+// -------------------------------------------------------------------------------------
+// legacy
+// -------------------------------------------------------------------------------------
+
+/**
+ * Alias of `flatMap`.
+ *
+ * @category legacy
+ * @since 2.6.0
+ */
+export const chainW: <E2, A, B>(f: (a: A) => Either<E2, B>) => <E1>(ma: Either<E1, A>) => Either<E2 | E1, B> = flatMap
+
+/**
+ * Alias of `flatMap`.
+ *
+ * @category legacy
+ * @since 2.0.0
+ */
+export const chain: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Either<E, A>) => Either<E, B> = flatMap
 
 // -------------------------------------------------------------------------------------
 // deprecated

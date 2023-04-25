@@ -284,11 +284,8 @@ export const swap: <E, A>(ma: IOEither<E, A>) => IOEither<A, E> = /*#__PURE__*/ 
 const _map: Functor2<URI>['map'] = (fa, f) => pipe(fa, map(f))
 /* istanbul ignore next */
 const _ap: Apply2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
-const _apSeq: Apply2<URI>['ap'] = (fab, fa) =>
-  pipe(
-    fab,
-    chain((f) => pipe(fa, map(f)))
-  )
+const _apSeq: Apply2<URI>['ap'] = (fab, fa) => flatMap(fab, (f) => pipe(fa, map(f)))
+
 /* istanbul ignore next */
 const _bimap: Bifunctor2<URI>['bimap'] = (fa, f, g) => pipe(fa, bimap(f, g))
 /* istanbul ignore next */
@@ -356,23 +353,6 @@ export const flatMap: {
 } = /*#__PURE__*/ dual(2, ET.flatMap(I.Monad))
 
 /**
- * Alias of `flatMap`.
- *
- * @category sequencing
- * @since 2.0.0
- */
-export const chain: <E, A, B>(f: (a: A) => IOEither<E, B>) => (ma: IOEither<E, A>) => IOEither<E, B> = flatMap
-
-/**
- * Alias of `flatMap`.
- *
- * @category sequencing
- * @since 2.6.0
- */
-export const chainW: <E2, A, B>(f: (a: A) => IOEither<E2, B>) => <E1>(ma: IOEither<E1, A>) => IOEither<E1 | E2, B> =
-  flatMap
-
-/**
  * Less strict version of [`flatten`](#flatten).
  *
  * The `W` suffix (short for **W**idening) means that the error types will be merged.
@@ -381,7 +361,7 @@ export const chainW: <E2, A, B>(f: (a: A) => IOEither<E2, B>) => <E1>(ma: IOEith
  * @since 2.11.0
  */
 export const flattenW: <E1, E2, A>(mma: IOEither<E1, IOEither<E2, A>>) => IOEither<E1 | E2, A> =
-  /*#__PURE__*/ chainW(identity)
+  /*#__PURE__*/ flatMap(identity)
 
 /**
  * @category sequencing
@@ -1098,6 +1078,27 @@ export const sequenceSeqArray: <E, A>(arr: ReadonlyArray<IOEither<E, A>>) => IOE
  * @deprecated
  */
 export const Applicative: Applicative2<URI> = ApplicativePar
+
+// -------------------------------------------------------------------------------------
+// legacy
+// -------------------------------------------------------------------------------------
+
+/**
+ * Alias of `flatMap`.
+ *
+ * @category legacy
+ * @since 2.0.0
+ */
+export const chain: <E, A, B>(f: (a: A) => IOEither<E, B>) => (ma: IOEither<E, A>) => IOEither<E, B> = flatMap
+
+/**
+ * Alias of `flatMap`.
+ *
+ * @category legacy
+ * @since 2.6.0
+ */
+export const chainW: <E2, A, B>(f: (a: A) => IOEither<E2, B>) => <E1>(ma: IOEither<E1, A>) => IOEither<E1 | E2, B> =
+  flatMap
 
 // -------------------------------------------------------------------------------------
 // deprecated

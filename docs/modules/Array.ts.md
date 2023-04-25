@@ -86,6 +86,8 @@ Added in v2.0.0
   - [getShow](#getshow)
   - [getUnionMonoid](#getunionmonoid)
   - [getUnionSemigroup](#getunionsemigroup)
+- [legacy](#legacy)
+  - [chain](#chain)
 - [lifting](#lifting)
   - [fromEitherK](#fromeitherk)
   - [fromOptionK](#fromoptionk)
@@ -107,7 +109,6 @@ Added in v2.0.0
   - [isEmpty](#isempty)
   - [isNonEmpty](#isnonempty)
 - [sequencing](#sequencing)
-  - [chain](#chain)
   - [chainFirst](#chainfirst)
   - [chainRecBreadthFirst](#chainrecbreadthfirst)
   - [chainRecDepthFirst](#chainrecdepthfirst)
@@ -1328,6 +1329,20 @@ assert.deepStrictEqual(S.concat([1, 2], [2, 3]), [1, 2, 3])
 
 Added in v2.11.0
 
+# legacy
+
+## chain
+
+Alias of `flatMap`.
+
+**Signature**
+
+```ts
+export declare const chain: <A, B>(f: (a: A) => B[]) => (ma: A[]) => B[]
+```
+
+Added in v2.0.0
+
 # lifting
 
 ## fromEitherK
@@ -1699,18 +1714,6 @@ assert.strictEqual(isNonEmpty(['a']), true)
 Added in v2.0.0
 
 # sequencing
-
-## chain
-
-Alias of `flatMap`.
-
-**Signature**
-
-```ts
-export declare const chain: <A, B>(f: (a: A) => B[]) => (ma: A[]) => B[]
-```
-
-Added in v2.0.0
 
 ## chainFirst
 

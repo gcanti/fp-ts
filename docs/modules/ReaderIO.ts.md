@@ -38,6 +38,9 @@ Added in v2.13.0
   - [Monad](#monad)
   - [MonadIO](#monadio)
   - [Pointed](#pointed)
+- [legacy](#legacy)
+  - [chain](#chain)
+  - [chainW](#chainw)
 - [lifting](#lifting)
   - [fromIOK](#fromiok)
   - [fromReaderK](#fromreaderk)
@@ -47,7 +50,6 @@ Added in v2.13.0
 - [model](#model)
   - [ReaderIO (interface)](#readerio-interface)
 - [sequencing](#sequencing)
-  - [chain](#chain)
   - [chainFirst](#chainfirst)
   - [chainFirstIOK](#chainfirstiok)
   - [chainFirstReaderK](#chainfirstreaderk)
@@ -56,7 +58,6 @@ Added in v2.13.0
   - [chainIOK](#chainiok)
   - [chainReaderK](#chainreaderk)
   - [chainReaderKW](#chainreaderkw)
-  - [chainW](#chainw)
   - [flatMap](#flatmap)
   - [flatten](#flatten)
   - [flattenW](#flattenw)
@@ -335,6 +336,34 @@ export declare const Pointed: Pointed2<'ReaderIO'>
 
 Added in v2.13.0
 
+# legacy
+
+## chain
+
+Alias of `flatMap`.
+
+**Signature**
+
+```ts
+export declare const chain: <A, R, B>(f: (a: A) => ReaderIO<R, B>) => (ma: ReaderIO<R, A>) => ReaderIO<R, B>
+```
+
+Added in v2.13.0
+
+## chainW
+
+Alias of `flatMap`.
+
+**Signature**
+
+```ts
+export declare const chainW: <A, R2, B>(
+  f: (a: A) => ReaderIO<R2, B>
+) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, B>
+```
+
+Added in v2.13.0
+
 # lifting
 
 ## fromIOK
@@ -401,18 +430,6 @@ export interface ReaderIO<R, A> {
 Added in v2.13.0
 
 # sequencing
-
-## chain
-
-Alias of `flatMap`.
-
-**Signature**
-
-```ts
-export declare const chain: <A, R, B>(f: (a: A) => ReaderIO<R, B>) => (ma: ReaderIO<R, A>) => ReaderIO<R, B>
-```
-
-Added in v2.13.0
 
 ## chainFirst
 
@@ -511,20 +528,6 @@ The `W` suffix (short for **W**idening) means that the environment types will be
 export declare const chainReaderKW: <A, R1, B>(
   f: (a: A) => R.Reader<R1, B>
 ) => <R2>(ma: ReaderIO<R2, A>) => ReaderIO<R1 & R2, B>
-```
-
-Added in v2.13.0
-
-## chainW
-
-Alias of `flatMap`.
-
-**Signature**
-
-```ts
-export declare const chainW: <A, R2, B>(
-  f: (a: A) => ReaderIO<R2, B>
-) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, B>
 ```
 
 Added in v2.13.0

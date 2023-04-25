@@ -397,14 +397,6 @@ export const flatMap: {
 } = /*#__PURE__*/ dual(2, <A, B>(ma: Option<A>, f: (a: A) => Option<B>): Option<B> => (isNone(ma) ? none : f(ma.value)))
 
 /**
- * Alias of `flatMap`.
- *
- * @category sequencing
- * @since 2.0.0
- */
-export const chain: <A, B>(f: (a: A) => Option<B>) => (ma: Option<A>) => Option<B> = flatMap
-
-/**
  * @category instances
  * @since 2.10.0
  */
@@ -584,7 +576,7 @@ export const Extend: Extend1<URI> = {
  * @category filtering
  * @since 2.0.0
  */
-export const compact: <A>(fa: Option<Option<A>>) => Option<A> = /*#__PURE__*/ chain(identity)
+export const compact: <A>(fa: Option<Option<A>>) => Option<A> = /*#__PURE__*/ flatMap(identity)
 
 const defaultSeparated = /*#__PURE__*/ separated(none, none)
 
@@ -1332,6 +1324,18 @@ export const traverseArray = <A, B>(f: (a: A) => Option<B>): ((as: ReadonlyArray
  */
 export const sequenceArray: <A>(arr: ReadonlyArray<Option<A>>) => Option<ReadonlyArray<A>> =
   /*#__PURE__*/ traverseArray(identity)
+
+// -------------------------------------------------------------------------------------
+// legacy
+// -------------------------------------------------------------------------------------
+
+/**
+ * Alias of `flatMap`.
+ *
+ * @category legacy
+ * @since 2.0.0
+ */
+export const chain: <A, B>(f: (a: A) => Option<B>) => (ma: Option<A>) => Option<B> = flatMap
 
 // -------------------------------------------------------------------------------------
 // deprecated

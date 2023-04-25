@@ -63,6 +63,8 @@ Added in v2.12.0
   - [MonadIO](#monadio)
   - [Pointed](#pointed)
   - [Zero](#zero)
+- [legacy](#legacy)
+  - [chain](#chain)
 - [lifting](#lifting)
   - [fromEitherK](#fromeitherk)
   - [fromIOK](#fromiok)
@@ -81,7 +83,6 @@ Added in v2.12.0
   - [matchEW](#matchew)
   - [matchW](#matchw)
 - [sequencing](#sequencing)
-  - [chain](#chain)
   - [chainEitherK](#chaineitherk)
   - [chainFirst](#chainfirst)
   - [chainFirstEitherK](#chainfirsteitherk)
@@ -545,6 +546,20 @@ export declare const Zero: Zero1<'IOOption'>
 
 Added in v2.12.0
 
+# legacy
+
+## chain
+
+Alias of `flatMap`.
+
+**Signature**
+
+```ts
+export declare const chain: <A, B>(f: (a: A) => IOOption<B>) => (ma: IOOption<A>) => IOOption<B>
+```
+
+Added in v2.12.0
+
 # lifting
 
 ## fromEitherK
@@ -712,18 +727,6 @@ export declare const matchW: <B, A, C>(onNone: () => B, onSome: (a: A) => C) => 
 Added in v2.12.0
 
 # sequencing
-
-## chain
-
-Alias of `flatMap`.
-
-**Signature**
-
-```ts
-export declare const chain: <A, B>(f: (a: A) => IOOption<B>) => (ma: IOOption<A>) => IOOption<B>
-```
-
-Added in v2.12.0
 
 ## chainEitherK
 

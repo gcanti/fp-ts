@@ -45,6 +45,9 @@ Added in v2.3.0
   - [MonadIO](#monadio)
   - [MonadTask](#monadtask)
   - [Pointed](#pointed)
+- [legacy](#legacy)
+  - [chain](#chain)
+  - [chainW](#chainw)
 - [lifting](#lifting)
   - [fromIOK](#fromiok)
   - [fromReaderIOK](#fromreaderiok)
@@ -56,7 +59,6 @@ Added in v2.3.0
 - [model](#model)
   - [ReaderTask (interface)](#readertask-interface)
 - [sequencing](#sequencing)
-  - [chain](#chain)
   - [chainFirst](#chainfirst)
   - [chainFirstIOK](#chainfirstiok)
   - [chainFirstReaderIOK](#chainfirstreaderiok)
@@ -71,7 +73,6 @@ Added in v2.3.0
   - [chainReaderK](#chainreaderk)
   - [chainReaderKW](#chainreaderkw)
   - [chainTaskK](#chaintaskk)
-  - [chainW](#chainw)
   - [flatMap](#flatmap)
   - [flatten](#flatten)
   - [flattenW](#flattenw)
@@ -442,6 +443,34 @@ export declare const Pointed: Pointed2<'ReaderTask'>
 
 Added in v2.10.0
 
+# legacy
+
+## chain
+
+Alias of `flatMap`.
+
+**Signature**
+
+```ts
+export declare const chain: <A, R, B>(f: (a: A) => ReaderTask<R, B>) => (ma: ReaderTask<R, A>) => ReaderTask<R, B>
+```
+
+Added in v2.3.0
+
+## chainW
+
+Alias of `flatMap`.
+
+**Signature**
+
+```ts
+export declare const chainW: <R2, A, B>(
+  f: (a: A) => ReaderTask<R2, B>
+) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B>
+```
+
+Added in v2.6.7
+
 # lifting
 
 ## fromIOK
@@ -532,18 +561,6 @@ export interface ReaderTask<R, A> {
 Added in v2.3.0
 
 # sequencing
-
-## chain
-
-Alias of `flatMap`.
-
-**Signature**
-
-```ts
-export declare const chain: <A, R, B>(f: (a: A) => ReaderTask<R, B>) => (ma: ReaderTask<R, A>) => ReaderTask<R, B>
-```
-
-Added in v2.3.0
 
 ## chainFirst
 
@@ -721,20 +738,6 @@ export declare const chainTaskK: <A, B>(f: (a: A) => T.Task<B>) => <R>(first: Re
 ```
 
 Added in v2.4.0
-
-## chainW
-
-Alias of `flatMap`.
-
-**Signature**
-
-```ts
-export declare const chainW: <R2, A, B>(
-  f: (a: A) => ReaderTask<R2, B>
-) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B>
-```
-
-Added in v2.6.7
 
 ## flatMap
 

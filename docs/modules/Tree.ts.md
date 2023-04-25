@@ -50,6 +50,8 @@ Added in v2.0.0
   - [Traversable](#traversable)
   - [getEq](#geteq)
   - [getShow](#getshow)
+- [legacy](#legacy)
+  - [chain](#chain)
 - [mapping](#mapping)
   - [flap](#flap)
   - [map](#map)
@@ -57,7 +59,6 @@ Added in v2.0.0
   - [Forest (type alias)](#forest-type-alias)
   - [Tree (interface)](#tree-interface)
 - [sequencing](#sequencing)
-  - [chain](#chain)
   - [flatMap](#flatmap)
   - [flatten](#flatten)
 - [traversing](#traversing)
@@ -446,6 +447,20 @@ export declare function getShow<A>(S: Show<A>): Show<Tree<A>>
 
 Added in v2.0.0
 
+# legacy
+
+## chain
+
+Alias of `flatMap`.
+
+**Signature**
+
+```ts
+export declare const chain: <A, B>(f: (a: A) => Tree<B>) => (ma: Tree<A>) => Tree<B>
+```
+
+Added in v2.0.0
+
 # mapping
 
 ## flap
@@ -497,18 +512,6 @@ export interface Tree<A> {
 Added in v2.0.0
 
 # sequencing
-
-## chain
-
-Alias of `flatMap`.
-
-**Signature**
-
-```ts
-export declare const chain: <A, B>(f: (a: A) => Tree<B>) => (ma: Tree<A>) => Tree<B>
-```
-
-Added in v2.0.0
 
 ## flatMap
 

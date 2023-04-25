@@ -80,16 +80,17 @@ Added in v2.0.0
   - [Pointed](#pointed)
   - [Profunctor](#profunctor)
   - [Strong](#strong)
+- [legacy](#legacy)
+  - [chain](#chain)
+  - [chainW](#chainw)
 - [mapping](#mapping)
   - [flap](#flap)
   - [map](#map)
 - [model](#model)
   - [Reader (interface)](#reader-interface)
 - [sequencing](#sequencing)
-  - [chain](#chain)
   - [chainFirst](#chainfirst)
   - [chainFirstW](#chainfirstw)
-  - [chainW](#chainw)
   - [flatMap](#flatmap)
   - [flatten](#flatten)
   - [flattenW](#flattenw)
@@ -391,6 +392,32 @@ export declare const Strong: Strong2<'Reader'>
 
 Added in v2.8.3
 
+# legacy
+
+## chain
+
+Alias of `flatMap`.
+
+**Signature**
+
+```ts
+export declare const chain: <A, R, B>(f: (a: A) => Reader<R, B>) => (ma: Reader<R, A>) => Reader<R, B>
+```
+
+Added in v2.0.0
+
+## chainW
+
+Alias of `flatMap`.
+
+**Signature**
+
+```ts
+export declare const chainW: <R2, A, B>(f: (a: A) => Reader<R2, B>) => <R1>(ma: Reader<R1, A>) => Reader<R1 & R2, B>
+```
+
+Added in v2.6.0
+
 # mapping
 
 ## flap
@@ -432,18 +459,6 @@ Added in v2.0.0
 
 # sequencing
 
-## chain
-
-Alias of `flatMap`.
-
-**Signature**
-
-```ts
-export declare const chain: <A, R, B>(f: (a: A) => Reader<R, B>) => (ma: Reader<R, A>) => Reader<R, B>
-```
-
-Added in v2.0.0
-
 ## chainFirst
 
 Composes computations in sequence, using the return value of one computation to determine the next computation and
@@ -472,18 +487,6 @@ export declare const chainFirstW: <R2, A, B>(
 ```
 
 Added in v2.11.0
-
-## chainW
-
-Alias of `flatMap`.
-
-**Signature**
-
-```ts
-export declare const chainW: <R2, A, B>(f: (a: A) => Reader<R2, B>) => <R1>(ma: Reader<R1, A>) => Reader<R1 & R2, B>
-```
-
-Added in v2.6.0
 
 ## flatMap
 

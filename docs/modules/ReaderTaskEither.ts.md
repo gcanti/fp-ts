@@ -86,6 +86,9 @@ Added in v2.0.0
   - [MonadThrow](#monadthrow)
   - [Pointed](#pointed)
   - [~~getReaderTaskValidation~~](#getreadertaskvalidation)
+- [legacy](#legacy)
+  - [chain](#chain)
+  - [chainW](#chainw)
 - [lifting](#lifting)
   - [fromEitherK](#fromeitherk)
   - [fromIOEitherK](#fromioeitherk)
@@ -113,7 +116,6 @@ Added in v2.0.0
   - [matchEW](#matchew)
   - [matchW](#matchw)
 - [sequencing](#sequencing)
-  - [chain](#chain)
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
   - [chainFirst](#chainfirst)
@@ -149,7 +151,6 @@ Added in v2.0.0
   - [chainTaskEitherK](#chaintaskeitherk)
   - [chainTaskEitherKW](#chaintaskeitherkw)
   - [chainTaskK](#chaintaskk)
-  - [chainW](#chainw)
   - [flatMap](#flatmap)
   - [flatten](#flatten)
   - [flattenW](#flattenw)
@@ -1012,6 +1013,36 @@ export declare function getReaderTaskValidation<E>(
 
 Added in v2.3.0
 
+# legacy
+
+## chain
+
+Alias of `flatMap`.
+
+**Signature**
+
+```ts
+export declare const chain: <R, E, A, B>(
+  f: (a: A) => ReaderTaskEither<R, E, B>
+) => (ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
+```
+
+Added in v2.0.0
+
+## chainW
+
+Alias of `flatMap`.
+
+**Signature**
+
+```ts
+export declare const chainW: <R2, E2, A, B>(
+  f: (a: A) => ReaderTaskEither<R2, E2, B>
+) => <R1, E1>(ma: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2 | E1, B>
+```
+
+Added in v2.6.0
+
 # lifting
 
 ## fromEitherK
@@ -1315,20 +1346,6 @@ export declare const matchW: <E, B, A, C>(
 Added in v2.10.0
 
 # sequencing
-
-## chain
-
-Alias of `flatMap`.
-
-**Signature**
-
-```ts
-export declare const chain: <R, E, A, B>(
-  f: (a: A) => ReaderTaskEither<R, E, B>
-) => (ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
-```
-
-Added in v2.0.0
 
 ## chainEitherK
 
@@ -1810,20 +1827,6 @@ export declare const chainTaskK: <A, B>(
 ```
 
 Added in v2.10.0
-
-## chainW
-
-Alias of `flatMap`.
-
-**Signature**
-
-```ts
-export declare const chainW: <R2, E2, A, B>(
-  f: (a: A) => ReaderTaskEither<R2, E2, B>
-) => <R1, E1>(ma: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2 | E1, B>
-```
-
-Added in v2.6.0
 
 ## flatMap
 

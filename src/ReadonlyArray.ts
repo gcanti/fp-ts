@@ -1244,10 +1244,7 @@ export function comprehension<A, R>(
 ): ReadonlyArray<R> {
   const go = (scope: ReadonlyArray<A>, input: ReadonlyArray<ReadonlyArray<A>>): ReadonlyArray<R> =>
     isNonEmpty(input)
-      ? pipe(
-          RNEA.head(input),
-          chain((x) => go(pipe(scope, append(x)), RNEA.tail(input)))
-        )
+      ? flatMap(RNEA.head(input), (a) => go(pipe(scope, append(a)), RNEA.tail(input)))
       : g(...scope)
       ? [f(...scope)]
       : empty
@@ -1481,7 +1478,7 @@ export const alt: <A>(that: Lazy<ReadonlyArray<A>>) => (fa: ReadonlyArray<A>) =>
  * @since 2.5.0
  */
 export const ap: <A>(fa: ReadonlyArray<A>) => <B>(fab: ReadonlyArray<(a: A) => B>) => ReadonlyArray<B> = (fa) =>
-  chain((f) => pipe(fa, map(f)))
+  flatMap((f) => pipe(fa, map(f)))
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
@@ -1521,18 +1518,10 @@ export const flatMap: {
 )
 
 /**
- * Alias of `flatMap`.
- *
  * @category sequencing
  * @since 2.5.0
  */
-export const chain: <A, B>(f: (a: A) => ReadonlyArray<B>) => (ma: ReadonlyArray<A>) => ReadonlyArray<B> = flatMap
-
-/**
- * @category sequencing
- * @since 2.5.0
- */
-export const flatten: <A>(mma: ReadonlyArray<ReadonlyArray<A>>) => ReadonlyArray<A> = /*#__PURE__*/ chain(identity)
+export const flatten: <A>(mma: ReadonlyArray<ReadonlyArray<A>>) => ReadonlyArray<A> = /*#__PURE__*/ flatMap(identity)
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
@@ -2567,6 +2556,19 @@ export const bind = /*#__PURE__*/ bind_(Chain)
  * @since 2.8.0
  */
 export const apS = /*#__PURE__*/ apS_(Apply)
+
+// -------------------------------------------------------------------------------------
+// legacy
+// -------------------------------------------------------------------------------------
+
+/**
+ * Alias of `flatMap`.
+ *
+ * @category legacy
+ * @since 2.5.0
+ */
+export const chain: <A, B>(f: (a: A) => ReadonlyArray<B>) => (ma: ReadonlyArray<A>) => ReadonlyArray<B> = flatMap
+
 
 // -------------------------------------------------------------------------------------
 // deprecated

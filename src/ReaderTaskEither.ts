@@ -463,7 +463,7 @@ export const fromIOEitherK = <E, A extends ReadonlyArray<unknown>, B>(
  */
 export const chainIOEitherKW: <E2, A, B>(
   f: (a: A) => IOEither<E2, B>
-) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E1 | E2, B> = (f) => chainW(fromIOEitherK(f))
+) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E1 | E2, B> = (f) => flatMap(fromIOEitherK(f))
 
 /**
  * @category sequencing
@@ -491,7 +491,7 @@ export const fromTaskEitherK = <E, A extends ReadonlyArray<unknown>, B>(
  */
 export const chainTaskEitherKW: <E2, A, B>(
   f: (a: A) => TaskEither<E2, B>
-) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E1 | E2, B> = (f) => chainW(fromTaskEitherK(f))
+) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E1 | E2, B> = (f) => flatMap(fromTaskEitherK(f))
 
 /**
  * @category sequencing
@@ -540,7 +540,7 @@ export const fromReaderEitherK = <R, E, A extends ReadonlyArray<unknown>, B>(
 export const chainReaderEitherKW: <R2, E2, A, B>(
   f: (a: A) => ReaderEither<R2, E2, B>
 ) => <R1, E1>(ma: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E1 | E2, B> = (f) =>
-  chainW(fromReaderEitherK(f))
+  flatMap(fromReaderEitherK(f))
 
 /**
  * @category sequencing
@@ -573,11 +573,7 @@ export const chainFirstReaderEitherK: <R, E, A, B>(
 
 const _map: Functor3<URI>['map'] = (fa, f) => pipe(fa, map(f))
 const _apPar: Apply3<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
-const _apSeq: Apply3<URI>['ap'] = (fab, fa) =>
-  pipe(
-    fab,
-    chain((f) => pipe(fa, map(f)))
-  )
+const _apSeq: Apply3<URI>['ap'] = (fab, fa) => flatMap(fab, (f) => pipe(fa, map(f)))
 /* istanbul ignore next */
 const _alt: Alt3<URI>['alt'] = (fa, that) => pipe(fa, alt(that))
 /* istanbul ignore next */
@@ -655,26 +651,6 @@ export const flatMap: {
 } = /*#__PURE__*/ dual(2, ET.flatMap(RT.Monad))
 
 /**
- * Alias of `flatMap`.
- *
- * @category sequencing
- * @since 2.0.0
- */
-export const chain: <R, E, A, B>(
-  f: (a: A) => ReaderTaskEither<R, E, B>
-) => (ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = flatMap
-
-/**
- * Alias of `flatMap`.
- *
- * @category sequencing
- * @since 2.6.0
- */
-export const chainW: <R2, E2, A, B>(
-  f: (a: A) => ReaderTaskEither<R2, E2, B>
-) => <R1, E1>(ma: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E1 | E2, B> = flatMap
-
-/**
  * Less strict version of [`flatten`](#flatten).
  *
  * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
@@ -684,7 +660,7 @@ export const chainW: <R2, E2, A, B>(
  */
 export const flattenW: <R1, E1, R2, E2, A>(
   mma: ReaderTaskEither<R1, E1, ReaderTaskEither<R2, E2, A>>
-) => ReaderTaskEither<R1 & R2, E1 | E2, A> = /*#__PURE__*/ chainW(identity)
+) => ReaderTaskEither<R1 & R2, E1 | E2, A> = /*#__PURE__*/ flatMap(identity)
 
 /**
  * @category sequencing
@@ -1130,7 +1106,7 @@ export const fromReaderTaskK =
  */
 export const chainReaderTaskKW: <A, R2, B>(
   f: (a: A) => RT.ReaderTask<R2, B>
-) => <R1, E>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, B> = (f) => chainW(fromReaderTaskK(f))
+) => <R1, E>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, B> = (f) => flatMap(fromReaderTaskK(f))
 
 /**
  * @category sequencing
@@ -1179,7 +1155,7 @@ export const fromReaderIOK =
  */
 export const chainReaderIOKW: <A, R2, B>(
   f: (a: A) => ReaderIO<R2, B>
-) => <R1, E>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, B> = (f) => chainW(fromReaderIOK(f))
+) => <R1, E>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, B> = (f) => flatMap(fromReaderIOK(f))
 
 /**
  * @category sequencing
@@ -1646,6 +1622,30 @@ export const traverseSeqArray = <R, E, A, B>(
 export const sequenceSeqArray: <R, E, A>(
   arr: ReadonlyArray<ReaderTaskEither<R, E, A>>
 ) => ReaderTaskEither<R, E, ReadonlyArray<A>> = /*#__PURE__*/ traverseSeqArray(identity)
+
+// -------------------------------------------------------------------------------------
+// legacy
+// -------------------------------------------------------------------------------------
+
+/**
+ * Alias of `flatMap`.
+ *
+ * @category legacy
+ * @since 2.0.0
+ */
+export const chain: <R, E, A, B>(
+  f: (a: A) => ReaderTaskEither<R, E, B>
+) => (ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = flatMap
+
+/**
+ * Alias of `flatMap`.
+ *
+ * @category legacy
+ * @since 2.6.0
+ */
+export const chainW: <R2, E2, A, B>(
+  f: (a: A) => ReaderTaskEither<R2, E2, B>
+) => <R1, E1>(ma: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E1 | E2, B> = flatMap
 
 // -------------------------------------------------------------------------------------
 // deprecated

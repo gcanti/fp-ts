@@ -42,13 +42,14 @@ Added in v2.0.0
   - [Monad](#monad)
   - [MonadIO](#monadio)
   - [Pointed](#pointed)
+- [legacy](#legacy)
+  - [chain](#chain)
 - [mapping](#mapping)
   - [flap](#flap)
   - [map](#map)
 - [model](#model)
   - [IO (interface)](#io-interface)
 - [sequencing](#sequencing)
-  - [chain](#chain)
   - [chainFirst](#chainfirst)
   - [flatMap](#flatmap)
   - [flatten](#flatten)
@@ -239,6 +240,20 @@ export declare const Pointed: Pointed1<'IO'>
 
 Added in v2.10.0
 
+# legacy
+
+## chain
+
+Alias of `flatMap`.
+
+**Signature**
+
+```ts
+export declare const chain: <A, B>(f: (a: A) => IO<B>) => (ma: IO<A>) => IO<B>
+```
+
+Added in v2.0.0
+
 # mapping
 
 ## flap
@@ -279,18 +294,6 @@ export interface IO<A> {
 Added in v2.0.0
 
 # sequencing
-
-## chain
-
-Alias of `flatMap`.
-
-**Signature**
-
-```ts
-export declare const chain: <A, B>(f: (a: A) => IO<B>) => (ma: IO<A>) => IO<B>
-```
-
-Added in v2.0.0
 
 ## chainFirst
 

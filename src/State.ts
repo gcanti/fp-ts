@@ -110,18 +110,10 @@ export const flatMap: {
 )
 
 /**
- * Alias of `flatMap`.
- *
  * @category sequencing
  * @since 2.0.0
  */
-export const chain: <S, A, B>(f: (a: A) => State<S, B>) => (ma: State<S, A>) => State<S, B> = flatMap
-
-/**
- * @category sequencing
- * @since 2.0.0
- */
-export const flatten: <E, A>(mma: State<E, State<E, A>>) => State<E, A> = /*#__PURE__*/ chain(identity)
+export const flatten: <E, A>(mma: State<E, State<E, A>>) => State<E, A> = /*#__PURE__*/ flatMap(identity)
 
 /**
  * @category type lambdas
@@ -363,6 +355,18 @@ export const traverseArray = <A, S, B>(
  */
 export const sequenceArray: <S, A>(arr: ReadonlyArray<State<S, A>>) => State<S, ReadonlyArray<A>> =
   /*#__PURE__*/ traverseArray(identity)
+
+// -------------------------------------------------------------------------------------
+// legacy
+// -------------------------------------------------------------------------------------
+
+/**
+ * Alias of `flatMap`.
+ *
+ * @category legacy
+ * @since 2.0.0
+ */
+export const chain: <S, A, B>(f: (a: A) => State<S, B>) => (ma: State<S, A>) => State<S, B> = flatMap
 
 // -------------------------------------------------------------------------------------
 // deprecated

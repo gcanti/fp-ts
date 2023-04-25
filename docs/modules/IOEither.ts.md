@@ -73,6 +73,9 @@ Added in v2.0.0
 - [interop](#interop)
   - [tryCatch](#trycatch)
   - [tryCatchK](#trycatchk)
+- [legacy](#legacy)
+  - [chain](#chain)
+  - [chainW](#chainw)
 - [lifting](#lifting)
   - [fromEitherK](#fromeitherk)
   - [fromIOK](#fromiok)
@@ -92,7 +95,6 @@ Added in v2.0.0
   - [matchEW](#matchew)
   - [matchW](#matchw)
 - [sequencing](#sequencing)
-  - [chain](#chain)
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
   - [chainFirst](#chainfirst)
@@ -103,7 +105,6 @@ Added in v2.0.0
   - [chainIOK](#chainiok)
   - [chainOptionK](#chainoptionk)
   - [chainOptionKW](#chainoptionkw)
-  - [chainW](#chainw)
   - [flatMap](#flatmap)
   - [flatten](#flatten)
   - [flattenW](#flattenw)
@@ -722,6 +723,34 @@ export declare const tryCatchK: <A extends readonly unknown[], B, E>(
 
 Added in v2.10.0
 
+# legacy
+
+## chain
+
+Alias of `flatMap`.
+
+**Signature**
+
+```ts
+export declare const chain: <E, A, B>(f: (a: A) => IOEither<E, B>) => (ma: IOEither<E, A>) => IOEither<E, B>
+```
+
+Added in v2.0.0
+
+## chainW
+
+Alias of `flatMap`.
+
+**Signature**
+
+```ts
+export declare const chainW: <E2, A, B>(
+  f: (a: A) => IOEither<E2, B>
+) => <E1>(ma: IOEither<E1, A>) => IOEither<E2 | E1, B>
+```
+
+Added in v2.6.0
+
 # lifting
 
 ## fromEitherK
@@ -916,18 +945,6 @@ Added in v2.10.0
 
 # sequencing
 
-## chain
-
-Alias of `flatMap`.
-
-**Signature**
-
-```ts
-export declare const chain: <E, A, B>(f: (a: A) => IOEither<E, B>) => (ma: IOEither<E, A>) => IOEither<E, B>
-```
-
-Added in v2.0.0
-
 ## chainEitherK
 
 **Signature**
@@ -1054,20 +1071,6 @@ export declare const chainOptionKW: <E2>(
 ```
 
 Added in v2.13.2
-
-## chainW
-
-Alias of `flatMap`.
-
-**Signature**
-
-```ts
-export declare const chainW: <E2, A, B>(
-  f: (a: A) => IOEither<E2, B>
-) => <E1>(ma: IOEither<E1, A>) => IOEither<E2 | E1, B>
-```
-
-Added in v2.6.0
 
 ## flatMap
 

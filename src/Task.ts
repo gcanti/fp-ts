@@ -97,11 +97,7 @@ export function delay(millis: number): <A>(ma: Task<A>) => Task<A> {
 
 const _map: Functor1<URI>['map'] = (fa, f) => pipe(fa, map(f))
 const _apPar: Apply1<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
-const _apSeq: Apply1<URI>['ap'] = (fab, fa) =>
-  pipe(
-    fab,
-    chain((f) => pipe(fa, map(f)))
-  )
+const _apSeq: Apply1<URI>['ap'] = (fab, fa) => flatMap(fab, (f) => pipe(fa, map(f)))
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
@@ -142,18 +138,10 @@ export const flatMap: {
 )
 
 /**
- * Alias of `flatMap`.
- *
  * @category sequencing
  * @since 2.0.0
  */
-export const chain: <A, B>(f: (a: A) => Task<B>) => (ma: Task<A>) => Task<B> = flatMap
-
-/**
- * @category sequencing
- * @since 2.0.0
- */
-export const flatten: <A>(mma: Task<Task<A>>) => Task<A> = /*#__PURE__*/ chain(identity)
+export const flatten: <A>(mma: Task<Task<A>>) => Task<A> = /*#__PURE__*/ flatMap(identity)
 
 /**
  * @category type lambdas
@@ -574,6 +562,18 @@ export const traverseSeqArray = <A, B>(f: (a: A) => Task<B>): ((as: ReadonlyArra
  */
 export const sequenceSeqArray: <A>(arr: ReadonlyArray<Task<A>>) => Task<ReadonlyArray<A>> =
   /*#__PURE__*/ traverseSeqArray(identity)
+
+// -------------------------------------------------------------------------------------
+// legacy
+// -------------------------------------------------------------------------------------
+
+/**
+ * Alias of `flatMap`.
+ *
+ * @category legacy
+ * @since 2.0.0
+ */
+export const chain: <A, B>(f: (a: A) => Task<B>) => (ma: Task<A>) => Task<B> = flatMap
 
 // -------------------------------------------------------------------------------------
 // deprecated
