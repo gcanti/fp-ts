@@ -3,7 +3,7 @@
  */
 import * as BA from './BooleanAlgebra'
 import * as E from './Eq'
-import { Lazy } from './function'
+import { LazyArg } from './function'
 import { Monoid } from './Monoid'
 import * as O from './Ord'
 import { Refinement } from './Refinement'
@@ -29,7 +29,7 @@ export const isBoolean: Refinement<unknown, boolean> = (u: unknown): u is boolea
  * @since 2.10.0
  */
 export const matchW =
-  <A, B>(onFalse: Lazy<A>, onTrue: Lazy<B>) =>
+  <A, B>(onFalse: LazyArg<A>, onTrue: LazyArg<B>) =>
   (value: boolean): A | B =>
     value ? onTrue() : onFalse()
 
@@ -62,7 +62,7 @@ export const foldW = matchW
  * @category pattern matching
  * @since 2.10.0
  */
-export const match: <A>(onFalse: Lazy<A>, onTrue: Lazy<A>) => (value: boolean) => A = foldW
+export const match: <A>(onFalse: LazyArg<A>, onTrue: LazyArg<A>) => (value: boolean) => A = foldW
 
 /**
  * Alias of [`match`](#match).

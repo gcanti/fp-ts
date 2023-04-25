@@ -22,7 +22,7 @@ import { Eq, fromEquals } from './Eq'
 import { Extend1 } from './Extend'
 import { Foldable1 } from './Foldable'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
-import { dual, flow, identity, Lazy, pipe, SK } from './function'
+import { dual, flow, identity, LazyArg, pipe, SK } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1, let as let__ } from './Functor'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { HKT } from './HKT'
@@ -683,7 +683,7 @@ export const of: <A>(a: A) => ReadonlyNonEmptyArray<A> = _.singleton
  * @since 2.9.0
  */
 export const altW =
-  <B>(that: Lazy<ReadonlyNonEmptyArray<B>>) =>
+  <B>(that: LazyArg<ReadonlyNonEmptyArray<B>>) =>
   <A>(as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<A | B> =>
     pipe(as, concatW(that()))
 
@@ -709,7 +709,7 @@ export const altW =
  * @since 2.6.2
  */
 export const alt: <A>(
-  that: Lazy<ReadonlyNonEmptyArray<A>>
+  that: LazyArg<ReadonlyNonEmptyArray<A>>
 ) => (as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A> = altW
 
 /**

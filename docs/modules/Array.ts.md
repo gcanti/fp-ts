@@ -408,7 +408,7 @@ In case of `Array` concatenates the inputs into a single array.
 **Signature**
 
 ```ts
-export declare const alt: <A>(that: Lazy<A[]>) => (fa: A[]) => A[]
+export declare const alt: <A>(that: LazyArg<A[]>) => (fa: A[]) => A[]
 ```
 
 **Example**
@@ -437,7 +437,7 @@ The `W` suffix (short for **W**idening) means that the return types will be merg
 **Signature**
 
 ```ts
-export declare const altW: <B>(that: Lazy<B[]>) => <A>(fa: A[]) => (B | A)[]
+export declare const altW: <B>(that: LazyArg<B[]>) => <A>(fa: A[]) => (B | A)[]
 ```
 
 **Example**
@@ -1486,7 +1486,7 @@ Alias of [`matchLeft`](#matchleft).
 **Signature**
 
 ```ts
-export declare const foldLeft: <A, B>(onEmpty: Lazy<B>, onNonEmpty: (head: A, tail: A[]) => B) => (as: A[]) => B
+export declare const foldLeft: <A, B>(onEmpty: LazyArg<B>, onNonEmpty: (head: A, tail: A[]) => B) => (as: A[]) => B
 ```
 
 Added in v2.0.0
@@ -1498,7 +1498,7 @@ Alias of [`matchRight`](#matchright).
 **Signature**
 
 ```ts
-export declare const foldRight: <A, B>(onEmpty: Lazy<B>, onNonEmpty: (init: A[], last: A) => B) => (as: A[]) => B
+export declare const foldRight: <A, B>(onEmpty: LazyArg<B>, onNonEmpty: (init: A[], last: A) => B) => (as: A[]) => B
 ```
 
 Added in v2.0.0
@@ -1511,7 +1511,7 @@ it passes the array to `onNonEmpty` and returns the result.
 **Signature**
 
 ```ts
-export declare const match: <B, A>(onEmpty: Lazy<B>, onNonEmpty: (as: NEA.NonEmptyArray<A>) => B) => (as: A[]) => B
+export declare const match: <B, A>(onEmpty: LazyArg<B>, onNonEmpty: (as: NEA.NonEmptyArray<A>) => B) => (as: A[]) => B
 ```
 
 **Example**
@@ -1538,7 +1538,7 @@ it passes the array to `onNonEmpty` broken into its first element and remaining 
 **Signature**
 
 ```ts
-export declare const matchLeft: <B, A>(onEmpty: Lazy<B>, onNonEmpty: (head: A, tail: A[]) => B) => (as: A[]) => B
+export declare const matchLeft: <B, A>(onEmpty: LazyArg<B>, onNonEmpty: (head: A, tail: A[]) => B) => (as: A[]) => B
 ```
 
 **Example**
@@ -1564,7 +1564,7 @@ Less strict version of [`matchLeft`](#matchleft). It will work when `onEmpty` an
 
 ```ts
 export declare const matchLeftW: <B, A, C>(
-  onEmpty: Lazy<B>,
+  onEmpty: LazyArg<B>,
   onNonEmpty: (head: A, tail: A[]) => C
 ) => (as: A[]) => B | C
 ```
@@ -1592,7 +1592,7 @@ it passes the array to `onNonEmpty` broken into its initial elements and the las
 **Signature**
 
 ```ts
-export declare const matchRight: <B, A>(onEmpty: Lazy<B>, onNonEmpty: (init: A[], last: A) => B) => (as: A[]) => B
+export declare const matchRight: <B, A>(onEmpty: LazyArg<B>, onNonEmpty: (init: A[], last: A) => B) => (as: A[]) => B
 ```
 
 **Example**
@@ -1618,7 +1618,7 @@ Less strict version of [`matchRight`](#matchright). It will work when `onEmpty` 
 
 ```ts
 export declare const matchRightW: <B, A, C>(
-  onEmpty: Lazy<B>,
+  onEmpty: LazyArg<B>,
   onNonEmpty: (init: A[], last: A) => C
 ) => (as: A[]) => B | C
 ```
@@ -1648,7 +1648,7 @@ The `W` suffix (short for **W**idening) means that the handler return types will
 
 ```ts
 export declare const matchW: <B, A, C>(
-  onEmpty: Lazy<B>,
+  onEmpty: LazyArg<B>,
   onNonEmpty: (as: NEA.NonEmptyArray<A>) => C
 ) => (as: A[]) => B | C
 ```

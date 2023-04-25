@@ -28,7 +28,7 @@ import {
   FromTask1,
   fromTaskK as fromTaskK_
 } from './FromTask'
-import { dual, flow, identity, Lazy, pipe, SK } from './function'
+import { dual, flow, identity, LazyArg, pipe, SK } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1, let as let__ } from './Functor'
 import * as _ from './internal'
 import { IO } from './IO'
@@ -174,7 +174,7 @@ export const foldW = matchEW
  * @category error handling
  * @since 2.10.0
  */
-export const getOrElse: <A>(onNone: Lazy<Task<A>>) => (fa: TaskOption<A>) => Task<A> = /*#__PURE__*/ OT.getOrElse(
+export const getOrElse: <A>(onNone: LazyArg<Task<A>>) => (fa: TaskOption<A>) => Task<A> = /*#__PURE__*/ OT.getOrElse(
   T.Monad
 )
 
@@ -186,7 +186,7 @@ export const getOrElse: <A>(onNone: Lazy<Task<A>>) => (fa: TaskOption<A>) => Tas
  * @category error handling
  * @since 2.10.0
  */
-export const getOrElseW: <B>(onNone: Lazy<Task<B>>) => <A>(ma: TaskOption<A>) => Task<A | B> = getOrElse as any
+export const getOrElseW: <B>(onNone: LazyArg<Task<B>>) => <A>(ma: TaskOption<A>) => Task<A | B> = getOrElse as any
 
 /**
  * @category conversions
@@ -203,7 +203,7 @@ export const fromNullable: <A>(a: A) => TaskOption<NonNullable<A>> = /*#__PURE__
  * @since 2.10.0
  */
 export const tryCatch =
-  <A>(f: Lazy<Promise<A>>): TaskOption<A> =>
+  <A>(f: LazyArg<Promise<A>>): TaskOption<A> =>
   async () => {
     try {
       return await f().then(_.some)
@@ -299,7 +299,7 @@ export const flatten: <A>(mma: TaskOption<TaskOption<A>>) => TaskOption<A> = /*#
  * @category error handling
  * @since 2.10.0
  */
-export const alt: <A>(second: Lazy<TaskOption<A>>) => (first: TaskOption<A>) => TaskOption<A> = /*#__PURE__*/ OT.alt(
+export const alt: <A>(second: LazyArg<TaskOption<A>>) => (first: TaskOption<A>) => TaskOption<A> = /*#__PURE__*/ OT.alt(
   T.Monad
 )
 
@@ -311,7 +311,7 @@ export const alt: <A>(second: Lazy<TaskOption<A>>) => (first: TaskOption<A>) => 
  * @category error handling
  * @since 2.10.0
  */
-export const altW: <B>(second: Lazy<TaskOption<B>>) => <A>(first: TaskOption<A>) => TaskOption<A | B> = alt as any
+export const altW: <B>(second: LazyArg<TaskOption<B>>) => <A>(first: TaskOption<A>) => TaskOption<A | B> = alt as any
 
 /**
  * @since 2.10.0

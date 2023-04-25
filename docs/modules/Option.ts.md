@@ -446,7 +446,7 @@ In case of `Option` returns the left-most non-`None` value.
 **Signature**
 
 ```ts
-export declare const alt: <A>(that: Lazy<Option<A>>) => (fa: Option<A>) => Option<A>
+export declare const alt: <A>(that: LazyArg<Option<A>>) => (fa: Option<A>) => Option<A>
 ```
 
 **Example**
@@ -496,7 +496,7 @@ The `W` suffix (short for **W**idening) means that the return types will be merg
 **Signature**
 
 ```ts
-export declare const altW: <B>(that: Lazy<Option<B>>) => <A>(fa: Option<A>) => Option<B | A>
+export declare const altW: <B>(that: LazyArg<Option<B>>) => <A>(fa: Option<A>) => Option<B | A>
 ```
 
 Added in v2.9.0
@@ -508,7 +508,7 @@ Extracts the value out of the structure, if it exists. Otherwise returns the giv
 **Signature**
 
 ```ts
-export declare const getOrElse: <A>(onNone: Lazy<A>) => (ma: Option<A>) => A
+export declare const getOrElse: <A>(onNone: LazyArg<A>) => (ma: Option<A>) => A
 ```
 
 **Example**
@@ -544,7 +544,7 @@ The `W` suffix (short for **W**idening) means that the handler return type will 
 **Signature**
 
 ```ts
-export declare const getOrElseW: <B>(onNone: Lazy<B>) => <A>(ma: Option<A>) => B | A
+export declare const getOrElseW: <B>(onNone: LazyArg<B>) => <A>(ma: Option<A>) => B | A
 ```
 
 Added in v2.6.0
@@ -954,7 +954,7 @@ See also [`tryCatchK`](#trycatchk).
 **Signature**
 
 ```ts
-export declare const tryCatch: <A>(f: Lazy<A>) => Option<A>
+export declare const tryCatch: <A>(f: LazyArg<A>) => Option<A>
 ```
 
 **Example**
@@ -1139,7 +1139,7 @@ Alias of [`match`](#match).
 **Signature**
 
 ```ts
-export declare const fold: <A, B>(onNone: Lazy<B>, onSome: (a: A) => B) => (ma: Option<A>) => B
+export declare const fold: <A, B>(onNone: LazyArg<B>, onSome: (a: A) => B) => (ma: Option<A>) => B
 ```
 
 Added in v2.0.0
@@ -1151,7 +1151,7 @@ Alias of [`matchW`](#matchw).
 **Signature**
 
 ```ts
-export declare const foldW: <B, A, C>(onNone: Lazy<B>, onSome: (a: A) => C) => (ma: Option<A>) => B | C
+export declare const foldW: <B, A, C>(onNone: LazyArg<B>, onSome: (a: A) => C) => (ma: Option<A>) => B | C
 ```
 
 Added in v2.10.0
@@ -1164,7 +1164,7 @@ returned, otherwise the function is applied to the value inside the `Some` and t
 **Signature**
 
 ```ts
-export declare const match: <A, B>(onNone: Lazy<B>, onSome: (a: A) => B) => (ma: Option<A>) => B
+export declare const match: <A, B>(onNone: LazyArg<B>, onSome: (a: A) => B) => (ma: Option<A>) => B
 ```
 
 **Example**
@@ -1207,7 +1207,7 @@ The `W` suffix (short for **W**idening) means that the handler return types will
 **Signature**
 
 ```ts
-export declare const matchW: <B, A, C>(onNone: Lazy<B>, onSome: (a: A) => C) => (ma: Option<A>) => B | C
+export declare const matchW: <B, A, C>(onNone: LazyArg<B>, onSome: (a: A) => C) => (ma: Option<A>) => B | C
 ```
 
 Added in v2.10.0

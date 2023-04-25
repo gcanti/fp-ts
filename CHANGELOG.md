@@ -16,6 +16,13 @@
 **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 2.15.0
+
+**New Feature**
+
+- `function`
+  - add `LazyArg`
+
 # 2.14.0
 
 **New Feature**

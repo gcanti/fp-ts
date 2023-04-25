@@ -384,7 +384,7 @@ In case of `ReadonlyArray` concatenates the inputs into a single array.
 **Signature**
 
 ```ts
-export declare const alt: <A>(that: Lazy<readonly A[]>) => (fa: readonly A[]) => readonly A[]
+export declare const alt: <A>(that: LazyArg<readonly A[]>) => (fa: readonly A[]) => readonly A[]
 ```
 
 **Example**
@@ -413,7 +413,7 @@ The `W` suffix (short for **W**idening) means that the return types will be merg
 **Signature**
 
 ```ts
-export declare const altW: <B>(that: Lazy<readonly B[]>) => <A>(fa: readonly A[]) => readonly (B | A)[]
+export declare const altW: <B>(that: LazyArg<readonly B[]>) => <A>(fa: readonly A[]) => readonly (B | A)[]
 ```
 
 **Example**
@@ -1103,7 +1103,7 @@ Alias of [`matchLeft`](#matchleft).
 
 ```ts
 export declare const foldLeft: <A, B>(
-  onEmpty: Lazy<B>,
+  onEmpty: LazyArg<B>,
   onNonEmpty: (head: A, tail: readonly A[]) => B
 ) => (as: readonly A[]) => B
 ```
@@ -1118,7 +1118,7 @@ Alias of [`matchRight`](#matchright).
 
 ```ts
 export declare const foldRight: <A, B>(
-  onEmpty: Lazy<B>,
+  onEmpty: LazyArg<B>,
   onNonEmpty: (init: readonly A[], last: A) => B
 ) => (as: readonly A[]) => B
 ```
@@ -1131,7 +1131,7 @@ Added in v2.5.0
 
 ```ts
 export declare const match: <B, A>(
-  onEmpty: Lazy<B>,
+  onEmpty: LazyArg<B>,
   onNonEmpty: (as: RNEA.ReadonlyNonEmptyArray<A>) => B
 ) => (as: readonly A[]) => B
 ```
@@ -1146,7 +1146,7 @@ Break a `ReadonlyArray` into its first element and remaining elements.
 
 ```ts
 export declare const matchLeft: <B, A>(
-  onEmpty: Lazy<B>,
+  onEmpty: LazyArg<B>,
   onNonEmpty: (head: A, tail: readonly A[]) => B
 ) => (as: readonly A[]) => B
 ```
@@ -1173,7 +1173,7 @@ Less strict version of [`matchLeft`](#matchleft).
 
 ```ts
 export declare const matchLeftW: <B, A, C>(
-  onEmpty: Lazy<B>,
+  onEmpty: LazyArg<B>,
   onNonEmpty: (head: A, tail: readonly A[]) => C
 ) => (as: readonly A[]) => B | C
 ```
@@ -1188,7 +1188,7 @@ Break a `ReadonlyArray` into its initial elements and the last element.
 
 ```ts
 export declare const matchRight: <B, A>(
-  onEmpty: Lazy<B>,
+  onEmpty: LazyArg<B>,
   onNonEmpty: (init: readonly A[], last: A) => B
 ) => (as: readonly A[]) => B
 ```
@@ -1203,7 +1203,7 @@ Less strict version of [`matchRight`](#matchright).
 
 ```ts
 export declare const matchRightW: <B, A, C>(
-  onEmpty: Lazy<B>,
+  onEmpty: LazyArg<B>,
   onNonEmpty: (init: readonly A[], last: A) => C
 ) => (as: readonly A[]) => B | C
 ```
@@ -1220,7 +1220,7 @@ The `W` suffix (short for **W**idening) means that the handler return types will
 
 ```ts
 export declare const matchW: <B, A, C>(
-  onEmpty: Lazy<B>,
+  onEmpty: LazyArg<B>,
   onNonEmpty: (as: RNEA.ReadonlyNonEmptyArray<A>) => C
 ) => (as: readonly A[]) => B | C
 ```

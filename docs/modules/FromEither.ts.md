@@ -45,20 +45,20 @@ Added in v2.10.0
 ```ts
 export declare function fromOption<F extends URIS4>(
   F: FromEither4<F>
-): <E>(onNone: Lazy<E>) => <A, S, R>(fa: Option<A>) => Kind4<F, S, R, E, A>
+): <E>(onNone: LazyArg<E>) => <A, S, R>(fa: Option<A>) => Kind4<F, S, R, E, A>
 export declare function fromOption<F extends URIS3>(
   F: FromEither3<F>
-): <E>(onNone: Lazy<E>) => <A, R>(fa: Option<A>) => Kind3<F, R, E, A>
+): <E>(onNone: LazyArg<E>) => <A, R>(fa: Option<A>) => Kind3<F, R, E, A>
 export declare function fromOption<F extends URIS3, E>(
   F: FromEither3C<F, E>
-): (onNone: Lazy<E>) => <A, R>(fa: Option<A>) => Kind3<F, R, E, A>
+): (onNone: LazyArg<E>) => <A, R>(fa: Option<A>) => Kind3<F, R, E, A>
 export declare function fromOption<F extends URIS2>(
   F: FromEither2<F>
-): <E>(onNone: Lazy<E>) => <A>(fa: Option<A>) => Kind2<F, E, A>
+): <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => Kind2<F, E, A>
 export declare function fromOption<F extends URIS2, E>(
   F: FromEither2C<F, E>
-): (onNone: Lazy<E>) => <A>(fa: Option<A>) => Kind2<F, E, A>
-export declare function fromOption<F>(F: FromEither<F>): <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => HKT2<F, E, A>
+): (onNone: LazyArg<E>) => <A>(fa: Option<A>) => Kind2<F, E, A>
+export declare function fromOption<F>(F: FromEither<F>): <E>(onNone: LazyArg<E>) => <A>(ma: Option<A>) => HKT2<F, E, A>
 ```
 
 Added in v2.10.0
@@ -293,27 +293,27 @@ Added in v2.12.0
 export declare function chainOptionK<F extends URIS4>(
   F: FromEither4<F>,
   M: Chain4<F>
-): <E>(onNone: Lazy<E>) => <A, B>(f: (a: A) => Option<B>) => <S, R>(ma: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, B>
+): <E>(onNone: LazyArg<E>) => <A, B>(f: (a: A) => Option<B>) => <S, R>(ma: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, B>
 export declare function chainOptionK<F extends URIS3>(
   F: FromEither3<F>,
   M: Chain3<F>
-): <E>(onNone: Lazy<E>) => <A, B>(f: (a: A) => Option<B>) => <R>(ma: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
+): <E>(onNone: LazyArg<E>) => <A, B>(f: (a: A) => Option<B>) => <R>(ma: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
 export declare function chainOptionK<F extends URIS3, E>(
   F: FromEither3C<F, E>,
   M: Chain3C<F, E>
-): (onNone: Lazy<E>) => <A, B>(f: (a: A) => Option<B>) => <R>(ma: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
+): (onNone: LazyArg<E>) => <A, B>(f: (a: A) => Option<B>) => <R>(ma: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
 export declare function chainOptionK<F extends URIS2>(
   F: FromEither2<F>,
   M: Chain2<F>
-): <E>(onNone: Lazy<E>) => <A, B>(f: (a: A) => Option<B>) => (ma: Kind2<F, E, A>) => Kind2<F, E, B>
+): <E>(onNone: LazyArg<E>) => <A, B>(f: (a: A) => Option<B>) => (ma: Kind2<F, E, A>) => Kind2<F, E, B>
 export declare function chainOptionK<F extends URIS2, E>(
   F: FromEither2C<F, E>,
   M: Chain2C<F, E>
-): (onNone: Lazy<E>) => <A, B>(f: (a: A) => Option<B>) => (ma: Kind2<F, E, A>) => Kind2<F, E, B>
+): (onNone: LazyArg<E>) => <A, B>(f: (a: A) => Option<B>) => (ma: Kind2<F, E, A>) => Kind2<F, E, B>
 export declare function chainOptionK<F>(
   F: FromEither<F>,
   M: Chain<F>
-): <E>(onNone: Lazy<E>) => <A, B>(f: (a: A) => Option<B>) => (ma: HKT2<F, E, A>) => HKT2<F, E, B>
+): <E>(onNone: LazyArg<E>) => <A, B>(f: (a: A) => Option<B>) => (ma: HKT2<F, E, A>) => HKT2<F, E, B>
 ```
 
 Added in v2.10.0
@@ -419,30 +419,32 @@ Added in v2.10.0
 export declare function fromOptionK<F extends URIS4>(
   F: FromEither4<F>
 ): <E>(
-  onNone: Lazy<E>
+  onNone: LazyArg<E>
 ) => <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Option<B>) => <S, R>(...a: A) => Kind4<F, S, R, E, B>
 export declare function fromOptionK<F extends URIS3>(
   F: FromEither3<F>
 ): <E>(
-  onNone: Lazy<E>
+  onNone: LazyArg<E>
 ) => <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Option<B>) => <R>(...a: A) => Kind3<F, R, E, B>
 export declare function fromOptionK<F extends URIS3, E>(
   F: FromEither3C<F, E>
 ): (
-  onNone: Lazy<E>
+  onNone: LazyArg<E>
 ) => <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Option<B>) => <R>(...a: A) => Kind3<F, R, E, B>
 export declare function fromOptionK<F extends URIS2>(
   F: FromEither2<F>
 ): <E>(
-  onNone: Lazy<E>
+  onNone: LazyArg<E>
 ) => <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Option<B>) => (...a: A) => Kind2<F, E, B>
 export declare function fromOptionK<F extends URIS2, E>(
   F: FromEither2C<F, E>
-): (onNone: Lazy<E>) => <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Option<B>) => (...a: A) => Kind2<F, E, B>
+): (
+  onNone: LazyArg<E>
+) => <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Option<B>) => (...a: A) => Kind2<F, E, B>
 export declare function fromOptionK<F>(
   F: FromEither<F>
 ): <E>(
-  onNone: Lazy<E>
+  onNone: LazyArg<E>
 ) => <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Option<B>) => (...a: A) => HKT2<F, E, B>
 ```
 

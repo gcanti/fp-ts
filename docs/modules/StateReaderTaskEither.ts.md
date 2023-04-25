@@ -412,7 +412,7 @@ Added in v2.0.0
 
 ```ts
 export declare const fromOption: <E>(
-  onNone: Lazy<E>
+  onNone: LazyArg<E>
 ) => <A, S, R = unknown>(fa: Option<A>) => StateReaderTaskEither<S, R, E, A>
 ```
 
@@ -500,7 +500,7 @@ types of kind `* -> *`.
 
 ```ts
 export declare const alt: <S, R, E, A>(
-  that: Lazy<StateReaderTaskEither<S, R, E, A>>
+  that: LazyArg<StateReaderTaskEither<S, R, E, A>>
 ) => (fa: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A>
 ```
 
@@ -818,7 +818,7 @@ Added in v2.10.0
 
 ```ts
 export declare const fromOptionK: <E>(
-  onNone: Lazy<E>
+  onNone: LazyArg<E>
 ) => <A extends readonly unknown[], B>(
   f: (...a: A) => Option<B>
 ) => <S, R = unknown>(...a: A) => StateReaderTaskEither<S, R, E, B>
@@ -1149,7 +1149,7 @@ Added in v2.10.0
 
 ```ts
 export declare const chainOptionK: <E>(
-  onNone: Lazy<E>
+  onNone: LazyArg<E>
 ) => <A, B>(
   f: (a: A) => Option<B>
 ) => <S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
@@ -1167,7 +1167,7 @@ The `W` suffix (short for **W**idening) means that the error types will be merge
 
 ```ts
 export declare const chainOptionKW: <E2>(
-  onNone: Lazy<E2>
+  onNone: LazyArg<E2>
 ) => <A, B>(
   f: (a: A) => Option<B>
 ) => <S, R, E1>(ma: StateReaderTaskEither<S, R, E1, A>) => StateReaderTaskEither<S, R, E2 | E1, B>
