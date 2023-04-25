@@ -84,6 +84,8 @@ Added in v2.5.0
   - [getShow](#getshow)
   - [getUnionMonoid](#getunionmonoid)
   - [getUnionSemigroup](#getunionsemigroup)
+- [legacy](#legacy)
+  - [chain](#chain)
 - [lifting](#lifting)
   - [fromEitherK](#fromeitherk)
   - [fromOptionK](#fromoptionk)
@@ -105,7 +107,6 @@ Added in v2.5.0
   - [isEmpty](#isempty)
   - [isNonEmpty](#isnonempty)
 - [sequencing](#sequencing)
-  - [chain](#chain)
   - [chainFirst](#chainfirst)
   - [chainRecBreadthFirst](#chainrecbreadthfirst)
   - [chainRecDepthFirst](#chainrecdepthfirst)
@@ -1005,6 +1006,20 @@ export declare const getUnionSemigroup: <A>(E: Eq<A>) => Semigroup<readonly A[]>
 
 Added in v2.11.0
 
+# legacy
+
+## chain
+
+Alias of `flatMap`.
+
+**Signature**
+
+```ts
+export declare const chain: <A, B>(f: (a: A) => readonly B[]) => (ma: readonly A[]) => readonly B[]
+```
+
+Added in v2.5.0
+
 # lifting
 
 ## fromEitherK
@@ -1247,18 +1262,6 @@ export declare const isNonEmpty: <A>(as: readonly A[]) => as is RNEA.ReadonlyNon
 Added in v2.5.0
 
 # sequencing
-
-## chain
-
-Alias of `flatMap`.
-
-**Signature**
-
-```ts
-export declare const chain: <A, B>(f: (a: A) => readonly B[]) => (ma: readonly A[]) => readonly B[]
-```
-
-Added in v2.5.0
 
 ## chainFirst
 

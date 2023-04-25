@@ -45,6 +45,8 @@ Added in v2.0.0
   - [MonadTask](#monadtask)
   - [Pointed](#pointed)
   - [getRaceMonoid](#getracemonoid)
+- [legacy](#legacy)
+  - [chain](#chain)
 - [lifting](#lifting)
   - [fromIOK](#fromiok)
 - [mapping](#mapping)
@@ -53,7 +55,6 @@ Added in v2.0.0
 - [model](#model)
   - [Task (interface)](#task-interface)
 - [sequencing](#sequencing)
-  - [chain](#chain)
   - [chainFirst](#chainfirst)
   - [chainFirstIOK](#chainfirstiok)
   - [chainIOK](#chainiok)
@@ -333,6 +334,20 @@ test()
 
 Added in v2.0.0
 
+# legacy
+
+## chain
+
+Alias of `flatMap`.
+
+**Signature**
+
+```ts
+export declare const chain: <A, B>(f: (a: A) => Task<B>) => (ma: Task<A>) => Task<B>
+```
+
+Added in v2.0.0
+
 # lifting
 
 ## fromIOK
@@ -385,18 +400,6 @@ export interface Task<A> {
 Added in v2.0.0
 
 # sequencing
-
-## chain
-
-Alias of `flatMap`.
-
-**Signature**
-
-```ts
-export declare const chain: <A, B>(f: (a: A) => Task<B>) => (ma: Task<A>) => Task<B>
-```
-
-Added in v2.0.0
 
 ## chainFirst
 

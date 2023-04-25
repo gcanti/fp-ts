@@ -64,6 +64,8 @@ Added in v2.0.0
   - [getEq](#geteq)
   - [getSemigroup](#getsemigroup)
   - [getShow](#getshow)
+- [legacy](#legacy)
+  - [chain](#chain)
 - [mapping](#mapping)
   - [flap](#flap)
   - [map](#map)
@@ -74,7 +76,6 @@ Added in v2.0.0
   - [matchLeft](#matchleft)
   - [matchRight](#matchright)
 - [sequencing](#sequencing)
-  - [chain](#chain)
   - [chainFirst](#chainfirst)
   - [chainWithIndex](#chainwithindex)
   - [flatMap](#flatmap)
@@ -608,6 +609,20 @@ export declare const getShow: <A>(S: Show<A>) => Show<NonEmptyArray<A>>
 
 Added in v2.0.0
 
+# legacy
+
+## chain
+
+Alias of `flatMap`.
+
+**Signature**
+
+```ts
+export declare const chain: <A, B>(f: (a: A) => NonEmptyArray<B>) => (ma: NonEmptyArray<A>) => NonEmptyArray<B>
+```
+
+Added in v2.0.0
+
 # mapping
 
 ## flap
@@ -684,18 +699,6 @@ export declare const matchRight: <A, B>(f: (init: A[], last: A) => B) => (as: No
 Added in v2.11.0
 
 # sequencing
-
-## chain
-
-Alias of `flatMap`.
-
-**Signature**
-
-```ts
-export declare const chain: <A, B>(f: (a: A) => NonEmptyArray<B>) => (ma: NonEmptyArray<A>) => NonEmptyArray<B>
-```
-
-Added in v2.0.0
 
 ## chainFirst
 

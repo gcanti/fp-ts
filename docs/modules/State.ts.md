@@ -26,13 +26,14 @@ Added in v2.0.0
   - [Functor](#functor)
   - [Monad](#monad)
   - [Pointed](#pointed)
+- [legacy](#legacy)
+  - [chain](#chain)
 - [mapping](#mapping)
   - [flap](#flap)
   - [map](#map)
 - [model](#model)
   - [State (interface)](#state-interface)
 - [sequencing](#sequencing)
-  - [chain](#chain)
   - [chainFirst](#chainfirst)
   - [flatMap](#flatmap)
   - [flatten](#flatten)
@@ -194,6 +195,20 @@ export declare const Pointed: Pointed2<'State'>
 
 Added in v2.10.0
 
+# legacy
+
+## chain
+
+Alias of `flatMap`.
+
+**Signature**
+
+```ts
+export declare const chain: <S, A, B>(f: (a: A) => State<S, B>) => (ma: State<S, A>) => State<S, B>
+```
+
+Added in v2.0.0
+
 # mapping
 
 ## flap
@@ -234,18 +249,6 @@ export interface State<S, A> {
 Added in v2.0.0
 
 # sequencing
-
-## chain
-
-Alias of `flatMap`.
-
-**Signature**
-
-```ts
-export declare const chain: <S, A, B>(f: (a: A) => State<S, B>) => (ma: State<S, A>) => State<S, B>
-```
-
-Added in v2.0.0
 
 ## chainFirst
 

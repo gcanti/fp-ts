@@ -85,6 +85,9 @@ Added in v2.0.0
   - [taskify](#taskify)
   - [tryCatch](#trycatch)
   - [tryCatchK](#trycatchk)
+- [legacy](#legacy)
+  - [chain](#chain)
+  - [chainW](#chainw)
 - [lifting](#lifting)
   - [fromEitherK](#fromeitherk)
   - [fromIOEitherK](#fromioeitherk)
@@ -108,7 +111,6 @@ Added in v2.0.0
   - [matchEW](#matchew)
   - [matchW](#matchw)
 - [sequencing](#sequencing)
-  - [chain](#chain)
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
   - [chainFirst](#chainfirst)
@@ -126,7 +128,6 @@ Added in v2.0.0
   - [chainTaskK](#chaintaskk)
   - [chainTaskOptionK](#chaintaskoptionk)
   - [chainTaskOptionKW](#chaintaskoptionkw)
-  - [chainW](#chainw)
   - [flatMap](#flatmap)
   - [flatten](#flatten)
   - [flattenW](#flattenw)
@@ -1023,6 +1024,34 @@ export declare const tryCatchK: <E, A extends readonly unknown[], B>(
 
 Added in v2.5.0
 
+# legacy
+
+## chain
+
+Alias of `flatMap`.
+
+**Signature**
+
+```ts
+export declare const chain: <E, A, B>(f: (a: A) => TaskEither<E, B>) => (ma: TaskEither<E, A>) => TaskEither<E, B>
+```
+
+Added in v2.0.0
+
+## chainW
+
+Alias of `flatMap`.
+
+**Signature**
+
+```ts
+export declare const chainW: <E2, A, B>(
+  f: (a: A) => TaskEither<E2, B>
+) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
+```
+
+Added in v2.6.0
+
 # lifting
 
 ## fromEitherK
@@ -1267,18 +1296,6 @@ Added in v2.10.0
 
 # sequencing
 
-## chain
-
-Alias of `flatMap`.
-
-**Signature**
-
-```ts
-export declare const chain: <E, A, B>(f: (a: A) => TaskEither<E, B>) => (ma: TaskEither<E, A>) => TaskEither<E, B>
-```
-
-Added in v2.0.0
-
 ## chainEitherK
 
 **Signature**
@@ -1495,20 +1512,6 @@ export declare const chainTaskOptionKW: <E2>(
 ```
 
 Added in v2.12.3
-
-## chainW
-
-Alias of `flatMap`.
-
-**Signature**
-
-```ts
-export declare const chainW: <E2, A, B>(
-  f: (a: A) => TaskEither<E2, B>
-) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
-```
-
-Added in v2.6.0
 
 ## flatMap
 

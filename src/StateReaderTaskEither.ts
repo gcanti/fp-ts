@@ -283,7 +283,7 @@ export const fromIOEitherK =
 export const chainIOEitherKW =
   <E2, A, B>(f: (a: A) => IOEither<E2, B>) =>
   <S, R, E1>(ma: StateReaderTaskEither<S, R, E1, A>): StateReaderTaskEither<S, R, E1 | E2, B> =>
-    pipe(ma, chainW<S, R, E2, A, B>(fromIOEitherK(f)))
+    flatMap<S, R, E1, A, R, E2 | E1, B>(ma, fromIOEitherK(f))
 
 /**
  * @category sequencing
@@ -313,7 +313,7 @@ export const fromTaskEitherK =
 export const chainTaskEitherKW =
   <E2, A, B>(f: (a: A) => TaskEither<E2, B>) =>
   <S, R, E1>(ma: StateReaderTaskEither<S, R, E1, A>): StateReaderTaskEither<S, R, E1 | E2, B> =>
-    pipe(ma, chainW<S, R, E2, A, B>(fromTaskEitherK(f)))
+    flatMap<S, R, E1, A, R, E1 | E2, B>(ma, fromTaskEitherK(f))
 
 /**
  * @category sequencing
@@ -343,7 +343,7 @@ export const fromReaderTaskEitherK =
 export const chainReaderTaskEitherKW =
   <R, E2, A, B>(f: (a: A) => ReaderTaskEither<R, E2, B>) =>
   <S, E1>(ma: StateReaderTaskEither<S, R, E1, A>): StateReaderTaskEither<S, R, E1 | E2, B> =>
-    pipe(ma, chainW<S, R, E2, A, B>(fromReaderTaskEitherK(f)))
+    flatMap<S, R, E1, A, R, E1 | E2, B>(ma, fromReaderTaskEitherK(f))
 
 /**
  * @category sequencing
@@ -458,26 +458,6 @@ export const flatMap: {
 } = /*#__PURE__*/ dual(2, ST.flatMap(RTE.Monad))
 
 /**
- * Alias of `flatMap`.
- *
- * @category sequencing
- * @since 2.0.0
- */
-export const chain: <S, R, E, A, B>(
-  f: (a: A) => StateReaderTaskEither<S, R, E, B>
-) => (ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> = flatMap
-
-/**
- * Alias of `flatMap`.
- *
- * @category sequencing
- * @since 2.6.0
- */
-export const chainW: <S, R2, E2, A, B>(
-  f: (a: A) => StateReaderTaskEither<S, R2, E2, B>
-) => <R1, E1>(ma: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E1 | E2, B> = flatMap
-
-/**
  * Less strict version of [`flatten`](#flatten).
  *
  * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
@@ -487,7 +467,7 @@ export const chainW: <S, R2, E2, A, B>(
  */
 export const flattenW: <S, R1, E1, R2, E2, A>(
   mma: StateReaderTaskEither<S, R1, E1, StateReaderTaskEither<S, R2, E2, A>>
-) => StateReaderTaskEither<S, R1 & R2, E1 | E2, A> = /*#__PURE__*/ chainW(identity)
+) => StateReaderTaskEither<S, R1 & R2, E1 | E2, A> = /*#__PURE__*/ flatMap(identity)
 
 /**
  * @category sequencing
@@ -1273,6 +1253,30 @@ export const traverseArray = <S, R, E, A, B>(
 export const sequenceArray: <S, R, E, A>(
   arr: ReadonlyArray<StateReaderTaskEither<S, R, E, A>>
 ) => StateReaderTaskEither<S, R, E, ReadonlyArray<A>> = /*#__PURE__*/ traverseArray(identity)
+
+// -------------------------------------------------------------------------------------
+// legacy
+// -------------------------------------------------------------------------------------
+
+/**
+ * Alias of `flatMap`.
+ *
+ * @category legacy
+ * @since 2.0.0
+ */
+export const chain: <S, R, E, A, B>(
+  f: (a: A) => StateReaderTaskEither<S, R, E, B>
+) => (ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> = flatMap
+
+/**
+ * Alias of `flatMap`.
+ *
+ * @category legacy
+ * @since 2.6.0
+ */
+export const chainW: <S, R2, E2, A, B>(
+  f: (a: A) => StateReaderTaskEither<S, R2, E2, B>
+) => <R1, E1>(ma: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E1 | E2, B> = flatMap
 
 // -------------------------------------------------------------------------------------
 // deprecated

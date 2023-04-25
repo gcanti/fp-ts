@@ -43,13 +43,14 @@ Added in v2.0.0
   - [Traversable](#traversable)
   - [getEq](#geteq)
   - [getShow](#getshow)
+- [legacy](#legacy)
+  - [chain](#chain)
 - [mapping](#mapping)
   - [flap](#flap)
   - [map](#map)
 - [model](#model)
   - [Identity (type alias)](#identity-type-alias)
 - [sequencing](#sequencing)
-  - [chain](#chain)
   - [chainFirst](#chainfirst)
   - [flatMap](#flatmap)
   - [flatten](#flatten)
@@ -348,6 +349,20 @@ export declare const getShow: <A>(S: Show<A>) => Show<A>
 
 Added in v2.0.0
 
+# legacy
+
+## chain
+
+Alias of `flatMap`.
+
+**Signature**
+
+```ts
+export declare const chain: <A, B>(f: (a: A) => B) => (ma: A) => B
+```
+
+Added in v2.0.0
+
 # mapping
 
 ## flap
@@ -386,18 +401,6 @@ export type Identity<A> = A
 Added in v2.0.0
 
 # sequencing
-
-## chain
-
-Alias of `flatMap`.
-
-**Signature**
-
-```ts
-export declare const chain: <A, B>(f: (a: A) => B) => (ma: A) => B
-```
-
-Added in v2.0.0
 
 ## chainFirst
 

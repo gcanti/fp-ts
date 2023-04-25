@@ -290,17 +290,10 @@ export const flatMap: {
 } = /*#__PURE__*/ dual(2, OT.flatMap(T.Monad))
 
 /**
- * Alias of `flatMap`.
- *
- * @since 2.10.0
- */
-export const chain: <A, B>(f: (a: A) => TaskOption<B>) => (ma: TaskOption<A>) => TaskOption<B> = flatMap
-
-/**
  * @category sequencing
  * @since 2.10.0
  */
-export const flatten: <A>(mma: TaskOption<TaskOption<A>>) => TaskOption<A> = /*#__PURE__*/ chain(identity)
+export const flatten: <A>(mma: TaskOption<TaskOption<A>>) => TaskOption<A> = /*#__PURE__*/ flatMap(identity)
 
 /**
  * @category error handling
@@ -481,11 +474,7 @@ export const ApplicativePar: Applicative1<URI> = {
   of
 }
 
-const _apSeq: Apply1<URI>['ap'] = (fab, fa) =>
-  pipe(
-    fab,
-    chain((f) => pipe(fa, map(f)))
-  )
+const _apSeq: Apply1<URI>['ap'] = (fab, fa) => flatMap(fab, (f) => pipe(fa, map(f)))
 
 /**
  * Runs computations sequentially.
@@ -896,3 +885,15 @@ export const traverseSeqArray: <A, B>(
  */
 export const sequenceSeqArray: <A>(as: ReadonlyArray<TaskOption<A>>) => TaskOption<ReadonlyArray<A>> =
   /*#__PURE__*/ traverseSeqArray(identity)
+
+// -------------------------------------------------------------------------------------
+// legacy
+// -------------------------------------------------------------------------------------
+
+/**
+ * Alias of `flatMap`.
+ *
+ * @category legacy
+ * @since 2.10.0
+ */
+export const chain: <A, B>(f: (a: A) => TaskOption<B>) => (ma: TaskOption<A>) => TaskOption<B> = flatMap

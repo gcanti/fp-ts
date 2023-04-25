@@ -65,6 +65,9 @@ Added in v2.0.0
   - [Monad](#monad)
   - [MonadThrow](#monadthrow)
   - [Pointed](#pointed)
+- [legacy](#legacy)
+  - [chain](#chain)
+  - [chainW](#chainw)
 - [lifting](#lifting)
   - [fromEitherK](#fromeitherk)
   - [fromOptionK](#fromoptionk)
@@ -84,7 +87,6 @@ Added in v2.0.0
   - [matchEW](#matchew)
   - [matchW](#matchw)
 - [sequencing](#sequencing)
-  - [chain](#chain)
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
   - [chainFirst](#chainfirst)
@@ -97,7 +99,6 @@ Added in v2.0.0
   - [chainOptionKW](#chainoptionkw)
   - [chainReaderK](#chainreaderk)
   - [chainReaderKW](#chainreaderkw)
-  - [chainW](#chainw)
   - [flatMap](#flatmap)
   - [flatten](#flatten)
   - [flattenW](#flattenw)
@@ -722,6 +723,36 @@ export declare const Pointed: Pointed3<'ReaderEither'>
 
 Added in v2.10.0
 
+# legacy
+
+## chain
+
+Alias of `flatMap`.
+
+**Signature**
+
+```ts
+export declare const chain: <R, E, A, B>(
+  f: (a: A) => ReaderEither<R, E, B>
+) => (ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B>
+```
+
+Added in v2.0.0
+
+## chainW
+
+Alias of `flatMap`.
+
+**Signature**
+
+```ts
+export declare const chainW: <R2, E2, A, B>(
+  f: (a: A) => ReaderEither<R2, E2, B>
+) => <R1, E1>(ma: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2 | E1, B>
+```
+
+Added in v2.6.0
+
 # lifting
 
 ## fromEitherK
@@ -922,20 +953,6 @@ Added in v2.10.0
 
 # sequencing
 
-## chain
-
-Alias of `flatMap`.
-
-**Signature**
-
-```ts
-export declare const chain: <R, E, A, B>(
-  f: (a: A) => ReaderEither<R, E, B>
-) => (ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B>
-```
-
-Added in v2.0.0
-
 ## chainEitherK
 
 **Signature**
@@ -1106,20 +1123,6 @@ export declare const chainReaderKW: <A, R2, B>(
 ```
 
 Added in v2.11.0
-
-## chainW
-
-Alias of `flatMap`.
-
-**Signature**
-
-```ts
-export declare const chainW: <R2, E2, A, B>(
-  f: (a: A) => ReaderEither<R2, E2, B>
-) => <R1, E1>(ma: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2 | E1, B>
-```
-
-Added in v2.6.0
 
 ## flatMap
 

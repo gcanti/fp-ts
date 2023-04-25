@@ -255,11 +255,7 @@ export function fold<A, B>(f: (a: A, bs: Array<B>) => B): (tree: Tree<A>) => B {
 
 /* istanbul ignore next */
 const _map: Monad1<URI>['map'] = (fa, f) => pipe(fa, map(f))
-const _ap: Monad1<URI>['ap'] = (fab, fa) =>
-  pipe(
-    fab,
-    chain((f) => pipe(fa, map(f)))
-  )
+const _ap: Monad1<URI>['ap'] = (fab, fa) => flatMap(fab, (f) => pipe(fa, map(f)))
 /* istanbul ignore next */
 const _reduce = <A, B>(fa: Tree<A>, b: B, f: (b: B, a: A) => B): B => pipe(fa, reduce(b, f))
 /* istanbul ignore next */
@@ -294,17 +290,9 @@ export const flatMap: {
   const concat = A.getMonoid<Tree<B>>().concat
   return {
     value,
-    forest: concat(forest, ma.forest.map(chain(f)))
+    forest: concat(forest, ma.forest.map(flatMap(f)))
   }
 })
-
-/**
- * Alias of `flatMap`.
- *
- * @category sequencing
- * @since 2.0.0
- */
-export const chain: <A, B>(f: (a: A) => Tree<B>) => (ma: Tree<A>) => Tree<B> = flatMap
 
 /**
  * @since 2.0.0
@@ -323,7 +311,7 @@ export const duplicate: <A>(wa: Tree<A>) => Tree<Tree<A>> = /*#__PURE__*/ extend
  * @category sequencing
  * @since 2.0.0
  */
-export const flatten: <A>(mma: Tree<Tree<A>>) => Tree<A> = /*#__PURE__*/ chain(identity)
+export const flatten: <A>(mma: Tree<Tree<A>>) => Tree<A> = /*#__PURE__*/ flatMap(identity)
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
@@ -616,6 +604,18 @@ export const exists =
   <A>(predicate: Predicate<A>) =>
   (ma: Tree<A>): boolean =>
     predicate(ma.value) || ma.forest.some(exists(predicate))
+
+// -------------------------------------------------------------------------------------
+// legacy
+// -------------------------------------------------------------------------------------
+
+/**
+ * Alias of `flatMap`.
+ *
+ * @category legacy
+ * @since 2.0.0
+ */
+export const chain: <A, B>(f: (a: A) => Tree<B>) => (ma: Tree<A>) => Tree<B> = flatMap
 
 // -------------------------------------------------------------------------------------
 // deprecated

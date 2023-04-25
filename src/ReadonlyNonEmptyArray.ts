@@ -717,7 +717,7 @@ export const alt: <A>(
  */
 export const ap = <A>(
   as: ReadonlyNonEmptyArray<A>
-): (<B>(fab: ReadonlyNonEmptyArray<(a: A) => B>) => ReadonlyNonEmptyArray<B>) => chain((f) => pipe(as, map(f)))
+): (<B>(fab: ReadonlyNonEmptyArray<(a: A) => B>) => ReadonlyNonEmptyArray<B>) => flatMap((f) => pipe(as, map(f)))
 
 /**
  * @example
@@ -748,16 +748,6 @@ export const flatMap: {
 )
 
 /**
- * Alias of `flatMap`.
- *
- * @category sequencing
- * @since 2.5.0
- */
-export const chain: <A, B>(
-  f: (a: A) => ReadonlyNonEmptyArray<B>
-) => (ma: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B> = flatMap
-
-/**
  * @since 2.5.0
  */
 export const extend =
@@ -783,7 +773,7 @@ export const duplicate: <A>(ma: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArr
  * @since 2.5.0
  */
 export const flatten: <A>(mma: ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>>) => ReadonlyNonEmptyArray<A> =
-  /*#__PURE__*/ chain(identity)
+  /*#__PURE__*/ flatMap(identity)
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
@@ -1328,6 +1318,20 @@ export const intercalate = <A>(S: Semigroup<A>): ((middle: A) => (as: ReadonlyNo
   const concatAllS = concatAll(S)
   return (middle) => flow(intersperse(middle), concatAllS)
 }
+
+// -------------------------------------------------------------------------------------
+// legacy
+// -------------------------------------------------------------------------------------
+
+/**
+ * Alias of `flatMap`.
+ *
+ * @category legacy
+ * @since 2.5.0
+ */
+export const chain: <A, B>(
+  f: (a: A) => ReadonlyNonEmptyArray<B>
+) => (ma: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B> = flatMap
 
 // -------------------------------------------------------------------------------------
 // deprecated

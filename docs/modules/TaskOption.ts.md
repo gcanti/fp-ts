@@ -64,6 +64,8 @@ Added in v2.10.0
 - [interop](#interop)
   - [tryCatch](#trycatch)
   - [tryCatchK](#trycatchk)
+- [legacy](#legacy)
+  - [chain](#chain)
 - [lifting](#lifting)
   - [fromEitherK](#fromeitherk)
   - [fromIOK](#fromiok)
@@ -114,7 +116,6 @@ Added in v2.10.0
   - [ap](#ap)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
-  - [chain](#chain)
   - [zero](#zero)
 
 ---
@@ -622,6 +623,20 @@ Converts a function returning a `Promise` to one returning a `TaskOption`.
 export declare const tryCatchK: <A extends readonly unknown[], B>(
   f: (...a: A) => Promise<B>
 ) => (...a: A) => TaskOption<B>
+```
+
+Added in v2.10.0
+
+# legacy
+
+## chain
+
+Alias of `flatMap`.
+
+**Signature**
+
+```ts
+export declare const chain: <A, B>(f: (a: A) => TaskOption<B>) => (ma: TaskOption<A>) => TaskOption<B>
 ```
 
 Added in v2.10.0
@@ -1145,18 +1160,6 @@ Combine two effectful actions, keeping only the result of the second.
 
 ```ts
 export declare const apSecond: <B>(second: TaskOption<B>) => <A>(first: TaskOption<A>) => TaskOption<B>
-```
-
-Added in v2.10.0
-
-## chain
-
-Alias of `flatMap`.
-
-**Signature**
-
-```ts
-export declare const chain: <A, B>(f: (a: A) => TaskOption<B>) => (ma: TaskOption<A>) => TaskOption<B>
 ```
 
 Added in v2.10.0
