@@ -5,7 +5,7 @@ import { Alt4 } from './Alt'
 import { Applicative4 } from './Applicative'
 import { apFirst as apFirst_, Apply4, apS as apS_, apSecond as apSecond_ } from './Apply'
 import { Bifunctor4 } from './Bifunctor'
-import { bind as bind_, Chain4, chainFirst as chainFirst_ } from './Chain'
+import * as chainable from './Chain'
 import * as E from './Either'
 import { Endomorphism } from './Endomorphism'
 import {
@@ -615,7 +615,7 @@ export const Applicative: Applicative4<URI> = {
  * @category instances
  * @since 2.10.0
  */
-export const Chain: Chain4<URI> = {
+export const Chain: chainable.Chain4<URI> = {
   URI,
   map: _map,
   ap: _ap,
@@ -740,25 +740,18 @@ export const MonadThrow: MonadThrow4<URI> = {
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
- * @category sequencing
- * @since 2.0.0
+ * @category combinators
+ * @since 2.15.0
  */
-export const chainFirst: <S, R, E, A, B>(
-  f: (a: A) => StateReaderTaskEither<S, R, E, B>
-) => (ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A> = /*#__PURE__*/ chainFirst_(Chain)
-
-/**
- * Less strict version of [`chainFirst`](#chainfirst).
- *
- * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
- *
- * @category sequencing
- * @since 2.8.0
- */
-export const chainFirstW: <S, R2, E2, A, B>(
-  f: (a: A) => StateReaderTaskEither<S, R2, E2, B>
-) => <R1, E1>(ma: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E1 | E2, A> =
-  chainFirst as any
+export const tap: {
+  <S, R1, E1, A, R2, E2, _>(
+    self: StateReaderTaskEither<S, R1, E1, A>,
+    f: (a: A) => StateReaderTaskEither<S, R2, E2, _>
+  ): StateReaderTaskEither<S, R1 & R2, E1 | E2, A>
+  <A, S, R2, E2, _>(f: (a: A) => StateReaderTaskEither<S, R2, E2, _>): <R1, E1>(
+    self: StateReaderTaskEither<S, R1, E1, A>
+  ) => StateReaderTaskEither<S, R1 & R2, E2 | E1, A>
+} = /*#__PURE__*/ dual(2, chainable.tap(Chain))
 
 /**
  * @category instances
@@ -1133,7 +1126,7 @@ export {
 /**
  * @since 2.8.0
  */
-export const bind = /*#__PURE__*/ bind_(Chain)
+export const bind = /*#__PURE__*/ chainable.bind(Chain)
 
 /**
  * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
@@ -1277,6 +1270,26 @@ export const chain: <S, R, E, A, B>(
 export const chainW: <S, R2, E2, A, B>(
   f: (a: A) => StateReaderTaskEither<S, R2, E2, B>
 ) => <R1, E1>(ma: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E1 | E2, B> = flatMap
+
+/**
+ * Alias of `tap`.
+ *
+ * @category legacy
+ * @since 2.0.0
+ */
+export const chainFirst: <S, R, E, A, B>(
+  f: (a: A) => StateReaderTaskEither<S, R, E, B>
+) => (ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A> = tap
+
+/**
+ * Alias of `tap`.
+ *
+ * @category legacy
+ * @since 2.8.0
+ */
+export const chainFirstW: <S, R2, E2, A, B>(
+  f: (a: A) => StateReaderTaskEither<S, R2, E2, B>
+) => <R1, E1>(ma: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E1 | E2, A> = tap
 
 // -------------------------------------------------------------------------------------
 // deprecated
