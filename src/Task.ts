@@ -18,7 +18,7 @@ import {
   apSecond as apSecond_,
   getApplySemigroup as getApplySemigroup_
 } from './Apply'
-import { bind as bind_, Chain1, chainFirst as chainFirst_ } from './Chain'
+import * as chainable from './Chain'
 import { chainFirstIOK as chainFirstIOK_, chainIOK as chainIOK_, FromIO1, fromIOK as fromIOK_ } from './FromIO'
 import { FromTask1 } from './FromTask'
 import { dual, identity, pipe } from './function'
@@ -280,7 +280,7 @@ export const ApplicativeSeq: Applicative1<URI> = {
  * @category instances
  * @since 2.10.0
  */
-export const Chain: Chain1<URI> = {
+export const Chain: chainable.Chain1<URI> = {
   URI,
   map: _map,
   ap: _apPar,
@@ -337,10 +337,13 @@ export const MonadTask: MonadTask1<URI> = {
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
- * @category sequencing
- * @since 2.0.0
+ * @category combinators
+ * @since 2.15.0
  */
-export const chainFirst: <A, B>(f: (a: A) => Task<B>) => (first: Task<A>) => Task<A> = /*#__PURE__*/ chainFirst_(Chain)
+export const tap: {
+  <A, _>(self: Task<A>, f: (a: A) => Task<_>): Task<A>
+  <A, _>(f: (a: A) => Task<_>): (self: Task<A>) => Task<A>
+} = /*#__PURE__*/ dual(2, chainable.tap(Chain))
 
 /**
  * @category instances
@@ -427,7 +430,7 @@ export {
  * @category do notation
  * @since 2.8.0
  */
-export const bind = /*#__PURE__*/ bind_(Chain)
+export const bind = /*#__PURE__*/ chainable.bind(Chain)
 
 /**
  * @category do notation
@@ -574,6 +577,14 @@ export const sequenceSeqArray: <A>(arr: ReadonlyArray<Task<A>>) => Task<Readonly
  * @since 2.0.0
  */
 export const chain: <A, B>(f: (a: A) => Task<B>) => (ma: Task<A>) => Task<B> = flatMap
+
+/**
+ * Alias of `tap`.
+ *
+ * @category legacy
+ * @since 2.0.0
+ */
+export const chainFirst: <A, B>(f: (a: A) => Task<B>) => (first: Task<A>) => Task<A> = tap
 
 // -------------------------------------------------------------------------------------
 // deprecated
