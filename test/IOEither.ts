@@ -120,6 +120,14 @@ describe.concurrent('IOEither', () => {
       U.deepStrictEqual(pipe(_.right('a'), _.chain(f))(), E.left('foo'))
     })
 
+    it('tap', () => {
+      const f = (a: string) => (a.length > 2 ? _.right(a.length) : _.left('foo'))
+      U.deepStrictEqual(pipe(_.right('foo'), _.tap(f))(), E.right('foo'))
+      U.deepStrictEqual(pipe(_.right('a'), _.tap(f))(), E.left('foo'))
+      U.deepStrictEqual(_.tap(_.right('foo'), f)(), E.right('foo'))
+      U.deepStrictEqual(_.tap(_.right('a'), f)(), E.left('foo'))
+    })
+
     it('chainFirst', () => {
       const f = (a: string) => (a.length > 2 ? _.right(a.length) : _.left('foo'))
       U.deepStrictEqual(pipe(_.right('foo'), _.chainFirst(f))(), E.right('foo'))
