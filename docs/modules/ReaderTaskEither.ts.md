@@ -60,10 +60,9 @@ Added in v2.0.0
   - [getOrElseW](#getorelsew)
   - [mapLeft](#mapleft)
   - [orElse](#orelse)
-  - [orElseFirst](#orelsefirst)
-  - [orElseFirstW](#orelsefirstw)
   - [orElseW](#orelsew)
   - [orLeft](#orleft)
+  - [tapError](#taperror)
 - [filtering](#filtering)
   - [filterOrElse](#filterorelse)
   - [filterOrElseW](#filterorelsew)
@@ -93,6 +92,8 @@ Added in v2.0.0
   - [chainFirst](#chainfirst)
   - [chainFirstW](#chainfirstw)
   - [chainW](#chainw)
+  - [orElseFirst](#orelsefirst)
+  - [orElseFirstW](#orelsefirstw)
 - [lifting](#lifting)
   - [fromEitherK](#fromeitherk)
   - [fromIOEitherK](#fromioeitherk)
@@ -727,32 +728,6 @@ export declare const orElse: <R, E1, A, E2>(
 
 Added in v2.0.0
 
-## orElseFirst
-
-**Signature**
-
-```ts
-export declare const orElseFirst: <E, R, B>(
-  onLeft: (e: E) => ReaderTaskEither<R, E, B>
-) => <A>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
-```
-
-Added in v2.11.0
-
-## orElseFirstW
-
-The `W` suffix (short for **W**idening) means that the environment types and the return types will be merged.
-
-**Signature**
-
-```ts
-export declare const orElseFirstW: <E1, R2, E2, B>(
-  onLeft: (e: E1) => ReaderTaskEither<R2, E2, B>
-) => <R1, A>(ma: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E1 | E2, A>
-```
-
-Added in v2.11.0
-
 ## orElseW
 
 Less strict version of [`orElse`](#orelse).
@@ -780,6 +755,26 @@ export declare const orLeft: <E1, R, E2>(
 ```
 
 Added in v2.11.0
+
+## tapError
+
+Returns an effect that effectfully "peeks" at the failure of this effect.
+
+**Signature**
+
+```ts
+export declare const tapError: {
+  <E1, R2, E2, _>(onLeft: (e: E1) => ReaderTaskEither<R2, E2, _>): <R1, A>(
+    self: ReaderTaskEither<R1, E1, A>
+  ) => ReaderTaskEither<R1 & R2, E1 | E2, A>
+  <R1, E1, A, R2, E2, _>(
+    self: ReaderTaskEither<R1, E1, A>,
+    onLeft: (e: E1) => ReaderTaskEither<R2, E2, _>
+  ): ReaderTaskEither<R1 & R2, E1 | E2, A>
+}
+```
+
+Added in v2.15.0
 
 # filtering
 
@@ -1096,6 +1091,34 @@ export declare const chainW: <R2, E2, A, B>(
 ```
 
 Added in v2.6.0
+
+## orElseFirst
+
+Alias of `tapError`.
+
+**Signature**
+
+```ts
+export declare const orElseFirst: <E, R, B>(
+  onLeft: (e: E) => ReaderTaskEither<R, E, B>
+) => <A>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
+```
+
+Added in v2.11.0
+
+## orElseFirstW
+
+Alias of `tapError`.
+
+**Signature**
+
+```ts
+export declare const orElseFirstW: <E1, R2, E2, B>(
+  onLeft: (e: E1) => ReaderTaskEither<R2, E2, B>
+) => <R1, A>(ma: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E1 | E2, A>
+```
+
+Added in v2.11.0
 
 # lifting
 

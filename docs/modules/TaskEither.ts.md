@@ -55,12 +55,11 @@ Added in v2.0.0
   - [getOrElseW](#getorelsew)
   - [mapLeft](#mapleft)
   - [orElse](#orelse)
-  - [orElseFirst](#orelsefirst)
   - [orElseFirstIOK](#orelsefirstiok)
   - [orElseFirstTaskK](#orelsefirsttaskk)
-  - [orElseFirstW](#orelsefirstw)
   - [orElseW](#orelsew)
   - [orLeft](#orleft)
+  - [tapError](#taperror)
 - [filtering](#filtering)
   - [filterOrElse](#filterorelse)
   - [filterOrElseW](#filterorelsew)
@@ -92,6 +91,8 @@ Added in v2.0.0
   - [chainFirst](#chainfirst)
   - [chainFirstW](#chainfirstw)
   - [chainW](#chainw)
+  - [orElseFirst](#orelsefirst)
+  - [orElseFirstW](#orelsefirstw)
 - [lifting](#lifting)
   - [fromEitherK](#fromeitherk)
   - [fromIOEitherK](#fromioeitherk)
@@ -645,18 +646,6 @@ test()
 
 Added in v2.0.0
 
-## orElseFirst
-
-**Signature**
-
-```ts
-export declare const orElseFirst: <E, B>(
-  onLeft: (e: E) => TaskEither<E, B>
-) => <A>(ma: TaskEither<E, A>) => TaskEither<E, A>
-```
-
-Added in v2.11.0
-
 ## orElseFirstIOK
 
 **Signature**
@@ -678,20 +667,6 @@ export declare const orElseFirstTaskK: <E, B>(
 ```
 
 Added in v2.12.0
-
-## orElseFirstW
-
-The `W` suffix (short for **W**idening) means that the error types will be merged.
-
-**Signature**
-
-```ts
-export declare const orElseFirstW: <E1, E2, B>(
-  onLeft: (e: E1) => TaskEither<E2, B>
-) => <A>(ma: TaskEither<E1, A>) => TaskEither<E1 | E2, A>
-```
-
-Added in v2.11.0
 
 ## orElseW
 
@@ -718,6 +693,21 @@ export declare const orLeft: <E1, E2>(onLeft: (e: E1) => T.Task<E2>) => <A>(fa: 
 ```
 
 Added in v2.11.0
+
+## tapError
+
+Returns an effect that effectfully "peeks" at the failure of this effect.
+
+**Signature**
+
+```ts
+export declare const tapError: {
+  <E1, E2, _>(onLeft: (e: E1) => TaskEither<E2, _>): <A>(self: TaskEither<E1, A>) => TaskEither<E1 | E2, A>
+  <E1, A, E2, _>(self: TaskEither<E1, A>, onLeft: (e: E1) => TaskEither<E2, _>): TaskEither<E1 | E2, A>
+}
+```
+
+Added in v2.15.0
 
 # filtering
 
@@ -1097,6 +1087,34 @@ export declare const chainW: <E2, A, B>(
 ```
 
 Added in v2.6.0
+
+## orElseFirst
+
+Alias of `tapError`.
+
+**Signature**
+
+```ts
+export declare const orElseFirst: <E, B>(
+  onLeft: (e: E) => TaskEither<E, B>
+) => <A>(ma: TaskEither<E, A>) => TaskEither<E, A>
+```
+
+Added in v2.11.0
+
+## orElseFirstW
+
+Alias of `tapError`.
+
+**Signature**
+
+```ts
+export declare const orElseFirstW: <E1, E2, B>(
+  onLeft: (e: E1) => TaskEither<E2, B>
+) => <A>(ma: TaskEither<E1, A>) => TaskEither<E1 | E2, A>
+```
+
+Added in v2.11.0
 
 # lifting
 
