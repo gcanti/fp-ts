@@ -71,7 +71,7 @@ import {
   getApplySemigroup as getApplySemigroup_
 } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
-import { bind as bind_, Chain2, chainFirst as chainFirst_ } from './Chain'
+import * as chainable from './Chain'
 import { ChainRec2, ChainRec2C, tailRec } from './ChainRec'
 import { Compactable2C } from './Compactable'
 import { Eq } from './Eq'
@@ -535,7 +535,7 @@ export const Applicative: Applicative2<URI> = {
  * @category instances
  * @since 2.10.0
  */
-export const Chain: Chain2<URI> = {
+export const Chain: chainable.Chain2<URI> = {
   URI,
   map: _map,
   ap: _ap,
@@ -1108,22 +1108,13 @@ export const apSecondW: <E2, B>(second: Either<E2, B>) => <E1, A>(first: Either<
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
- * @category sequencing
- * @since 2.0.0
+ * @category combinators
+ * @since 2.15.0
  */
-export const chainFirst: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Either<E, A>) => Either<E, A> =
-  /*#__PURE__*/ chainFirst_(Chain)
-
-/**
- * Less strict version of [`chainFirst`](#chainfirst)
- *
- * The `W` suffix (short for **W**idening) means that the error types will be merged.
- *
- * @category sequencing
- * @since 2.8.0
- */
-export const chainFirstW: <E2, A, B>(f: (a: A) => Either<E2, B>) => <E1>(ma: Either<E1, A>) => Either<E1 | E2, A> =
-  chainFirst as any
+export const tap: {
+  <E1, A, E2, _>(self: Either<E1, A>, f: (a: A) => Either<E2, _>): Either<E1 | E2, A>
+  <A, E2, _>(f: (a: A) => Either<E2, _>): <E1>(self: Either<E1, A>) => Either<E2 | E1, A>
+} = /*#__PURE__*/ dual(2, chainable.tap(Chain))
 
 /**
  * Less strict version of [`flatten`](#flatten).
@@ -1449,7 +1440,7 @@ export {
  * @category do notation
  * @since 2.8.0
  */
-export const bind = /*#__PURE__*/ bind_(Chain)
+export const bind = /*#__PURE__*/ chainable.bind(Chain)
 
 /**
  * The `W` suffix (short for **W**idening) means that the error types will be merged.
@@ -1577,6 +1568,24 @@ export const chainW: <E2, A, B>(f: (a: A) => Either<E2, B>) => <E1>(ma: Either<E
  * @since 2.0.0
  */
 export const chain: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Either<E, A>) => Either<E, B> = flatMap
+
+/**
+ * Alias of `tap`.
+ *
+ * @category legacy
+ * @since 2.0.0
+ */
+export const chainFirst: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Either<E, A>) => Either<E, A> =
+  /*#__PURE__*/ chainable.chainFirst(Chain)
+
+/**
+ * Alias of `tap`.
+ *
+ * @category legacy
+ * @since 2.8.0
+ */
+export const chainFirstW: <E2, A, B>(f: (a: A) => Either<E2, B>) => <E1>(ma: Either<E1, A>) => Either<E1 | E2, A> =
+  chainFirst as any
 
 // -------------------------------------------------------------------------------------
 // deprecated

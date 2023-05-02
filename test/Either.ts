@@ -99,6 +99,14 @@ describe.concurrent('Either', () => {
       U.deepStrictEqual(pipe(_.left<string, string>('maError'), _.chain(f)), _.left('maError'))
     })
 
+    it('tap', () => {
+      const f = (s: string) => _.right<string, number>(s.length)
+      U.deepStrictEqual(pipe(_.right('abc'), _.tap(f)), _.right('abc'))
+      U.deepStrictEqual(pipe(_.left<string, string>('maError'), _.tap(f)), _.left('maError'))
+      U.deepStrictEqual(_.tap(_.right('abc'), f), _.right('abc'))
+      U.deepStrictEqual(_.tap(_.left<string, string>('maError'), f), _.left('maError'))
+    })
+
     it('chainFirst', () => {
       const f = (s: string) => _.right<string, number>(s.length)
       U.deepStrictEqual(pipe(_.right('abc'), _.chainFirst(f)), _.right('abc'))
