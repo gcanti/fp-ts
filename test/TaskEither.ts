@@ -103,6 +103,20 @@ describe.concurrent('TaskEither', () => {
     )
   })
 
+  it('tap', async () => {
+    U.deepStrictEqual(
+      await pipe(
+        _.right('foo'),
+        _.tap((a) => (a.length > 2 ? _.right(a.length) : _.left('foo')))
+      )(),
+      E.right('foo')
+    )
+    U.deepStrictEqual(
+      await _.tap(_.right('foo'), (a) => (a.length > 2 ? _.right(a.length) : _.left('foo')))(),
+      E.right('foo')
+    )
+  })
+
   it('chainFirst', async () => {
     U.deepStrictEqual(
       await pipe(
