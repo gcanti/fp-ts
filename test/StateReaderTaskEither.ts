@@ -93,6 +93,12 @@ describe.concurrent('StateReaderTaskEither', () => {
       U.deepStrictEqual(e, E.right(3))
     })
 
+    it('tap', async () => {
+      const f = (s: string) => (s.length > 2 ? _.right(s.length) : _.right(0))
+      U.deepStrictEqual(await pipe(_.right('aaa'), _.tap(f), _.evaluate(state))({})(), E.right('aaa'))
+      U.deepStrictEqual(await pipe(_.tap(_.right('aaa'), f), _.evaluate(state))({})(), E.right('aaa'))
+    })
+
     it('chainFirst', async () => {
       const f = (s: string) => (s.length > 2 ? _.right(s.length) : _.right(0))
       const e = await pipe(_.right('aaa'), _.chainFirst(f), _.evaluate(state))({})()
