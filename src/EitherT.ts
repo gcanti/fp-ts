@@ -667,9 +667,11 @@ export function tapError<M extends URIS2>(
 export function tapError<M extends URIS>(
   M: Monad1<M>
 ): <E, A, B>(ma: Kind<M, Either<E, A>>, onLeft: (e: E) => Kind<M, Either<E, B>>) => Kind<M, Either<E, A>>
+/** @internal */
 export function tapError<M>(
   M: Monad<M>
 ): <E, A, B>(ma: HKT<M, Either<E, A>>, onLeft: (e: E) => HKT<M, Either<E, B>>) => HKT<M, Either<E, A>>
+/** @internal */
 export function tapError<M>(
   M: Monad<M>
 ): <E, A, B>(ma: HKT<M, Either<E, A>>, onLeft: (e: E) => HKT<M, Either<E, B>>) => HKT<M, Either<E, A>> {

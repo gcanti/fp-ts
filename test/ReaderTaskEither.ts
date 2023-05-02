@@ -316,6 +316,16 @@ describe.concurrent('ReaderTaskEither', () => {
     )
   })
 
+  it('tapError', async () => {
+    const f = (s: string) => (s.length <= 1 ? _.right(true) : _.left(s + '!'))
+    U.deepStrictEqual(await pipe(_.right(1), _.tapError(f))({})(), E.right(1))
+    U.deepStrictEqual(await pipe(_.left('a'), _.tapError(f))({})(), E.left('a'))
+    U.deepStrictEqual(await pipe(_.left('aa'), _.tapError(f))({})(), E.left('aa!'))
+    U.deepStrictEqual(await pipe(_.tapError(_.right(1), f))({})(), E.right(1))
+    U.deepStrictEqual(await pipe(_.tapError(_.left('a'), f))({})(), E.left('a'))
+    U.deepStrictEqual(await pipe(_.tapError(_.left('aa'), f))({})(), E.left('aa!'))
+  })
+
   it('orElseFirst', async () => {
     const f = _.orElseFirst((s: string) => (s.length <= 1 ? _.right(true) : _.left(s + '!')))
     U.deepStrictEqual(await pipe(_.right(1), f)({})(), E.right(1))
