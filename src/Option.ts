@@ -70,7 +70,7 @@ import {
   apSecond as apSecond_,
   getApplySemigroup as getApplySemigroup_
 } from './Apply'
-import { bind as bind_, Chain1, chainFirst as chainFirst_ } from './Chain'
+import * as chainable from './Chain'
 import { Compactable1 } from './Compactable'
 import { Either } from './Either'
 import { Eq } from './Eq'
@@ -400,7 +400,7 @@ export const flatMap: {
  * @category instances
  * @since 2.10.0
  */
-export const Chain: Chain1<URI> = {
+export const Chain: chainable.Chain1<URI> = {
   URI,
   map: _map,
   ap: _ap,
@@ -931,11 +931,13 @@ export const flatten: <A>(mma: Option<Option<A>>) => Option<A> = compact
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
- * @category sequencing
- * @since 2.0.0
+ * @category combinators
+ * @since 2.15.0
  */
-export const chainFirst: <A, B>(f: (a: A) => Option<B>) => (first: Option<A>) => Option<A> =
-  /*#__PURE__*/ chainFirst_(Chain)
+export const tap: {
+  <A, _>(self: Option<A>, f: (a: A) => Option<_>): Option<A>
+  <A, _>(f: (a: A) => Option<_>): (self: Option<A>) => Option<A>
+} = /*#__PURE__*/ dual(2, chainable.tap(Chain))
 
 /**
  * @since 2.0.0
@@ -1243,7 +1245,7 @@ export {
  * @category do notation
  * @since 2.8.0
  */
-export const bind = /*#__PURE__*/ bind_(Chain)
+export const bind = /*#__PURE__*/ chainable.bind(Chain)
 
 /**
  * @category do notation
@@ -1336,6 +1338,14 @@ export const sequenceArray: <A>(arr: ReadonlyArray<Option<A>>) => Option<Readonl
  * @since 2.0.0
  */
 export const chain: <A, B>(f: (a: A) => Option<B>) => (ma: Option<A>) => Option<B> = flatMap
+
+/**
+ * Alias of `tap`.
+ *
+ * @category legacy
+ * @since 2.0.0
+ */
+export const chainFirst: <A, B>(f: (a: A) => Option<B>) => (first: Option<A>) => Option<A> = tap
 
 // -------------------------------------------------------------------------------------
 // deprecated
