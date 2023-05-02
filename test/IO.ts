@@ -39,6 +39,12 @@ describe.concurrent('IO', () => {
       U.deepStrictEqual(pipe(_.of(_.of(1)), _.flatten)(), 1)
     })
 
+    it('tap', () => {
+      const f = (n: number) => _.of(n * 2)
+      U.deepStrictEqual(pipe(_.of(1), _.tap(f))(), 1)
+      U.deepStrictEqual(_.tap(_.of(1), f)(), 1)
+    })
+
     it('chainFirst', () => {
       const f = (n: number) => _.of(n * 2)
       U.deepStrictEqual(pipe(_.of(1), _.chainFirst(f))(), 1)
