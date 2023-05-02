@@ -73,6 +73,8 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [combinators](#combinators)
+  - [tap](#tap)
 - [constructors](#constructors)
   - [left](#left)
   - [of](#of)
@@ -132,6 +134,8 @@ Added in v2.0.0
   - [tryCatchK](#trycatchk)
 - [legacy](#legacy)
   - [chain](#chain)
+  - [chainFirst](#chainfirst)
+  - [chainFirstW](#chainfirstw)
   - [chainW](#chainw)
 - [lifting](#lifting)
   - [fromNullableK](#fromnullablek)
@@ -154,8 +158,6 @@ Added in v2.0.0
   - [isLeft](#isleft)
   - [isRight](#isright)
 - [sequencing](#sequencing)
-  - [chainFirst](#chainfirst)
-  - [chainFirstW](#chainfirstw)
   - [chainNullableK](#chainnullablek)
   - [chainOptionK](#chainoptionk)
   - [chainOptionKW](#chainoptionkw)
@@ -202,6 +204,24 @@ Added in v2.0.0
   - [~~stringifyJSON~~](#stringifyjson)
 
 ---
+
+# combinators
+
+## tap
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+**Signature**
+
+```ts
+export declare const tap: {
+  <E1, A, E2, _>(self: Either<E1, A>, f: (a: A) => Either<E2, _>): Either<E1 | E2, A>
+  <A, E2, _>(f: (a: A) => Either<E2, _>): <E1>(self: Either<E1, A>) => Either<E2 | E1, A>
+}
+```
+
+Added in v2.15.0
 
 # constructors
 
@@ -893,7 +913,7 @@ Added in v2.7.0
 **Signature**
 
 ```ts
-export declare const Chain: Chain2<'Either'>
+export declare const Chain: chainable.Chain2<'Either'>
 ```
 
 Added in v2.10.0
@@ -1101,6 +1121,32 @@ export declare const chain: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Either<
 ```
 
 Added in v2.0.0
+
+## chainFirst
+
+Alias of `tap`.
+
+**Signature**
+
+```ts
+export declare const chainFirst: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Either<E, A>) => Either<E, A>
+```
+
+Added in v2.0.0
+
+## chainFirstW
+
+Alias of `tap`.
+
+**Signature**
+
+```ts
+export declare const chainFirstW: <E2, A, B>(
+  f: (a: A) => Either<E2, B>
+) => <E1>(ma: Either<E1, A>) => Either<E2 | E1, A>
+```
+
+Added in v2.8.0
 
 ## chainW
 
@@ -1352,35 +1398,6 @@ export declare const isRight: <A>(ma: Either<unknown, A>) => ma is Right<A>
 Added in v2.0.0
 
 # sequencing
-
-## chainFirst
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-**Signature**
-
-```ts
-export declare const chainFirst: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Either<E, A>) => Either<E, A>
-```
-
-Added in v2.0.0
-
-## chainFirstW
-
-Less strict version of [`chainFirst`](#chainfirst)
-
-The `W` suffix (short for **W**idening) means that the error types will be merged.
-
-**Signature**
-
-```ts
-export declare const chainFirstW: <E2, A, B>(
-  f: (a: A) => Either<E2, B>
-) => <E1>(ma: Either<E1, A>) => Either<E2 | E1, A>
-```
-
-Added in v2.8.0
 
 ## chainNullableK
 

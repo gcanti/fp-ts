@@ -71,6 +71,8 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [combinators](#combinators)
+  - [tap](#tap)
 - [constructors](#constructors)
   - [getLeft](#getleft)
   - [getRight](#getright)
@@ -134,6 +136,7 @@ Added in v2.0.0
   - [tryCatchK](#trycatchk)
 - [legacy](#legacy)
   - [chain](#chain)
+  - [chainFirst](#chainfirst)
 - [lifting](#lifting)
   - [fromEitherK](#fromeitherk)
   - [fromNullableK](#fromnullablek)
@@ -155,7 +158,6 @@ Added in v2.0.0
   - [isSome](#issome)
 - [sequencing](#sequencing)
   - [chainEitherK](#chaineitherk)
-  - [chainFirst](#chainfirst)
   - [chainFirstEitherK](#chainfirsteitherk)
   - [chainNullableK](#chainnullablek)
   - [flatMap](#flatmap)
@@ -192,6 +194,24 @@ Added in v2.0.0
   - [~~option~~](#option)
 
 ---
+
+# combinators
+
+## tap
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+**Signature**
+
+```ts
+export declare const tap: {
+  <A, _>(self: Option<A>, f: (a: A) => Option<_>): Option<A>
+  <A, _>(f: (a: A) => Option<_>): (self: Option<A>) => Option<A>
+}
+```
+
+Added in v2.15.0
 
 # constructors
 
@@ -720,7 +740,7 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export declare const Chain: Chain1<'Option'>
+export declare const Chain: chainable.Chain1<'Option'>
 ```
 
 Added in v2.10.0
@@ -1002,6 +1022,18 @@ export declare const chain: <A, B>(f: (a: A) => Option<B>) => (ma: Option<A>) =>
 
 Added in v2.0.0
 
+## chainFirst
+
+Alias of `tap`.
+
+**Signature**
+
+```ts
+export declare const chainFirst: <A, B>(f: (a: A) => Option<B>) => (first: Option<A>) => Option<A>
+```
+
+Added in v2.0.0
+
 # lifting
 
 ## fromEitherK
@@ -1267,19 +1299,6 @@ export declare const chainEitherK: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: 
 ```
 
 Added in v2.11.0
-
-## chainFirst
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-**Signature**
-
-```ts
-export declare const chainFirst: <A, B>(f: (a: A) => Option<B>) => (first: Option<A>) => Option<A>
-```
-
-Added in v2.0.0
 
 ## chainFirstEitherK
 

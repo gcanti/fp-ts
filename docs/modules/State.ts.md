@@ -12,6 +12,8 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [combinators](#combinators)
+  - [tap](#tap)
 - [constructors](#constructors)
   - [get](#get)
   - [gets](#gets)
@@ -28,13 +30,13 @@ Added in v2.0.0
   - [Pointed](#pointed)
 - [legacy](#legacy)
   - [chain](#chain)
+  - [chainFirst](#chainfirst)
 - [mapping](#mapping)
   - [flap](#flap)
   - [map](#map)
 - [model](#model)
   - [State (interface)](#state-interface)
 - [sequencing](#sequencing)
-  - [chainFirst](#chainfirst)
   - [flatMap](#flatmap)
   - [flatten](#flatten)
 - [traversing](#traversing)
@@ -62,6 +64,24 @@ Added in v2.0.0
   - [~~state~~](#state)
 
 ---
+
+# combinators
+
+## tap
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+**Signature**
+
+```ts
+export declare const tap: {
+  <S, A, _>(self: State<S, A>, f: (a: A) => State<S, _>): State<S, A>
+  <A, S, _>(f: (a: A) => State<S, _>): (self: State<S, A>) => State<S, A>
+}
+```
+
+Added in v2.15.0
 
 # constructors
 
@@ -150,7 +170,7 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export declare const Chain: Chain2<'State'>
+export declare const Chain: chainable.Chain2<'State'>
 ```
 
 Added in v2.10.0
@@ -209,6 +229,18 @@ export declare const chain: <S, A, B>(f: (a: A) => State<S, B>) => (ma: State<S,
 
 Added in v2.0.0
 
+## chainFirst
+
+Alias of `tap`.
+
+**Signature**
+
+```ts
+export declare const chainFirst: <S, A, B>(f: (a: A) => State<S, B>) => (ma: State<S, A>) => State<S, A>
+```
+
+Added in v2.0.0
+
 # mapping
 
 ## flap
@@ -249,19 +281,6 @@ export interface State<S, A> {
 Added in v2.0.0
 
 # sequencing
-
-## chainFirst
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-**Signature**
-
-```ts
-export declare const chainFirst: <S, A, B>(f: (a: A) => State<S, B>) => (ma: State<S, A>) => State<S, A>
-```
-
-Added in v2.0.0
 
 ## flatMap
 

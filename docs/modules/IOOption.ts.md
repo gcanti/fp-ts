@@ -17,6 +17,8 @@ Added in v2.12.0
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [combinators](#combinators)
+  - [tap](#tap)
 - [constructors](#constructors)
   - [none](#none)
   - [of](#of)
@@ -65,6 +67,7 @@ Added in v2.12.0
   - [Zero](#zero)
 - [legacy](#legacy)
   - [chain](#chain)
+  - [chainFirst](#chainfirst)
 - [lifting](#lifting)
   - [fromEitherK](#fromeitherk)
   - [fromIOK](#fromiok)
@@ -84,7 +87,6 @@ Added in v2.12.0
   - [matchW](#matchw)
 - [sequencing](#sequencing)
   - [chainEitherK](#chaineitherk)
-  - [chainFirst](#chainfirst)
   - [chainFirstEitherK](#chainfirsteitherk)
   - [chainFirstIOK](#chainfirstiok)
   - [chainIOK](#chainiok)
@@ -106,6 +108,24 @@ Added in v2.12.0
   - [zero](#zero)
 
 ---
+
+# combinators
+
+## tap
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+**Signature**
+
+```ts
+export declare const tap: {
+  <A, _>(self: IOOption<A>, f: (a: A) => IOOption<_>): IOOption<A>
+  <A, _>(f: (a: A) => IOOption<_>): (self: IOOption<A>) => IOOption<A>
+}
+```
+
+Added in v2.15.0
 
 # constructors
 
@@ -451,7 +471,7 @@ Added in v2.12.0
 **Signature**
 
 ```ts
-export declare const Chain: Chain1<'IOOption'>
+export declare const Chain: chainable.Chain1<'IOOption'>
 ```
 
 Added in v2.12.0
@@ -556,6 +576,18 @@ Alias of `flatMap`.
 
 ```ts
 export declare const chain: <A, B>(f: (a: A) => IOOption<B>) => (ma: IOOption<A>) => IOOption<B>
+```
+
+Added in v2.12.0
+
+## chainFirst
+
+Alias of `tap`.
+
+**Signature**
+
+```ts
+export declare const chainFirst: <A, B>(f: (a: A) => IOOption<B>) => (first: IOOption<A>) => IOOption<A>
 ```
 
 Added in v2.12.0
@@ -734,19 +766,6 @@ Added in v2.12.0
 
 ```ts
 export declare const chainEitherK: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: IOOption<A>) => IOOption<B>
-```
-
-Added in v2.12.0
-
-## chainFirst
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-**Signature**
-
-```ts
-export declare const chainFirst: <A, B>(f: (a: A) => IOOption<B>) => (first: IOOption<A>) => IOOption<A>
 ```
 
 Added in v2.12.0

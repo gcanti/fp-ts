@@ -21,6 +21,8 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [combinators](#combinators)
+  - [tap](#tap)
 - [constructors](#constructors)
   - [of](#of)
 - [conversions](#conversions)
@@ -47,6 +49,7 @@ Added in v2.0.0
   - [getRaceMonoid](#getracemonoid)
 - [legacy](#legacy)
   - [chain](#chain)
+  - [chainFirst](#chainfirst)
 - [lifting](#lifting)
   - [fromIOK](#fromiok)
 - [mapping](#mapping)
@@ -55,7 +58,6 @@ Added in v2.0.0
 - [model](#model)
   - [Task (interface)](#task-interface)
 - [sequencing](#sequencing)
-  - [chainFirst](#chainfirst)
   - [chainFirstIOK](#chainfirstiok)
   - [chainIOK](#chainiok)
   - [flatMap](#flatmap)
@@ -89,6 +91,24 @@ Added in v2.0.0
   - [~~task~~](#task)
 
 ---
+
+# combinators
+
+## tap
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+**Signature**
+
+```ts
+export declare const tap: {
+  <A, _>(self: Task<A>, f: (a: A) => Task<_>): Task<A>
+  <A, _>(f: (a: A) => Task<_>): (self: Task<A>) => Task<A>
+}
+```
+
+Added in v2.15.0
 
 # constructors
 
@@ -230,7 +250,7 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export declare const Chain: Chain1<'Task'>
+export declare const Chain: chainable.Chain1<'Task'>
 ```
 
 Added in v2.10.0
@@ -348,6 +368,18 @@ export declare const chain: <A, B>(f: (a: A) => Task<B>) => (ma: Task<A>) => Tas
 
 Added in v2.0.0
 
+## chainFirst
+
+Alias of `tap`.
+
+**Signature**
+
+```ts
+export declare const chainFirst: <A, B>(f: (a: A) => Task<B>) => (first: Task<A>) => Task<A>
+```
+
+Added in v2.0.0
+
 # lifting
 
 ## fromIOK
@@ -400,19 +432,6 @@ export interface Task<A> {
 Added in v2.0.0
 
 # sequencing
-
-## chainFirst
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-**Signature**
-
-```ts
-export declare const chainFirst: <A, B>(f: (a: A) => Task<B>) => (first: Task<A>) => Task<A>
-```
-
-Added in v2.0.0
 
 ## chainFirstIOK
 

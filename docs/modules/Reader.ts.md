@@ -54,6 +54,8 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [combinators](#combinators)
+  - [tap](#tap)
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
@@ -82,6 +84,8 @@ Added in v2.0.0
   - [Strong](#strong)
 - [legacy](#legacy)
   - [chain](#chain)
+  - [chainFirst](#chainfirst)
+  - [chainFirstW](#chainfirstw)
   - [chainW](#chainw)
 - [mapping](#mapping)
   - [flap](#flap)
@@ -89,8 +93,6 @@ Added in v2.0.0
 - [model](#model)
   - [Reader (interface)](#reader-interface)
 - [sequencing](#sequencing)
-  - [chainFirst](#chainfirst)
-  - [chainFirstW](#chainfirstw)
   - [flatMap](#flatmap)
   - [flatten](#flatten)
   - [flattenW](#flattenw)
@@ -124,6 +126,24 @@ Added in v2.0.0
   - [~~reader~~](#reader)
 
 ---
+
+# combinators
+
+## tap
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+**Signature**
+
+```ts
+export declare const tap: {
+  <R1, A, R2, _>(self: Reader<R1, A>, f: (a: A) => Reader<R2, _>): Reader<R1 & R2, A>
+  <A, R2, _>(f: (a: A) => Reader<R2, _>): <R1>(self: Reader<R1, A>) => Reader<R2 & R1, A>
+}
+```
+
+Added in v2.15.0
 
 # constructors
 
@@ -327,7 +347,7 @@ Added in v2.7.0
 **Signature**
 
 ```ts
-export declare const Chain: Chain2<'Reader'>
+export declare const Chain: chainable.Chain2<'Reader'>
 ```
 
 Added in v2.10.0
@@ -406,6 +426,32 @@ export declare const chain: <A, R, B>(f: (a: A) => Reader<R, B>) => (ma: Reader<
 
 Added in v2.0.0
 
+## chainFirst
+
+Alias of `tap`.
+
+**Signature**
+
+```ts
+export declare const chainFirst: <A, R, B>(f: (a: A) => Reader<R, B>) => (first: Reader<R, A>) => Reader<R, A>
+```
+
+Added in v2.0.0
+
+## chainFirstW
+
+Alias of `tap`.
+
+**Signature**
+
+```ts
+export declare const chainFirstW: <R2, A, B>(
+  f: (a: A) => Reader<R2, B>
+) => <R1>(ma: Reader<R1, A>) => Reader<R1 & R2, A>
+```
+
+Added in v2.11.0
+
 ## chainW
 
 Alias of `flatMap`.
@@ -458,35 +504,6 @@ export interface Reader<R, A> {
 Added in v2.0.0
 
 # sequencing
-
-## chainFirst
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-**Signature**
-
-```ts
-export declare const chainFirst: <A, R, B>(f: (a: A) => Reader<R, B>) => (first: Reader<R, A>) => Reader<R, A>
-```
-
-Added in v2.0.0
-
-## chainFirstW
-
-Less strict version of [`chainFirst`](#chainfirst).
-
-The `W` suffix (short for **W**idening) means that the environment types will be merged.
-
-**Signature**
-
-```ts
-export declare const chainFirstW: <R2, A, B>(
-  f: (a: A) => Reader<R2, B>
-) => <R1>(ma: Reader<R1, A>) => Reader<R1 & R2, A>
-```
-
-Added in v2.11.0
 
 ## flatMap
 

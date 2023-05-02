@@ -24,6 +24,8 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [combinators](#combinators)
+  - [tap](#tap)
 - [constructors](#constructors)
   - [of](#of)
 - [do notation](#do-notation)
@@ -44,13 +46,13 @@ Added in v2.0.0
   - [Pointed](#pointed)
 - [legacy](#legacy)
   - [chain](#chain)
+  - [chainFirst](#chainfirst)
 - [mapping](#mapping)
   - [flap](#flap)
   - [map](#map)
 - [model](#model)
   - [IO (interface)](#io-interface)
 - [sequencing](#sequencing)
-  - [chainFirst](#chainfirst)
   - [flatMap](#flatmap)
   - [flatten](#flatten)
 - [traversing](#traversing)
@@ -74,6 +76,24 @@ Added in v2.0.0
   - [~~io~~](#io)
 
 ---
+
+# combinators
+
+## tap
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+**Signature**
+
+```ts
+export declare const tap: {
+  <A, _>(self: IO<A>, f: (a: A) => IO<_>): IO<A>
+  <A, _>(f: (a: A) => IO<_>): (self: IO<A>) => IO<A>
+}
+```
+
+Added in v2.15.0
 
 # constructors
 
@@ -175,7 +195,7 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export declare const Chain: Chain1<'IO'>
+export declare const Chain: chainable.Chain1<'IO'>
 ```
 
 Added in v2.10.0
@@ -254,6 +274,18 @@ export declare const chain: <A, B>(f: (a: A) => IO<B>) => (ma: IO<A>) => IO<B>
 
 Added in v2.0.0
 
+## chainFirst
+
+Alias of `tap`.
+
+**Signature**
+
+```ts
+export declare const chainFirst: <A, B>(f: (a: A) => IO<B>) => (first: IO<A>) => IO<A>
+```
+
+Added in v2.0.0
+
 # mapping
 
 ## flap
@@ -294,19 +326,6 @@ export interface IO<A> {
 Added in v2.0.0
 
 # sequencing
-
-## chainFirst
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-**Signature**
-
-```ts
-export declare const chainFirst: <A, B>(f: (a: A) => IO<B>) => (first: IO<A>) => IO<A>
-```
-
-Added in v2.0.0
 
 ## flatMap
 
