@@ -12,6 +12,8 @@ Added in v2.3.0
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [combinators](#combinators)
+  - [tap](#tap)
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
@@ -47,6 +49,8 @@ Added in v2.3.0
   - [Pointed](#pointed)
 - [legacy](#legacy)
   - [chain](#chain)
+  - [chainFirst](#chainfirst)
+  - [chainFirstW](#chainfirstw)
   - [chainW](#chainw)
 - [lifting](#lifting)
   - [fromIOK](#fromiok)
@@ -59,14 +63,12 @@ Added in v2.3.0
 - [model](#model)
   - [ReaderTask (interface)](#readertask-interface)
 - [sequencing](#sequencing)
-  - [chainFirst](#chainfirst)
   - [chainFirstIOK](#chainfirstiok)
   - [chainFirstReaderIOK](#chainfirstreaderiok)
   - [chainFirstReaderIOKW](#chainfirstreaderiokw)
   - [chainFirstReaderK](#chainfirstreaderk)
   - [chainFirstReaderKW](#chainfirstreaderkw)
   - [chainFirstTaskK](#chainfirsttaskk)
-  - [chainFirstW](#chainfirstw)
   - [chainIOK](#chainiok)
   - [chainReaderIOK](#chainreaderiok)
   - [chainReaderIOKW](#chainreaderiokw)
@@ -105,6 +107,24 @@ Added in v2.3.0
   - [~~sequenceSeqArray~~](#sequenceseqarray)
 
 ---
+
+# combinators
+
+## tap
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+**Signature**
+
+```ts
+export declare const tap: {
+  <R1, A, R2, _>(self: ReaderTask<R1, A>, f: (a: A) => ReaderTask<R2, _>): ReaderTask<R1 & R2, A>
+  <A, R2, _>(f: (a: A) => ReaderTask<R2, _>): <R1>(self: ReaderTask<R1, A>) => ReaderTask<R2 & R1, A>
+}
+```
+
+Added in v2.15.0
 
 # constructors
 
@@ -358,7 +378,7 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export declare const Chain: Chain2<'ReaderTask'>
+export declare const Chain: chainable.Chain2<'ReaderTask'>
 ```
 
 Added in v2.10.0
@@ -456,6 +476,34 @@ export declare const chain: <A, R, B>(f: (a: A) => ReaderTask<R, B>) => (ma: Rea
 ```
 
 Added in v2.3.0
+
+## chainFirst
+
+Alias of `tap`.
+
+**Signature**
+
+```ts
+export declare const chainFirst: <A, R, B>(
+  f: (a: A) => ReaderTask<R, B>
+) => (first: ReaderTask<R, A>) => ReaderTask<R, A>
+```
+
+Added in v2.3.0
+
+## chainFirstW
+
+Alias of `tap`.
+
+**Signature**
+
+```ts
+export declare const chainFirstW: <R2, A, B>(
+  f: (a: A) => ReaderTask<R2, B>
+) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A>
+```
+
+Added in v2.11.0
 
 ## chainW
 
@@ -562,21 +610,6 @@ Added in v2.3.0
 
 # sequencing
 
-## chainFirst
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-**Signature**
-
-```ts
-export declare const chainFirst: <A, R, B>(
-  f: (a: A) => ReaderTask<R, B>
-) => (first: ReaderTask<R, A>) => ReaderTask<R, A>
-```
-
-Added in v2.3.0
-
 ## chainFirstIOK
 
 **Signature**
@@ -650,22 +683,6 @@ export declare const chainFirstTaskK: <A, B>(f: (a: A) => T.Task<B>) => <R>(firs
 ```
 
 Added in v2.10.0
-
-## chainFirstW
-
-Less strict version of [`chainFirst`](#chainfirst).
-
-The `W` suffix (short for **W**idening) means that the environment types will be merged.
-
-**Signature**
-
-```ts
-export declare const chainFirstW: <R2, A, B>(
-  f: (a: A) => ReaderTask<R2, B>
-) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A>
-```
-
-Added in v2.11.0
 
 ## chainIOK
 

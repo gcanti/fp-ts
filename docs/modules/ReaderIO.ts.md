@@ -12,6 +12,8 @@ Added in v2.13.0
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [combinators](#combinators)
+  - [tap](#tap)
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
@@ -40,6 +42,8 @@ Added in v2.13.0
   - [Pointed](#pointed)
 - [legacy](#legacy)
   - [chain](#chain)
+  - [chainFirst](#chainfirst)
+  - [chainFirstW](#chainfirstw)
   - [chainW](#chainw)
 - [lifting](#lifting)
   - [fromIOK](#fromiok)
@@ -50,11 +54,9 @@ Added in v2.13.0
 - [model](#model)
   - [ReaderIO (interface)](#readerio-interface)
 - [sequencing](#sequencing)
-  - [chainFirst](#chainfirst)
   - [chainFirstIOK](#chainfirstiok)
   - [chainFirstReaderK](#chainfirstreaderk)
   - [chainFirstReaderKW](#chainfirstreaderkw)
-  - [chainFirstW](#chainfirstw)
   - [chainIOK](#chainiok)
   - [chainReaderK](#chainreaderk)
   - [chainReaderKW](#chainreaderkw)
@@ -79,6 +81,24 @@ Added in v2.13.0
   - [local](#local)
 
 ---
+
+# combinators
+
+## tap
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+**Signature**
+
+```ts
+export declare const tap: {
+  <R1, A, R2, _>(self: ReaderIO<R1, A>, f: (a: A) => ReaderIO<R2, _>): ReaderIO<R1 & R2, A>
+  <A, R2, _>(f: (a: A) => ReaderIO<R2, _>): <R1>(self: ReaderIO<R1, A>) => ReaderIO<R2 & R1, A>
+}
+```
+
+Added in v2.15.0
 
 # constructors
 
@@ -271,7 +291,7 @@ Added in v2.13.0
 **Signature**
 
 ```ts
-export declare const Chain: Chain2<'ReaderIO'>
+export declare const Chain: chainable.Chain2<'ReaderIO'>
 ```
 
 Added in v2.13.0
@@ -346,6 +366,32 @@ Alias of `flatMap`.
 
 ```ts
 export declare const chain: <A, R, B>(f: (a: A) => ReaderIO<R, B>) => (ma: ReaderIO<R, A>) => ReaderIO<R, B>
+```
+
+Added in v2.13.0
+
+## chainFirst
+
+Alias of `tap`.
+
+**Signature**
+
+```ts
+export declare const chainFirst: <A, R, B>(f: (a: A) => ReaderIO<R, B>) => (first: ReaderIO<R, A>) => ReaderIO<R, A>
+```
+
+Added in v2.13.0
+
+## chainFirstW
+
+Alias of `tap`.
+
+**Signature**
+
+```ts
+export declare const chainFirstW: <A, R2, B>(
+  f: (a: A) => ReaderIO<R2, B>
+) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, A>
 ```
 
 Added in v2.13.0
@@ -431,19 +477,6 @@ Added in v2.13.0
 
 # sequencing
 
-## chainFirst
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-**Signature**
-
-```ts
-export declare const chainFirst: <A, R, B>(f: (a: A) => ReaderIO<R, B>) => (first: ReaderIO<R, A>) => ReaderIO<R, A>
-```
-
-Added in v2.13.0
-
 ## chainFirstIOK
 
 **Signature**
@@ -476,22 +509,6 @@ The `W` suffix (short for **W**idening) means that the environment types will be
 export declare const chainFirstReaderKW: <A, R1, B>(
   f: (a: A) => R.Reader<R1, B>
 ) => <R2>(ma: ReaderIO<R2, A>) => ReaderIO<R1 & R2, A>
-```
-
-Added in v2.13.0
-
-## chainFirstW
-
-Less strict version of [`chainFirst`](#chainfirst).
-
-The `W` suffix (short for **W**idening) means that the environment types will be merged.
-
-**Signature**
-
-```ts
-export declare const chainFirstW: <A, R2, B>(
-  f: (a: A) => ReaderIO<R2, B>
-) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, A>
 ```
 
 Added in v2.13.0

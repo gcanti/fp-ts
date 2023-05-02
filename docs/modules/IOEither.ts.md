@@ -18,6 +18,8 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [combinators](#combinators)
+  - [tap](#tap)
 - [constructors](#constructors)
   - [left](#left)
   - [leftIO](#leftio)
@@ -75,6 +77,8 @@ Added in v2.0.0
   - [tryCatchK](#trycatchk)
 - [legacy](#legacy)
   - [chain](#chain)
+  - [chainFirst](#chainfirst)
+  - [chainFirstW](#chainfirstw)
   - [chainW](#chainw)
 - [lifting](#lifting)
   - [fromEitherK](#fromeitherk)
@@ -97,11 +101,9 @@ Added in v2.0.0
 - [sequencing](#sequencing)
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
-  - [chainFirst](#chainfirst)
   - [chainFirstEitherK](#chainfirsteitherk)
   - [chainFirstEitherKW](#chainfirsteitherkw)
   - [chainFirstIOK](#chainfirstiok)
-  - [chainFirstW](#chainfirstw)
   - [chainIOK](#chainiok)
   - [chainOptionK](#chainoptionk)
   - [chainOptionKW](#chainoptionkw)
@@ -143,6 +145,24 @@ Added in v2.0.0
   - [~~ioEither~~](#ioeither)
 
 ---
+
+# combinators
+
+## tap
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+**Signature**
+
+```ts
+export declare const tap: {
+  <E1, A, E2, _>(self: IOEither<E1, A>, f: (a: A) => IOEither<E2, _>): IOEither<E1 | E2, A>
+  <A, E2, _>(f: (a: A) => IOEither<E2, _>): <E1>(self: IOEither<E1, A>) => IOEither<E2 | E1, A>
+}
+```
+
+Added in v2.15.0
 
 # constructors
 
@@ -619,7 +639,7 @@ Added in v2.7.0
 **Signature**
 
 ```ts
-export declare const Chain: Chain2<'IOEither'>
+export declare const Chain: chainable.Chain2<'IOEither'>
 ```
 
 Added in v2.10.0
@@ -738,6 +758,32 @@ export declare const chain: <E, A, B>(f: (a: A) => IOEither<E, B>) => (ma: IOEit
 ```
 
 Added in v2.0.0
+
+## chainFirst
+
+Alias of `tap`.
+
+**Signature**
+
+```ts
+export declare const chainFirst: <E, A, B>(f: (a: A) => IOEither<E, B>) => (ma: IOEither<E, A>) => IOEither<E, A>
+```
+
+Added in v2.0.0
+
+## chainFirstW
+
+Alias of `tap`.
+
+**Signature**
+
+```ts
+export declare const chainFirstW: <E2, A, B>(
+  f: (a: A) => IOEither<E2, B>
+) => <E1>(ma: IOEither<E1, A>) => IOEither<E2 | E1, A>
+```
+
+Added in v2.8.0
 
 ## chainW
 
@@ -973,19 +1019,6 @@ export declare const chainEitherKW: <E2, A, B>(
 
 Added in v2.6.1
 
-## chainFirst
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-**Signature**
-
-```ts
-export declare const chainFirst: <E, A, B>(f: (a: A) => IOEither<E, B>) => (ma: IOEither<E, A>) => IOEither<E, A>
-```
-
-Added in v2.0.0
-
 ## chainFirstEitherK
 
 **Signature**
@@ -1019,22 +1052,6 @@ export declare const chainFirstIOK: <A, B>(f: (a: A) => I.IO<B>) => <E>(first: I
 ```
 
 Added in v2.10.0
-
-## chainFirstW
-
-Less strict version of [`chainFirst`](#chainfirst).
-
-The `W` suffix (short for **W**idening) means that the error types will be merged.
-
-**Signature**
-
-```ts
-export declare const chainFirstW: <E2, A, B>(
-  f: (a: A) => IOEither<E2, B>
-) => <E1>(ma: IOEither<E1, A>) => IOEither<E2 | E1, A>
-```
-
-Added in v2.8.0
 
 ## chainIOK
 

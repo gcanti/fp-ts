@@ -12,6 +12,8 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [combinators](#combinators)
+  - [tap](#tap)
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
@@ -71,6 +73,8 @@ Added in v2.0.0
   - [Pointed](#pointed)
 - [legacy](#legacy)
   - [chain](#chain)
+  - [chainFirst](#chainfirst)
+  - [chainFirstW](#chainfirstw)
   - [chainW](#chainw)
 - [lifting](#lifting)
   - [fromEitherK](#fromeitherk)
@@ -92,14 +96,12 @@ Added in v2.0.0
 - [sequencing](#sequencing)
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
-  - [chainFirst](#chainfirst)
   - [chainFirstEitherK](#chainfirsteitherk)
   - [chainFirstEitherKW](#chainfirsteitherkw)
   - [chainFirstIOK](#chainfirstiok)
   - [chainFirstReaderK](#chainfirstreaderk)
   - [chainFirstReaderKW](#chainfirstreaderkw)
   - [chainFirstTaskK](#chainfirsttaskk)
-  - [chainFirstW](#chainfirstw)
   - [chainIOEitherK](#chainioeitherk)
   - [chainIOEitherKW](#chainioeitherkw)
   - [chainIOK](#chainiok)
@@ -149,6 +151,29 @@ Added in v2.0.0
   - [~~stateReaderTaskEither~~](#statereadertaskeither)
 
 ---
+
+# combinators
+
+## tap
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+**Signature**
+
+```ts
+export declare const tap: {
+  <S, R1, E1, A, R2, E2, _>(
+    self: StateReaderTaskEither<S, R1, E1, A>,
+    f: (a: A) => StateReaderTaskEither<S, R2, E2, _>
+  ): StateReaderTaskEither<S, R1 & R2, E1 | E2, A>
+  <A, S, R2, E2, _>(f: (a: A) => StateReaderTaskEither<S, R2, E2, _>): <R1, E1>(
+    self: StateReaderTaskEither<S, R1, E1, A>
+  ) => StateReaderTaskEither<S, R1 & R2, E2 | E1, A>
+}
+```
+
+Added in v2.15.0
 
 # constructors
 
@@ -629,7 +654,7 @@ Added in v2.7.0
 **Signature**
 
 ```ts
-export declare const Chain: Chain4<'StateReaderTaskEither'>
+export declare const Chain: chainable.Chain4<'StateReaderTaskEither'>
 ```
 
 Added in v2.10.0
@@ -759,6 +784,34 @@ export declare const chain: <S, R, E, A, B>(
 ```
 
 Added in v2.0.0
+
+## chainFirst
+
+Alias of `tap`.
+
+**Signature**
+
+```ts
+export declare const chainFirst: <S, R, E, A, B>(
+  f: (a: A) => StateReaderTaskEither<S, R, E, B>
+) => (ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A>
+```
+
+Added in v2.0.0
+
+## chainFirstW
+
+Alias of `tap`.
+
+**Signature**
+
+```ts
+export declare const chainFirstW: <S, R2, E2, A, B>(
+  f: (a: A) => StateReaderTaskEither<S, R2, E2, B>
+) => <R1, E1>(ma: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E2 | E1, A>
+```
+
+Added in v2.8.0
 
 ## chainW
 
@@ -994,21 +1047,6 @@ export declare const chainEitherKW: <E2, A, B>(
 
 Added in v2.6.1
 
-## chainFirst
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-**Signature**
-
-```ts
-export declare const chainFirst: <S, R, E, A, B>(
-  f: (a: A) => StateReaderTaskEither<S, R, E, B>
-) => (ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A>
-```
-
-Added in v2.0.0
-
 ## chainFirstEitherK
 
 **Signature**
@@ -1088,22 +1126,6 @@ export declare const chainFirstTaskK: <A, B>(
 ```
 
 Added in v2.10.0
-
-## chainFirstW
-
-Less strict version of [`chainFirst`](#chainfirst).
-
-The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
-
-**Signature**
-
-```ts
-export declare const chainFirstW: <S, R2, E2, A, B>(
-  f: (a: A) => StateReaderTaskEither<S, R2, E2, B>
-) => <R1, E1>(ma: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E2 | E1, A>
-```
-
-Added in v2.8.0
 
 ## chainIOEitherK
 
