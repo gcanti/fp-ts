@@ -40,6 +40,12 @@ describe.concurrent('ReaderIO', () => {
     U.deepStrictEqual(_.Monad.chain(_.of('foo'), f)({})(), 3)
   })
 
+  it('tap', () => {
+    const f = (a: string) => _.of(a.length)
+    U.deepStrictEqual(pipe(_.of('foo'), _.tap(f))({})(), 'foo')
+    U.deepStrictEqual(_.tap(_.of('foo'), f)({})(), 'foo')
+  })
+
   it('chainFirst', () => {
     const f = (a: string) => _.of(a.length)
     U.deepStrictEqual(pipe(_.of('foo'), _.chainFirst(f))({})(), 'foo')
