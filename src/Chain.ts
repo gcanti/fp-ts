@@ -100,7 +100,21 @@ export function chainFirst<M extends URIS>(
 ): <A, B>(f: (a: A) => Kind<M, B>) => (first: Kind<M, A>) => Kind<M, A>
 export function chainFirst<M>(M: Chain<M>): <A, B>(f: (a: A) => HKT<M, B>) => (first: HKT<M, A>) => HKT<M, A>
 export function chainFirst<M>(M: Chain<M>): <A, B>(f: (a: A) => HKT<M, B>) => (first: HKT<M, A>) => HKT<M, A> {
-  return (f) => (first) => M.chain(first, (a) => M.map(f(a), () => a))
+  const tapM = tap(M)
+  return (f) => (first) => tapM(first, f)
+}
+
+/** @internal */
+export function tap<M extends URIS2>(
+  M: Chain2<M>
+): <E1, A, E2, _>(first: Kind2<M, E1, A>, f: (a: A) => Kind2<M, E2, _>) => Kind2<M, E1 | E2, A>
+/** @internal */
+export function tap<M extends URIS>(M: Chain1<M>): <A, _>(first: Kind<M, A>, f: (a: A) => Kind<M, _>) => Kind<M, A>
+/** @internal */
+export function tap<M>(M: Chain<M>): <A, _>(first: HKT<M, A>, f: (a: A) => HKT<M, _>) => HKT<M, A>
+/** @internal */
+export function tap<M>(M: Chain<M>): <A, _>(first: HKT<M, A>, f: (a: A) => HKT<M, _>) => HKT<M, A> {
+  return (first, f) => M.chain(first, (a) => M.map(f(a), () => a))
 }
 
 // -------------------------------------------------------------------------------------

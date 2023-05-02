@@ -22,6 +22,22 @@ high state of flux, you're at risk of it changing without notice.
 
 - `function`
   - add `LazyArg`
+- add `tap` to
+  - `Either`
+  - `IO`
+  - `IOEither`
+  - `IOOption`
+  - `Option`
+  - `Reader`
+  - `ReaderEither`
+  - `ReaderIO`
+  - `ReaderTask`
+  - `ReaderTaskEither`
+  - `State`
+  - `StateReaderTaskEither`
+  - `Task`
+  - `TaskEither`
+  - `TaskOption`
 
 # 2.14.0
 
