@@ -58,6 +58,12 @@ describe.concurrent('ReaderEither', () => {
       U.deepStrictEqual(pipe(fa, _.apSecondW(fb))({ k: 'v', x: 1 }), E.right(4))
     })
 
+    it('tap', () => {
+      const f = (n: number) => _.right(n * 2)
+      U.deepStrictEqual(pipe(_.right(1), _.tap(f))({}), E.right(1))
+      U.deepStrictEqual(_.tap(_.right(1), f)({}), E.right(1))
+    })
+
     it('chainFirst', () => {
       const f = (n: number) => _.right(n * 2)
       U.deepStrictEqual(pipe(_.right(1), _.chainFirst(f))({}), E.right(1))

@@ -12,7 +12,7 @@ import {
   getApplySemigroup as getApplySemigroup_
 } from './Apply'
 import { Bifunctor3 } from './Bifunctor'
-import { bind as bind_, Chain3, chainFirst as chainFirst_ } from './Chain'
+import * as chainable from './Chain'
 import { compact as compact_, Compactable3C, separate as separate_ } from './Compactable'
 import * as E from './Either'
 import * as ET from './EitherT'
@@ -593,7 +593,7 @@ export const Applicative: Applicative3<URI> = {
  * @category instances
  * @since 2.10.0
  */
-export const Chain: Chain3<URI> = {
+export const Chain: chainable.Chain3<URI> = {
   URI,
   map: _map,
   ap: _ap,
@@ -616,24 +616,19 @@ export const Monad: Monad3<URI> = {
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
- * @category sequencing
- * @since 2.0.0
+ * @category combinators
+ * @since 2.15.0
  */
-export const chainFirst: <R, E, A, B>(
-  f: (a: A) => ReaderEither<R, E, B>
-) => (ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A> = /*#__PURE__*/ chainFirst_(Chain)
-
-/**
- * Less strict version of [`chainFirst`](#chainfirst)
- *
- * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
- *
- * @category sequencing
- * @since 2.8.0
- */
-export const chainFirstW: <R2, E2, A, B>(
-  f: (a: A) => ReaderEither<R2, E2, B>
-) => <R1, E1>(ma: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, A> = chainFirst as any
+export const tap: {
+  <R1, E1, A, R2, E2, _>(self: ReaderEither<R1, E1, A>, f: (a: A) => ReaderEither<R2, E2, _>): ReaderEither<
+    R1 & R2,
+    E1 | E2,
+    A
+  >
+  <A, R2, E2, _>(f: (a: A) => ReaderEither<R2, E2, _>): <R1, E1>(
+    self: ReaderEither<R1, E1, A>
+  ) => ReaderEither<R1 & R2, E2 | E1, A>
+} = /*#__PURE__*/ dual(2, chainable.tap(Chain))
 
 /**
  * @category instances
@@ -911,7 +906,7 @@ export {
  * @category do notation
  * @since 2.8.0
  */
-export const bind = /*#__PURE__*/ bind_(Chain)
+export const bind = /*#__PURE__*/ chainable.bind(Chain)
 
 /**
  * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
@@ -1033,6 +1028,26 @@ export const chain: <R, E, A, B>(
 export const chainW: <R2, E2, A, B>(
   f: (a: A) => ReaderEither<R2, E2, B>
 ) => <R1, E1>(ma: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, B> = flatMap
+
+/**
+ * Alias of `flatMap`.
+ *
+ * @category legacy
+ * @since 2.0.0
+ */
+export const chainFirst: <R, E, A, B>(
+  f: (a: A) => ReaderEither<R, E, B>
+) => (ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A> = tap
+
+/**
+ * Alias of `flatMap`.
+ *
+ * @category legacy
+ * @since 2.8.0
+ */
+export const chainFirstW: <R2, E2, A, B>(
+  f: (a: A) => ReaderEither<R2, E2, B>
+) => <R1, E1>(ma: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, A> = tap
 
 // -------------------------------------------------------------------------------------
 // deprecated

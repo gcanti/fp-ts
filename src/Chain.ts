@@ -105,6 +105,10 @@ export function chainFirst<M>(M: Chain<M>): <A, B>(f: (a: A) => HKT<M, B>) => (f
 }
 
 /** @internal */
+export function tap<M extends URIS3>(
+  M: Chain3<M>
+): <R1, E1, A, R2, E2, _>(first: Kind3<M, R1, E1, A>, f: (a: A) => Kind3<M, R2, E2, _>) => Kind3<M, R1 & R2, E1 | E2, A>
+/** @internal */
 export function tap<M extends URIS2>(
   M: Chain2<M>
 ): <E1, A, E2, _>(first: Kind2<M, E1, A>, f: (a: A) => Kind2<M, E2, _>) => Kind2<M, E1 | E2, A>
