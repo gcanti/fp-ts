@@ -3,7 +3,7 @@
  */
 import { Applicative2 } from './Applicative'
 import { apFirst as apFirst_, Apply2, apS as apS_, apSecond as apSecond_ } from './Apply'
-import { bind as bind_, Chain2, chainFirst as chainFirst_ } from './Chain'
+import * as chainable from './Chain'
 import { chainFirstIOK as chainFirstIOK_, chainIOK as chainIOK_, FromIO2, fromIOK as fromIOK_ } from './FromIO'
 import {
   ask as ask_,
@@ -222,7 +222,7 @@ export const Applicative: Applicative2<URI> = {
  * @category instances
  * @since 2.13.0
  */
-export const Chain: Chain2<URI> = {
+export const Chain: chainable.Chain2<URI> = {
   URI,
   map: _map,
   ap: _ap,
@@ -258,23 +258,13 @@ export const MonadIO: MonadIO2<URI> = {
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
- * @category sequencing
- * @since 2.13.0
+ * @category combinators
+ * @since 2.15.0
  */
-export const chainFirst: <A, R, B>(f: (a: A) => ReaderIO<R, B>) => (first: ReaderIO<R, A>) => ReaderIO<R, A> =
-  /*#__PURE__*/ chainFirst_(Chain)
-
-/**
- * Less strict version of [`chainFirst`](#chainfirst).
- *
- * The `W` suffix (short for **W**idening) means that the environment types will be merged.
- *
- * @category sequencing
- * @since 2.13.0
- */
-export const chainFirstW: <A, R2, B>(
-  f: (a: A) => ReaderIO<R2, B>
-) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, A> = chainFirst as any
+export const tap: {
+  <R1, A, R2, _>(self: ReaderIO<R1, A>, f: (a: A) => ReaderIO<R2, _>): ReaderIO<R1 & R2, A>
+  <A, R2, _>(f: (a: A) => ReaderIO<R2, _>): <R1>(self: ReaderIO<R1, A>) => ReaderIO<R2 & R1, A>
+} = /*#__PURE__*/ dual(2, chainable.tap(Chain))
 
 /**
  * @category instances
@@ -398,7 +388,7 @@ export const bindTo = /*#__PURE__*/ bindTo_(Functor)
  * @category do notation
  * @since 2.13.0
  */
-export const bind = /*#__PURE__*/ bind_(Chain)
+export const bind = /*#__PURE__*/ chainable.bind(Chain)
 
 /**
  * The `W` suffix (short for **W**idening) means that the environment types will be merged.
@@ -514,3 +504,21 @@ export const chain: <A, R, B>(f: (a: A) => ReaderIO<R, B>) => (ma: ReaderIO<R, A
  */
 export const chainW: <A, R2, B>(f: (a: A) => ReaderIO<R2, B>) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, B> =
   flatMap
+
+/**
+ * Alias of `tap`.
+ *
+ * @category legacy
+ * @since 2.13.0
+ */
+export const chainFirst: <A, R, B>(f: (a: A) => ReaderIO<R, B>) => (first: ReaderIO<R, A>) => ReaderIO<R, A> = tap
+
+/**
+ * Alias of `tap`.
+ *
+ * @category legacy
+ * @since 2.13.0
+ */
+export const chainFirstW: <A, R2, B>(
+  f: (a: A) => ReaderIO<R2, B>
+) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, A> = tap

@@ -1030,7 +1030,7 @@ export const chainW: <R2, E2, A, B>(
 ) => <R1, E1>(ma: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, B> = flatMap
 
 /**
- * Alias of `flatMap`.
+ * Alias of `tap`.
  *
  * @category legacy
  * @since 2.0.0
@@ -1040,7 +1040,7 @@ export const chainFirst: <R, E, A, B>(
 ) => (ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A> = tap
 
 /**
- * Alias of `flatMap`.
+ * Alias of `tap`.
  *
  * @category legacy
  * @since 2.8.0
