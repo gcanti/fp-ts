@@ -350,21 +350,15 @@ export const orElseW: <E1, E2, B>(
 ) => <A>(ma: TaskEither<E1, A>) => TaskEither<E2, A | B> = orElse as any
 
 /**
- * @category error handling
- * @since 2.11.0
- */
-export const orElseFirst: <E, B>(onLeft: (e: E) => TaskEither<E, B>) => <A>(ma: TaskEither<E, A>) => TaskEither<E, A> =
-  /*#__PURE__*/ ET.orElseFirst(T.Monad)
-
-/**
- * The `W` suffix (short for **W**idening) means that the error types will be merged.
+ * Returns an effect that effectfully "peeks" at the failure of this effect.
  *
  * @category error handling
- * @since 2.11.0
+ * @since 2.15.0
  */
-export const orElseFirstW: <E1, E2, B>(
-  onLeft: (e: E1) => TaskEither<E2, B>
-) => <A>(ma: TaskEither<E1, A>) => TaskEither<E1 | E2, A> = orElseFirst as any
+export const tapError: {
+  <E1, E2, _>(onLeft: (e: E1) => TaskEither<E2, _>): <A>(self: TaskEither<E1, A>) => TaskEither<E1 | E2, A>
+  <E1, A, E2, _>(self: TaskEither<E1, A>, onLeft: (e: E1) => TaskEither<E2, _>): TaskEither<E1 | E2, A>
+} = dual(2, ET.tapError(T.Monad))
 
 /**
  * @category error handling
@@ -372,7 +366,7 @@ export const orElseFirstW: <E1, E2, B>(
  */
 export const orElseFirstIOK: <E, B>(onLeft: (e: E) => IO<B>) => <A>(ma: TaskEither<E, A>) => TaskEither<E, A> = (
   onLeft
-) => orElseFirst(fromIOK(onLeft))
+) => tapError(fromIOK(onLeft))
 
 /**
  * @category error handling
@@ -380,7 +374,7 @@ export const orElseFirstIOK: <E, B>(onLeft: (e: E) => IO<B>) => <A>(ma: TaskEith
  */
 export const orElseFirstTaskK: <E, B>(onLeft: (e: E) => Task<B>) => <A>(ma: TaskEither<E, A>) => TaskEither<E, A> = (
   onLeft
-) => orElseFirst(fromTaskK(onLeft))
+) => tapError(fromTaskK(onLeft))
 
 /**
  * @category error handling
@@ -1463,6 +1457,25 @@ export const chainFirst: <E, A, B>(f: (a: A) => TaskEither<E, B>) => (ma: TaskEi
 export const chainFirstW: <E2, A, B>(
   f: (a: A) => TaskEither<E2, B>
 ) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E1 | E2, A> = tap
+
+/**
+ * Alias of `tapError`.
+ *
+ * @category legacy
+ * @since 2.11.0
+ */
+export const orElseFirst: <E, B>(onLeft: (e: E) => TaskEither<E, B>) => <A>(ma: TaskEither<E, A>) => TaskEither<E, A> =
+  tapError
+
+/**
+ * Alias of `tapError`.
+ *
+ * @category legacy
+ * @since 2.11.0
+ */
+export const orElseFirstW: <E1, E2, B>(
+  onLeft: (e: E1) => TaskEither<E2, B>
+) => <A>(ma: TaskEither<E1, A>) => TaskEither<E1 | E2, A> = tapError
 
 // -------------------------------------------------------------------------------------
 // deprecated
