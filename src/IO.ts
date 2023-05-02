@@ -367,8 +367,7 @@ export const chain: <A, B>(f: (a: A) => IO<B>) => (ma: IO<A>) => IO<B> = flatMap
  * @category legacy
  * @since 2.0.0
  */
-export const chainFirst: <A, B>(f: (a: A) => IO<B>) => (first: IO<A>) => IO<A> =
-  /*#__PURE__*/ chainable.chainFirst(Chain)
+export const chainFirst: <A, B>(f: (a: A) => IO<B>) => (first: IO<A>) => IO<A> = tap
 
 // -------------------------------------------------------------------------------------
 // deprecated

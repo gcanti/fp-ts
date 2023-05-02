@@ -1575,8 +1575,7 @@ export const chain: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Either<E, A>) =
  * @category legacy
  * @since 2.0.0
  */
-export const chainFirst: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Either<E, A>) => Either<E, A> =
-  /*#__PURE__*/ chainable.chainFirst(Chain)
+export const chainFirst: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Either<E, A>) => Either<E, A> = tap
 
 /**
  * Alias of `tap`.
@@ -1584,8 +1583,7 @@ export const chainFirst: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Either<E, 
  * @category legacy
  * @since 2.8.0
  */
-export const chainFirstW: <E2, A, B>(f: (a: A) => Either<E2, B>) => <E1>(ma: Either<E1, A>) => Either<E1 | E2, A> =
-  chainFirst as any
+export const chainFirstW: <E2, A, B>(f: (a: A) => Either<E2, B>) => <E1>(ma: Either<E1, A>) => Either<E1 | E2, A> = tap
 
 // -------------------------------------------------------------------------------------
 // deprecated

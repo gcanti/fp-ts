@@ -1095,8 +1095,7 @@ export const chainW: <E2, A, B>(f: (a: A) => IOEither<E2, B>) => <E1>(ma: IOEith
  * @category legacy
  * @since 2.0.0
  */
-export const chainFirst: <E, A, B>(f: (a: A) => IOEither<E, B>) => (ma: IOEither<E, A>) => IOEither<E, A> =
-  /*#__PURE__*/ chainable.chainFirst(Chain)
+export const chainFirst: <E, A, B>(f: (a: A) => IOEither<E, B>) => (ma: IOEither<E, A>) => IOEither<E, A> = tap
 
 /**
  * Alias of `tap`.
@@ -1106,7 +1105,7 @@ export const chainFirst: <E, A, B>(f: (a: A) => IOEither<E, B>) => (ma: IOEither
  */
 export const chainFirstW: <E2, A, B>(
   f: (a: A) => IOEither<E2, B>
-) => <E1>(ma: IOEither<E1, A>) => IOEither<E1 | E2, A> = chainFirst as any
+) => <E1>(ma: IOEither<E1, A>) => IOEither<E1 | E2, A> = tap
 
 // -------------------------------------------------------------------------------------
 // deprecated

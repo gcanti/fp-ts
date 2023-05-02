@@ -10,7 +10,7 @@ import { Alt1 } from './Alt'
 import { Alternative1 } from './Alternative'
 import { Applicative1 } from './Applicative'
 import { apFirst as apFirst_, Apply1, apS as apS_, apSecond as apSecond_ } from './Apply'
-import { bind as bind_, Chain1, chainFirst as chainFirst_ } from './Chain'
+import * as chainable from './Chain'
 import { compact as compact_, Compactable1, separate as separate_ } from './Compactable'
 import { Either } from './Either'
 import {
@@ -431,7 +431,7 @@ export const Applicative: Applicative1<URI> = {
  * @category instances
  * @since 2.12.0
  */
-export const Chain: Chain1<URI> = {
+export const Chain: chainable.Chain1<URI> = {
   URI,
   map: _map,
   ap: _ap,
@@ -442,11 +442,13 @@ export const Chain: Chain1<URI> = {
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
- * @category sequencing
- * @since 2.12.0
+ * @category combinators
+ * @since 2.15.0
  */
-export const chainFirst: <A, B>(f: (a: A) => IOOption<B>) => (first: IOOption<A>) => IOOption<A> =
-  /*#__PURE__*/ chainFirst_(Chain)
+export const tap: {
+  <A, _>(self: IOOption<A>, f: (a: A) => IOOption<_>): IOOption<A>
+  <A, _>(f: (a: A) => IOOption<_>): (self: IOOption<A>) => IOOption<A>
+} = /*#__PURE__*/ dual(2, chainable.tap(Chain))
 
 /**
  * @category instances
@@ -629,7 +631,7 @@ export {
  * @category do notation
  * @since 2.12.0
  */
-export const bind = /*#__PURE__*/ bind_(Chain)
+export const bind = /*#__PURE__*/ chainable.bind(Chain)
 
 /**
  * @category do notation
@@ -681,3 +683,11 @@ export const traverseReadonlyArrayWithIndex = <A, B>(
  * @since 2.12.0
  */
 export const chain: <A, B>(f: (a: A) => IOOption<B>) => (ma: IOOption<A>) => IOOption<B> = flatMap
+
+/**
+ * Alias of `tap`.
+ *
+ * @category legacy
+ * @since 2.12.0
+ */
+export const chainFirst: <A, B>(f: (a: A) => IOOption<B>) => (first: IOOption<A>) => IOOption<A> = tap
