@@ -257,22 +257,21 @@ export const orElseW: <E1, R1, E2, B>(
 ) => <R2, A>(ma: ReaderEither<R2, E1, A>) => ReaderEither<R1 & R2, E2, A | B> = orElse as any
 
 /**
- * @category error handling
- * @since 2.11.0
- */
-export const orElseFirst: <E, R, B>(
-  onLeft: (e: E) => ReaderEither<R, E, B>
-) => <A>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A> = /*#__PURE__*/ ET.orElseFirst(R.Monad)
-
-/**
- * The `W` suffix (short for **W**idening) means that the environment types and the return types will be merged.
+ * Returns an effect that effectfully "peeks" at the failure of this effect.
  *
  * @category error handling
- * @since 2.11.0
+ * @since 2.15.0
  */
-export const orElseFirstW: <E1, R2, E2, B>(
-  onLeft: (e: E1) => ReaderEither<R2, E2, B>
-) => <R1, A>(ma: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, A> = orElseFirst as any
+export const tapError: {
+  <E1, R2, E2, _>(onLeft: (e: E1) => ReaderEither<R2, E2, _>): <R1, A>(
+    self: ReaderEither<R1, E1, A>
+  ) => ReaderEither<R1 & R2, E1 | E2, A>
+  <R1, E1, A, R2, E2, _>(self: ReaderEither<R1, E1, A>, onLeft: (e: E1) => ReaderEither<R2, E2, _>): ReaderEither<
+    R1 & R2,
+    E1 | E2,
+    A
+  >
+} = dual(2, ET.tapError(R.Monad))
 
 /**
  * @category error handling
@@ -1048,6 +1047,26 @@ export const chainFirst: <R, E, A, B>(
 export const chainFirstW: <R2, E2, A, B>(
   f: (a: A) => ReaderEither<R2, E2, B>
 ) => <R1, E1>(ma: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, A> = tap
+
+/**
+ * Alias of `tapError`.
+ *
+ * @category legacy
+ * @since 2.11.0
+ */
+export const orElseFirst: <E, R, B>(
+  onLeft: (e: E) => ReaderEither<R, E, B>
+) => <A>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A> = tapError
+
+/**
+ * Alias of `tapError`.
+ *
+ * @category legacy
+ * @since 2.11.0
+ */
+export const orElseFirstW: <E1, R2, E2, B>(
+  onLeft: (e: E1) => ReaderEither<R2, E2, B>
+) => <R1, A>(ma: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, A> = tapError
 
 // -------------------------------------------------------------------------------------
 // deprecated

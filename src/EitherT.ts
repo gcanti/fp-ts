@@ -660,6 +660,10 @@ export function orElseFirst<M>(
 }
 
 /** @internal */
+export function tapError<M extends URIS2>(
+  M: Monad2<M>
+): <R, E, A, B>(ma: Kind2<M, R, Either<E, A>>, onLeft: (e: E) => Kind2<M, R, Either<E, B>>) => Kind2<M, R, Either<E, A>>
+/** @internal */
 export function tapError<M extends URIS>(
   M: Monad1<M>
 ): <E, A, B>(ma: Kind<M, Either<E, A>>, onLeft: (e: E) => Kind<M, Either<E, B>>) => Kind<M, Either<E, A>>
