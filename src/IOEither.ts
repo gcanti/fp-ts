@@ -245,28 +245,22 @@ export const orElseW: <E1, E2, B>(
 ) => <A>(ma: IOEither<E1, A>) => IOEither<E2, A | B> = orElse as any
 
 /**
- * @category error handling
- * @since 2.11.0
- */
-export const orElseFirst: <E, B>(onLeft: (e: E) => IOEither<E, B>) => <A>(ma: IOEither<E, A>) => IOEither<E, A> =
-  /*#__PURE__*/ ET.orElseFirst(I.Monad)
-
-/**
- * The `W` suffix (short for **W**idening) means that the error types will be merged.
+ * Returns an effect that effectfully "peeks" at the failure of this effect.
  *
  * @category error handling
- * @since 2.11.0
+ * @since 1.0.0
  */
-export const orElseFirstW: <E1, E2, B>(
-  onLeft: (e: E1) => IOEither<E2, B>
-) => <A>(ma: IOEither<E1, A>) => IOEither<E1 | E2, A> = orElseFirst as any
+export const tapError: {
+  <E1, E2, _>(onLeft: (e: E1) => IOEither<E2, _>): <A>(self: IOEither<E1, A>) => IOEither<E1 | E2, A>
+  <E1, A, E2, _>(self: IOEither<E1, A>, onLeft: (e: E1) => IOEither<E2, _>): IOEither<E1 | E2, A>
+} = dual(2, ET.tapError(I.Monad))
 
 /**
  * @category error handling
  * @since 2.12.0
  */
 export const orElseFirstIOK: <E, B>(onLeft: (e: E) => IO<B>) => <A>(ma: IOEither<E, A>) => IOEither<E, A> = (onLeft) =>
-  orElseFirst(fromIOK(onLeft))
+  tapError(fromIOK(onLeft))
 
 /**
  * @category error handling
@@ -1106,6 +1100,25 @@ export const chainFirst: <E, A, B>(f: (a: A) => IOEither<E, B>) => (ma: IOEither
 export const chainFirstW: <E2, A, B>(
   f: (a: A) => IOEither<E2, B>
 ) => <E1>(ma: IOEither<E1, A>) => IOEither<E1 | E2, A> = tap
+
+/**
+ * Alias of `tapError`.
+ *
+ * @category legacy
+ * @since 2.11.0
+ */
+export const orElseFirst: <E, B>(onLeft: (e: E) => IOEither<E, B>) => <A>(ma: IOEither<E, A>) => IOEither<E, A> =
+  tapError
+
+/**
+ * Alias of `tapError`.
+ *
+ * @category legacy
+ * @since 2.11.0
+ */
+export const orElseFirstW: <E1, E2, B>(
+  onLeft: (e: E1) => IOEither<E2, B>
+) => <A>(ma: IOEither<E1, A>) => IOEither<E1 | E2, A> = tapError
 
 // -------------------------------------------------------------------------------------
 // deprecated
