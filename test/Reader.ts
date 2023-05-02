@@ -49,6 +49,12 @@ describe.concurrent('Reader', () => {
       U.deepStrictEqual(_.flatMap(_.of('foo'), f)({}), 3)
     })
 
+    it('tap', () => {
+      const f = (s: string): _.Reader<object, number> => _.of(s.length)
+      U.deepStrictEqual(pipe(_.of('foo'), _.tap(f))({}), 'foo')
+      U.deepStrictEqual(_.tap(_.of('foo'), f)({}), 'foo')
+    })
+
     it('chainFirst', () => {
       const f = (s: string): _.Reader<object, number> => _.of(s.length)
       U.deepStrictEqual(pipe(_.of('foo'), _.chainFirst(f))({}), 'foo')
