@@ -93,7 +93,16 @@ describe.concurrent('Task', () => {
       (n: number): _.Task<number> =>
       () =>
         Promise.resolve(n * 2)
-    return U.deepStrictEqual(await pipe(delay(1, 2), _.chain(f))(), 4)
+    U.deepStrictEqual(await pipe(delay(1, 2), _.chain(f))(), 4)
+  })
+
+  it('tap', async () => {
+    const f =
+      (n: number): _.Task<number> =>
+      () =>
+        Promise.resolve(n * 2)
+    U.deepStrictEqual(await pipe(delay(1, 2), _.tap(f))(), 2)
+    U.deepStrictEqual(await _.tap(delay(1, 2), f)(), 2)
   })
 
   it('chainFirst', async () => {
@@ -101,11 +110,11 @@ describe.concurrent('Task', () => {
       (n: number): _.Task<number> =>
       () =>
         Promise.resolve(n * 2)
-    return U.deepStrictEqual(await pipe(delay(1, 2), _.chainFirst(f))(), 2)
+    U.deepStrictEqual(await pipe(delay(1, 2), _.chainFirst(f))(), 2)
   })
 
   it('flatten', async () => {
-    return U.deepStrictEqual(await pipe(_.of(_.of('a')), _.flatten)(), 'a')
+    U.deepStrictEqual(await pipe(_.of(_.of('a')), _.flatten)(), 'a')
   })
 
   it('fromIO', async () => {
