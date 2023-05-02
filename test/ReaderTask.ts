@@ -44,6 +44,12 @@ describe.concurrent('ReaderTask', () => {
     U.deepStrictEqual(await _.Monad.chain(_.of('foo'), f)({})(), 3)
   })
 
+  it('tap', async () => {
+    const f = (a: string) => _.of(a.length)
+    U.deepStrictEqual(await pipe(_.of('foo'), _.tap(f))({})(), 'foo')
+    U.deepStrictEqual(await _.tap(_.of('foo'), f)({})(), 'foo')
+  })
+
   it('chainFirst', async () => {
     const f = (a: string) => _.of(a.length)
     U.deepStrictEqual(await pipe(_.of('foo'), _.chainFirst(f))({})(), 'foo')
