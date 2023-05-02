@@ -3,7 +3,7 @@
  */
 import { Applicative2 } from './Applicative'
 import { apFirst as apFirst_, Apply2, apS as apS_, apSecond as apSecond_ } from './Apply'
-import { bind as bind_, Chain2, chainFirst as chainFirst_ } from './Chain'
+import * as chainable from './Chain'
 import { FromState2 } from './FromState'
 import { dual, identity, pipe } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor2, let as let__ } from './Functor'
@@ -196,7 +196,7 @@ export const Applicative: Applicative2<URI> = {
  * @category instances
  * @since 2.10.0
  */
-export const Chain: Chain2<URI> = {
+export const Chain: chainable.Chain2<URI> = {
   URI,
   map: _map,
   ap: _ap,
@@ -219,11 +219,13 @@ export const Monad: Monad2<URI> = {
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
- * @category sequencing
- * @since 2.0.0
+ * @category combinators
+ * @since 2.15.0
  */
-export const chainFirst: <S, A, B>(f: (a: A) => State<S, B>) => (ma: State<S, A>) => State<S, A> =
-  /*#__PURE__*/ chainFirst_(Chain)
+export const tap: {
+  <S, A, _>(self: State<S, A>, f: (a: A) => State<S, _>): State<S, A>
+  <A, S, _>(f: (a: A) => State<S, _>): (self: State<S, A>) => State<S, A>
+} = /*#__PURE__*/ dual(2, chainable.tap(Chain))
 
 /**
  * @category instances
@@ -279,7 +281,7 @@ export {
 /**
  * @since 2.8.0
  */
-export const bind = /*#__PURE__*/ bind_(Chain)
+export const bind = /*#__PURE__*/ chainable.bind(Chain)
 
 // -------------------------------------------------------------------------------------
 // pipeable sequence S
@@ -368,6 +370,14 @@ export const sequenceArray: <S, A>(arr: ReadonlyArray<State<S, A>>) => State<S, 
  * @since 2.0.0
  */
 export const chain: <S, A, B>(f: (a: A) => State<S, B>) => (ma: State<S, A>) => State<S, B> = flatMap
+
+/**
+ * Alias of `tap`.
+ *
+ * @category legacy
+ * @since 2.0.0
+ */
+export const chainFirst: <S, A, B>(f: (a: A) => State<S, B>) => (ma: State<S, A>) => State<S, A> = tap
 
 // -------------------------------------------------------------------------------------
 // deprecated

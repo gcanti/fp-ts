@@ -36,6 +36,13 @@ describe.concurrent('State', () => {
       U.deepStrictEqual(pipe(x, _.chain(f))(0), [0, 2])
     })
 
+    it('tap', () => {
+      const f = (_n: number) => (s: number) => tuple(s - 1, s + 1)
+      const x = (s: number) => tuple(s - 1, s + 1)
+      U.deepStrictEqual(pipe(x, _.tap(f))(0), [-1, 2])
+      U.deepStrictEqual(_.tap(x, f)(0), [-1, 2])
+    })
+
     it('chainFirst', () => {
       const f = (_n: number) => (s: number) => tuple(s - 1, s + 1)
       const x = (s: number) => tuple(s - 1, s + 1)
