@@ -655,8 +655,26 @@ export function orElseFirst<M>(
 export function orElseFirst<M>(
   M: Monad<M>
 ): <E, B>(onLeft: (e: E) => HKT<M, Either<E, B>>) => <A>(ma: HKT<M, Either<E, A>>) => HKT<M, Either<E, A>> {
+  const tapErrorM = tapError(M)
+  return (onLeft) => (ma) => tapErrorM(ma, onLeft)
+}
+
+/** @internal */
+export function tapError<M extends URIS>(
+  M: Monad1<M>
+): <E, A, B>(ma: Kind<M, Either<E, A>>, onLeft: (e: E) => Kind<M, Either<E, B>>) => Kind<M, Either<E, A>>
+export function tapError<M>(
+  M: Monad<M>
+): <E, A, B>(ma: HKT<M, Either<E, A>>, onLeft: (e: E) => HKT<M, Either<E, B>>) => HKT<M, Either<E, A>>
+export function tapError<M>(
+  M: Monad<M>
+): <E, A, B>(ma: HKT<M, Either<E, A>>, onLeft: (e: E) => HKT<M, Either<E, B>>) => HKT<M, Either<E, A>> {
   const orElseM = orElse(M)
-  return (onLeft) => orElseM((e) => M.map(onLeft(e), (eb) => (E.isLeft(eb) ? eb : E.left(e))))
+  return (ma, onLeft) =>
+    pipe(
+      ma,
+      orElseM((e) => M.map(onLeft(e), (eb) => (E.isLeft(eb) ? eb : E.left(e))))
+    )
 }
 
 /**
