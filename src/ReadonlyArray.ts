@@ -1506,14 +1506,14 @@ export const ap: <A>(fa: ReadonlyArray<A>) => <B>(fab: ReadonlyArray<(a: A) => B
  * @since 2.14.0
  */
 export const flatMap: {
-  <A, B>(f: (a: A) => ReadonlyArray<B>): (ma: ReadonlyArray<A>) => ReadonlyArray<B>
-  <A, B>(ma: ReadonlyArray<A>, f: (a: A) => ReadonlyArray<B>): ReadonlyArray<B>
+  <A, B>(f: (a: A, i: number) => ReadonlyArray<B>): (ma: ReadonlyArray<A>) => ReadonlyArray<B>
+  <A, B>(ma: ReadonlyArray<A>, f: (a: A, i: number) => ReadonlyArray<B>): ReadonlyArray<B>
 } = /*#__PURE__*/ dual(
   2,
-  <A, B>(ma: ReadonlyArray<A>, f: (a: A) => ReadonlyArray<B>): ReadonlyArray<B> =>
+  <A, B>(ma: ReadonlyArray<A>, f: (a: A, i: number) => ReadonlyArray<B>): ReadonlyArray<B> =>
     pipe(
       ma,
-      chainWithIndex((_, a) => f(a))
+      chainWithIndex((i, a) => f(a, i))
     )
 )
 

@@ -1336,8 +1336,8 @@ Composes computations in sequence, using the return value of one computation to 
 
 ```ts
 export declare const flatMap: {
-  <A, B>(f: (a: A) => readonly B[]): (ma: readonly A[]) => readonly B[]
-  <A, B>(ma: readonly A[], f: (a: A) => readonly B[]): readonly B[]
+  <A, B>(f: (a: A, i: number) => readonly B[]): (ma: readonly A[]) => readonly B[]
+  <A, B>(ma: readonly A[], f: (a: A, i: number) => readonly B[]): readonly B[]
 }
 ```
 

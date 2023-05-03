@@ -1805,7 +1805,10 @@ results into a single array (like [`flatten`](#flatten)).
 **Signature**
 
 ```ts
-export declare const flatMap: { <A, B>(f: (a: A) => B[]): (ma: A[]) => B[]; <A, B>(ma: A[], f: (a: A) => B[]): B[] }
+export declare const flatMap: {
+  <A, B>(f: (a: A, i: number) => B[]): (ma: A[]) => B[]
+  <A, B>(ma: A[], f: (a: A, i: number) => B[]): B[]
+}
 ```
 
 **Example**

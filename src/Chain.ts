@@ -82,24 +82,24 @@ export interface Chain4<F extends URIS4> extends Apply4<F> {
  */
 export function chainFirst<M extends URIS4>(
   M: Chain4<M>
-): <A, S, R, E, B>(f: (a: A) => Kind4<M, S, R, E, B>) => (first: Kind4<M, S, R, E, A>) => Kind4<M, S, R, E, A>
+): <A, S, R, E, _>(f: (a: A) => Kind4<M, S, R, E, _>) => (first: Kind4<M, S, R, E, A>) => Kind4<M, S, R, E, A>
 export function chainFirst<M extends URIS3>(
   M: Chain3<M>
-): <A, R, E, B>(f: (a: A) => Kind3<M, R, E, B>) => (first: Kind3<M, R, E, A>) => Kind3<M, R, E, A>
+): <A, R, E, _>(f: (a: A) => Kind3<M, R, E, _>) => (first: Kind3<M, R, E, A>) => Kind3<M, R, E, A>
 export function chainFirst<M extends URIS3, E>(
   M: Chain3C<M, E>
-): <A, R, B>(f: (a: A) => Kind3<M, R, E, B>) => (first: Kind3<M, R, E, A>) => Kind3<M, R, E, A>
+): <A, R, _>(f: (a: A) => Kind3<M, R, E, _>) => (first: Kind3<M, R, E, A>) => Kind3<M, R, E, A>
 export function chainFirst<M extends URIS2>(
   M: Chain2<M>
-): <A, E, B>(f: (a: A) => Kind2<M, E, B>) => (first: Kind2<M, E, A>) => Kind2<M, E, A>
+): <A, E, _>(f: (a: A) => Kind2<M, E, _>) => (first: Kind2<M, E, A>) => Kind2<M, E, A>
 export function chainFirst<M extends URIS2, E>(
   M: Chain2C<M, E>
-): <A, B>(f: (a: A) => Kind2<M, E, B>) => (first: Kind2<M, E, A>) => Kind2<M, E, A>
+): <A, _>(f: (a: A) => Kind2<M, E, _>) => (first: Kind2<M, E, A>) => Kind2<M, E, A>
 export function chainFirst<M extends URIS>(
   M: Chain1<M>
-): <A, B>(f: (a: A) => Kind<M, B>) => (first: Kind<M, A>) => Kind<M, A>
-export function chainFirst<M>(M: Chain<M>): <A, B>(f: (a: A) => HKT<M, B>) => (first: HKT<M, A>) => HKT<M, A>
-export function chainFirst<M>(M: Chain<M>): <A, B>(f: (a: A) => HKT<M, B>) => (first: HKT<M, A>) => HKT<M, A> {
+): <A, _>(f: (a: A) => Kind<M, _>) => (first: Kind<M, A>) => Kind<M, A>
+export function chainFirst<M>(M: Chain<M>): <A, _>(f: (a: A) => HKT<M, _>) => (first: HKT<M, A>) => HKT<M, A>
+export function chainFirst<M>(M: Chain<M>): <A, _>(f: (a: A) => HKT<M, _>) => (first: HKT<M, A>) => HKT<M, A> {
   const tapM = tap(M)
   return (f) => (first) => tapM(first, f)
 }

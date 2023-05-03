@@ -786,8 +786,8 @@ Added in v2.10.0
 
 ```ts
 export declare const flatMap: {
-  <A, B>(f: (a: A) => ReadonlyNonEmptyArray<B>): (ma: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B>
-  <A, B>(ma: ReadonlyNonEmptyArray<A>, f: (a: A) => ReadonlyNonEmptyArray<B>): ReadonlyNonEmptyArray<B>
+  <A, B>(f: (a: A, i: number) => ReadonlyNonEmptyArray<B>): (ma: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B>
+  <A, B>(ma: ReadonlyNonEmptyArray<A>, f: (a: A, i: number) => ReadonlyNonEmptyArray<B>): ReadonlyNonEmptyArray<B>
 }
 ```
 

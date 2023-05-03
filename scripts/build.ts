@@ -16,7 +16,7 @@ const PKG = 'package.json'
 export const copyPackageJson: Build<void> = (C) =>
   pipe(
     C.readFile(PKG),
-    TE.chain((s) => TE.fromEither(pipe(J.parse(s), E.mapLeft(E.toError)))),
+    TE.flatMap((s) => TE.fromEither(pipe(J.parse(s), E.mapLeft(E.toError)))),
     TE.map((json) => {
       const clone = Object.assign({}, json as any)
 
@@ -26,7 +26,7 @@ export const copyPackageJson: Build<void> = (C) =>
 
       return clone
     }),
-    TE.chain((json) => C.writeFile(path.join(OUTPUT_FOLDER, PKG), JSON.stringify(json, null, 2)))
+    TE.flatMap((json) => C.writeFile(path.join(OUTPUT_FOLDER, PKG), JSON.stringify(json, null, 2)))
   )
 
 export const FILES: ReadonlyArray<string> = ['CHANGELOG.md', 'LICENSE', 'README.md']
@@ -42,7 +42,7 @@ export const makeModules: Build<void> = (C) => {
   return pipe(
     C.glob(`${OUTPUT_FOLDER}/lib/*.js`),
     TE.map(getModules),
-    TE.chain(TE.traverseReadonlyArrayWithIndex((_, a) => makeSingleModuleC(a))),
+    TE.flatMap(TE.traverseReadonlyArrayWithIndex((_, a) => makeSingleModuleC(a))),
     TE.map(() => undefined)
   )
 }
@@ -55,8 +55,8 @@ function makeSingleModule(C: FileSystem): (module: string) => TE.TaskEither<Erro
   return (m) =>
     pipe(
       C.mkdir(path.join(OUTPUT_FOLDER, m)),
-      TE.chain(() => makePkgJson(m)),
-      TE.chain((data) => C.writeFile(path.join(OUTPUT_FOLDER, m, 'package.json'), data))
+      TE.flatMap(() => makePkgJson(m)),
+      TE.flatMap((data) => C.writeFile(path.join(OUTPUT_FOLDER, m, 'package.json'), data))
     )
 }
 
@@ -79,34 +79,29 @@ function makePkgJson(module: string): TE.TaskEither<Error, string> {
 const fixHKT = (folder: string): Build<void> =>
   pipe(
     (C: FileSystem) => C.mkdir(path.join(OUTPUT_FOLDER, folder, 'HKT')),
-    RTE.chain(
-      () => (C) =>
+    RTE.flatMap(
+      (): Build<void> => (C) =>
         C.writeFile(
           path.join(OUTPUT_FOLDER, folder, 'HKT', 'package.json'),
-          JSON.stringify(
-            {
-              typings: '../../HKT.d.ts'
-            },
-            null,
-            2
-          )
+          JSON.stringify({ typings: '../../HKT.d.ts' }, null, 2)
         )
     ),
-    RTE.chain(
-      () => (C) =>
+    RTE.flatMap(
+      (): Build<void> => (C) =>
         C.moveFile(path.join(OUTPUT_FOLDER, folder, 'HKT.js'), path.join(OUTPUT_FOLDER, folder, 'HKT', 'index.js'))
     ),
-    RTE.chain(
-      () => (C) => C.moveFile(path.join(OUTPUT_FOLDER, folder, 'HKT.d.ts'), path.join(OUTPUT_FOLDER, 'HKT.d.ts'))
+    RTE.flatMap(
+      (): Build<void> => (C) =>
+        C.moveFile(path.join(OUTPUT_FOLDER, folder, 'HKT.d.ts'), path.join(OUTPUT_FOLDER, 'HKT.d.ts'))
     )
   )
 
 const main: Build<void> = pipe(
   copyPackageJson,
-  RTE.chain(() => copyFiles),
-  RTE.chain(() => makeModules),
-  RTE.chain(() => fixHKT('es6')),
-  RTE.chain(() => fixHKT('lib'))
+  RTE.flatMap(() => copyFiles),
+  RTE.flatMap(() => makeModules),
+  RTE.flatMap(() => fixHKT('es6')),
+  RTE.flatMap(() => fixHKT('lib'))
 )
 
 run(

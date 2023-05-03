@@ -731,8 +731,8 @@ Added in v2.10.0
 
 ```ts
 export declare const flatMap: {
-  <A, B>(f: (a: A) => NonEmptyArray<B>): (ma: NonEmptyArray<A>) => NonEmptyArray<B>
-  <A, B>(ma: NonEmptyArray<A>, f: (a: A) => NonEmptyArray<B>): NonEmptyArray<B>
+  <A, B>(f: (a: A, i: number) => NonEmptyArray<B>): (ma: NonEmptyArray<A>) => NonEmptyArray<B>
+  <A, B>(ma: NonEmptyArray<A>, f: (a: A, i: number) => NonEmptyArray<B>): NonEmptyArray<B>
 }
 ```
 

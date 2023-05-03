@@ -1,4 +1,5 @@
 import { createInterface } from 'readline'
+
 import { log } from '../src/Console'
 import { flow, pipe } from '../src/function'
 import * as O from '../src/Option'
@@ -29,7 +30,7 @@ const putStrLn = flow(log, T.fromIO)
 function ask(question: string): T.Task<string> {
   return pipe(
     putStrLn(question),
-    T.chain(() => getStrLn)
+    T.flatMap(() => getStrLn)
   )
 }
 
@@ -49,7 +50,7 @@ function parse(s: string): O.Option<number> {
 function shouldContinue(name: string): T.Task<boolean> {
   return pipe(
     ask(`Do you want to continue, ${name} (y/n)?`),
-    T.chain((answer) => {
+    T.flatMap((answer) => {
       switch (answer.toLowerCase()) {
         case 'y':
           return T.of(true)
@@ -67,7 +68,7 @@ function gameLoop(name: string): T.Task<void> {
     T.Do,
     T.apS('secret', random),
     T.apS('guess', ask(`Dear ${name}, please guess a number from 1 to 5`)),
-    T.chain(({ secret, guess }) =>
+    T.flatMap(({ secret, guess }) =>
       pipe(
         parse(guess),
         O.fold(
@@ -79,15 +80,15 @@ function gameLoop(name: string): T.Task<void> {
         )
       )
     ),
-    T.chain(() => shouldContinue(name)),
-    T.chain((b) => (b ? gameLoop(name) : T.of(undefined)))
+    T.flatMap(() => shouldContinue(name)),
+    T.flatMap((b) => (b ? gameLoop(name) : T.of(undefined)))
   )
 }
 
 const main: T.Task<void> = pipe(
   ask('What is your name?'),
-  T.chainFirst((name) => putStrLn(`Hello, ${name} welcome to the game!`)),
-  T.chain(gameLoop)
+  T.tap((name) => putStrLn(`Hello, ${name} welcome to the game!`)),
+  T.flatMap(gameLoop)
 )
 
 // tslint:disable-next-line: no-floating-promises

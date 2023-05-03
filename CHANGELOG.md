@@ -38,6 +38,14 @@ high state of flux, you're at risk of it changing without notice.
   - `Task`
   - `TaskEither`
   - `TaskOption`
+- `Array`
+  - add index to `flatMap`
+- `NonEmptyArray`
+  - add index to `flatMap`
+- `ReadonlyArray`
+  - add index to `flatMap`
+- `ReadonlyNonEmptyArray`
+  - add index to `flatMap`
 
 # 2.14.0
 
