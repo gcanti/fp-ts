@@ -1584,14 +1584,14 @@ export const ap: <A>(fa: Array<A>) => <B>(fab: Array<(a: A) => B>) => Array<B> =
  * @since 2.14.0
  */
 export const flatMap: {
-  <A, B>(f: (a: A) => Array<B>): (ma: Array<A>) => Array<B>
-  <A, B>(ma: Array<A>, f: (a: A) => Array<B>): Array<B>
+  <A, B>(f: (a: A, i: number) => Array<B>): (ma: Array<A>) => Array<B>
+  <A, B>(ma: Array<A>, f: (a: A, i: number) => Array<B>): Array<B>
 } = /*#__PURE__*/ dual(
   2,
-  <A, B>(ma: Array<A>, f: (a: A) => Array<B>): Array<B> =>
+  <A, B>(ma: Array<A>, f: (a: A, i: number) => Array<B>): Array<B> =>
     pipe(
       ma,
-      chainWithIndex((_, a) => f(a))
+      chainWithIndex((i, a) => f(a, i))
     )
 )
 

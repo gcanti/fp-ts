@@ -736,14 +736,14 @@ export const ap = <A>(
  * @since 2.14.0
  */
 export const flatMap: {
-  <A, B>(f: (a: A) => ReadonlyNonEmptyArray<B>): (ma: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B>
-  <A, B>(ma: ReadonlyNonEmptyArray<A>, f: (a: A) => ReadonlyNonEmptyArray<B>): ReadonlyNonEmptyArray<B>
+  <A, B>(f: (a: A, i: number) => ReadonlyNonEmptyArray<B>): (ma: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B>
+  <A, B>(ma: ReadonlyNonEmptyArray<A>, f: (a: A, i: number) => ReadonlyNonEmptyArray<B>): ReadonlyNonEmptyArray<B>
 } = /*#__PURE__*/ dual(
   2,
-  <A, B>(ma: ReadonlyNonEmptyArray<A>, f: (a: A) => ReadonlyNonEmptyArray<B>): ReadonlyNonEmptyArray<B> =>
+  <A, B>(ma: ReadonlyNonEmptyArray<A>, f: (a: A, i: number) => ReadonlyNonEmptyArray<B>): ReadonlyNonEmptyArray<B> =>
     pipe(
       ma,
-      chainWithIndex((_, a) => f(a))
+      chainWithIndex((i, a) => f(a, i))
     )
 )
 
