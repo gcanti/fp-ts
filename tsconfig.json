@@ -17,7 +17,12 @@
     "forceConsistentCasingInFileNames": true,
     "stripInternal": true,
     "skipLibCheck": true,
-    "types": ["vitest/globals"]
+    "types": ["vitest/globals"],
+    "plugins": [
+      {
+        "name": "@effect/language-service"
+      }
+    ]
   },
   "include": ["./src", "./test", "./scripts", "./perf", "./dtslint"],
   "exclude": ["./node_modules"]

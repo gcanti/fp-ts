@@ -107,6 +107,7 @@ Added in v2.0.0
   - [fromReaderTaskK](#fromreadertaskk)
   - [fromTaskEitherK](#fromtaskeitherk)
   - [fromTaskK](#fromtaskk)
+  - [liftOption](#liftoption)
 - [mapping](#mapping)
   - [bimap](#bimap)
   - [flap](#flap)
@@ -155,6 +156,7 @@ Added in v2.0.0
   - [chainTaskEitherKW](#chaintaskeitherkw)
   - [chainTaskK](#chaintaskk)
   - [flatMap](#flatmap)
+  - [flatMapOption](#flatmapoption)
   - [flatten](#flatten)
   - [flattenW](#flattenw)
 - [traversing](#traversing)
@@ -1274,6 +1276,19 @@ export declare const fromTaskK: <A extends readonly unknown[], B>(
 
 Added in v2.10.0
 
+## liftOption
+
+**Signature**
+
+```ts
+export declare const liftOption: <A extends readonly unknown[], B, E>(
+  f: (...a: A) => Option<B>,
+  onNone: (...a: A) => E
+) => <R>(...a: A) => ReaderTaskEither<R, E, B>
+```
+
+Added in v2.15.0
+
 # mapping
 
 ## bimap
@@ -1892,6 +1907,25 @@ export declare const flatMap: {
 ```
 
 Added in v2.14.0
+
+## flatMapOption
+
+**Signature**
+
+```ts
+export declare const flatMapOption: {
+  <A, B, E2>(f: (a: A) => Option<B>, onNone: (a: A) => E2): <R, E1>(
+    self: ReaderTaskEither<R, E1, A>
+  ) => ReaderTaskEither<R, E2 | E1, B>
+  <R, E1, A, B, E2>(self: ReaderTaskEither<R, E1, A>, f: (a: A) => Option<B>, onNone: (a: A) => E2): ReaderTaskEither<
+    R,
+    E1 | E2,
+    B
+  >
+}
+```
+
+Added in v2.15.0
 
 ## flatten
 

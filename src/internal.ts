@@ -2,6 +2,7 @@
  * @since 2.10.0
  */
 import { Either, Left, Right } from './Either'
+import { dual } from './function'
 import { NonEmptyArray } from './NonEmptyArray'
 import { None, Option, Some } from './Option'
 import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
@@ -77,3 +78,112 @@ export const has = Object.prototype.hasOwnProperty
 
 /** @internal */
 export const fromReadonlyNonEmptyArray = <A>(as: ReadonlyNonEmptyArray<A>): NonEmptyArray<A> => [as[0], ...as.slice(1)]
+
+// -------------------------------------------------------------------------------------
+// HKT
+// -------------------------------------------------------------------------------------
+
+/** @internal */
+export declare const URI: unique symbol
+
+/**
+ * @internal
+ * @since 2.15.0
+ */
+export interface TypeLambda {
+  readonly In: unknown
+  readonly Out2: unknown
+  readonly Out1: unknown
+  readonly Target: unknown
+}
+
+/**
+ * @internal
+ * @since 2.15.0
+ */
+export interface TypeClass<F extends TypeLambda> {
+  readonly [URI]?: F
+}
+
+/** @internal */
+export type Kind<F extends TypeLambda, In, Out2, Out1, Target> = F extends {
+  readonly type: unknown
+}
+  ? (F & {
+      readonly In: In
+      readonly Out2: Out2
+      readonly Out1: Out1
+      readonly Target: Target
+    })['type']
+  : {
+      readonly F: F
+      readonly In: (_: In) => void
+      readonly Out2: () => Out2
+      readonly Out1: () => Out1
+      readonly Target: (_: Target) => Target
+    }
+
+// -------------------------------------------------------------------------------------
+// type classes
+// -------------------------------------------------------------------------------------
+
+/**
+ * @internal
+ * @since 2.15.0
+ */
+export interface FromEither<F extends TypeLambda> extends TypeClass<F> {
+  readonly fromEither: <R, O, E, A>(e: Either<E, A>) => Kind<F, R, O, E, A>
+}
+
+/** @internal */
+export const liftOption =
+  <F extends TypeLambda>(F: FromEither<F>) =>
+  <A extends ReadonlyArray<unknown>, B, E>(f: (...a: A) => Option<B>, onNone: (...a: A) => E) =>
+  <R, O>(...a: A): Kind<F, R, O, E, B> => {
+    const o = f(...a)
+    return F.fromEither(isNone(o) ? left(onNone(...a)) : right(o.value))
+  }
+
+/**
+ * @internal
+ * @since 2.15.0
+ */
+export interface FlatMap<F extends TypeLambda> extends TypeClass<F> {
+  readonly flatMap: {
+    <A, R2, O2, E2, B>(f: (a: A) => Kind<F, R2, O2, E2, B>): <R1, O1, E1>(
+      self: Kind<F, R1, O1, E1, A>
+    ) => Kind<F, R1 & R2, O1 | O2, E1 | E2, B>
+    <R1, O1, E1, A, R2, O2, E2, B>(self: Kind<F, R1, O1, E1, A>, f: (a: A) => Kind<F, R2, O2, E2, B>): Kind<
+      F,
+      R1 & R2,
+      O1 | O2,
+      E1 | E2,
+      B
+    >
+  }
+}
+
+/** @internal */
+export const flatMapOption = <F extends TypeLambda>(
+  F: FromEither<F>,
+  M: FlatMap<F>
+): {
+  <A, B, E2>(f: (a: A) => Option<B>, onNone: (a: A) => E2): <R, O, E1>(
+    self: Kind<F, R, O, E1, A>
+  ) => Kind<F, R, O, E1 | E2, B>
+  <R, O, E1, A, B, E2>(self: Kind<F, R, O, E1, A>, f: (a: A) => Option<B>, onNone: (a: A) => E2): Kind<
+    F,
+    R,
+    O,
+    E1 | E2,
+    B
+  >
+} =>
+  /*#__PURE__*/ dual(
+    3,
+    <R, O, E1, A, B, E2>(
+      self: Kind<F, R, O, E1, A>,
+      f: (a: A) => Option<B>,
+      onNone: (a: A) => E2
+    ): Kind<F, R, O, E1 | E2, B> => M.flatMap<R, O, E1, A, R, O, E2, B>(self, liftOption(F)(f, onNone))
+  )

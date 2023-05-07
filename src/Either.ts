@@ -1179,27 +1179,38 @@ export const chainOptionKW: <E2>(
   onNone: LazyArg<E2>
 ) => <A, B>(f: (a: A) => Option<B>) => <E1>(ma: Either<E1, A>) => Either<E1 | E2, B> = /*#__PURE__*/ chainOptionK as any
 
+/** @internal */
+interface EitherTypeLambda extends _.TypeLambda {
+  readonly type: Either<this['Out1'], this['Target']>
+}
+
+/** @internal */
+const _FromEither: _.FromEither<EitherTypeLambda> = {
+  fromEither: FromEither.fromEither
+}
+
 /**
  * @category lifting
  * @since 2.15.0
  */
-export const liftOption =
-  <A extends ReadonlyArray<unknown>, B, E>(f: (...a: A) => Option<B>, onNone: (...a: A) => E) =>
-  (...a: A): Either<E, B> =>
-    fromOption(() => onNone(...a))(f(...a))
+export const liftOption: <A extends ReadonlyArray<unknown>, B, E>(
+  f: (...a: A) => Option<B>,
+  onNone: (...a: A) => E
+) => (...a: A) => Either<E, B> = /*#__PURE__*/ _.liftOption(_FromEither)
+
+/** @internal */
+const _FlatMap: _.FlatMap<EitherTypeLambda> = {
+  flatMap
+}
 
 /**
  * @category sequencing
  * @since 2.15.0
  */
 export const flatMapOption: {
-  <A, B, E2>(f: (a: A) => Option<B>, onNone: (a: A) => E2): <E1>(self: Either<E1, A>) => Either<E1 | E2, B>
+  <A, B, E2>(f: (a: A) => Option<B>, onNone: (a: A) => E2): <E1>(self: Either<E1, A>) => Either<E2 | E1, B>
   <E1, A, B, E2>(self: Either<E1, A>, f: (a: A) => Option<B>, onNone: (a: A) => E2): Either<E1 | E2, B>
-} = /*#__PURE__*/ dual(
-  3,
-  <E1, A, B, E2>(self: Either<E1, A>, f: (a: A) => Option<B>, onNone: (a: A) => E2): Either<E1 | E2, B> =>
-    flatMap(self, liftOption(f, onNone))
-)
+} = /*#__PURE__*/ _.flatMapOption(_FromEither, _FlatMap)
 
 /**
  * @example
@@ -1240,7 +1251,11 @@ export const flatMapOption: {
  * @category filtering
  * @since 2.0.0
  */
-export const filterOrElse = /*#__PURE__*/ filterOrElse_(FromEither, Chain)
+export const filterOrElse: {
+  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (self: Either<E, A>) => Either<E, B>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <B extends A>(self: Either<E, B>) => Either<E, B>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (self: Either<E, A>) => Either<E, A>
+} = /*#__PURE__*/ filterOrElse_(FromEither, Chain)
 
 /**
  * Less strict version of [`filterOrElse`](#filterorelse).

@@ -78,6 +78,7 @@ Added in v2.0.0
   - [fromOptionK](#fromoptionk)
   - [fromPredicate](#frompredicate)
   - [fromReaderK](#fromreaderk)
+  - [liftOption](#liftoption)
 - [mapping](#mapping)
   - [bimap](#bimap)
   - [flap](#flap)
@@ -103,6 +104,7 @@ Added in v2.0.0
   - [chainReaderK](#chainreaderk)
   - [chainReaderKW](#chainreaderkw)
   - [flatMap](#flatmap)
+  - [flatMapOption](#flatmapoption)
   - [flatten](#flatten)
   - [flattenW](#flattenw)
 - [traversing](#traversing)
@@ -883,6 +885,19 @@ export declare const fromReaderK: <A extends readonly unknown[], R, B>(
 
 Added in v2.11.0
 
+## liftOption
+
+**Signature**
+
+```ts
+export declare const liftOption: <A extends readonly unknown[], B, E>(
+  f: (...a: A) => Option<B>,
+  onNone: (...a: A) => E
+) => <R>(...a: A) => ReaderEither<R, E, B>
+```
+
+Added in v2.15.0
+
 # mapping
 
 ## bimap
@@ -1189,6 +1204,25 @@ export declare const flatMap: {
 ```
 
 Added in v2.14.0
+
+## flatMapOption
+
+**Signature**
+
+```ts
+export declare const flatMapOption: {
+  <A, B, E2>(f: (a: A) => Option<B>, onNone: (a: A) => E2): <R, E1>(
+    self: ReaderEither<R, E1, A>
+  ) => ReaderEither<R, E2 | E1, B>
+  <R, E1, A, B, E2>(self: ReaderEither<R, E1, A>, f: (a: A) => Option<B>, onNone: (a: A) => E2): ReaderEither<
+    R,
+    E1 | E2,
+    B
+  >
+}
+```
+
+Added in v2.15.0
 
 ## flatten
 

@@ -141,6 +141,7 @@ Added in v2.0.0
   - [fromNullableK](#fromnullablek)
   - [fromOptionK](#fromoptionk)
   - [fromPredicate](#frompredicate)
+  - [liftOption](#liftoption)
 - [mapping](#mapping)
   - [bimap](#bimap)
   - [flap](#flap)
@@ -162,6 +163,7 @@ Added in v2.0.0
   - [chainOptionK](#chainoptionk)
   - [chainOptionKW](#chainoptionkw)
   - [flatMap](#flatmap)
+  - [flatMapOption](#flatmapoption)
   - [flatten](#flatten)
   - [flattenW](#flattenw)
 - [traversing](#traversing)
@@ -684,9 +686,9 @@ Added in v2.10.0
 
 ```ts
 export declare const filterOrElse: {
-  <A, B, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, B>
-  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <B>(mb: Either<E, B>) => Either<E, B>
-  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, A>
+  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (self: Either<E, A>) => Either<E, B>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <B extends A>(self: Either<E, B>) => Either<E, B>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (self: Either<E, A>) => Either<E, A>
 }
 ```
 
@@ -1228,6 +1230,19 @@ assert.deepStrictEqual(
 
 Added in v2.0.0
 
+## liftOption
+
+**Signature**
+
+```ts
+export declare const liftOption: <A extends readonly unknown[], B, E>(
+  f: (...a: A) => Option<B>,
+  onNone: (...a: A) => E
+) => (...a: A) => Either<E, B>
+```
+
+Added in v2.15.0
+
 # mapping
 
 ## bimap
@@ -1451,6 +1466,19 @@ export declare const flatMap: {
 ```
 
 Added in v2.14.0
+
+## flatMapOption
+
+**Signature**
+
+```ts
+export declare const flatMapOption: {
+  <A, B, E2>(f: (a: A) => Option<B>, onNone: (a: A) => E2): <E1>(self: Either<E1, A>) => Either<E2 | E1, B>
+  <E1, A, B, E2>(self: Either<E1, A>, f: (a: A) => Option<B>, onNone: (a: A) => E2): Either<E1 | E2, B>
+}
+```
+
+Added in v2.15.0
 
 ## flatten
 
