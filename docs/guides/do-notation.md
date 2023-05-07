@@ -27,14 +27,14 @@ declare const readLine: T.Task<string>
 const main: T.Task<{ x: string; y: string }> = pipe(
   readLine,
   T.map((x) => ({ x })),
-  T.chain(({ x }) =>
+  T.flatMap(({ x }) =>
     pipe(
       readLine,
       T.map((y) => ({ x, y }))
     )
   ),
-  T.chainFirst(({ x }) => print(x)),
-  T.chainFirst(({ y }) => print(y))
+  T.tap(({ x }) => print(x)),
+  T.tap(({ y }) => print(y))
 )
 ```
 
@@ -48,8 +48,8 @@ const mainDo: T.Task<{ x: string; y: string }> = pipe(
   T.Do,
   T.bind('x', () => readLine),
   T.bind('y', () => readLine),
-  T.chainFirst(({ x }) => print(x)),
-  T.chainFirst(({ y }) => print(y))
+  T.tap(({ x }) => print(x)),
+  T.tap(({ y }) => print(y))
 )
 ```
 
@@ -85,8 +85,8 @@ const mainDo: IO.IO<{ x: string; y: string }> = pipe(
   IO.Do,
   IO.bind('x', () => readLine),
   IO.bind('y', () => readLine),
-  IO.chainFirst(({ x }) => print(x)),
-  IO.chainFirst(({ y }) => print(y))
+  IO.tap(({ x }) => print(x)),
+  IO.tap(({ y }) => print(y))
 )
 ```
 
@@ -105,8 +105,8 @@ pipe(
   readLine,
   T.bindTo('x'),
   T.bind('y', () => readLine),
-  T.chainFirst(({ x }) => print(x)),
-  T.chainFirst(({ y }) => print(y))
+  T.tap(({ x }) => print(x)),
+  T.tap(({ y }) => print(y))
 )
 ```
 
