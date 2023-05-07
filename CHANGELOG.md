@@ -38,7 +38,21 @@ high state of flux, you're at risk of it changing without notice.
   - `Task`
   - `TaskEither`
   - `TaskOption`
-- add `flatMapOption` to
+- add `flatMapNullable` (dual) to
+  - `Either`
+  - `IOEither`
+  - `ReaderEither`
+  - `ReaderTaskEither`
+  - `StateReaderTaskEither`
+  - `TaskEither`
+- add `flatMapOption` (dual) to
+  - `Either`
+  - `IOEither`
+  - `ReaderEither`
+  - `ReaderTaskEither`
+  - `StateReaderTaskEither`
+  - `TaskEither`
+- add `liftNullable` to
   - `Either`
   - `IOEither`
   - `ReaderEither`

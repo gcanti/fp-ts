@@ -336,7 +336,9 @@ export const fromNullable: <E>(e: E) => <R, A>(a: A) => ReaderTaskEither<R, E, N
   /*#__PURE__*/ ET.fromNullable(RT.Pointed)
 
 /**
- * @category lifting
+ * Use `liftNullable`.
+ *
+ * @category legacy
  * @since 2.12.0
  */
 export const fromNullableK: <E>(
@@ -346,7 +348,9 @@ export const fromNullableK: <E>(
 ) => <R = unknown>(...a: A) => ReaderTaskEither<R, E, NonNullable<B>> = /*#__PURE__*/ ET.fromNullableK(RT.Pointed)
 
 /**
- * @category sequencing
+ * Use `flatMapNullable`.
+ *
+ * @category legacy
  * @since 2.12.0
  */
 export const chainNullableK: <E>(
@@ -1193,7 +1197,9 @@ export const fromOption: <E>(onNone: LazyArg<E>) => <A, R = unknown>(fa: Option<
   /*#__PURE__*/ fromOption_(FromEither)
 
 /**
- * @category lifting
+ * Use `liftOption`.
+ *
+ * @category legacy
  * @since 2.10.0
  */
 export const fromOptionK: <E>(
@@ -1203,7 +1209,9 @@ export const fromOptionK: <E>(
 ) => <R = unknown>(...a: A) => ReaderTaskEither<R, E, B> = /*#__PURE__*/ fromOptionK_(FromEither)
 
 /**
- * @category sequencing
+ * Use `flatMapOption`.
+ *
+ * @category legacy
  * @since 2.10.0
  */
 export const chainOptionK: <E>(
@@ -1212,11 +1220,9 @@ export const chainOptionK: <E>(
   /*#__PURE__*/ chainOptionK_(FromEither, Chain)
 
 /**
- * Less strict version of [`chainOptionK`](#chainoptionk).
+ * Use `flatMapOption`.
  *
- * The `W` suffix (short for **W**idening) means that the error types will be merged.
- *
- * @category sequencing
+ * @category legacy
  * @since 2.13.2
  */
 export const chainOptionKW: <E2>(
@@ -1238,6 +1244,15 @@ const _FromEither: _.FromEither<ReaderTaskEitherTypeLambda> = {
  * @category lifting
  * @since 2.15.0
  */
+export const liftNullable: <A extends ReadonlyArray<unknown>, B, E>(
+  f: (...a: A) => B | null | undefined,
+  onNullable: (...a: A) => E
+) => <R>(...a: A) => ReaderTaskEither<R, E, NonNullable<B>> = /*#__PURE__*/ _.liftNullable(_FromEither)
+
+/**
+ * @category lifting
+ * @since 2.15.0
+ */
 export const liftOption: <A extends ReadonlyArray<unknown>, B, E>(
   f: (...a: A) => Option<B>,
   onNone: (...a: A) => E
@@ -1247,6 +1262,21 @@ export const liftOption: <A extends ReadonlyArray<unknown>, B, E>(
 const _FlatMap: _.FlatMap<ReaderTaskEitherTypeLambda> = {
   flatMap
 }
+
+/**
+ * @category sequencing
+ * @since 2.15.0
+ */
+export const flatMapNullable: {
+  <A, B, E2>(f: (a: A) => B | null | undefined, onNullable: (a: A) => E2): <R, E1>(
+    self: ReaderTaskEither<R, E1, A>
+  ) => ReaderTaskEither<R, E2 | E1, NonNullable<B>>
+  <R, E1, A, B, E2>(
+    self: ReaderTaskEither<R, E1, A>,
+    f: (a: A) => B | null | undefined,
+    onNullable: (a: A) => E2
+  ): ReaderTaskEither<R, E1 | E2, NonNullable<B>>
+} = /*#__PURE__*/ _.flatMapNullable(_FromEither, _FlatMap)
 
 /**
  * @category sequencing

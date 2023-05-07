@@ -291,7 +291,9 @@ export const fromNullable: <E>(e: E) => <A>(a: A) => TaskEither<E, NonNullable<A
 )
 
 /**
- * @category lifting
+ * Use `liftNullable`.
+ *
+ * @category legacy
  * @since 2.12.0
  */
 export const fromNullableK: <E>(
@@ -301,7 +303,9 @@ export const fromNullableK: <E>(
 ) => (...a: A) => TaskEither<E, NonNullable<B>> = /*#__PURE__*/ ET.fromNullableK(T.Pointed)
 
 /**
- * @category sequencing
+ * Use `flatMapNullable`.
+ *
+ * @category legacy
  * @since 2.12.0
  */
 export const chainNullableK: <E>(
@@ -958,7 +962,9 @@ export const fromOption: <E>(onNone: LazyArg<E>) => <A>(fa: Option<A>) => TaskEi
   /*#__PURE__*/ fromOption_(FromEither)
 
 /**
- * @category lifting
+ * Use `liftOption`.
+ *
+ * @category legacy
  * @since 2.10.0
  */
 export const fromOptionK: <E>(
@@ -967,7 +973,9 @@ export const fromOptionK: <E>(
   /*#__PURE__*/ fromOptionK_(FromEither)
 
 /**
- * @category sequencing
+ * Use `flatMapOption`.
+ *
+ * @category legacy
  * @since 2.10.0
  */
 export const chainOptionK: <E>(
@@ -978,11 +986,9 @@ export const chainOptionK: <E>(
 )
 
 /**
- * Less strict version of [`chainOptionK`](#chainoptionk).
+ * Use `flatMapOption`.
  *
- * The `W` suffix (short for **W**idening) means that the error types will be merged.
- *
- * @category sequencing
+ * @category legacy
  * @since 2.13.2
  */
 export const chainOptionKW: <E2>(
@@ -1004,6 +1010,15 @@ const _FromEither: _.FromEither<TaskEitherTypeLambda> = {
  * @category lifting
  * @since 2.15.0
  */
+export const liftNullable: <A extends ReadonlyArray<unknown>, B, E>(
+  f: (...a: A) => B | null | undefined,
+  onNullable: (...a: A) => E
+) => (...a: A) => TaskEither<E, NonNullable<B>> = /*#__PURE__*/ _.liftNullable(_FromEither)
+
+/**
+ * @category lifting
+ * @since 2.15.0
+ */
 export const liftOption: <A extends ReadonlyArray<unknown>, B, E>(
   f: (...a: A) => Option<B>,
   onNone: (...a: A) => E
@@ -1013,6 +1028,20 @@ export const liftOption: <A extends ReadonlyArray<unknown>, B, E>(
 const _FlatMap: _.FlatMap<TaskEitherTypeLambda> = {
   flatMap
 }
+
+/**
+ * @category sequencing
+ * @since 2.15.0
+ */
+export const flatMapNullable: {
+  <A, B, E2>(f: (a: A) => B | null | undefined, onNullable: (a: A) => E2): <E1>(
+    self: TaskEither<E1, A>
+  ) => TaskEither<E2 | E1, NonNullable<B>>
+  <E1, A, B, E2>(self: TaskEither<E1, A>, f: (a: A) => B | null | undefined, onNullable: (a: A) => E2): TaskEither<
+    E1 | E2,
+    NonNullable<B>
+  >
+} = /*#__PURE__*/ _.flatMapNullable(_FromEither, _FlatMap)
 
 /**
  * @category sequencing

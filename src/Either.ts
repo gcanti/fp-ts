@@ -1148,7 +1148,9 @@ export const flatten: <E, A>(mma: Either<E, Either<E, A>>) => Either<E, A> = fla
 export const duplicate: <E, A>(ma: Either<E, A>) => Either<E, Either<E, A>> = /*#__PURE__*/ extend(identity)
 
 /**
- * @category lifting
+ * Use `liftOption`.
+ *
+ * @category legacy
  * @since 2.10.0
  */
 export const fromOptionK: <E>(
@@ -1157,7 +1159,9 @@ export const fromOptionK: <E>(
   /*#__PURE__*/ fromOptionK_(FromEither)
 
 /**
- * @category sequencing
+ * Use `flatMapOption`.
+ *
+ * @category legacy
  * @since 2.11.0
  */
 export const chainOptionK: <E>(
@@ -1168,11 +1172,9 @@ export const chainOptionK: <E>(
 )
 
 /**
- * Less strict version of [`chainOptionK`](#chainoptionk).
+ * Use `flatMapOption`.
  *
- * The `W` suffix (short for **W**idening) means that the error types will be merged.
- *
- * @category sequencing
+ * @category legacy
  * @since 2.13.2
  */
 export const chainOptionKW: <E2>(
@@ -1193,6 +1195,15 @@ const _FromEither: _.FromEither<EitherTypeLambda> = {
  * @category lifting
  * @since 2.15.0
  */
+export const liftNullable: <A extends ReadonlyArray<unknown>, B, E>(
+  f: (...a: A) => B | null | undefined,
+  onNullable: (...a: A) => E
+) => (...a: A) => Either<E, NonNullable<B>> = /*#__PURE__*/ _.liftNullable(_FromEither)
+
+/**
+ * @category lifting
+ * @since 2.15.0
+ */
 export const liftOption: <A extends ReadonlyArray<unknown>, B, E>(
   f: (...a: A) => Option<B>,
   onNone: (...a: A) => E
@@ -1202,6 +1213,20 @@ export const liftOption: <A extends ReadonlyArray<unknown>, B, E>(
 const _FlatMap: _.FlatMap<EitherTypeLambda> = {
   flatMap
 }
+
+/**
+ * @category sequencing
+ * @since 2.15.0
+ */
+export const flatMapNullable: {
+  <A, B, E2>(f: (a: A) => B | null | undefined, onNullable: (a: A) => E2): <E1>(
+    self: Either<E1, A>
+  ) => Either<E2 | E1, NonNullable<B>>
+  <E1, A, B, E2>(self: Either<E1, A>, f: (a: A) => B | null | undefined, onNullable: (a: A) => E2): Either<
+    E1 | E2,
+    NonNullable<B>
+  >
+} = /*#__PURE__*/ _.flatMapNullable(_FromEither, _FlatMap)
 
 /**
  * @category sequencing
@@ -1369,7 +1394,9 @@ export const tryCatchK =
     tryCatch(() => f(...a), onThrow)
 
 /**
- * @category lifting
+ * Use `liftNullable`.
+ *
+ * @category legacy
  * @since 2.9.0
  */
 export const fromNullableK = <E>(
@@ -1382,7 +1409,9 @@ export const fromNullableK = <E>(
 }
 
 /**
- * @category sequencing
+ * Use `flatMapNullable`.
+ *
+ * @category legacy
  * @since 2.9.0
  */
 export const chainNullableK = <E>(

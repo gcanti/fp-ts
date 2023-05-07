@@ -630,6 +630,16 @@ describe.concurrent('Either', () => {
     U.deepStrictEqual(f(-1), _.left('error'))
   })
 
+  it('flatMapNullable', () => {
+    const f = _.flatMapNullable(
+      (n: number) => (n > 0 ? n : null),
+      () => 'error'
+    )
+    U.deepStrictEqual(f(_.right(1)), _.right(1))
+    U.deepStrictEqual(f(_.right(-1)), _.left('error'))
+    U.deepStrictEqual(f(_.left('a')), _.left('a'))
+  })
+
   it('chainNullableK', () => {
     const f = _.chainNullableK('error')((n: number) => (n > 0 ? n : null))
     U.deepStrictEqual(f(_.right(1)), _.right(1))
