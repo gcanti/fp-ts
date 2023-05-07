@@ -141,7 +141,9 @@ export const liftNullable =
   <A extends ReadonlyArray<unknown>, B, E>(f: (...a: A) => B | null | undefined, onNullable: (...a: A) => E) =>
   <R, O>(...a: A): Kind<F, R, O, E, NonNullable<B>> => {
     const o = f(...a)
-    return F.fromEither(o == null ? left(onNullable(...a)) : right(o))
+    return F.fromEither<R, O, E, NonNullable<B>>(
+      o == null ? left(onNullable(...a)) : right<NonNullable<B>, E>(o as any)
+    )
   }
 
 /** @internal */
