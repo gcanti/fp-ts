@@ -271,7 +271,7 @@ export const tapError: {
     E1 | E2,
     A
   >
-} = dual(2, ET.tapError(R.Monad))
+} = /*#__PURE__*/ dual(2, ET.tapError(R.Monad))
 
 /**
  * @category error handling
@@ -782,6 +782,37 @@ export const chainOptionKW: <E2>(
   onNone: LazyArg<E2>
 ) => <A, B>(f: (a: A) => Option<B>) => <R, E1>(ma: ReaderEither<R, E1, A>) => ReaderEither<R, E1 | E2, B> =
   /*#__PURE__*/ chainOptionK as any
+
+/**
+ * @category lifting
+ * @since 2.15.0
+ */
+export const liftOption =
+  <A extends ReadonlyArray<unknown>, B, E>(f: (...a: A) => Option<B>, onNone: (...a: A) => E) =>
+  <R>(...a: A): ReaderEither<R, E, B> =>
+    fromOption(() => onNone(...a))(f(...a))
+
+/**
+ * @category sequencing
+ * @since 2.15.0
+ */
+export const flatMapOption: {
+  <A, B, E2>(f: (a: A) => Option<B>, onNone: (a: A) => E2): <R, E1>(
+    self: ReaderEither<R, E1, A>
+  ) => ReaderEither<R, E1 | E2, B>
+  <R, E1, A, B, E2>(self: ReaderEither<R, E1, A>, f: (a: A) => Option<B>, onNone: (a: A) => E2): ReaderEither<
+    R,
+    E1 | E2,
+    B
+  >
+} = /*#__PURE__*/ dual(
+  3,
+  <R, E1, A, B, E2>(
+    self: ReaderEither<R, E1, A>,
+    f: (a: A) => Option<B>,
+    onNone: (a: A) => E2
+  ): ReaderEither<R, E1 | E2, B> => flatMap(self, liftOption(f, onNone))
+)
 
 /**
  * @category sequencing

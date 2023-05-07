@@ -908,6 +908,37 @@ export const chainOptionKW: <E2>(
   /*#__PURE__*/ chainOptionK as any
 
 /**
+ * @category lifting
+ * @since 2.15.0
+ */
+export const liftOption =
+  <A extends ReadonlyArray<unknown>, B, E>(f: (...a: A) => Option<B>, onNone: (...a: A) => E) =>
+  <S, R>(...a: A): StateReaderTaskEither<S, R, E, B> =>
+    fromOption(() => onNone(...a))(f(...a))
+
+/**
+ * @category sequencing
+ * @since 2.15.0
+ */
+export const flatMapOption: {
+  <A, B, E2>(f: (a: A) => Option<B>, onNone: (a: A) => E2): <S, R, E1>(
+    self: StateReaderTaskEither<S, R, E1, A>
+  ) => StateReaderTaskEither<S, R, E1 | E2, B>
+  <S, R, E1, A, B, E2>(
+    self: StateReaderTaskEither<S, R, E1, A>,
+    f: (a: A) => Option<B>,
+    onNone: (a: A) => E2
+  ): StateReaderTaskEither<S, R, E1 | E2, B>
+} = /*#__PURE__*/ dual(
+  3,
+  <S, R, E1, A, B, E2>(
+    self: StateReaderTaskEither<S, R, E1, A>,
+    f: (a: A) => Option<B>,
+    onNone: (a: A) => E2
+  ): StateReaderTaskEither<S, R, E1 | E2, B> => flatMap(self, liftOption(f, onNone)<S, R>)
+)
+
+/**
  * @category sequencing
  * @since 2.4.0
  */

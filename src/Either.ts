@@ -1180,6 +1180,28 @@ export const chainOptionKW: <E2>(
 ) => <A, B>(f: (a: A) => Option<B>) => <E1>(ma: Either<E1, A>) => Either<E1 | E2, B> = /*#__PURE__*/ chainOptionK as any
 
 /**
+ * @category lifting
+ * @since 2.15.0
+ */
+export const liftOption =
+  <A extends ReadonlyArray<unknown>, B, E>(f: (...a: A) => Option<B>, onNone: (...a: A) => E) =>
+  (...a: A): Either<E, B> =>
+    fromOption(() => onNone(...a))(f(...a))
+
+/**
+ * @category sequencing
+ * @since 2.15.0
+ */
+export const flatMapOption: {
+  <A, B, E2>(f: (a: A) => Option<B>, onNone: (a: A) => E2): <E1>(self: Either<E1, A>) => Either<E1 | E2, B>
+  <E1, A, B, E2>(self: Either<E1, A>, f: (a: A) => Option<B>, onNone: (a: A) => E2): Either<E1 | E2, B>
+} = /*#__PURE__*/ dual(
+  3,
+  <E1, A, B, E2>(self: Either<E1, A>, f: (a: A) => Option<B>, onNone: (a: A) => E2): Either<E1 | E2, B> =>
+    flatMap(self, liftOption(f, onNone))
+)
+
+/**
  * @example
  * import * as E from 'fp-ts/Either'
  * import { pipe } from 'fp-ts/function'
