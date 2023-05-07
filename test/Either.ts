@@ -581,6 +581,16 @@ describe.concurrent('Either', () => {
     U.deepStrictEqual(f(-1), _.left('a'))
   })
 
+  it('flatMapOption', () => {
+    const f = _.flatMapOption(
+      (n: number) => (n > 0 ? O.some(n) : O.none),
+      () => 'a'
+    )
+    U.deepStrictEqual(f(_.right(1)), _.right(1))
+    U.deepStrictEqual(f(_.right(-1)), _.left('a'))
+    U.deepStrictEqual(f(_.left('b')), _.left('b'))
+  })
+
   it('chainOptionK', () => {
     const f = _.chainOptionK(() => 'a')((n: number) => (n > 0 ? O.some(n) : O.none))
     U.deepStrictEqual(f(_.right(1)), _.right(1))

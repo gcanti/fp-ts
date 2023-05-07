@@ -222,6 +222,16 @@ describe.concurrent('IOEither', () => {
       U.deepStrictEqual(f(-1)(), E.left('a'))
     })
 
+    it('flatMapOption', () => {
+      const f = _.flatMapOption(
+        (n: number) => (n > 0 ? O.some(n) : O.none),
+        () => 'a'
+      )
+      U.deepStrictEqual(f(_.right(1))(), E.right(1))
+      U.deepStrictEqual(f(_.right(-1))(), E.left('a'))
+      U.deepStrictEqual(f(_.left('b'))(), E.left('b'))
+    })
+
     it('chainOptionK', () => {
       const f = _.chainOptionK(() => 'a')((n: number) => (n > 0 ? O.some(n) : O.none))
       U.deepStrictEqual(f(_.right(1))(), E.right(1))

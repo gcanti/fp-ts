@@ -171,6 +171,16 @@ describe.concurrent('ReaderEither', () => {
     U.deepStrictEqual(orElse(_.right(1))({}), E.right(1))
   })
 
+  it('flatMapOption', () => {
+    const f = _.flatMapOption(
+      (n: number) => (n > 0 ? O.some(n) : O.none),
+      () => 'a'
+    )
+    U.deepStrictEqual(f(_.right(1))(undefined), E.right(1))
+    U.deepStrictEqual(f(_.right(-1))(undefined), E.left('a'))
+    U.deepStrictEqual(f(_.left('b'))(undefined), E.left('b'))
+  })
+
   it('tapError', () => {
     const f = (s: string) => (s.length <= 1 ? _.right(true) : _.left(s + '!'))
     U.deepStrictEqual(pipe(_.right(1), _.tapError(f))({}), E.right(1))

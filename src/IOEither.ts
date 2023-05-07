@@ -253,7 +253,7 @@ export const orElseW: <E1, E2, B>(
 export const tapError: {
   <E1, E2, _>(onLeft: (e: E1) => IOEither<E2, _>): <A>(self: IOEither<E1, A>) => IOEither<E1 | E2, A>
   <E1, A, E2, _>(self: IOEither<E1, A>, onLeft: (e: E1) => IOEither<E2, _>): IOEither<E1 | E2, A>
-} = dual(2, ET.tapError(I.Monad))
+} = /*#__PURE__*/ dual(2, ET.tapError(I.Monad))
 
 /**
  * @category error handling
@@ -741,6 +741,28 @@ export const chainOptionKW: <E2>(
   onNone: LazyArg<E2>
 ) => <A, B>(f: (a: A) => Option<B>) => <E1>(ma: IOEither<E1, A>) => IOEither<E1 | E2, B> =
   /*#__PURE__*/ chainOptionK as any
+
+/**
+ * @category lifting
+ * @since 2.15.0
+ */
+export const liftOption =
+  <A extends ReadonlyArray<unknown>, B, E>(f: (...a: A) => Option<B>, onNone: (...a: A) => E) =>
+  (...a: A): IOEither<E, B> =>
+    fromOption(() => onNone(...a))(f(...a))
+
+/**
+ * @category sequencing
+ * @since 2.15.0
+ */
+export const flatMapOption: {
+  <A, B, E2>(f: (a: A) => Option<B>, onNone: (a: A) => E2): <E1>(self: IOEither<E1, A>) => IOEither<E1 | E2, B>
+  <E1, A, B, E2>(self: IOEither<E1, A>, f: (a: A) => Option<B>, onNone: (a: A) => E2): IOEither<E1 | E2, B>
+} = /*#__PURE__*/ dual(
+  3,
+  <E1, A, B, E2>(self: IOEither<E1, A>, f: (a: A) => Option<B>, onNone: (a: A) => E2): IOEither<E1 | E2, B> =>
+    flatMap(self, liftOption(f, onNone))
+)
 
 /**
  * @category sequencing

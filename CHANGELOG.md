@@ -38,6 +38,20 @@ high state of flux, you're at risk of it changing without notice.
   - `Task`
   - `TaskEither`
   - `TaskOption`
+- add `flatMapOption` to
+  - `Either`
+  - `IOEither`
+  - `ReaderEither`
+  - `ReaderTaskEither`
+  - `StateReaderTaskEither`
+  - `TaskEither`
+- add `liftOption` to
+  - `Either`
+  - `IOEither`
+  - `ReaderEither`
+  - `ReaderTaskEither`
+  - `StateReaderTaskEither`
+  - `TaskEither`
 - `Array`
   - add index to `flatMap`
 - `NonEmptyArray`
