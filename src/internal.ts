@@ -136,6 +136,15 @@ export interface FromEither<F extends TypeLambda> extends TypeClass<F> {
 }
 
 /** @internal */
+export const liftNullable =
+  <F extends TypeLambda>(F: FromEither<F>) =>
+  <A extends ReadonlyArray<unknown>, B, E>(f: (...a: A) => B | null | undefined, onNullable: (...a: A) => E) =>
+  <R, O>(...a: A): Kind<F, R, O, E, NonNullable<B>> => {
+    const o = f(...a)
+    return F.fromEither(o == null ? left(onNullable(...a)) : right(o))
+  }
+
+/** @internal */
 export const liftOption =
   <F extends TypeLambda>(F: FromEither<F>) =>
   <A extends ReadonlyArray<unknown>, B, E>(f: (...a: A) => Option<B>, onNone: (...a: A) => E) =>
@@ -162,6 +171,32 @@ export interface FlatMap<F extends TypeLambda> extends TypeClass<F> {
     >
   }
 }
+
+/** @internal */
+export const flatMapNullable = <F extends TypeLambda>(
+  F: FromEither<F>,
+  M: FlatMap<F>
+): {
+  <A, B, E2>(f: (a: A) => B | null | undefined, onNullable: (a: A) => E2): <R, O, E1>(
+    self: Kind<F, R, O, E1, A>
+  ) => Kind<F, R, O, E1 | E2, NonNullable<B>>
+  <R, O, E1, A, B, E2>(self: Kind<F, R, O, E1, A>, f: (a: A) => B | null | undefined, onNullable: (a: A) => E2): Kind<
+    F,
+    R,
+    O,
+    E1 | E2,
+    NonNullable<B>
+  >
+} =>
+  /*#__PURE__*/ dual(
+    3,
+    <R, O, E1, A, B, E2>(
+      self: Kind<F, R, O, E1, A>,
+      f: (a: A) => B | null | undefined,
+      onNullable: (a: A) => E2
+    ): Kind<F, R, O, E1 | E2, NonNullable<B>> =>
+      M.flatMap<R, O, E1, A, R, O, E2, NonNullable<B>>(self, liftNullable(F)(f, onNullable))
+  )
 
 /** @internal */
 export const flatMapOption = <F extends TypeLambda>(
