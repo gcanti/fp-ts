@@ -68,16 +68,21 @@ Added in v2.0.0
   - [Pointed](#pointed)
 - [legacy](#legacy)
   - [chain](#chain)
+  - [chainEitherK](#chaineitherk)
+  - [chainEitherKW](#chaineitherkw)
   - [chainFirst](#chainfirst)
   - [chainFirstW](#chainfirstw)
+  - [chainOptionK](#chainoptionk)
+  - [chainOptionKW](#chainoptionkw)
   - [chainW](#chainw)
+  - [fromOptionK](#fromoptionk)
   - [orElseFirst](#orelsefirst)
   - [orElseFirstW](#orelsefirstw)
 - [lifting](#lifting)
   - [fromEitherK](#fromeitherk)
-  - [fromOptionK](#fromoptionk)
   - [fromPredicate](#frompredicate)
   - [fromReaderK](#fromreaderk)
+  - [liftNullable](#liftnullable)
   - [liftOption](#liftoption)
 - [mapping](#mapping)
   - [bimap](#bimap)
@@ -93,17 +98,15 @@ Added in v2.0.0
   - [matchEW](#matchew)
   - [matchW](#matchw)
 - [sequencing](#sequencing)
-  - [chainEitherK](#chaineitherk)
-  - [chainEitherKW](#chaineitherkw)
   - [chainFirstEitherK](#chainfirsteitherk)
   - [chainFirstEitherKW](#chainfirsteitherkw)
   - [chainFirstReaderK](#chainfirstreaderk)
   - [chainFirstReaderKW](#chainfirstreaderkw)
-  - [chainOptionK](#chainoptionk)
-  - [chainOptionKW](#chainoptionkw)
   - [chainReaderK](#chainreaderk)
   - [chainReaderKW](#chainreaderkw)
   - [flatMap](#flatmap)
+  - [flatMapEither](#flatmapeither)
+  - [flatMapNullable](#flatmapnullable)
   - [flatMapOption](#flatmapoption)
   - [flatten](#flatten)
   - [flattenW](#flattenw)
@@ -763,6 +766,34 @@ export declare const chain: <R, E, A, B>(
 
 Added in v2.0.0
 
+## chainEitherK
+
+Alias of `flatMapEither`.
+
+**Signature**
+
+```ts
+export declare const chainEitherK: <E, A, B>(
+  f: (a: A) => E.Either<E, B>
+) => <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B>
+```
+
+Added in v2.4.0
+
+## chainEitherKW
+
+Alias of `flatMapEither`.
+
+**Signature**
+
+```ts
+export declare const chainEitherKW: <E2, A, B>(
+  f: (a: A) => E.Either<E2, B>
+) => <R, E1>(ma: ReaderEither<R, E1, A>) => ReaderEither<R, E2 | E1, B>
+```
+
+Added in v2.6.1
+
 ## chainFirst
 
 Alias of `tap`.
@@ -791,6 +822,34 @@ export declare const chainFirstW: <R2, E2, A, B>(
 
 Added in v2.8.0
 
+## chainOptionK
+
+Use `flatMapOption`.
+
+**Signature**
+
+```ts
+export declare const chainOptionK: <E>(
+  onNone: LazyArg<E>
+) => <A, B>(f: (a: A) => Option<B>) => <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B>
+```
+
+Added in v2.10.0
+
+## chainOptionKW
+
+Use `flatMapOption`.
+
+**Signature**
+
+```ts
+export declare const chainOptionKW: <E2>(
+  onNone: LazyArg<E2>
+) => <A, B>(f: (a: A) => Option<B>) => <R, E1>(ma: ReaderEither<R, E1, A>) => ReaderEither<R, E2 | E1, B>
+```
+
+Added in v2.13.2
+
 ## chainW
 
 Alias of `flatMap`.
@@ -804,6 +863,20 @@ export declare const chainW: <R2, E2, A, B>(
 ```
 
 Added in v2.6.0
+
+## fromOptionK
+
+Use `liftOption`.
+
+**Signature**
+
+```ts
+export declare const fromOptionK: <E>(
+  onNone: LazyArg<E>
+) => <A extends readonly unknown[], B>(f: (...a: A) => Option<B>) => <R = unknown>(...a: A) => ReaderEither<R, E, B>
+```
+
+Added in v2.10.0
 
 ## orElseFirst
 
@@ -847,18 +920,6 @@ export declare const fromEitherK: <E, A extends readonly unknown[], B>(
 
 Added in v2.4.0
 
-## fromOptionK
-
-**Signature**
-
-```ts
-export declare const fromOptionK: <E>(
-  onNone: LazyArg<E>
-) => <A extends readonly unknown[], B>(f: (...a: A) => Option<B>) => <R = unknown>(...a: A) => ReaderEither<R, E, B>
-```
-
-Added in v2.10.0
-
 ## fromPredicate
 
 **Signature**
@@ -884,6 +945,19 @@ export declare const fromReaderK: <A extends readonly unknown[], R, B>(
 ```
 
 Added in v2.11.0
+
+## liftNullable
+
+**Signature**
+
+```ts
+export declare const liftNullable: <A extends readonly unknown[], B, E>(
+  f: (...a: A) => B | null | undefined,
+  onNullable: (...a: A) => E
+) => <R>(...a: A) => ReaderEither<R, E, NonNullable<B>>
+```
+
+Added in v2.15.0
 
 ## liftOption
 
@@ -1046,34 +1120,6 @@ Added in v2.10.0
 
 # sequencing
 
-## chainEitherK
-
-**Signature**
-
-```ts
-export declare const chainEitherK: <E, A, B>(
-  f: (a: A) => E.Either<E, B>
-) => <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B>
-```
-
-Added in v2.4.0
-
-## chainEitherKW
-
-Less strict version of [`chainEitherK`](#chaineitherk).
-
-The `W` suffix (short for **W**idening) means that the error types will be merged.
-
-**Signature**
-
-```ts
-export declare const chainEitherKW: <E2, A, B>(
-  f: (a: A) => E.Either<E2, B>
-) => <R, E1>(ma: ReaderEither<R, E1, A>) => ReaderEither<R, E2 | E1, B>
-```
-
-Added in v2.6.1
-
 ## chainFirstEitherK
 
 **Signature**
@@ -1130,34 +1176,6 @@ export declare const chainFirstReaderKW: <A, R1, B>(
 
 Added in v2.11.0
 
-## chainOptionK
-
-**Signature**
-
-```ts
-export declare const chainOptionK: <E>(
-  onNone: LazyArg<E>
-) => <A, B>(f: (a: A) => Option<B>) => <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B>
-```
-
-Added in v2.10.0
-
-## chainOptionKW
-
-Less strict version of [`chainOptionK`](#chainoptionk).
-
-The `W` suffix (short for **W**idening) means that the error types will be merged.
-
-**Signature**
-
-```ts
-export declare const chainOptionKW: <E2>(
-  onNone: LazyArg<E2>
-) => <A, B>(f: (a: A) => Option<B>) => <R, E1>(ma: ReaderEither<R, E1, A>) => ReaderEither<R, E2 | E1, B>
-```
-
-Added in v2.13.2
-
 ## chainReaderK
 
 **Signature**
@@ -1204,6 +1222,38 @@ export declare const flatMap: {
 ```
 
 Added in v2.14.0
+
+## flatMapEither
+
+**Signature**
+
+```ts
+export declare const flatMapEither: {
+  <A, B, E2>(f: (a: A) => E.Either<E2, B>): <R, E1>(self: ReaderEither<R, E1, A>) => ReaderEither<R, E2 | E1, B>
+  <R, E1, A, B, E2>(self: ReaderEither<R, E1, A>, f: (a: A) => E.Either<E2, B>): ReaderEither<R, E1 | E2, B>
+}
+```
+
+Added in v2.15.0
+
+## flatMapNullable
+
+**Signature**
+
+```ts
+export declare const flatMapNullable: {
+  <A, B, E2>(f: (a: A) => B | null | undefined, onNullable: (a: A) => E2): <R, E1>(
+    self: ReaderEither<R, E1, A>
+  ) => ReaderEither<R, E2 | E1, NonNullable<B>>
+  <R, E1, A, B, E2>(
+    self: ReaderEither<R, E1, A>,
+    f: (a: A) => B | null | undefined,
+    onNullable: (a: A) => E2
+  ): ReaderEither<R, E1 | E2, NonNullable<B>>
+}
+```
+
+Added in v2.15.0
 
 ## flatMapOption
 

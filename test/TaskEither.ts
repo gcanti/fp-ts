@@ -519,6 +519,11 @@ describe.concurrent('TaskEither', () => {
     U.deepStrictEqual(await _.swap(_.left('a'))(), E.right('a'))
   })
 
+  it('flatMapEither', async () => {
+    const f = (s: string) => E.right(s.length)
+    U.deepStrictEqual(await pipe(_.right('a'), _.flatMapEither(f))(), E.right(1))
+  })
+
   it('chainEitherK', async () => {
     const f = (s: string) => E.right(s.length)
     U.deepStrictEqual(await pipe(_.right('a'), _.chainEitherK(f))(), E.right(1))

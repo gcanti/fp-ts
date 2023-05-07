@@ -136,11 +136,15 @@ Added in v2.0.0
   - [chain](#chain)
   - [chainFirst](#chainfirst)
   - [chainFirstW](#chainfirstw)
+  - [chainNullableK](#chainnullablek)
+  - [chainOptionK](#chainoptionk)
+  - [chainOptionKW](#chainoptionkw)
   - [chainW](#chainw)
-- [lifting](#lifting)
   - [fromNullableK](#fromnullablek)
   - [fromOptionK](#fromoptionk)
+- [lifting](#lifting)
   - [fromPredicate](#frompredicate)
+  - [liftNullable](#liftnullable)
   - [liftOption](#liftoption)
 - [mapping](#mapping)
   - [bimap](#bimap)
@@ -159,10 +163,8 @@ Added in v2.0.0
   - [isLeft](#isleft)
   - [isRight](#isright)
 - [sequencing](#sequencing)
-  - [chainNullableK](#chainnullablek)
-  - [chainOptionK](#chainoptionk)
-  - [chainOptionKW](#chainoptionkw)
   - [flatMap](#flatmap)
+  - [flatMapNullable](#flatmapnullable)
   - [flatMapOption](#flatmapoption)
   - [flatten](#flatten)
   - [flattenW](#flattenw)
@@ -1150,6 +1152,48 @@ export declare const chainFirstW: <E2, A, B>(
 
 Added in v2.8.0
 
+## chainNullableK
+
+Use `flatMapNullable`.
+
+**Signature**
+
+```ts
+export declare const chainNullableK: <E>(
+  e: E
+) => <A, B>(f: (a: A) => B | null | undefined) => (ma: Either<E, A>) => Either<E, NonNullable<B>>
+```
+
+Added in v2.9.0
+
+## chainOptionK
+
+Use `flatMapOption`.
+
+**Signature**
+
+```ts
+export declare const chainOptionK: <E>(
+  onNone: LazyArg<E>
+) => <A, B>(f: (a: A) => Option<B>) => (ma: Either<E, A>) => Either<E, B>
+```
+
+Added in v2.11.0
+
+## chainOptionKW
+
+Use `flatMapOption`.
+
+**Signature**
+
+```ts
+export declare const chainOptionKW: <E2>(
+  onNone: LazyArg<E2>
+) => <A, B>(f: (a: A) => Option<B>) => <E1>(ma: Either<E1, A>) => Either<E2 | E1, B>
+```
+
+Added in v2.13.2
+
 ## chainW
 
 Alias of `flatMap`.
@@ -1162,9 +1206,9 @@ export declare const chainW: <E2, A, B>(f: (a: A) => Either<E2, B>) => <E1>(ma: 
 
 Added in v2.6.0
 
-# lifting
-
 ## fromNullableK
+
+Use `liftNullable`.
 
 **Signature**
 
@@ -1178,6 +1222,8 @@ Added in v2.9.0
 
 ## fromOptionK
 
+Use `liftOption`.
+
 **Signature**
 
 ```ts
@@ -1187,6 +1233,8 @@ export declare const fromOptionK: <E>(
 ```
 
 Added in v2.10.0
+
+# lifting
 
 ## fromPredicate
 
@@ -1229,6 +1277,19 @@ assert.deepStrictEqual(
 ```
 
 Added in v2.0.0
+
+## liftNullable
+
+**Signature**
+
+```ts
+export declare const liftNullable: <A extends readonly unknown[], B, E>(
+  f: (...a: A) => B | null | undefined,
+  onNullable: (...a: A) => E
+) => (...a: A) => Either<E, NonNullable<B>>
+```
+
+Added in v2.15.0
 
 ## liftOption
 
@@ -1414,46 +1475,6 @@ Added in v2.0.0
 
 # sequencing
 
-## chainNullableK
-
-**Signature**
-
-```ts
-export declare const chainNullableK: <E>(
-  e: E
-) => <A, B>(f: (a: A) => B | null | undefined) => (ma: Either<E, A>) => Either<E, NonNullable<B>>
-```
-
-Added in v2.9.0
-
-## chainOptionK
-
-**Signature**
-
-```ts
-export declare const chainOptionK: <E>(
-  onNone: LazyArg<E>
-) => <A, B>(f: (a: A) => Option<B>) => (ma: Either<E, A>) => Either<E, B>
-```
-
-Added in v2.11.0
-
-## chainOptionKW
-
-Less strict version of [`chainOptionK`](#chainoptionk).
-
-The `W` suffix (short for **W**idening) means that the error types will be merged.
-
-**Signature**
-
-```ts
-export declare const chainOptionKW: <E2>(
-  onNone: LazyArg<E2>
-) => <A, B>(f: (a: A) => Option<B>) => <E1>(ma: Either<E1, A>) => Either<E2 | E1, B>
-```
-
-Added in v2.13.2
-
 ## flatMap
 
 **Signature**
@@ -1466,6 +1487,24 @@ export declare const flatMap: {
 ```
 
 Added in v2.14.0
+
+## flatMapNullable
+
+**Signature**
+
+```ts
+export declare const flatMapNullable: {
+  <A, B, E2>(f: (a: A) => B | null | undefined, onNullable: (a: A) => E2): <E1>(
+    self: Either<E1, A>
+  ) => Either<E2 | E1, NonNullable<B>>
+  <E1, A, B, E2>(self: Either<E1, A>, f: (a: A) => B | null | undefined, onNullable: (a: A) => E2): Either<
+    E1 | E2,
+    NonNullable<B>
+  >
+}
+```
+
+Added in v2.15.0
 
 ## flatMapOption
 

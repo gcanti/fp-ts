@@ -278,6 +278,12 @@ describe.concurrent('ReaderEither', () => {
     U.deepStrictEqual(AV.alt(_.left('a'), () => _.left('b'))(null), E.left('ab'))
   })
 
+  it('flatMapEither', () => {
+    const f = (s: string) => (s.length === 1 ? E.right(s.length) : E.left('b'))
+    U.deepStrictEqual(pipe(_.right('a'), _.flatMapEither(f))({}), E.right(1))
+    U.deepStrictEqual(pipe(_.right('aa'), _.flatMapEither(f))({}), E.left('b'))
+  })
+
   it('chainEitherK', () => {
     const f = (s: string) => (s.length === 1 ? E.right(s.length) : E.left('b'))
     U.deepStrictEqual(pipe(_.right('a'), _.chainEitherK(f))({}), E.right(1))

@@ -88,20 +88,26 @@ Added in v2.0.0
   - [tryCatchK](#trycatchk)
 - [legacy](#legacy)
   - [chain](#chain)
+  - [chainEitherK](#chaineitherk)
+  - [chainEitherKW](#chaineitherkw)
   - [chainFirst](#chainfirst)
   - [chainFirstW](#chainfirstw)
+  - [chainNullableK](#chainnullablek)
+  - [chainOptionK](#chainoptionk)
+  - [chainOptionKW](#chainoptionkw)
   - [chainW](#chainw)
+  - [fromNullableK](#fromnullablek)
+  - [fromOptionK](#fromoptionk)
   - [orElseFirst](#orelsefirst)
   - [orElseFirstW](#orelsefirstw)
 - [lifting](#lifting)
   - [fromEitherK](#fromeitherk)
   - [fromIOEitherK](#fromioeitherk)
   - [fromIOK](#fromiok)
-  - [fromNullableK](#fromnullablek)
-  - [fromOptionK](#fromoptionk)
   - [fromPredicate](#frompredicate)
   - [fromTaskK](#fromtaskk)
   - [fromTaskOptionK](#fromtaskoptionk)
+  - [liftNullable](#liftnullable)
   - [liftOption](#liftoption)
 - [mapping](#mapping)
   - [bimap](#bimap)
@@ -117,8 +123,6 @@ Added in v2.0.0
   - [matchEW](#matchew)
   - [matchW](#matchw)
 - [sequencing](#sequencing)
-  - [chainEitherK](#chaineitherk)
-  - [chainEitherKW](#chaineitherkw)
   - [chainFirstEitherK](#chainfirsteitherk)
   - [chainFirstEitherKW](#chainfirsteitherkw)
   - [chainFirstIOK](#chainfirstiok)
@@ -126,13 +130,12 @@ Added in v2.0.0
   - [chainIOEitherK](#chainioeitherk)
   - [chainIOEitherKW](#chainioeitherkw)
   - [chainIOK](#chainiok)
-  - [chainNullableK](#chainnullablek)
-  - [chainOptionK](#chainoptionk)
-  - [chainOptionKW](#chainoptionkw)
   - [chainTaskK](#chaintaskk)
   - [chainTaskOptionK](#chaintaskoptionk)
   - [chainTaskOptionKW](#chaintaskoptionkw)
   - [flatMap](#flatmap)
+  - [flatMapEither](#flatmapeither)
+  - [flatMapNullable](#flatmapnullable)
   - [flatMapOption](#flatmapoption)
   - [flatten](#flatten)
   - [flattenW](#flattenw)
@@ -1050,6 +1053,32 @@ export declare const chain: <E, A, B>(f: (a: A) => TaskEither<E, B>) => (ma: Tas
 
 Added in v2.0.0
 
+## chainEitherK
+
+Alias of `flatMapEither`.
+
+**Signature**
+
+```ts
+export declare const chainEitherK: <E, A, B>(f: (a: A) => E.Either<E, B>) => (ma: TaskEither<E, A>) => TaskEither<E, B>
+```
+
+Added in v2.4.0
+
+## chainEitherKW
+
+Alias of `flatMapEither`.
+
+**Signature**
+
+```ts
+export declare const chainEitherKW: <E2, A, B>(
+  f: (a: A) => E.Either<E2, B>
+) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
+```
+
+Added in v2.6.1
+
 ## chainFirst
 
 Alias of `tap`.
@@ -1076,6 +1105,48 @@ export declare const chainFirstW: <E2, A, B>(
 
 Added in v2.8.0
 
+## chainNullableK
+
+Use `flatMapNullable`.
+
+**Signature**
+
+```ts
+export declare const chainNullableK: <E>(
+  e: E
+) => <A, B>(f: (a: A) => B | null | undefined) => (ma: TaskEither<E, A>) => TaskEither<E, NonNullable<B>>
+```
+
+Added in v2.12.0
+
+## chainOptionK
+
+Use `flatMapOption`.
+
+**Signature**
+
+```ts
+export declare const chainOptionK: <E>(
+  onNone: LazyArg<E>
+) => <A, B>(f: (a: A) => Option<B>) => (ma: TaskEither<E, A>) => TaskEither<E, B>
+```
+
+Added in v2.10.0
+
+## chainOptionKW
+
+Use `flatMapOption`.
+
+**Signature**
+
+```ts
+export declare const chainOptionKW: <E2>(
+  onNone: LazyArg<E2>
+) => <A, B>(f: (a: A) => Option<B>) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
+```
+
+Added in v2.13.2
+
 ## chainW
 
 Alias of `flatMap`.
@@ -1089,6 +1160,36 @@ export declare const chainW: <E2, A, B>(
 ```
 
 Added in v2.6.0
+
+## fromNullableK
+
+Use `liftNullable`.
+
+**Signature**
+
+```ts
+export declare const fromNullableK: <E>(
+  e: E
+) => <A extends readonly unknown[], B>(
+  f: (...a: A) => B | null | undefined
+) => (...a: A) => TaskEither<E, NonNullable<B>>
+```
+
+Added in v2.12.0
+
+## fromOptionK
+
+Use `liftOption`.
+
+**Signature**
+
+```ts
+export declare const fromOptionK: <E>(
+  onNone: LazyArg<E>
+) => <A extends readonly unknown[], B>(f: (...a: A) => Option<B>) => (...a: A) => TaskEither<E, B>
+```
+
+Added in v2.10.0
 
 ## orElseFirst
 
@@ -1156,32 +1257,6 @@ export declare const fromIOK: <A extends readonly unknown[], B>(
 
 Added in v2.10.0
 
-## fromNullableK
-
-**Signature**
-
-```ts
-export declare const fromNullableK: <E>(
-  e: E
-) => <A extends readonly unknown[], B>(
-  f: (...a: A) => B | null | undefined
-) => (...a: A) => TaskEither<E, NonNullable<B>>
-```
-
-Added in v2.12.0
-
-## fromOptionK
-
-**Signature**
-
-```ts
-export declare const fromOptionK: <E>(
-  onNone: LazyArg<E>
-) => <A extends readonly unknown[], B>(f: (...a: A) => Option<B>) => (...a: A) => TaskEither<E, B>
-```
-
-Added in v2.10.0
-
 ## fromPredicate
 
 **Signature**
@@ -1219,6 +1294,19 @@ export declare const fromTaskOptionK: <E>(
 ```
 
 Added in v2.11.0
+
+## liftNullable
+
+**Signature**
+
+```ts
+export declare const liftNullable: <A extends readonly unknown[], B, E>(
+  f: (...a: A) => B | null | undefined,
+  onNullable: (...a: A) => E
+) => (...a: A) => TaskEither<E, NonNullable<B>>
+```
+
+Added in v2.15.0
 
 ## liftOption
 
@@ -1375,32 +1463,6 @@ Added in v2.10.0
 
 # sequencing
 
-## chainEitherK
-
-**Signature**
-
-```ts
-export declare const chainEitherK: <E, A, B>(f: (a: A) => E.Either<E, B>) => (ma: TaskEither<E, A>) => TaskEither<E, B>
-```
-
-Added in v2.4.0
-
-## chainEitherKW
-
-Less strict version of [`chainEitherK`](#chaineitherk).
-
-The `W` suffix (short for **W**idening) means that the error types will be merged.
-
-**Signature**
-
-```ts
-export declare const chainEitherKW: <E2, A, B>(
-  f: (a: A) => E.Either<E2, B>
-) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
-```
-
-Added in v2.6.1
-
 ## chainFirstEitherK
 
 **Signature**
@@ -1487,46 +1549,6 @@ export declare const chainIOK: <A, B>(f: (a: A) => IO<B>) => <E>(first: TaskEith
 
 Added in v2.10.0
 
-## chainNullableK
-
-**Signature**
-
-```ts
-export declare const chainNullableK: <E>(
-  e: E
-) => <A, B>(f: (a: A) => B | null | undefined) => (ma: TaskEither<E, A>) => TaskEither<E, NonNullable<B>>
-```
-
-Added in v2.12.0
-
-## chainOptionK
-
-**Signature**
-
-```ts
-export declare const chainOptionK: <E>(
-  onNone: LazyArg<E>
-) => <A, B>(f: (a: A) => Option<B>) => (ma: TaskEither<E, A>) => TaskEither<E, B>
-```
-
-Added in v2.10.0
-
-## chainOptionKW
-
-Less strict version of [`chainOptionK`](#chainoptionk).
-
-The `W` suffix (short for **W**idening) means that the error types will be merged.
-
-**Signature**
-
-```ts
-export declare const chainOptionKW: <E2>(
-  onNone: LazyArg<E2>
-) => <A, B>(f: (a: A) => Option<B>) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
-```
-
-Added in v2.13.2
-
 ## chainTaskK
 
 **Signature**
@@ -1575,6 +1597,37 @@ export declare const flatMap: {
 ```
 
 Added in v2.14.0
+
+## flatMapEither
+
+**Signature**
+
+```ts
+export declare const flatMapEither: {
+  <A, B, E2>(f: (a: A) => E.Either<E2, B>): <E1>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
+  <E1, A, B, E2>(self: TaskEither<E1, A>, f: (a: A) => E.Either<E2, B>): TaskEither<E1 | E2, B>
+}
+```
+
+Added in v2.15.0
+
+## flatMapNullable
+
+**Signature**
+
+```ts
+export declare const flatMapNullable: {
+  <A, B, E2>(f: (a: A) => B | null | undefined, onNullable: (a: A) => E2): <E1>(
+    self: TaskEither<E1, A>
+  ) => TaskEither<E2 | E1, NonNullable<B>>
+  <E1, A, B, E2>(self: TaskEither<E1, A>, f: (a: A) => B | null | undefined, onNullable: (a: A) => E2): TaskEither<
+    E1 | E2,
+    NonNullable<B>
+  >
+}
+```
+
+Added in v2.15.0
 
 ## flatMapOption
 
