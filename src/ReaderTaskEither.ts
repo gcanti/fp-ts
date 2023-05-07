@@ -1224,14 +1224,29 @@ export const chainOptionKW: <E2>(
 ) => <A, B>(f: (a: A) => Option<B>) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E1 | E2, B> =
   /*#__PURE__*/ chainOptionK as any
 
+/** @internal */
+interface ReaderTaskEitherTypeLambda extends _.TypeLambda {
+  readonly type: ReaderTaskEither<this['In'], this['Out1'], this['Target']>
+}
+
+/** @internal */
+const _FromEither: _.FromEither<ReaderTaskEitherTypeLambda> = {
+  fromEither: FromEither.fromEither
+}
+
 /**
  * @category lifting
  * @since 2.15.0
  */
-export const liftOption =
-  <A extends ReadonlyArray<unknown>, B, E>(f: (...a: A) => Option<B>, onNone: (...a: A) => E) =>
-  <R>(...a: A): ReaderTaskEither<R, E, B> =>
-    fromOption(() => onNone(...a))(f(...a))
+export const liftOption: <A extends ReadonlyArray<unknown>, B, E>(
+  f: (...a: A) => Option<B>,
+  onNone: (...a: A) => E
+) => <R>(...a: A) => ReaderTaskEither<R, E, B> = /*#__PURE__*/ _.liftOption(_FromEither)
+
+/** @internal */
+const _FlatMap: _.FlatMap<ReaderTaskEitherTypeLambda> = {
+  flatMap
+}
 
 /**
  * @category sequencing
@@ -1240,20 +1255,13 @@ export const liftOption =
 export const flatMapOption: {
   <A, B, E2>(f: (a: A) => Option<B>, onNone: (a: A) => E2): <R, E1>(
     self: ReaderTaskEither<R, E1, A>
-  ) => ReaderTaskEither<R, E1 | E2, B>
+  ) => ReaderTaskEither<R, E2 | E1, B>
   <R, E1, A, B, E2>(self: ReaderTaskEither<R, E1, A>, f: (a: A) => Option<B>, onNone: (a: A) => E2): ReaderTaskEither<
     R,
     E1 | E2,
     B
   >
-} = /*#__PURE__*/ dual(
-  3,
-  <R, E1, A, B, E2>(
-    self: ReaderTaskEither<R, E1, A>,
-    f: (a: A) => Option<B>,
-    onNone: (a: A) => E2
-  ): ReaderTaskEither<R, E1 | E2, B> => flatMap(self, liftOption(f, onNone))
-)
+} = /*#__PURE__*/ _.flatMapOption(_FromEither, _FlatMap)
 
 /**
  * @category sequencing

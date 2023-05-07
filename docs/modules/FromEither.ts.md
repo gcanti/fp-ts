@@ -357,9 +357,9 @@ export declare function filterOrElse<M extends URIS2>(
   F: FromEither2<M>,
   M: Chain2<M>
 ): {
-  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: Kind2<M, E, A>) => Kind2<M, E, B>
-  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <B extends A>(mb: Kind2<M, E, B>) => Kind2<M, E, B>
-  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Kind2<M, E, A>) => Kind2<M, E, A>
+  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (self: Kind2<M, E, A>) => Kind2<M, E, B>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <B extends A>(self: Kind2<M, E, B>) => Kind2<M, E, B>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (self: Kind2<M, E, A>) => Kind2<M, E, A>
 }
 export declare function filterOrElse<M extends URIS2, E>(
   F: FromEither2C<M, E>,

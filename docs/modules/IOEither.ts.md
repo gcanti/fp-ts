@@ -86,6 +86,7 @@ Added in v2.0.0
   - [fromIOK](#fromiok)
   - [fromOptionK](#fromoptionk)
   - [fromPredicate](#frompredicate)
+  - [liftOption](#liftoption)
 - [mapping](#mapping)
   - [bimap](#bimap)
   - [flap](#flap)
@@ -109,6 +110,7 @@ Added in v2.0.0
   - [chainOptionK](#chainoptionk)
   - [chainOptionKW](#chainoptionkw)
   - [flatMap](#flatmap)
+  - [flatMapOption](#flatmapoption)
   - [flatten](#flatten)
   - [flattenW](#flattenw)
 - [traversing](#traversing)
@@ -869,6 +871,19 @@ export declare const fromPredicate: {
 
 Added in v2.0.0
 
+## liftOption
+
+**Signature**
+
+```ts
+export declare const liftOption: <A extends readonly unknown[], B, E>(
+  f: (...a: A) => Option<B>,
+  onNone: (...a: A) => E
+) => (...a: A) => IOEither<E, B>
+```
+
+Added in v2.15.0
+
 # mapping
 
 ## bimap
@@ -1121,6 +1136,19 @@ export declare const flatMap: {
 ```
 
 Added in v2.14.0
+
+## flatMapOption
+
+**Signature**
+
+```ts
+export declare const flatMapOption: {
+  <A, B, E2>(f: (a: A) => Option<B>, onNone: (a: A) => E2): <E1>(self: IOEither<E1, A>) => IOEither<E2 | E1, B>
+  <E1, A, B, E2>(self: IOEither<E1, A>, f: (a: A) => Option<B>, onNone: (a: A) => E2): IOEither<E1 | E2, B>
+}
+```
+
+Added in v2.15.0
 
 ## flatten
 

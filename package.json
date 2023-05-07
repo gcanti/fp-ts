@@ -37,6 +37,7 @@
   },
   "homepage": "https://github.com/gcanti/fp-ts",
   "devDependencies": {
+    "@effect/language-service": "^0.0.19",
     "@types/benchmark": "^1.0.31",
     "@types/chai": "^3.5.2",
     "@types/glob": "^7.1.3",
