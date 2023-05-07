@@ -66,6 +66,11 @@ high state of flux, you're at risk of it changing without notice.
   - `ReaderTaskEither`
   - `StateReaderTaskEither`
   - `TaskEither`
+- add `flatMapEither` (dual) to
+  - `IOEither`
+  - `ReaderEither`
+  - `ReaderTaskEither`
+  - `TaskEither`
 - `Array`
   - add index to `flatMap`
 - `NonEmptyArray`

@@ -222,3 +222,17 @@ export const flatMapOption = <F extends TypeLambda>(
       onNone: (a: A) => E2
     ): Kind<F, R, O, E1 | E2, B> => M.flatMap<R, O, E1, A, R, O, E2, B>(self, liftOption(F)(f, onNone))
   )
+
+/** @internal */
+export const flatMapEither = <F extends TypeLambda>(
+  F: FromEither<F>,
+  M: FlatMap<F>
+): {
+  <A, B, E2>(f: (a: A) => Either<E2, B>): <R, O, E1>(self: Kind<F, R, O, E1, A>) => Kind<F, R, O, E1 | E2, B>
+  <R, O, E1, A, B, E2>(self: Kind<F, R, O, E1, A>, f: (a: A) => Either<E2, B>): Kind<F, R, O, E1 | E2, B>
+} =>
+  /*#__PURE__*/ dual(
+    2,
+    <R, O, E1, A, B, E2>(self: Kind<F, R, O, E1, A>, f: (a: A) => Either<E2, B>): Kind<F, R, O, E1 | E2, B> =>
+      M.flatMap(self, (a) => F.fromEither(f(a)))
+  )

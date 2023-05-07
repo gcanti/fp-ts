@@ -24,7 +24,6 @@ import {
   partitionMap as partitionMap_
 } from './Filterable'
 import {
-  chainEitherK as chainEitherK_,
   chainFirstEitherK as chainFirstEitherK_,
   chainOptionK as chainOptionK_,
   filterOrElse as filterOrElse_,
@@ -850,23 +849,32 @@ export const flatMapOption: {
 
 /**
  * @category sequencing
+ * @since 2.15.0
+ */
+export const flatMapEither: {
+  <A, B, E2>(f: (a: A) => E.Either<E2, B>): <R, E1>(self: ReaderEither<R, E1, A>) => ReaderEither<R, E2 | E1, B>
+  <R, E1, A, B, E2>(self: ReaderEither<R, E1, A>, f: (a: A) => E.Either<E2, B>): ReaderEither<R, E1 | E2, B>
+} = /*#__PURE__*/ _.flatMapEither(_FromEither, _FlatMap)
+
+/**
+ * Alias of `flatMapEither`.
+ *
+ * @category legacy
  * @since 2.4.0
  */
 export const chainEitherK: <E, A, B>(
   f: (a: A) => E.Either<E, B>
-) => <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B> = /*#__PURE__*/ chainEitherK_(FromEither, Chain)
+) => <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B> = flatMapEither
 
 /**
- * Less strict version of [`chainEitherK`](#chaineitherk).
+ * Alias of `flatMapEither`.
  *
- * The `W` suffix (short for **W**idening) means that the error types will be merged.
- *
- * @category sequencing
+ * @category legacy
  * @since 2.6.1
  */
 export const chainEitherKW: <E2, A, B>(
   f: (a: A) => Either<E2, B>
-) => <R, E1>(ma: ReaderEither<R, E1, A>) => ReaderEither<R, E1 | E2, B> = chainEitherK as any
+) => <R, E1>(ma: ReaderEither<R, E1, A>) => ReaderEither<R, E1 | E2, B> = flatMapEither
 
 /**
  * @category sequencing
