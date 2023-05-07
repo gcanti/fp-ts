@@ -33,10 +33,10 @@ declare const readLine: T.Task<string>
 
 pipe(
   T.Do,
-  T.chainFirst(() => print('foo')),
-  T.chainFirst(() => print('bar')),
+  T.tap(() => print('foo')),
+  T.tap(() => print('bar')),
   T.bind('x', () => readLine),
-  T.chain(({ x }) => print(x))
+  T.flatMap(({ x }) => print(x))
 )
 ```
 
@@ -123,14 +123,16 @@ TypeScript
 
 ```ts
 // here TypeScript also provides exhaustiveness check
-const maybe = <A, B>(onNone: () => B, onSome: (a: A) => B) => (fa: Option<A>): B => {
-  switch (fa._tag) {
-    case 'None':
-      return onNone()
-    case 'Some':
-      return onSome(fa.value)
+const maybe =
+  <A, B>(onNone: () => B, onSome: (a: A) => B) =>
+  (fa: Option<A>): B => {
+    switch (fa._tag) {
+      case 'None':
+        return onNone()
+      case 'Some':
+        return onSome(fa.value)
+    }
   }
-}
 ```
 
 ## Type classes

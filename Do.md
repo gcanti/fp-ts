@@ -2,11 +2,11 @@
 
 **Cheatsheet**
 
-| Haskell       | TypeScript                      |
-| ------------- | ------------------------------- |
-| `a <- action` | `bind('a', (scope) => action)`  |
-| `_ <- action` | `chainFirst((scope) => action)` |
-| `return ...`  | `map((scope) => ...)`           |
+| Haskell       | TypeScript                     |
+| ------------- | ------------------------------ |
+| `a <- action` | `bind('a', (scope) => action)` |
+| `_ <- action` | `tap((scope) => action)`       |
+| `return ...`  | `map((scope) => ...)`          |
 
 **Example**
 
@@ -33,9 +33,9 @@ declare const getLine: T.Task<string>
 
 const nameDo: T.Task<void> = pipe(
   T.Do,
-  T.chainFirst(() => putStrLn('What is your first name? ')),
+  T.tap(() => putStrLn('What is your first name? ')),
   T.bind('first', () => getLine),
-  T.chainFirst(() => putStrLn('And your last name? ')),
+  T.tap(() => putStrLn('And your last name? ')),
   T.bind('last', () => getLine),
   T.bind('full', ({ first, last }) => T.of(first + ' ' + last)),
   T.flatMap(({ full }) => putStrLn('Pleased to meet you, ' + full + '!'))
