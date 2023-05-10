@@ -1,6 +1,3 @@
-/**
- * @since 2.10.0
- */
 import { Either, Left, Right } from './Either'
 import { dual } from './function'
 import { NonEmptyArray } from './NonEmptyArray'
@@ -86,10 +83,7 @@ export const fromReadonlyNonEmptyArray = <A>(as: ReadonlyNonEmptyArray<A>): NonE
 /** @internal */
 export declare const URI: unique symbol
 
-/**
- * @internal
- * @since 2.15.0
- */
+/** @internal */
 export interface TypeLambda {
   readonly In: unknown
   readonly Out2: unknown
@@ -97,10 +91,7 @@ export interface TypeLambda {
   readonly Target: unknown
 }
 
-/**
- * @internal
- * @since 2.15.0
- */
+/** @internal */
 export interface TypeClass<F extends TypeLambda> {
   readonly [URI]?: F
 }
@@ -127,10 +118,7 @@ export type Kind<F extends TypeLambda, In, Out2, Out1, Target> = F extends {
 // type classes
 // -------------------------------------------------------------------------------------
 
-/**
- * @internal
- * @since 2.15.0
- */
+/** @internal */
 export interface FromEither<F extends TypeLambda> extends TypeClass<F> {
   readonly fromEither: <R, O, E, A>(e: Either<E, A>) => Kind<F, R, O, E, A>
 }
@@ -155,10 +143,7 @@ export const liftOption =
     return F.fromEither(isNone(o) ? left(onNone(...a)) : right(o.value))
   }
 
-/**
- * @internal
- * @since 2.15.0
- */
+/** @internal */
 export interface FlatMap<F extends TypeLambda> extends TypeClass<F> {
   readonly flatMap: {
     <A, R2, O2, E2, B>(f: (a: A) => Kind<F, R2, O2, E2, B>): <R1, O1, E1>(

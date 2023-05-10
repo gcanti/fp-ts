@@ -1,1 +1,3 @@
-{}
+{
+  "exclude": ["src/internal.ts"]
+}
