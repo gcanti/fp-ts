@@ -21,6 +21,7 @@ Added in v2.0.0
 
 - [combinators](#combinators)
   - [tap](#tap)
+  - [tapEither](#tapeither)
 - [constructors](#constructors)
   - [left](#left)
   - [leftIO](#leftio)
@@ -91,6 +92,8 @@ Added in v2.0.0
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
   - [chainFirst](#chainfirst)
+  - [chainFirstEitherK](#chainfirsteitherk)
+  - [chainFirstEitherKW](#chainfirsteitherkw)
   - [chainFirstW](#chainfirstw)
   - [chainNullableK](#chainnullablek)
   - [chainOptionK](#chainoptionk)
@@ -123,8 +126,6 @@ Added in v2.0.0
   - [matchEW](#matchew)
   - [matchW](#matchw)
 - [sequencing](#sequencing)
-  - [chainFirstEitherK](#chainfirsteitherk)
-  - [chainFirstEitherKW](#chainfirsteitherkw)
   - [chainFirstIOK](#chainfirstiok)
   - [chainFirstTaskK](#chainfirsttaskk)
   - [chainIOEitherK](#chainioeitherk)
@@ -192,6 +193,43 @@ export declare const tap: {
 ```
 
 Added in v2.15.0
+
+## tapEither
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+**Signature**
+
+```ts
+export declare const tapEither: {
+  <E1, A, E2, _>(self: TaskEither<E1, A>, f: (a: A) => E.Either<E2, _>): TaskEither<E1 | E2, A>
+  <A, E2, _>(f: (a: A) => E.Either<E2, _>): <E1>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, A>
+}
+```
+
+**Example**
+
+```ts
+import * as E from 'fp-ts/Either'
+import { pipe } from 'fp-ts/function'
+import * as TE from 'fp-ts/TaskEither'
+
+const checkString = (value: string) =>
+  pipe(
+    TE.of(value),
+    TE.tapEither(() => (value.length > 0 ? E.right('ok') : E.left('error')))
+  )
+
+async function test() {
+  assert.deepStrictEqual(await checkString('')(), E.left('error'))
+  assert.deepStrictEqual(await checkString('fp-ts')(), E.right('fp-ts'))
+}
+
+test()
+```
+
+Added in v2.16.0
 
 # constructors
 
@@ -1091,6 +1129,38 @@ export declare const chainFirst: <E, A, B>(f: (a: A) => TaskEither<E, B>) => (ma
 
 Added in v2.0.0
 
+## chainFirstEitherK
+
+Alias of `tapEither`.
+
+**Signature**
+
+```ts
+export declare const chainFirstEitherK: <A, E, B>(
+  f: (a: A) => E.Either<E, B>
+) => (ma: TaskEither<E, A>) => TaskEither<E, A>
+```
+
+Added in v2.12.0
+
+## chainFirstEitherKW
+
+Alias of `tapEither`.
+
+Less strict version of [`chainFirstEitherK`](#chainfirsteitherk).
+
+The `W` suffix (short for **W**idening) means that the error types will be merged.
+
+**Signature**
+
+```ts
+export declare const chainFirstEitherKW: <A, E2, B>(
+  f: (a: A) => E.Either<E2, B>
+) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E2 | E1, A>
+```
+
+Added in v2.12.0
+
 ## chainFirstW
 
 Alias of `tap`.
@@ -1462,34 +1532,6 @@ export declare const matchW: <E, B, A, C>(
 Added in v2.10.0
 
 # sequencing
-
-## chainFirstEitherK
-
-**Signature**
-
-```ts
-export declare const chainFirstEitherK: <A, E, B>(
-  f: (a: A) => E.Either<E, B>
-) => (ma: TaskEither<E, A>) => TaskEither<E, A>
-```
-
-Added in v2.12.0
-
-## chainFirstEitherKW
-
-Less strict version of [`chainFirstEitherK`](#chainfirsteitherk).
-
-The `W` suffix (short for **W**idening) means that the error types will be merged.
-
-**Signature**
-
-```ts
-export declare const chainFirstEitherKW: <A, E2, B>(
-  f: (a: A) => E.Either<E2, B>
-) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E2 | E1, A>
-```
-
-Added in v2.12.0
 
 ## chainFirstIOK
 

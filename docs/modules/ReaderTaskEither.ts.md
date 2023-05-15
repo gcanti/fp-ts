@@ -14,6 +14,7 @@ Added in v2.0.0
 
 - [combinators](#combinators)
   - [tap](#tap)
+  - [tapEither](#tapeither)
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
@@ -92,6 +93,8 @@ Added in v2.0.0
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
   - [chainFirst](#chainfirst)
+  - [chainFirstEitherK](#chainfirsteitherk)
+  - [chainFirstEitherKW](#chainfirsteitherkw)
   - [chainFirstW](#chainfirstw)
   - [chainNullableK](#chainnullablek)
   - [chainOptionK](#chainoptionk)
@@ -128,8 +131,6 @@ Added in v2.0.0
   - [matchEW](#matchew)
   - [matchW](#matchw)
 - [sequencing](#sequencing)
-  - [chainFirstEitherK](#chainfirsteitherk)
-  - [chainFirstEitherKW](#chainfirsteitherkw)
   - [chainFirstIOK](#chainfirstiok)
   - [chainFirstReaderEitherK](#chainfirstreadereitherk)
   - [chainFirstReaderEitherKW](#chainfirstreadereitherkw)
@@ -222,6 +223,45 @@ export declare const tap: {
 ```
 
 Added in v2.15.0
+
+## tapEither
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+**Signature**
+
+```ts
+export declare const tapEither: {
+  <R1, E1, A, E2, _>(self: ReaderTaskEither<R1, E1, A>, f: (a: A) => E.Either<E2, _>): ReaderTaskEither<R1, E1 | E2, A>
+  <A, E2, _>(f: (a: A) => E.Either<E2, _>): <R1, E1>(
+    self: ReaderTaskEither<R1, E1, A>
+  ) => ReaderTaskEither<R1, E2 | E1, A>
+}
+```
+
+**Example**
+
+```ts
+import * as E from 'fp-ts/Either'
+import { pipe } from 'fp-ts/function'
+import * as RTE from 'fp-ts/ReaderTaskEither'
+
+const checkString = (value: string) =>
+  pipe(
+    RTE.ask<number>(),
+    RTE.tapEither((minLength) => (value.length > minLength ? E.right('ok') : E.left('error')))
+  )
+
+async function test() {
+  assert.deepStrictEqual(await checkString('')(2)(), E.left('error'))
+  assert.deepStrictEqual(await checkString('fp-ts')(2)(), E.right(2))
+}
+
+test()
+```
+
+Added in v2.16.0
 
 # constructors
 
@@ -1097,6 +1137,38 @@ export declare const chainFirst: <R, E, A, B>(
 
 Added in v2.0.0
 
+## chainFirstEitherK
+
+Alias of `tapEither`.
+
+**Signature**
+
+```ts
+export declare const chainFirstEitherK: <A, E, B>(
+  f: (a: A) => E.Either<E, B>
+) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
+```
+
+Added in v2.12.0
+
+## chainFirstEitherKW
+
+Alias of `tapEither`.
+
+Less strict version of [`chainFirstEitherK`](#chainfirsteitherk).
+
+The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
+
+**Signature**
+
+```ts
+export declare const chainFirstEitherKW: <A, E2, B>(
+  f: (a: A) => E.Either<E2, B>
+) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E2 | E1, A>
+```
+
+Added in v2.12.0
+
 ## chainFirstW
 
 Alias of `tap`.
@@ -1530,34 +1602,6 @@ export declare const matchW: <E, B, A, C>(
 Added in v2.10.0
 
 # sequencing
-
-## chainFirstEitherK
-
-**Signature**
-
-```ts
-export declare const chainFirstEitherK: <A, E, B>(
-  f: (a: A) => E.Either<E, B>
-) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
-```
-
-Added in v2.12.0
-
-## chainFirstEitherKW
-
-Less strict version of [`chainFirstEitherK`](#chainfirsteitherk).
-
-The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
-
-**Signature**
-
-```ts
-export declare const chainFirstEitherKW: <A, E2, B>(
-  f: (a: A) => E.Either<E2, B>
-) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E2 | E1, A>
-```
-
-Added in v2.12.0
 
 ## chainFirstIOK
 

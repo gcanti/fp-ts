@@ -30,14 +30,14 @@ import {
   partitionMap as partitionMap_
 } from './Filterable'
 import {
-  chainFirstEitherK as chainFirstEitherK_,
   chainOptionK as chainOptionK_,
   filterOrElse as filterOrElse_,
   FromEither2,
   fromEitherK as fromEitherK_,
   fromOption as fromOption_,
   fromOptionK as fromOptionK_,
-  fromPredicate as fromPredicate_
+  fromPredicate as fromPredicate_,
+  tapEither as tapEither_
 } from './FromEither'
 import { chainFirstIOK as chainFirstIOK_, chainIOK as chainIOK_, FromIO2, fromIOK as fromIOK_ } from './FromIO'
 import { dual, flow, identity, LazyArg, pipe, SK } from './function'
@@ -614,6 +614,15 @@ export const Monad: Monad2<URI> = {
 }
 
 /**
+ * @category instances
+ * @since 2.10.0
+ */
+export const FromEither: FromEither2<URI> = {
+  URI,
+  fromEither
+}
+
+/**
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
@@ -624,6 +633,31 @@ export const tap: {
   <E1, A, E2, _>(self: IOEither<E1, A>, f: (a: A) => IOEither<E2, _>): IOEither<E1 | E2, A>
   <A, E2, _>(f: (a: A) => IOEither<E2, _>): <E1>(self: IOEither<E1, A>) => IOEither<E2 | E1, A>
 } = /*#__PURE__*/ dual(2, chainable.tap(Chain))
+
+/**
+ * Composes computations in sequence, using the return value of one computation to determine the next computation and
+ * keeping only the result of the first.
+ *
+ * @example
+ * import { pipe } from 'fp-ts/function'
+ * import * as IOE from 'fp-ts/IOEither'
+ * import * as E from 'fp-ts/Either'
+ *
+ * const compute = (value: string) => pipe(
+ *   IOE.of(value),
+ *   IOE.tapEither(() => value.length > 0 ? E.right('ok') : E.left('error')),
+ * )
+ *
+ * assert.deepStrictEqual(compute('')(), E.left('error'))
+ * assert.deepStrictEqual(compute('fp-ts')(), E.right('fp-ts'))
+ *
+ * @category combinators
+ * @since 2.16.0
+ */
+export const tapEither: {
+  <E1, A, E2, _>(self: IOEither<E1, A>, f: (a: A) => Either<E2, _>): IOEither<E1 | E2, A>
+  <A, E2, _>(f: (a: A) => Either<E2, _>): <E1>(self: IOEither<E1, A>) => IOEither<E2 | E1, A>
+} = /*#__PURE__*/ dual(2, tapEither_(FromEither, Chain))
 
 /**
  * @category instances
@@ -691,15 +725,6 @@ export const chainIOK: <A, B>(f: (a: A) => I.IO<B>) => <E>(first: IOEither<E, A>
  */
 export const chainFirstIOK: <A, B>(f: (a: A) => I.IO<B>) => <E>(first: IOEither<E, A>) => IOEither<E, A> =
   /*#__PURE__*/ chainFirstIOK_(FromIO, Chain)
-
-/**
- * @category instances
- * @since 2.10.0
- */
-export const FromEither: FromEither2<URI> = {
-  URI,
-  fromEither
-}
 
 /**
  * @category conversions
@@ -828,21 +853,25 @@ export const chainEitherKW: <E2, A, B>(
 ) => <E1>(ma: IOEither<E1, A>) => IOEither<E1 | E2, B> = flatMapEither
 
 /**
- * @category sequencing
+ * Alias of `tapEither`.
+ *
+ * @category legacy
  * @since 2.12.0
  */
 export const chainFirstEitherK: <A, E, B>(f: (a: A) => E.Either<E, B>) => (ma: IOEither<E, A>) => IOEither<E, A> =
-  /*#__PURE__*/ chainFirstEitherK_(FromEither, Chain)
+  tapEither
 
 /**
+ * Alias of `tapEither`.
+ *
  * The `W` suffix (short for **W**idening) means that the error types will be merged.
  *
- * @category sequencing
+ * @category legacy
  * @since 2.12.0
  */
 export const chainFirstEitherKW: <A, E2, B>(
   f: (a: A) => E.Either<E2, B>
-) => <E1>(ma: IOEither<E1, A>) => IOEither<E1 | E2, A> = chainFirstEitherK as any
+) => <E1>(ma: IOEither<E1, A>) => IOEither<E1 | E2, A> = tapEither
 
 /**
  * @category lifting
