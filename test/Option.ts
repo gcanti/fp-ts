@@ -545,6 +545,13 @@ describe.concurrent('Option', () => {
     )
   })
 
+  it('tapEither', async () => {
+    const f = (s: string) => E.right(s.length)
+    U.deepStrictEqual(pipe(_.some('a'), _.tapEither(f)), _.some('a'))
+    const g = (s: string) => E.left(s.length)
+    U.deepStrictEqual(pipe(_.some('a'), _.tapEither(g)), _.none)
+  })
+
   it('chainFirstEitherK', async () => {
     const f = (s: string) => E.right(s.length)
     U.deepStrictEqual(pipe(_.some('a'), _.chainFirstEitherK(f)), _.some('a'))

@@ -73,6 +73,7 @@ Added in v2.0.0
 
 - [combinators](#combinators)
   - [tap](#tap)
+  - [tapEither](#tapeither)
 - [constructors](#constructors)
   - [getLeft](#getleft)
   - [getRight](#getright)
@@ -137,6 +138,7 @@ Added in v2.0.0
 - [legacy](#legacy)
   - [chain](#chain)
   - [chainFirst](#chainfirst)
+  - [chainFirstEitherK](#chainfirsteitherk)
 - [lifting](#lifting)
   - [fromEitherK](#fromeitherk)
   - [fromNullableK](#fromnullablek)
@@ -158,7 +160,6 @@ Added in v2.0.0
   - [isSome](#issome)
 - [sequencing](#sequencing)
   - [chainEitherK](#chaineitherk)
-  - [chainFirstEitherK](#chainfirsteitherk)
   - [chainNullableK](#chainnullablek)
   - [flatMap](#flatmap)
   - [flatten](#flatten)
@@ -212,6 +213,39 @@ export declare const tap: {
 ```
 
 Added in v2.15.0
+
+## tapEither
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+**Signature**
+
+```ts
+export declare const tapEither: {
+  <A, E, _>(self: Option<A>, f: (a: A) => Either<E, _>): Option<A>
+  <A, E, _>(f: (a: A) => Either<E, _>): (self: Option<A>) => Option<A>
+}
+```
+
+**Example**
+
+```ts
+import { pipe } from 'fp-ts/function'
+import * as O from 'fp-ts/Option'
+import * as E from 'fp-ts/Either'
+
+const compute = (value: number) =>
+  pipe(
+    O.of(value),
+    O.tapEither((value) => (value > 0 ? E.right('ok') : E.left('error')))
+  )
+
+assert.deepStrictEqual(compute(1), O.of(1))
+assert.deepStrictEqual(compute(-42), O.none)
+```
+
+Added in v2.16.0
 
 # constructors
 
@@ -1034,6 +1068,18 @@ export declare const chainFirst: <A, B>(f: (a: A) => Option<B>) => (first: Optio
 
 Added in v2.0.0
 
+## chainFirstEitherK
+
+Alias of `tapEither`.
+
+**Signature**
+
+```ts
+export declare const chainFirstEitherK: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Option<A>) => Option<A>
+```
+
+Added in v2.12.0
+
 # lifting
 
 ## fromEitherK
@@ -1299,16 +1345,6 @@ export declare const chainEitherK: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: 
 ```
 
 Added in v2.11.0
-
-## chainFirstEitherK
-
-**Signature**
-
-```ts
-export declare const chainFirstEitherK: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Option<A>) => Option<A>
-```
-
-Added in v2.12.0
 
 ## chainNullableK
 

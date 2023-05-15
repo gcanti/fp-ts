@@ -10,14 +10,14 @@ import * as E from './Either'
 import { Endomorphism } from './Endomorphism'
 import {
   chainEitherK as chainEitherK_,
-  chainFirstEitherK as chainFirstEitherK_,
   chainOptionK as chainOptionK_,
   filterOrElse as filterOrElse_,
   FromEither4,
   fromEitherK as fromEitherK_,
   fromOption as fromOption_,
   fromOptionK as fromOptionK_,
-  fromPredicate as fromPredicate_
+  fromPredicate as fromPredicate_,
+  tapEither as tapEither_
 } from './FromEither'
 import { chainFirstIOK as chainFirstIOK_, chainIOK as chainIOK_, FromIO4, fromIOK as fromIOK_ } from './FromIO'
 import {
@@ -737,6 +737,15 @@ export const MonadThrow: MonadThrow4<URI> = {
 }
 
 /**
+ * @category instances
+ * @since 2.10.0
+ */
+export const FromEither: FromEither4<URI> = {
+  URI,
+  fromEither
+}
+
+/**
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
@@ -752,6 +761,25 @@ export const tap: {
     self: StateReaderTaskEither<S, R1, E1, A>
   ) => StateReaderTaskEither<S, R1 & R2, E2 | E1, A>
 } = /*#__PURE__*/ dual(2, chainable.tap(Chain))
+
+/**
+ * Composes computations in sequence, using the return value of one computation to determine the next computation and
+ * keeping only the result of the first.
+ *
+ * @category combinators
+ * @since 2.16.0
+ */
+export const tapEither: {
+  <S, R1, E1, A, E2, _>(self: StateReaderTaskEither<S, R1, E1, A>, f: (a: A) => Either<E2, _>): StateReaderTaskEither<
+    S,
+    R1,
+    E1 | E2,
+    A
+  >
+  <A, S, E2, _>(f: (a: A) => Either<E2, _>): <R1, E1>(
+    self: StateReaderTaskEither<S, R1, E1, A>
+  ) => StateReaderTaskEither<S, R1, E2 | E1, A>
+} = /*#__PURE__*/ dual(2, tapEither_(FromEither, Chain))
 
 /**
  * @category instances
@@ -853,15 +881,6 @@ export const chainFirstReaderKW: <A, R1, B>(
   chainFirstReaderK as any
 
 /**
- * @category instances
- * @since 2.10.0
- */
-export const FromEither: FromEither4<URI> = {
-  URI,
-  fromEither
-}
-
-/**
  * @category conversions
  * @since 2.0.0
  */
@@ -933,26 +952,28 @@ export const chainEitherKW: <E2, A, B>(
 ) => <S, R, E1>(ma: StateReaderTaskEither<S, R, E1, A>) => StateReaderTaskEither<S, R, E1 | E2, B> = chainEitherK as any
 
 /**
- * @category sequencing
+ * Alias of `tapEither`.
+ *
+ * @category legacy
  * @since 2.12.0
  */
 export const chainFirstEitherK: <A, E, B>(
   f: (a: A) => E.Either<E, B>
-) => <S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A> =
-  /*#__PURE__*/ chainFirstEitherK_(FromEither, Chain)
+) => <S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A> = tapEither
 
 /**
+ * Alias of `tapEither`.
+ *
  * Less strict version of [`chainFirstEitherK`](#chainfirsteitherk).
  *
  * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
  *
- * @category sequencing
+ * @category legacy
  * @since 2.12.0
  */
 export const chainFirstEitherKW: <A, E2, B>(
   f: (a: A) => Either<E2, B>
-) => <S, R, E1>(ma: StateReaderTaskEither<S, R, E1, A>) => StateReaderTaskEither<S, R, E1 | E2, A> =
-  chainFirstEitherK as any
+) => <S, R, E1>(ma: StateReaderTaskEither<S, R, E1, A>) => StateReaderTaskEither<S, R, E1 | E2, A> = tapEither
 
 /**
  * @category lifting

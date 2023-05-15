@@ -14,6 +14,7 @@ Added in v2.10.0
 
 - [combinators](#combinators)
   - [tap](#tap)
+  - [tapEither](#tapeither)
 - [constructors](#constructors)
   - [none](#none)
   - [of](#of)
@@ -69,6 +70,7 @@ Added in v2.10.0
 - [legacy](#legacy)
   - [chain](#chain)
   - [chainFirst](#chainfirst)
+  - [chainFirstEitherK](#chainfirsteitherk)
 - [lifting](#lifting)
   - [fromEitherK](#fromeitherk)
   - [fromIOK](#fromiok)
@@ -90,7 +92,6 @@ Added in v2.10.0
   - [matchW](#matchw)
 - [sequencing](#sequencing)
   - [chainEitherK](#chaineitherk)
-  - [chainFirstEitherK](#chainfirsteitherk)
   - [chainFirstIOK](#chainfirstiok)
   - [chainFirstTaskK](#chainfirsttaskk)
   - [chainIOK](#chainiok)
@@ -139,6 +140,44 @@ export declare const tap: {
 ```
 
 Added in v2.15.0
+
+## tapEither
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+**Signature**
+
+```ts
+export declare const tapEither: {
+  <A, E, _>(self: TaskOption<A>, f: (a: A) => Either<E, _>): TaskOption<A>
+  <A, E, _>(f: (a: A) => Either<E, _>): (self: TaskOption<A>) => TaskOption<A>
+}
+```
+
+**Example**
+
+```ts
+import { pipe } from 'fp-ts/function'
+import * as TO from 'fp-ts/TaskOption'
+import * as O from 'fp-ts/Option'
+import * as E from 'fp-ts/Either'
+
+const compute = (value: number) =>
+  pipe(
+    TO.of(value),
+    TO.tapEither((value) => (value > 0 ? E.right('ok') : E.left('error')))
+  )
+
+async function test() {
+  assert.deepStrictEqual(await compute(1)(), O.of(1))
+  assert.deepStrictEqual(await compute(-1)(), O.none)
+}
+
+test()
+```
+
+Added in v2.16.0
 
 # constructors
 
@@ -673,6 +712,18 @@ export declare const chainFirst: <A, B>(f: (a: A) => TaskOption<B>) => (first: T
 
 Added in v2.10.0
 
+## chainFirstEitherK
+
+Alias of `tapEither`.
+
+**Signature**
+
+```ts
+export declare const chainFirstEitherK: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: TaskOption<A>) => TaskOption<A>
+```
+
+Added in v2.12.0
+
 # lifting
 
 ## fromEitherK
@@ -880,16 +931,6 @@ Added in v2.10.0
 
 ```ts
 export declare const chainEitherK: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: TaskOption<A>) => TaskOption<B>
-```
-
-Added in v2.12.0
-
-## chainFirstEitherK
-
-**Signature**
-
-```ts
-export declare const chainFirstEitherK: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: TaskOption<A>) => TaskOption<A>
 ```
 
 Added in v2.12.0

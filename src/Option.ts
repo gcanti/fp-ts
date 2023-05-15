@@ -79,9 +79,9 @@ import { Filterable1 } from './Filterable'
 import { Foldable1 } from './Foldable'
 import {
   chainEitherK as chainEitherK_,
-  chainFirstEitherK as chainFirstEitherK_,
   FromEither1,
-  fromEitherK as fromEitherK_
+  fromEitherK as fromEitherK_,
+  tapEither as tapEither_
 } from './FromEither'
 import { constNull, constUndefined, dual, flow, identity, LazyArg, pipe } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1, let as let__ } from './Functor'
@@ -940,6 +940,31 @@ export const tap: {
 } = /*#__PURE__*/ dual(2, chainable.tap(Chain))
 
 /**
+ * Composes computations in sequence, using the return value of one computation to determine the next computation and
+ * keeping only the result of the first.
+ *
+ * @example
+ * import { pipe } from 'fp-ts/function'
+ * import * as O from 'fp-ts/Option'
+ * import * as E from 'fp-ts/Either'
+ *
+ * const compute = (value: number) => pipe(
+ *   O.of(value),
+ *   O.tapEither((value) => value > 0 ? E.right('ok') : E.left('error')),
+ * )
+ *
+ * assert.deepStrictEqual(compute(1), O.of(1))
+ * assert.deepStrictEqual(compute(-42), O.none)
+ *
+ * @category combinators
+ * @since 2.16.0
+ */
+export const tapEither: {
+  <A, E, _>(self: Option<A>, f: (a: A) => Either<E, _>): Option<A>
+  <A, E, _>(f: (a: A) => Either<E, _>): (self: Option<A>) => Option<A>
+} = /*#__PURE__*/ dual(2, tapEither_(FromEither, Chain))
+
+/**
  * @since 2.0.0
  */
 export const duplicate: <A>(ma: Option<A>) => Option<Option<A>> = /*#__PURE__*/ extend(identity)
@@ -960,11 +985,12 @@ export const chainEitherK: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Option<A
   /*#__PURE__*/ chainEitherK_(FromEither, Chain)
 
 /**
- * @category sequencing
+ * Alias of `tapEither`.
+ *
+ * @category legacy
  * @since 2.12.0
  */
-export const chainFirstEitherK: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Option<A>) => Option<A> =
-  /*#__PURE__*/ chainFirstEitherK_(FromEither, Chain)
+export const chainFirstEitherK: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Option<A>) => Option<A> = tapEither
 
 /**
  * Constructs a new `Option` from a nullable type. If the value is `null` or `undefined`, returns `None`, otherwise

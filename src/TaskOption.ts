@@ -17,9 +17,9 @@ import {
 } from './Filterable'
 import {
   chainEitherK as chainEitherK_,
-  chainFirstEitherK as chainFirstEitherK_,
   FromEither1,
-  fromEitherK as fromEitherK_
+  fromEitherK as fromEitherK_,
+  tapEither as tapEither_
 } from './FromEither'
 import { chainFirstIOK as chainFirstIOK_, chainIOK as chainIOK_, FromIO1, fromIOK as fromIOK_ } from './FromIO'
 import {
@@ -513,6 +513,15 @@ export const Chain: chainable.Chain1<URI> = {
 }
 
 /**
+ * @category instances
+ * @since 2.11.0
+ */
+export const FromEither: FromEither1<URI> = {
+  URI,
+  fromEither
+}
+
+/**
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
@@ -523,6 +532,36 @@ export const tap: {
   <A, _>(self: TaskOption<A>, f: (a: A) => TaskOption<_>): TaskOption<A>
   <A, _>(f: (a: A) => TaskOption<_>): (self: TaskOption<A>) => TaskOption<A>
 } = /*#__PURE__*/ dual(2, chainable.tap(Chain))
+
+/**
+ * Composes computations in sequence, using the return value of one computation to determine the next computation and
+ * keeping only the result of the first.
+ *
+ * @example
+ * import { pipe } from 'fp-ts/function'
+ * import * as TO from 'fp-ts/TaskOption'
+ * import * as O from 'fp-ts/Option'
+ * import * as E from 'fp-ts/Either'
+ *
+ * const compute = (value: number) => pipe(
+ *   TO.of(value),
+ *   TO.tapEither((value) => value > 0 ? E.right('ok') : E.left('error')),
+ * )
+ *
+ * async function test() {
+ *   assert.deepStrictEqual(await compute(1)(), O.of(1))
+ *   assert.deepStrictEqual(await compute(-1)(), O.none)
+ * }
+ *
+ * test()
+ *
+ * @category combinators
+ * @since 2.16.0
+ */
+export const tapEither: {
+  <A, E, _>(self: TaskOption<A>, f: (a: A) => Either<E, _>): TaskOption<A>
+  <A, E, _>(f: (a: A) => Either<E, _>): (self: TaskOption<A>) => TaskOption<A>
+} = /*#__PURE__*/ dual(2, tapEither_(FromEither, Chain))
 
 /**
  * @category instances
@@ -659,15 +698,6 @@ export const chainFirstIOK: <A, B>(f: (a: A) => IO<B>) => (first: TaskOption<A>)
   /*#__PURE__*/ chainFirstIOK_(FromIO, Chain)
 
 /**
- * @category instances
- * @since 2.11.0
- */
-export const FromEither: FromEither1<URI> = {
-  URI,
-  fromEither
-}
-
-/**
  * @category lifting
  * @since 2.12.0
  */
@@ -683,11 +713,12 @@ export const chainEitherK: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: TaskOpti
   /*#__PURE__*/ chainEitherK_(FromEither, Chain)
 
 /**
- * @category sequencing
+ * Alias of `tapEither`.
+ *
+ * @category legacy
  * @since 2.12.0
  */
-export const chainFirstEitherK: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: TaskOption<A>) => TaskOption<A> =
-  /*#__PURE__*/ chainFirstEitherK_(FromEither, Chain)
+export const chainFirstEitherK: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: TaskOption<A>) => TaskOption<A> = tapEither
 
 /**
  * @category instances

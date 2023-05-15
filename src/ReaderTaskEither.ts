@@ -25,14 +25,14 @@ import {
   partitionMap as partitionMap_
 } from './Filterable'
 import {
-  chainFirstEitherK as chainFirstEitherK_,
   chainOptionK as chainOptionK_,
   filterOrElse as filterOrElse_,
   FromEither3,
   fromEitherK as fromEitherK_,
   fromOption as fromOption_,
   fromOptionK as fromOptionK_,
-  fromPredicate as fromPredicate_
+  fromPredicate as fromPredicate_,
+  tapEither as tapEither_
 } from './FromEither'
 import { chainFirstIOK as chainFirstIOK_, chainIOK as chainIOK_, FromIO3, fromIOK as fromIOK_ } from './FromIO'
 import {
@@ -968,6 +968,15 @@ export const MonadThrow: MonadThrow3<URI> = {
 }
 
 /**
+ * @category instances
+ * @since 2.10.0
+ */
+export const FromEither: FromEither3<URI> = {
+  URI,
+  fromEither
+}
+
+/**
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
@@ -984,6 +993,37 @@ export const tap: {
     self: ReaderTaskEither<R1, E1, A>
   ) => ReaderTaskEither<R1 & R2, E2 | E1, A>
 } = /*#__PURE__*/ dual(2, chainable.tap(Chain))
+
+/**
+ * Composes computations in sequence, using the return value of one computation to determine the next computation and
+ * keeping only the result of the first.
+ *
+ * @example
+ * import * as E from 'fp-ts/Either'
+ * import { pipe } from 'fp-ts/function'
+ * import * as RTE from 'fp-ts/ReaderTaskEither'
+ *
+ * const checkString = (value: string) => pipe(
+ *   RTE.ask<number>(),
+ *   RTE.tapEither((minLength) => value.length > minLength ? E.right('ok') : E.left('error'))
+ * )
+ *
+ * async function test() {
+ *   assert.deepStrictEqual(await checkString('')(2)(), E.left('error'))
+ *   assert.deepStrictEqual(await checkString('fp-ts')(2)(), E.right(2))
+ * }
+ *
+ * test()
+ *
+ * @category combinators
+ * @since 2.16.0
+ */
+export const tapEither: {
+  <R1, E1, A, E2, _>(self: ReaderTaskEither<R1, E1, A>, f: (a: A) => Either<E2, _>): ReaderTaskEither<R1, E1 | E2, A>
+  <A, E2, _>(f: (a: A) => Either<E2, _>): <R1, E1>(
+    self: ReaderTaskEither<R1, E1, A>
+  ) => ReaderTaskEither<R1, E2 | E1, A>
+} = /*#__PURE__*/ dual(2, tapEither_(FromEither, Chain))
 
 /**
  * @category instances
@@ -1180,15 +1220,6 @@ export const chainFirstReaderIOK: <A, R, B>(
 ) => <E>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A> = chainFirstReaderIOKW
 
 /**
- * @category instances
- * @since 2.10.0
- */
-export const FromEither: FromEither3<URI> = {
-  URI,
-  fromEither
-}
-
-/**
  * @category conversions
  * @since 2.0.0
  */
@@ -1322,27 +1353,28 @@ export const chainEitherKW: <E2, A, B>(
 ) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E1 | E2, B> = flatMapEither
 
 /**
- * @category sequencing
+ * Alias of `tapEither`.
+ *
+ * @category legacy
  * @since 2.12.0
  */
 export const chainFirstEitherK: <A, E, B>(
   f: (a: A) => E.Either<E, B>
-) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A> = /*#__PURE__*/ chainFirstEitherK_(
-  FromEither,
-  Chain
-)
+) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A> = tapEither
 
 /**
+ * Alias of `tapEither`.
+ *
  * Less strict version of [`chainFirstEitherK`](#chainfirsteitherk).
  *
  * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
  *
- * @category sequencing
+ * @category legacy
  * @since 2.12.0
  */
 export const chainFirstEitherKW: <A, E2, B>(
   f: (a: A) => Either<E2, B>
-) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E1 | E2, A> = chainFirstEitherK as any
+) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E1 | E2, A> = tapEither
 
 /**
  * @category lifting
