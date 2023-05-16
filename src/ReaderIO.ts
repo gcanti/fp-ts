@@ -4,7 +4,7 @@
 import { Applicative2 } from './Applicative'
 import { apFirst as apFirst_, Apply2, apS as apS_, apSecond as apSecond_ } from './Apply'
 import * as chainable from './Chain'
-import { chainFirstIOK as chainFirstIOK_, chainIOK as chainIOK_, FromIO2, fromIOK as fromIOK_ } from './FromIO'
+import { chainIOK as chainIOK_, FromIO2, fromIOK as fromIOK_, tapIO as tapIO_ } from './FromIO'
 import {
   ask as ask_,
   asks as asks_,
@@ -255,6 +255,15 @@ export const MonadIO: MonadIO2<URI> = {
 }
 
 /**
+ * @category instances
+ * @since 2.13.0
+ */
+export const FromIO: FromIO2<URI> = {
+  URI,
+  fromIO
+}
+
+/**
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
@@ -267,13 +276,33 @@ export const tap: {
 } = /*#__PURE__*/ dual(2, chainable.tap(Chain))
 
 /**
- * @category instances
- * @since 2.13.0
+ * Composes computations in sequence, using the return value of one computation to determine the next computation and
+ * keeping only the result of the first.
+ *
+ * @example
+ * import { pipe } from 'fp-ts/function'
+ * import * as RIO from 'fp-ts/ReaderIO'
+ * import * as Console from 'fp-ts/Console'
+ *
+ * // Will produce `Hello, fp-ts` to the stdout
+ * const effect = pipe(
+ *   RIO.ask<string>(),
+ *   RIO.tapIO((value) => Console.log(`Hello, ${value}`)),
+ * )
+ *
+ * async function test() {
+ *   assert.deepStrictEqual(effect('fp-ts')(), 'fp-ts')
+ * }
+ *
+ * test()
+ *
+ * @category combinators
+ * @since 2.16.0
  */
-export const FromIO: FromIO2<URI> = {
-  URI,
-  fromIO
-}
+export const tapIO: {
+  <R, A, _>(self: ReaderIO<R, A>, f: (a: A) => IO<_>): ReaderIO<R, A>
+  <A, _>(f: (a: A) => IO<_>): <R>(self: ReaderIO<R, A>) => ReaderIO<R, A>
+} = /*#__PURE__*/ dual(2, tapIO_(FromIO, Chain))
 
 /**
  * @category lifting
@@ -291,11 +320,12 @@ export const chainIOK: <A, B>(f: (a: A) => I.IO<B>) => <E>(first: ReaderIO<E, A>
   /*#__PURE__*/ chainIOK_(FromIO, Chain)
 
 /**
- * @category sequencing
+ * Alias of `tapIO`.
+ *
+ * @category legacy
  * @since 2.13.0
  */
-export const chainFirstIOK: <A, B>(f: (a: A) => I.IO<B>) => <E>(first: ReaderIO<E, A>) => ReaderIO<E, A> =
-  /*#__PURE__*/ chainFirstIOK_(FromIO, Chain)
+export const chainFirstIOK: <A, B>(f: (a: A) => I.IO<B>) => <E>(first: ReaderIO<E, A>) => ReaderIO<E, A> = tapIO
 
 /**
  * @category instances

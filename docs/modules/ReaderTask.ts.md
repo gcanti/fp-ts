@@ -14,6 +14,7 @@ Added in v2.3.0
 
 - [combinators](#combinators)
   - [tap](#tap)
+  - [tapIO](#tapio)
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
@@ -50,6 +51,7 @@ Added in v2.3.0
 - [legacy](#legacy)
   - [chain](#chain)
   - [chainFirst](#chainfirst)
+  - [chainFirstIOK](#chainfirstiok)
   - [chainFirstW](#chainfirstw)
   - [chainW](#chainw)
 - [lifting](#lifting)
@@ -63,7 +65,6 @@ Added in v2.3.0
 - [model](#model)
   - [ReaderTask (interface)](#readertask-interface)
 - [sequencing](#sequencing)
-  - [chainFirstIOK](#chainfirstiok)
   - [chainFirstReaderIOK](#chainfirstreaderiok)
   - [chainFirstReaderIOKW](#chainfirstreaderiokw)
   - [chainFirstReaderK](#chainfirstreaderk)
@@ -125,6 +126,42 @@ export declare const tap: {
 ```
 
 Added in v2.15.0
+
+## tapIO
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+**Signature**
+
+```ts
+export declare const tapIO: {
+  <R, A, _>(self: ReaderTask<R, A>, f: (a: A) => IO<_>): ReaderTask<R, A>
+  <A, _>(f: (a: A) => IO<_>): <R>(self: ReaderTask<R, A>) => ReaderTask<R, A>
+}
+```
+
+**Example**
+
+```ts
+import { pipe } from 'fp-ts/function'
+import * as RT from 'fp-ts/ReaderTask'
+import * as Console from 'fp-ts/Console'
+
+// Will produce `Hello, fp-ts` to the stdout
+const effect = pipe(
+  RT.ask<string>(),
+  RT.tapIO((value) => Console.log(`Hello, ${value}`))
+)
+
+async function test() {
+  assert.deepStrictEqual(await effect('fp-ts')(), 'fp-ts')
+}
+
+test()
+```
+
+Added in v2.16.0
 
 # constructors
 
@@ -491,6 +528,18 @@ export declare const chainFirst: <A, R, B>(
 
 Added in v2.3.0
 
+## chainFirstIOK
+
+Alias of `tapIO`.
+
+**Signature**
+
+```ts
+export declare const chainFirstIOK: <A, B>(f: (a: A) => IO<B>) => <R>(first: ReaderTask<R, A>) => ReaderTask<R, A>
+```
+
+Added in v2.10.0
+
 ## chainFirstW
 
 Alias of `tap`.
@@ -609,16 +658,6 @@ export interface ReaderTask<R, A> {
 Added in v2.3.0
 
 # sequencing
-
-## chainFirstIOK
-
-**Signature**
-
-```ts
-export declare const chainFirstIOK: <A, B>(f: (a: A) => IO<B>) => <R>(first: ReaderTask<R, A>) => ReaderTask<R, A>
-```
-
-Added in v2.10.0
 
 ## chainFirstReaderIOK
 

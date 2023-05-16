@@ -23,6 +23,7 @@ Added in v2.0.0
 
 - [combinators](#combinators)
   - [tap](#tap)
+  - [tapIO](#tapio)
 - [constructors](#constructors)
   - [of](#of)
 - [conversions](#conversions)
@@ -50,6 +51,7 @@ Added in v2.0.0
 - [legacy](#legacy)
   - [chain](#chain)
   - [chainFirst](#chainfirst)
+  - [chainFirstIOK](#chainfirstiok)
 - [lifting](#lifting)
   - [fromIOK](#fromiok)
 - [mapping](#mapping)
@@ -58,7 +60,6 @@ Added in v2.0.0
 - [model](#model)
   - [Task (interface)](#task-interface)
 - [sequencing](#sequencing)
-  - [chainFirstIOK](#chainfirstiok)
   - [chainIOK](#chainiok)
   - [flatMap](#flatmap)
   - [flatten](#flatten)
@@ -109,6 +110,42 @@ export declare const tap: {
 ```
 
 Added in v2.15.0
+
+## tapIO
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+**Signature**
+
+```ts
+export declare const tapIO: {
+  <A, _>(self: Task<A>, f: (a: A) => IO<_>): Task<A>
+  <A, _>(f: (a: A) => IO<_>): (self: Task<A>) => Task<A>
+}
+```
+
+**Example**
+
+```ts
+import { pipe } from 'fp-ts/function'
+import * as T from 'fp-ts/Task'
+import * as Console from 'fp-ts/Console'
+
+// Will produce `Hello, fp-ts` to the stdout
+const effect = pipe(
+  T.of('fp-ts'),
+  T.tapIO((value) => Console.log(`Hello, ${value}`))
+)
+
+async function test() {
+  assert.deepStrictEqual(await effect(), 'fp-ts')
+}
+
+test()
+```
+
+Added in v2.16.0
 
 # constructors
 
@@ -380,6 +417,18 @@ export declare const chainFirst: <A, B>(f: (a: A) => Task<B>) => (first: Task<A>
 
 Added in v2.0.0
 
+## chainFirstIOK
+
+Alias of `tapIO`.
+
+**Signature**
+
+```ts
+export declare const chainFirstIOK: <A, B>(f: (a: A) => IO<B>) => (first: Task<A>) => Task<A>
+```
+
+Added in v2.10.0
+
 # lifting
 
 ## fromIOK
@@ -432,16 +481,6 @@ export interface Task<A> {
 Added in v2.0.0
 
 # sequencing
-
-## chainFirstIOK
-
-**Signature**
-
-```ts
-export declare const chainFirstIOK: <A, B>(f: (a: A) => IO<B>) => (first: Task<A>) => Task<A>
-```
-
-Added in v2.10.0
 
 ## chainIOK
 

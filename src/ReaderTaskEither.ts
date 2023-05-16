@@ -34,7 +34,7 @@ import {
   fromPredicate as fromPredicate_,
   tapEither as tapEither_
 } from './FromEither'
-import { chainFirstIOK as chainFirstIOK_, chainIOK as chainIOK_, FromIO3, fromIOK as fromIOK_ } from './FromIO'
+import { chainIOK as chainIOK_, FromIO3, fromIOK as fromIOK_, tapIO as tapIO_ } from './FromIO'
 import {
   ask as ask_,
   asks as asks_,
@@ -977,6 +977,15 @@ export const FromEither: FromEither3<URI> = {
 }
 
 /**
+ * @category instances
+ * @since 2.10.0
+ */
+export const FromIO: FromIO3<URI> = {
+  URI,
+  fromIO
+}
+
+/**
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
@@ -1024,6 +1033,36 @@ export const tapEither: {
     self: ReaderTaskEither<R1, E1, A>
   ) => ReaderTaskEither<R1, E2 | E1, A>
 } = /*#__PURE__*/ dual(2, tapEither_(FromEither, Chain))
+
+/**
+ * Composes computations in sequence, using the return value of one computation to determine the next computation and
+ * keeping only the result of the first.
+ *
+ * @example
+ * import * as RTE from 'fp-ts/ReaderTaskEither'
+ * import * as E from 'fp-ts/Either'
+ * import * as Console from 'fp-ts/Console'
+ *
+ *
+ * // Will produce `Hello, fp-ts` to the stdout
+ * const effect = RTE.tapIO(
+ *   RTE.ask<string>(),
+ *   (value) => Console.log(`Hello, ${value}`)
+ * )
+ *
+ * async function test() {
+ *   assert.deepStrictEqual(await effect('fp-ts')(), E.of('fp-ts'))
+ * }
+ *
+ * test()
+ *
+ * @category combinators
+ * @since 2.16.0
+ */
+export const tapIO: {
+  <R, E, A, _>(self: ReaderTaskEither<R, E, A>, f: (a: A) => IO<_>): ReaderTaskEither<R, E, A>
+  <A, _>(f: (a: A) => IO<_>): <R, E>(self: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
+} = /*#__PURE__*/ dual(2, tapIO_(FromIO, Chain))
 
 /**
  * @category instances
@@ -1433,15 +1472,6 @@ export const fromEitherK: <E, A extends ReadonlyArray<unknown>, B>(
 ) => <R = unknown>(...a: A) => ReaderTaskEither<R, E, B> = /*#__PURE__*/ fromEitherK_(FromEither)
 
 /**
- * @category instances
- * @since 2.10.0
- */
-export const FromIO: FromIO3<URI> = {
-  URI,
-  fromIO
-}
-
-/**
  * @category lifting
  * @since 2.10.0
  */
@@ -1458,12 +1488,14 @@ export const chainIOK: <A, B>(
 ) => <R, E>(first: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = /*#__PURE__*/ chainIOK_(FromIO, Chain)
 
 /**
- * @category sequencing
+ * Alias of `tapIO`.
+ *
+ * @category legacy
  * @since 2.10.0
  */
 export const chainFirstIOK: <A, B>(
   f: (a: A) => IO<B>
-) => <R, E>(first: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A> = /*#__PURE__*/ chainFirstIOK_(FromIO, Chain)
+) => <R, E>(first: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A> = tapIO
 
 /**
  * @category instances

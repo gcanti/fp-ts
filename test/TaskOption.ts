@@ -381,4 +381,13 @@ describe.concurrent('TaskOption', () => {
     U.deepStrictEqual(await g(_.of('aa'))(), O.some('aa'))
     U.deepStrictEqual(await g(_.of('aaa'))(), O.none)
   })
+
+  it('tapIO', async () => {
+    const ref: Array<number> = []
+    const add = (value: number) => () => ref.push(value)
+
+    U.deepStrictEqual(await pipe(_.of(1), _.tapIO(add))(), O.of(1))
+    U.deepStrictEqual(await pipe(_.none, _.tapIO(add))(), O.none)
+    U.deepStrictEqual(ref, [1])
+  })
 })

@@ -19,7 +19,7 @@ import {
   getApplySemigroup as getApplySemigroup_
 } from './Apply'
 import * as chainable from './Chain'
-import { chainFirstIOK as chainFirstIOK_, chainIOK as chainIOK_, FromIO1, fromIOK as fromIOK_ } from './FromIO'
+import { chainIOK as chainIOK_, FromIO1, fromIOK as fromIOK_, tapIO as tapIO_ } from './FromIO'
 import { FromTask1 } from './FromTask'
 import { dual, identity, pipe } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1, let as let__ } from './Functor'
@@ -334,6 +334,15 @@ export const MonadTask: MonadTask1<URI> = {
 }
 
 /**
+ * @category instances
+ * @since 2.10.0
+ */
+export const FromIO: FromIO1<URI> = {
+  URI,
+  fromIO
+}
+
+/**
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
@@ -346,13 +355,33 @@ export const tap: {
 } = /*#__PURE__*/ dual(2, chainable.tap(Chain))
 
 /**
- * @category instances
- * @since 2.10.0
+ * Composes computations in sequence, using the return value of one computation to determine the next computation and
+ * keeping only the result of the first.
+ *
+ * @example
+ * import { pipe } from 'fp-ts/function'
+ * import * as T from 'fp-ts/Task'
+ * import * as Console from 'fp-ts/Console'
+ *
+ * // Will produce `Hello, fp-ts` to the stdout
+ * const effect = pipe(
+ *   T.of('fp-ts'),
+ *   T.tapIO((value) => Console.log(`Hello, ${value}`)),
+ * )
+ *
+ * async function test() {
+ *   assert.deepStrictEqual(await effect(), 'fp-ts')
+ * }
+ *
+ * test()
+ *
+ * @category combinators
+ * @since 2.16.0
  */
-export const FromIO: FromIO1<URI> = {
-  URI,
-  fromIO
-}
+export const tapIO: {
+  <A, _>(self: Task<A>, f: (a: A) => IO<_>): Task<A>
+  <A, _>(f: (a: A) => IO<_>): (self: Task<A>) => Task<A>
+} = /*#__PURE__*/ dual(2, tapIO_(FromIO, Chain))
 
 /**
  * @category lifting
@@ -371,13 +400,12 @@ export const chainIOK: <A, B>(f: (a: A) => IO<B>) => (first: Task<A>) => Task<B>
 )
 
 /**
- * @category sequencing
+ * Alias of `tapIO`.
+ *
+ * @category legacy
  * @since 2.10.0
  */
-export const chainFirstIOK: <A, B>(f: (a: A) => IO<B>) => (first: Task<A>) => Task<A> = /*#__PURE__*/ chainFirstIOK_(
-  FromIO,
-  Chain
-)
+export const chainFirstIOK: <A, B>(f: (a: A) => IO<B>) => (first: Task<A>) => Task<A> = tapIO
 
 /**
  * @category instances

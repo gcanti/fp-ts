@@ -287,4 +287,12 @@ describe.concurrent('ReaderTask', () => {
       U.deepStrictEqual(log, [0, 1, 2, 3])
     })
   })
+
+  it('tapIO', async () => {
+    const ref: Array<number> = []
+    const add = (value: number) => () => ref.push(value)
+
+    U.deepStrictEqual(await pipe(_.ask<number>(), _.tapIO(add))(1)(), 1)
+    U.deepStrictEqual(ref, [1])
+  })
 })

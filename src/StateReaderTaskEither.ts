@@ -19,7 +19,7 @@ import {
   fromPredicate as fromPredicate_,
   tapEither as tapEither_
 } from './FromEither'
-import { chainFirstIOK as chainFirstIOK_, chainIOK as chainIOK_, FromIO4, fromIOK as fromIOK_ } from './FromIO'
+import { chainIOK as chainIOK_, FromIO4, fromIOK as fromIOK_, tapIO as tapIO_ } from './FromIO'
 import {
   ask as ask_,
   asks as asks_,
@@ -746,6 +746,15 @@ export const FromEither: FromEither4<URI> = {
 }
 
 /**
+ * @category instances
+ * @since 2.10.0
+ */
+export const FromIO: FromIO4<URI> = {
+  URI,
+  fromIO
+}
+
+/**
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
@@ -780,6 +789,18 @@ export const tapEither: {
     self: StateReaderTaskEither<S, R1, E1, A>
   ) => StateReaderTaskEither<S, R1, E2 | E1, A>
 } = /*#__PURE__*/ dual(2, tapEither_(FromEither, Chain))
+
+/**
+ * Composes computations in sequence, using the return value of one computation to determine the next computation and
+ * keeping only the result of the first.
+ *
+ * @category combinators
+ * @since 2.16.0
+ */
+export const tapIO: {
+  <S, R, E, A, _>(self: StateReaderTaskEither<S, R, E, A>, f: (a: A) => IO<_>): StateReaderTaskEither<S, R, E, A>
+  <A, _>(f: (a: A) => IO<_>): <S, R, E>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A>
+} = /*#__PURE__*/ dual(2, tapIO_(FromIO, Chain))
 
 /**
  * @category instances
@@ -1034,15 +1055,6 @@ export const fromEitherK: <E, A extends ReadonlyArray<unknown>, B>(
 ) => <S, R = unknown>(...a: A) => StateReaderTaskEither<S, R, E, B> = /*#__PURE__*/ fromEitherK_(FromEither)
 
 /**
- * @category instances
- * @since 2.10.0
- */
-export const FromIO: FromIO4<URI> = {
-  URI,
-  fromIO
-}
-
-/**
  * @category lifting
  * @since 2.10.0
  */
@@ -1062,13 +1074,14 @@ export const chainIOK: <A, B>(
 )
 
 /**
- * @category sequencing
+ * Alias of `tapIO`.
+ *
+ * @category legacy
  * @since 2.10.0
  */
 export const chainFirstIOK: <A, B>(
   f: (a: A) => IO<B>
-) => <S, R, E>(first: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A> =
-  /*#__PURE__*/ chainFirstIOK_(FromIO, Chain)
+) => <S, R, E>(first: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A> = tapIO
 
 /**
  * @category instances

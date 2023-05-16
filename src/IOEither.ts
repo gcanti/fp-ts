@@ -39,7 +39,7 @@ import {
   fromPredicate as fromPredicate_,
   tapEither as tapEither_
 } from './FromEither'
-import { chainFirstIOK as chainFirstIOK_, chainIOK as chainIOK_, FromIO2, fromIOK as fromIOK_ } from './FromIO'
+import { chainIOK as chainIOK_, FromIO2, fromIOK as fromIOK_, tapIO as tapIO_ } from './FromIO'
 import { dual, flow, identity, LazyArg, pipe, SK } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor2, let as let__ } from './Functor'
 import * as _ from './internal'
@@ -623,6 +623,15 @@ export const FromEither: FromEither2<URI> = {
 }
 
 /**
+ * @category instances
+ * @since 2.10.0
+ */
+export const FromIO: FromIO2<URI> = {
+  URI,
+  fromIO
+}
+
+/**
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
@@ -658,6 +667,35 @@ export const tapEither: {
   <E1, A, E2, _>(self: IOEither<E1, A>, f: (a: A) => Either<E2, _>): IOEither<E1 | E2, A>
   <A, E2, _>(f: (a: A) => Either<E2, _>): <E1>(self: IOEither<E1, A>) => IOEither<E2 | E1, A>
 } = /*#__PURE__*/ dual(2, tapEither_(FromEither, Chain))
+
+/**
+ * Composes computations in sequence, using the return value of one computation to determine the next computation and
+ * keeping only the result of the first.
+ *
+ * @example
+ * import { pipe } from 'fp-ts/function'
+ * import * as IOE from 'fp-ts/IOEither'
+ * import * as E from 'fp-ts/Either'
+ * import * as Console from 'fp-ts/Console'
+ *
+ * const sayHello = (value: string) => Console.log(`Hello, ${value}`)
+ *
+ * // Will produce `Hello, fp-ts` to the stdout
+ * const effectA = IOE.tapIO(IOE.of('fp-ts'), sayHello)
+ *
+ * // No output to the stdout
+ * const effectB = pipe(IOE.left<string>('error'), IOE.tapIO(sayHello))
+ *
+ * assert.deepStrictEqual(effectA(), E.right('fp-ts'))
+ * assert.deepStrictEqual(effectB(), E.left('error'))
+ *
+ * @category combinators
+ * @since 2.16.0
+ */
+export const tapIO: {
+  <E, A, _>(self: IOEither<E, A>, f: (a: A) => IO<_>): IOEither<E, A>
+  <A, _>(f: (a: A) => IO<_>): <E>(self: IOEither<E, A>) => IOEither<E, A>
+} = /*#__PURE__*/ dual(2, tapIO_(FromIO, Chain))
 
 /**
  * @category instances
@@ -696,15 +734,6 @@ export const MonadThrow: MonadThrow2<URI> = {
 }
 
 /**
- * @category instances
- * @since 2.10.0
- */
-export const FromIO: FromIO2<URI> = {
-  URI,
-  fromIO
-}
-
-/**
  * @category lifting
  * @since 2.10.0
  */
@@ -720,11 +749,12 @@ export const chainIOK: <A, B>(f: (a: A) => I.IO<B>) => <E>(first: IOEither<E, A>
   /*#__PURE__*/ chainIOK_(FromIO, Chain)
 
 /**
- * @category sequencing
+ * Alias of `tapIO`.
+ *
+ * @category legacy
  * @since 2.10.0
  */
-export const chainFirstIOK: <A, B>(f: (a: A) => I.IO<B>) => <E>(first: IOEither<E, A>) => IOEither<E, A> =
-  /*#__PURE__*/ chainFirstIOK_(FromIO, Chain)
+export const chainFirstIOK: <A, B>(f: (a: A) => I.IO<B>) => <E>(first: IOEither<E, A>) => IOEither<E, A> = tapIO
 
 /**
  * @category conversions
