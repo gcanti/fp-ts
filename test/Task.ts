@@ -183,6 +183,14 @@ describe.concurrent('Task', () => {
     U.deepStrictEqual(await pipe(_.of('a'), _.chainFirstIOK(f))(), 'a')
   })
 
+  it('tapIO', async () => {
+    const ref: Array<number> = []
+    const add = (value: number) => () => ref.push(value)
+
+    U.deepStrictEqual(await pipe(_.of(1), _.tapIO(add))(), 1)
+    U.deepStrictEqual(ref, [1])
+  })
+
   it('do notation', async () => {
     U.deepStrictEqual(
       await pipe(

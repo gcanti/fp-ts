@@ -514,4 +514,13 @@ describe.concurrent('StateReaderTaskEither', () => {
     const g = (s: string) => E.left(s.length)
     U.deepStrictEqual(await pipe(_.right('a'), _.chainFirstEitherK(g), _.evaluate(state))({})(), E.left(1))
   })
+
+  it('tapIO', async () => {
+    const ref: Array<number> = []
+    const add = (value: number) => () => ref.push(value)
+
+    U.deepStrictEqual(await pipe(_.ask<unknown, number>(), _.tapIO(add), _.evaluate(state))(1)(), E.of(1))
+    U.deepStrictEqual(await pipe(_.left('error'), _.tapIO(add), _.evaluate(state))(undefined)(), E.left('error'))
+    U.deepStrictEqual(ref, [1])
+  })
 })

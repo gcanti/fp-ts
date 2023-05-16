@@ -690,4 +690,13 @@ describe.concurrent('IOEither', () => {
     const g = (s: string) => E.left(s.length)
     U.deepStrictEqual(pipe(_.right('a'), _.chainFirstEitherK(g))(), E.left(1))
   })
+
+  it('tapIO', () => {
+    const ref: Array<number> = []
+    const add = (value: number) => () => ref.push(value)
+
+    U.deepStrictEqual(pipe(_.of(1), _.tapIO(add))(), E.of(1))
+    U.deepStrictEqual(pipe(_.left('error'), _.tapIO(add))(), E.left('error'))
+    U.deepStrictEqual(ref, [1])
+  })
 })

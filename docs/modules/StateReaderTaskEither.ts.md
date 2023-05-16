@@ -15,6 +15,7 @@ Added in v2.0.0
 - [combinators](#combinators)
   - [tap](#tap)
   - [tapEither](#tapeither)
+  - [tapIO](#tapio)
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
@@ -77,6 +78,7 @@ Added in v2.0.0
   - [chainFirst](#chainfirst)
   - [chainFirstEitherK](#chainfirsteitherk)
   - [chainFirstEitherKW](#chainfirsteitherkw)
+  - [chainFirstIOK](#chainfirstiok)
   - [chainFirstW](#chainfirstw)
   - [chainW](#chainw)
 - [lifting](#lifting)
@@ -99,7 +101,6 @@ Added in v2.0.0
 - [sequencing](#sequencing)
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
-  - [chainFirstIOK](#chainfirstiok)
   - [chainFirstReaderK](#chainfirstreaderk)
   - [chainFirstReaderKW](#chainfirstreaderkw)
   - [chainFirstTaskK](#chainfirsttaskk)
@@ -194,6 +195,22 @@ export declare const tapEither: {
   <A, S, E2, _>(f: (a: A) => E.Either<E2, _>): <R1, E1>(
     self: StateReaderTaskEither<S, R1, E1, A>
   ) => StateReaderTaskEither<S, R1, E2 | E1, A>
+}
+```
+
+Added in v2.16.0
+
+## tapIO
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+**Signature**
+
+```ts
+export declare const tapIO: {
+  <S, R, E, A, _>(self: StateReaderTaskEither<S, R, E, A>, f: (a: A) => IO<_>): StateReaderTaskEither<S, R, E, A>
+  <A, _>(f: (a: A) => IO<_>): <S, R, E>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A>
 }
 ```
 
@@ -855,6 +872,20 @@ export declare const chainFirstEitherKW: <A, E2, B>(
 
 Added in v2.12.0
 
+## chainFirstIOK
+
+Alias of `tapIO`.
+
+**Signature**
+
+```ts
+export declare const chainFirstIOK: <A, B>(
+  f: (a: A) => IO<B>
+) => <S, R, E>(first: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A>
+```
+
+Added in v2.10.0
+
 ## chainFirstW
 
 Alias of `tap`.
@@ -1102,18 +1133,6 @@ export declare const chainEitherKW: <E2, A, B>(
 ```
 
 Added in v2.6.1
-
-## chainFirstIOK
-
-**Signature**
-
-```ts
-export declare const chainFirstIOK: <A, B>(
-  f: (a: A) => IO<B>
-) => <S, R, E>(first: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A>
-```
-
-Added in v2.10.0
 
 ## chainFirstReaderK
 

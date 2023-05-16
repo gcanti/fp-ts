@@ -15,6 +15,7 @@ Added in v2.10.0
 - [combinators](#combinators)
   - [tap](#tap)
   - [tapEither](#tapeither)
+  - [tapIO](#tapio)
 - [constructors](#constructors)
   - [none](#none)
   - [of](#of)
@@ -71,6 +72,7 @@ Added in v2.10.0
   - [chain](#chain)
   - [chainFirst](#chainfirst)
   - [chainFirstEitherK](#chainfirsteitherk)
+  - [chainFirstIOK](#chainfirstiok)
 - [lifting](#lifting)
   - [fromEitherK](#fromeitherk)
   - [fromIOK](#fromiok)
@@ -92,7 +94,6 @@ Added in v2.10.0
   - [matchW](#matchw)
 - [sequencing](#sequencing)
   - [chainEitherK](#chaineitherk)
-  - [chainFirstIOK](#chainfirstiok)
   - [chainFirstTaskK](#chainfirsttaskk)
   - [chainIOK](#chainiok)
   - [chainNullableK](#chainnullablek)
@@ -172,6 +173,47 @@ const compute = (value: number) =>
 async function test() {
   assert.deepStrictEqual(await compute(1)(), O.of(1))
   assert.deepStrictEqual(await compute(-1)(), O.none)
+}
+
+test()
+```
+
+Added in v2.16.0
+
+## tapIO
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+**Signature**
+
+```ts
+export declare const tapIO: {
+  <A, _>(self: TaskOption<A>, f: (a: A) => IO<_>): TaskOption<A>
+  <A, _>(f: (a: A) => IO<_>): (self: TaskOption<A>) => TaskOption<A>
+}
+```
+
+**Example**
+
+```ts
+import { pipe } from 'fp-ts/function'
+import * as TO from 'fp-ts/TaskOption'
+import * as O from 'fp-ts/Option'
+import * as Console from 'fp-ts/Console'
+
+// Will produce `Hello, fp-ts` to the stdout
+const effectA = TO.tapIO(TO.of(1), (value) => Console.log(`Hello, ${value}`))
+
+// No output to the stdout
+const effectB = pipe(
+  TO.none as TO.TaskOption<string>,
+  TO.tapIO((value) => Console.log(`Hello, ${value}`))
+)
+
+async function test() {
+  assert.deepStrictEqual(await effectA(), O.of(1))
+  assert.deepStrictEqual(await effectB(), O.none)
 }
 
 test()
@@ -724,6 +766,18 @@ export declare const chainFirstEitherK: <E, A, B>(f: (a: A) => Either<E, B>) => 
 
 Added in v2.12.0
 
+## chainFirstIOK
+
+Alias of `tapIO`.
+
+**Signature**
+
+```ts
+export declare const chainFirstIOK: <A, B>(f: (a: A) => IO<B>) => (first: TaskOption<A>) => TaskOption<A>
+```
+
+Added in v2.10.0
+
 # lifting
 
 ## fromEitherK
@@ -934,16 +988,6 @@ export declare const chainEitherK: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: 
 ```
 
 Added in v2.12.0
-
-## chainFirstIOK
-
-**Signature**
-
-```ts
-export declare const chainFirstIOK: <A, B>(f: (a: A) => IO<B>) => (first: TaskOption<A>) => TaskOption<A>
-```
-
-Added in v2.10.0
 
 ## chainFirstTaskK
 
