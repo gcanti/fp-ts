@@ -434,30 +434,37 @@ export function tapEither<M extends URIS4>(
   F: FromEither4<M>,
   M: Chain4<M>
 ): <A, E, B, S, R>(self: Kind4<M, S, R, E, A>, f: (a: A) => Either<E, B>) => Kind4<M, S, R, E, A>
+/** @internal */
 export function tapEither<M extends URIS3>(
   F: FromEither3<M>,
   M: Chain3<M>
 ): <A, E, B, R>(self: Kind3<M, R, E, A>, f: (a: A) => Either<E, B>) => Kind3<M, R, E, A>
+/** @internal */
 export function tapEither<M extends URIS3, E>(
   F: FromEither3C<M, E>,
   M: Chain3C<M, E>
 ): <A, B, R>(self: Kind3<M, R, E, A>, f: (a: A) => Either<E, B>) => Kind3<M, R, E, A>
+/** @internal */
 export function tapEither<M extends URIS2>(
   F: FromEither2<M>,
   M: Chain2<M>
 ): <A, E, B>(self: Kind2<M, E, A>, f: (a: A) => Either<E, B>) => Kind2<M, E, A>
+/** @internal */
 export function tapEither<M extends URIS2, E>(
   F: FromEither2C<M, E>,
   M: Chain2C<M, E>
 ): <A, B>(self: Kind2<M, E, A>, f: (a: A) => Either<E, B>) => Kind2<M, E, A>
+/** @internal */
 export function tapEither<M extends URIS>(
   F: FromEither1<M>,
   M: Chain1<M>
 ): <E, A, B>(self: Kind<M, A>, f: (a: A) => Either<E, B>) => Kind<M, A>
+/** @internal */
 export function tapEither<M>(
   F: FromEither<M>,
   M: Chain<M>
 ): <A, E, B>(self: HKT2<M, E, A>, f: (a: A) => Either<E, B>) => HKT2<M, E, A>
+/** @internal */
 export function tapEither<M extends URIS2>(
   F: FromEither2<M>,
   M: Chain2<M>
