@@ -26,7 +26,7 @@ import {
   fromTaskK as fromTaskK_
 } from './FromTask'
 import { dual, flow, identity, pipe, SK } from './function'
-import { bindTo as bindTo_, flap as flap_, Functor2, let as let__ } from './Functor'
+import { as as as_, asUnit as asUnit_, bindTo as bindTo_, flap as flap_, Functor2, let as let__ } from './Functor'
 import * as _ from './internal'
 import { IO } from './IO'
 import { Monad2 } from './Monad'
@@ -204,6 +204,25 @@ export const Functor: Functor2<URI> = {
   URI,
   map: _map
 }
+
+/**
+ * Maps the value to the specified constant value.
+ *
+ * @category mapping
+ * @since 2.16.0
+ */
+export const as: {
+  <R, A, _>(self: ReaderTask<R, _>, a: A): ReaderTask<R, A>
+  <A>(a: A): <R, _>(self: ReaderTask<R, _>) => ReaderTask<R, A>
+} = dual(2, as_(Functor))
+
+/**
+ * Maps the value to the void constant value.
+ *
+ * @category mapping
+ * @since 2.16.0
+ */
+export const asUnit: <R, _>(self: ReaderTask<R, _>) => ReaderTask<R, void> = asUnit_(Functor)
 
 /**
  * @category mapping

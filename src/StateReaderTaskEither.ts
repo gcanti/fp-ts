@@ -44,7 +44,7 @@ import {
   fromTaskK as fromTaskK_
 } from './FromTask'
 import { dual, flow, identity, LazyArg, pipe } from './function'
-import { bindTo as bindTo_, flap as flap_, Functor4, let as let__ } from './Functor'
+import { as as as_, asUnit as asUnit_, bindTo as bindTo_, flap as flap_, Functor4, let as let__ } from './Functor'
 import * as _ from './internal'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
@@ -536,6 +536,26 @@ export const Functor: Functor4<URI> = {
   URI,
   map: _map
 }
+
+/**
+ * Maps the `Right` value of this `StateReaderTaskEither` to the specified constant value.
+ *
+ * @category mapping
+ * @since 2.16.0
+ */
+export const as: {
+  <S, R, E, A, _>(self: StateReaderTaskEither<S, R, E, _>, a: A): StateReaderTaskEither<S, R, E, A>
+  <A>(a: A): <S, R, E, _>(self: StateReaderTaskEither<S, R, E, _>) => StateReaderTaskEither<S, R, E, A>
+} = dual(2, as_(Functor))
+
+/**
+ * Maps the `Right` value of this `StateReaderTaskEither` to the void constant value.
+ *
+ * @category mapping
+ * @since 2.16.0
+ */
+export const asUnit: <S, R, E, _>(self: StateReaderTaskEither<S, R, E, _>) => StateReaderTaskEither<S, R, E, void> =
+  asUnit_(Functor)
 
 /**
  * @category mapping

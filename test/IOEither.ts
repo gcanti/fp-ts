@@ -699,4 +699,14 @@ describe.concurrent('IOEither', () => {
     U.deepStrictEqual(pipe(_.left('error'), _.tapIO(add))(), E.left('error'))
     U.deepStrictEqual(ref, [1])
   })
+
+  it('as', () => {
+    U.deepStrictEqual(pipe(_.right('a'), _.as('b'))(), E.right('b'))
+    U.deepStrictEqual(_.as(_.of('a'), 'b')(), E.right('b'))
+    U.deepStrictEqual(_.as(_.left('error'), 'b')(), E.left('error'))
+  })
+
+  it('asUnit', () => {
+    U.deepStrictEqual(pipe(_.of('a'), _.asUnit)(), E.of(undefined))
+  })
 })

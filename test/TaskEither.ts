@@ -862,4 +862,14 @@ describe.concurrent('TaskEither', () => {
     U.deepStrictEqual(await pipe(_.left('error'), _.tapIO(add))(), E.left('error'))
     U.deepStrictEqual(ref, [1])
   })
+
+  it('as', async () => {
+    U.deepStrictEqual(await pipe(_.right('a'), _.as('b'))(), E.right('b'))
+    U.deepStrictEqual(await _.as(_.of('a'), 'b')(), E.right('b'))
+    U.deepStrictEqual(await _.as(_.left('error'), 'b')(), E.left('error'))
+  })
+
+  it('asUnit', async () => {
+    U.deepStrictEqual(await pipe(_.of('a'), _.asUnit)(), E.of(undefined))
+  })
 })

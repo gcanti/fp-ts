@@ -144,6 +144,8 @@ Added in v2.0.0
   - [fromNullableK](#fromnullablek)
   - [fromPredicate](#frompredicate)
 - [mapping](#mapping)
+  - [as](#as)
+  - [asUnit](#asunit)
   - [flap](#flap)
   - [map](#map)
 - [model](#model)
@@ -1150,6 +1152,30 @@ assert.deepStrictEqual(getOption(1), some(1))
 Added in v2.0.0
 
 # mapping
+
+## as
+
+Maps the `Some` value of this `Option` to the specified constant value.
+
+**Signature**
+
+```ts
+export declare const as: { <A, _>(self: Option<_>, a: A): Option<A>; <A>(a: A): <_>(self: Option<_>) => Option<A> }
+```
+
+Added in v2.16.0
+
+## asUnit
+
+Maps the `Some` value of this `Option` to the void constant value.
+
+**Signature**
+
+```ts
+export declare const asUnit: <_>(self: Option<_>) => Option<void>
+```
+
+Added in v2.16.0
 
 ## flap
 

@@ -51,6 +51,8 @@ Added in v2.13.0
   - [fromIOK](#fromiok)
   - [fromReaderK](#fromreaderk)
 - [mapping](#mapping)
+  - [as](#as)
+  - [asUnit](#asunit)
   - [flap](#flap)
   - [map](#map)
 - [model](#model)
@@ -486,6 +488,33 @@ export declare const fromReaderK: <A extends readonly unknown[], R, B>(
 Added in v2.13.0
 
 # mapping
+
+## as
+
+Maps the value to the specified constant value.
+
+**Signature**
+
+```ts
+export declare const as: {
+  <R, A, _>(self: ReaderIO<R, _>, a: A): ReaderIO<R, A>
+  <A>(a: A): <R, _>(self: ReaderIO<R, _>) => ReaderIO<R, A>
+}
+```
+
+Added in v2.16.0
+
+## asUnit
+
+Maps the value to the void constant value.
+
+**Signature**
+
+```ts
+export declare const asUnit: <R, _>(self: ReaderIO<R, _>) => ReaderIO<R, void>
+```
+
+Added in v2.16.0
 
 ## flap
 

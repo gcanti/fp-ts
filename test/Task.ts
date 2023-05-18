@@ -279,4 +279,12 @@ describe.concurrent('Task', () => {
       U.deepStrictEqual(log, [0, 1, 2, 3])
     })
   })
+
+  it('as', async () => {
+    U.deepStrictEqual(await pipe(_.of('a'), _.as('b'))(), 'b')
+  })
+
+  it('asUnit', async () => {
+    U.deepStrictEqual(await pipe(_.of('a'), _.asUnit)(), undefined)
+  })
 })

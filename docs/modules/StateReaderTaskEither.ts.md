@@ -93,6 +93,8 @@ Added in v2.0.0
   - [fromTaskEitherK](#fromtaskeitherk)
   - [fromTaskK](#fromtaskk)
 - [mapping](#mapping)
+  - [as](#as)
+  - [asUnit](#asunit)
   - [bimap](#bimap)
   - [flap](#flap)
   - [map](#map)
@@ -1045,6 +1047,35 @@ export declare const fromTaskK: <A extends readonly unknown[], B>(
 Added in v2.10.0
 
 # mapping
+
+## as
+
+Maps the `Right` value of this `StateReaderTaskEither` to the specified constant value.
+
+**Signature**
+
+```ts
+export declare const as: {
+  <S, R, E, A, _>(self: StateReaderTaskEither<S, R, E, _>, a: A): StateReaderTaskEither<S, R, E, A>
+  <A>(a: A): <S, R, E, _>(self: StateReaderTaskEither<S, R, E, _>) => StateReaderTaskEither<S, R, E, A>
+}
+```
+
+Added in v2.16.0
+
+## asUnit
+
+Maps the `Right` value of this `StateReaderTaskEither` to the void constant value.
+
+**Signature**
+
+```ts
+export declare const asUnit: <S, R, E, _>(
+  self: StateReaderTaskEither<S, R, E, _>
+) => StateReaderTaskEither<S, R, E, void>
+```
+
+Added in v2.16.0
 
 ## bimap
 

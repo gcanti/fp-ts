@@ -523,4 +523,13 @@ describe.concurrent('StateReaderTaskEither', () => {
     U.deepStrictEqual(await pipe(_.left('error'), _.tapIO(add), _.evaluate(state))(undefined)(), E.left('error'))
     U.deepStrictEqual(ref, [1])
   })
+
+  it('as', async () => {
+    U.deepStrictEqual(await pipe(_.right('a'), _.as('b'), _.evaluate(state))(undefined)(), E.right('b'))
+    U.deepStrictEqual(await pipe(_.as(_.left('error'), 'b'), _.evaluate(state))(undefined)(), E.left('error'))
+  })
+
+  it('asUnit', async () => {
+    U.deepStrictEqual(await pipe(_.of('a'), _.asUnit, _.evaluate(state))(undefined)(), E.of(undefined))
+  })
 })

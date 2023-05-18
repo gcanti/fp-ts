@@ -265,4 +265,14 @@ describe.concurrent('IOOption', () => {
     U.deepStrictEqual(pipe(_.none, _.tapIO(add))(), O.none)
     U.deepStrictEqual(ref, [1])
   })
+
+  it('as', () => {
+    U.deepStrictEqual(pipe(_.some('a'), _.as('b'))(), O.some('b'))
+    U.deepStrictEqual(_.as(_.of('a'), 'b')(), O.some('b'))
+    U.deepStrictEqual(_.as(_.none, 'b')(), O.none)
+  })
+
+  it('asUnit', () => {
+    U.deepStrictEqual(pipe(_.some('a'), _.asUnit)(), O.some(undefined))
+  })
 })

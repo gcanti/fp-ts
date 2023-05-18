@@ -28,7 +28,7 @@ import {
 } from './FromEither'
 import { chainIOK as chainIOK_, FromIO1, fromIOK as fromIOK_, tapIO as tapIO_ } from './FromIO'
 import { dual, flow, identity, LazyArg, pipe, SK } from './function'
-import { bindTo as bindTo_, flap as flap_, Functor1, let as let__ } from './Functor'
+import { as as as_, asUnit as asUnit_, bindTo as bindTo_, flap as flap_, Functor1, let as let__ } from './Functor'
 import * as _ from './internal'
 import * as I from './IO'
 import { IOEither } from './IOEither'
@@ -376,6 +376,25 @@ export const Functor: Functor1<URI> = {
   URI,
   map: _map
 }
+
+/**
+ * Maps the `Some` value of this `IOOption` to the specified constant value.
+ *
+ * @category mapping
+ * @since 2.16.0
+ */
+export const as: {
+  <A, _>(self: IOOption<_>, a: A): IOOption<A>
+  <A>(a: A): <_>(self: IOOption<_>) => IOOption<A>
+} = dual(2, as_(Functor))
+
+/**
+ * Maps the `Some` value of this `IOOption` to the void constant value.
+ *
+ * @category mapping
+ * @since 2.16.0
+ */
+export const asUnit: <_>(self: IOOption<_>) => IOOption<void> = asUnit_(Functor)
 
 /**
  * @category mapping

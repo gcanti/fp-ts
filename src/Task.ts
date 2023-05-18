@@ -22,7 +22,7 @@ import * as chainable from './Chain'
 import { chainIOK as chainIOK_, FromIO1, fromIOK as fromIOK_, tapIO as tapIO_ } from './FromIO'
 import { FromTask1 } from './FromTask'
 import { dual, identity, pipe } from './function'
-import { bindTo as bindTo_, flap as flap_, Functor1, let as let__ } from './Functor'
+import { as as as_, asUnit as asUnit_, bindTo as bindTo_, flap as flap_, Functor1, let as let__ } from './Functor'
 import * as _ from './internal'
 import { IO } from './IO'
 import { Monad1 } from './Monad'
@@ -196,6 +196,25 @@ export const Functor: Functor1<URI> = {
   URI,
   map: _map
 }
+
+/**
+ * Maps the value to the specified constant value.
+ *
+ * @category mapping
+ * @since 2.16.0
+ */
+export const as: {
+  <A, _>(self: Task<_>, a: A): Task<A>
+  <A>(a: A): <_>(self: Task<_>) => Task<A>
+} = dual(2, as_(Functor))
+
+/**
+ * Maps the value to the void constant value.
+ *
+ * @category mapping
+ * @since 2.16.0
+ */
+export const asUnit: <_>(self: Task<_>) => Task<void> = asUnit_(Functor)
 
 /**
  * @category mapping

@@ -81,6 +81,8 @@ Added in v2.10.0
   - [fromPredicate](#frompredicate)
   - [fromTaskK](#fromtaskk)
 - [mapping](#mapping)
+  - [as](#as)
+  - [asUnit](#asunit)
   - [flap](#flap)
   - [map](#map)
 - [model](#model)
@@ -853,6 +855,33 @@ export declare const fromTaskK: <A extends readonly unknown[], B>(
 Added in v2.10.0
 
 # mapping
+
+## as
+
+Maps the `Some` value of this `TaskOption` to the specified constant value.
+
+**Signature**
+
+```ts
+export declare const as: {
+  <A, _>(self: TaskOption<_>, a: A): TaskOption<A>
+  <A>(a: A): <_>(self: TaskOption<_>) => TaskOption<A>
+}
+```
+
+Added in v2.16.0
+
+## asUnit
+
+Maps the `Some` value of this `TaskOption` to the void constant value.
+
+**Signature**
+
+```ts
+export declare const asUnit: <_>(self: TaskOption<_>) => TaskOption<void>
+```
+
+Added in v2.16.0
 
 ## flap
 
