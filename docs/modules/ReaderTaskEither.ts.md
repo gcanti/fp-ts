@@ -120,6 +120,8 @@ Added in v2.0.0
   - [liftNullable](#liftnullable)
   - [liftOption](#liftoption)
 - [mapping](#mapping)
+  - [as](#as)
+  - [asUnit](#asunit)
   - [bimap](#bimap)
   - [flap](#flap)
   - [map](#map)
@@ -1502,6 +1504,33 @@ export declare const liftOption: <A extends readonly unknown[], B, E>(
 Added in v2.15.0
 
 # mapping
+
+## as
+
+Maps the `Right` value of this `ReaderTaskEither` to the specified constant value.
+
+**Signature**
+
+```ts
+export declare const as: {
+  <R, E, A, _>(self: ReaderTaskEither<R, E, _>, a: A): ReaderTaskEither<R, E, A>
+  <A>(a: A): <R, E, _>(self: ReaderTaskEither<R, E, _>) => ReaderTaskEither<R, E, A>
+}
+```
+
+Added in v2.16.0
+
+## asUnit
+
+Maps the `Right` value of this `ReaderTaskEither` to the void constant value.
+
+**Signature**
+
+```ts
+export declare const asUnit: <R, E, _>(self: ReaderTaskEither<R, E, _>) => ReaderTaskEither<R, E, void>
+```
+
+Added in v2.16.0
 
 ## bimap
 

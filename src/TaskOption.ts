@@ -29,7 +29,7 @@ import {
   fromTaskK as fromTaskK_
 } from './FromTask'
 import { dual, flow, identity, LazyArg, pipe, SK } from './function'
-import { bindTo as bindTo_, flap as flap_, Functor1, let as let__ } from './Functor'
+import { as as as_, asUnit as asUnit_, bindTo as bindTo_, flap as flap_, Functor1, let as let__ } from './Functor'
 import * as _ from './internal'
 import { IO } from './IO'
 import { Monad1 } from './Monad'
@@ -419,6 +419,25 @@ export const Functor: Functor1<URI> = {
   URI,
   map: _map
 }
+
+/**
+ * Maps the `Some` value of this `TaskOption` to the specified constant value.
+ *
+ * @category mapping
+ * @since 2.16.0
+ */
+export const as: {
+  <A, _>(self: TaskOption<_>, a: A): TaskOption<A>
+  <A>(a: A): <_>(self: TaskOption<_>) => TaskOption<A>
+} = dual(2, as_(Functor))
+
+/**
+ * Maps the `Some` value of this `TaskOption` to the void constant value.
+ *
+ * @category mapping
+ * @since 2.16.0
+ */
+export const asUnit: <_>(self: TaskOption<_>) => TaskOption<void> = asUnit_(Functor)
 
 /**
  * @category mapping

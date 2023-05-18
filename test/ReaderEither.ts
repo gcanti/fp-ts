@@ -413,4 +413,14 @@ describe.concurrent('ReaderEither', () => {
     const g = (s: string) => E.left(s.length)
     U.deepStrictEqual(pipe(_.right('a'), _.chainFirstEitherK(g))({}), E.left(1))
   })
+
+  it('as', () => {
+    U.deepStrictEqual(pipe(_.right('a'), _.as('b'))(undefined), E.right('b'))
+    U.deepStrictEqual(_.as(_.of('a'), 'b')(undefined), E.right('b'))
+    U.deepStrictEqual(_.as(_.left('error'), 'b')(undefined), E.left('error'))
+  })
+
+  it('asUnit', () => {
+    U.deepStrictEqual(pipe(_.of('a'), _.asUnit)(undefined), E.of(undefined))
+  })
 })

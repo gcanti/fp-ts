@@ -79,6 +79,8 @@ Added in v2.12.0
   - [fromOptionK](#fromoptionk)
   - [fromPredicate](#frompredicate)
 - [mapping](#mapping)
+  - [as](#as)
+  - [asUnit](#asunit)
   - [flap](#flap)
   - [map](#map)
 - [model](#model)
@@ -759,6 +761,33 @@ export declare const fromPredicate: {
 Added in v2.12.0
 
 # mapping
+
+## as
+
+Maps the `Some` value of this `IOOption` to the specified constant value.
+
+**Signature**
+
+```ts
+export declare const as: {
+  <A, _>(self: IOOption<_>, a: A): IOOption<A>
+  <A>(a: A): <_>(self: IOOption<_>) => IOOption<A>
+}
+```
+
+Added in v2.16.0
+
+## asUnit
+
+Maps the `Some` value of this `IOOption` to the void constant value.
+
+**Signature**
+
+```ts
+export declare const asUnit: <_>(self: IOOption<_>) => IOOption<void>
+```
+
+Added in v2.16.0
 
 ## flap
 

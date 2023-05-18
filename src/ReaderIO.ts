@@ -14,7 +14,7 @@ import {
   fromReaderK as fromReaderK_
 } from './FromReader'
 import { dual, flow, identity, pipe, SK } from './function'
-import { bindTo as bindTo_, flap as flap_, Functor2 } from './Functor'
+import { as as as_, asUnit as asUnit_, bindTo as bindTo_, flap as flap_, Functor2 } from './Functor'
 import * as _ from './internal'
 import * as I from './IO'
 import { IO } from './IO'
@@ -167,6 +167,25 @@ export const Functor: Functor2<URI> = {
   URI,
   map: _map
 }
+
+/**
+ * Maps the value to the specified constant value.
+ *
+ * @category mapping
+ * @since 2.16.0
+ */
+export const as: {
+  <R, A, _>(self: ReaderIO<R, _>, a: A): ReaderIO<R, A>
+  <A>(a: A): <R, _>(self: ReaderIO<R, _>) => ReaderIO<R, A>
+} = dual(2, as_(Functor))
+
+/**
+ * Maps the value to the void constant value.
+ *
+ * @category mapping
+ * @since 2.16.0
+ */
+export const asUnit: <R, _>(self: ReaderIO<R, _>) => ReaderIO<R, void> = asUnit_(Functor)
 
 /**
  * @category mapping

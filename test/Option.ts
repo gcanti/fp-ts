@@ -558,4 +558,14 @@ describe.concurrent('Option', () => {
     const g = (s: string) => E.left(s.length)
     U.deepStrictEqual(pipe(_.some('a'), _.chainFirstEitherK(g)), _.none)
   })
+
+  it('as', () => {
+    U.deepStrictEqual(pipe(_.some('a'), _.as('b')), _.some('b'))
+    U.deepStrictEqual(_.as(_.of('a'), 'b'), _.some('b'))
+    U.deepStrictEqual(_.as(_.none, 'b'), _.none)
+  })
+
+  it('asUnit', () => {
+    U.deepStrictEqual(pipe(_.some('a'), _.asUnit), _.some(undefined))
+  })
 })

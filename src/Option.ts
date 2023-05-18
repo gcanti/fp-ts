@@ -84,7 +84,7 @@ import {
   tapEither as tapEither_
 } from './FromEither'
 import { constNull, constUndefined, dual, flow, identity, LazyArg, pipe } from './function'
-import { bindTo as bindTo_, flap as flap_, Functor1, let as let__ } from './Functor'
+import { as as as_, asUnit as asUnit_, bindTo as bindTo_, flap as flap_, Functor1, let as let__ } from './Functor'
 import { HKT } from './HKT'
 import * as _ from './internal'
 import { Monad1 } from './Monad'
@@ -344,6 +344,25 @@ export const Functor: Functor1<URI> = {
   URI,
   map: _map
 }
+
+/**
+ * Maps the `Some` value of this `Option` to the specified constant value.
+ *
+ * @category mapping
+ * @since 2.16.0
+ */
+export const as: {
+  <A, _>(self: Option<_>, a: A): Option<A>
+  <A>(a: A): <_>(self: Option<_>) => Option<A>
+} = dual(2, as_(Functor))
+
+/**
+ * Maps the `Some` value of this `Option` to the void constant value.
+ *
+ * @category mapping
+ * @since 2.16.0
+ */
+export const asUnit: <_>(self: Option<_>) => Option<void> = asUnit_(Functor)
 
 /**
  * @category constructors

@@ -390,4 +390,14 @@ describe.concurrent('TaskOption', () => {
     U.deepStrictEqual(await pipe(_.none, _.tapIO(add))(), O.none)
     U.deepStrictEqual(ref, [1])
   })
+
+  it('as', async () => {
+    U.deepStrictEqual(await pipe(_.some('a'), _.as('b'))(), O.some('b'))
+    U.deepStrictEqual(await _.as(_.of('a'), 'b')(), O.some('b'))
+    U.deepStrictEqual(await _.as(_.none, 'b')(), O.none)
+  })
+
+  it('asUnit', async () => {
+    U.deepStrictEqual(await pipe(_.some('a'), _.asUnit)(), O.some(undefined))
+  })
 })

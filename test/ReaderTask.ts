@@ -295,4 +295,12 @@ describe.concurrent('ReaderTask', () => {
     U.deepStrictEqual(await pipe(_.ask<number>(), _.tapIO(add))(1)(), 1)
     U.deepStrictEqual(ref, [1])
   })
+
+  it('as', async () => {
+    U.deepStrictEqual(await pipe(_.of('a'), _.as('b'))('c')(), 'b')
+  })
+
+  it('asUnit', async () => {
+    U.deepStrictEqual(await pipe(_.of('a'), _.asUnit)('b')(), undefined)
+  })
 })

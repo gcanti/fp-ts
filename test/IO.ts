@@ -117,4 +117,12 @@ describe.concurrent('IO', () => {
       U.deepStrictEqual(log, [1, 2])
     })
   })
+
+  it('as', () => {
+    U.deepStrictEqual(pipe(_.of('a'), _.as('b'))(), 'b')
+  })
+
+  it('asUnit', () => {
+    U.deepStrictEqual(pipe(_.of('a'), _.asUnit)(), undefined)
+  })
 })

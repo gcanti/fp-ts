@@ -48,6 +48,8 @@ Added in v2.0.0
   - [chain](#chain)
   - [chainFirst](#chainfirst)
 - [mapping](#mapping)
+  - [as](#as)
+  - [asUnit](#asunit)
   - [flap](#flap)
   - [map](#map)
 - [model](#model)
@@ -287,6 +289,30 @@ export declare const chainFirst: <A, B>(f: (a: A) => IO<B>) => (first: IO<A>) =>
 Added in v2.0.0
 
 # mapping
+
+## as
+
+Maps the value to the specified constant value.
+
+**Signature**
+
+```ts
+export declare const as: { <A, _>(self: IO<_>, a: A): IO<A>; <A>(a: A): <_>(self: IO<_>) => IO<A> }
+```
+
+Added in v2.16.0
+
+## asUnit
+
+Maps the value to the void constant value.
+
+**Signature**
+
+```ts
+export declare const asUnit: <_>(self: IO<_>) => IO<void>
+```
+
+Added in v2.16.0
 
 ## flap
 

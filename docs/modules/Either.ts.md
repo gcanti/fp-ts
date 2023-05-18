@@ -147,6 +147,8 @@ Added in v2.0.0
   - [liftNullable](#liftnullable)
   - [liftOption](#liftoption)
 - [mapping](#mapping)
+  - [as](#as)
+  - [asUnit](#asunit)
   - [bimap](#bimap)
   - [flap](#flap)
   - [map](#map)
@@ -1305,6 +1307,33 @@ export declare const liftOption: <A extends readonly unknown[], B, E>(
 Added in v2.15.0
 
 # mapping
+
+## as
+
+Maps the `Right` value of this `Either` to the specified constant value.
+
+**Signature**
+
+```ts
+export declare const as: {
+  <E, A, _>(self: Either<E, _>, a: A): Either<E, A>
+  <A>(a: A): <E, _>(self: Either<E, _>) => Either<E, A>
+}
+```
+
+Added in v2.16.0
+
+## asUnit
+
+Maps the `Right` value of this `Either` to the void constant value.
+
+**Signature**
+
+```ts
+export declare const asUnit: <E, _>(self: Either<E, _>) => Either<E, void>
+```
+
+Added in v2.16.0
 
 ## bimap
 

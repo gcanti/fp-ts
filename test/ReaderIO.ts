@@ -167,4 +167,12 @@ describe.concurrent('ReaderIO', () => {
     U.deepStrictEqual(pipe(_.ask<number>(), _.tapIO(add))(1)(), 1)
     U.deepStrictEqual(ref, [1])
   })
+
+  it('as', () => {
+    U.deepStrictEqual(pipe(_.of('a'), _.as('b'))('c')(), 'b')
+  })
+
+  it('asUnit', () => {
+    U.deepStrictEqual(pipe(_.of('a'), _.asUnit)('b')(), undefined)
+  })
 })

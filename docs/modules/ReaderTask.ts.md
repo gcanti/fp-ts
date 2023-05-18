@@ -60,6 +60,8 @@ Added in v2.3.0
   - [fromReaderK](#fromreaderk)
   - [fromTaskK](#fromtaskk)
 - [mapping](#mapping)
+  - [as](#as)
+  - [asUnit](#asunit)
   - [flap](#flap)
   - [map](#map)
 - [model](#model)
@@ -619,6 +621,33 @@ export declare const fromTaskK: <A extends readonly unknown[], B>(
 Added in v2.4.0
 
 # mapping
+
+## as
+
+Maps the value to the specified constant value.
+
+**Signature**
+
+```ts
+export declare const as: {
+  <R, A, _>(self: ReaderTask<R, _>, a: A): ReaderTask<R, A>
+  <A>(a: A): <R, _>(self: ReaderTask<R, _>) => ReaderTask<R, A>
+}
+```
+
+Added in v2.16.0
+
+## asUnit
+
+Maps the value to the void constant value.
+
+**Signature**
+
+```ts
+export declare const asUnit: <R, _>(self: ReaderTask<R, _>) => ReaderTask<R, void>
+```
+
+Added in v2.16.0
 
 ## flap
 

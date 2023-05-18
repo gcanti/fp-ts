@@ -695,4 +695,14 @@ describe.concurrent('Either', () => {
     U.deepStrictEqual(f('a'), _.right(1))
     U.deepStrictEqual(f(''), _.left(new Error('empty string')))
   })
+
+  it('as', () => {
+    U.deepStrictEqual(pipe(_.right('a'), _.as('b')), _.right('b'))
+    U.deepStrictEqual(_.as(_.of('a'), 'b'), _.right('b'))
+    U.deepStrictEqual(_.as(_.left('error'), 'b'), _.left('error'))
+  })
+
+  it('asUnit', () => {
+    U.deepStrictEqual(pipe(_.of('a'), _.asUnit), _.of(undefined))
+  })
 })

@@ -427,3 +427,38 @@ export function getFunctorComposition<F, G>(F: Functor<F>, G: Functor<G>): Funct
     map: (fga, f) => pipe(fga, _map(f))
   }
 }
+
+/** @internal */
+export function as<F extends URIS4>(
+  F: Functor4<F>
+): <S, R, E, A, _>(self: Kind4<F, S, R, E, _>, a: A) => Kind4<F, S, R, E, A>
+/** @internal */
+export function as<F extends URIS3>(F: Functor3<F>): <R, E, A, _>(self: Kind3<F, R, E, _>, a: _) => Kind3<F, R, E, A>
+/** @internal */
+export function as<F extends URIS2>(F: Functor2<F>): <E, A, _>(self: Kind2<F, E, _>, a: A) => Kind2<F, E, A>
+/** @internal */
+export function as<F extends URIS>(F: Functor1<F>): <A, _>(self: Kind<F, _>, a: A) => Kind<F, A>
+/** @internal */
+export function as<F>(F: Functor<F>): <A, _>(self: HKT<F, _>, a: A) => HKT<F, A>
+/** @internal */
+export function as<F>(F: Functor<F>): <A, _>(self: HKT<F, _>, b: A) => HKT<F, A> {
+  return (self, b) => F.map(self, () => b)
+}
+
+/** @internal */
+export function asUnit<F extends URIS4>(
+  F: Functor4<F>
+): <S, R, E, _>(self: Kind4<F, S, R, E, _>) => Kind4<F, S, R, E, void>
+/** @internal */
+export function asUnit<F extends URIS3>(F: Functor3<F>): <R, E, _>(self: Kind3<F, R, E, _>) => Kind3<F, R, E, void>
+/** @internal */
+export function asUnit<F extends URIS2>(F: Functor2<F>): <E, _>(self: Kind2<F, E, _>) => Kind2<F, E, void>
+/** @internal */
+export function asUnit<F extends URIS>(F: Functor1<F>): <_>(self: Kind<F, _>) => Kind<F, void>
+/** @internal */
+export function asUnit<F>(F: Functor<F>): <_>(self: HKT<F, _>) => HKT<F, void>
+/** @internal */
+export function asUnit<F>(F: Functor<F>): <_>(self: HKT<F, _>) => HKT<F, void> {
+  const asM = as(F)
+  return (self) => asM(self, undefined)
+}

@@ -55,6 +55,8 @@ Added in v2.0.0
 - [lifting](#lifting)
   - [fromIOK](#fromiok)
 - [mapping](#mapping)
+  - [as](#as)
+  - [asUnit](#asunit)
   - [flap](#flap)
   - [map](#map)
 - [model](#model)
@@ -442,6 +444,30 @@ export declare const fromIOK: <A extends readonly unknown[], B>(f: (...a: A) => 
 Added in v2.4.0
 
 # mapping
+
+## as
+
+Maps the value to the specified constant value.
+
+**Signature**
+
+```ts
+export declare const as: { <A, _>(self: Task<_>, a: A): Task<A>; <A>(a: A): <_>(self: Task<_>) => Task<A> }
+```
+
+Added in v2.16.0
+
+## asUnit
+
+Maps the value to the void constant value.
+
+**Signature**
+
+```ts
+export declare const asUnit: <_>(self: Task<_>) => Task<void>
+```
+
+Added in v2.16.0
 
 ## flap
 
