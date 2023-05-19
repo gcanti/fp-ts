@@ -574,8 +574,6 @@ const _apSeq: Apply3<URI>['ap'] = (fab, fa) => flatMap(fab, (f) => pipe(fa, map(
 const _alt: Alt3<URI>['alt'] = (fa, that) => pipe(fa, alt(that))
 /* istanbul ignore next */
 const _bimap: Bifunctor3<URI>['bimap'] = (fa, f, g) => pipe(fa, bimap(f, g))
-/* istanbul ignore next */
-const _mapLeft: Bifunctor3<URI>['mapLeft'] = (fa, f) => pipe(fa, mapLeft(f))
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
@@ -599,13 +597,37 @@ export const bimap: <E, G, A, B>(
 ) => <R>(fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, G, B> = /*#__PURE__*/ ET.bimap(RT.Functor)
 
 /**
- * Map a function over the second type argument of a bifunctor.
+ * Returns a `ReaderTaskEither` with its error channel mapped using the specified function.
+ *
+ * @example
+ * import * as ReaderTaskEither from 'fp-ts/ReaderTaskEither'
+ * import * as Either from 'fp-ts/Either'
+ *
+ * const f = (s: string) => new Error(s)
+ *
+ * async function test() {
+ *   assert.deepStrictEqual(await ReaderTaskEither.mapError(ReaderTaskEither.right(1), f)({})(), Either.right(1))
+ *   assert.deepStrictEqual(await ReaderTaskEither.mapError(ReaderTaskEither.left('err'), f)({})(), Either.left(new Error('err')))
+ * }
+ *
+ * test()
  *
  * @category error handling
+ * @since 2.16.0
+ */
+export const mapError: {
+  <R, E, G>(f: (e: E) => G): <A>(self: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, G, A>
+  <R, E, A, G>(self: ReaderTaskEither<R, E, A>, f: (e: E) => G): ReaderTaskEither<R, G, A>
+} = /*#__PURE__*/ dual(2, ET.mapError(RT.Functor))
+
+/**
+ * Alias of `mapError`.
+ *
+ * @category legacy
  * @since 2.0.0
  */
 export const mapLeft: <E, G>(f: (e: E) => G) => <R, A>(fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, G, A> =
-  /*#__PURE__*/ ET.mapLeft(RT.Functor)
+  mapError
 
 /**
  * @since 2.0.0
@@ -1124,7 +1146,7 @@ export const tapTask: {
 export const Bifunctor: Bifunctor3<URI> = {
   URI,
   bimap: _bimap,
-  mapLeft: _mapLeft
+  mapLeft: mapError
 }
 
 /**
@@ -1883,7 +1905,7 @@ export const readerTaskEither: Monad3<URI> & Bifunctor3<URI> & Alt3<URI> & Monad
   chain: flatMap,
   alt: _alt,
   bimap: _bimap,
-  mapLeft: _mapLeft,
+  mapLeft: mapError,
   fromIO,
   fromTask,
   throwError
@@ -1907,7 +1929,7 @@ export const readerTaskEitherSeq: typeof readerTaskEither = {
   chain: flatMap,
   alt: _alt,
   bimap: _bimap,
-  mapLeft: _mapLeft,
+  mapLeft: mapError,
   fromIO,
   fromTask,
   throwError
@@ -1965,7 +1987,7 @@ export function getReaderTaskValidation<E>(
     of,
     chain: flatMap,
     bimap: _bimap,
-    mapLeft: _mapLeft,
+    mapLeft: mapError,
     ap: applicativeReaderTaskValidation.ap,
     alt: altReaderTaskValidation.alt,
     fromIO,

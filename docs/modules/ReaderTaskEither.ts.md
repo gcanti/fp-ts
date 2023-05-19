@@ -61,7 +61,7 @@ Added in v2.0.0
   - [getApplicativeReaderTaskValidation](#getapplicativereadertaskvalidation)
   - [getOrElse](#getorelse)
   - [getOrElseW](#getorelsew)
-  - [mapLeft](#mapleft)
+  - [mapError](#maperror)
   - [orElse](#orelse)
   - [orElseW](#orelsew)
   - [orLeft](#orleft)
@@ -106,6 +106,7 @@ Added in v2.0.0
   - [chainW](#chainw)
   - [fromNullableK](#fromnullablek)
   - [fromOptionK](#fromoptionk)
+  - [mapLeft](#mapleft)
   - [orElseFirst](#orelsefirst)
   - [orElseFirstW](#orelsefirstw)
 - [lifting](#lifting)
@@ -816,19 +817,39 @@ export declare const getOrElseW: <R2, E, B>(
 
 Added in v2.6.0
 
-## mapLeft
+## mapError
 
-Map a function over the second type argument of a bifunctor.
+Returns a `ReaderTaskEither` with its error channel mapped using the specified function.
 
 **Signature**
 
 ```ts
-export declare const mapLeft: <E, G>(
-  f: (e: E) => G
-) => <R, A>(fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, G, A>
+export declare const mapError: {
+  <R, E, G>(f: (e: E) => G): <A>(self: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, G, A>
+  <R, E, A, G>(self: ReaderTaskEither<R, E, A>, f: (e: E) => G): ReaderTaskEither<R, G, A>
+}
 ```
 
-Added in v2.0.0
+**Example**
+
+```ts
+import * as ReaderTaskEither from 'fp-ts/ReaderTaskEither'
+import * as Either from 'fp-ts/Either'
+
+const f = (s: string) => new Error(s)
+
+async function test() {
+  assert.deepStrictEqual(await ReaderTaskEither.mapError(ReaderTaskEither.right(1), f)({})(), Either.right(1))
+  assert.deepStrictEqual(
+    await ReaderTaskEither.mapError(ReaderTaskEither.left('err'), f)({})(),
+    Either.left(new Error('err'))
+  )
+}
+
+test()
+```
+
+Added in v2.16.0
 
 ## orElse
 
@@ -1367,6 +1388,20 @@ export declare const fromOptionK: <E>(
 ```
 
 Added in v2.10.0
+
+## mapLeft
+
+Alias of `mapError`.
+
+**Signature**
+
+```ts
+export declare const mapLeft: <E, G>(
+  f: (e: E) => G
+) => <R, A>(fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, G, A>
+```
+
+Added in v2.0.0
 
 ## orElseFirst
 

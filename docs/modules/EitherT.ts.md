@@ -559,22 +559,22 @@ Added in v2.10.0
 ```ts
 export declare function mapLeft<F extends URIS3>(
   F: Functor3<F>
-): <E, G>(f: (e: E) => G) => <R, FE, A>(fea: Kind3<F, R, FE, Either<E, A>>) => Kind3<F, R, FE, Either<G, A>>
+): <E, G>(f: (e: E) => G) => <R, FE, A>(self: Kind3<F, R, FE, Either<E, A>>) => Kind3<F, R, FE, Either<G, A>>
 export declare function mapLeft<F extends URIS3, FE>(
   F: Functor3C<F, FE>
-): <E, G>(f: (e: E) => G) => <R, A>(fea: Kind3<F, R, FE, Either<E, A>>) => Kind3<F, R, FE, Either<G, A>>
+): <E, G>(f: (e: E) => G) => <R, A>(self: Kind3<F, R, FE, Either<E, A>>) => Kind3<F, R, FE, Either<G, A>>
 export declare function mapLeft<F extends URIS2>(
   F: Functor2<F>
-): <E, G>(f: (e: E) => G) => <FE, A>(fea: Kind2<F, FE, Either<E, A>>) => Kind2<F, FE, Either<G, A>>
+): <E, G>(f: (e: E) => G) => <FE, A>(self: Kind2<F, FE, Either<E, A>>) => Kind2<F, FE, Either<G, A>>
 export declare function mapLeft<F extends URIS2, FE>(
   F: Functor2C<F, FE>
-): <E, G>(f: (e: E) => G) => <A>(fea: Kind2<F, FE, Either<E, A>>) => Kind2<F, FE, Either<G, A>>
+): <E, G>(f: (e: E) => G) => <A>(self: Kind2<F, FE, Either<E, A>>) => Kind2<F, FE, Either<G, A>>
 export declare function mapLeft<F extends URIS>(
   F: Functor1<F>
-): <E, G>(f: (e: E) => G) => <A>(fea: Kind<F, Either<E, A>>) => Kind<F, Either<G, A>>
+): <E, G>(f: (e: E) => G) => <A>(self: Kind<F, Either<E, A>>) => Kind<F, Either<G, A>>
 export declare function mapLeft<F>(
   F: Functor<F>
-): <E, G>(f: (e: E) => G) => <A>(fea: HKT<F, Either<E, A>>) => HKT<F, Either<G, A>>
+): <E, G>(f: (e: E) => G) => <A>(self: HKT<F, Either<E, A>>) => HKT<F, Either<G, A>>
 ```
 
 Added in v2.10.0

@@ -290,8 +290,6 @@ const _map: Monad3<URI>['map'] = (fa, f) => pipe(fa, map(f))
 /* istanbul ignore next */
 const _bimap: Bifunctor3<URI>['bimap'] = (fa, f, g) => pipe(fa, bimap(f, g))
 /* istanbul ignore next */
-const _mapLeft: Bifunctor3<URI>['mapLeft'] = (fa, f) => pipe(fa, mapLeft(f))
-/* istanbul ignore next */
 const _ap: Monad3<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
 /* istanbul ignore next */
 const _alt: Alt3<URI>['alt'] = (fa, that) => pipe(fa, alt(that))
@@ -318,13 +316,32 @@ export const bimap: <E, G, A, B>(
 ) => <R>(fa: ReaderEither<R, E, A>) => ReaderEither<R, G, B> = /*#__PURE__*/ ET.bimap(R.Functor)
 
 /**
- * Map a function over the second type argument of a bifunctor.
+ * Returns a `ReaderEither` with its error channel mapped using the specified function.
+ *
+ * @example
+ * import * as ReaderEither from 'fp-ts/ReaderEither'
+ * import * as Either from 'fp-ts/Either'
+ *
+ * const f = (s: string) => new Error(s)
+ *
+ * assert.deepStrictEqual(ReaderEither.mapError(ReaderEither.right(1), f)({}), Either.right(1))
+ * assert.deepStrictEqual(ReaderEither.mapError(ReaderEither.left('err'), f)({}), Either.left(new Error('err')))
  *
  * @category error handling
+ * @since 2.16.0
+ */
+export const mapError: {
+  <R, E, G>(f: (e: E) => G): <A>(self: ReaderEither<R, E, A>) => ReaderEither<R, G, A>
+  <R, E, A, G>(self: ReaderEither<R, E, A>, f: (e: E) => G): ReaderEither<R, G, A>
+} = /*#__PURE__*/ dual(2, ET.mapError(R.Functor))
+
+/**
+ * Alias of `mapError`.
+ *
+ * @category legacy
  * @since 2.0.0
  */
-export const mapLeft: <E, G>(f: (e: E) => G) => <R, A>(fa: ReaderEither<R, E, A>) => ReaderEither<R, G, A> =
-  /*#__PURE__*/ ET.mapLeft(R.Functor)
+export const mapLeft: <E, G>(f: (e: E) => G) => <R, A>(fa: ReaderEither<R, E, A>) => ReaderEither<R, G, A> = mapError
 
 /**
  * @since 2.0.0
@@ -692,7 +709,7 @@ export const tapEither: {
 export const Bifunctor: Bifunctor3<URI> = {
   URI,
   bimap: _bimap,
-  mapLeft: _mapLeft
+  mapLeft: mapError
 }
 
 /**
@@ -1209,7 +1226,7 @@ export const orElseFirstW: <E1, R2, E2, B>(
 export const readerEither: Monad3<URI> & Bifunctor3<URI> & Alt3<URI> & MonadThrow3<URI> = {
   URI,
   bimap: _bimap,
-  mapLeft: _mapLeft,
+  mapLeft: mapError,
   map: _map,
   of,
   ap: _ap,
@@ -1268,7 +1285,7 @@ export function getReaderValidation<E>(
     of,
     chain: flatMap,
     bimap: _bimap,
-    mapLeft: _mapLeft,
+    mapLeft: mapError,
     alt: altReaderValidation.alt,
     throwError
   }

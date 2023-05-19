@@ -48,7 +48,7 @@ Added in v2.0.0
   - [getApplicativeIOValidation](#getapplicativeiovalidation)
   - [getOrElse](#getorelse)
   - [getOrElseW](#getorelsew)
-  - [mapLeft](#mapleft)
+  - [mapError](#maperror)
   - [orElse](#orelse)
   - [orElseFirstIOK](#orelsefirstiok)
   - [orElseW](#orelsew)
@@ -89,6 +89,7 @@ Added in v2.0.0
   - [chainOptionKW](#chainoptionkw)
   - [chainW](#chainw)
   - [fromOptionK](#fromoptionk)
+  - [mapLeft](#mapleft)
   - [orElseFirst](#orelsefirst)
   - [orElseFirstW](#orelsefirstw)
 - [lifting](#lifting)
@@ -515,17 +516,32 @@ export declare const getOrElseW: <E, B>(onLeft: (e: E) => I.IO<B>) => <A>(ma: IO
 
 Added in v2.6.0
 
-## mapLeft
+## mapError
 
-Map a function over the first type argument of a bifunctor.
+Returns a `IOEither` with its error channel mapped using the specified function.
 
 **Signature**
 
 ```ts
-export declare const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: IOEither<E, A>) => IOEither<G, A>
+export declare const mapError: {
+  <E, G>(f: (e: E) => G): <A>(self: IOEither<E, A>) => IOEither<G, A>
+  <E, A, G>(self: IOEither<E, A>, f: (e: E) => G): IOEither<G, A>
+}
 ```
 
-Added in v2.0.0
+**Example**
+
+```ts
+import * as IOEither from 'fp-ts/IOEither'
+import * as Either from 'fp-ts/Either'
+
+const f = (s: string) => new Error(s)
+
+assert.deepStrictEqual(IOEither.mapError(IOEither.right(1), f)(), Either.right(1))
+assert.deepStrictEqual(IOEither.mapError(IOEither.left('err'), f)(), Either.left(new Error('err')))
+```
+
+Added in v2.16.0
 
 ## orElse
 
@@ -976,6 +992,18 @@ export declare const fromOptionK: <E>(
 ```
 
 Added in v2.10.0
+
+## mapLeft
+
+Alias of `mapError`.
+
+**Signature**
+
+```ts
+export declare const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: IOEither<E, A>) => IOEither<G, A>
+```
+
+Added in v2.0.0
 
 ## orElseFirst
 

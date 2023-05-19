@@ -56,7 +56,7 @@ Added in v2.0.0
   - [getApplicativeTaskValidation](#getapplicativetaskvalidation)
   - [getOrElse](#getorelse)
   - [getOrElseW](#getorelsew)
-  - [mapLeft](#mapleft)
+  - [mapError](#maperror)
   - [orElse](#orelse)
   - [orElseFirstIOK](#orelsefirstiok)
   - [orElseFirstTaskK](#orelsefirsttaskk)
@@ -105,6 +105,7 @@ Added in v2.0.0
   - [chainW](#chainw)
   - [fromNullableK](#fromnullablek)
   - [fromOptionK](#fromoptionk)
+  - [mapLeft](#mapleft)
   - [orElseFirst](#orelsefirst)
   - [orElseFirstW](#orelsefirstw)
 - [lifting](#lifting)
@@ -722,17 +723,36 @@ export declare const getOrElseW: <E, B>(onLeft: (e: E) => T.Task<B>) => <A>(ma: 
 
 Added in v2.6.0
 
-## mapLeft
+## mapError
 
-Map a function over the first type argument of a bifunctor.
+Returns a `TaskEither` with its error channel mapped using the specified function.
 
 **Signature**
 
 ```ts
-export declare const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: TaskEither<E, A>) => TaskEither<G, A>
+export declare const mapError: {
+  <E, G>(f: (e: E) => G): <A>(self: TaskEither<E, A>) => TaskEither<G, A>
+  <E, A, G>(self: TaskEither<E, A>, f: (e: E) => G): TaskEither<G, A>
+}
 ```
 
-Added in v2.0.0
+**Example**
+
+```ts
+import * as TaskEither from 'fp-ts/TaskEither'
+import * as Either from 'fp-ts/Either'
+
+const f = (s: string) => new Error(s)
+
+async function test() {
+  assert.deepStrictEqual(await TaskEither.mapError(TaskEither.right(1), f)(), Either.right(1))
+  assert.deepStrictEqual(await TaskEither.mapError(TaskEither.left('err'), f)(), Either.left(new Error('err')))
+}
+
+test()
+```
+
+Added in v2.16.0
 
 ## orElse
 
@@ -1361,6 +1381,18 @@ export declare const fromOptionK: <E>(
 ```
 
 Added in v2.10.0
+
+## mapLeft
+
+Alias of `mapError`.
+
+**Signature**
+
+```ts
+export declare const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: TaskEither<E, A>) => TaskEither<G, A>
+```
+
+Added in v2.0.0
 
 ## orElseFirst
 
