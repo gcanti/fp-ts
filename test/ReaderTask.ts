@@ -311,4 +311,8 @@ describe.concurrent('ReaderTask', () => {
   it('asUnit', async () => {
     U.deepStrictEqual(await pipe(_.of('a'), _.asUnit)('b')(), undefined)
   })
+
+  it('tapReader', async () => {
+    U.deepStrictEqual(await _.tapReader(_.of(1), () => R.of(2))({})(), 1)
+  })
 })

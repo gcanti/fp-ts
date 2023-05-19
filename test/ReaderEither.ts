@@ -423,4 +423,8 @@ describe.concurrent('ReaderEither', () => {
   it('asUnit', () => {
     U.deepStrictEqual(pipe(_.of('a'), _.asUnit)(undefined), E.of(undefined))
   })
+
+  it('tapReader', () => {
+    U.deepStrictEqual(_.tapReader(_.of(1), () => R.of(2))({}), E.of(1))
+  })
 })
