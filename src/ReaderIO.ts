@@ -8,10 +8,10 @@ import { chainIOK as chainIOK_, FromIO2, fromIOK as fromIOK_, tapIO as tapIO_ } 
 import {
   ask as ask_,
   asks as asks_,
-  chainFirstReaderK as chainFirstReaderK_,
   chainReaderK as chainReaderK_,
   FromReader2,
-  fromReaderK as fromReaderK_
+  fromReaderK as fromReaderK_,
+  tapReader as tapReader_
 } from './FromReader'
 import { dual, flow, identity, pipe, SK } from './function'
 import { as as as_, asUnit as asUnit_, bindTo as bindTo_, flap as flap_, Functor2 } from './Functor'
@@ -283,6 +283,15 @@ export const FromIO: FromIO2<URI> = {
 }
 
 /**
+ * @category instances
+ * @since 2.13.0
+ */
+export const FromReader: FromReader2<URI> = {
+  URI,
+  fromReader
+}
+
+/**
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
@@ -324,6 +333,18 @@ export const tapIO: {
 } = /*#__PURE__*/ dual(2, tapIO_(FromIO, Chain))
 
 /**
+ * Composes computations in sequence, using the return value of one computation to determine the next computation and
+ * keeping only the result of the first.
+ *
+ * @category combinators
+ * @since 2.16.0
+ */
+export const tapReader: {
+  <R1, A, R2, _>(self: ReaderIO<R1, A>, f: (a: A) => Reader<R2, _>): ReaderIO<R1 & R2, A>
+  <R2, A, _>(f: (a: A) => Reader<R2, _>): <R1>(self: ReaderIO<R1, A>) => ReaderIO<R1 & R2, A>
+} = /*#__PURE__*/ dual(2, tapReader_(FromReader, Chain))
+
+/**
  * @category lifting
  * @since 2.13.0
  */
@@ -345,15 +366,6 @@ export const chainIOK: <A, B>(f: (a: A) => I.IO<B>) => <E>(first: ReaderIO<E, A>
  * @since 2.13.0
  */
 export const chainFirstIOK: <A, B>(f: (a: A) => I.IO<B>) => <E>(first: ReaderIO<E, A>) => ReaderIO<E, A> = tapIO
-
-/**
- * @category instances
- * @since 2.13.0
- */
-export const FromReader: FromReader2<URI> = {
-  URI,
-  fromReader
-}
 
 /**
  * Reads the current context.
@@ -399,23 +411,27 @@ export const chainReaderKW: <A, R1, B>(
 ) => <R2>(ma: ReaderIO<R2, A>) => ReaderIO<R1 & R2, B> = chainReaderK as any
 
 /**
- * @category sequencing
+ * Alias of `tapReader`.
+ *
+ * @category legacy
  * @since 2.13.0
  */
 export const chainFirstReaderK: <A, R, B>(f: (a: A) => R.Reader<R, B>) => (ma: ReaderIO<R, A>) => ReaderIO<R, A> =
-  /*#__PURE__*/ chainFirstReaderK_(FromReader, Chain)
+  tapReader
 
 /**
+ * Alias of `tapReader`.
+ *
  * Less strict version of [`chainFirstReaderK`](#chainfirstreaderk).
  *
  * The `W` suffix (short for **W**idening) means that the environment types will be merged.
  *
- * @category sequencing
+ * @category legacy
  * @since 2.13.0
  */
 export const chainFirstReaderKW: <A, R1, B>(
   f: (a: A) => R.Reader<R1, B>
-) => <R2>(ma: ReaderIO<R2, A>) => ReaderIO<R1 & R2, A> = chainFirstReaderK as any
+) => <R2>(ma: ReaderIO<R2, A>) => ReaderIO<R1 & R2, A> = tapReader
 
 // -------------------------------------------------------------------------------------
 // do notation

@@ -14,10 +14,10 @@ import { chainIOK as chainIOK_, FromIO2, fromIOK as fromIOK_, tapIO as tapIO_ } 
 import {
   ask as ask_,
   asks as asks_,
-  chainFirstReaderK as chainFirstReaderK_,
   chainReaderK as chainReaderK_,
   FromReader2,
-  fromReaderK as fromReaderK_
+  fromReaderK as fromReaderK_,
+  tapReader as tapReader_
 } from './FromReader'
 import { chainTaskK as chainTaskK_, FromTask2, fromTaskK as fromTaskK_, tapTask as tapTask_ } from './FromTask'
 import { dual, flow, identity, pipe, SK } from './function'
@@ -368,6 +368,15 @@ export const FromTask: FromTask2<URI> = {
 }
 
 /**
+ * @category instances
+ * @since 2.11.0
+ */
+export const FromReader: FromReader2<URI> = {
+  URI,
+  fromReader
+}
+
+/**
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
@@ -407,6 +416,18 @@ export const tapIO: {
   <R, A, _>(self: ReaderTask<R, A>, f: (a: A) => IO<_>): ReaderTask<R, A>
   <A, _>(f: (a: A) => IO<_>): <R>(self: ReaderTask<R, A>) => ReaderTask<R, A>
 } = /*#__PURE__*/ dual(2, tapIO_(FromIO, Chain))
+
+/**
+ * Composes computations in sequence, using the return value of one computation to determine the next computation and
+ * keeping only the result of the first.
+ *
+ * @category combinators
+ * @since 2.16.0
+ */
+export const tapReader: {
+  <R1, R2, A, _>(self: ReaderTask<R1, A>, f: (a: A) => R.Reader<R2, _>): ReaderTask<R1 & R2, A>
+  <R2, A, _>(f: (a: A) => R.Reader<R2, _>): <R1>(self: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A>
+} = /*#__PURE__*/ dual(2, tapReader_(FromReader, Chain))
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
@@ -460,15 +481,6 @@ export const chainIOK: <A, B>(f: (a: A) => IO<B>) => <R>(first: ReaderTask<R, A>
 export const chainFirstIOK: <A, B>(f: (a: A) => IO<B>) => <R>(first: ReaderTask<R, A>) => ReaderTask<R, A> = tapIO
 
 /**
- * @category instances
- * @since 2.11.0
- */
-export const FromReader: FromReader2<URI> = {
-  URI,
-  fromReader
-}
-
-/**
  * Reads the current context.
  *
  * @category constructors
@@ -512,23 +524,27 @@ export const chainReaderKW: <A, R1, B>(
 ) => <R2>(ma: ReaderTask<R2, A>) => ReaderTask<R1 & R2, B> = chainReaderK as any
 
 /**
- * @category sequencing
+ * Alias of `tapReader`.
+ *
+ * @category legacy
  * @since 2.11.0
  */
 export const chainFirstReaderK: <A, R, B>(f: (a: A) => R.Reader<R, B>) => (ma: ReaderTask<R, A>) => ReaderTask<R, A> =
-  /*#__PURE__*/ chainFirstReaderK_(FromReader, Chain)
+  tapReader
 
 /**
+ * Alias of `tapReader`.
+ *
  * Less strict version of [`chainFirstReaderK`](#chainfirstreaderk).
  *
  * The `W` suffix (short for **W**idening) means that the environment types will be merged.
  *
- * @category sequencing
+ * @category legacy
  * @since 2.11.0
  */
 export const chainFirstReaderKW: <A, R1, B>(
   f: (a: A) => R.Reader<R1, B>
-) => <R2>(ma: ReaderTask<R2, A>) => ReaderTask<R1 & R2, A> = chainFirstReaderK as any
+) => <R2>(ma: ReaderTask<R2, A>) => ReaderTask<R1 & R2, A> = tapReader
 
 /**
  * @category lifting

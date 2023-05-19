@@ -36,10 +36,10 @@ import {
 import {
   ask as ask_,
   asks as asks_,
-  chainFirstReaderK as chainFirstReaderK_,
   chainReaderK as chainReaderK_,
   FromReader3,
-  fromReaderK as fromReaderK_
+  fromReaderK as fromReaderK_,
+  tapReader as tapReader_
 } from './FromReader'
 import { dual, flow, identity, LazyArg, pipe, SK } from './function'
 import { as as as_, asUnit as asUnit_, bindTo as bindTo_, flap as flap_, Functor3, let as let__ } from './Functor'
@@ -656,6 +656,15 @@ export const FromEither: FromEither3<URI> = {
 }
 
 /**
+ * @category instances
+ * @since 2.11.0
+ */
+export const FromReader: FromReader3<URI> = {
+  URI,
+  fromReader
+}
+
+/**
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
@@ -703,6 +712,18 @@ export const tapEither: {
 } = /*#__PURE__*/ dual(2, tapEither_(FromEither, Chain))
 
 /**
+ * Composes computations in sequence, using the return value of one computation to determine the next computation and
+ * keeping only the result of the first.
+ *
+ * @category combinators
+ * @since 2.16.0
+ */
+export const tapReader: {
+  <R1, R2, E, A, _>(self: ReaderEither<R1, E, A>, f: (a: A) => Reader<R2, _>): ReaderEither<R1 & R2, E, A>
+  <R2, A, E, _>(f: (a: A) => Reader<R2, _>): <R1>(self: ReaderEither<R1, E, A>) => ReaderEither<R1 & R2, E, A>
+} = /*#__PURE__*/ dual(2, tapReader_(FromReader, Chain))
+
+/**
  * @category instances
  * @since 2.7.0
  */
@@ -720,15 +741,6 @@ export const Alt: Alt3<URI> = {
   URI,
   map: _map,
   alt: _alt
-}
-
-/**
- * @category instances
- * @since 2.11.0
- */
-export const FromReader: FromReader3<URI> = {
-  URI,
-  fromReader
 }
 
 /**
@@ -776,24 +788,28 @@ export const chainReaderKW: <A, R2, B>(
 ) => <R1, E>(ma: ReaderEither<R1, E, A>) => ReaderEither<R1 & R2, E, B> = chainReaderK as any
 
 /**
- * @category sequencing
+ * Alias of `tapReader`.
+ *
+ * @category legacy
  * @since 2.11.0
  */
 export const chainFirstReaderK: <A, R, B>(
   f: (a: A) => Reader<R, B>
-) => <E>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A> = /*#__PURE__*/ chainFirstReaderK_(FromReader, Chain)
+) => <E>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A> = tapReader
 
 /**
+ * Alias of `tapReader`.
+ *
  * Less strict version of [`chainReaderK`](#chainreaderk).
  *
  * The `W` suffix (short for **W**idening) means that the environment types will be merged.
  *
- * @category sequencing
+ * @category legacy
  * @since 2.11.0
  */
 export const chainFirstReaderKW: <A, R1, B>(
   f: (a: A) => Reader<R1, B>
-) => <R2, E>(ma: ReaderEither<R2, E, A>) => ReaderEither<R1 & R2, E, A> = chainFirstReaderK as any
+) => <R2, E>(ma: ReaderEither<R2, E, A>) => ReaderEither<R1 & R2, E, A> = tapReader
 
 /**
  * @category instances

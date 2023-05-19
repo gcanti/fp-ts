@@ -15,6 +15,7 @@ Added in v2.13.0
 - [combinators](#combinators)
   - [tap](#tap)
   - [tapIO](#tapio)
+  - [tapReader](#tapreader)
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
@@ -45,6 +46,8 @@ Added in v2.13.0
   - [chain](#chain)
   - [chainFirst](#chainfirst)
   - [chainFirstIOK](#chainfirstiok)
+  - [chainFirstReaderK](#chainfirstreaderk)
+  - [chainFirstReaderKW](#chainfirstreaderkw)
   - [chainFirstW](#chainfirstw)
   - [chainW](#chainw)
 - [lifting](#lifting)
@@ -58,8 +61,6 @@ Added in v2.13.0
 - [model](#model)
   - [ReaderIO (interface)](#readerio-interface)
 - [sequencing](#sequencing)
-  - [chainFirstReaderK](#chainfirstreaderk)
-  - [chainFirstReaderKW](#chainfirstreaderkw)
   - [chainIOK](#chainiok)
   - [chainReaderK](#chainreaderk)
   - [chainReaderKW](#chainreaderkw)
@@ -135,6 +136,22 @@ async function test() {
 }
 
 test()
+```
+
+Added in v2.16.0
+
+## tapReader
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+**Signature**
+
+```ts
+export declare const tapReader: {
+  <R1, A, R2, _>(self: ReaderIO<R1, A>, f: (a: A) => R.Reader<R2, _>): ReaderIO<R1 & R2, A>
+  <R2, A, _>(f: (a: A) => R.Reader<R2, _>): <R1>(self: ReaderIO<R1, A>) => ReaderIO<R1 & R2, A>
+}
 ```
 
 Added in v2.16.0
@@ -433,6 +450,36 @@ export declare const chainFirstIOK: <A, B>(f: (a: A) => I.IO<B>) => <E>(first: R
 
 Added in v2.13.0
 
+## chainFirstReaderK
+
+Alias of `tapReader`.
+
+**Signature**
+
+```ts
+export declare const chainFirstReaderK: <A, R, B>(f: (a: A) => R.Reader<R, B>) => (ma: ReaderIO<R, A>) => ReaderIO<R, A>
+```
+
+Added in v2.13.0
+
+## chainFirstReaderKW
+
+Alias of `tapReader`.
+
+Less strict version of [`chainFirstReaderK`](#chainfirstreaderk).
+
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
+
+**Signature**
+
+```ts
+export declare const chainFirstReaderKW: <A, R1, B>(
+  f: (a: A) => R.Reader<R1, B>
+) => <R2>(ma: ReaderIO<R2, A>) => ReaderIO<R1 & R2, A>
+```
+
+Added in v2.13.0
+
 ## chainFirstW
 
 Alias of `tap`.
@@ -554,32 +601,6 @@ export interface ReaderIO<R, A> {
 Added in v2.13.0
 
 # sequencing
-
-## chainFirstReaderK
-
-**Signature**
-
-```ts
-export declare const chainFirstReaderK: <A, R, B>(f: (a: A) => R.Reader<R, B>) => (ma: ReaderIO<R, A>) => ReaderIO<R, A>
-```
-
-Added in v2.13.0
-
-## chainFirstReaderKW
-
-Less strict version of [`chainFirstReaderK`](#chainfirstreaderk).
-
-The `W` suffix (short for **W**idening) means that the environment types will be merged.
-
-**Signature**
-
-```ts
-export declare const chainFirstReaderKW: <A, R1, B>(
-  f: (a: A) => R.Reader<R1, B>
-) => <R2>(ma: ReaderIO<R2, A>) => ReaderIO<R1 & R2, A>
-```
-
-Added in v2.13.0
 
 ## chainIOK
 

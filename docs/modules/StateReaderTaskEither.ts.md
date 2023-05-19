@@ -16,6 +16,7 @@ Added in v2.0.0
   - [tap](#tap)
   - [tapEither](#tapeither)
   - [tapIO](#tapio)
+  - [tapReader](#tapreader)
   - [tapTask](#taptask)
 - [constructors](#constructors)
   - [ask](#ask)
@@ -80,8 +81,10 @@ Added in v2.0.0
   - [chainFirstEitherK](#chainfirsteitherk)
   - [chainFirstEitherKW](#chainfirsteitherkw)
   - [chainFirstIOK](#chainfirstiok)
+  - [chainFirstReaderK](#chainfirstreaderk)
   - [chainFirstTaskK](#chainfirsttaskk)
   - [chainFirstW](#chainfirstw)
+  - [chainReaderKW](#chainreaderkw)
   - [chainW](#chainw)
 - [lifting](#lifting)
   - [fromEitherK](#fromeitherk)
@@ -105,7 +108,6 @@ Added in v2.0.0
 - [sequencing](#sequencing)
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
-  - [chainFirstReaderK](#chainfirstreaderk)
   - [chainFirstReaderKW](#chainfirstreaderkw)
   - [chainIOEitherK](#chainioeitherk)
   - [chainIOEitherKW](#chainioeitherkw)
@@ -113,7 +115,6 @@ Added in v2.0.0
   - [chainOptionK](#chainoptionk)
   - [chainOptionKW](#chainoptionkw)
   - [chainReaderK](#chainreaderk)
-  - [chainReaderKW](#chainreaderkw)
   - [chainReaderTaskEitherK](#chainreadertaskeitherk)
   - [chainReaderTaskEitherKW](#chainreadertaskeitherkw)
   - [chainStateK](#chainstatek)
@@ -214,6 +215,29 @@ keeping only the result of the first.
 export declare const tapIO: {
   <S, R, E, A, _>(self: StateReaderTaskEither<S, R, E, A>, f: (a: A) => IO<_>): StateReaderTaskEither<S, R, E, A>
   <A, _>(f: (a: A) => IO<_>): <S, R, E>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A>
+}
+```
+
+Added in v2.16.0
+
+## tapReader
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+**Signature**
+
+```ts
+export declare const tapReader: {
+  <S, R1, R2, E, A, _>(self: StateReaderTaskEither<S, R1, E, A>, f: (a: A) => R.Reader<R2, _>): StateReaderTaskEither<
+    S,
+    R1 & R2,
+    E,
+    A
+  >
+  <R2, A, _>(f: (a: A) => R.Reader<R2, _>): <S, R1, E>(
+    self: StateReaderTaskEither<S, R1, E, A>
+  ) => StateReaderTaskEither<S, R1 & R2, E, A>
 }
 ```
 
@@ -905,6 +929,20 @@ export declare const chainFirstIOK: <A, B>(
 
 Added in v2.10.0
 
+## chainFirstReaderK
+
+Alias of `tapReader`.
+
+**Signature**
+
+```ts
+export declare const chainFirstReaderK: <A, R, B>(
+  f: (a: A) => R.Reader<R, B>
+) => <S, E>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A>
+```
+
+Added in v2.11.0
+
 ## chainFirstTaskK
 
 Alias of `tapTask`.
@@ -932,6 +970,24 @@ export declare const chainFirstW: <S, R2, E2, A, B>(
 ```
 
 Added in v2.8.0
+
+## chainReaderKW
+
+Alias of `tapReader`.
+
+Less strict version of [`chainReaderK`](#chainReaderK).
+
+The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
+
+**Signature**
+
+```ts
+export declare const chainReaderKW: <A, R1, B>(
+  f: (a: A) => R.Reader<R1, B>
+) => <S, R2, E>(ma: StateReaderTaskEither<S, R2, E, A>) => StateReaderTaskEither<S, R1 & R2, E, B>
+```
+
+Added in v2.11.0
 
 ## chainW
 
@@ -1196,18 +1252,6 @@ export declare const chainEitherKW: <E2, A, B>(
 
 Added in v2.6.1
 
-## chainFirstReaderK
-
-**Signature**
-
-```ts
-export declare const chainFirstReaderK: <A, R, B>(
-  f: (a: A) => R.Reader<R, B>
-) => <S, E>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A>
-```
-
-Added in v2.11.0
-
 ## chainFirstReaderKW
 
 Less strict version of [`chainFirstReaderK`](#chainFirstReaderK).
@@ -1302,22 +1346,6 @@ Added in v2.13.2
 export declare const chainReaderK: <A, R, B>(
   f: (a: A) => R.Reader<R, B>
 ) => <S, E>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
-```
-
-Added in v2.11.0
-
-## chainReaderKW
-
-Less strict version of [`chainReaderK`](#chainReaderK).
-
-The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
-
-**Signature**
-
-```ts
-export declare const chainReaderKW: <A, R1, B>(
-  f: (a: A) => R.Reader<R1, B>
-) => <S, R2, E>(ma: StateReaderTaskEither<S, R2, E, A>) => StateReaderTaskEither<S, R1 & R2, E, B>
 ```
 
 Added in v2.11.0

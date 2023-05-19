@@ -16,6 +16,7 @@ Added in v2.0.0
   - [tap](#tap)
   - [tapEither](#tapeither)
   - [tapIO](#tapio)
+  - [tapReader](#tapreader)
   - [tapTask](#taptask)
 - [constructors](#constructors)
   - [ask](#ask)
@@ -98,6 +99,8 @@ Added in v2.0.0
   - [chainFirstEitherK](#chainfirsteitherk)
   - [chainFirstEitherKW](#chainfirsteitherkw)
   - [chainFirstIOK](#chainfirstiok)
+  - [chainFirstReaderK](#chainfirstreaderk)
+  - [chainFirstReaderKW](#chainfirstreaderkw)
   - [chainFirstTaskK](#chainfirsttaskk)
   - [chainFirstW](#chainfirstw)
   - [chainNullableK](#chainnullablek)
@@ -142,8 +145,6 @@ Added in v2.0.0
   - [chainFirstReaderEitherKW](#chainfirstreadereitherkw)
   - [chainFirstReaderIOK](#chainfirstreaderiok)
   - [chainFirstReaderIOKW](#chainfirstreaderiokw)
-  - [chainFirstReaderK](#chainfirstreaderk)
-  - [chainFirstReaderKW](#chainfirstreaderkw)
   - [chainFirstReaderTaskK](#chainfirstreadertaskk)
   - [chainFirstReaderTaskKW](#chainfirstreadertaskkw)
   - [chainFirstTaskEitherK](#chainfirsttaskeitherk)
@@ -297,6 +298,22 @@ async function test() {
 }
 
 test()
+```
+
+Added in v2.16.0
+
+## tapReader
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+**Signature**
+
+```ts
+export declare const tapReader: {
+  <R1, R2, E, A, _>(self: ReaderTaskEither<R1, E, A>, f: (a: A) => R.Reader<R2, _>): ReaderTaskEither<R1 & R2, E, A>
+  <R2, A, _>(f: (a: A) => R.Reader<R2, _>): <R1, E>(self: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, A>
+}
 ```
 
 Added in v2.16.0
@@ -1273,6 +1290,38 @@ export declare const chainFirstIOK: <A, B>(
 
 Added in v2.10.0
 
+## chainFirstReaderK
+
+Alias of `tapReader`.
+
+**Signature**
+
+```ts
+export declare const chainFirstReaderK: <A, R, B>(
+  f: (a: A) => R.Reader<R, B>
+) => <E>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
+```
+
+Added in v2.11.0
+
+## chainFirstReaderKW
+
+Alias of `tapReader`.
+
+Less strict version of [`chainFirstReaderK`](#chainfirstreaderk).
+
+The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
+
+**Signature**
+
+```ts
+export declare const chainFirstReaderKW: <A, R1, B>(
+  f: (a: A) => R.Reader<R1, B>
+) => <R2, E>(ma: ReaderTaskEither<R2, E, A>) => ReaderTaskEither<R1 & R2, E, A>
+```
+
+Added in v2.11.0
+
 ## chainFirstTaskK
 
 Alias of `tapTask`.
@@ -1815,34 +1864,6 @@ export declare const chainFirstReaderIOKW: <A, R2, B>(
 ```
 
 Added in v2.13.0
-
-## chainFirstReaderK
-
-**Signature**
-
-```ts
-export declare const chainFirstReaderK: <A, R, B>(
-  f: (a: A) => R.Reader<R, B>
-) => <E>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
-```
-
-Added in v2.11.0
-
-## chainFirstReaderKW
-
-Less strict version of [`chainFirstReaderK`](#chainfirstreaderk).
-
-The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
-
-**Signature**
-
-```ts
-export declare const chainFirstReaderKW: <A, R1, B>(
-  f: (a: A) => R.Reader<R1, B>
-) => <R2, E>(ma: ReaderTaskEither<R2, E, A>) => ReaderTaskEither<R1 & R2, E, A>
-```
-
-Added in v2.11.0
 
 ## chainFirstReaderTaskK
 

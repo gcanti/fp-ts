@@ -541,4 +541,14 @@ describe.concurrent('StateReaderTaskEither', () => {
   it('asUnit', async () => {
     U.deepStrictEqual(await pipe(_.of('a'), _.asUnit, _.evaluate(state))(undefined)(), E.of(undefined))
   })
+
+  it('tapReader', async () => {
+    U.deepStrictEqual(
+      await pipe(
+        _.tapReader(_.of(1), () => R.of(2)),
+        _.evaluate(state)
+      )({})(),
+      E.of(1)
+    )
+  })
 })

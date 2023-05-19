@@ -23,10 +23,10 @@ import { chainIOK as chainIOK_, FromIO4, fromIOK as fromIOK_, tapIO as tapIO_ } 
 import {
   ask as ask_,
   asks as asks_,
-  chainFirstReaderK as chainFirstReaderK_,
   chainReaderK as chainReaderK_,
   FromReader4,
-  fromReaderK as fromReaderK_
+  fromReaderK as fromReaderK_,
+  tapReader as tapReader_
 } from './FromReader'
 import {
   chainStateK as chainStateK_,
@@ -780,6 +780,15 @@ export const FromTask: FromTask4<URI> = {
 }
 
 /**
+ * @category instances
+ * @since 2.11.0
+ */
+export const FromReader: FromReader4<URI> = {
+  URI,
+  fromReader
+}
+
+/**
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
@@ -840,6 +849,25 @@ export const tapTask: {
 } = /*#__PURE__*/ dual(2, tapTask_(FromTask, Chain))
 
 /**
+ * Composes computations in sequence, using the return value of one computation to determine the next computation and
+ * keeping only the result of the first.
+ *
+ * @category combinators
+ * @since 2.16.0
+ */
+export const tapReader: {
+  <S, R1, R2, E, A, _>(self: StateReaderTaskEither<S, R1, E, A>, f: (a: A) => Reader<R2, _>): StateReaderTaskEither<
+    S,
+    R1 & R2,
+    E,
+    A
+  >
+  <R2, A, _>(f: (a: A) => Reader<R2, _>): <S, R1, E>(
+    self: StateReaderTaskEither<S, R1, E, A>
+  ) => StateReaderTaskEither<S, R1 & R2, E, A>
+} = /*#__PURE__*/ dual(2, tapReader_(FromReader, Chain))
+
+/**
  * @category instances
  * @since 2.7.0
  */
@@ -857,15 +885,6 @@ export const Alt: Alt4<URI> = {
   URI,
   map: _map,
   alt: _alt
-}
-
-/**
- * @category instances
- * @since 2.11.0
- */
-export const FromReader: FromReader4<URI> = {
-  URI,
-  fromReader
 }
 
 /**
@@ -905,25 +924,28 @@ export const chainReaderK: <A, R, B>(
 )
 
 /**
+ * Alias of `tapReader`.
+ *
  * Less strict version of [`chainReaderK`](#chainReaderK).
  *
  * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
  *
- * @category sequencing
+ * @category legacy
  * @since 2.11.0
  */
 export const chainReaderKW: <A, R1, B>(
   f: (a: A) => Reader<R1, B>
-) => <S, R2, E>(ma: StateReaderTaskEither<S, R2, E, A>) => StateReaderTaskEither<S, R1 & R2, E, B> = chainReaderK as any
+) => <S, R2, E>(ma: StateReaderTaskEither<S, R2, E, A>) => StateReaderTaskEither<S, R1 & R2, E, B> = tapReader
 
 /**
- * @category sequencing
+ * Alias of `tapReader`.
+ *
+ * @category legacy
  * @since 2.11.0
  */
 export const chainFirstReaderK: <A, R, B>(
   f: (a: A) => Reader<R, B>
-) => <S, E>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A> =
-  /*#__PURE__*/ chainFirstReaderK_(FromReader, Chain)
+) => <S, E>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A> = tapReader
 
 /**
  * Less strict version of [`chainFirstReaderK`](#chainFirstReaderK).
