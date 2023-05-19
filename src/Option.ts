@@ -921,6 +921,28 @@ export const getOrElseW =
 export const getOrElse: <A>(onNone: LazyArg<A>) => (ma: Option<A>) => A = getOrElseW
 
 /**
+ * Returns the provided `Option` `that` if `self` is `None`, otherwise returns `self`.
+ *
+ * @param self - The first `Option` to be checked.
+ * @param that - The `Option` to return if `self` is `None`.
+ *
+ * @example
+ * import * as O from "fp-ts/Option"
+ *
+ * assert.deepStrictEqual(O.orElse(O.none, () => O.none), O.none)
+ * assert.deepStrictEqual(O.orElse(O.some(1), () => O.none), O.some(1))
+ * assert.deepStrictEqual(O.orElse(O.none, () => O.some('b')), O.some('b'))
+ * assert.deepStrictEqual(O.orElse(O.some(1), () => O.some('b')), O.some(1))
+ *
+ * @category error handling
+ * @since 2.16.0
+ */
+export const orElse: {
+  <B>(that: LazyArg<Option<B>>): <A>(self: Option<A>) => Option<A | B>
+  <A, B>(self: Option<A>, that: LazyArg<Option<B>>): Option<A | B>
+} = dual(2, <A, B>(self: Option<A>, that: LazyArg<Option<B>>): Option<A | B> => (isNone(self) ? that() : self))
+
+/**
  * @category mapping
  * @since 2.10.0
  */
