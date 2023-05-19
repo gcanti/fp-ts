@@ -16,6 +16,7 @@ Added in v2.10.0
   - [tap](#tap)
   - [tapEither](#tapeither)
   - [tapIO](#tapio)
+  - [tapTask](#taptask)
 - [constructors](#constructors)
   - [none](#none)
   - [of](#of)
@@ -73,6 +74,7 @@ Added in v2.10.0
   - [chainFirst](#chainfirst)
   - [chainFirstEitherK](#chainfirsteitherk)
   - [chainFirstIOK](#chainfirstiok)
+  - [chainFirstTaskK](#chainfirsttaskk)
 - [lifting](#lifting)
   - [fromEitherK](#fromeitherk)
   - [fromIOK](#fromiok)
@@ -96,7 +98,6 @@ Added in v2.10.0
   - [matchW](#matchw)
 - [sequencing](#sequencing)
   - [chainEitherK](#chaineitherk)
-  - [chainFirstTaskK](#chainfirsttaskk)
   - [chainIOK](#chainiok)
   - [chainNullableK](#chainnullablek)
   - [chainOptionK](#chainoptionk)
@@ -216,6 +217,38 @@ const effectB = pipe(
 async function test() {
   assert.deepStrictEqual(await effectA(), O.of(1))
   assert.deepStrictEqual(await effectB(), O.none)
+}
+
+test()
+```
+
+Added in v2.16.0
+
+## tapTask
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+**Signature**
+
+```ts
+export declare const tapTask: {
+  <A, _>(self: TaskOption<A>, f: (a: A) => T.Task<_>): TaskOption<A>
+  <A, _>(f: (a: A) => T.Task<_>): (self: TaskOption<A>) => TaskOption<A>
+}
+```
+
+**Example**
+
+```ts
+import * as TO from 'fp-ts/TaskOption'
+import * as O from 'fp-ts/Option'
+import * as T from 'fp-ts/Task'
+
+const effect = TO.tapIO(TO.of(1), (value) => T.of(value + 1))
+
+async function test() {
+  assert.deepStrictEqual(await effect(), O.of(1))
 }
 
 test()
@@ -780,6 +813,18 @@ export declare const chainFirstIOK: <A, B>(f: (a: A) => IO<B>) => (first: TaskOp
 
 Added in v2.10.0
 
+## chainFirstTaskK
+
+Alias of `tapTask`.
+
+**Signature**
+
+```ts
+export declare const chainFirstTaskK: <A, B>(f: (a: A) => T.Task<B>) => (first: TaskOption<A>) => TaskOption<A>
+```
+
+Added in v2.10.0
+
 # lifting
 
 ## fromEitherK
@@ -1017,16 +1062,6 @@ export declare const chainEitherK: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: 
 ```
 
 Added in v2.12.0
-
-## chainFirstTaskK
-
-**Signature**
-
-```ts
-export declare const chainFirstTaskK: <A, B>(f: (a: A) => T.Task<B>) => (first: TaskOption<A>) => TaskOption<A>
-```
-
-Added in v2.10.0
 
 ## chainIOK
 

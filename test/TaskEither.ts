@@ -872,4 +872,13 @@ describe.concurrent('TaskEither', () => {
   it('asUnit', async () => {
     U.deepStrictEqual(await pipe(_.of('a'), _.asUnit)(), E.of(undefined))
   })
+
+  it('tapTask', async () => {
+    const ref: Array<number> = []
+    const add = (value: number) => T.fromIO(() => ref.push(value))
+
+    U.deepStrictEqual(await pipe(_.of(1), _.tapTask(add))(), E.of(1))
+    U.deepStrictEqual(await pipe(_.left('error'), _.tapTask(add))(), E.left('error'))
+    U.deepStrictEqual(ref, [1])
+  })
 })

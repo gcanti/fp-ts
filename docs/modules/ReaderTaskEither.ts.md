@@ -16,6 +16,7 @@ Added in v2.0.0
   - [tap](#tap)
   - [tapEither](#tapeither)
   - [tapIO](#tapio)
+  - [tapTask](#taptask)
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
@@ -97,6 +98,7 @@ Added in v2.0.0
   - [chainFirstEitherK](#chainfirsteitherk)
   - [chainFirstEitherKW](#chainfirsteitherkw)
   - [chainFirstIOK](#chainfirstiok)
+  - [chainFirstTaskK](#chainfirsttaskk)
   - [chainFirstW](#chainfirstw)
   - [chainNullableK](#chainnullablek)
   - [chainOptionK](#chainoptionk)
@@ -145,7 +147,6 @@ Added in v2.0.0
   - [chainFirstReaderTaskKW](#chainfirstreadertaskkw)
   - [chainFirstTaskEitherK](#chainfirsttaskeitherk)
   - [chainFirstTaskEitherKW](#chainfirsttaskeitherkw)
-  - [chainFirstTaskK](#chainfirsttaskk)
   - [chainIOEitherK](#chainioeitherk)
   - [chainIOEitherKW](#chainioeitherkw)
   - [chainIOK](#chainiok)
@@ -292,6 +293,38 @@ const effect = RTE.tapIO(RTE.ask<string>(), (value) => Console.log(`Hello, ${val
 
 async function test() {
   assert.deepStrictEqual(await effect('fp-ts')(), E.of('fp-ts'))
+}
+
+test()
+```
+
+Added in v2.16.0
+
+## tapTask
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+**Signature**
+
+```ts
+export declare const tapTask: {
+  <R, E, A, _>(self: ReaderTaskEither<R, E, A>, f: (a: A) => T.Task<_>): ReaderTaskEither<R, E, A>
+  <A, _>(f: (a: A) => T.Task<_>): <R, E>(self: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
+}
+```
+
+**Example**
+
+```ts
+import * as RTE from 'fp-ts/ReaderTaskEither'
+import * as E from 'fp-ts/Either'
+import * as T from 'fp-ts/Task'
+
+const effect = RTE.tapTask(RTE.ask<number>(), (value) => T.of(value + 1))
+
+async function test() {
+  assert.deepStrictEqual(await effect(1)(), E.of(1))
 }
 
 test()
@@ -1219,6 +1252,20 @@ export declare const chainFirstIOK: <A, B>(
 
 Added in v2.10.0
 
+## chainFirstTaskK
+
+Alias of `tapTask`.
+
+**Signature**
+
+```ts
+export declare const chainFirstTaskK: <A, B>(
+  f: (a: A) => T.Task<B>
+) => <R, E>(first: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
+```
+
+Added in v2.10.0
+
 ## chainFirstW
 
 Alias of `tap`.
@@ -1817,18 +1864,6 @@ export declare const chainFirstTaskEitherKW: <E2, A, B>(
 ```
 
 Added in v2.11.0
-
-## chainFirstTaskK
-
-**Signature**
-
-```ts
-export declare const chainFirstTaskK: <A, B>(
-  f: (a: A) => T.Task<B>
-) => <R, E>(first: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
-```
-
-Added in v2.10.0
 
 ## chainIOEitherK
 

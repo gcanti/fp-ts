@@ -400,4 +400,13 @@ describe.concurrent('TaskOption', () => {
   it('asUnit', async () => {
     U.deepStrictEqual(await pipe(_.some('a'), _.asUnit)(), O.some(undefined))
   })
+
+  it('tapIO', async () => {
+    const ref: Array<number> = []
+    const add = (value: number) => T.fromIO(() => ref.push(value))
+
+    U.deepStrictEqual(await pipe(_.of(1), _.tapTask(add))(), O.of(1))
+    U.deepStrictEqual(await pipe(_.none, _.tapTask(add))(), O.none)
+    U.deepStrictEqual(ref, [1])
+  })
 })

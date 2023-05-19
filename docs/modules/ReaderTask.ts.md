@@ -15,6 +15,7 @@ Added in v2.3.0
 - [combinators](#combinators)
   - [tap](#tap)
   - [tapIO](#tapio)
+  - [tapTask](#taptask)
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
@@ -52,6 +53,7 @@ Added in v2.3.0
   - [chain](#chain)
   - [chainFirst](#chainfirst)
   - [chainFirstIOK](#chainfirstiok)
+  - [chainFirstTaskK](#chainfirsttaskk)
   - [chainFirstW](#chainfirstw)
   - [chainW](#chainw)
 - [lifting](#lifting)
@@ -71,7 +73,6 @@ Added in v2.3.0
   - [chainFirstReaderIOKW](#chainfirstreaderiokw)
   - [chainFirstReaderK](#chainfirstreaderk)
   - [chainFirstReaderKW](#chainfirstreaderkw)
-  - [chainFirstTaskK](#chainfirsttaskk)
   - [chainIOK](#chainiok)
   - [chainReaderIOK](#chainreaderiok)
   - [chainReaderIOKW](#chainreaderiokw)
@@ -158,6 +159,41 @@ const effect = pipe(
 
 async function test() {
   assert.deepStrictEqual(await effect('fp-ts')(), 'fp-ts')
+}
+
+test()
+```
+
+Added in v2.16.0
+
+## tapTask
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+**Signature**
+
+```ts
+export declare const tapTask: {
+  <R, A, _>(self: ReaderTask<R, A>, f: (a: A) => T.Task<_>): ReaderTask<R, A>
+  <A, _>(f: (a: A) => T.Task<_>): <R>(self: ReaderTask<R, A>) => ReaderTask<R, A>
+}
+```
+
+**Example**
+
+```ts
+import { pipe } from 'fp-ts/function'
+import * as RT from 'fp-ts/ReaderTask'
+import * as T from 'fp-ts/Task'
+
+const effect = pipe(
+  RT.ask<number>(),
+  RT.tapTask((value) => T.of(value + 1))
+)
+
+async function test() {
+  assert.deepStrictEqual(await effect(1)(), 1)
 }
 
 test()
@@ -542,6 +578,18 @@ export declare const chainFirstIOK: <A, B>(f: (a: A) => IO<B>) => <R>(first: Rea
 
 Added in v2.10.0
 
+## chainFirstTaskK
+
+Alias of `tapTask`.
+
+**Signature**
+
+```ts
+export declare const chainFirstTaskK: <A, B>(f: (a: A) => T.Task<B>) => <R>(first: ReaderTask<R, A>) => ReaderTask<R, A>
+```
+
+Added in v2.10.0
+
 ## chainFirstW
 
 Alias of `tap`.
@@ -741,16 +789,6 @@ export declare const chainFirstReaderKW: <A, R1, B>(
 ```
 
 Added in v2.11.0
-
-## chainFirstTaskK
-
-**Signature**
-
-```ts
-export declare const chainFirstTaskK: <A, B>(f: (a: A) => T.Task<B>) => <R>(first: ReaderTask<R, A>) => ReaderTask<R, A>
-```
-
-Added in v2.10.0
 
 ## chainIOK
 
