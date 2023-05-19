@@ -282,8 +282,6 @@ const _apSeq: Apply2<URI>['ap'] = (fab, fa) => flatMap(fab, (f) => pipe(fa, map(
 /* istanbul ignore next */
 const _bimap: Bifunctor2<URI>['bimap'] = (fa, f, g) => pipe(fa, bimap(f, g))
 /* istanbul ignore next */
-const _mapLeft: Bifunctor2<URI>['mapLeft'] = (fa, f) => pipe(fa, mapLeft(f))
-/* istanbul ignore next */
 const _alt: Alt2<URI>['alt'] = (fa, that) => pipe(fa, alt(that))
 
 /**
@@ -305,14 +303,32 @@ export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: IOEithe
   /*#__PURE__*/ ET.bimap(I.Functor)
 
 /**
- * Map a function over the first type argument of a bifunctor.
+ * Returns a `IOEither` with its error channel mapped using the specified function.
+ *
+ * @example
+ * import * as IOEither from 'fp-ts/IOEither'
+ * import * as Either from 'fp-ts/Either'
+ *
+ * const f = (s: string) => new Error(s)
+ *
+ * assert.deepStrictEqual(IOEither.mapError(IOEither.right(1), f)(), Either.right(1))
+ * assert.deepStrictEqual(IOEither.mapError(IOEither.left('err'), f)(), Either.left(new Error('err')))
  *
  * @category error handling
+ * @since 2.16.0
+ */
+export const mapError: {
+  <E, G>(f: (e: E) => G): <A>(self: IOEither<E, A>) => IOEither<G, A>
+  <E, A, G>(self: IOEither<E, A>, f: (e: E) => G): IOEither<G, A>
+} = /*#__PURE__*/ dual(2, ET.mapError(I.Functor))
+
+/**
+ * Alias of `mapError`.
+ *
+ * @category legacy
  * @since 2.0.0
  */
-export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: IOEither<E, A>) => IOEither<G, A> = /*#__PURE__*/ ET.mapLeft(
-  I.Functor
-)
+export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: IOEither<E, A>) => IOEither<G, A> = mapError
 
 /**
  * @since 2.0.0
@@ -534,7 +550,7 @@ export const Pointed: Pointed2<URI> = {
 export const Bifunctor: Bifunctor2<URI> = {
   URI,
   bimap: _bimap,
-  mapLeft: _mapLeft
+  mapLeft: mapError
 }
 
 /**
@@ -1280,7 +1296,7 @@ export const orElseFirstW: <E1, E2, B>(
 export const ioEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadIO2<URI> & MonadThrow2<URI> = {
   URI,
   bimap: _bimap,
-  mapLeft: _mapLeft,
+  mapLeft: mapError,
   map: _map,
   of,
   ap: _ap,
@@ -1340,7 +1356,7 @@ export function getIOValidation<E>(
     of,
     chain: flatMap,
     bimap: _bimap,
-    mapLeft: _mapLeft,
+    mapLeft: mapError,
     alt: altIOValidation.alt,
     fromIO,
     throwError

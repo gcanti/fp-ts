@@ -450,8 +450,6 @@ const _apSeq: Apply2<URI>['ap'] = (fab, fa) => flatMap(fab, (f) => pipe(fa, map(
 /* istanbul ignore next */
 const _bimap: Bifunctor2<URI>['bimap'] = (fa, f, g) => pipe(fa, bimap(f, g))
 /* istanbul ignore next */
-const _mapLeft: Bifunctor2<URI>['mapLeft'] = (fa, f) => pipe(fa, mapLeft(f))
-/* istanbul ignore next */
 const _alt: Alt2<URI>['alt'] = (fa, that) => pipe(fa, alt(that))
 
 /**
@@ -475,13 +473,36 @@ export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: TaskEit
   /*#__PURE__*/ ET.bimap(T.Functor)
 
 /**
- * Map a function over the first type argument of a bifunctor.
+ * Returns a `TaskEither` with its error channel mapped using the specified function.
+ *
+ * @example
+ * import * as TaskEither from 'fp-ts/TaskEither'
+ * import * as Either from 'fp-ts/Either'
+ *
+ * const f = (s: string) => new Error(s)
+ *
+ * async function test() {
+ *   assert.deepStrictEqual(await TaskEither.mapError(TaskEither.right(1), f)(), Either.right(1))
+ *   assert.deepStrictEqual(await TaskEither.mapError(TaskEither.left('err'), f)(), Either.left(new Error('err')))
+ * }
+ *
+ * test()
  *
  * @category error handling
+ * @since 2.16.0
+ */
+export const mapError: {
+  <E, G>(f: (e: E) => G): <A>(self: TaskEither<E, A>) => TaskEither<G, A>
+  <E, A, G>(self: TaskEither<E, A>, f: (e: E) => G): TaskEither<G, A>
+} = /*#__PURE__*/ dual(2, ET.mapError(T.Functor))
+
+/**
+ * Alias of `mapError`.
+ *
+ * @category legacy
  * @since 2.0.0
  */
-export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: TaskEither<E, A>) => TaskEither<G, A> =
-  /*#__PURE__*/ ET.mapLeft(T.Functor)
+export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: TaskEither<E, A>) => TaskEither<G, A> = mapError
 
 /**
  * @since 2.0.0
@@ -1069,7 +1090,7 @@ export const tapTask: {
 export const Bifunctor: Bifunctor2<URI> = {
   URI,
   bimap: _bimap,
-  mapLeft: _mapLeft
+  mapLeft: mapError
 }
 
 /**
@@ -1680,7 +1701,7 @@ export const orElseFirstW: <E1, E2, B>(
 export const taskEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadTask2<URI> & MonadThrow2<URI> = {
   URI,
   bimap: _bimap,
-  mapLeft: _mapLeft,
+  mapLeft: mapError,
   map: _map,
   of,
   ap: _apPar,
@@ -1704,7 +1725,7 @@ export const taskEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadTask2<
 export const taskEitherSeq: typeof taskEither = {
   URI,
   bimap: _bimap,
-  mapLeft: _mapLeft,
+  mapLeft: mapError,
   map: _map,
   of,
   ap: _apSeq,
@@ -1765,7 +1786,7 @@ export function getTaskValidation<E>(
     of,
     chain: flatMap,
     bimap: _bimap,
-    mapLeft: _mapLeft,
+    mapLeft: mapError,
     alt: altTaskValidation.alt,
     fromIO,
     fromTask,
