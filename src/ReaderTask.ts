@@ -19,12 +19,7 @@ import {
   FromReader2,
   fromReaderK as fromReaderK_
 } from './FromReader'
-import {
-  chainFirstTaskK as chainFirstTaskK_,
-  chainTaskK as chainTaskK_,
-  FromTask2,
-  fromTaskK as fromTaskK_
-} from './FromTask'
+import { chainTaskK as chainTaskK_, FromTask2, fromTaskK as fromTaskK_, tapTask as tapTask_ } from './FromTask'
 import { dual, flow, identity, pipe, SK } from './function'
 import { as as as_, asUnit as asUnit_, bindTo as bindTo_, flap as flap_, Functor2, let as let__ } from './Functor'
 import * as _ from './internal'
@@ -363,6 +358,16 @@ export const FromIO: FromIO2<URI> = {
 }
 
 /**
+ * @category instances
+ * @since 2.10.0
+ */
+export const FromTask: FromTask2<URI> = {
+  URI,
+  fromIO,
+  fromTask
+}
+
+/**
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
@@ -402,6 +407,34 @@ export const tapIO: {
   <R, A, _>(self: ReaderTask<R, A>, f: (a: A) => IO<_>): ReaderTask<R, A>
   <A, _>(f: (a: A) => IO<_>): <R>(self: ReaderTask<R, A>) => ReaderTask<R, A>
 } = /*#__PURE__*/ dual(2, tapIO_(FromIO, Chain))
+
+/**
+ * Composes computations in sequence, using the return value of one computation to determine the next computation and
+ * keeping only the result of the first.
+ *
+ * @example
+ * import { pipe } from 'fp-ts/function'
+ * import * as RT from 'fp-ts/ReaderTask'
+ * import * as T from 'fp-ts/Task'
+ *
+ * const effect = pipe(
+ *   RT.ask<number>(),
+ *   RT.tapTask((value) => T.of(value + 1)),
+ * )
+ *
+ * async function test() {
+ *   assert.deepStrictEqual(await effect(1)(), 1)
+ * }
+ *
+ * test()
+ *
+ * @category combinators
+ * @since 2.16.0
+ */
+export const tapTask: {
+  <R, A, _>(self: ReaderTask<R, A>, f: (a: A) => Task<_>): ReaderTask<R, A>
+  <A, _>(f: (a: A) => Task<_>): <R>(self: ReaderTask<R, A>) => ReaderTask<R, A>
+} = /*#__PURE__*/ dual(2, tapTask_(FromTask, Chain))
 
 /**
  * @category lifting
@@ -541,16 +574,6 @@ export const chainFirstReaderIOK: <A, R, B>(f: (a: A) => ReaderIO<R, B>) => (ma:
   chainFirstReaderIOKW
 
 /**
- * @category instances
- * @since 2.10.0
- */
-export const FromTask: FromTask2<URI> = {
-  URI,
-  fromIO,
-  fromTask
-}
-
-/**
  * @category lifting
  * @since 2.4.0
  */
@@ -566,11 +589,12 @@ export const chainTaskK: <A, B>(f: (a: A) => T.Task<B>) => <R>(first: ReaderTask
   /*#__PURE__*/ chainTaskK_(FromTask, Chain)
 
 /**
- * @category sequencing
+ * Alias of `tapTask`.
+ * @category legacy
  * @since 2.10.0
  */
 export const chainFirstTaskK: <A, B>(f: (a: A) => T.Task<B>) => <R>(first: ReaderTask<R, A>) => ReaderTask<R, A> =
-  /*#__PURE__*/ chainFirstTaskK_(FromTask, Chain)
+  tapTask
 
 // -------------------------------------------------------------------------------------
 // do notation

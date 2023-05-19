@@ -37,12 +37,7 @@ import {
   modify as modify_,
   put as put_
 } from './FromState'
-import {
-  chainFirstTaskK as chainFirstTaskK_,
-  chainTaskK as chainTaskK_,
-  FromTask4,
-  fromTaskK as fromTaskK_
-} from './FromTask'
+import { chainTaskK as chainTaskK_, FromTask4, fromTaskK as fromTaskK_, tapTask as tapTask_ } from './FromTask'
 import { dual, flow, identity, LazyArg, pipe } from './function'
 import { as as as_, asUnit as asUnit_, bindTo as bindTo_, flap as flap_, Functor4, let as let__ } from './Functor'
 import * as _ from './internal'
@@ -775,6 +770,16 @@ export const FromIO: FromIO4<URI> = {
 }
 
 /**
+ * @category instances
+ * @since 2.10.0
+ */
+export const FromTask: FromTask4<URI> = {
+  URI,
+  fromIO,
+  fromTask
+}
+
+/**
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
@@ -821,6 +826,18 @@ export const tapIO: {
   <S, R, E, A, _>(self: StateReaderTaskEither<S, R, E, A>, f: (a: A) => IO<_>): StateReaderTaskEither<S, R, E, A>
   <A, _>(f: (a: A) => IO<_>): <S, R, E>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A>
 } = /*#__PURE__*/ dual(2, tapIO_(FromIO, Chain))
+
+/**
+ * Composes computations in sequence, using the return value of one computation to determine the next computation and
+ * keeping only the result of the first.
+ *
+ * @category combinators
+ * @since 2.16.0
+ */
+export const tapTask: {
+  <S, R, E, A, _>(self: StateReaderTaskEither<S, R, E, A>, f: (a: A) => Task<_>): StateReaderTaskEither<S, R, E, A>
+  <A, _>(f: (a: A) => Task<_>): <S, R, E>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A>
+} = /*#__PURE__*/ dual(2, tapTask_(FromTask, Chain))
 
 /**
  * @category instances
@@ -1104,16 +1121,6 @@ export const chainFirstIOK: <A, B>(
 ) => <S, R, E>(first: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A> = tapIO
 
 /**
- * @category instances
- * @since 2.10.0
- */
-export const FromTask: FromTask4<URI> = {
-  URI,
-  fromIO,
-  fromTask
-}
-
-/**
  * @category lifting
  * @since 2.10.0
  */
@@ -1131,13 +1138,13 @@ export const chainTaskK: <A, B>(
   /*#__PURE__*/ chainTaskK_(FromTask, Chain)
 
 /**
- * @category sequencing
+ * Alias of `tapTask`.
+ * @category legacy
  * @since 2.10.0
  */
 export const chainFirstTaskK: <A, B>(
   f: (a: A) => Task<B>
-) => <S, R, E>(first: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A> =
-  /*#__PURE__*/ chainFirstTaskK_(FromTask, Chain)
+) => <S, R, E>(first: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A> = tapTask
 
 // -------------------------------------------------------------------------------------
 // utils

@@ -3,7 +3,7 @@
  *
  * @since 2.10.0
  */
-import { Chain, Chain1, Chain2, Chain2C, Chain3, Chain3C, Chain4, chainFirst } from './Chain'
+import { Chain, Chain1, Chain2, Chain2C, Chain3, Chain3C, Chain4, tap } from './Chain'
 import { FromIO, FromIO1, FromIO2, FromIO2C, FromIO3, FromIO3C, FromIO4 } from './FromIO'
 import { flow } from './function'
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
@@ -179,6 +179,44 @@ export function chainFirstTaskK<M>(
   F: FromTask<M>,
   M: Chain<M>
 ): <A, B>(f: (a: A) => Task<B>) => (first: HKT<M, A>) => HKT<M, A> {
-  const chainFirstM = chainFirst(M)
-  return (f) => chainFirstM(flow(f, F.fromTask))
+  const tapTaskM = tapTask(F, M)
+  return (f) => (first) => tapTaskM(first, f)
+}
+
+/** @internal */
+export function tapTask<M extends URIS4>(
+  F: FromTask4<M>,
+  M: Chain4<M>
+): <S, R, E, A, B>(self: Kind4<M, S, R, E, A>, f: (a: A) => Task<B>) => Kind4<M, S, R, E, A>
+/** @internal */
+export function tapTask<M extends URIS3>(
+  F: FromTask3<M>,
+  M: Chain3<M>
+): <R, E, A, B>(self: Kind3<M, R, E, A>, f: (a: A) => Task<B>) => Kind3<M, R, E, A>
+/** @internal */
+export function tapTask<M extends URIS3, E>(
+  F: FromTask3C<M, E>,
+  M: Chain3C<M, E>
+): <R, A, B>(self: Kind3<M, R, E, A>, f: (a: A) => Task<B>) => Kind3<M, R, E, A>
+/** @internal */
+export function tapTask<M extends URIS2>(
+  F: FromTask2<M>,
+  M: Chain2<M>
+): <E, A, B>(self: Kind2<M, E, A>, f: (a: A) => Task<B>) => Kind2<M, E, A>
+/** @internal */
+export function tapTask<M extends URIS2, E>(
+  F: FromTask2C<M, E>,
+  M: Chain2C<M, E>
+): <A, B>(self: Kind2<M, E, A>, f: (a: A) => Task<B>) => Kind2<M, E, A>
+/** @internal */
+export function tapTask<M extends URIS>(
+  F: FromTask1<M>,
+  M: Chain1<M>
+): <A, B>(self: Kind<M, A>, f: (a: A) => Task<B>) => Kind<M, A>
+/** @internal */
+export function tapTask<M>(F: FromTask<M>, M: Chain<M>): <A, B>(self: HKT<M, A>, f: (a: A) => Task<B>) => HKT<M, A>
+/** @internal */
+export function tapTask<M>(F: FromTask<M>, M: Chain<M>): <A, B>(self: HKT<M, A>, f: (a: A) => Task<B>) => HKT<M, A> {
+  const tapM = tap(M)
+  return (self, f) => tapM(self, flow(f, F.fromTask))
 }

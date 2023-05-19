@@ -16,6 +16,7 @@ Added in v2.0.0
   - [tap](#tap)
   - [tapEither](#tapeither)
   - [tapIO](#tapio)
+  - [tapTask](#taptask)
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
@@ -79,6 +80,7 @@ Added in v2.0.0
   - [chainFirstEitherK](#chainfirsteitherk)
   - [chainFirstEitherKW](#chainfirsteitherkw)
   - [chainFirstIOK](#chainfirstiok)
+  - [chainFirstTaskK](#chainfirsttaskk)
   - [chainFirstW](#chainfirstw)
   - [chainW](#chainw)
 - [lifting](#lifting)
@@ -105,7 +107,6 @@ Added in v2.0.0
   - [chainEitherKW](#chaineitherkw)
   - [chainFirstReaderK](#chainfirstreaderk)
   - [chainFirstReaderKW](#chainfirstreaderkw)
-  - [chainFirstTaskK](#chainfirsttaskk)
   - [chainIOEitherK](#chainioeitherk)
   - [chainIOEitherKW](#chainioeitherkw)
   - [chainIOK](#chainiok)
@@ -213,6 +214,22 @@ keeping only the result of the first.
 export declare const tapIO: {
   <S, R, E, A, _>(self: StateReaderTaskEither<S, R, E, A>, f: (a: A) => IO<_>): StateReaderTaskEither<S, R, E, A>
   <A, _>(f: (a: A) => IO<_>): <S, R, E>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A>
+}
+```
+
+Added in v2.16.0
+
+## tapTask
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+**Signature**
+
+```ts
+export declare const tapTask: {
+  <S, R, E, A, _>(self: StateReaderTaskEither<S, R, E, A>, f: (a: A) => Task<_>): StateReaderTaskEither<S, R, E, A>
+  <A, _>(f: (a: A) => Task<_>): <S, R, E>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A>
 }
 ```
 
@@ -888,6 +905,20 @@ export declare const chainFirstIOK: <A, B>(
 
 Added in v2.10.0
 
+## chainFirstTaskK
+
+Alias of `tapTask`.
+
+**Signature**
+
+```ts
+export declare const chainFirstTaskK: <A, B>(
+  f: (a: A) => Task<B>
+) => <S, R, E>(first: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A>
+```
+
+Added in v2.10.0
+
 ## chainFirstW
 
 Alias of `tap`.
@@ -1192,18 +1223,6 @@ export declare const chainFirstReaderKW: <A, R1, B>(
 ```
 
 Added in v2.11.0
-
-## chainFirstTaskK
-
-**Signature**
-
-```ts
-export declare const chainFirstTaskK: <A, B>(
-  f: (a: A) => Task<B>
-) => <S, R, E>(first: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A>
-```
-
-Added in v2.10.0
 
 ## chainIOEitherK
 

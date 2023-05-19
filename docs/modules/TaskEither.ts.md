@@ -23,6 +23,7 @@ Added in v2.0.0
   - [tap](#tap)
   - [tapEither](#tapeither)
   - [tapIO](#tapio)
+  - [tapTask](#taptask)
 - [constructors](#constructors)
   - [left](#left)
   - [leftIO](#leftio)
@@ -96,6 +97,7 @@ Added in v2.0.0
   - [chainFirstEitherK](#chainfirsteitherk)
   - [chainFirstEitherKW](#chainfirsteitherkw)
   - [chainFirstIOK](#chainfirstiok)
+  - [chainFirstTaskK](#chainfirsttaskk)
   - [chainFirstW](#chainfirstw)
   - [chainNullableK](#chainnullablek)
   - [chainOptionK](#chainoptionk)
@@ -130,7 +132,6 @@ Added in v2.0.0
   - [matchEW](#matchew)
   - [matchW](#matchw)
 - [sequencing](#sequencing)
-  - [chainFirstTaskK](#chainfirsttaskk)
   - [chainIOEitherK](#chainioeitherk)
   - [chainIOEitherKW](#chainioeitherkw)
   - [chainIOK](#chainiok)
@@ -268,6 +269,38 @@ const effectB = pipe(
 async function test() {
   assert.deepStrictEqual(await effectA(), E.of(1))
   assert.deepStrictEqual(await effectB(), E.left('error'))
+}
+
+test()
+```
+
+Added in v2.16.0
+
+## tapTask
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+**Signature**
+
+```ts
+export declare const tapTask: {
+  <E, A, _>(self: TaskEither<E, A>, f: (a: A) => T.Task<_>): TaskEither<E, A>
+  <A, _>(f: (a: A) => T.Task<_>): <E>(self: TaskEither<E, A>) => TaskEither<E, A>
+}
+```
+
+**Example**
+
+```ts
+import * as TE from 'fp-ts/TaskEither'
+import * as T from 'fp-ts/Task'
+import * as E from 'fp-ts/Either'
+
+const effect = TE.tapIO(TE.of(1), (value) => T.of(value + 1))
+
+async function test() {
+  assert.deepStrictEqual(await effect(), E.of(1))
 }
 
 test()
@@ -1217,6 +1250,18 @@ export declare const chainFirstIOK: <A, B>(f: (a: A) => IO<B>) => <E>(first: Tas
 
 Added in v2.10.0
 
+## chainFirstTaskK
+
+Alias of `tapTask`.
+
+**Signature**
+
+```ts
+export declare const chainFirstTaskK: <A, B>(f: (a: A) => T.Task<B>) => <E>(first: TaskEither<E, A>) => TaskEither<E, A>
+```
+
+Added in v2.10.0
+
 ## chainFirstW
 
 Alias of `tap`.
@@ -1615,16 +1660,6 @@ export declare const matchW: <E, B, A, C>(
 Added in v2.10.0
 
 # sequencing
-
-## chainFirstTaskK
-
-**Signature**
-
-```ts
-export declare const chainFirstTaskK: <A, B>(f: (a: A) => T.Task<B>) => <E>(first: TaskEither<E, A>) => TaskEither<E, A>
-```
-
-Added in v2.10.0
 
 ## chainIOEitherK
 
