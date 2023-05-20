@@ -382,29 +382,49 @@ export function bimap<F extends URIS3>(
 ): <E, G, A, B>(
   f: (e: E) => G,
   g: (a: A) => B
-) => <R, FE>(fea: Kind3<F, R, FE, Either<E, A>>) => Kind3<F, R, FE, Either<G, B>>
+) => <R, FE>(self: Kind3<F, R, FE, Either<E, A>>) => Kind3<F, R, FE, Either<G, B>>
 export function bimap<F extends URIS3, FE>(
   F: Functor3C<F, FE>
 ): <E, G, A, B>(
   f: (e: E) => G,
   g: (a: A) => B
-) => <R>(fea: Kind3<F, R, FE, Either<E, A>>) => Kind3<F, R, FE, Either<G, B>>
+) => <R>(self: Kind3<F, R, FE, Either<E, A>>) => Kind3<F, R, FE, Either<G, B>>
 export function bimap<F extends URIS2>(
   F: Functor2<F>
-): <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => <FE>(fea: Kind2<F, FE, Either<E, A>>) => Kind2<F, FE, Either<G, B>>
+): <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => <FE>(self: Kind2<F, FE, Either<E, A>>) => Kind2<F, FE, Either<G, B>>
 export function bimap<F extends URIS2, FE>(
   F: Functor2C<F, FE>
-): <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fea: Kind2<F, FE, Either<E, A>>) => Kind2<F, FE, Either<G, B>>
+): <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (self: Kind2<F, FE, Either<E, A>>) => Kind2<F, FE, Either<G, B>>
 export function bimap<F extends URIS>(
   F: Functor1<F>
-): <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fea: Kind<F, Either<E, A>>) => Kind<F, Either<G, B>>
+): <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (self: Kind<F, Either<E, A>>) => Kind<F, Either<G, B>>
 export function bimap<F>(
   F: Functor<F>
-): <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fea: HKT<F, Either<E, A>>) => HKT<F, Either<G, B>>
+): <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (self: HKT<F, Either<E, A>>) => HKT<F, Either<G, B>>
 export function bimap<F>(
   F: Functor<F>
-): <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fea: HKT<F, Either<E, A>>) => HKT<F, Either<G, B>> {
-  return (f, g) => (fea) => F.map(fea, E.bimap(f, g))
+): <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (self: HKT<F, Either<E, A>>) => HKT<F, Either<G, B>> {
+  const mapBothF = mapBoth(F)
+  return (f, g) => (self) => mapBothF(self, f, g)
+}
+
+/** @internal */
+export function mapBoth<F extends URIS2>(
+  F: Functor2<F>
+): <R, E, A, G, B>(self: Kind2<F, R, Either<E, A>>, f: (e: E) => G, g: (a: A) => B) => Kind2<F, R, Either<G, B>>
+/** @internal */
+export function mapBoth<F extends URIS>(
+  F: Functor1<F>
+): <E, A, G, B>(self: Kind<F, Either<E, A>>, f: (e: E) => G, g: (a: A) => B) => Kind<F, Either<G, B>>
+/** @internal */
+export function mapBoth<F>(
+  F: Functor<F>
+): <E, A, G, B>(self: HKT<F, Either<E, A>>, f: (e: E) => G, g: (a: A) => B) => HKT<F, Either<G, B>>
+/** @internal */
+export function mapBoth<F>(
+  F: Functor<F>
+): <E, A, G, B>(self: HKT<F, Either<E, A>>, f: (e: E) => G, g: (a: A) => B) => HKT<F, Either<G, B>> {
+  return (self, f, g) => F.map(self, E.bimap(f, g))
 }
 
 /**

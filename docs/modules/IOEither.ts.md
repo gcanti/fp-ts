@@ -48,6 +48,7 @@ Added in v2.0.0
   - [getApplicativeIOValidation](#getapplicativeiovalidation)
   - [getOrElse](#getorelse)
   - [getOrElseW](#getorelsew)
+  - [mapBoth](#mapboth)
   - [mapError](#maperror)
   - [orElse](#orelse)
   - [orElseFirstIOK](#orelsefirstiok)
@@ -77,6 +78,7 @@ Added in v2.0.0
   - [tryCatch](#trycatch)
   - [tryCatchK](#trycatchk)
 - [legacy](#legacy)
+  - [bimap](#bimap)
   - [chain](#chain)
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
@@ -101,7 +103,6 @@ Added in v2.0.0
 - [mapping](#mapping)
   - [as](#as)
   - [asUnit](#asunit)
-  - [bimap](#bimap)
   - [flap](#flap)
   - [map](#map)
 - [model](#model)
@@ -516,6 +517,34 @@ export declare const getOrElseW: <E, B>(onLeft: (e: E) => I.IO<B>) => <A>(ma: IO
 
 Added in v2.6.0
 
+## mapBoth
+
+Returns a `IOEither` whose failure and success channels have been mapped by the specified pair of functions, `f` and `g`.
+
+**Signature**
+
+```ts
+export declare const mapBoth: {
+  <E, G, A, B>(f: (e: E) => G, g: (a: A) => B): (self: IOEither<E, A>) => IOEither<G, B>
+  <E, A, G, B>(self: IOEither<E, A>, f: (e: E) => G, g: (a: A) => B): IOEither<G, B>
+}
+```
+
+**Example**
+
+```ts
+import * as IOEither from 'fp-ts/IOEither'
+import * as Either from 'fp-ts/Either'
+
+const f = (s: string) => new Error(s)
+const g = (n: number) => n * 2
+
+assert.deepStrictEqual(IOEither.mapBoth(IOEither.right(1), f, g)(), Either.right(2))
+assert.deepStrictEqual(IOEither.mapBoth(IOEither.left('err'), f, g)(), Either.left(new Error('err')))
+```
+
+Added in v2.16.0
+
 ## mapError
 
 Returns a `IOEither` with its error channel mapped using the specified function.
@@ -833,6 +862,18 @@ Added in v2.10.0
 
 # legacy
 
+## bimap
+
+Alias of `mapBoth`.
+
+**Signature**
+
+```ts
+export declare const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: IOEither<E, A>) => IOEither<G, B>
+```
+
+Added in v2.0.0
+
 ## chain
 
 Alias of `flatMap`.
@@ -1125,18 +1166,6 @@ export declare const asUnit: <E, _>(self: IOEither<E, _>) => IOEither<E, void>
 ```
 
 Added in v2.16.0
-
-## bimap
-
-Map a pair of functions over the two type arguments of the bifunctor.
-
-**Signature**
-
-```ts
-export declare const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: IOEither<E, A>) => IOEither<G, B>
-```
-
-Added in v2.0.0
 
 ## flap
 

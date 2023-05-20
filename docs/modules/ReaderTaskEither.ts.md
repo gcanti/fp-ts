@@ -62,6 +62,7 @@ Added in v2.0.0
   - [getApplicativeReaderTaskValidation](#getapplicativereadertaskvalidation)
   - [getOrElse](#getorelse)
   - [getOrElseW](#getorelsew)
+  - [mapBoth](#mapboth)
   - [mapError](#maperror)
   - [orElse](#orelse)
   - [orElseW](#orelsew)
@@ -92,6 +93,7 @@ Added in v2.0.0
   - [Pointed](#pointed)
   - [~~getReaderTaskValidation~~](#getreadertaskvalidation)
 - [legacy](#legacy)
+  - [bimap](#bimap)
   - [chain](#chain)
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
@@ -128,7 +130,6 @@ Added in v2.0.0
 - [mapping](#mapping)
   - [as](#as)
   - [asUnit](#asunit)
-  - [bimap](#bimap)
   - [flap](#flap)
   - [map](#map)
 - [model](#model)
@@ -834,6 +835,41 @@ export declare const getOrElseW: <R2, E, B>(
 
 Added in v2.6.0
 
+## mapBoth
+
+Returns a `ReaderTaskEither` whose failure and success channels have been mapped by the specified pair of functions, `f` and `g`.
+
+**Signature**
+
+```ts
+export declare const mapBoth: {
+  <E, G, A, B>(f: (e: E) => G, g: (a: A) => B): <R>(self: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, G, B>
+  <R, E, A, G, B>(self: ReaderTaskEither<R, E, A>, f: (e: E) => G, g: (a: A) => B): ReaderTaskEither<R, G, B>
+}
+```
+
+**Example**
+
+```ts
+import * as ReaderTaskEither from 'fp-ts/ReaderTaskEither'
+import * as Either from 'fp-ts/Either'
+
+const f = (s: string) => new Error(s)
+const g = (n: number) => n * 2
+
+async function test() {
+  assert.deepStrictEqual(await ReaderTaskEither.mapBoth(ReaderTaskEither.right(1), f, g)({})(), Either.right(2))
+  assert.deepStrictEqual(
+    await ReaderTaskEither.mapBoth(ReaderTaskEither.left('err'), f, g)({})(),
+    Either.left(new Error('err'))
+  )
+}
+
+test()
+```
+
+Added in v2.16.0
+
 ## mapError
 
 Returns a `ReaderTaskEither` with its error channel mapped using the specified function.
@@ -1187,6 +1223,21 @@ export declare function getReaderTaskValidation<E>(
 Added in v2.3.0
 
 # legacy
+
+## bimap
+
+Alias of `mapBoth`.
+
+**Signature**
+
+```ts
+export declare const bimap: <E, G, A, B>(
+  f: (e: E) => G,
+  g: (a: A) => B
+) => <R>(fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, G, B>
+```
+
+Added in v2.0.0
 
 ## chain
 
@@ -1662,21 +1713,6 @@ export declare const asUnit: <R, E, _>(self: ReaderTaskEither<R, E, _>) => Reade
 ```
 
 Added in v2.16.0
-
-## bimap
-
-Map a pair of functions over the two last type arguments of the bifunctor.
-
-**Signature**
-
-```ts
-export declare const bimap: <E, G, A, B>(
-  f: (e: E) => G,
-  g: (a: A) => B
-) => <R>(fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, G, B>
-```
-
-Added in v2.0.0
 
 ## flap
 
