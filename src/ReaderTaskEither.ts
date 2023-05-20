@@ -1187,6 +1187,26 @@ export const tapTaskEither: {
 )
 
 /**
+ * Composes computations in sequence, using the return value of one computation to determine the next computation and
+ * keeping only the result of the first.
+ *
+ * @category combinators
+ * @since 2.16.0
+ */
+export const tapReaderTask: {
+  <R1, R2, E, A, _>(self: ReaderTaskEither<R1, E, A>, f: (a: A) => ReaderTask<R2, _>): ReaderTaskEither<R1 & R2, E, A>
+  <R2, A, _>(f: (a: A) => ReaderTask<R2, _>): <R1, E>(
+    self: ReaderTaskEither<R1, E, A>
+  ) => ReaderTaskEither<R1 & R2, E, A>
+} = /*#__PURE__*/ dual(
+  2,
+  <R1, R2, E, A, _>(
+    self: ReaderTaskEither<R1, E, A>,
+    f: (a: A) => ReaderTask<R2, _>
+  ): ReaderTaskEither<R1 & R2, E, A> => tap(self, fromReaderTaskK(f))
+)
+
+/**
  * @category instances
  * @since 2.7.0
  */
@@ -1354,24 +1374,28 @@ export const chainReaderTaskK: <A, R, B>(
 ) => <E>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = chainReaderTaskKW
 
 /**
+ * Alias of `tapReaderTask`.
+ *
  * Less strict version of [`chainFirstReaderTaskK`](#chainfirstreadertaskk).
  *
  * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
  *
- * @category sequencing
+ * @category legacy
  * @since 2.11.0
  */
 export const chainFirstReaderTaskKW: <A, R2, B>(
   f: (a: A) => RT.ReaderTask<R2, B>
-) => <R1, E>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, A> = (f) => chainFirstW(fromReaderTaskK(f))
+) => <R1, E>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, A> = tapReaderTask
 
 /**
- * @category sequencing
+ * Alias of `tapReaderTask`.
+ *
+ * @category legacy
  * @since 2.11.0
  */
 export const chainFirstReaderTaskK: <A, R, B>(
   f: (a: A) => RT.ReaderTask<R, B>
-) => <E>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A> = chainFirstReaderTaskKW
+) => <E>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A> = tapReaderTask
 
 /**
  * @category lifting
