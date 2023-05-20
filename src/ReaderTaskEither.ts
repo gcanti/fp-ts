@@ -546,27 +546,6 @@ export const chainReaderEitherK: <R, E, A, B>(
   f: (a: A) => ReaderEither<R, E, B>
 ) => (ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = chainReaderEitherKW
 
-/**
- * Less strict version of [`chainFirstReaderEitherK`](#chainfirstreadereitherk).
- *
- * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
- *
- * @category sequencing
- * @since 2.11.0
- */
-export const chainFirstReaderEitherKW: <R2, E2, A, B>(
-  f: (a: A) => ReaderEither<R2, E2, B>
-) => <R1, E1>(ma: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E1 | E2, A> = (f) =>
-  chainFirstW(fromReaderEitherK(f))
-
-/**
- * @category sequencing
- * @since 2.11.0
- */
-export const chainFirstReaderEitherK: <R, E, A, B>(
-  f: (a: A) => ReaderEither<R, E, B>
-) => (ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A> = chainFirstReaderEitherKW
-
 const _map: Functor3<URI>['map'] = (fa, f) => pipe(fa, map(f))
 const _apPar: Apply3<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
 const _apSeq: Apply3<URI>['ap'] = (fab, fa) => flatMap(fab, (f) => pipe(fa, map(f)))
@@ -1184,6 +1163,30 @@ export const tapReader: {
 } = /*#__PURE__*/ dual(2, tapReader_(FromReader, Chain))
 
 /**
+ * Composes computations in sequence, using the return value of one computation to determine the next computation and
+ * keeping only the result of the first.
+ *
+ * @category combinators
+ * @since 2.16.0
+ */
+export const tapReaderEither: {
+  <R1, R2, E1, E2, A, _>(self: ReaderTaskEither<R1, E1, A>, f: (a: A) => ReaderEither<R2, E2, _>): ReaderTaskEither<
+    R1 & R2,
+    E1 | E2,
+    A
+  >
+  <R2, E2, A, _>(f: (a: A) => ReaderEither<R2, E2, _>): <R1, E1>(
+    self: ReaderTaskEither<R1, E1, A>
+  ) => ReaderTaskEither<R1 & R2, E1 | E2, A>
+} = /*#__PURE__*/ dual(
+  2,
+  <R1, R2, E1, E2, A, _>(
+    self: ReaderTaskEither<R1, E1, A>,
+    f: (a: A) => ReaderEither<R2, E2, _>
+  ): ReaderTaskEither<R1 & R2, E1 | E2, A> => tap(self, fromReaderEitherK(f))
+)
+
+/**
  * @category instances
  * @since 2.7.0
  */
@@ -1270,6 +1273,30 @@ export const chainFirstReaderK: <A, R, B>(
 export const chainFirstReaderKW: <A, R1, B>(
   f: (a: A) => R.Reader<R1, B>
 ) => <R2, E>(ma: ReaderTaskEither<R2, E, A>) => ReaderTaskEither<R1 & R2, E, A> = tapReader
+
+/**
+ * Alias of `tapReaderEither`.
+ *
+ * Less strict version of [`chainFirstReaderEitherK`](#chainfirstreadereitherk).
+ *
+ * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
+ *
+ * @category legacy
+ * @since 2.11.0
+ */
+export const chainFirstReaderEitherKW: <R2, E2, A, B>(
+  f: (a: A) => ReaderEither<R2, E2, B>
+) => <R1, E1>(ma: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E1 | E2, A> = tapReaderEither
+
+/**
+ * Alias of `tapReaderEither`.
+ *
+ * @category legacy
+ * @since 2.11.0
+ */
+export const chainFirstReaderEitherK: <R, E, A, B>(
+  f: (a: A) => ReaderEither<R, E, B>
+) => (ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A> = tapReaderEither
 
 /**
  * @category lifting
