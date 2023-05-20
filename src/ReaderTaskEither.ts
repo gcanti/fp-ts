@@ -498,26 +498,6 @@ export const chainTaskEitherK: <E, A, B>(
 ) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = chainTaskEitherKW
 
 /**
- * Less strict version of [`chainFirstTaskEitherK`](#chainfirsttaskeitherk).
- *
- * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
- *
- * @category sequencing
- * @since 2.11.0
- */
-export const chainFirstTaskEitherKW: <E2, A, B>(
-  f: (a: A) => TaskEither<E2, B>
-) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E1 | E2, A> = (f) => chainFirstW(fromTaskEitherK(f))
-
-/**
- * @category sequencing
- * @since 2.11.0
- */
-export const chainFirstTaskEitherK: <E, A, B>(
-  f: (a: A) => TaskEither<E, B>
-) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A> = chainFirstTaskEitherKW
-
-/**
  * @category lifting
  * @since 2.11.0
  */
@@ -1187,6 +1167,26 @@ export const tapReaderEither: {
 )
 
 /**
+ * Composes computations in sequence, using the return value of one computation to determine the next computation and
+ * keeping only the result of the first.
+ *
+ * @category combinators
+ * @since 2.16.0
+ */
+export const tapTaskEither: {
+  <R, E1, E2, A, _>(self: ReaderTaskEither<R, E1, A>, f: (a: A) => TaskEither<E2, _>): ReaderTaskEither<R, E1 | E2, A>
+  <E2, A, _>(f: (a: A) => TaskEither<E2, _>): <R, E1>(
+    self: ReaderTaskEither<R, E1, A>
+  ) => ReaderTaskEither<R, E1 | E2, A>
+} = /*#__PURE__*/ dual(
+  2,
+  <R, E1, E2, A, _>(
+    self: ReaderTaskEither<R, E1, A>,
+    f: (a: A) => TaskEither<E2, _>
+  ): ReaderTaskEither<R, E1 | E2, A> => tap(self, fromTaskEitherK(f))
+)
+
+/**
  * @category instances
  * @since 2.7.0
  */
@@ -1297,6 +1297,30 @@ export const chainFirstReaderEitherKW: <R2, E2, A, B>(
 export const chainFirstReaderEitherK: <R, E, A, B>(
   f: (a: A) => ReaderEither<R, E, B>
 ) => (ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A> = tapReaderEither
+
+/**
+ * Alias of `tapTaskEither`.
+ *
+ * Less strict version of [`chainFirstTaskEitherK`](#chainfirsttaskeitherk).
+ *
+ * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
+ *
+ * @category legacy
+ * @since 2.11.0
+ */
+export const chainFirstTaskEitherKW: <E2, A, B>(
+  f: (a: A) => TaskEither<E2, B>
+) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E1 | E2, A> = tapTaskEither
+
+/**
+ * Alias of `tapTaskEither`.
+ *
+ * @category legacy
+ * @since 2.11.0
+ */
+export const chainFirstTaskEitherK: <E, A, B>(
+  f: (a: A) => TaskEither<E, B>
+) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A> = tapTaskEither
 
 /**
  * @category lifting
