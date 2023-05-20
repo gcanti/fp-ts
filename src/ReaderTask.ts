@@ -458,6 +458,22 @@ export const tapTask: {
 } = /*#__PURE__*/ dual(2, tapTask_(FromTask, Chain))
 
 /**
+ * Composes computations in sequence, using the return value of one computation to determine the next computation and
+ * keeping only the result of the first.
+ *
+ * @category combinators
+ * @since 2.16.0
+ */
+export const tapReaderIO: {
+  <R1, R2, A, _>(self: ReaderTask<R1, A>, f: (a: A) => ReaderIO<R2, _>): ReaderTask<R1 & R2, A>
+  <R2, A, _>(f: (a: A) => ReaderIO<R2, _>): <R1>(self: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A>
+} = /*#__PURE__*/ dual(
+  2,
+  <R1, R2, A, _>(self: ReaderTask<R1, A>, f: (a: A) => ReaderIO<R2, _>): ReaderTask<R1 & R2, A> =>
+    tap(self, fromReaderIOK(f))
+)
+
+/**
  * @category lifting
  * @since 2.4.0
  */
@@ -573,21 +589,25 @@ export const chainReaderIOK: <A, R, B>(f: (a: A) => ReaderIO<R, B>) => (ma: Read
   chainReaderIOKW
 
 /**
+ * Alias of `tapReaderIO`.
+ *
  * Less strict version of [`chainFirstReaderIOK`](#chainfirstreaderiok).
  *
- * @category sequencing
+ * @category legacy
  * @since 2.13.0
  */
 export const chainFirstReaderIOKW: <A, R2, B>(
   f: (a: A) => ReaderIO<R2, B>
-) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A> = (f) => chainFirstW(fromReaderIOK(f))
+) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A> = tapReaderIO
 
 /**
- * @category sequencing
+ * Alias of `tapReaderIO`.
+ *
+ * @category legacy
  * @since 2.13.0
  */
 export const chainFirstReaderIOK: <A, R, B>(f: (a: A) => ReaderIO<R, B>) => (ma: ReaderTask<R, A>) => ReaderTask<R, A> =
-  chainFirstReaderIOKW
+  tapReaderIO
 
 /**
  * @category lifting
