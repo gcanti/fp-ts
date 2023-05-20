@@ -18,6 +18,7 @@ Added in v2.0.0
   - [tapIO](#tapio)
   - [tapReader](#tapreader)
   - [tapReaderEither](#tapreadereither)
+  - [tapReaderIO](#tapreaderio)
   - [tapReaderTask](#tapreadertask)
   - [tapTask](#taptask)
   - [tapTaskEither](#taptaskeither)
@@ -106,6 +107,8 @@ Added in v2.0.0
   - [chainFirstIOK](#chainfirstiok)
   - [chainFirstReaderEitherK](#chainfirstreadereitherk)
   - [chainFirstReaderEitherKW](#chainfirstreadereitherkw)
+  - [chainFirstReaderIOK](#chainfirstreaderiok)
+  - [chainFirstReaderIOKW](#chainfirstreaderiokw)
   - [chainFirstReaderK](#chainfirstreaderk)
   - [chainFirstReaderKW](#chainfirstreaderkw)
   - [chainFirstReaderTaskK](#chainfirstreadertaskk)
@@ -151,8 +154,6 @@ Added in v2.0.0
   - [matchEW](#matchew)
   - [matchW](#matchw)
 - [sequencing](#sequencing)
-  - [chainFirstReaderIOK](#chainfirstreaderiok)
-  - [chainFirstReaderIOKW](#chainfirstreaderiokw)
   - [chainIOEitherK](#chainioeitherk)
   - [chainIOEitherKW](#chainioeitherkw)
   - [chainIOK](#chainiok)
@@ -339,6 +340,24 @@ export declare const tapReaderEither: {
   <R2, E2, A, _>(f: (a: A) => ReaderEither<R2, E2, _>): <R1, E1>(
     self: ReaderTaskEither<R1, E1, A>
   ) => ReaderTaskEither<R1 & R2, E2 | E1, A>
+}
+```
+
+Added in v2.16.0
+
+## tapReaderIO
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+**Signature**
+
+```ts
+export declare const tapReaderIO: {
+  <R1, R2, E, A, _>(self: ReaderTaskEither<R1, E, A>, f: (a: A) => RIO.ReaderIO<R2, _>): ReaderTaskEither<R1 & R2, E, A>
+  <R2, A, _>(f: (a: A) => RT.ReaderTask<R2, _>): <R1, E>(
+    self: ReaderTaskEither<R1, E, A>
+  ) => ReaderTaskEither<R1 & R2, E, A>
 }
 ```
 
@@ -1442,6 +1461,36 @@ export declare const chainFirstReaderEitherKW: <R2, E2, A, B>(
 
 Added in v2.11.0
 
+## chainFirstReaderIOK
+
+Alias of `tapReaderIO`.
+
+**Signature**
+
+```ts
+export declare const chainFirstReaderIOK: <A, R, B>(
+  f: (a: A) => RIO.ReaderIO<R, B>
+) => <E>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
+```
+
+Added in v2.13.0
+
+## chainFirstReaderIOKW
+
+Alias of `tapReaderIO`.
+
+Less strict version of [`chainFirstReaderIOK`](#chainfirstreaderiok).
+
+**Signature**
+
+```ts
+export declare const chainFirstReaderIOKW: <A, R2, B>(
+  f: (a: A) => RIO.ReaderIO<R2, B>
+) => <R1, E>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, A>
+```
+
+Added in v2.13.0
+
 ## chainFirstReaderK
 
 Alias of `tapReader`.
@@ -2011,32 +2060,6 @@ export declare const matchW: <E, B, A, C>(
 Added in v2.10.0
 
 # sequencing
-
-## chainFirstReaderIOK
-
-**Signature**
-
-```ts
-export declare const chainFirstReaderIOK: <A, R, B>(
-  f: (a: A) => RIO.ReaderIO<R, B>
-) => <E>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
-```
-
-Added in v2.13.0
-
-## chainFirstReaderIOKW
-
-Less strict version of [`chainFirstReaderIOK`](#chainfirstreaderiok).
-
-**Signature**
-
-```ts
-export declare const chainFirstReaderIOKW: <A, R2, B>(
-  f: (a: A) => RIO.ReaderIO<R2, B>
-) => <R1, E>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, A>
-```
-
-Added in v2.13.0
 
 ## chainIOEitherK
 
