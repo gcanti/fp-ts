@@ -278,9 +278,6 @@ const _map: Functor2<URI>['map'] = (fa, f) => pipe(fa, map(f))
 /* istanbul ignore next */
 const _ap: Apply2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
 const _apSeq: Apply2<URI>['ap'] = (fab, fa) => flatMap(fab, (f) => pipe(fa, map(f)))
-
-/* istanbul ignore next */
-const _bimap: Bifunctor2<URI>['bimap'] = (fa, f, g) => pipe(fa, bimap(f, g))
 /* istanbul ignore next */
 const _alt: Alt2<URI>['alt'] = (fa, that) => pipe(fa, alt(that))
 
@@ -294,13 +291,33 @@ const _alt: Alt2<URI>['alt'] = (fa, that) => pipe(fa, alt(that))
 export const map: <A, B>(f: (a: A) => B) => <E>(fa: IOEither<E, A>) => IOEither<E, B> = /*#__PURE__*/ ET.map(I.Functor)
 
 /**
- * Map a pair of functions over the two type arguments of the bifunctor.
+ * Returns a `IOEither` whose failure and success channels have been mapped by the specified pair of functions, `f` and `g`.
  *
- * @category mapping
+ * @example
+ * import * as IOEither from 'fp-ts/IOEither'
+ * import * as Either from 'fp-ts/Either'
+ *
+ * const f = (s: string) => new Error(s)
+ * const g = (n: number) => n * 2
+ *
+ * assert.deepStrictEqual(IOEither.mapBoth(IOEither.right(1), f, g)(), Either.right(2))
+ * assert.deepStrictEqual(IOEither.mapBoth(IOEither.left('err'), f, g)(), Either.left(new Error('err')))
+ *
+ * @category error handling
+ * @since 2.16.0
+ */
+export const mapBoth: {
+  <E, G, A, B>(f: (e: E) => G, g: (a: A) => B): (self: IOEither<E, A>) => IOEither<G, B>
+  <E, A, G, B>(self: IOEither<E, A>, f: (e: E) => G, g: (a: A) => B): IOEither<G, B>
+} = /*#__PURE__*/ dual(3, ET.mapBoth(I.Functor))
+
+/**
+ * Alias of `mapBoth`.
+ *
+ * @category legacy
  * @since 2.0.0
  */
-export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: IOEither<E, A>) => IOEither<G, B> =
-  /*#__PURE__*/ ET.bimap(I.Functor)
+export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: IOEither<E, A>) => IOEither<G, B> = mapBoth
 
 /**
  * Returns a `IOEither` with its error channel mapped using the specified function.
@@ -549,7 +566,7 @@ export const Pointed: Pointed2<URI> = {
  */
 export const Bifunctor: Bifunctor2<URI> = {
   URI,
-  bimap: _bimap,
+  bimap: mapBoth,
   mapLeft: mapError
 }
 
@@ -1295,7 +1312,7 @@ export const orElseFirstW: <E1, E2, B>(
  */
 export const ioEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadIO2<URI> & MonadThrow2<URI> = {
   URI,
-  bimap: _bimap,
+  bimap: mapBoth,
   mapLeft: mapError,
   map: _map,
   of,
@@ -1355,7 +1372,7 @@ export function getIOValidation<E>(
     ap: applicativeIOValidation.ap,
     of,
     chain: flatMap,
-    bimap: _bimap,
+    bimap: mapBoth,
     mapLeft: mapError,
     alt: altIOValidation.alt,
     fromIO,

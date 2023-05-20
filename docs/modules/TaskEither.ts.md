@@ -56,6 +56,7 @@ Added in v2.0.0
   - [getApplicativeTaskValidation](#getapplicativetaskvalidation)
   - [getOrElse](#getorelse)
   - [getOrElseW](#getorelsew)
+  - [mapBoth](#mapboth)
   - [mapError](#maperror)
   - [orElse](#orelse)
   - [orElseFirstIOK](#orelsefirstiok)
@@ -90,6 +91,7 @@ Added in v2.0.0
   - [tryCatch](#trycatch)
   - [tryCatchK](#trycatchk)
 - [legacy](#legacy)
+  - [bimap](#bimap)
   - [chain](#chain)
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
@@ -120,7 +122,6 @@ Added in v2.0.0
 - [mapping](#mapping)
   - [as](#as)
   - [asUnit](#asunit)
-  - [bimap](#bimap)
   - [flap](#flap)
   - [map](#map)
 - [model](#model)
@@ -723,6 +724,38 @@ export declare const getOrElseW: <E, B>(onLeft: (e: E) => T.Task<B>) => <A>(ma: 
 
 Added in v2.6.0
 
+## mapBoth
+
+Returns a `TaskEither` whose failure and success channels have been mapped by the specified pair of functions, `f` and `g`.
+
+**Signature**
+
+```ts
+export declare const mapBoth: {
+  <E, G, A, B>(f: (e: E) => G, g: (a: A) => B): (self: TaskEither<E, A>) => TaskEither<G, B>
+  <E, A, G, B>(self: TaskEither<E, A>, f: (e: E) => G, g: (a: A) => B): TaskEither<G, B>
+}
+```
+
+**Example**
+
+```ts
+import * as TaskEither from 'fp-ts/TaskEither'
+import * as Either from 'fp-ts/Either'
+
+const f = (s: string) => new Error(s)
+const g = (n: number) => n * 2
+
+async function test() {
+  assert.deepStrictEqual(await TaskEither.mapBoth(TaskEither.right(1), f, g)(), Either.right(2))
+  assert.deepStrictEqual(await TaskEither.mapBoth(TaskEither.left('err'), f, g)(), Either.left(new Error('err')))
+}
+
+test()
+```
+
+Added in v2.16.0
+
 ## mapError
 
 Returns a `TaskEither` with its error channel mapped using the specified function.
@@ -1176,6 +1209,18 @@ Added in v2.5.0
 
 # legacy
 
+## bimap
+
+Alias of `mapBoth`.
+
+**Signature**
+
+```ts
+export declare const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: TaskEither<E, A>) => TaskEither<G, B>
+```
+
+Added in v2.0.0
+
 ## chain
 
 Alias of `flatMap`.
@@ -1552,18 +1597,6 @@ export declare const asUnit: <E, _>(self: TaskEither<E, _>) => TaskEither<E, voi
 ```
 
 Added in v2.16.0
-
-## bimap
-
-Map a pair of functions over the two type arguments of the bifunctor.
-
-**Signature**
-
-```ts
-export declare const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: TaskEither<E, A>) => TaskEither<G, B>
-```
-
-Added in v2.0.0
 
 ## flap
 

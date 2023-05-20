@@ -448,8 +448,6 @@ const _map: Functor2<URI>['map'] = (fa, f) => pipe(fa, map(f))
 const _apPar: Apply2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
 const _apSeq: Apply2<URI>['ap'] = (fab, fa) => flatMap(fab, (f) => pipe(fa, map(f)))
 /* istanbul ignore next */
-const _bimap: Bifunctor2<URI>['bimap'] = (fa, f, g) => pipe(fa, bimap(f, g))
-/* istanbul ignore next */
 const _alt: Alt2<URI>['alt'] = (fa, that) => pipe(fa, alt(that))
 
 /**
@@ -464,13 +462,37 @@ export const map: <A, B>(f: (a: A) => B) => <E>(fa: TaskEither<E, A>) => TaskEit
 )
 
 /**
- * Map a pair of functions over the two type arguments of the bifunctor.
+ * Returns a `TaskEither` whose failure and success channels have been mapped by the specified pair of functions, `f` and `g`.
  *
- * @category mapping
+ * @example
+ * import * as TaskEither from 'fp-ts/TaskEither'
+ * import * as Either from 'fp-ts/Either'
+ *
+ * const f = (s: string) => new Error(s)
+ * const g = (n: number) => n * 2
+ *
+ * async function test() {
+ *   assert.deepStrictEqual(await TaskEither.mapBoth(TaskEither.right(1), f, g)(), Either.right(2))
+ *   assert.deepStrictEqual(await TaskEither.mapBoth(TaskEither.left('err'), f, g)(), Either.left(new Error('err')))
+ * }
+ *
+ * test()
+ *
+ * @category error handling
+ * @since 2.16.0
+ */
+export const mapBoth: {
+  <E, G, A, B>(f: (e: E) => G, g: (a: A) => B): (self: TaskEither<E, A>) => TaskEither<G, B>
+  <E, A, G, B>(self: TaskEither<E, A>, f: (e: E) => G, g: (a: A) => B): TaskEither<G, B>
+} = /*#__PURE__*/ dual(3, ET.mapBoth(T.Functor))
+
+/**
+ * Alias of `mapBoth`.
+ *
+ * @category legacy
  * @since 2.0.0
  */
-export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: TaskEither<E, A>) => TaskEither<G, B> =
-  /*#__PURE__*/ ET.bimap(T.Functor)
+export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: TaskEither<E, A>) => TaskEither<G, B> = mapBoth
 
 /**
  * Returns a `TaskEither` with its error channel mapped using the specified function.
@@ -1089,7 +1111,7 @@ export const tapTask: {
  */
 export const Bifunctor: Bifunctor2<URI> = {
   URI,
-  bimap: _bimap,
+  bimap: mapBoth,
   mapLeft: mapError
 }
 
@@ -1700,7 +1722,7 @@ export const orElseFirstW: <E1, E2, B>(
  */
 export const taskEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadTask2<URI> & MonadThrow2<URI> = {
   URI,
-  bimap: _bimap,
+  bimap: mapBoth,
   mapLeft: mapError,
   map: _map,
   of,
@@ -1724,7 +1746,7 @@ export const taskEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadTask2<
 
 export const taskEitherSeq: typeof taskEither = {
   URI,
-  bimap: _bimap,
+  bimap: mapBoth,
   mapLeft: mapError,
   map: _map,
   of,
@@ -1785,7 +1807,7 @@ export function getTaskValidation<E>(
     ap: applicativeTaskValidation.ap,
     of,
     chain: flatMap,
-    bimap: _bimap,
+    bimap: mapBoth,
     mapLeft: mapError,
     alt: altTaskValidation.alt,
     fromIO,

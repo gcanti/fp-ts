@@ -572,8 +572,6 @@ const _apPar: Apply3<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
 const _apSeq: Apply3<URI>['ap'] = (fab, fa) => flatMap(fab, (f) => pipe(fa, map(f)))
 /* istanbul ignore next */
 const _alt: Alt3<URI>['alt'] = (fa, that) => pipe(fa, alt(that))
-/* istanbul ignore next */
-const _bimap: Bifunctor3<URI>['bimap'] = (fa, f, g) => pipe(fa, bimap(f, g))
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
@@ -586,15 +584,40 @@ export const map: <A, B>(f: (a: A) => B) => <R, E>(fa: ReaderTaskEither<R, E, A>
   /*#__PURE__*/ ET.map(RT.Functor)
 
 /**
- * Map a pair of functions over the two last type arguments of the bifunctor.
+ * Returns a `ReaderTaskEither` whose failure and success channels have been mapped by the specified pair of functions, `f` and `g`.
  *
- * @category mapping
+ * @example
+ * import * as ReaderTaskEither from 'fp-ts/ReaderTaskEither'
+ * import * as Either from 'fp-ts/Either'
+ *
+ * const f = (s: string) => new Error(s)
+ * const g = (n: number) => n * 2
+ *
+ * async function test() {
+ *   assert.deepStrictEqual(await ReaderTaskEither.mapBoth(ReaderTaskEither.right(1), f, g)({})(), Either.right(2))
+ *   assert.deepStrictEqual(await ReaderTaskEither.mapBoth(ReaderTaskEither.left('err'), f, g)({})(), Either.left(new Error('err')))
+ * }
+ *
+ * test()
+ *
+ * @category error handling
+ * @since 2.16.0
+ */
+export const mapBoth: {
+  <E, G, A, B>(f: (e: E) => G, g: (a: A) => B): <R>(self: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, G, B>
+  <R, E, A, G, B>(self: ReaderTaskEither<R, E, A>, f: (e: E) => G, g: (a: A) => B): ReaderTaskEither<R, G, B>
+} = /*#__PURE__*/ dual(3, ET.mapBoth(RT.Functor))
+
+/**
+ * Alias of `mapBoth`.
+ *
+ * @category legacy
  * @since 2.0.0
  */
 export const bimap: <E, G, A, B>(
   f: (e: E) => G,
   g: (a: A) => B
-) => <R>(fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, G, B> = /*#__PURE__*/ ET.bimap(RT.Functor)
+) => <R>(fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, G, B> = mapBoth
 
 /**
  * Returns a `ReaderTaskEither` with its error channel mapped using the specified function.
@@ -1166,7 +1189,7 @@ export const tapReader: {
  */
 export const Bifunctor: Bifunctor3<URI> = {
   URI,
-  bimap: _bimap,
+  bimap: mapBoth,
   mapLeft: mapError
 }
 
@@ -1917,7 +1940,7 @@ export const readerTaskEither: Monad3<URI> & Bifunctor3<URI> & Alt3<URI> & Monad
   ap: _apPar,
   chain: flatMap,
   alt: _alt,
-  bimap: _bimap,
+  bimap: mapBoth,
   mapLeft: mapError,
   fromIO,
   fromTask,
@@ -1941,7 +1964,7 @@ export const readerTaskEitherSeq: typeof readerTaskEither = {
   ap: _apSeq,
   chain: flatMap,
   alt: _alt,
-  bimap: _bimap,
+  bimap: mapBoth,
   mapLeft: mapError,
   fromIO,
   fromTask,
@@ -1999,7 +2022,7 @@ export function getReaderTaskValidation<E>(
     map: _map,
     of,
     chain: flatMap,
-    bimap: _bimap,
+    bimap: mapBoth,
     mapLeft: mapError,
     ap: applicativeReaderTaskValidation.ap,
     alt: altReaderTaskValidation.alt,

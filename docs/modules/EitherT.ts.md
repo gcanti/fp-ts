@@ -275,25 +275,25 @@ export declare function bimap<F extends URIS3>(
 ): <E, G, A, B>(
   f: (e: E) => G,
   g: (a: A) => B
-) => <R, FE>(fea: Kind3<F, R, FE, Either<E, A>>) => Kind3<F, R, FE, Either<G, B>>
+) => <R, FE>(self: Kind3<F, R, FE, Either<E, A>>) => Kind3<F, R, FE, Either<G, B>>
 export declare function bimap<F extends URIS3, FE>(
   F: Functor3C<F, FE>
 ): <E, G, A, B>(
   f: (e: E) => G,
   g: (a: A) => B
-) => <R>(fea: Kind3<F, R, FE, Either<E, A>>) => Kind3<F, R, FE, Either<G, B>>
+) => <R>(self: Kind3<F, R, FE, Either<E, A>>) => Kind3<F, R, FE, Either<G, B>>
 export declare function bimap<F extends URIS2>(
   F: Functor2<F>
-): <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => <FE>(fea: Kind2<F, FE, Either<E, A>>) => Kind2<F, FE, Either<G, B>>
+): <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => <FE>(self: Kind2<F, FE, Either<E, A>>) => Kind2<F, FE, Either<G, B>>
 export declare function bimap<F extends URIS2, FE>(
   F: Functor2C<F, FE>
-): <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fea: Kind2<F, FE, Either<E, A>>) => Kind2<F, FE, Either<G, B>>
+): <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (self: Kind2<F, FE, Either<E, A>>) => Kind2<F, FE, Either<G, B>>
 export declare function bimap<F extends URIS>(
   F: Functor1<F>
-): <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fea: Kind<F, Either<E, A>>) => Kind<F, Either<G, B>>
+): <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (self: Kind<F, Either<E, A>>) => Kind<F, Either<G, B>>
 export declare function bimap<F>(
   F: Functor<F>
-): <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fea: HKT<F, Either<E, A>>) => HKT<F, Either<G, B>>
+): <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (self: HKT<F, Either<E, A>>) => HKT<F, Either<G, B>>
 ```
 
 Added in v2.10.0
