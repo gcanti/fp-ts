@@ -82,9 +82,11 @@ Added in v2.0.0
   - [chainFirstEitherKW](#chainfirsteitherkw)
   - [chainFirstIOK](#chainfirstiok)
   - [chainFirstReaderK](#chainfirstreaderk)
+  - [chainFirstReaderKW](#chainfirstreaderkw)
   - [chainFirstTaskK](#chainfirsttaskk)
   - [chainFirstW](#chainfirstw)
   - [chainIOK](#chainiok)
+  - [chainReaderK](#chainreaderk)
   - [chainReaderKW](#chainreaderkw)
   - [chainTaskEitherK](#chaintaskeitherk)
   - [chainTaskEitherKW](#chaintaskeitherkw)
@@ -111,18 +113,18 @@ Added in v2.0.0
 - [sequencing](#sequencing)
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
-  - [chainFirstReaderKW](#chainfirstreaderkw)
   - [chainIOEitherK](#chainioeitherk)
   - [chainIOEitherKW](#chainioeitherkw)
   - [chainOptionK](#chainoptionk)
   - [chainOptionKW](#chainoptionkw)
-  - [chainReaderK](#chainreaderk)
   - [chainReaderTaskEitherK](#chainreadertaskeitherk)
   - [chainReaderTaskEitherKW](#chainreadertaskeitherkw)
   - [chainStateK](#chainstatek)
   - [chainTaskK](#chaintaskk)
   - [flatMap](#flatmap)
   - [flatMapIO](#flatmapio)
+  - [flatMapReader](#flatmapreader)
+  - [flatMapTask](#flatmaptask)
   - [flatMapTaskEither](#flatmaptaskeither)
   - [flatten](#flatten)
   - [flattenW](#flattenw)
@@ -945,6 +947,24 @@ export declare const chainFirstReaderK: <A, R, B>(
 
 Added in v2.11.0
 
+## chainFirstReaderKW
+
+Alias of `tapReader`.
+
+Less strict version of [`chainFirstReaderK`](#chainFirstReaderK).
+
+The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
+
+**Signature**
+
+```ts
+export declare const chainFirstReaderKW: <A, R1, B>(
+  f: (a: A) => R.Reader<R1, B>
+) => <S, R2, E>(ma: StateReaderTaskEither<S, R2, E, A>) => StateReaderTaskEither<S, R1 & R2, E, A>
+```
+
+Added in v2.11.0
+
 ## chainFirstTaskK
 
 Alias of `tapTask`.
@@ -987,9 +1007,23 @@ export declare const chainIOK: <A, B>(
 
 Added in v2.10.0
 
+## chainReaderK
+
+Alias of `flatMapReader`.
+
+**Signature**
+
+```ts
+export declare const chainReaderK: <A, R, B>(
+  f: (a: A) => R.Reader<R, B>
+) => <S, E>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
+```
+
+Added in v2.11.0
+
 ## chainReaderKW
 
-Alias of `tapReader`.
+Alias of `flatMapReader`.
 
 Less strict version of [`chainReaderK`](#chainReaderK).
 
@@ -1298,22 +1332,6 @@ export declare const chainEitherKW: <E2, A, B>(
 
 Added in v2.6.1
 
-## chainFirstReaderKW
-
-Less strict version of [`chainFirstReaderK`](#chainFirstReaderK).
-
-The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
-
-**Signature**
-
-```ts
-export declare const chainFirstReaderKW: <A, R1, B>(
-  f: (a: A) => R.Reader<R1, B>
-) => <S, R2, E>(ma: StateReaderTaskEither<S, R2, E, A>) => StateReaderTaskEither<S, R1 & R2, E, A>
-```
-
-Added in v2.11.0
-
 ## chainIOEitherK
 
 **Signature**
@@ -1372,18 +1390,6 @@ export declare const chainOptionKW: <E2>(
 
 Added in v2.13.2
 
-## chainReaderK
-
-**Signature**
-
-```ts
-export declare const chainReaderK: <A, R, B>(
-  f: (a: A) => R.Reader<R, B>
-) => <S, E>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
-```
-
-Added in v2.11.0
-
 ## chainReaderTaskEitherK
 
 **Signature**
@@ -1424,6 +1430,8 @@ Added in v2.11.0
 
 ## chainTaskK
 
+Alias of `flatMapTask`.
+
 **Signature**
 
 ```ts
@@ -1460,6 +1468,39 @@ Added in v2.14.0
 export declare const flatMapIO: {
   <A, B>(f: (a: A) => IO<B>): <S, R, E>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
   <S, R, E, A, B>(self: StateReaderTaskEither<S, R, E, A>, f: (a: A) => IO<B>): StateReaderTaskEither<S, R, E, B>
+}
+```
+
+Added in v2.16.0
+
+## flatMapReader
+
+**Signature**
+
+```ts
+export declare const flatMapReader: {
+  <R2, A, B>(f: (a: A) => R.Reader<R2, B>): <S, R1, E>(
+    self: StateReaderTaskEither<S, R1, E, A>
+  ) => StateReaderTaskEither<S, R1 & R2, E, B>
+  <S, R1, R2, E, A, B>(self: StateReaderTaskEither<S, R1, E, A>, f: (a: A) => R.Reader<R2, B>): StateReaderTaskEither<
+    S,
+    R1 & R2,
+    E,
+    B
+  >
+}
+```
+
+Added in v2.16.0
+
+## flatMapTask
+
+**Signature**
+
+```ts
+export declare const flatMapTask: {
+  <A, B>(f: (a: A) => Task<B>): <S, R, E>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
+  <S, R, E, A, B>(self: StateReaderTaskEither<S, R, E, A>, f: (a: A) => Task<B>): StateReaderTaskEither<S, R, E, B>
 }
 ```
 

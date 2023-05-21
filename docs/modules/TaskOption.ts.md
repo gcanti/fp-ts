@@ -76,6 +76,7 @@ Added in v2.10.0
   - [chainFirstIOK](#chainfirstiok)
   - [chainFirstTaskK](#chainfirsttaskk)
   - [chainIOK](#chainiok)
+  - [chainTaskK](#chaintaskk)
 - [lifting](#lifting)
   - [fromEitherK](#fromeitherk)
   - [fromIOK](#fromiok)
@@ -101,9 +102,9 @@ Added in v2.10.0
   - [chainEitherK](#chaineitherk)
   - [chainNullableK](#chainnullablek)
   - [chainOptionK](#chainoptionk)
-  - [chainTaskK](#chaintaskk)
   - [flatMap](#flatmap)
   - [flatMapIO](#flatmapio)
+  - [flatMapTask](#flatmaptask)
   - [flatten](#flatten)
 - [traversing](#traversing)
   - [sequenceArray](#sequencearray)
@@ -838,6 +839,18 @@ export declare const chainIOK: <A, B>(f: (a: A) => IO<B>) => (first: TaskOption<
 
 Added in v2.10.0
 
+## chainTaskK
+
+Alias of `flatMapTask`.
+
+**Signature**
+
+```ts
+export declare const chainTaskK: <A, B>(f: (a: A) => T.Task<B>) => (first: TaskOption<A>) => TaskOption<B>
+```
+
+Added in v2.10.0
+
 # lifting
 
 ## fromEitherK
@@ -1098,16 +1111,6 @@ export declare const chainOptionK: <A, B>(f: (a: A) => O.Option<B>) => (ma: Task
 
 Added in v2.10.0
 
-## chainTaskK
-
-**Signature**
-
-```ts
-export declare const chainTaskK: <A, B>(f: (a: A) => T.Task<B>) => (first: TaskOption<A>) => TaskOption<B>
-```
-
-Added in v2.10.0
-
 ## flatMap
 
 **Signature**
@@ -1129,6 +1132,19 @@ Added in v2.14.0
 export declare const flatMapIO: {
   <A, B>(f: (a: A) => IO<B>): (self: TaskOption<A>) => TaskOption<B>
   <A, B>(self: TaskOption<A>, f: (a: A) => IO<B>): TaskOption<B>
+}
+```
+
+Added in v2.16.0
+
+## flatMapTask
+
+**Signature**
+
+```ts
+export declare const flatMapTask: {
+  <A, B>(f: (a: A) => T.Task<B>): (self: TaskOption<A>) => TaskOption<B>
+  <A, B>(self: TaskOption<A>, f: (a: A) => T.Task<B>): TaskOption<B>
 }
 ```
 
