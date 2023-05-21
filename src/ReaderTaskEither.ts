@@ -1352,26 +1352,6 @@ export const fromReaderTaskK =
     rightReaderTask(f(...a))
 
 /**
- * Less strict version of [`chainReaderTaskK`](#chainreadertaskk).
- *
- * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
- *
- * @category sequencing
- * @since 2.11.0
- */
-export const chainReaderTaskKW: <A, R2, B>(
-  f: (a: A) => RT.ReaderTask<R2, B>
-) => <R1, E>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, B> = (f) => flatMap(fromReaderTaskK(f))
-
-/**
- * @category sequencing
- * @since 2.11.0
- */
-export const chainReaderTaskK: <A, R, B>(
-  f: (a: A) => RT.ReaderTask<R, B>
-) => <E>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = chainReaderTaskKW
-
-/**
  * Alias of `tapReaderTask`.
  *
  * Less strict version of [`chainFirstReaderTaskK`](#chainfirstreadertaskk).
@@ -1577,6 +1557,23 @@ export const flatMapTaskEither: {
 )
 
 /**
+ * @category sequencing
+ * @since 2.16.0
+ */
+export const flatMapReaderTask: {
+  <A, B, R2>(f: (a: A) => ReaderTask<R2, B>): <R1, E>(
+    self: ReaderTaskEither<R1, E, A>
+  ) => ReaderTaskEither<R1 & R2, E, B>
+  <R1, R2, E, A, B>(self: ReaderTaskEither<R1, E, A>, f: (a: A) => ReaderTask<R2, B>): ReaderTaskEither<R1 & R2, E, B>
+} = /*#__PURE__*/ dual(
+  2,
+  <R1, R2, E, A, B>(
+    self: ReaderTaskEither<R1, E, A>,
+    f: (a: A) => ReaderTask<R2, B>
+  ): ReaderTaskEither<R1 & R2, E, B> => flatMap(self, fromReaderTaskK(f))
+)
+
+/**
  * Alias of `flatMapEither`.
  *
  * @category legacy
@@ -1643,6 +1640,30 @@ export const chainTaskEitherKW: <E2, A, B>(
 export const chainTaskEitherK: <E, A, B>(
   f: (a: A) => TaskEither<E, B>
 ) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = flatMapTaskEither
+
+/**
+ * Alias of `flatMapReaderTask`.
+ *
+ * Less strict version of [`chainReaderTaskK`](#chainreadertaskk).
+ *
+ * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
+ *
+ * @category legacy
+ * @since 2.11.0
+ */
+export const chainReaderTaskKW: <A, R2, B>(
+  f: (a: A) => RT.ReaderTask<R2, B>
+) => <R1, E>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, B> = flatMapReaderTask
+
+/**
+ * Alias of `flatMapReaderTask`.
+ *
+ * @category legacy
+ * @since 2.11.0
+ */
+export const chainReaderTaskK: <A, R, B>(
+  f: (a: A) => RT.ReaderTask<R, B>
+) => <E>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = flatMapReaderTask
 
 /**
  * @category lifting
