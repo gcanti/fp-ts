@@ -142,8 +142,8 @@ keeping only the result of the first.
 
 ```ts
 export declare const tapIO: {
-  <R, A, _>(self: ReaderTask<R, A>, f: (a: A) => IO<_>): ReaderTask<R, A>
   <A, _>(f: (a: A) => IO<_>): <R>(self: ReaderTask<R, A>) => ReaderTask<R, A>
+  <R, A, _>(self: ReaderTask<R, A>, f: (a: A) => IO<_>): ReaderTask<R, A>
 }
 ```
 
@@ -178,8 +178,8 @@ keeping only the result of the first.
 
 ```ts
 export declare const tapReader: {
-  <R1, R2, A, _>(self: ReaderTask<R1, A>, f: (a: A) => R.Reader<R2, _>): ReaderTask<R1 & R2, A>
   <R2, A, _>(f: (a: A) => R.Reader<R2, _>): <R1>(self: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A>
+  <R1, R2, A, _>(self: ReaderTask<R1, A>, f: (a: A) => R.Reader<R2, _>): ReaderTask<R1 & R2, A>
 }
 ```
 
@@ -194,8 +194,8 @@ keeping only the result of the first.
 
 ```ts
 export declare const tapReaderIO: {
-  <R1, R2, A, _>(self: ReaderTask<R1, A>, f: (a: A) => RIO.ReaderIO<R2, _>): ReaderTask<R1 & R2, A>
   <R2, A, _>(f: (a: A) => RIO.ReaderIO<R2, _>): <R1>(self: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A>
+  <R1, R2, A, _>(self: ReaderTask<R1, A>, f: (a: A) => RIO.ReaderIO<R2, _>): ReaderTask<R1 & R2, A>
 }
 ```
 
@@ -210,8 +210,8 @@ keeping only the result of the first.
 
 ```ts
 export declare const tapTask: {
-  <R, A, _>(self: ReaderTask<R, A>, f: (a: A) => T.Task<_>): ReaderTask<R, A>
   <A, _>(f: (a: A) => T.Task<_>): <R>(self: ReaderTask<R, A>) => ReaderTask<R, A>
+  <R, A, _>(self: ReaderTask<R, A>, f: (a: A) => T.Task<_>): ReaderTask<R, A>
 }
 ```
 
@@ -787,8 +787,8 @@ Maps the value to the specified constant value.
 
 ```ts
 export declare const as: {
-  <R, A, _>(self: ReaderTask<R, _>, a: A): ReaderTask<R, A>
   <A>(a: A): <R, _>(self: ReaderTask<R, _>) => ReaderTask<R, A>
+  <R, _, A>(self: ReaderTask<R, _>, a: A): ReaderTask<R, A>
 }
 ```
 
@@ -926,8 +926,8 @@ Added in v2.14.0
 
 ```ts
 export declare const flatMapIO: {
-  <A, B>(f: (a: A) => IO<B>): <R>(ma: ReaderTask<R, A>) => ReaderTask<R, B>
-  <R, A, B>(ma: ReaderTask<R, A>, f: (a: A) => IO<B>): ReaderTask<R, B>
+  <A, B>(f: (a: A) => IO<B>): <R>(self: ReaderTask<R, A>) => ReaderTask<R, B>
+  <R, A, B>(self: ReaderTask<R, A>, f: (a: A) => IO<B>): ReaderTask<R, B>
 }
 ```
 

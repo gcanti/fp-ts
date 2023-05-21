@@ -558,8 +558,8 @@ export const Functor: Functor3<URI> = {
  * @since 2.16.0
  */
 export const as: {
-  <R, E, A, _>(self: ReaderEither<R, E, _>, a: A): ReaderEither<R, E, A>
   <A>(a: A): <R, E, _>(self: ReaderEither<R, E, _>) => ReaderEither<R, E, A>
+  <R, E, _, A>(self: ReaderEither<R, E, _>, a: A): ReaderEither<R, E, A>
 } = dual(2, as_(Functor))
 
 /**
@@ -726,8 +726,8 @@ export const tap: {
  * @since 2.16.0
  */
 export const tapEither: {
+  <A, E2, _>(f: (a: A) => Either<E2, _>): <R1, E1>(self: ReaderEither<R1, E1, A>) => ReaderEither<R1, E1 | E2, A>
   <R1, E1, A, E2, _>(self: ReaderEither<R1, E1, A>, f: (a: A) => Either<E2, _>): ReaderEither<R1, E1 | E2, A>
-  <A, E2, _>(f: (a: A) => Either<E2, _>): <R1, E1>(self: ReaderEither<R1, E1, A>) => ReaderEither<R1, E2 | E1, A>
 } = /*#__PURE__*/ dual(2, tapEither_(FromEither, Chain))
 
 /**
@@ -738,8 +738,8 @@ export const tapEither: {
  * @since 2.16.0
  */
 export const tapReader: {
-  <R1, R2, E, A, _>(self: ReaderEither<R1, E, A>, f: (a: A) => Reader<R2, _>): ReaderEither<R1 & R2, E, A>
   <R2, A, E, _>(f: (a: A) => Reader<R2, _>): <R1>(self: ReaderEither<R1, E, A>) => ReaderEither<R1 & R2, E, A>
+  <R1, R2, E, A, _>(self: ReaderEither<R1, E, A>, f: (a: A) => Reader<R2, _>): ReaderEither<R1 & R2, E, A>
 } = /*#__PURE__*/ dual(2, tapReader_(FromReader, Chain))
 
 /**
@@ -952,8 +952,8 @@ export const flatMapOption: {
  * @since 2.15.0
  */
 export const flatMapEither: {
-  <A, B, E2>(f: (a: A) => E.Either<E2, B>): <R, E1>(self: ReaderEither<R, E1, A>) => ReaderEither<R, E2 | E1, B>
-  <R, E1, A, B, E2>(self: ReaderEither<R, E1, A>, f: (a: A) => E.Either<E2, B>): ReaderEither<R, E1 | E2, B>
+  <A, E2, B>(f: (a: A) => E.Either<E2, B>): <R, E1>(self: ReaderEither<R, E1, A>) => ReaderEither<R, E1 | E2, B>
+  <R, E1, A, E2, B>(self: ReaderEither<R, E1, A>, f: (a: A) => E.Either<E2, B>): ReaderEither<R, E1 | E2, B>
 } = /*#__PURE__*/ _.flatMapEither(_FromEither, _FlatMap)
 
 /**

@@ -446,8 +446,8 @@ export const Functor: Functor1<URI> = {
  * @since 2.16.0
  */
 export const as: {
-  <A, _>(self: TaskOption<_>, a: A): TaskOption<A>
   <A>(a: A): <_>(self: TaskOption<_>) => TaskOption<A>
+  <_, A>(self: TaskOption<_>, a: A): TaskOption<A>
 } = dual(2, as_(Functor))
 
 /**
@@ -616,8 +616,8 @@ export const tap: {
  * @since 2.16.0
  */
 export const tapEither: {
-  <A, E, _>(self: TaskOption<A>, f: (a: A) => Either<E, _>): TaskOption<A>
   <A, E, _>(f: (a: A) => Either<E, _>): (self: TaskOption<A>) => TaskOption<A>
+  <A, E, _>(self: TaskOption<A>, f: (a: A) => Either<E, _>): TaskOption<A>
 } = /*#__PURE__*/ dual(2, tapEither_(FromEither, Chain))
 
 /**
@@ -654,8 +654,8 @@ export const tapEither: {
  * @since 2.16.0
  */
 export const tapIO: {
-  <A, _>(self: TaskOption<A>, f: (a: A) => IO<_>): TaskOption<A>
   <A, _>(f: (a: A) => IO<_>): (self: TaskOption<A>) => TaskOption<A>
+  <A, _>(self: TaskOption<A>, f: (a: A) => IO<_>): TaskOption<A>
 } = /*#__PURE__*/ dual(2, tapIO_(FromIO, Chain))
 
 /**
@@ -682,8 +682,8 @@ export const tapIO: {
  * @since 2.16.0
  */
 export const tapTask: {
-  <A, _>(self: TaskOption<A>, f: (a: A) => Task<_>): TaskOption<A>
   <A, _>(f: (a: A) => Task<_>): (self: TaskOption<A>) => TaskOption<A>
+  <A, _>(self: TaskOption<A>, f: (a: A) => Task<_>): TaskOption<A>
 } = /*#__PURE__*/ dual(2, tapTask_(FromTask, Chain))
 
 /**

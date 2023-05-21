@@ -155,8 +155,8 @@ keeping only the result of the first.
 
 ```ts
 export declare const tapEither: {
-  <A, E, _>(self: TaskOption<A>, f: (a: A) => Either<E, _>): TaskOption<A>
   <A, E, _>(f: (a: A) => Either<E, _>): (self: TaskOption<A>) => TaskOption<A>
+  <A, E, _>(self: TaskOption<A>, f: (a: A) => Either<E, _>): TaskOption<A>
 }
 ```
 
@@ -193,8 +193,8 @@ keeping only the result of the first.
 
 ```ts
 export declare const tapIO: {
-  <A, _>(self: TaskOption<A>, f: (a: A) => IO<_>): TaskOption<A>
   <A, _>(f: (a: A) => IO<_>): (self: TaskOption<A>) => TaskOption<A>
+  <A, _>(self: TaskOption<A>, f: (a: A) => IO<_>): TaskOption<A>
 }
 ```
 
@@ -234,8 +234,8 @@ keeping only the result of the first.
 
 ```ts
 export declare const tapTask: {
-  <A, _>(self: TaskOption<A>, f: (a: A) => T.Task<_>): TaskOption<A>
   <A, _>(f: (a: A) => T.Task<_>): (self: TaskOption<A>) => TaskOption<A>
+  <A, _>(self: TaskOption<A>, f: (a: A) => T.Task<_>): TaskOption<A>
 }
 ```
 
@@ -922,8 +922,8 @@ Maps the `Some` value of this `TaskOption` to the specified constant value.
 
 ```ts
 export declare const as: {
-  <A, _>(self: TaskOption<_>, a: A): TaskOption<A>
   <A>(a: A): <_>(self: TaskOption<_>) => TaskOption<A>
+  <_, A>(self: TaskOption<_>, a: A): TaskOption<A>
 }
 ```
 

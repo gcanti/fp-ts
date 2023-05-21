@@ -297,7 +297,7 @@ Maps the value to the specified constant value.
 **Signature**
 
 ```ts
-export declare const as: { <A, _>(self: IO<_>, a: A): IO<A>; <A>(a: A): <_>(self: IO<_>) => IO<A> }
+export declare const as: { <A>(a: A): <_>(self: IO<_>) => IO<A>; <_, A>(self: IO<_>, a: A): IO<A> }
 ```
 
 Added in v2.16.0

@@ -192,15 +192,15 @@ keeping only the result of the first.
 
 ```ts
 export declare const tapEither: {
+  <A, E2, _>(f: (a: A) => E.Either<E2, _>): <S, R1, E1>(
+    self: StateReaderTaskEither<S, R1, E1, A>
+  ) => StateReaderTaskEither<S, R1, E2 | E1, A>
   <S, R1, E1, A, E2, _>(self: StateReaderTaskEither<S, R1, E1, A>, f: (a: A) => E.Either<E2, _>): StateReaderTaskEither<
     S,
     R1,
     E1 | E2,
     A
   >
-  <A, S, E2, _>(f: (a: A) => E.Either<E2, _>): <R1, E1>(
-    self: StateReaderTaskEither<S, R1, E1, A>
-  ) => StateReaderTaskEither<S, R1, E2 | E1, A>
 }
 ```
 
@@ -215,8 +215,8 @@ keeping only the result of the first.
 
 ```ts
 export declare const tapIO: {
-  <S, R, E, A, _>(self: StateReaderTaskEither<S, R, E, A>, f: (a: A) => IO<_>): StateReaderTaskEither<S, R, E, A>
   <A, _>(f: (a: A) => IO<_>): <S, R, E>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A>
+  <S, R, E, A, _>(self: StateReaderTaskEither<S, R, E, A>, f: (a: A) => IO<_>): StateReaderTaskEither<S, R, E, A>
 }
 ```
 
@@ -231,15 +231,15 @@ keeping only the result of the first.
 
 ```ts
 export declare const tapReader: {
-  <S, R1, R2, E, A, _>(self: StateReaderTaskEither<S, R1, E, A>, f: (a: A) => R.Reader<R2, _>): StateReaderTaskEither<
+  <A, R2, _>(f: (a: A) => R.Reader<R2, _>): <S, R1, E>(
+    self: StateReaderTaskEither<S, R1, E, A>
+  ) => StateReaderTaskEither<S, R1 & R2, E, A>
+  <S, R1, E, A, R2, _>(self: StateReaderTaskEither<S, R1, E, A>, f: (a: A) => R.Reader<R2, _>): StateReaderTaskEither<
     S,
     R1 & R2,
     E,
     A
   >
-  <R2, A, _>(f: (a: A) => R.Reader<R2, _>): <S, R1, E>(
-    self: StateReaderTaskEither<S, R1, E, A>
-  ) => StateReaderTaskEither<S, R1 & R2, E, A>
 }
 ```
 
@@ -254,8 +254,8 @@ keeping only the result of the first.
 
 ```ts
 export declare const tapTask: {
-  <S, R, E, A, _>(self: StateReaderTaskEither<S, R, E, A>, f: (a: A) => Task<_>): StateReaderTaskEither<S, R, E, A>
   <A, _>(f: (a: A) => Task<_>): <S, R, E>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A>
+  <S, R, E, A, _>(self: StateReaderTaskEither<S, R, E, A>, f: (a: A) => Task<_>): StateReaderTaskEither<S, R, E, A>
 }
 ```
 
@@ -1189,8 +1189,8 @@ Maps the `Right` value of this `StateReaderTaskEither` to the specified constant
 
 ```ts
 export declare const as: {
-  <S, R, E, A, _>(self: StateReaderTaskEither<S, R, E, _>, a: A): StateReaderTaskEither<S, R, E, A>
   <A>(a: A): <S, R, E, _>(self: StateReaderTaskEither<S, R, E, _>) => StateReaderTaskEither<S, R, E, A>
+  <S, R, E, _, A>(self: StateReaderTaskEither<S, R, E, _>, a: A): StateReaderTaskEither<S, R, E, A>
 }
 ```
 
@@ -1458,8 +1458,8 @@ Added in v2.14.0
 
 ```ts
 export declare const flatMapIO: {
-  <A, B>(f: (a: A) => IO<B>): <S, R, E>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
-  <S, R, E, A, B>(ma: StateReaderTaskEither<S, R, E, A>, f: (a: A) => IO<B>): StateReaderTaskEither<S, R, E, B>
+  <A, B>(f: (a: A) => IO<B>): <S, R, E>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
+  <S, R, E, A, B>(self: StateReaderTaskEither<S, R, E, A>, f: (a: A) => IO<B>): StateReaderTaskEither<S, R, E, B>
 }
 ```
 
@@ -1471,10 +1471,10 @@ Added in v2.16.0
 
 ```ts
 export declare const flatMapTaskEither: {
-  <S, R, E2, A, B>(f: (a: A) => TaskEither<E2, B>): <E1>(
+  <A, E2, B>(f: (a: A) => TaskEither<E2, B>): <S, R, E1>(
     self: StateReaderTaskEither<S, R, E1, A>
   ) => StateReaderTaskEither<S, R, E2 | E1, B>
-  <S, R, E1, E2, A, B>(self: StateReaderTaskEither<S, R, E1, A>, f: (a: A) => TaskEither<E2, B>): StateReaderTaskEither<
+  <S, R, E1, A, E2, B>(self: StateReaderTaskEither<S, R, E1, A>, f: (a: A) => TaskEither<E2, B>): StateReaderTaskEither<
     S,
     R,
     E1 | E2,

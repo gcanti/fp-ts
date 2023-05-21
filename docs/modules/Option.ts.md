@@ -225,8 +225,8 @@ keeping only the result of the first.
 
 ```ts
 export declare const tapEither: {
-  <A, E, _>(self: Option<A>, f: (a: A) => Either<E, _>): Option<A>
   <A, E, _>(f: (a: A) => Either<E, _>): (self: Option<A>) => Option<A>
+  <A, E, _>(self: Option<A>, f: (a: A) => Either<E, _>): Option<A>
 }
 ```
 
@@ -1160,7 +1160,7 @@ Maps the `Some` value of this `Option` to the specified constant value.
 **Signature**
 
 ```ts
-export declare const as: { <A, _>(self: Option<_>, a: A): Option<A>; <A>(a: A): <_>(self: Option<_>) => Option<A> }
+export declare const as: { <A>(a: A): <_>(self: Option<_>) => Option<A>; <_, A>(self: Option<_>, a: A): Option<A> }
 ```
 
 Added in v2.16.0

@@ -175,8 +175,8 @@ export const Functor: Functor2<URI> = {
  * @since 2.16.0
  */
 export const as: {
-  <R, A, _>(self: ReaderIO<R, _>, a: A): ReaderIO<R, A>
   <A>(a: A): <R, _>(self: ReaderIO<R, _>) => ReaderIO<R, A>
+  <R, _, A>(self: ReaderIO<R, _>, a: A): ReaderIO<R, A>
 } = dual(2, as_(Functor))
 
 /**
@@ -311,8 +311,8 @@ const _FromIO: _.FromIO<ReaderIOTypeLambda> = {
  * @since 2.16.0
  */
 export const flatMapIO: {
-  <A, B>(f: (a: A) => IO<B>): <R>(ma: ReaderIO<R, A>) => ReaderIO<R, B>
-  <R, A, B>(ma: ReaderIO<R, A>, f: (a: A) => IO<B>): ReaderIO<R, B>
+  <A, B>(f: (a: A) => IO<B>): <R>(self: ReaderIO<R, A>) => ReaderIO<R, B>
+  <R, A, B>(self: ReaderIO<R, A>, f: (a: A) => IO<B>): ReaderIO<R, B>
 } = _.flatMapIO(_FromIO, _FlatMap)
 
 /**
@@ -352,8 +352,8 @@ export const tap: {
  * @since 2.16.0
  */
 export const tapIO: {
-  <R, A, _>(self: ReaderIO<R, A>, f: (a: A) => IO<_>): ReaderIO<R, A>
   <A, _>(f: (a: A) => IO<_>): <R>(self: ReaderIO<R, A>) => ReaderIO<R, A>
+  <R, A, _>(self: ReaderIO<R, A>, f: (a: A) => IO<_>): ReaderIO<R, A>
 } = /*#__PURE__*/ dual(2, tapIO_(FromIO, Chain))
 
 /**
@@ -364,8 +364,8 @@ export const tapIO: {
  * @since 2.16.0
  */
 export const tapReader: {
-  <R1, A, R2, _>(self: ReaderIO<R1, A>, f: (a: A) => Reader<R2, _>): ReaderIO<R1 & R2, A>
   <R2, A, _>(f: (a: A) => Reader<R2, _>): <R1>(self: ReaderIO<R1, A>) => ReaderIO<R1 & R2, A>
+  <R1, A, R2, _>(self: ReaderIO<R1, A>, f: (a: A) => Reader<R2, _>): ReaderIO<R1 & R2, A>
 } = /*#__PURE__*/ dual(2, tapReader_(FromReader, Chain))
 
 /**

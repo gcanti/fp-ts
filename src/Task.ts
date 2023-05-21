@@ -204,8 +204,8 @@ export const Functor: Functor1<URI> = {
  * @since 2.16.0
  */
 export const as: {
-  <A, _>(self: Task<_>, a: A): Task<A>
   <A>(a: A): <_>(self: Task<_>) => Task<A>
+  <_, A>(self: Task<_>, a: A): Task<A>
 } = dual(2, as_(Functor))
 
 /**
@@ -422,8 +422,8 @@ export const tap: {
  * @since 2.16.0
  */
 export const tapIO: {
-  <A, _>(self: Task<A>, f: (a: A) => IO<_>): Task<A>
   <A, _>(f: (a: A) => IO<_>): (self: Task<A>) => Task<A>
+  <A, _>(self: Task<A>, f: (a: A) => IO<_>): Task<A>
 } = /*#__PURE__*/ dual(2, tapIO_(FromIO, Chain))
 
 /**

@@ -123,8 +123,8 @@ keeping only the result of the first.
 
 ```ts
 export declare const tapIO: {
-  <A, _>(self: Task<A>, f: (a: A) => IO<_>): Task<A>
   <A, _>(f: (a: A) => IO<_>): (self: Task<A>) => Task<A>
+  <A, _>(self: Task<A>, f: (a: A) => IO<_>): Task<A>
 }
 ```
 
@@ -465,7 +465,7 @@ Maps the value to the specified constant value.
 **Signature**
 
 ```ts
-export declare const as: { <A, _>(self: Task<_>, a: A): Task<A>; <A>(a: A): <_>(self: Task<_>) => Task<A> }
+export declare const as: { <A>(a: A): <_>(self: Task<_>) => Task<A>; <_, A>(self: Task<_>, a: A): Task<A> }
 ```
 
 Added in v2.16.0
