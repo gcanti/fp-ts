@@ -38,7 +38,6 @@ import { FromIO3, fromIOK as fromIOK_, tapIO as tapIO_ } from './FromIO'
 import {
   ask as ask_,
   asks as asks_,
-  chainReaderK as chainReaderK_,
   FromReader3,
   fromReaderK as fromReaderK_,
   tapReader as tapReader_
@@ -1247,26 +1246,6 @@ export const fromReaderK: <A extends ReadonlyArray<unknown>, R, B>(
 ) => <E = never>(...a: A) => ReaderTaskEither<R, E, B> = /*#__PURE__*/ fromReaderK_(FromReader)
 
 /**
- * @category sequencing
- * @since 2.11.0
- */
-export const chainReaderK: <A, R, B>(
-  f: (a: A) => Reader<R, B>
-) => <E>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = /*#__PURE__*/ chainReaderK_(FromReader, Chain)
-
-/**
- * Less strict version of [`chainReaderK`](#chainreaderk).
- *
- * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
- *
- * @category sequencing
- * @since 2.11.0
- */
-export const chainReaderKW: <A, R1, B>(
-  f: (a: A) => R.Reader<R1, B>
-) => <R2, E>(ma: ReaderTaskEither<R2, E, A>) => ReaderTaskEither<R1 & R2, E, B> = chainReaderK as any
-
-/**
  * Alias of `tapReader`.
  *
  * @category legacy
@@ -1508,6 +1487,11 @@ const _FromTask: _.FromTask<ReaderTaskEitherTypeLambda> = {
   fromTask
 }
 
+/** @internal */
+const _FromReader: _.FromReader<ReaderTaskEitherTypeLambda> = {
+  fromReader
+}
+
 /**
  * @category sequencing
  * @since 2.15.0
@@ -1598,6 +1582,15 @@ export const flatMapTask: {
   <A, B>(f: (a: A) => Task<B>): <R, E>(self: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
   <R, E, A, B>(self: ReaderTaskEither<R, E, A>, f: (a: A) => Task<B>): ReaderTaskEither<R, E, B>
 } = /*#__PURE__*/ _.flatMapTask(_FromTask, _FlatMap)
+
+/**
+ * @category sequencing
+ * @since 2.16.0
+ */
+export const flatMapReader: {
+  <R2, A, B>(f: (a: A) => Reader<R2, B>): <R1, E>(self: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, B>
+  <R1, R2, E, A, B>(self: ReaderTaskEither<R1, E, A>, f: (a: A) => Reader<R2, B>): ReaderTaskEither<R1 & R2, E, B>
+} = /*#__PURE__*/ _.flatMapReader(_FromReader, _FlatMap)
 
 /**
  * Alias of `flatMapEither`.
@@ -1801,6 +1794,30 @@ export const chainTaskK: <A, B>(
 export const chainFirstTaskK: <A, B>(
   f: (a: A) => T.Task<B>
 ) => <R, E>(first: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A> = tapTask
+
+/**
+ * Alias of `flatMapReader`.
+ *
+ * @category legacy
+ * @since 2.11.0
+ */
+export const chainReaderK: <A, R, B>(
+  f: (a: A) => Reader<R, B>
+) => <E>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = flatMapReader
+
+/**
+ * Alias of `flatMapReader`.
+ *
+ * Less strict version of [`chainReaderK`](#chainreaderk).
+ *
+ * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
+ *
+ * @category legacy
+ * @since 2.11.0
+ */
+export const chainReaderKW: <A, R1, B>(
+  f: (a: A) => R.Reader<R1, B>
+) => <R2, E>(ma: ReaderTaskEither<R2, E, A>) => ReaderTaskEither<R1 & R2, E, B> = flatMapReader
 
 // -------------------------------------------------------------------------------------
 // utils

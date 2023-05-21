@@ -427,4 +427,8 @@ describe.concurrent('ReaderEither', () => {
   it('tapReader', () => {
     U.deepStrictEqual(_.tapReader(_.of(1), () => R.of(2))({}), E.of(1))
   })
+
+  it('flatMapReader', () => {
+    U.deepStrictEqual(_.flatMapReader(_.of(1), () => R.of(2))({}), E.of(2))
+  })
 })

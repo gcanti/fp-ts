@@ -3,6 +3,7 @@ import { dual } from './function'
 import { IO } from './IO'
 import { NonEmptyArray } from './NonEmptyArray'
 import { None, Option, Some } from './Option'
+import { Reader } from './Reader'
 import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import { Task } from './Task'
 
@@ -136,6 +137,11 @@ export interface FromTask<F extends TypeLambda> extends TypeClass<F> {
 }
 
 /** @internal */
+export interface FromReader<F extends TypeLambda> extends TypeClass<F> {
+  readonly fromReader: <R, O, E, A>(e: Reader<R, A>) => Kind<F, R, O, E, A>
+}
+
+/** @internal */
 export const liftNullable =
   <F extends TypeLambda>(F: FromEither<F>) =>
   <A extends ReadonlyArray<unknown>, B, E>(f: (...a: A) => B | null | undefined, onNullable: (...a: A) => E) =>
@@ -262,4 +268,18 @@ export const flatMapTask = <F extends TypeLambda>(
     2,
     <R, O, E, A, B>(self: Kind<F, R, O, E, A>, f: (a: A) => Task<B>): Kind<F, R, O, E, B> =>
       M.flatMap(self, (a) => F.fromTask(f(a)))
+  )
+
+/** @internal */
+export const flatMapReader = <F extends TypeLambda>(
+  F: FromReader<F>,
+  M: FlatMap<F>
+): {
+  <R2, A, B>(f: (a: A) => Reader<R2, B>): <R1, O, E>(self: Kind<F, R1, O, E, A>) => Kind<F, R1 & R2, O, E, B>
+  <R1, R2, O, E, A, B>(self: Kind<F, R1, O, E, A>, f: (a: A) => Reader<R2, B>): Kind<F, R1 & R2, O, E, B>
+} =>
+  /*#__PURE__*/ dual(
+    2,
+    <R1, R2, O, E, A, B>(self: Kind<F, R1, O, E, A>, f: (a: A) => Reader<R2, B>): Kind<F, R1 & R2, O, E, B> =>
+      M.flatMap(self, (a) => F.fromReader(f(a)))
   )

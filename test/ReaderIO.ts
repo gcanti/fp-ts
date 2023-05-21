@@ -189,4 +189,8 @@ describe.concurrent('ReaderIO', () => {
       2
     )
   })
+
+  it('flatMapReader', () => {
+    U.deepStrictEqual(_.flatMapReader(_.of(1), () => R.of(2))(undefined)(), 2)
+  })
 })

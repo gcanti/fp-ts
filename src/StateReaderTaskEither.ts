@@ -23,7 +23,6 @@ import { FromIO4, fromIOK as fromIOK_, tapIO as tapIO_ } from './FromIO'
 import {
   ask as ask_,
   asks as asks_,
-  chainReaderK as chainReaderK_,
   FromReader4,
   fromReaderK as fromReaderK_,
   tapReader as tapReader_
@@ -434,6 +433,11 @@ const _FromTask: _.FromTask<StateReaderTaskEitherTypeLambda> = {
   fromTask
 }
 
+/** @internal */
+const _FromReader: _.FromReader<StateReaderTaskEitherTypeLambda> = {
+  fromReader
+}
+
 /**
  * @category sequencing
  * @since 2.14.0
@@ -492,6 +496,22 @@ export const flatMapTask: {
   <A, B>(f: (a: A) => Task<B>): <S, R, E>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
   <S, R, E, A, B>(self: StateReaderTaskEither<S, R, E, A>, f: (a: A) => Task<B>): StateReaderTaskEither<S, R, E, B>
 } = /*#__PURE__*/ _.flatMapTask(_FromTask, _FlatMap)
+
+/**
+ * @category sequencing
+ * @since 2.16.0
+ */
+export const flatMapReader: {
+  <R2, A, B>(f: (a: A) => Reader<R2, B>): <S, R1, E>(
+    self: StateReaderTaskEither<S, R1, E, A>
+  ) => StateReaderTaskEither<S, R1 & R2, E, B>
+  <S, R1, R2, E, A, B>(self: StateReaderTaskEither<S, R1, E, A>, f: (a: A) => Reader<R2, B>): StateReaderTaskEither<
+    S,
+    R1 & R2,
+    E,
+    B
+  >
+} = /*#__PURE__*/ _.flatMapReader(_FromReader, _FlatMap)
 
 /**
  * Less strict version of [`flatten`](#flatten).
@@ -954,18 +974,17 @@ export const fromReaderK: <A extends ReadonlyArray<unknown>, R, B>(
 ) => <S, E = never>(...a: A) => StateReaderTaskEither<S, R, E, B> = /*#__PURE__*/ fromReaderK_(FromReader)
 
 /**
- * @category sequencing
+ * Alias of `flatMapReader`.
+ *
+ * @category legacy
  * @since 2.11.0
  */
 export const chainReaderK: <A, R, B>(
   f: (a: A) => Reader<R, B>
-) => <S, E>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> = /*#__PURE__*/ chainReaderK_(
-  FromReader,
-  Chain
-)
+) => <S, E>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> = flatMapReader
 
 /**
- * Alias of `tapReader`.
+ * Alias of `flatMapReader`.
  *
  * Less strict version of [`chainReaderK`](#chainReaderK).
  *
@@ -976,7 +995,7 @@ export const chainReaderK: <A, R, B>(
  */
 export const chainReaderKW: <A, R1, B>(
   f: (a: A) => Reader<R1, B>
-) => <S, R2, E>(ma: StateReaderTaskEither<S, R2, E, A>) => StateReaderTaskEither<S, R1 & R2, E, B> = tapReader
+) => <S, R2, E>(ma: StateReaderTaskEither<S, R2, E, A>) => StateReaderTaskEither<S, R1 & R2, E, B> = flatMapReader
 
 /**
  * Alias of `tapReader`.
@@ -989,17 +1008,18 @@ export const chainFirstReaderK: <A, R, B>(
 ) => <S, E>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A> = tapReader
 
 /**
+ * Alias of `tapReader`.
+ *
  * Less strict version of [`chainFirstReaderK`](#chainFirstReaderK).
  *
  * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
  *
- * @category sequencing
+ * @category legacy
  * @since 2.11.0
  */
 export const chainFirstReaderKW: <A, R1, B>(
   f: (a: A) => Reader<R1, B>
-) => <S, R2, E>(ma: StateReaderTaskEither<S, R2, E, A>) => StateReaderTaskEither<S, R1 & R2, E, A> =
-  chainFirstReaderK as any
+) => <S, R2, E>(ma: StateReaderTaskEither<S, R2, E, A>) => StateReaderTaskEither<S, R1 & R2, E, A> = tapReader
 
 /**
  * @category conversions

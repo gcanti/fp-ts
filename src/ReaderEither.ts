@@ -36,7 +36,6 @@ import {
 import {
   ask as ask_,
   asks as asks_,
-  chainReaderK as chainReaderK_,
   FromReader3,
   fromReaderK as fromReaderK_,
   tapReader as tapReader_
@@ -787,26 +786,6 @@ export const fromReaderK: <A extends ReadonlyArray<unknown>, R, B>(
 ) => <E = never>(...a: A) => ReaderEither<R, E, B> = /*#__PURE__*/ fromReaderK_(FromReader)
 
 /**
- * @category sequencing
- * @since 2.11.0
- */
-export const chainReaderK: <A, R, B>(
-  f: (a: A) => Reader<R, B>
-) => <E>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B> = /*#__PURE__*/ chainReaderK_(FromReader, Chain)
-
-/**
- * Less strict version of [`chainReaderK`](#chainreaderk).
- *
- * The `W` suffix (short for **W**idening) means that the environment types will be merged.
- *
- * @category sequencing
- * @since 2.11.0
- */
-export const chainReaderKW: <A, R2, B>(
-  f: (a: A) => Reader<R2, B>
-) => <R1, E>(ma: ReaderEither<R1, E, A>) => ReaderEither<R1 & R2, E, B> = chainReaderK as any
-
-/**
  * Alias of `tapReader`.
  *
  * @category legacy
@@ -894,6 +873,11 @@ const _FromEither: _.FromEither<ReaderEitherTypeLambda> = {
   fromEither: FromEither.fromEither
 }
 
+/** @internal */
+const _FromReader: _.FromReader<ReaderEitherTypeLambda> = {
+  fromReader: FromReader.fromReader
+}
+
 /**
  * @category lifting
  * @since 2.15.0
@@ -957,6 +941,15 @@ export const flatMapEither: {
 } = /*#__PURE__*/ _.flatMapEither(_FromEither, _FlatMap)
 
 /**
+ * @category sequencing
+ * @since 2.15.0
+ */
+export const flatMapReader: {
+  <A, R2, B>(f: (a: A) => Reader<R2, B>): <R1, E>(self: ReaderEither<R1, E, A>) => ReaderEither<R1 & R2, E, B>
+  <R1, R2, E, A, B>(self: ReaderEither<R1, E, A>, f: (a: A) => Reader<R2, B>): ReaderEither<R1 & R2, E, B>
+} = /*#__PURE__*/ _.flatMapReader(_FromReader, _FlatMap)
+
+/**
  * Alias of `flatMapEither`.
  *
  * @category legacy
@@ -999,6 +992,30 @@ export const chainFirstEitherK: <A, E, B>(
 export const chainFirstEitherKW: <A, E2, B>(
   f: (a: A) => Either<E2, B>
 ) => <R, E1>(ma: ReaderEither<R, E1, A>) => ReaderEither<R, E1 | E2, A> = tapEither
+
+/**
+ * Alias of `flatMapReader`.
+ *
+ * @category legacy
+ * @since 2.11.0
+ */
+export const chainReaderK: <A, R, B>(
+  f: (a: A) => Reader<R, B>
+) => <E>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B> = flatMapReader
+
+/**
+ * Alias of `flatMapReader`.
+ *
+ * Less strict version of [`chainReaderK`](#chainreaderk).
+ *
+ * The `W` suffix (short for **W**idening) means that the environment types will be merged.
+ *
+ * @category legacy
+ * @since 2.11.0
+ */
+export const chainReaderKW: <A, R2, B>(
+  f: (a: A) => Reader<R2, B>
+) => <R1, E>(ma: ReaderEither<R1, E, A>) => ReaderEither<R1 & R2, E, B> = flatMapReader
 
 /**
  * @category lifting
