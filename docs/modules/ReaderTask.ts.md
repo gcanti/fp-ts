@@ -62,6 +62,9 @@ Added in v2.3.0
   - [chainFirstTaskK](#chainfirsttaskk)
   - [chainFirstW](#chainfirstw)
   - [chainIOK](#chainiok)
+  - [chainReaderK](#chainreaderk)
+  - [chainReaderKW](#chainreaderkw)
+  - [chainTaskK](#chaintaskk)
   - [chainW](#chainw)
 - [lifting](#lifting)
   - [fromIOK](#fromiok)
@@ -78,11 +81,10 @@ Added in v2.3.0
 - [sequencing](#sequencing)
   - [chainReaderIOK](#chainreaderiok)
   - [chainReaderIOKW](#chainreaderiokw)
-  - [chainReaderK](#chainreaderk)
-  - [chainReaderKW](#chainreaderkw)
-  - [chainTaskK](#chaintaskk)
   - [flatMap](#flatmap)
   - [flatMapIO](#flatmapio)
+  - [flatMapReader](#flatmapreader)
+  - [flatMapTask](#flatmaptask)
   - [flatten](#flatten)
   - [flattenW](#flattenw)
 - [traversing](#traversing)
@@ -713,6 +715,48 @@ export declare const chainIOK: <A, B>(f: (a: A) => IO<B>) => <R>(first: ReaderTa
 
 Added in v2.4.0
 
+## chainReaderK
+
+Alias of `flatMapReader`.
+
+**Signature**
+
+```ts
+export declare const chainReaderK: <A, R, B>(f: (a: A) => R.Reader<R, B>) => (ma: ReaderTask<R, A>) => ReaderTask<R, B>
+```
+
+Added in v2.11.0
+
+## chainReaderKW
+
+Alias of `flatMapReader`.
+
+Less strict version of [`chainReaderK`](#chainreaderk).
+
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
+
+**Signature**
+
+```ts
+export declare const chainReaderKW: <A, R1, B>(
+  f: (a: A) => R.Reader<R1, B>
+) => <R2>(ma: ReaderTask<R2, A>) => ReaderTask<R1 & R2, B>
+```
+
+Added in v2.11.0
+
+## chainTaskK
+
+Alias of `flatMapTask`.
+
+**Signature**
+
+```ts
+export declare const chainTaskK: <A, B>(f: (a: A) => T.Task<B>) => <R>(first: ReaderTask<R, A>) => ReaderTask<R, B>
+```
+
+Added in v2.4.0
+
 ## chainW
 
 Alias of `flatMap`.
@@ -871,42 +915,6 @@ export declare const chainReaderIOKW: <A, R2, B>(
 
 Added in v2.13.0
 
-## chainReaderK
-
-**Signature**
-
-```ts
-export declare const chainReaderK: <A, R, B>(f: (a: A) => R.Reader<R, B>) => (ma: ReaderTask<R, A>) => ReaderTask<R, B>
-```
-
-Added in v2.11.0
-
-## chainReaderKW
-
-Less strict version of [`chainReaderK`](#chainreaderk).
-
-The `W` suffix (short for **W**idening) means that the environment types will be merged.
-
-**Signature**
-
-```ts
-export declare const chainReaderKW: <A, R1, B>(
-  f: (a: A) => R.Reader<R1, B>
-) => <R2>(ma: ReaderTask<R2, A>) => ReaderTask<R1 & R2, B>
-```
-
-Added in v2.11.0
-
-## chainTaskK
-
-**Signature**
-
-```ts
-export declare const chainTaskK: <A, B>(f: (a: A) => T.Task<B>) => <R>(first: ReaderTask<R, A>) => ReaderTask<R, B>
-```
-
-Added in v2.4.0
-
 ## flatMap
 
 **Signature**
@@ -928,6 +936,32 @@ Added in v2.14.0
 export declare const flatMapIO: {
   <A, B>(f: (a: A) => IO<B>): <R>(self: ReaderTask<R, A>) => ReaderTask<R, B>
   <R, A, B>(self: ReaderTask<R, A>, f: (a: A) => IO<B>): ReaderTask<R, B>
+}
+```
+
+Added in v2.16.0
+
+## flatMapReader
+
+**Signature**
+
+```ts
+export declare const flatMapReader: {
+  <R2, A, B>(f: (a: A) => R.Reader<R2, B>): <R1>(self: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B>
+  <R1, R2, A, B>(self: ReaderTask<R1, A>, f: (a: A) => R.Reader<R2, B>): ReaderTask<R1 & R2, B>
+}
+```
+
+Added in v2.16.0
+
+## flatMapTask
+
+**Signature**
+
+```ts
+export declare const flatMapTask: {
+  <A, B>(f: (a: A) => T.Task<B>): <R>(self: ReaderTask<R, A>) => ReaderTask<R, B>
+  <R, A, B>(self: ReaderTask<R, A>, f: (a: A) => T.Task<B>): ReaderTask<R, B>
 }
 ```
 

@@ -105,6 +105,7 @@ Added in v2.0.0
   - [chainNullableK](#chainnullablek)
   - [chainOptionK](#chainoptionk)
   - [chainOptionKW](#chainoptionkw)
+  - [chainTaskK](#chaintaskk)
   - [chainW](#chainw)
   - [fromNullableK](#fromnullablek)
   - [fromOptionK](#fromoptionk)
@@ -137,7 +138,6 @@ Added in v2.0.0
 - [sequencing](#sequencing)
   - [chainIOEitherK](#chainioeitherk)
   - [chainIOEitherKW](#chainioeitherkw)
-  - [chainTaskK](#chaintaskk)
   - [chainTaskOptionK](#chaintaskoptionk)
   - [chainTaskOptionKW](#chaintaskoptionkw)
   - [flatMap](#flatmap)
@@ -145,6 +145,7 @@ Added in v2.0.0
   - [flatMapIO](#flatmapio)
   - [flatMapNullable](#flatmapnullable)
   - [flatMapOption](#flatmapoption)
+  - [flatMapTask](#flatmaptask)
   - [flatten](#flatten)
   - [flattenW](#flattenw)
 - [traversing](#traversing)
@@ -1396,6 +1397,18 @@ export declare const chainOptionKW: <E2>(
 
 Added in v2.13.2
 
+## chainTaskK
+
+Alias of `flatMapTask`.
+
+**Signature**
+
+```ts
+export declare const chainTaskK: <A, B>(f: (a: A) => T.Task<B>) => <E>(first: TaskEither<E, A>) => TaskEither<E, B>
+```
+
+Added in v2.10.0
+
 ## chainW
 
 Alias of `flatMap`.
@@ -1767,16 +1780,6 @@ export declare const chainIOEitherKW: <E2, A, B>(
 
 Added in v2.6.1
 
-## chainTaskK
-
-**Signature**
-
-```ts
-export declare const chainTaskK: <A, B>(f: (a: A) => T.Task<B>) => <E>(first: TaskEither<E, A>) => TaskEither<E, B>
-```
-
-Added in v2.10.0
-
 ## chainTaskOptionK
 
 **Signature**
@@ -1868,6 +1871,19 @@ Added in v2.15.0
 export declare const flatMapOption: {
   <A, B, E2>(f: (a: A) => Option<B>, onNone: (a: A) => E2): <E1>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
   <E1, A, B, E2>(self: TaskEither<E1, A>, f: (a: A) => Option<B>, onNone: (a: A) => E2): TaskEither<E1 | E2, B>
+}
+```
+
+Added in v2.15.0
+
+## flatMapTask
+
+**Signature**
+
+```ts
+export declare const flatMapTask: {
+  <A, B>(f: (a: A) => T.Task<B>): <E>(self: TaskEither<E, A>) => TaskEither<E, B>
+  <E, A, B>(self: TaskEither<E, A>, f: (a: A) => T.Task<B>): TaskEither<E, B>
 }
 ```
 

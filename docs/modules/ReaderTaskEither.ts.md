@@ -121,10 +121,13 @@ Added in v2.0.0
   - [chainNullableK](#chainnullablek)
   - [chainOptionK](#chainoptionk)
   - [chainOptionKW](#chainoptionkw)
+  - [chainReaderK](#chainreaderk)
+  - [chainReaderKW](#chainreaderkw)
   - [chainReaderTaskK](#chainreadertaskk)
   - [chainReaderTaskKW](#chainreadertaskkw)
   - [chainTaskEitherK](#chaintaskeitherk)
   - [chainTaskEitherKW](#chaintaskeitherkw)
+  - [chainTaskK](#chaintaskk)
   - [chainW](#chainw)
   - [fromNullableK](#fromnullablek)
   - [fromOptionK](#fromoptionk)
@@ -165,15 +168,14 @@ Added in v2.0.0
   - [chainReaderEitherKW](#chainreadereitherkw)
   - [chainReaderIOK](#chainreaderiok)
   - [chainReaderIOKW](#chainreaderiokw)
-  - [chainReaderK](#chainreaderk)
-  - [chainReaderKW](#chainreaderkw)
-  - [chainTaskK](#chaintaskk)
   - [flatMap](#flatmap)
   - [flatMapEither](#flatmapeither)
   - [flatMapIO](#flatmapio)
   - [flatMapNullable](#flatmapnullable)
   - [flatMapOption](#flatmapoption)
+  - [flatMapReader](#flatmapreader)
   - [flatMapReaderTask](#flatmapreadertask)
+  - [flatMapTask](#flatmaptask)
   - [flatMapTaskEither](#flatmaptaskeither)
   - [flatten](#flatten)
   - [flattenW](#flattenw)
@@ -1674,6 +1676,38 @@ export declare const chainOptionKW: <E2>(
 
 Added in v2.13.2
 
+## chainReaderK
+
+Alias of `flatMapReader`.
+
+**Signature**
+
+```ts
+export declare const chainReaderK: <A, R, B>(
+  f: (a: A) => R.Reader<R, B>
+) => <E>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
+```
+
+Added in v2.11.0
+
+## chainReaderKW
+
+Alias of `flatMapReader`.
+
+Less strict version of [`chainReaderK`](#chainreaderk).
+
+The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
+
+**Signature**
+
+```ts
+export declare const chainReaderKW: <A, R1, B>(
+  f: (a: A) => R.Reader<R1, B>
+) => <R2, E>(ma: ReaderTaskEither<R2, E, A>) => ReaderTaskEither<R1 & R2, E, B>
+```
+
+Added in v2.11.0
+
 ## chainReaderTaskK
 
 Alias of `flatMapReaderTask`.
@@ -1737,6 +1771,20 @@ export declare const chainTaskEitherKW: <E2, A, B>(
 ```
 
 Added in v2.6.1
+
+## chainTaskK
+
+Alias of `flatMapTask`.
+
+**Signature**
+
+```ts
+export declare const chainTaskK: <A, B>(
+  f: (a: A) => T.Task<B>
+) => <R, E>(first: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
+```
+
+Added in v2.10.0
 
 ## chainW
 
@@ -2222,46 +2270,6 @@ export declare const chainReaderIOKW: <A, R2, B>(
 
 Added in v2.13.0
 
-## chainReaderK
-
-**Signature**
-
-```ts
-export declare const chainReaderK: <A, R, B>(
-  f: (a: A) => R.Reader<R, B>
-) => <E>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
-```
-
-Added in v2.11.0
-
-## chainReaderKW
-
-Less strict version of [`chainReaderK`](#chainreaderk).
-
-The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
-
-**Signature**
-
-```ts
-export declare const chainReaderKW: <A, R1, B>(
-  f: (a: A) => R.Reader<R1, B>
-) => <R2, E>(ma: ReaderTaskEither<R2, E, A>) => ReaderTaskEither<R1 & R2, E, B>
-```
-
-Added in v2.11.0
-
-## chainTaskK
-
-**Signature**
-
-```ts
-export declare const chainTaskK: <A, B>(
-  f: (a: A) => T.Task<B>
-) => <R, E>(first: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
-```
-
-Added in v2.10.0
-
 ## flatMap
 
 **Signature**
@@ -2345,6 +2353,19 @@ export declare const flatMapOption: {
 
 Added in v2.15.0
 
+## flatMapReader
+
+**Signature**
+
+```ts
+export declare const flatMapReader: {
+  <R2, A, B>(f: (a: A) => R.Reader<R2, B>): <R1, E>(self: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, B>
+  <R1, R2, E, A, B>(self: ReaderTaskEither<R1, E, A>, f: (a: A) => R.Reader<R2, B>): ReaderTaskEither<R1 & R2, E, B>
+}
+```
+
+Added in v2.16.0
+
 ## flatMapReaderTask
 
 **Signature**
@@ -2359,6 +2380,19 @@ export declare const flatMapReaderTask: {
     E,
     B
   >
+}
+```
+
+Added in v2.16.0
+
+## flatMapTask
+
+**Signature**
+
+```ts
+export declare const flatMapTask: {
+  <A, B>(f: (a: A) => T.Task<B>): <R, E>(self: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
+  <R, E, A, B>(self: ReaderTaskEither<R, E, A>, f: (a: A) => T.Task<B>): ReaderTaskEither<R, E, B>
 }
 ```
 

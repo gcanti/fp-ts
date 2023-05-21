@@ -82,6 +82,8 @@ Added in v2.0.0
   - [chainFirstW](#chainfirstw)
   - [chainOptionK](#chainoptionk)
   - [chainOptionKW](#chainoptionkw)
+  - [chainReaderK](#chainreaderk)
+  - [chainReaderKW](#chainreaderkw)
   - [chainW](#chainw)
   - [fromOptionK](#fromoptionk)
   - [mapLeft](#mapleft)
@@ -108,12 +110,11 @@ Added in v2.0.0
   - [matchEW](#matchew)
   - [matchW](#matchw)
 - [sequencing](#sequencing)
-  - [chainReaderK](#chainreaderk)
-  - [chainReaderKW](#chainreaderkw)
   - [flatMap](#flatmap)
   - [flatMapEither](#flatmapeither)
   - [flatMapNullable](#flatmapnullable)
   - [flatMapOption](#flatmapoption)
+  - [flatMapReader](#flatmapreader)
   - [flatten](#flatten)
   - [flattenW](#flattenw)
 - [traversing](#traversing)
@@ -1027,6 +1028,38 @@ export declare const chainOptionKW: <E2>(
 
 Added in v2.13.2
 
+## chainReaderK
+
+Alias of `flatMapReader`.
+
+**Signature**
+
+```ts
+export declare const chainReaderK: <A, R, B>(
+  f: (a: A) => R.Reader<R, B>
+) => <E>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B>
+```
+
+Added in v2.11.0
+
+## chainReaderKW
+
+Alias of `flatMapReader`.
+
+Less strict version of [`chainReaderK`](#chainreaderk).
+
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
+
+**Signature**
+
+```ts
+export declare const chainReaderKW: <A, R2, B>(
+  f: (a: A) => R.Reader<R2, B>
+) => <R1, E>(ma: ReaderEither<R1, E, A>) => ReaderEither<R1 & R2, E, B>
+```
+
+Added in v2.11.0
+
 ## chainW
 
 Alias of `flatMap`.
@@ -1321,34 +1354,6 @@ Added in v2.10.0
 
 # sequencing
 
-## chainReaderK
-
-**Signature**
-
-```ts
-export declare const chainReaderK: <A, R, B>(
-  f: (a: A) => R.Reader<R, B>
-) => <E>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B>
-```
-
-Added in v2.11.0
-
-## chainReaderKW
-
-Less strict version of [`chainReaderK`](#chainreaderk).
-
-The `W` suffix (short for **W**idening) means that the environment types will be merged.
-
-**Signature**
-
-```ts
-export declare const chainReaderKW: <A, R2, B>(
-  f: (a: A) => R.Reader<R2, B>
-) => <R1, E>(ma: ReaderEither<R1, E, A>) => ReaderEither<R1 & R2, E, B>
-```
-
-Added in v2.11.0
-
 ## flatMap
 
 **Signature**
@@ -1414,6 +1419,19 @@ export declare const flatMapOption: {
     E1 | E2,
     B
   >
+}
+```
+
+Added in v2.15.0
+
+## flatMapReader
+
+**Signature**
+
+```ts
+export declare const flatMapReader: {
+  <A, R2, B>(f: (a: A) => R.Reader<R2, B>): <R1, E>(self: ReaderEither<R1, E, A>) => ReaderEither<R1 & R2, E, B>
+  <R1, R2, E, A, B>(self: ReaderEither<R1, E, A>, f: (a: A) => R.Reader<R2, B>): ReaderEither<R1 & R2, E, B>
 }
 ```
 

@@ -50,6 +50,8 @@ Added in v2.13.0
   - [chainFirstReaderKW](#chainfirstreaderkw)
   - [chainFirstW](#chainfirstw)
   - [chainIOK](#chainiok)
+  - [chainReaderK](#chainreaderk)
+  - [chainReaderKW](#chainreaderkw)
   - [chainW](#chainw)
 - [lifting](#lifting)
   - [fromIOK](#fromiok)
@@ -62,10 +64,9 @@ Added in v2.13.0
 - [model](#model)
   - [ReaderIO (interface)](#readerio-interface)
 - [sequencing](#sequencing)
-  - [chainReaderK](#chainreaderk)
-  - [chainReaderKW](#chainreaderkw)
   - [flatMap](#flatmap)
   - [flatMapIO](#flatmapio)
+  - [flatMapReader](#flatmapreader)
   - [flatten](#flatten)
   - [flattenW](#flattenw)
 - [traversing](#traversing)
@@ -507,6 +508,36 @@ export declare const chainIOK: <A, B>(f: (a: A) => I.IO<B>) => <E>(first: Reader
 
 Added in v2.13.0
 
+## chainReaderK
+
+Alias of `flatMapReader`.
+
+**Signature**
+
+```ts
+export declare const chainReaderK: <A, R, B>(f: (a: A) => R.Reader<R, B>) => (ma: ReaderIO<R, A>) => ReaderIO<R, B>
+```
+
+Added in v2.13.0
+
+## chainReaderKW
+
+Alias of `flatMapReader`.
+
+Less strict version of [`chainReaderK`](#chainreaderk).
+
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
+
+**Signature**
+
+```ts
+export declare const chainReaderKW: <A, R1, B>(
+  f: (a: A) => R.Reader<R1, B>
+) => <R2>(ma: ReaderIO<R2, A>) => ReaderIO<R1 & R2, B>
+```
+
+Added in v2.13.0
+
 ## chainW
 
 Alias of `flatMap`.
@@ -615,32 +646,6 @@ Added in v2.13.0
 
 # sequencing
 
-## chainReaderK
-
-**Signature**
-
-```ts
-export declare const chainReaderK: <A, R, B>(f: (a: A) => R.Reader<R, B>) => (ma: ReaderIO<R, A>) => ReaderIO<R, B>
-```
-
-Added in v2.13.0
-
-## chainReaderKW
-
-Less strict version of [`chainReaderK`](#chainreaderk).
-
-The `W` suffix (short for **W**idening) means that the environment types will be merged.
-
-**Signature**
-
-```ts
-export declare const chainReaderKW: <A, R1, B>(
-  f: (a: A) => R.Reader<R1, B>
-) => <R2>(ma: ReaderIO<R2, A>) => ReaderIO<R1 & R2, B>
-```
-
-Added in v2.13.0
-
 ## flatMap
 
 **Signature**
@@ -662,6 +667,19 @@ Added in v2.14.0
 export declare const flatMapIO: {
   <A, B>(f: (a: A) => I.IO<B>): <R>(self: ReaderIO<R, A>) => ReaderIO<R, B>
   <R, A, B>(self: ReaderIO<R, A>, f: (a: A) => I.IO<B>): ReaderIO<R, B>
+}
+```
+
+Added in v2.16.0
+
+## flatMapReader
+
+**Signature**
+
+```ts
+export declare const flatMapReader: {
+  <A, R2, B>(f: (a: A) => R.Reader<R2, B>): <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, B>
+  <R1, A, R2, B>(ma: ReaderIO<R1, A>, f: (a: A) => R.Reader<R2, B>): ReaderIO<R1 & R2, B>
 }
 ```
 
