@@ -515,6 +515,11 @@ describe.concurrent('ReaderTaskEither', () => {
     U.deepStrictEqual(await pipe(_.right('a'), _.chainReaderTaskK(f))(undefined)(), E.right(1))
   })
 
+  it('flatMapReaderTask', async () => {
+    const f = flow(S.size, RT.of)
+    U.deepStrictEqual(await pipe(_.right('a'), _.flatMapReaderTask(f))(undefined)(), E.right(1))
+  })
+
   it('chainReaderTaskKW', async () => {
     const f = flow(S.size, RT.of)
     U.deepStrictEqual(await pipe(_.right<{}, never, string>('a'), _.chainReaderTaskKW(f))({})(), E.right(1))
