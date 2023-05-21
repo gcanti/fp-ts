@@ -52,6 +52,7 @@ Added in v2.0.0
   - [chain](#chain)
   - [chainFirst](#chainfirst)
   - [chainFirstIOK](#chainfirstiok)
+  - [chainIOK](#chainiok)
 - [lifting](#lifting)
   - [fromIOK](#fromiok)
 - [mapping](#mapping)
@@ -62,8 +63,8 @@ Added in v2.0.0
 - [model](#model)
   - [Task (interface)](#task-interface)
 - [sequencing](#sequencing)
-  - [chainIOK](#chainiok)
   - [flatMap](#flatmap)
+  - [flatMapIO](#flatmapio)
   - [flatten](#flatten)
 - [traversing](#traversing)
   - [sequenceArray](#sequencearray)
@@ -431,6 +432,18 @@ export declare const chainFirstIOK: <A, B>(f: (a: A) => IO<B>) => (first: Task<A
 
 Added in v2.10.0
 
+## chainIOK
+
+Alias of `flatMapIO`.
+
+**Signature**
+
+```ts
+export declare const chainIOK: <A, B>(f: (a: A) => IO<B>) => (first: Task<A>) => Task<B>
+```
+
+Added in v2.4.0
+
 # lifting
 
 ## fromIOK
@@ -508,16 +521,6 @@ Added in v2.0.0
 
 # sequencing
 
-## chainIOK
-
-**Signature**
-
-```ts
-export declare const chainIOK: <A, B>(f: (a: A) => IO<B>) => (first: Task<A>) => Task<B>
-```
-
-Added in v2.4.0
-
 ## flatMap
 
 **Signature**
@@ -530,6 +533,19 @@ export declare const flatMap: {
 ```
 
 Added in v2.14.0
+
+## flatMapIO
+
+**Signature**
+
+```ts
+export declare const flatMapIO: {
+  <A, B>(f: (a: A) => IO<B>): (self: Task<A>) => Task<B>
+  <A, B>(self: Task<A>, f: (a: A) => IO<B>): Task<B>
+}
+```
+
+Added in v2.16.0
 
 ## flatten
 

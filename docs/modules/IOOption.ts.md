@@ -72,6 +72,7 @@ Added in v2.12.0
   - [chainFirst](#chainfirst)
   - [chainFirstEitherK](#chainfirsteitherk)
   - [chainFirstIOK](#chainfirstiok)
+  - [chainIOK](#chainiok)
 - [lifting](#lifting)
   - [fromEitherK](#fromeitherk)
   - [fromIOK](#fromiok)
@@ -93,10 +94,10 @@ Added in v2.12.0
   - [matchW](#matchw)
 - [sequencing](#sequencing)
   - [chainEitherK](#chaineitherk)
-  - [chainIOK](#chainiok)
   - [chainNullableK](#chainnullablek)
   - [chainOptionK](#chainoptionk)
   - [flatMap](#flatmap)
+  - [flatMapIO](#flatmapio)
   - [flatten](#flatten)
 - [traversing](#traversing)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
@@ -698,6 +699,18 @@ export declare const chainFirstIOK: <A, B>(f: (a: A) => I.IO<B>) => (first: IOOp
 
 Added in v2.12.0
 
+## chainIOK
+
+Alias of `flatMapIO`.
+
+**Signature**
+
+```ts
+export declare const chainIOK: <A, B>(f: (a: A) => I.IO<B>) => (first: IOOption<A>) => IOOption<B>
+```
+
+Added in v2.12.0
+
 # lifting
 
 ## fromEitherK
@@ -903,16 +916,6 @@ export declare const chainEitherK: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: 
 
 Added in v2.12.0
 
-## chainIOK
-
-**Signature**
-
-```ts
-export declare const chainIOK: <A, B>(f: (a: A) => I.IO<B>) => (first: IOOption<A>) => IOOption<B>
-```
-
-Added in v2.12.0
-
 ## chainNullableK
 
 **Signature**
@@ -947,6 +950,19 @@ export declare const flatMap: {
 ```
 
 Added in v2.14.0
+
+## flatMapIO
+
+**Signature**
+
+```ts
+export declare const flatMapIO: {
+  <A, B>(f: (a: A) => I.IO<B>): (ma: IOOption<A>) => IOOption<B>
+  <A, B>(ma: IOOption<A>, f: (a: A) => I.IO<B>): IOOption<B>
+}
+```
+
+Added in v2.16.0
 
 ## flatten
 
