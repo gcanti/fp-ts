@@ -500,6 +500,11 @@ describe.concurrent('ReaderTaskEither', () => {
     U.deepStrictEqual(await pipe(_.right('a'), _.chainTaskEitherK(f))(undefined)(), E.right(1))
   })
 
+  it('flatMapTaskEither', async () => {
+    const f = (s: string) => TE.right(s.length)
+    U.deepStrictEqual(await pipe(_.right('a'), _.flatMapTaskEither(f))(undefined)(), E.right(1))
+  })
+
   it('chainFirstTaskEitherKW', async () => {
     const f = (s: string) => TE.right<string, number>(s.length)
     U.deepStrictEqual(await pipe(_.right<{}, number, string>('a'), _.chainFirstTaskEitherKW(f))({})(), E.right('a'))

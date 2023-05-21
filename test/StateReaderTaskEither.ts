@@ -329,6 +329,12 @@ describe.concurrent('StateReaderTaskEither', () => {
     assert.deepStrictEqual(x, E.right([1, undefined]))
   })
 
+  it('flatMapTaskEither', async () => {
+    const f = (s: string) => TE.right(s.length)
+    const x = await pipe(_.right('a'), _.flatMapTaskEither(f))(undefined)(undefined)()
+    assert.deepStrictEqual(x, E.right([1, undefined]))
+  })
+
   it('chainReaderTaskEitherK', async () => {
     const f = (s: string) => RTE.right(s.length)
     const x = await pipe(_.right('a'), _.chainReaderTaskEitherK(f))(undefined)(undefined)()

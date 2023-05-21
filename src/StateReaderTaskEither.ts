@@ -300,25 +300,6 @@ export const fromTaskEitherK =
     fromTaskEither(f(...a))
 
 /**
- * Less strict version of [`chainTaskEitherK`](#chaintaskeitherk).
- *
- * @category sequencing
- * @since 2.6.1
- */
-export const chainTaskEitherKW =
-  <E2, A, B>(f: (a: A) => TaskEither<E2, B>) =>
-  <S, R, E1>(ma: StateReaderTaskEither<S, R, E1, A>): StateReaderTaskEither<S, R, E1 | E2, B> =>
-    flatMap<S, R, E1, A, R, E1 | E2, B>(ma, fromTaskEitherK(f))
-
-/**
- * @category sequencing
- * @since 2.4.0
- */
-export const chainTaskEitherK: <E, A, B>(
-  f: (a: A) => TaskEither<E, B>
-) => <S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> = chainTaskEitherKW
-
-/**
  * @category lifting
  * @since 2.4.0
  */
@@ -451,6 +432,28 @@ export const flatMap: {
     f: (a: A) => StateReaderTaskEither<S, R2, E2, B>
   ): StateReaderTaskEither<S, R1 & R2, E1 | E2, B>
 } = /*#__PURE__*/ dual(2, ST.flatMap(RTE.Monad))
+
+/**
+ * @category sequencing
+ * @since 2.16.0
+ */
+export const flatMapTaskEither: {
+  <S, R, E2, A, B>(f: (a: A) => TaskEither<E2, B>): <E1>(
+    self: StateReaderTaskEither<S, R, E1, A>
+  ) => StateReaderTaskEither<S, R, E1 | E2, B>
+  <S, R, E1, E2, A, B>(self: StateReaderTaskEither<S, R, E1, A>, f: (a: A) => TaskEither<E2, B>): StateReaderTaskEither<
+    S,
+    R,
+    E1 | E2,
+    B
+  >
+} = /*#__PURE__*/ dual(
+  2,
+  <S, R, E1, E2, A, B>(
+    self: StateReaderTaskEither<S, R, E1, A>,
+    f: (a: A) => TaskEither<E2, B>
+  ): StateReaderTaskEither<S, R, E1 | E2, B> => flatMap(self, (a: A) => fromTaskEitherK(f)<S, R>(a))
+)
 
 /**
  * Less strict version of [`flatten`](#flatten).
@@ -1141,6 +1144,28 @@ export const chainIOK: <A, B>(
 export const chainFirstIOK: <A, B>(
   f: (a: A) => IO<B>
 ) => <S, R, E>(first: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A> = tapIO
+
+/**
+ * Alias of `flatMapTaskEither`.
+ *
+ * Less strict version of [`chainTaskEitherK`](#chaintaskeitherk).
+ *
+ * @category legacy
+ * @since 2.6.1
+ */
+export const chainTaskEitherKW: <E2, A, B>(
+  f: (a: A) => TaskEither<E2, B>
+) => <S, R, E1>(ma: StateReaderTaskEither<S, R, E1, A>) => StateReaderTaskEither<S, R, E1 | E2, B> = flatMapTaskEither
+
+/**
+ * Alias of `flatMapTaskEither`.
+ *
+ * @category legacy
+ * @since 2.4.0
+ */
+export const chainTaskEitherK: <E, A, B>(
+  f: (a: A) => TaskEither<E, B>
+) => <S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> = flatMapTaskEither
 
 /**
  * @category lifting
