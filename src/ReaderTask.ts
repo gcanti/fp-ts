@@ -19,7 +19,7 @@ import {
   fromReaderK as fromReaderK_,
   tapReader as tapReader_
 } from './FromReader'
-import { chainTaskK as chainTaskK_, FromTask2, fromTaskK as fromTaskK_, tapTask as tapTask_ } from './FromTask'
+import { FromTask2, fromTaskK as fromTaskK_, tapTask as tapTask_ } from './FromTask'
 import { dual, flow, identity, pipe, SK } from './function'
 import { as as as_, asUnit as asUnit_, bindTo as bindTo_, flap as flap_, Functor2, let as let__ } from './Functor'
 import * as _ from './internal'
@@ -391,6 +391,11 @@ const _FromIO: _.FromIO<ReaderTaskTypeLambda> = {
   fromIO: FromIO.fromIO
 }
 
+/** @internal */
+const _FromTask: _.FromTask<ReaderTaskTypeLambda> = {
+  fromTask
+}
+
 /**
  * @category sequencing
  * @since 2.16.0
@@ -399,6 +404,15 @@ export const flatMapIO: {
   <A, B>(f: (a: A) => IO<B>): <R>(self: ReaderTask<R, A>) => ReaderTask<R, B>
   <R, A, B>(self: ReaderTask<R, A>, f: (a: A) => IO<B>): ReaderTask<R, B>
 } = _.flatMapIO(_FromIO, _FlatMap)
+
+/**
+ * @category sequencing
+ * @since 2.16.0
+ */
+export const flatMapTask: {
+  <A, B>(f: (a: A) => Task<B>): <R>(self: ReaderTask<R, A>) => ReaderTask<R, B>
+  <R, A, B>(self: ReaderTask<R, A>, f: (a: A) => Task<B>): ReaderTask<R, B>
+} = _.flatMapTask(_FromTask, _FlatMap)
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
@@ -643,11 +657,13 @@ export const fromTaskK: <A extends ReadonlyArray<unknown>, B>(
 ) => <R = unknown>(...a: A) => ReaderTask<R, B> = /*#__PURE__*/ fromTaskK_(FromTask)
 
 /**
- * @category sequencing
+ * Alias of `flatMapTask`.
+ *
+ * @category legacy
  * @since 2.4.0
  */
 export const chainTaskK: <A, B>(f: (a: A) => T.Task<B>) => <R>(first: ReaderTask<R, A>) => ReaderTask<R, B> =
-  /*#__PURE__*/ chainTaskK_(FromTask, Chain)
+  flatMapTask
 
 /**
  * Alias of `tapTask`.

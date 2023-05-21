@@ -42,7 +42,7 @@ import {
   tapEither as tapEither_
 } from './FromEither'
 import { FromIO2, fromIOK as fromIOK_, tapIO as tapIO_ } from './FromIO'
-import { chainTaskK as chainTaskK_, FromTask2, fromTaskK as fromTaskK_, tapTask as tapTask_ } from './FromTask'
+import { FromTask2, fromTaskK as fromTaskK_, tapTask as tapTask_ } from './FromTask'
 import { dual, flow, identity, LazyArg, pipe, SK } from './function'
 import { as as as_, asUnit as asUnit_, bindTo as bindTo_, flap as flap_, Functor2, let as let__ } from './Functor'
 import * as _ from './internal'
@@ -1205,6 +1205,11 @@ const _FromIO: _.FromIO<TaskEitherTypeLambda> = {
   fromIO: FromIO.fromIO
 }
 
+/** @internal */
+const _FromTask: _.FromTask<TaskEitherTypeLambda> = {
+  fromTask
+}
+
 /**
  * @category sequencing
  * @since 2.15.0
@@ -1245,6 +1250,15 @@ export const flatMapIO: {
   <A, B>(f: (a: A) => IO<B>): <E>(self: TaskEither<E, A>) => TaskEither<E, B>
   <E, A, B>(self: TaskEither<E, A>, f: (a: A) => IO<B>): TaskEither<E, B>
 } = /*#__PURE__*/ _.flatMapIO(_FromIO, _FlatMap)
+
+/**
+ * @category sequencing
+ * @since 2.15.0
+ */
+export const flatMapTask: {
+  <A, B>(f: (a: A) => Task<B>): <E>(self: TaskEither<E, A>) => TaskEither<E, B>
+  <E, A, B>(self: TaskEither<E, A>, f: (a: A) => Task<B>): TaskEither<E, B>
+} = /*#__PURE__*/ _.flatMapTask(_FromTask, _FlatMap)
 
 /**
  * Alias of `flatMapEither`.
@@ -1367,11 +1381,13 @@ export const fromTaskK: <A extends ReadonlyArray<unknown>, B>(
 ) => <E = never>(...a: A) => TaskEither<E, B> = /*#__PURE__*/ fromTaskK_(FromTask)
 
 /**
- * @category sequencing
+ * Alias of `flatMapTask`.
+ *
+ * @category legacy
  * @since 2.10.0
  */
 export const chainTaskK: <A, B>(f: (a: A) => T.Task<B>) => <E>(first: TaskEither<E, A>) => TaskEither<E, B> =
-  /*#__PURE__*/ chainTaskK_(FromTask, Chain)
+  flatMapTask
 
 /**
  * Alias of `tapTask`.
