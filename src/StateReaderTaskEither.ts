@@ -37,7 +37,7 @@ import {
   modify as modify_,
   put as put_
 } from './FromState'
-import { chainTaskK as chainTaskK_, FromTask4, fromTaskK as fromTaskK_, tapTask as tapTask_ } from './FromTask'
+import { FromTask4, fromTaskK as fromTaskK_, tapTask as tapTask_ } from './FromTask'
 import { dual, flow, identity, LazyArg, pipe } from './function'
 import { as as as_, asUnit as asUnit_, bindTo as bindTo_, flap as flap_, Functor4, let as let__ } from './Functor'
 import * as _ from './internal'
@@ -429,6 +429,11 @@ const _FromIO: _.FromIO<StateReaderTaskEitherTypeLambda> = {
   fromIO
 }
 
+/** @internal */
+const _FromTask: _.FromTask<StateReaderTaskEitherTypeLambda> = {
+  fromTask
+}
+
 /**
  * @category sequencing
  * @since 2.14.0
@@ -478,6 +483,15 @@ export const flatMapIO: {
   <A, B>(f: (a: A) => IO<B>): <S, R, E>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
   <S, R, E, A, B>(self: StateReaderTaskEither<S, R, E, A>, f: (a: A) => IO<B>): StateReaderTaskEither<S, R, E, B>
 } = /*#__PURE__*/ _.flatMapIO(_FromIO, _FlatMap)
+
+/**
+ * @category sequencing
+ * @since 2.16.0
+ */
+export const flatMapTask: {
+  <A, B>(f: (a: A) => Task<B>): <S, R, E>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
+  <S, R, E, A, B>(self: StateReaderTaskEither<S, R, E, A>, f: (a: A) => Task<B>): StateReaderTaskEither<S, R, E, B>
+} = /*#__PURE__*/ _.flatMapTask(_FromTask, _FlatMap)
 
 /**
  * Less strict version of [`flatten`](#flatten).
@@ -1199,13 +1213,14 @@ export const fromTaskK: <A extends ReadonlyArray<unknown>, B>(
 ) => <S, R = unknown, E = never>(...a: A) => StateReaderTaskEither<S, R, E, B> = /*#__PURE__*/ fromTaskK_(FromTask)
 
 /**
+ * Alias of `flatMapTask`.
+ *
  * @category sequencing
  * @since 2.10.0
  */
 export const chainTaskK: <A, B>(
   f: (a: A) => Task<B>
-) => <S, R, E>(first: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> =
-  /*#__PURE__*/ chainTaskK_(FromTask, Chain)
+) => <S, R, E>(first: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> = flatMapTask
 
 /**
  * Alias of `tapTask`.

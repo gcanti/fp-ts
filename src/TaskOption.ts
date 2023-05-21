@@ -22,7 +22,7 @@ import {
   tapEither as tapEither_
 } from './FromEither'
 import { FromIO1, fromIOK as fromIOK_, tapIO as tapIO_ } from './FromIO'
-import { chainTaskK as chainTaskK_, FromTask1, fromTaskK as fromTaskK_, tapTask as tapTask_ } from './FromTask'
+import { FromTask1, fromTaskK as fromTaskK_, tapTask as tapTask_ } from './FromTask'
 import { dual, flow, identity, LazyArg, pipe, SK } from './function'
 import { as as as_, asUnit as asUnit_, bindTo as bindTo_, flap as flap_, Functor1, let as let__ } from './Functor'
 import * as _ from './internal'
@@ -285,6 +285,11 @@ const _FromIO: _.FromIO<TaskOptionTypeLambda> = {
   fromIO
 }
 
+/** @internal */
+const _FromTask: _.FromTask<TaskOptionTypeLambda> = {
+  fromTask
+}
+
 /**
  * @category sequencing
  * @since 2.14.0
@@ -307,6 +312,15 @@ export const flatMapIO: {
   <A, B>(f: (a: A) => IO<B>): (self: TaskOption<A>) => TaskOption<B>
   <A, B>(self: TaskOption<A>, f: (a: A) => IO<B>): TaskOption<B>
 } = /*#__PURE__*/ _.flatMapIO(_FromIO, _FlatMap)
+
+/**
+ * @category sequencing
+ * @since 2.16.0
+ */
+export const flatMapTask: {
+  <A, B>(f: (a: A) => Task<B>): (self: TaskOption<A>) => TaskOption<B>
+  <A, B>(self: TaskOption<A>, f: (a: A) => Task<B>): TaskOption<B>
+} = /*#__PURE__*/ _.flatMapTask(_FromTask, _FlatMap)
 
 /**
  * @category sequencing
@@ -842,11 +856,12 @@ export const fromTaskK: <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => T.
   /*#__PURE__*/ fromTaskK_(FromTask)
 
 /**
- * @category sequencing
+ * Alias of `flatMapTask`.
+ *
+ * @category legacy
  * @since 2.10.0
  */
-export const chainTaskK: <A, B>(f: (a: A) => T.Task<B>) => (first: TaskOption<A>) => TaskOption<B> =
-  /*#__PURE__*/ chainTaskK_(FromTask, Chain)
+export const chainTaskK: <A, B>(f: (a: A) => T.Task<B>) => (first: TaskOption<A>) => TaskOption<B> = flatMapTask
 
 /**
  * Alias of `tapTask`.
