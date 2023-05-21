@@ -8,7 +8,6 @@ import { FromIO2, fromIOK as fromIOK_, tapIO as tapIO_ } from './FromIO'
 import {
   ask as ask_,
   asks as asks_,
-  chainReaderK as chainReaderK_,
   FromReader2,
   fromReaderK as fromReaderK_,
   tapReader as tapReader_
@@ -293,7 +292,7 @@ export const FromReader: FromReader2<URI> = {
 
 /** @internal */
 interface ReaderIOTypeLambda extends _.TypeLambda {
-  readonly type: ReaderIO<this['Out1'], this['Target']>
+  readonly type: ReaderIO<this['In'], this['Target']>
 }
 
 /** @internal */
@@ -306,6 +305,11 @@ const _FromIO: _.FromIO<ReaderIOTypeLambda> = {
   fromIO: FromIO.fromIO
 }
 
+/** @internal */
+const _FromReader: _.FromReader<ReaderIOTypeLambda> = {
+  fromReader
+}
+
 /**
  * @category sequencing
  * @since 2.16.0
@@ -314,6 +318,15 @@ export const flatMapIO: {
   <A, B>(f: (a: A) => IO<B>): <R>(self: ReaderIO<R, A>) => ReaderIO<R, B>
   <R, A, B>(self: ReaderIO<R, A>, f: (a: A) => IO<B>): ReaderIO<R, B>
 } = _.flatMapIO(_FromIO, _FlatMap)
+
+/**
+ * @category sequencing
+ * @since 2.16.0
+ */
+export const flatMapReader: {
+  <A, R2, B>(f: (a: A) => Reader<R2, B>): <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, B>
+  <R1, A, R2, B>(ma: ReaderIO<R1, A>, f: (a: A) => Reader<R2, B>): ReaderIO<R1 & R2, B>
+} = /*#__PURE__*/ _.flatMapReader(_FromReader, _FlatMap)
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
@@ -417,23 +430,27 @@ export const fromReaderK: <A extends ReadonlyArray<unknown>, R, B>(
 ) => (...a: A) => ReaderIO<R, B> = /*#__PURE__*/ fromReaderK_(FromReader)
 
 /**
- * @category sequencing
+ * Alias of `flatMapReader`.
+ *
+ * @category legacy
  * @since 2.13.0
  */
 export const chainReaderK: <A, R, B>(f: (a: A) => R.Reader<R, B>) => (ma: ReaderIO<R, A>) => ReaderIO<R, B> =
-  /*#__PURE__*/ chainReaderK_(FromReader, Chain)
+  flatMapReader
 
 /**
+ * Alias of `flatMapReader`.
+ *
  * Less strict version of [`chainReaderK`](#chainreaderk).
  *
  * The `W` suffix (short for **W**idening) means that the environment types will be merged.
  *
- * @category sequencing
+ * @category legacy
  * @since 2.13.0
  */
 export const chainReaderKW: <A, R1, B>(
   f: (a: A) => R.Reader<R1, B>
-) => <R2>(ma: ReaderIO<R2, A>) => ReaderIO<R1 & R2, B> = chainReaderK as any
+) => <R2>(ma: ReaderIO<R2, A>) => ReaderIO<R1 & R2, B> = flatMapReader
 
 /**
  * Alias of `tapReader`.
