@@ -87,6 +87,7 @@ Added in v2.0.0
   - [chainFirstEitherKW](#chainfirsteitherkw)
   - [chainFirstIOK](#chainfirstiok)
   - [chainFirstW](#chainfirstw)
+  - [chainIOK](#chainiok)
   - [chainOptionK](#chainoptionk)
   - [chainOptionKW](#chainoptionkw)
   - [chainW](#chainw)
@@ -115,9 +116,9 @@ Added in v2.0.0
   - [matchEW](#matchew)
   - [matchW](#matchw)
 - [sequencing](#sequencing)
-  - [chainIOK](#chainiok)
   - [flatMap](#flatmap)
   - [flatMapEither](#flatmapeither)
+  - [flatMapIO](#flatmapio)
   - [flatMapNullable](#flatmapnullable)
   - [flatMapOption](#flatmapoption)
   - [flatten](#flatten)
@@ -978,6 +979,18 @@ export declare const chainFirstW: <E2, A, B>(
 
 Added in v2.8.0
 
+## chainIOK
+
+Alias of `flatMapIO`.
+
+**Signature**
+
+```ts
+export declare const chainIOK: <A, B>(f: (a: A) => I.IO<B>) => <E>(first: IOEither<E, A>) => IOEither<E, B>
+```
+
+Added in v2.10.0
+
 ## chainOptionK
 
 Use `flatMapOption`.
@@ -1295,16 +1308,6 @@ Added in v2.10.0
 
 # sequencing
 
-## chainIOK
-
-**Signature**
-
-```ts
-export declare const chainIOK: <A, B>(f: (a: A) => I.IO<B>) => <E>(first: IOEither<E, A>) => IOEither<E, B>
-```
-
-Added in v2.10.0
-
 ## flatMap
 
 **Signature**
@@ -1330,6 +1333,19 @@ export declare const flatMapEither: {
 ```
 
 Added in v2.15.0
+
+## flatMapIO
+
+**Signature**
+
+```ts
+export declare const flatMapIO: {
+  <A, B>(f: (a: A) => I.IO<B>): <E>(self: IOEither<E, A>) => IOEither<E, B>
+  <E, A, B>(self: IOEither<E, A>, f: (a: A) => I.IO<B>): IOEither<E, B>
+}
+```
+
+Added in v2.16.0
 
 ## flatMapNullable
 

@@ -49,6 +49,7 @@ Added in v2.13.0
   - [chainFirstReaderK](#chainfirstreaderk)
   - [chainFirstReaderKW](#chainfirstreaderkw)
   - [chainFirstW](#chainfirstw)
+  - [chainIOK](#chainiok)
   - [chainW](#chainw)
 - [lifting](#lifting)
   - [fromIOK](#fromiok)
@@ -61,10 +62,10 @@ Added in v2.13.0
 - [model](#model)
   - [ReaderIO (interface)](#readerio-interface)
 - [sequencing](#sequencing)
-  - [chainIOK](#chainiok)
   - [chainReaderK](#chainreaderk)
   - [chainReaderKW](#chainreaderkw)
   - [flatMap](#flatmap)
+  - [flatMapIO](#flatmapio)
   - [flatten](#flatten)
   - [flattenW](#flattenw)
 - [traversing](#traversing)
@@ -494,6 +495,18 @@ export declare const chainFirstW: <A, R2, B>(
 
 Added in v2.13.0
 
+## chainIOK
+
+Alias of `flatMapIO`.
+
+**Signature**
+
+```ts
+export declare const chainIOK: <A, B>(f: (a: A) => I.IO<B>) => <E>(first: ReaderIO<E, A>) => ReaderIO<E, B>
+```
+
+Added in v2.13.0
+
 ## chainW
 
 Alias of `flatMap`.
@@ -602,16 +615,6 @@ Added in v2.13.0
 
 # sequencing
 
-## chainIOK
-
-**Signature**
-
-```ts
-export declare const chainIOK: <A, B>(f: (a: A) => I.IO<B>) => <E>(first: ReaderIO<E, A>) => ReaderIO<E, B>
-```
-
-Added in v2.13.0
-
 ## chainReaderK
 
 **Signature**
@@ -650,6 +653,19 @@ export declare const flatMap: {
 ```
 
 Added in v2.14.0
+
+## flatMapIO
+
+**Signature**
+
+```ts
+export declare const flatMapIO: {
+  <A, B>(f: (a: A) => I.IO<B>): <R>(ma: ReaderIO<R, A>) => ReaderIO<R, B>
+  <R, A, B>(ma: ReaderIO<R, A>, f: (a: A) => I.IO<B>): ReaderIO<R, B>
+}
+```
+
+Added in v2.16.0
 
 ## flatten
 

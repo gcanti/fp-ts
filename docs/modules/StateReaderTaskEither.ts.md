@@ -84,7 +84,10 @@ Added in v2.0.0
   - [chainFirstReaderK](#chainfirstreaderk)
   - [chainFirstTaskK](#chainfirsttaskk)
   - [chainFirstW](#chainfirstw)
+  - [chainIOK](#chainiok)
   - [chainReaderKW](#chainreaderkw)
+  - [chainTaskEitherK](#chaintaskeitherk)
+  - [chainTaskEitherKW](#chaintaskeitherkw)
   - [chainW](#chainw)
 - [lifting](#lifting)
   - [fromEitherK](#fromeitherk)
@@ -111,17 +114,16 @@ Added in v2.0.0
   - [chainFirstReaderKW](#chainfirstreaderkw)
   - [chainIOEitherK](#chainioeitherk)
   - [chainIOEitherKW](#chainioeitherkw)
-  - [chainIOK](#chainiok)
   - [chainOptionK](#chainoptionk)
   - [chainOptionKW](#chainoptionkw)
   - [chainReaderK](#chainreaderk)
   - [chainReaderTaskEitherK](#chainreadertaskeitherk)
   - [chainReaderTaskEitherKW](#chainreadertaskeitherkw)
   - [chainStateK](#chainstatek)
-  - [chainTaskEitherK](#chaintaskeitherk)
-  - [chainTaskEitherKW](#chaintaskeitherkw)
   - [chainTaskK](#chaintaskk)
   - [flatMap](#flatmap)
+  - [flatMapIO](#flatmapio)
+  - [flatMapTaskEither](#flatmaptaskeither)
   - [flatten](#flatten)
   - [flattenW](#flattenw)
 - [traversing](#traversing)
@@ -971,6 +973,20 @@ export declare const chainFirstW: <S, R2, E2, A, B>(
 
 Added in v2.8.0
 
+## chainIOK
+
+Alias of `flatMapIO`.
+
+**Signature**
+
+```ts
+export declare const chainIOK: <A, B>(
+  f: (a: A) => IO<B>
+) => <S, R, E>(first: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
+```
+
+Added in v2.10.0
+
 ## chainReaderKW
 
 Alias of `tapReader`.
@@ -988,6 +1004,36 @@ export declare const chainReaderKW: <A, R1, B>(
 ```
 
 Added in v2.11.0
+
+## chainTaskEitherK
+
+Alias of `flatMapTaskEither`.
+
+**Signature**
+
+```ts
+export declare const chainTaskEitherK: <E, A, B>(
+  f: (a: A) => TaskEither<E, B>
+) => <S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
+```
+
+Added in v2.4.0
+
+## chainTaskEitherKW
+
+Alias of `flatMapTaskEither`.
+
+Less strict version of [`chainTaskEitherK`](#chaintaskeitherk).
+
+**Signature**
+
+```ts
+export declare const chainTaskEitherKW: <E2, A, B>(
+  f: (a: A) => TaskEither<E2, B>
+) => <S, R, E1>(ma: StateReaderTaskEither<S, R, E1, A>) => StateReaderTaskEither<S, R, E2 | E1, B>
+```
+
+Added in v2.6.1
 
 ## chainW
 
@@ -1294,18 +1340,6 @@ export declare const chainIOEitherKW: <E2, A, B>(
 
 Added in v2.6.1
 
-## chainIOK
-
-**Signature**
-
-```ts
-export declare const chainIOK: <A, B>(
-  f: (a: A) => IO<B>
-) => <S, R, E>(first: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
-```
-
-Added in v2.10.0
-
 ## chainOptionK
 
 **Signature**
@@ -1388,32 +1422,6 @@ export declare const chainStateK: <A, S, B>(
 
 Added in v2.11.0
 
-## chainTaskEitherK
-
-**Signature**
-
-```ts
-export declare const chainTaskEitherK: <E, A, B>(
-  f: (a: A) => TaskEither<E, B>
-) => <S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
-```
-
-Added in v2.4.0
-
-## chainTaskEitherKW
-
-Less strict version of [`chainTaskEitherK`](#chaintaskeitherk).
-
-**Signature**
-
-```ts
-export declare const chainTaskEitherKW: <E2, A, B>(
-  f: (a: A) => TaskEither<E2, B>
-) => <S, R, E1>(ma: StateReaderTaskEither<S, R, E1, A>) => StateReaderTaskEither<S, R, E2 | E1, B>
-```
-
-Added in v2.6.1
-
 ## chainTaskK
 
 **Signature**
@@ -1443,6 +1451,39 @@ export declare const flatMap: {
 ```
 
 Added in v2.14.0
+
+## flatMapIO
+
+**Signature**
+
+```ts
+export declare const flatMapIO: {
+  <A, B>(f: (a: A) => IO<B>): <S, R, E>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
+  <S, R, E, A, B>(ma: StateReaderTaskEither<S, R, E, A>, f: (a: A) => IO<B>): StateReaderTaskEither<S, R, E, B>
+}
+```
+
+Added in v2.16.0
+
+## flatMapTaskEither
+
+**Signature**
+
+```ts
+export declare const flatMapTaskEither: {
+  <S, R, E2, A, B>(f: (a: A) => TaskEither<E2, B>): <E1>(
+    self: StateReaderTaskEither<S, R, E1, A>
+  ) => StateReaderTaskEither<S, R, E2 | E1, B>
+  <S, R, E1, E2, A, B>(self: StateReaderTaskEither<S, R, E1, A>, f: (a: A) => TaskEither<E2, B>): StateReaderTaskEither<
+    S,
+    R,
+    E1 | E2,
+    B
+  >
+}
+```
+
+Added in v2.16.0
 
 ## flatten
 

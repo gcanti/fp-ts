@@ -101,6 +101,7 @@ Added in v2.0.0
   - [chainFirstIOK](#chainfirstiok)
   - [chainFirstTaskK](#chainfirsttaskk)
   - [chainFirstW](#chainfirstw)
+  - [chainIOK](#chainiok)
   - [chainNullableK](#chainnullablek)
   - [chainOptionK](#chainoptionk)
   - [chainOptionKW](#chainoptionkw)
@@ -136,12 +137,12 @@ Added in v2.0.0
 - [sequencing](#sequencing)
   - [chainIOEitherK](#chainioeitherk)
   - [chainIOEitherKW](#chainioeitherkw)
-  - [chainIOK](#chainiok)
   - [chainTaskK](#chaintaskk)
   - [chainTaskOptionK](#chaintaskoptionk)
   - [chainTaskOptionKW](#chaintaskoptionkw)
   - [flatMap](#flatmap)
   - [flatMapEither](#flatmapeither)
+  - [flatMapIO](#flatmapio)
   - [flatMapNullable](#flatmapnullable)
   - [flatMapOption](#flatmapoption)
   - [flatten](#flatten)
@@ -1341,6 +1342,18 @@ export declare const chainFirstW: <E2, A, B>(
 
 Added in v2.8.0
 
+## chainIOK
+
+Alias of `flatMapIO`.
+
+**Signature**
+
+```ts
+export declare const chainIOK: <A, B>(f: (a: A) => IO<B>) => <E>(first: TaskEither<E, A>) => TaskEither<E, B>
+```
+
+Added in v2.10.0
+
 ## chainNullableK
 
 Use `flatMapNullable`.
@@ -1754,16 +1767,6 @@ export declare const chainIOEitherKW: <E2, A, B>(
 
 Added in v2.6.1
 
-## chainIOK
-
-**Signature**
-
-```ts
-export declare const chainIOK: <A, B>(f: (a: A) => IO<B>) => <E>(first: TaskEither<E, A>) => TaskEither<E, B>
-```
-
-Added in v2.10.0
-
 ## chainTaskK
 
 **Signature**
@@ -1821,6 +1824,19 @@ Added in v2.14.0
 export declare const flatMapEither: {
   <A, B, E2>(f: (a: A) => E.Either<E2, B>): <E1>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
   <E1, A, B, E2>(self: TaskEither<E1, A>, f: (a: A) => E.Either<E2, B>): TaskEither<E1 | E2, B>
+}
+```
+
+Added in v2.15.0
+
+## flatMapIO
+
+**Signature**
+
+```ts
+export declare const flatMapIO: {
+  <A, B, E>(f: (a: A) => IO<B>): <E1>(self: TaskEither<E1, A>) => TaskEither<E, B>
+  <E, A, B>(self: TaskEither<E, A>, f: (a: A) => IO<B>): TaskEither<E, B>
 }
 ```
 
