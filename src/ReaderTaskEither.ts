@@ -478,26 +478,6 @@ export const fromTaskEitherK = <E, A extends ReadonlyArray<unknown>, B>(
 ): (<R = unknown>(...a: A) => ReaderTaskEither<R, E, B>) => flow(f, fromTaskEither)
 
 /**
- * Less strict version of [`chainTaskEitherK`](#chaintaskeitherk).
- *
- * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
- *
- * @category sequencing
- * @since 2.6.1
- */
-export const chainTaskEitherKW: <E2, A, B>(
-  f: (a: A) => TaskEither<E2, B>
-) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E1 | E2, B> = (f) => flatMap(fromTaskEitherK(f))
-
-/**
- * @category sequencing
- * @since 2.4.0
- */
-export const chainTaskEitherK: <E, A, B>(
-  f: (a: A) => TaskEither<E, B>
-) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = chainTaskEitherKW
-
-/**
  * @category lifting
  * @since 2.11.0
  */
@@ -1580,6 +1560,23 @@ export const flatMapEither: {
 } = /*#__PURE__*/ _.flatMapEither(_FromEither, _FlatMap)
 
 /**
+ * @category sequencing
+ * @since 2.16.0
+ */
+export const flatMapTaskEither: {
+  <A, B, E2>(f: (a: A) => TaskEither<E2, B>): <R, E1>(
+    self: ReaderTaskEither<R, E1, A>
+  ) => ReaderTaskEither<R, E2 | E1, B>
+  <R, E1, A, B, E2>(self: ReaderTaskEither<R, E1, A>, f: (a: A) => TaskEither<E2, B>): ReaderTaskEither<R, E1 | E2, B>
+} = /*#__PURE__*/ dual(
+  2,
+  <R, E1, A, B, E2>(
+    self: ReaderTaskEither<R, E1, A>,
+    f: (a: A) => TaskEither<E2, B>
+  ): ReaderTaskEither<R, E1 | E2, B> => flatMap(self, fromTaskEitherK(f))
+)
+
+/**
  * Alias of `flatMapEither`.
  *
  * @category legacy
@@ -1622,6 +1619,30 @@ export const chainFirstEitherK: <A, E, B>(
 export const chainFirstEitherKW: <A, E2, B>(
   f: (a: A) => Either<E2, B>
 ) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E1 | E2, A> = tapEither
+
+/**
+ * Alias of `flatMapTaskEither`.
+ *
+ * Less strict version of [`chainTaskEitherK`](#chaintaskeitherk).
+ *
+ * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
+ *
+ * @category legacy
+ * @since 2.6.1
+ */
+export const chainTaskEitherKW: <E2, A, B>(
+  f: (a: A) => TaskEither<E2, B>
+) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E1 | E2, B> = flatMapTaskEither
+
+/**
+ * Alias of `flatMapTaskEither`.
+ *
+ * @category legacy
+ * @since 2.4.0
+ */
+export const chainTaskEitherK: <E, A, B>(
+  f: (a: A) => TaskEither<E, B>
+) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = flatMapTaskEither
 
 /**
  * @category lifting
