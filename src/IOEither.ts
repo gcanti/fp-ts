@@ -39,7 +39,7 @@ import {
   fromPredicate as fromPredicate_,
   tapEither as tapEither_
 } from './FromEither'
-import { chainIOK as chainIOK_, FromIO2, fromIOK as fromIOK_, tapIO as tapIO_ } from './FromIO'
+import { FromIO2, fromIOK as fromIOK_, tapIO as tapIO_ } from './FromIO'
 import { dual, flow, identity, LazyArg, pipe, SK } from './function'
 import { as as as_, asUnit as asUnit_, bindTo as bindTo_, flap as flap_, Functor2, let as let__ } from './Functor'
 import * as _ from './internal'
@@ -794,13 +794,6 @@ export const fromIOK: <A extends ReadonlyArray<unknown>, B>(
 ) => <E = never>(...a: A) => IOEither<E, B> = /*#__PURE__*/ fromIOK_(FromIO)
 
 /**
- * @category sequencing
- * @since 2.10.0
- */
-export const chainIOK: <A, B>(f: (a: A) => I.IO<B>) => <E>(first: IOEither<E, A>) => IOEither<E, B> =
-  /*#__PURE__*/ chainIOK_(FromIO, Chain)
-
-/**
  * Alias of `tapIO`.
  *
  * @category legacy
@@ -860,6 +853,11 @@ const _FromEither: _.FromEither<IOEitherTypeLambda> = {
   fromEither: FromEither.fromEither
 }
 
+/** @internal */
+const _FromIO: _.FromIO<IOEitherTypeLambda> = {
+  fromIO
+}
+
 /**
  * @category lifting
  * @since 2.15.0
@@ -914,6 +912,22 @@ export const flatMapEither: {
   <A, B, E2>(f: (a: A) => E.Either<E2, B>): <E1>(self: IOEither<E1, A>) => IOEither<E2 | E1, B>
   <E1, A, B, E2>(self: IOEither<E1, A>, f: (a: A) => E.Either<E2, B>): IOEither<E1 | E2, B>
 } = /*#__PURE__*/ _.flatMapEither(_FromEither, _FlatMap)
+
+/**
+ * @category sequencing
+ * @since 2.16.0
+ */
+export const flatMapIO: {
+  <A, B>(f: (a: A) => IO<B>): <E>(self: IOEither<E, A>) => IOEither<E, B>
+  <E, A, B>(self: IOEither<E, A>, f: (a: A) => IO<B>): IOEither<E, B>
+} = /*#__PURE__*/ _.flatMapIO(_FromIO, _FlatMap)
+
+/**
+ * Alias of `flatMapIO`.
+ * @category legacy
+ * @since 2.10.0
+ */
+export const chainIOK: <A, B>(f: (a: A) => I.IO<B>) => <E>(first: IOEither<E, A>) => IOEither<E, B> = flatMapIO
 
 /**
  * Alias of `flatMapEither`.

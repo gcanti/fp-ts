@@ -881,4 +881,14 @@ describe.concurrent('TaskEither', () => {
     U.deepStrictEqual(await pipe(_.left('error'), _.tapTask(add))(), E.left('error'))
     U.deepStrictEqual(ref, [1])
   })
+
+  it('flatMapIO', async () => {
+    U.deepStrictEqual(
+      await pipe(
+        _.of(1),
+        _.flatMapIO(() => I.of(2))
+      )(),
+      E.of(2)
+    )
+  })
 })

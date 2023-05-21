@@ -26,7 +26,7 @@ import {
   fromEitherK as fromEitherK_,
   tapEither as tapEither_
 } from './FromEither'
-import { chainIOK as chainIOK_, FromIO1, fromIOK as fromIOK_, tapIO as tapIO_ } from './FromIO'
+import { FromIO1, fromIOK as fromIOK_, tapIO as tapIO_ } from './FromIO'
 import { dual, flow, identity, LazyArg, pipe, SK } from './function'
 import { as as as_, asUnit as asUnit_, bindTo as bindTo_, flap as flap_, Functor1, let as let__ } from './Functor'
 import * as _ from './internal'
@@ -638,6 +638,30 @@ export const Filterable: Filterable1<URI> = {
   partitionMap: _partitionMap
 }
 
+/** @internal */
+interface IOOptionTypeLambda extends _.TypeLambda {
+  readonly type: IOOption<this['Target']>
+}
+
+/** @internal */
+const _FlatMap: _.FlatMap<IOOptionTypeLambda> = {
+  flatMap
+}
+
+/** @internal */
+const _FromIO: _.FromIO<IOOptionTypeLambda> = {
+  fromIO: FromIO.fromIO
+}
+
+/**
+ * @category sequencing
+ * @since 2.16.0
+ */
+export const flatMapIO: {
+  <A, B>(f: (a: A) => IO<B>): (ma: IOOption<A>) => IOOption<B>
+  <A, B>(ma: IOOption<A>, f: (a: A) => IO<B>): IOOption<B>
+} = _.flatMapIO(_FromIO, _FlatMap)
+
 /**
  * @category lifting
  * @since 2.12.0
@@ -646,13 +670,12 @@ export const fromIOK: <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => I.IO
   /*#__PURE__*/ fromIOK_(FromIO)
 
 /**
- * @category sequencing
+ * Alias of `flatMapIO`.
+ *
+ * @category legacy
  * @since 2.12.0
  */
-export const chainIOK: <A, B>(f: (a: A) => I.IO<B>) => (first: IOOption<A>) => IOOption<B> = /*#__PURE__*/ chainIOK_(
-  FromIO,
-  Chain
-)
+export const chainIOK: <A, B>(f: (a: A) => I.IO<B>) => (first: IOOption<A>) => IOOption<B> = flatMapIO
 
 /**
  * Alias of `tapIO`.

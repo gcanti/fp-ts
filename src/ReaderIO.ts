@@ -4,7 +4,7 @@
 import { Applicative2 } from './Applicative'
 import { apFirst as apFirst_, Apply2, apS as apS_, apSecond as apSecond_ } from './Apply'
 import * as chainable from './Chain'
-import { chainIOK as chainIOK_, FromIO2, fromIOK as fromIOK_, tapIO as tapIO_ } from './FromIO'
+import { FromIO2, fromIOK as fromIOK_, tapIO as tapIO_ } from './FromIO'
 import {
   ask as ask_,
   asks as asks_,
@@ -291,6 +291,30 @@ export const FromReader: FromReader2<URI> = {
   fromReader
 }
 
+/** @internal */
+interface ReaderIOTypeLambda extends _.TypeLambda {
+  readonly type: ReaderIO<this['Out1'], this['Target']>
+}
+
+/** @internal */
+const _FlatMap: _.FlatMap<ReaderIOTypeLambda> = {
+  flatMap
+}
+
+/** @internal */
+const _FromIO: _.FromIO<ReaderIOTypeLambda> = {
+  fromIO: FromIO.fromIO
+}
+
+/**
+ * @category sequencing
+ * @since 2.16.0
+ */
+export const flatMapIO: {
+  <A, B>(f: (a: A) => IO<B>): <R>(ma: ReaderIO<R, A>) => ReaderIO<R, B>
+  <R, A, B>(ma: ReaderIO<R, A>, f: (a: A) => IO<B>): ReaderIO<R, B>
+} = _.flatMapIO(_FromIO, _FlatMap)
+
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
@@ -353,11 +377,12 @@ export const fromIOK: <A extends ReadonlyArray<unknown>, B>(
 ) => <R = unknown>(...a: A) => ReaderIO<R, B> = /*#__PURE__*/ fromIOK_(FromIO)
 
 /**
- * @category sequencing
+ * Alias of `flatMapIO`.
+ *
+ * @category legacy
  * @since 2.13.0
  */
-export const chainIOK: <A, B>(f: (a: A) => I.IO<B>) => <E>(first: ReaderIO<E, A>) => ReaderIO<E, B> =
-  /*#__PURE__*/ chainIOK_(FromIO, Chain)
+export const chainIOK: <A, B>(f: (a: A) => I.IO<B>) => <E>(first: ReaderIO<E, A>) => ReaderIO<E, B> = flatMapIO
 
 /**
  * Alias of `tapIO`.

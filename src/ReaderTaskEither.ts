@@ -34,7 +34,7 @@ import {
   fromPredicate as fromPredicate_,
   tapEither as tapEither_
 } from './FromEither'
-import { chainIOK as chainIOK_, FromIO3, fromIOK as fromIOK_, tapIO as tapIO_ } from './FromIO'
+import { FromIO3, fromIOK as fromIOK_, tapIO as tapIO_ } from './FromIO'
 import {
   ask as ask_,
   asks as asks_,
@@ -1500,6 +1500,11 @@ const _FlatMap: _.FlatMap<ReaderTaskEitherTypeLambda> = {
   flatMap
 }
 
+/** @internal */
+const _FromIO: _.FromIO<ReaderTaskEitherTypeLambda> = {
+  fromIO
+}
+
 /**
  * @category sequencing
  * @since 2.15.0
@@ -1572,6 +1577,15 @@ export const flatMapReaderTask: {
     f: (a: A) => ReaderTask<R2, B>
   ): ReaderTaskEither<R1 & R2, E, B> => flatMap(self, fromReaderTaskK(f))
 )
+
+/**
+ * @category sequencing
+ * @since 2.16.0
+ */
+export const flatMapIO: {
+  <A, B>(f: (a: A) => IO<B>): <R, E>(self: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
+  <R, E, A, B>(self: ReaderTaskEither<R, E, A>, f: (a: A) => IO<B>): ReaderTaskEither<R, E, B>
+} = /*#__PURE__*/ _.flatMapIO(_FromIO, _FlatMap)
 
 /**
  * Alias of `flatMapEither`.
@@ -1730,12 +1744,14 @@ export const fromIOK: <A extends ReadonlyArray<unknown>, B>(
 ) => <R = unknown, E = never>(...a: A) => ReaderTaskEither<R, E, B> = /*#__PURE__*/ fromIOK_(FromIO)
 
 /**
- * @category sequencing
+ * Alias of `flatMapIO`.
+ *
+ * @category legacy
  * @since 2.10.0
  */
 export const chainIOK: <A, B>(
   f: (a: A) => IO<B>
-) => <R, E>(first: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = /*#__PURE__*/ chainIOK_(FromIO, Chain)
+) => <R, E>(first: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = flatMapIO
 
 /**
  * Alias of `tapIO`.

@@ -19,7 +19,7 @@ import {
   getApplySemigroup as getApplySemigroup_
 } from './Apply'
 import * as chainable from './Chain'
-import { chainIOK as chainIOK_, FromIO1, fromIOK as fromIOK_, tapIO as tapIO_ } from './FromIO'
+import { FromIO1, fromIOK as fromIOK_, tapIO as tapIO_ } from './FromIO'
 import { FromTask1 } from './FromTask'
 import { dual, identity, pipe } from './function'
 import { as as as_, asUnit as asUnit_, bindTo as bindTo_, flap as flap_, Functor1, let as let__ } from './Functor'
@@ -361,6 +361,30 @@ export const FromIO: FromIO1<URI> = {
   fromIO
 }
 
+/** @internal */
+interface TaskTypeLambda extends _.TypeLambda {
+  readonly type: Task<this['Target']>
+}
+
+/** @internal */
+const _FlatMap: _.FlatMap<TaskTypeLambda> = {
+  flatMap
+}
+
+/** @internal */
+const _FromIO: _.FromIO<TaskTypeLambda> = {
+  fromIO: FromIO.fromIO
+}
+
+/**
+ * @category sequencing
+ * @since 2.16.0
+ */
+export const flatMapIO: {
+  <A, B>(f: (a: A) => IO<B>): (self: Task<A>) => Task<B>
+  <A, B>(self: Task<A>, f: (a: A) => IO<B>): Task<B>
+} = _.flatMapIO(_FromIO, _FlatMap)
+
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
@@ -410,13 +434,12 @@ export const fromIOK: <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<B
   /*#__PURE__*/ fromIOK_(FromIO)
 
 /**
- * @category sequencing
+ * Alias of `flatMapIO`.
+ *
+ * @category legacy
  * @since 2.4.0
  */
-export const chainIOK: <A, B>(f: (a: A) => IO<B>) => (first: Task<A>) => Task<B> = /*#__PURE__*/ chainIOK_(
-  FromIO,
-  Chain
-)
+export const chainIOK: <A, B>(f: (a: A) => IO<B>) => (first: Task<A>) => Task<B> = flatMapIO
 
 /**
  * Alias of `tapIO`.
