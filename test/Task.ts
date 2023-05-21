@@ -287,4 +287,14 @@ describe.concurrent('Task', () => {
   it('asUnit', async () => {
     U.deepStrictEqual(await pipe(_.of('a'), _.asUnit)(), undefined)
   })
+
+  it('flatMapIO', async () => {
+    U.deepStrictEqual(
+      await pipe(
+        _.of(1),
+        _.flatMapIO(() => I.of(2))
+      )(),
+      2
+    )
+  })
 })

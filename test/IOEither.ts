@@ -709,4 +709,14 @@ describe.concurrent('IOEither', () => {
   it('asUnit', () => {
     U.deepStrictEqual(pipe(_.of('a'), _.asUnit)(), E.of(undefined))
   })
+
+  it('flatMapIO', () => {
+    U.deepStrictEqual(
+      pipe(
+        _.of(1),
+        _.flatMapIO(() => I.of(2))
+      )(),
+      E.of(2)
+    )
+  })
 })

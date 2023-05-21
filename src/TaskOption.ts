@@ -21,7 +21,7 @@ import {
   fromEitherK as fromEitherK_,
   tapEither as tapEither_
 } from './FromEither'
-import { chainIOK as chainIOK_, FromIO1, fromIOK as fromIOK_, tapIO as tapIO_ } from './FromIO'
+import { FromIO1, fromIOK as fromIOK_, tapIO as tapIO_ } from './FromIO'
 import { chainTaskK as chainTaskK_, FromTask1, fromTaskK as fromTaskK_, tapTask as tapTask_ } from './FromTask'
 import { dual, flow, identity, LazyArg, pipe, SK } from './function'
 import { as as as_, asUnit as asUnit_, bindTo as bindTo_, flap as flap_, Functor1, let as let__ } from './Functor'
@@ -275,6 +275,16 @@ export const ap: <A>(fa: TaskOption<A>) => <B>(fab: TaskOption<(a: A) => B>) => 
  */
 export const of: <A>(a: A) => TaskOption<A> = some
 
+/** @internal */
+interface TaskOptionTypeLambda extends _.TypeLambda {
+  readonly type: TaskOption<this['Target']>
+}
+
+/** @internal */
+const _FromIO: _.FromIO<TaskOptionTypeLambda> = {
+  fromIO
+}
+
 /**
  * @category sequencing
  * @since 2.14.0
@@ -283,6 +293,20 @@ export const flatMap: {
   <A, B>(f: (a: A) => TaskOption<B>): (ma: TaskOption<A>) => TaskOption<B>
   <A, B>(ma: TaskOption<A>, f: (a: A) => TaskOption<B>): TaskOption<B>
 } = /*#__PURE__*/ dual(2, OT.flatMap(T.Monad))
+
+/** @internal */
+const _FlatMap: _.FlatMap<TaskOptionTypeLambda> = {
+  flatMap
+}
+
+/**
+ * @category sequencing
+ * @since 2.16.0
+ */
+export const flatMapIO: {
+  <A, B>(f: (a: A) => IO<B>): (self: TaskOption<A>) => TaskOption<B>
+  <A, B>(self: TaskOption<A>, f: (a: A) => IO<B>): TaskOption<B>
+} = /*#__PURE__*/ _.flatMapIO(_FromIO, _FlatMap)
 
 /**
  * @category sequencing
@@ -772,13 +796,12 @@ export const fromIOK: <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<B
   /*#__PURE__*/ fromIOK_(FromIO)
 
 /**
- * @category sequencing
+ * Alias of `flatMapIO`.
+ *
+ * @category legacy
  * @since 2.10.0
  */
-export const chainIOK: <A, B>(f: (a: A) => IO<B>) => (first: TaskOption<A>) => TaskOption<B> = /*#__PURE__*/ chainIOK_(
-  FromIO,
-  Chain
-)
+export const chainIOK: <A, B>(f: (a: A) => IO<B>) => (first: TaskOption<A>) => TaskOption<B> = flatMapIO
 
 /**
  * Alias of `tapIO`.

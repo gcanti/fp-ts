@@ -19,7 +19,7 @@ import {
   fromPredicate as fromPredicate_,
   tapEither as tapEither_
 } from './FromEither'
-import { chainIOK as chainIOK_, FromIO4, fromIOK as fromIOK_, tapIO as tapIO_ } from './FromIO'
+import { FromIO4, fromIOK as fromIOK_, tapIO as tapIO_ } from './FromIO'
 import {
   ask as ask_,
   asks as asks_,
@@ -419,6 +419,16 @@ export const apW: <S, R2, E2, A>(
  */
 export const of: <S, R = unknown, E = never, A = never>(a: A) => StateReaderTaskEither<S, R, E, A> = right
 
+/** @internal */
+interface StateReaderTaskEitherTypeLambda extends _.TypeLambda {
+  readonly type: StateReaderTaskEither<this['Out2'], this['In'], this['Out1'], this['Target']>
+}
+
+/** @internal */
+const _FromIO: _.FromIO<StateReaderTaskEitherTypeLambda> = {
+  fromIO
+}
+
 /**
  * @category sequencing
  * @since 2.14.0
@@ -432,6 +442,11 @@ export const flatMap: {
     f: (a: A) => StateReaderTaskEither<S, R2, E2, B>
   ): StateReaderTaskEither<S, R1 & R2, E1 | E2, B>
 } = /*#__PURE__*/ dual(2, ST.flatMap(RTE.Monad))
+
+/** @internal */
+const _FlatMap: _.FlatMap<StateReaderTaskEitherTypeLambda> = {
+  flatMap
+}
 
 /**
  * @category sequencing
@@ -454,6 +469,15 @@ export const flatMapTaskEither: {
     f: (a: A) => TaskEither<E2, B>
   ): StateReaderTaskEither<S, R, E1 | E2, B> => flatMap(self, (a: A) => fromTaskEitherK(f)<S, R>(a))
 )
+
+/**
+ * @category sequencing
+ * @since 2.16.0
+ */
+export const flatMapIO: {
+  <A, B>(f: (a: A) => IO<B>): <S, R, E>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
+  <S, R, E, A, B>(ma: StateReaderTaskEither<S, R, E, A>, f: (a: A) => IO<B>): StateReaderTaskEither<S, R, E, B>
+} = /*#__PURE__*/ _.flatMapIO(_FromIO, _FlatMap)
 
 /**
  * Less strict version of [`flatten`](#flatten).
@@ -1125,15 +1149,14 @@ export const fromIOK: <A extends ReadonlyArray<unknown>, B>(
 ) => <S, R = unknown, E = never>(...a: A) => StateReaderTaskEither<S, R, E, B> = /*#__PURE__*/ fromIOK_(FromIO)
 
 /**
- * @category sequencing
+ * Alias of `flatMapIO`.
+ *
+ * @category legacy
  * @since 2.10.0
  */
 export const chainIOK: <A, B>(
   f: (a: A) => IO<B>
-) => <S, R, E>(first: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> = /*#__PURE__*/ chainIOK_(
-  FromIO,
-  Chain
-)
+) => <S, R, E>(first: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> = flatMapIO
 
 /**
  * Alias of `tapIO`.

@@ -275,4 +275,14 @@ describe.concurrent('IOOption', () => {
   it('asUnit', () => {
     U.deepStrictEqual(pipe(_.some('a'), _.asUnit)(), O.some(undefined))
   })
+
+  it('flatMapIO', () => {
+    U.deepStrictEqual(
+      pipe(
+        _.of(1),
+        _.flatMapIO(() => I.of(2))
+      )(),
+      O.of(2)
+    )
+  })
 })

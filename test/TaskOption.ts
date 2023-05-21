@@ -1,5 +1,6 @@
 import * as E from '../src/Either'
 import { pipe, SK } from '../src/function'
+import * as IO from '../src/IO'
 import * as O from '../src/Option'
 import * as RA from '../src/ReadonlyArray'
 import { ReadonlyNonEmptyArray } from '../src/ReadonlyNonEmptyArray'
@@ -408,5 +409,15 @@ describe.concurrent('TaskOption', () => {
     U.deepStrictEqual(await pipe(_.of(1), _.tapTask(add))(), O.of(1))
     U.deepStrictEqual(await pipe(_.none, _.tapTask(add))(), O.none)
     U.deepStrictEqual(ref, [1])
+  })
+
+  it('flatMapIO', async () => {
+    U.deepStrictEqual(
+      await pipe(
+        _.of(1),
+        _.flatMapIO(() => IO.of(2))
+      )(),
+      O.of(2)
+    )
   })
 })

@@ -319,4 +319,14 @@ describe.concurrent('ReaderTask', () => {
   it('tapReaderIO', async () => {
     U.deepStrictEqual(await _.tapReaderIO(_.of(1), () => RIO.of(2))({})(), 1)
   })
+
+  it('flatMapIO', async () => {
+    U.deepStrictEqual(
+      await pipe(
+        _.of(1),
+        _.flatMapIO(() => I.of(2))
+      )(undefined)(),
+      2
+    )
+  })
 })

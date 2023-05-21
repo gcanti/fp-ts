@@ -557,4 +557,15 @@ describe.concurrent('StateReaderTaskEither', () => {
       E.of(1)
     )
   })
+
+  it('flatMapIO', async () => {
+    U.deepStrictEqual(
+      await pipe(
+        _.of(1),
+        _.flatMapIO(() => I.of(2)),
+        _.evaluate(state)
+      )(undefined)(),
+      E.of(2)
+    )
+  })
 })

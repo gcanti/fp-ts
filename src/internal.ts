@@ -1,5 +1,6 @@
 import { Either, Left, Right } from './Either'
 import { dual } from './function'
+import { IO } from './IO'
 import { NonEmptyArray } from './NonEmptyArray'
 import { None, Option, Some } from './Option'
 import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
@@ -124,6 +125,11 @@ export interface FromEither<F extends TypeLambda> extends TypeClass<F> {
 }
 
 /** @internal */
+export interface FromIO<F extends TypeLambda> extends TypeClass<F> {
+  readonly fromIO: <R, O, E, A>(e: IO<A>) => Kind<F, R, O, E, A>
+}
+
+/** @internal */
 export const liftNullable =
   <F extends TypeLambda>(F: FromEither<F>) =>
   <A extends ReadonlyArray<unknown>, B, E>(f: (...a: A) => B | null | undefined, onNullable: (...a: A) => E) =>
@@ -222,4 +228,18 @@ export const flatMapEither = <F extends TypeLambda>(
     2,
     <R, O, E1, A, B, E2>(self: Kind<F, R, O, E1, A>, f: (a: A) => Either<E2, B>): Kind<F, R, O, E1 | E2, B> =>
       M.flatMap(self, (a) => F.fromEither(f(a)))
+  )
+
+/** @internal */
+export const flatMapIO = <F extends TypeLambda>(
+  F: FromIO<F>,
+  M: FlatMap<F>
+): {
+  <A, B, E>(f: (a: A) => IO<B>): <R, O, E1>(self: Kind<F, R, O, E1, A>) => Kind<F, R, O, E, B>
+  <R, O, E, A, B>(self: Kind<F, R, O, E, A>, f: (a: A) => IO<B>): Kind<F, R, O, E, B>
+} =>
+  /*#__PURE__*/ dual(
+    2,
+    <R, O, E, A, B>(self: Kind<F, R, O, E, A>, f: (a: A) => IO<B>): Kind<F, R, O, E, B> =>
+      M.flatMap(self, (a) => F.fromIO(f(a)))
   )
