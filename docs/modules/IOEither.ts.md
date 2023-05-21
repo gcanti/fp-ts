@@ -186,8 +186,8 @@ keeping only the result of the first.
 
 ```ts
 export declare const tapEither: {
-  <E1, A, E2, _>(self: IOEither<E1, A>, f: (a: A) => E.Either<E2, _>): IOEither<E1 | E2, A>
   <A, E2, _>(f: (a: A) => E.Either<E2, _>): <E1>(self: IOEither<E1, A>) => IOEither<E2 | E1, A>
+  <E1, A, E2, _>(self: IOEither<E1, A>, f: (a: A) => E.Either<E2, _>): IOEither<E1 | E2, A>
 }
 ```
 
@@ -219,8 +219,8 @@ keeping only the result of the first.
 
 ```ts
 export declare const tapIO: {
-  <E, A, _>(self: IOEither<E, A>, f: (a: A) => I.IO<_>): IOEither<E, A>
   <A, _>(f: (a: A) => I.IO<_>): <E>(self: IOEither<E, A>) => IOEither<E, A>
+  <E, A, _>(self: IOEither<E, A>, f: (a: A) => I.IO<_>): IOEither<E, A>
 }
 ```
 
@@ -1161,8 +1161,8 @@ Maps the `Right` value of this `IOEither` to the specified constant value.
 
 ```ts
 export declare const as: {
-  <E, A, _>(self: IOEither<E, _>, a: A): IOEither<E, A>
   <A>(a: A): <E, _>(self: IOEither<E, _>) => IOEither<E, A>
+  <E, _, A>(self: IOEither<E, _>, a: A): IOEither<E, A>
 }
 ```
 
@@ -1327,8 +1327,8 @@ Added in v2.14.0
 
 ```ts
 export declare const flatMapEither: {
-  <A, B, E2>(f: (a: A) => E.Either<E2, B>): <E1>(self: IOEither<E1, A>) => IOEither<E2 | E1, B>
-  <E1, A, B, E2>(self: IOEither<E1, A>, f: (a: A) => E.Either<E2, B>): IOEither<E1 | E2, B>
+  <A, E2, B>(f: (a: A) => E.Either<E2, B>): <E1>(self: IOEither<E1, A>) => IOEither<E2 | E1, B>
+  <E1, A, E2, B>(self: IOEither<E1, A>, f: (a: A) => E.Either<E2, B>): IOEither<E1 | E2, B>
 }
 ```
 

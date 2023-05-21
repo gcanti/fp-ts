@@ -210,8 +210,8 @@ keeping only the result of the first.
 
 ```ts
 export declare const tapEither: {
-  <E1, A, E2, _>(self: TaskEither<E1, A>, f: (a: A) => E.Either<E2, _>): TaskEither<E1 | E2, A>
   <A, E2, _>(f: (a: A) => E.Either<E2, _>): <E1>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, A>
+  <E1, A, E2, _>(self: TaskEither<E1, A>, f: (a: A) => E.Either<E2, _>): TaskEither<E1 | E2, A>
 }
 ```
 
@@ -247,8 +247,8 @@ keeping only the result of the first.
 
 ```ts
 export declare const tapIO: {
-  <E, A, _>(self: TaskEither<E, A>, f: (a: A) => IO<_>): TaskEither<E, A>
   <A, _>(f: (a: A) => IO<_>): <E>(self: TaskEither<E, A>) => TaskEither<E, A>
+  <E, A, _>(self: TaskEither<E, A>, f: (a: A) => IO<_>): TaskEither<E, A>
 }
 ```
 
@@ -288,8 +288,8 @@ keeping only the result of the first.
 
 ```ts
 export declare const tapTask: {
-  <E, A, _>(self: TaskEither<E, A>, f: (a: A) => T.Task<_>): TaskEither<E, A>
   <A, _>(f: (a: A) => T.Task<_>): <E>(self: TaskEither<E, A>) => TaskEither<E, A>
+  <E, A, _>(self: TaskEither<E, A>, f: (a: A) => T.Task<_>): TaskEither<E, A>
 }
 ```
 
@@ -1592,8 +1592,8 @@ Maps the `Right` value of this `TaskEither` to the specified constant value.
 
 ```ts
 export declare const as: {
-  <E, A, _>(self: TaskEither<E, _>, a: A): TaskEither<E, A>
   <A>(a: A): <E, _>(self: TaskEither<E, _>) => TaskEither<E, A>
+  <E, _, A>(self: TaskEither<E, _>, a: A): TaskEither<E, A>
 }
 ```
 
@@ -1822,8 +1822,8 @@ Added in v2.14.0
 
 ```ts
 export declare const flatMapEither: {
-  <A, B, E2>(f: (a: A) => E.Either<E2, B>): <E1>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
-  <E1, A, B, E2>(self: TaskEither<E1, A>, f: (a: A) => E.Either<E2, B>): TaskEither<E1 | E2, B>
+  <A, E2, B>(f: (a: A) => E.Either<E2, B>): <E1>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
+  <E1, A, E2, B>(self: TaskEither<E1, A>, f: (a: A) => E.Either<E2, B>): TaskEither<E1 | E2, B>
 }
 ```
 
@@ -1835,7 +1835,7 @@ Added in v2.15.0
 
 ```ts
 export declare const flatMapIO: {
-  <A, B, E>(f: (a: A) => IO<B>): <E1>(self: TaskEither<E1, A>) => TaskEither<E, B>
+  <A, B>(f: (a: A) => IO<B>): <E>(self: TaskEither<E, A>) => TaskEither<E, B>
   <E, A, B>(self: TaskEither<E, A>, f: (a: A) => IO<B>): TaskEither<E, B>
 }
 ```

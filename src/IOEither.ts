@@ -533,8 +533,8 @@ export const Functor: Functor2<URI> = {
  * @since 2.16.0
  */
 export const as: {
-  <E, A, _>(self: IOEither<E, _>, a: A): IOEither<E, A>
   <A>(a: A): <E, _>(self: IOEither<E, _>) => IOEither<E, A>
+  <E, _, A>(self: IOEither<E, _>, a: A): IOEither<E, A>
 } = dual(2, as_(Functor))
 
 /**
@@ -716,8 +716,8 @@ export const tap: {
  * @since 2.16.0
  */
 export const tapEither: {
-  <E1, A, E2, _>(self: IOEither<E1, A>, f: (a: A) => Either<E2, _>): IOEither<E1 | E2, A>
   <A, E2, _>(f: (a: A) => Either<E2, _>): <E1>(self: IOEither<E1, A>) => IOEither<E2 | E1, A>
+  <E1, A, E2, _>(self: IOEither<E1, A>, f: (a: A) => Either<E2, _>): IOEither<E1 | E2, A>
 } = /*#__PURE__*/ dual(2, tapEither_(FromEither, Chain))
 
 /**
@@ -745,8 +745,8 @@ export const tapEither: {
  * @since 2.16.0
  */
 export const tapIO: {
-  <E, A, _>(self: IOEither<E, A>, f: (a: A) => IO<_>): IOEither<E, A>
   <A, _>(f: (a: A) => IO<_>): <E>(self: IOEither<E, A>) => IOEither<E, A>
+  <E, A, _>(self: IOEither<E, A>, f: (a: A) => IO<_>): IOEither<E, A>
 } = /*#__PURE__*/ dual(2, tapIO_(FromIO, Chain))
 
 /**
@@ -909,8 +909,8 @@ export const flatMapOption: {
  * @since 2.15.0
  */
 export const flatMapEither: {
-  <A, B, E2>(f: (a: A) => E.Either<E2, B>): <E1>(self: IOEither<E1, A>) => IOEither<E2 | E1, B>
-  <E1, A, B, E2>(self: IOEither<E1, A>, f: (a: A) => E.Either<E2, B>): IOEither<E1 | E2, B>
+  <A, E2, B>(f: (a: A) => E.Either<E2, B>): <E1>(self: IOEither<E1, A>) => IOEither<E1 | E2, B>
+  <E1, A, E2, B>(self: IOEither<E1, A>, f: (a: A) => E.Either<E2, B>): IOEither<E1 | E2, B>
 } = /*#__PURE__*/ _.flatMapEither(_FromEither, _FlatMap)
 
 /**

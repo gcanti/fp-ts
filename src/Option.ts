@@ -352,8 +352,8 @@ export const Functor: Functor1<URI> = {
  * @since 2.16.0
  */
 export const as: {
-  <A, _>(self: Option<_>, a: A): Option<A>
   <A>(a: A): <_>(self: Option<_>) => Option<A>
+  <_, A>(self: Option<_>, a: A): Option<A>
 } = dual(2, as_(Functor))
 
 /**
@@ -979,8 +979,8 @@ export const tap: {
  * @since 2.16.0
  */
 export const tapEither: {
-  <A, E, _>(self: Option<A>, f: (a: A) => Either<E, _>): Option<A>
   <A, E, _>(f: (a: A) => Either<E, _>): (self: Option<A>) => Option<A>
+  <A, E, _>(self: Option<A>, f: (a: A) => Either<E, _>): Option<A>
 } = /*#__PURE__*/ dual(2, tapEither_(FromEither, Chain))
 
 /**

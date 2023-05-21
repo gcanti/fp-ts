@@ -114,8 +114,8 @@ keeping only the result of the first.
 
 ```ts
 export declare const tapIO: {
-  <R, A, _>(self: ReaderIO<R, A>, f: (a: A) => I.IO<_>): ReaderIO<R, A>
   <A, _>(f: (a: A) => I.IO<_>): <R>(self: ReaderIO<R, A>) => ReaderIO<R, A>
+  <R, A, _>(self: ReaderIO<R, A>, f: (a: A) => I.IO<_>): ReaderIO<R, A>
 }
 ```
 
@@ -150,8 +150,8 @@ keeping only the result of the first.
 
 ```ts
 export declare const tapReader: {
-  <R1, A, R2, _>(self: ReaderIO<R1, A>, f: (a: A) => R.Reader<R2, _>): ReaderIO<R1 & R2, A>
   <R2, A, _>(f: (a: A) => R.Reader<R2, _>): <R1>(self: ReaderIO<R1, A>) => ReaderIO<R1 & R2, A>
+  <R1, A, R2, _>(self: ReaderIO<R1, A>, f: (a: A) => R.Reader<R2, _>): ReaderIO<R1 & R2, A>
 }
 ```
 
@@ -557,8 +557,8 @@ Maps the value to the specified constant value.
 
 ```ts
 export declare const as: {
-  <R, A, _>(self: ReaderIO<R, _>, a: A): ReaderIO<R, A>
   <A>(a: A): <R, _>(self: ReaderIO<R, _>) => ReaderIO<R, A>
+  <R, _, A>(self: ReaderIO<R, _>, a: A): ReaderIO<R, A>
 }
 ```
 
@@ -660,8 +660,8 @@ Added in v2.14.0
 
 ```ts
 export declare const flatMapIO: {
-  <A, B>(f: (a: A) => I.IO<B>): <R>(ma: ReaderIO<R, A>) => ReaderIO<R, B>
-  <R, A, B>(ma: ReaderIO<R, A>, f: (a: A) => I.IO<B>): ReaderIO<R, B>
+  <A, B>(f: (a: A) => I.IO<B>): <R>(self: ReaderIO<R, A>) => ReaderIO<R, B>
+  <R, A, B>(self: ReaderIO<R, A>, f: (a: A) => I.IO<B>): ReaderIO<R, B>
 }
 ```
 

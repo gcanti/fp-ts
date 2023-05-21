@@ -793,8 +793,8 @@ export const Functor: Functor2<URI> = {
  * @since 2.16.0
  */
 export const as: {
-  <E, A, _>(self: TaskEither<E, _>, a: A): TaskEither<E, A>
   <A>(a: A): <E, _>(self: TaskEither<E, _>) => TaskEither<E, A>
+  <E, _, A>(self: TaskEither<E, _>, a: A): TaskEither<E, A>
 } = dual(2, as_(Functor))
 
 /**
@@ -1034,8 +1034,8 @@ export const tap: {
  * @since 2.16.0
  */
 export const tapEither: {
-  <E1, A, E2, _>(self: TaskEither<E1, A>, f: (a: A) => Either<E2, _>): TaskEither<E1 | E2, A>
   <A, E2, _>(f: (a: A) => Either<E2, _>): <E1>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, A>
+  <E1, A, E2, _>(self: TaskEither<E1, A>, f: (a: A) => Either<E2, _>): TaskEither<E1 | E2, A>
 } = /*#__PURE__*/ dual(2, tapEither_(FromEither, Chain))
 
 /**
@@ -1072,8 +1072,8 @@ export const tapEither: {
  * @since 2.16.0
  */
 export const tapIO: {
-  <E, A, _>(self: TaskEither<E, A>, f: (a: A) => IO<_>): TaskEither<E, A>
   <A, _>(f: (a: A) => IO<_>): <E>(self: TaskEither<E, A>) => TaskEither<E, A>
+  <E, A, _>(self: TaskEither<E, A>, f: (a: A) => IO<_>): TaskEither<E, A>
 } = /*#__PURE__*/ dual(2, tapIO_(FromIO, Chain))
 
 /**
@@ -1101,8 +1101,8 @@ export const tapIO: {
  * @since 2.16.0
  */
 export const tapTask: {
-  <E, A, _>(self: TaskEither<E, A>, f: (a: A) => Task<_>): TaskEither<E, A>
   <A, _>(f: (a: A) => Task<_>): <E>(self: TaskEither<E, A>) => TaskEither<E, A>
+  <E, A, _>(self: TaskEither<E, A>, f: (a: A) => Task<_>): TaskEither<E, A>
 } = /*#__PURE__*/ dual(2, tapTask_(FromTask, Chain))
 
 /**
@@ -1233,8 +1233,8 @@ export const flatMapOption: {
  * @since 2.15.0
  */
 export const flatMapEither: {
-  <A, B, E2>(f: (a: A) => E.Either<E2, B>): <E1>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
-  <E1, A, B, E2>(self: TaskEither<E1, A>, f: (a: A) => E.Either<E2, B>): TaskEither<E1 | E2, B>
+  <A, E2, B>(f: (a: A) => E.Either<E2, B>): <E1>(self: TaskEither<E1, A>) => TaskEither<E1 | E2, B>
+  <E1, A, E2, B>(self: TaskEither<E1, A>, f: (a: A) => E.Either<E2, B>): TaskEither<E1 | E2, B>
 } = /*#__PURE__*/ _.flatMapEither(_FromEither, _FlatMap)
 
 /**
@@ -1242,7 +1242,7 @@ export const flatMapEither: {
  * @since 2.15.0
  */
 export const flatMapIO: {
-  <A, B, E>(f: (a: A) => IO<B>): <E1>(self: TaskEither<E1, A>) => TaskEither<E, B>
+  <A, B>(f: (a: A) => IO<B>): <E>(self: TaskEither<E, A>) => TaskEither<E, B>
   <E, A, B>(self: TaskEither<E, A>, f: (a: A) => IO<B>): TaskEither<E, B>
 } = /*#__PURE__*/ _.flatMapIO(_FromIO, _FlatMap)
 

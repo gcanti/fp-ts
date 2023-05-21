@@ -125,8 +125,8 @@ export const Functor: Functor1<URI> = {
  * @since 2.16.0
  */
 export const as: {
-  <A, _>(self: IO<_>, a: A): IO<A>
   <A>(a: A): <_>(self: IO<_>) => IO<A>
+  <_, A>(self: IO<_>, a: A): IO<A>
 } = dual(2, as_(Functor))
 
 /**

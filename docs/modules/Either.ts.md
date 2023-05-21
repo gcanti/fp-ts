@@ -1316,8 +1316,8 @@ Maps the `Right` value of this `Either` to the specified constant value.
 
 ```ts
 export declare const as: {
-  <E, A, _>(self: Either<E, _>, a: A): Either<E, A>
   <A>(a: A): <E, _>(self: Either<E, _>) => Either<E, A>
+  <E, _, A>(self: Either<E, _>, a: A): Either<E, A>
 }
 ```
 

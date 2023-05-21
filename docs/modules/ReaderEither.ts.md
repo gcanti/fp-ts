@@ -178,8 +178,8 @@ keeping only the result of the first.
 
 ```ts
 export declare const tapEither: {
-  <R1, E1, A, E2, _>(self: ReaderEither<R1, E1, A>, f: (a: A) => E.Either<E2, _>): ReaderEither<R1, E1 | E2, A>
   <A, E2, _>(f: (a: A) => E.Either<E2, _>): <R1, E1>(self: ReaderEither<R1, E1, A>) => ReaderEither<R1, E2 | E1, A>
+  <R1, E1, A, E2, _>(self: ReaderEither<R1, E1, A>, f: (a: A) => E.Either<E2, _>): ReaderEither<R1, E1 | E2, A>
 }
 ```
 
@@ -211,8 +211,8 @@ keeping only the result of the first.
 
 ```ts
 export declare const tapReader: {
-  <R1, R2, E, A, _>(self: ReaderEither<R1, E, A>, f: (a: A) => R.Reader<R2, _>): ReaderEither<R1 & R2, E, A>
   <R2, A, E, _>(f: (a: A) => R.Reader<R2, _>): <R1>(self: ReaderEither<R1, E, A>) => ReaderEither<R1 & R2, E, A>
+  <R1, R2, E, A, _>(self: ReaderEither<R1, E, A>, f: (a: A) => R.Reader<R2, _>): ReaderEither<R1 & R2, E, A>
 }
 ```
 
@@ -1171,8 +1171,8 @@ Maps the `Right` value of this `ReaderEither` to the specified constant value.
 
 ```ts
 export declare const as: {
-  <R, E, A, _>(self: ReaderEither<R, E, _>, a: A): ReaderEither<R, E, A>
   <A>(a: A): <R, E, _>(self: ReaderEither<R, E, _>) => ReaderEither<R, E, A>
+  <R, E, _, A>(self: ReaderEither<R, E, _>, a: A): ReaderEither<R, E, A>
 }
 ```
 
@@ -1374,8 +1374,8 @@ Added in v2.14.0
 
 ```ts
 export declare const flatMapEither: {
-  <A, B, E2>(f: (a: A) => E.Either<E2, B>): <R, E1>(self: ReaderEither<R, E1, A>) => ReaderEither<R, E2 | E1, B>
-  <R, E1, A, B, E2>(self: ReaderEither<R, E1, A>, f: (a: A) => E.Either<E2, B>): ReaderEither<R, E1 | E2, B>
+  <A, E2, B>(f: (a: A) => E.Either<E2, B>): <R, E1>(self: ReaderEither<R, E1, A>) => ReaderEither<R, E2 | E1, B>
+  <R, E1, A, E2, B>(self: ReaderEither<R, E1, A>, f: (a: A) => E.Either<E2, B>): ReaderEither<R, E1 | E2, B>
 }
 ```
 

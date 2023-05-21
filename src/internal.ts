@@ -221,12 +221,12 @@ export const flatMapEither = <F extends TypeLambda>(
   F: FromEither<F>,
   M: FlatMap<F>
 ): {
-  <A, B, E2>(f: (a: A) => Either<E2, B>): <R, O, E1>(self: Kind<F, R, O, E1, A>) => Kind<F, R, O, E1 | E2, B>
-  <R, O, E1, A, B, E2>(self: Kind<F, R, O, E1, A>, f: (a: A) => Either<E2, B>): Kind<F, R, O, E1 | E2, B>
+  <A, E2, B>(f: (a: A) => Either<E2, B>): <R, O, E1>(self: Kind<F, R, O, E1, A>) => Kind<F, R, O, E1 | E2, B>
+  <R, O, E1, A, E2, B>(self: Kind<F, R, O, E1, A>, f: (a: A) => Either<E2, B>): Kind<F, R, O, E1 | E2, B>
 } =>
   /*#__PURE__*/ dual(
     2,
-    <R, O, E1, A, B, E2>(self: Kind<F, R, O, E1, A>, f: (a: A) => Either<E2, B>): Kind<F, R, O, E1 | E2, B> =>
+    <R, O, E1, A, E2, B>(self: Kind<F, R, O, E1, A>, f: (a: A) => Either<E2, B>): Kind<F, R, O, E1 | E2, B> =>
       M.flatMap(self, (a) => F.fromEither(f(a)))
   )
 
@@ -235,7 +235,7 @@ export const flatMapIO = <F extends TypeLambda>(
   F: FromIO<F>,
   M: FlatMap<F>
 ): {
-  <A, B, E>(f: (a: A) => IO<B>): <R, O, E1>(self: Kind<F, R, O, E1, A>) => Kind<F, R, O, E, B>
+  <A, B>(f: (a: A) => IO<B>): <R, O, E>(self: Kind<F, R, O, E, A>) => Kind<F, R, O, E, B>
   <R, O, E, A, B>(self: Kind<F, R, O, E, A>, f: (a: A) => IO<B>): Kind<F, R, O, E, B>
 } =>
   /*#__PURE__*/ dual(

@@ -247,10 +247,8 @@ keeping only the result of the first.
 
 ```ts
 export declare const tapEither: {
-  <R1, E1, A, E2, _>(self: ReaderTaskEither<R1, E1, A>, f: (a: A) => E.Either<E2, _>): ReaderTaskEither<R1, E1 | E2, A>
-  <A, E2, _>(f: (a: A) => E.Either<E2, _>): <R1, E1>(
-    self: ReaderTaskEither<R1, E1, A>
-  ) => ReaderTaskEither<R1, E2 | E1, A>
+  <A, E2, _>(f: (a: A) => E.Either<E2, _>): <R, E1>(self: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E2 | E1, A>
+  <R, E1, A, E2, _>(self: ReaderTaskEither<R, E1, A>, f: (a: A) => E.Either<E2, _>): ReaderTaskEither<R, E1 | E2, A>
 }
 ```
 
@@ -286,8 +284,8 @@ keeping only the result of the first.
 
 ```ts
 export declare const tapIO: {
-  <R, E, A, _>(self: ReaderTaskEither<R, E, A>, f: (a: A) => IO<_>): ReaderTaskEither<R, E, A>
   <A, _>(f: (a: A) => IO<_>): <R, E>(self: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
+  <R, E, A, _>(self: ReaderTaskEither<R, E, A>, f: (a: A) => IO<_>): ReaderTaskEither<R, E, A>
 }
 ```
 
@@ -319,8 +317,8 @@ keeping only the result of the first.
 
 ```ts
 export declare const tapReader: {
-  <R1, R2, E, A, _>(self: ReaderTaskEither<R1, E, A>, f: (a: A) => R.Reader<R2, _>): ReaderTaskEither<R1 & R2, E, A>
-  <R2, A, _>(f: (a: A) => R.Reader<R2, _>): <R1, E>(self: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, A>
+  <A, R2, _>(f: (a: A) => R.Reader<R2, _>): <R1, E>(self: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, A>
+  <R1, E, A, R2, _>(self: ReaderTaskEither<R1, E, A>, f: (a: A) => R.Reader<R2, _>): ReaderTaskEither<R1 & R2, E, A>
 }
 ```
 
@@ -335,14 +333,14 @@ keeping only the result of the first.
 
 ```ts
 export declare const tapReaderEither: {
-  <R1, R2, E1, E2, A, _>(self: ReaderTaskEither<R1, E1, A>, f: (a: A) => ReaderEither<R2, E2, _>): ReaderTaskEither<
+  <A, R2, E2, _>(f: (a: A) => ReaderEither<R2, E2, _>): <R1, E1>(
+    self: ReaderTaskEither<R1, E1, A>
+  ) => ReaderTaskEither<R1 & R2, E2 | E1, A>
+  <R1, E1, A, R2, E2, _>(self: ReaderTaskEither<R1, E1, A>, f: (a: A) => ReaderEither<R2, E2, _>): ReaderTaskEither<
     R1 & R2,
     E1 | E2,
     A
   >
-  <R2, E2, A, _>(f: (a: A) => ReaderEither<R2, E2, _>): <R1, E1>(
-    self: ReaderTaskEither<R1, E1, A>
-  ) => ReaderTaskEither<R1 & R2, E2 | E1, A>
 }
 ```
 
@@ -357,10 +355,10 @@ keeping only the result of the first.
 
 ```ts
 export declare const tapReaderIO: {
-  <R1, R2, E, A, _>(self: ReaderTaskEither<R1, E, A>, f: (a: A) => RIO.ReaderIO<R2, _>): ReaderTaskEither<R1 & R2, E, A>
-  <R2, A, _>(f: (a: A) => RT.ReaderTask<R2, _>): <R1, E>(
+  <A, R2, _>(f: (a: A) => RT.ReaderTask<R2, _>): <R1, E>(
     self: ReaderTaskEither<R1, E, A>
   ) => ReaderTaskEither<R1 & R2, E, A>
+  <R1, E, A, R2, _>(self: ReaderTaskEither<R1, E, A>, f: (a: A) => RIO.ReaderIO<R2, _>): ReaderTaskEither<R1 & R2, E, A>
 }
 ```
 
@@ -375,14 +373,14 @@ keeping only the result of the first.
 
 ```ts
 export declare const tapReaderTask: {
-  <R1, R2, E, A, _>(self: ReaderTaskEither<R1, E, A>, f: (a: A) => RT.ReaderTask<R2, _>): ReaderTaskEither<
+  <A, R2, _>(f: (a: A) => RT.ReaderTask<R2, _>): <R1, E>(
+    self: ReaderTaskEither<R1, E, A>
+  ) => ReaderTaskEither<R1 & R2, E, A>
+  <R1, E, A, R2, _>(self: ReaderTaskEither<R1, E, A>, f: (a: A) => RT.ReaderTask<R2, _>): ReaderTaskEither<
     R1 & R2,
     E,
     A
   >
-  <R2, A, _>(f: (a: A) => RT.ReaderTask<R2, _>): <R1, E>(
-    self: ReaderTaskEither<R1, E, A>
-  ) => ReaderTaskEither<R1 & R2, E, A>
 }
 ```
 
@@ -397,8 +395,8 @@ keeping only the result of the first.
 
 ```ts
 export declare const tapTask: {
-  <R, E, A, _>(self: ReaderTaskEither<R, E, A>, f: (a: A) => T.Task<_>): ReaderTaskEither<R, E, A>
   <A, _>(f: (a: A) => T.Task<_>): <R, E>(self: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
+  <R, E, A, _>(self: ReaderTaskEither<R, E, A>, f: (a: A) => T.Task<_>): ReaderTaskEither<R, E, A>
 }
 ```
 
@@ -429,14 +427,14 @@ keeping only the result of the first.
 
 ```ts
 export declare const tapTaskEither: {
-  <R, E1, E2, A, _>(self: ReaderTaskEither<R, E1, A>, f: (a: A) => TE.TaskEither<E2, _>): ReaderTaskEither<
+  <A, E2, _>(f: (a: A) => TE.TaskEither<E2, _>): <R, E1>(
+    self: ReaderTaskEither<R, E1, A>
+  ) => ReaderTaskEither<R, E2 | E1, A>
+  <R, E1, A, E2, _>(self: ReaderTaskEither<R, E1, A>, f: (a: A) => TE.TaskEither<E2, _>): ReaderTaskEither<
     R,
     E1 | E2,
     A
   >
-  <E2, A, _>(f: (a: A) => TE.TaskEither<E2, _>): <R, E1>(
-    self: ReaderTaskEither<R, E1, A>
-  ) => ReaderTaskEither<R, E2 | E1, A>
 }
 ```
 
@@ -1990,8 +1988,8 @@ Maps the `Right` value of this `ReaderTaskEither` to the specified constant valu
 
 ```ts
 export declare const as: {
-  <R, E, A, _>(self: ReaderTaskEither<R, E, _>, a: A): ReaderTaskEither<R, E, A>
   <A>(a: A): <R, E, _>(self: ReaderTaskEither<R, E, _>) => ReaderTaskEither<R, E, A>
+  <R, E, _, A>(self: ReaderTaskEither<R, E, _>, a: A): ReaderTaskEither<R, E, A>
 }
 ```
 
@@ -2289,8 +2287,8 @@ Added in v2.14.0
 
 ```ts
 export declare const flatMapEither: {
-  <A, B, E2>(f: (a: A) => E.Either<E2, B>): <R, E1>(self: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E2 | E1, B>
-  <R, E1, A, B, E2>(self: ReaderTaskEither<R, E1, A>, f: (a: A) => E.Either<E2, B>): ReaderTaskEither<R, E1 | E2, B>
+  <A, E2, B>(f: (a: A) => E.Either<E2, B>): <R, E1>(self: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E2 | E1, B>
+  <R, E1, A, E2, B>(self: ReaderTaskEither<R, E1, A>, f: (a: A) => E.Either<E2, B>): ReaderTaskEither<R, E1 | E2, B>
 }
 ```
 
@@ -2353,10 +2351,10 @@ Added in v2.15.0
 
 ```ts
 export declare const flatMapReaderTask: {
-  <A, B, R2>(f: (a: A) => RT.ReaderTask<R2, B>): <R1, E>(
+  <A, R2, B>(f: (a: A) => RT.ReaderTask<R2, B>): <R1, E>(
     self: ReaderTaskEither<R1, E, A>
   ) => ReaderTaskEither<R1 & R2, E, B>
-  <R1, R2, E, A, B>(self: ReaderTaskEither<R1, E, A>, f: (a: A) => RT.ReaderTask<R2, B>): ReaderTaskEither<
+  <R1, E, A, R2, B>(self: ReaderTaskEither<R1, E, A>, f: (a: A) => RT.ReaderTask<R2, B>): ReaderTaskEither<
     R1 & R2,
     E,
     B
@@ -2372,10 +2370,10 @@ Added in v2.16.0
 
 ```ts
 export declare const flatMapTaskEither: {
-  <A, B, E2>(f: (a: A) => TE.TaskEither<E2, B>): <R, E1>(
+  <A, E2, B>(f: (a: A) => TE.TaskEither<E2, B>): <R, E1>(
     self: ReaderTaskEither<R, E1, A>
   ) => ReaderTaskEither<R, E2 | E1, B>
-  <R, E1, A, B, E2>(self: ReaderTaskEither<R, E1, A>, f: (a: A) => TE.TaskEither<E2, B>): ReaderTaskEither<
+  <R, E1, A, E2, B>(self: ReaderTaskEither<R, E1, A>, f: (a: A) => TE.TaskEither<E2, B>): ReaderTaskEither<
     R,
     E1 | E2,
     B

@@ -141,8 +141,8 @@ keeping only the result of the first.
 
 ```ts
 export declare const tapEither: {
-  <A, E, _>(self: IOOption<A>, f: (a: A) => Either<E, _>): IOOption<A>
   <A, E, _>(f: (a: A) => Either<E, _>): (self: IOOption<A>) => IOOption<A>
+  <A, E, _>(self: IOOption<A>, f: (a: A) => Either<E, _>): IOOption<A>
 }
 ```
 
@@ -175,8 +175,8 @@ keeping only the result of the first.
 
 ```ts
 export declare const tapIO: {
-  <A, _>(self: IOOption<A>, f: (a: A) => I.IO<_>): IOOption<A>
   <A, _>(f: (a: A) => I.IO<_>): (self: IOOption<A>) => IOOption<A>
+  <A, _>(self: IOOption<A>, f: (a: A) => I.IO<_>): IOOption<A>
 }
 ```
 
@@ -783,8 +783,8 @@ Maps the `Some` value of this `IOOption` to the specified constant value.
 
 ```ts
 export declare const as: {
-  <A, _>(self: IOOption<_>, a: A): IOOption<A>
   <A>(a: A): <_>(self: IOOption<_>) => IOOption<A>
+  <_, A>(self: IOOption<_>, a: A): IOOption<A>
 }
 ```
 
@@ -957,8 +957,8 @@ Added in v2.14.0
 
 ```ts
 export declare const flatMapIO: {
-  <A, B>(f: (a: A) => I.IO<B>): (ma: IOOption<A>) => IOOption<B>
-  <A, B>(ma: IOOption<A>, f: (a: A) => I.IO<B>): IOOption<B>
+  <A, B>(f: (a: A) => I.IO<B>): (self: IOOption<A>) => IOOption<B>
+  <A, B>(self: IOOption<A>, f: (a: A) => I.IO<B>): IOOption<B>
 }
 ```
 

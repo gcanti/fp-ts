@@ -207,8 +207,8 @@ export const Functor: Functor2<URI> = {
  * @since 2.16.0
  */
 export const as: {
-  <R, A, _>(self: ReaderTask<R, _>, a: A): ReaderTask<R, A>
   <A>(a: A): <R, _>(self: ReaderTask<R, _>) => ReaderTask<R, A>
+  <R, _, A>(self: ReaderTask<R, _>, a: A): ReaderTask<R, A>
 } = dual(2, as_(Functor))
 
 /**
@@ -396,8 +396,8 @@ const _FromIO: _.FromIO<ReaderTaskTypeLambda> = {
  * @since 2.16.0
  */
 export const flatMapIO: {
-  <A, B>(f: (a: A) => IO<B>): <R>(ma: ReaderTask<R, A>) => ReaderTask<R, B>
-  <R, A, B>(ma: ReaderTask<R, A>, f: (a: A) => IO<B>): ReaderTask<R, B>
+  <A, B>(f: (a: A) => IO<B>): <R>(self: ReaderTask<R, A>) => ReaderTask<R, B>
+  <R, A, B>(self: ReaderTask<R, A>, f: (a: A) => IO<B>): ReaderTask<R, B>
 } = _.flatMapIO(_FromIO, _FlatMap)
 
 /**
@@ -437,8 +437,8 @@ export const tap: {
  * @since 2.16.0
  */
 export const tapIO: {
-  <R, A, _>(self: ReaderTask<R, A>, f: (a: A) => IO<_>): ReaderTask<R, A>
   <A, _>(f: (a: A) => IO<_>): <R>(self: ReaderTask<R, A>) => ReaderTask<R, A>
+  <R, A, _>(self: ReaderTask<R, A>, f: (a: A) => IO<_>): ReaderTask<R, A>
 } = /*#__PURE__*/ dual(2, tapIO_(FromIO, Chain))
 
 /**
@@ -449,8 +449,8 @@ export const tapIO: {
  * @since 2.16.0
  */
 export const tapReader: {
-  <R1, R2, A, _>(self: ReaderTask<R1, A>, f: (a: A) => R.Reader<R2, _>): ReaderTask<R1 & R2, A>
   <R2, A, _>(f: (a: A) => R.Reader<R2, _>): <R1>(self: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A>
+  <R1, R2, A, _>(self: ReaderTask<R1, A>, f: (a: A) => R.Reader<R2, _>): ReaderTask<R1 & R2, A>
 } = /*#__PURE__*/ dual(2, tapReader_(FromReader, Chain))
 
 /**
@@ -477,8 +477,8 @@ export const tapReader: {
  * @since 2.16.0
  */
 export const tapTask: {
-  <R, A, _>(self: ReaderTask<R, A>, f: (a: A) => Task<_>): ReaderTask<R, A>
   <A, _>(f: (a: A) => Task<_>): <R>(self: ReaderTask<R, A>) => ReaderTask<R, A>
+  <R, A, _>(self: ReaderTask<R, A>, f: (a: A) => Task<_>): ReaderTask<R, A>
 } = /*#__PURE__*/ dual(2, tapTask_(FromTask, Chain))
 
 /**
@@ -489,8 +489,8 @@ export const tapTask: {
  * @since 2.16.0
  */
 export const tapReaderIO: {
-  <R1, R2, A, _>(self: ReaderTask<R1, A>, f: (a: A) => ReaderIO<R2, _>): ReaderTask<R1 & R2, A>
   <R2, A, _>(f: (a: A) => ReaderIO<R2, _>): <R1>(self: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A>
+  <R1, R2, A, _>(self: ReaderTask<R1, A>, f: (a: A) => ReaderIO<R2, _>): ReaderTask<R1 & R2, A>
 } = /*#__PURE__*/ dual(
   2,
   <R1, R2, A, _>(self: ReaderTask<R1, A>, f: (a: A) => ReaderIO<R2, _>): ReaderTask<R1 & R2, A> =>

@@ -453,10 +453,10 @@ const _FlatMap: _.FlatMap<StateReaderTaskEitherTypeLambda> = {
  * @since 2.16.0
  */
 export const flatMapTaskEither: {
-  <S, R, E2, A, B>(f: (a: A) => TaskEither<E2, B>): <E1>(
+  <A, E2, B>(f: (a: A) => TaskEither<E2, B>): <S, R, E1>(
     self: StateReaderTaskEither<S, R, E1, A>
   ) => StateReaderTaskEither<S, R, E1 | E2, B>
-  <S, R, E1, E2, A, B>(self: StateReaderTaskEither<S, R, E1, A>, f: (a: A) => TaskEither<E2, B>): StateReaderTaskEither<
+  <S, R, E1, A, E2, B>(self: StateReaderTaskEither<S, R, E1, A>, f: (a: A) => TaskEither<E2, B>): StateReaderTaskEither<
     S,
     R,
     E1 | E2,
@@ -464,7 +464,7 @@ export const flatMapTaskEither: {
   >
 } = /*#__PURE__*/ dual(
   2,
-  <S, R, E1, E2, A, B>(
+  <S, R, E1, A, E2, B>(
     self: StateReaderTaskEither<S, R, E1, A>,
     f: (a: A) => TaskEither<E2, B>
   ): StateReaderTaskEither<S, R, E1 | E2, B> => flatMap(self, (a: A) => fromTaskEitherK(f)<S, R>(a))
@@ -475,8 +475,8 @@ export const flatMapTaskEither: {
  * @since 2.16.0
  */
 export const flatMapIO: {
-  <A, B>(f: (a: A) => IO<B>): <S, R, E>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
-  <S, R, E, A, B>(ma: StateReaderTaskEither<S, R, E, A>, f: (a: A) => IO<B>): StateReaderTaskEither<S, R, E, B>
+  <A, B>(f: (a: A) => IO<B>): <S, R, E>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
+  <S, R, E, A, B>(self: StateReaderTaskEither<S, R, E, A>, f: (a: A) => IO<B>): StateReaderTaskEither<S, R, E, B>
 } = /*#__PURE__*/ _.flatMapIO(_FromIO, _FlatMap)
 
 /**
@@ -566,8 +566,8 @@ export const Functor: Functor4<URI> = {
  * @since 2.16.0
  */
 export const as: {
-  <S, R, E, A, _>(self: StateReaderTaskEither<S, R, E, _>, a: A): StateReaderTaskEither<S, R, E, A>
   <A>(a: A): <S, R, E, _>(self: StateReaderTaskEither<S, R, E, _>) => StateReaderTaskEither<S, R, E, A>
+  <S, R, E, _, A>(self: StateReaderTaskEither<S, R, E, _>, a: A): StateReaderTaskEither<S, R, E, A>
 } = dual(2, as_(Functor))
 
 /**
@@ -840,15 +840,15 @@ export const tap: {
  * @since 2.16.0
  */
 export const tapEither: {
+  <A, E2, _>(f: (a: A) => Either<E2, _>): <S, R1, E1>(
+    self: StateReaderTaskEither<S, R1, E1, A>
+  ) => StateReaderTaskEither<S, R1, E2 | E1, A>
   <S, R1, E1, A, E2, _>(self: StateReaderTaskEither<S, R1, E1, A>, f: (a: A) => Either<E2, _>): StateReaderTaskEither<
     S,
     R1,
     E1 | E2,
     A
   >
-  <A, S, E2, _>(f: (a: A) => Either<E2, _>): <R1, E1>(
-    self: StateReaderTaskEither<S, R1, E1, A>
-  ) => StateReaderTaskEither<S, R1, E2 | E1, A>
 } = /*#__PURE__*/ dual(2, tapEither_(FromEither, Chain))
 
 /**
@@ -859,8 +859,8 @@ export const tapEither: {
  * @since 2.16.0
  */
 export const tapIO: {
-  <S, R, E, A, _>(self: StateReaderTaskEither<S, R, E, A>, f: (a: A) => IO<_>): StateReaderTaskEither<S, R, E, A>
   <A, _>(f: (a: A) => IO<_>): <S, R, E>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A>
+  <S, R, E, A, _>(self: StateReaderTaskEither<S, R, E, A>, f: (a: A) => IO<_>): StateReaderTaskEither<S, R, E, A>
 } = /*#__PURE__*/ dual(2, tapIO_(FromIO, Chain))
 
 /**
@@ -871,8 +871,8 @@ export const tapIO: {
  * @since 2.16.0
  */
 export const tapTask: {
-  <S, R, E, A, _>(self: StateReaderTaskEither<S, R, E, A>, f: (a: A) => Task<_>): StateReaderTaskEither<S, R, E, A>
   <A, _>(f: (a: A) => Task<_>): <S, R, E>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A>
+  <S, R, E, A, _>(self: StateReaderTaskEither<S, R, E, A>, f: (a: A) => Task<_>): StateReaderTaskEither<S, R, E, A>
 } = /*#__PURE__*/ dual(2, tapTask_(FromTask, Chain))
 
 /**
@@ -883,15 +883,15 @@ export const tapTask: {
  * @since 2.16.0
  */
 export const tapReader: {
-  <S, R1, R2, E, A, _>(self: StateReaderTaskEither<S, R1, E, A>, f: (a: A) => Reader<R2, _>): StateReaderTaskEither<
+  <A, R2, _>(f: (a: A) => Reader<R2, _>): <S, R1, E>(
+    self: StateReaderTaskEither<S, R1, E, A>
+  ) => StateReaderTaskEither<S, R1 & R2, E, A>
+  <S, R1, E, A, R2, _>(self: StateReaderTaskEither<S, R1, E, A>, f: (a: A) => Reader<R2, _>): StateReaderTaskEither<
     S,
     R1 & R2,
     E,
     A
   >
-  <R2, A, _>(f: (a: A) => Reader<R2, _>): <S, R1, E>(
-    self: StateReaderTaskEither<S, R1, E, A>
-  ) => StateReaderTaskEither<S, R1 & R2, E, A>
 } = /*#__PURE__*/ dual(2, tapReader_(FromReader, Chain))
 
 /**

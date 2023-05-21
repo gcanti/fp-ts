@@ -384,8 +384,8 @@ export const Functor: Functor1<URI> = {
  * @since 2.16.0
  */
 export const as: {
-  <A, _>(self: IOOption<_>, a: A): IOOption<A>
   <A>(a: A): <_>(self: IOOption<_>) => IOOption<A>
+  <_, A>(self: IOOption<_>, a: A): IOOption<A>
 } = dual(2, as_(Functor))
 
 /**
@@ -509,8 +509,8 @@ export const tap: {
  * @since 2.16.0
  */
 export const tapEither: {
-  <A, E, _>(self: IOOption<A>, f: (a: A) => Either<E, _>): IOOption<A>
   <A, E, _>(f: (a: A) => Either<E, _>): (self: IOOption<A>) => IOOption<A>
+  <A, E, _>(self: IOOption<A>, f: (a: A) => Either<E, _>): IOOption<A>
 } = /*#__PURE__*/ dual(2, tapEither_(FromEither, Chain))
 
 /**
@@ -546,8 +546,8 @@ export const tapEither: {
  * @since 2.16.0
  */
 export const tapIO: {
-  <A, _>(self: IOOption<A>, f: (a: A) => IO<_>): IOOption<A>
   <A, _>(f: (a: A) => IO<_>): (self: IOOption<A>) => IOOption<A>
+  <A, _>(self: IOOption<A>, f: (a: A) => IO<_>): IOOption<A>
 } = /*#__PURE__*/ dual(2, tapIO_(FromIO, Chain))
 
 /**
@@ -658,8 +658,8 @@ const _FromIO: _.FromIO<IOOptionTypeLambda> = {
  * @since 2.16.0
  */
 export const flatMapIO: {
-  <A, B>(f: (a: A) => IO<B>): (ma: IOOption<A>) => IOOption<B>
-  <A, B>(ma: IOOption<A>, f: (a: A) => IO<B>): IOOption<B>
+  <A, B>(f: (a: A) => IO<B>): (self: IOOption<A>) => IOOption<B>
+  <A, B>(self: IOOption<A>, f: (a: A) => IO<B>): IOOption<B>
 } = _.flatMapIO(_FromIO, _FlatMap)
 
 /**

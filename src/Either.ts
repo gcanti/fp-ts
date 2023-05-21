@@ -486,8 +486,8 @@ export const Functor: Functor2<URI> = {
  * @since 2.16.0
  */
 export const as: {
-  <E, A, _>(self: Either<E, _>, a: A): Either<E, A>
   <A>(a: A): <E, _>(self: Either<E, _>) => Either<E, A>
+  <E, _, A>(self: Either<E, _>, a: A): Either<E, A>
 } = dual(2, as_(Functor))
 
 /**
