@@ -423,8 +423,8 @@ export const flatMapTask: {
  * @since 2.16.0
  */
 export const flatMapReader: {
-  <R2, A, B>(f: (a: A) => R.Reader<R2, B>): <R1>(self: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B>
-  <R1, R2, A, B>(self: ReaderTask<R1, A>, f: (a: A) => R.Reader<R2, B>): ReaderTask<R1 & R2, B>
+  <A, R2, B>(f: (a: A) => R.Reader<R2, B>): <R1>(self: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B>
+  <R1, A, R2, B>(self: ReaderTask<R1, A>, f: (a: A) => R.Reader<R2, B>): ReaderTask<R1 & R2, B>
 } = _.flatMapReader(_FromReader, _FlatMap)
 
 /**

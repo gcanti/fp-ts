@@ -1887,7 +1887,7 @@ export declare const flatMapTask: {
 }
 ```
 
-Added in v2.15.0
+Added in v2.16.0
 
 ## flatten
 

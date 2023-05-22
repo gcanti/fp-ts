@@ -275,11 +275,11 @@ export const flatMapReader = <F extends TypeLambda>(
   F: FromReader<F>,
   M: FlatMap<F>
 ): {
-  <R2, A, B>(f: (a: A) => Reader<R2, B>): <R1, O, E>(self: Kind<F, R1, O, E, A>) => Kind<F, R1 & R2, O, E, B>
-  <R1, R2, O, E, A, B>(self: Kind<F, R1, O, E, A>, f: (a: A) => Reader<R2, B>): Kind<F, R1 & R2, O, E, B>
+  <A, R2, B>(f: (a: A) => Reader<R2, B>): <R1, O, E>(self: Kind<F, R1, O, E, A>) => Kind<F, R1 & R2, O, E, B>
+  <R1, O, E, A, R2, B>(self: Kind<F, R1, O, E, A>, f: (a: A) => Reader<R2, B>): Kind<F, R1 & R2, O, E, B>
 } =>
   /*#__PURE__*/ dual(
     2,
-    <R1, R2, O, E, A, B>(self: Kind<F, R1, O, E, A>, f: (a: A) => Reader<R2, B>): Kind<F, R1 & R2, O, E, B> =>
+    <R1, O, E, A, R2, B>(self: Kind<F, R1, O, E, A>, f: (a: A) => Reader<R2, B>): Kind<F, R1 & R2, O, E, B> =>
       M.flatMap(self, (a) => F.fromReader(f(a)))
   )
