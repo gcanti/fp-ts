@@ -93,10 +93,9 @@ Added in v2.0.0
   - [guard](#guard)
   - [let](#let)
 - [error handling](#error-handling)
-  - [alt](#alt)
-  - [altW](#altw)
   - [getOrElse](#getorelse)
   - [getOrElseW](#getorelsew)
+  - [orElse](#orelse)
 - [filtering](#filtering)
   - [compact](#compact)
   - [filter](#filter)
@@ -136,6 +135,8 @@ Added in v2.0.0
   - [tryCatch](#trycatch)
   - [tryCatchK](#trycatchk)
 - [legacy](#legacy)
+  - [alt](#alt)
+  - [altW](#altw)
   - [chain](#chain)
   - [chainFirst](#chainfirst)
   - [chainFirstEitherK](#chainfirsteitherk)
@@ -485,78 +486,6 @@ Added in v2.13.0
 
 # error handling
 
-## alt
-
-Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
-types of kind `* -> *`.
-
-In case of `Option` returns the left-most non-`None` value.
-
-| x       | y       | pipe(x, alt(() => y) |
-| ------- | ------- | -------------------- |
-| none    | none    | none                 |
-| some(a) | none    | some(a)              |
-| none    | some(b) | some(b)              |
-| some(a) | some(b) | some(a)              |
-
-**Signature**
-
-```ts
-export declare const alt: <A>(that: LazyArg<Option<A>>) => (fa: Option<A>) => Option<A>
-```
-
-**Example**
-
-```ts
-import * as O from 'fp-ts/Option'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(
-  pipe(
-    O.none,
-    O.alt(() => O.none)
-  ),
-  O.none
-)
-assert.deepStrictEqual(
-  pipe(
-    O.some('a'),
-    O.alt<string>(() => O.none)
-  ),
-  O.some('a')
-)
-assert.deepStrictEqual(
-  pipe(
-    O.none,
-    O.alt(() => O.some('b'))
-  ),
-  O.some('b')
-)
-assert.deepStrictEqual(
-  pipe(
-    O.some('a'),
-    O.alt(() => O.some('b'))
-  ),
-  O.some('a')
-)
-```
-
-Added in v2.0.0
-
-## altW
-
-Less strict version of [`alt`](#alt).
-
-The `W` suffix (short for **W**idening) means that the return types will be merged.
-
-**Signature**
-
-```ts
-export declare const altW: <B>(that: LazyArg<Option<B>>) => <A>(fa: Option<A>) => Option<B | A>
-```
-
-Added in v2.9.0
-
 ## getOrElse
 
 Extracts the value out of the structure, if it exists. Otherwise returns the given default value
@@ -604,6 +533,44 @@ export declare const getOrElseW: <B>(onNone: LazyArg<B>) => <A>(ma: Option<A>) =
 ```
 
 Added in v2.6.0
+
+## orElse
+
+Returns the provided `Option` `that` if `self` is `None`, otherwise returns `self`.
+
+**Signature**
+
+```ts
+export declare const orElse: {
+  <B>(that: LazyArg<Option<B>>): <A>(self: Option<A>) => Option<B | A>
+  <A, B>(self: Option<A>, that: LazyArg<Option<B>>): Option<A | B>
+}
+```
+
+**Example**
+
+```ts
+import * as O from 'fp-ts/Option'
+
+assert.deepStrictEqual(
+  O.orElse(O.none, () => O.none),
+  O.none
+)
+assert.deepStrictEqual(
+  O.orElse(O.some(1), () => O.none),
+  O.some(1)
+)
+assert.deepStrictEqual(
+  O.orElse(O.none, () => O.some('b')),
+  O.some('b')
+)
+assert.deepStrictEqual(
+  O.orElse(O.some(1), () => O.some('b')),
+  O.some(1)
+)
+```
+
+Added in v2.16.0
 
 # filtering
 
@@ -1045,6 +1012,34 @@ export declare const tryCatchK: <A extends readonly unknown[], B>(f: (...a: A) =
 Added in v2.10.0
 
 # legacy
+
+## alt
+
+Alias of `orElse`.
+
+**Signature**
+
+```ts
+export declare const alt: <A>(that: LazyArg<Option<A>>) => (fa: Option<A>) => Option<A>
+```
+
+Added in v2.0.0
+
+## altW
+
+Alias of `orElse`.
+
+Less strict version of [`alt`](#alt).
+
+The `W` suffix (short for **W**idening) means that the return types will be merged.
+
+**Signature**
+
+```ts
+export declare const altW: <B>(that: LazyArg<Option<B>>) => <A>(fa: Option<A>) => Option<B | A>
+```
+
+Added in v2.9.0
 
 ## chain
 
