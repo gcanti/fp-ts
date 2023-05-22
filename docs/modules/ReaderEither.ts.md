@@ -1431,11 +1431,11 @@ Added in v2.15.0
 ```ts
 export declare const flatMapReader: {
   <A, R2, B>(f: (a: A) => R.Reader<R2, B>): <R1, E>(self: ReaderEither<R1, E, A>) => ReaderEither<R1 & R2, E, B>
-  <R1, R2, E, A, B>(self: ReaderEither<R1, E, A>, f: (a: A) => R.Reader<R2, B>): ReaderEither<R1 & R2, E, B>
+  <R1, E, A, R2, B>(self: ReaderEither<R1, E, A>, f: (a: A) => R.Reader<R2, B>): ReaderEither<R1 & R2, E, B>
 }
 ```
 
-Added in v2.15.0
+Added in v2.16.0
 
 ## flatten
 

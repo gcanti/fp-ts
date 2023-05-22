@@ -502,10 +502,10 @@ export const flatMapTask: {
  * @since 2.16.0
  */
 export const flatMapReader: {
-  <R2, A, B>(f: (a: A) => Reader<R2, B>): <S, R1, E>(
+  <A, R2, B>(f: (a: A) => Reader<R2, B>): <S, R1, E>(
     self: StateReaderTaskEither<S, R1, E, A>
   ) => StateReaderTaskEither<S, R1 & R2, E, B>
-  <S, R1, R2, E, A, B>(self: StateReaderTaskEither<S, R1, E, A>, f: (a: A) => Reader<R2, B>): StateReaderTaskEither<
+  <S, R1, E, A, R2, B>(self: StateReaderTaskEither<S, R1, E, A>, f: (a: A) => Reader<R2, B>): StateReaderTaskEither<
     S,
     R1 & R2,
     E,

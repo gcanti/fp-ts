@@ -1253,7 +1253,7 @@ export const flatMapIO: {
 
 /**
  * @category sequencing
- * @since 2.15.0
+ * @since 2.16.0
  */
 export const flatMapTask: {
   <A, B>(f: (a: A) => Task<B>): <E>(self: TaskEither<E, A>) => TaskEither<E, B>

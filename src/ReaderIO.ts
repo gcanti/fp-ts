@@ -324,8 +324,8 @@ export const flatMapIO: {
  * @since 2.16.0
  */
 export const flatMapReader: {
-  <A, R2, B>(f: (a: A) => Reader<R2, B>): <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, B>
-  <R1, A, R2, B>(ma: ReaderIO<R1, A>, f: (a: A) => Reader<R2, B>): ReaderIO<R1 & R2, B>
+  <A, R2, B>(f: (a: A) => Reader<R2, B>): <R1>(self: ReaderIO<R1, A>) => ReaderIO<R1 & R2, B>
+  <R1, A, R2, B>(self: ReaderIO<R1, A>, f: (a: A) => Reader<R2, B>): ReaderIO<R1 & R2, B>
 } = /*#__PURE__*/ _.flatMapReader(_FromReader, _FlatMap)
 
 /**

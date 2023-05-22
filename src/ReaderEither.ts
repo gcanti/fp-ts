@@ -942,11 +942,11 @@ export const flatMapEither: {
 
 /**
  * @category sequencing
- * @since 2.15.0
+ * @since 2.16.0
  */
 export const flatMapReader: {
   <A, R2, B>(f: (a: A) => Reader<R2, B>): <R1, E>(self: ReaderEither<R1, E, A>) => ReaderEither<R1 & R2, E, B>
-  <R1, R2, E, A, B>(self: ReaderEither<R1, E, A>, f: (a: A) => Reader<R2, B>): ReaderEither<R1 & R2, E, B>
+  <R1, E, A, R2, B>(self: ReaderEither<R1, E, A>, f: (a: A) => Reader<R2, B>): ReaderEither<R1 & R2, E, B>
 } = /*#__PURE__*/ _.flatMapReader(_FromReader, _FlatMap)
 
 /**
