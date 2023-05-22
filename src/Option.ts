@@ -471,66 +471,46 @@ export const Foldable: Foldable1<URI> = {
 }
 
 /**
+ * Returns the provided `Option` `that` if `self` is `None`, otherwise returns `self`.
+ *
+ * @param self - The first `Option` to be checked.
+ * @param that - The `Option` to return if `self` is `None`.
+ *
+ * @example
+ * import * as O from "fp-ts/Option"
+ *
+ * assert.deepStrictEqual(O.orElse(O.none, () => O.none), O.none)
+ * assert.deepStrictEqual(O.orElse(O.some(1), () => O.none), O.some(1))
+ * assert.deepStrictEqual(O.orElse(O.none, () => O.some('b')), O.some('b'))
+ * assert.deepStrictEqual(O.orElse(O.some(1), () => O.some('b')), O.some(1))
+ *
+ * @category error handling
+ * @since 2.16.0
+ */
+export const orElse: {
+  <B>(that: LazyArg<Option<B>>): <A>(self: Option<A>) => Option<A | B>
+  <A, B>(self: Option<A>, that: LazyArg<Option<B>>): Option<A | B>
+} = dual(2, <A, B>(self: Option<A>, that: LazyArg<Option<B>>): Option<A | B> => (isNone(self) ? that() : self))
+
+/**
+ * Alias of `orElse`.
+ *
  * Less strict version of [`alt`](#alt).
  *
  * The `W` suffix (short for **W**idening) means that the return types will be merged.
  *
- * @category error handling
+ * @category legacy
  * @since 2.9.0
  */
-export const altW: <B>(that: LazyArg<Option<B>>) => <A>(fa: Option<A>) => Option<A | B> = (that) => (fa) =>
-  isNone(fa) ? that() : fa
+export const altW: <B>(that: LazyArg<Option<B>>) => <A>(fa: Option<A>) => Option<A | B> = orElse
 
 /**
- * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
- * types of kind `* -> *`.
+ * Alias of `orElse`.
  *
- * In case of `Option` returns the left-most non-`None` value.
- *
- * | x       | y       | pipe(x, alt(() => y) |
- * | ------- | ------- | -------------------- |
- * | none    | none    | none                 |
- * | some(a) | none    | some(a)              |
- * | none    | some(b) | some(b)              |
- * | some(a) | some(b) | some(a)              |
- *
- * @example
- * import * as O from 'fp-ts/Option'
- * import { pipe } from 'fp-ts/function'
- *
- * assert.deepStrictEqual(
- *   pipe(
- *     O.none,
- *     O.alt(() => O.none)
- *   ),
- *   O.none
- * )
- * assert.deepStrictEqual(
- *   pipe(
- *     O.some('a'),
- *     O.alt<string>(() => O.none)
- *   ),
- *   O.some('a')
- * )
- * assert.deepStrictEqual(
- *   pipe(
- *     O.none,
- *     O.alt(() => O.some('b'))
- *   ),
- *   O.some('b')
- * )
- * assert.deepStrictEqual(
- *   pipe(
- *     O.some('a'),
- *     O.alt(() => O.some('b'))
- *   ),
- *   O.some('a')
- * )
- *
- * @category error handling
+ * @category legacy
  * @since 2.0.0
  */
-export const alt: <A>(that: LazyArg<Option<A>>) => (fa: Option<A>) => Option<A> = altW
+export const alt: <A>(that: LazyArg<Option<A>>) => (fa: Option<A>) => Option<A> = orElse
 
 /**
  * @category instances
@@ -919,28 +899,6 @@ export const getOrElseW =
  * @since 2.0.0
  */
 export const getOrElse: <A>(onNone: LazyArg<A>) => (ma: Option<A>) => A = getOrElseW
-
-/**
- * Returns the provided `Option` `that` if `self` is `None`, otherwise returns `self`.
- *
- * @param self - The first `Option` to be checked.
- * @param that - The `Option` to return if `self` is `None`.
- *
- * @example
- * import * as O from "fp-ts/Option"
- *
- * assert.deepStrictEqual(O.orElse(O.none, () => O.none), O.none)
- * assert.deepStrictEqual(O.orElse(O.some(1), () => O.none), O.some(1))
- * assert.deepStrictEqual(O.orElse(O.none, () => O.some('b')), O.some('b'))
- * assert.deepStrictEqual(O.orElse(O.some(1), () => O.some('b')), O.some(1))
- *
- * @category error handling
- * @since 2.16.0
- */
-export const orElse: {
-  <B>(that: LazyArg<Option<B>>): <A>(self: Option<A>) => Option<A | B>
-  <A, B>(self: Option<A>, that: LazyArg<Option<B>>): Option<A | B>
-} = dual(2, <A, B>(self: Option<A>, that: LazyArg<Option<B>>): Option<A | B> => (isNone(self) ? that() : self))
 
 /**
  * @category mapping
