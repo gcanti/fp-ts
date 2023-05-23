@@ -62,6 +62,8 @@ Added in v2.3.0
   - [chainFirstTaskK](#chainfirsttaskk)
   - [chainFirstW](#chainfirstw)
   - [chainIOK](#chainiok)
+  - [chainReaderIOK](#chainreaderiok)
+  - [chainReaderIOKW](#chainreaderiokw)
   - [chainReaderK](#chainreaderk)
   - [chainReaderKW](#chainreaderkw)
   - [chainTaskK](#chaintaskk)
@@ -79,11 +81,10 @@ Added in v2.3.0
 - [model](#model)
   - [ReaderTask (interface)](#readertask-interface)
 - [sequencing](#sequencing)
-  - [chainReaderIOK](#chainreaderiok)
-  - [chainReaderIOKW](#chainreaderiokw)
   - [flatMap](#flatmap)
   - [flatMapIO](#flatmapio)
   - [flatMapReader](#flatmapreader)
+  - [flatMapReaderIO](#flatmapreaderio)
   - [flatMapTask](#flatmaptask)
   - [flatten](#flatten)
   - [flattenW](#flattenw)
@@ -715,6 +716,36 @@ export declare const chainIOK: <A, B>(f: (a: A) => IO<B>) => <R>(first: ReaderTa
 
 Added in v2.4.0
 
+## chainReaderIOK
+
+Alias of `flatMapReaderIO`.
+
+**Signature**
+
+```ts
+export declare const chainReaderIOK: <A, R, B>(
+  f: (a: A) => RIO.ReaderIO<R, B>
+) => (ma: ReaderTask<R, A>) => ReaderTask<R, B>
+```
+
+Added in v2.13.0
+
+## chainReaderIOKW
+
+Alias of `flatMapReaderIO`.
+
+Less strict version of [`chainReaderIOK`](#chainreaderiok).
+
+**Signature**
+
+```ts
+export declare const chainReaderIOKW: <A, R2, B>(
+  f: (a: A) => RIO.ReaderIO<R2, B>
+) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B>
+```
+
+Added in v2.13.0
+
 ## chainReaderK
 
 Alias of `flatMapReader`.
@@ -889,32 +920,6 @@ Added in v2.3.0
 
 # sequencing
 
-## chainReaderIOK
-
-**Signature**
-
-```ts
-export declare const chainReaderIOK: <A, R, B>(
-  f: (a: A) => RIO.ReaderIO<R, B>
-) => (ma: ReaderTask<R, A>) => ReaderTask<R, B>
-```
-
-Added in v2.13.0
-
-## chainReaderIOKW
-
-Less strict version of [`chainReaderIOK`](#chainreaderiok).
-
-**Signature**
-
-```ts
-export declare const chainReaderIOKW: <A, R2, B>(
-  f: (a: A) => RIO.ReaderIO<R2, B>
-) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B>
-```
-
-Added in v2.13.0
-
 ## flatMap
 
 **Signature**
@@ -949,6 +954,19 @@ Added in v2.16.0
 export declare const flatMapReader: {
   <A, R2, B>(f: (a: A) => R.Reader<R2, B>): <R1>(self: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B>
   <R1, A, R2, B>(self: ReaderTask<R1, A>, f: (a: A) => R.Reader<R2, B>): ReaderTask<R1 & R2, B>
+}
+```
+
+Added in v2.16.0
+
+## flatMapReaderIO
+
+**Signature**
+
+```ts
+export declare const flatMapReaderIO: {
+  <A, R2, B>(f: (a: A) => RIO.ReaderIO<R2, B>): <R1>(self: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B>
+  <R1, A, R2, B>(self: ReaderTask<R1, A>, f: (a: A) => RIO.ReaderIO<R2, B>): ReaderTask<R1 & R2, B>
 }
 ```
 

@@ -428,6 +428,19 @@ export const flatMapReader: {
 } = _.flatMapReader(_FromReader, _FlatMap)
 
 /**
+ * @category sequencing
+ * @since 2.16.0
+ */
+export const flatMapReaderIO: {
+  <A, R2, B>(f: (a: A) => ReaderIO<R2, B>): <R1>(self: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B>
+  <R1, A, R2, B>(self: ReaderTask<R1, A>, f: (a: A) => ReaderIO<R2, B>): ReaderTask<R1 & R2, B>
+} = /*#__PURE__*/ dual(
+  2,
+  <R1, A, R2, B>(self: ReaderTask<R1, A>, f: (a: A) => ReaderIO<R2, B>): ReaderTask<R1 & R2, B> =>
+    flatMap(self, fromReaderIOK(f))
+)
+
+/**
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
@@ -628,21 +641,25 @@ export const fromReaderIOK =
     fromReaderIO(f(...a))
 
 /**
+ * Alias of `flatMapReaderIO`.
+ *
  * Less strict version of [`chainReaderIOK`](#chainreaderiok).
  *
- * @category sequencing
+ * @category legacy
  * @since 2.13.0
  */
 export const chainReaderIOKW: <A, R2, B>(
   f: (a: A) => ReaderIO<R2, B>
-) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B> = (f) => flatMap(fromReaderIOK(f))
+) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B> = flatMapReaderIO
 
 /**
- * @category sequencing
+ * Alias of `flatMapReaderIO`.
+ *
+ * @category legacy
  * @since 2.13.0
  */
 export const chainReaderIOK: <A, R, B>(f: (a: A) => ReaderIO<R, B>) => (ma: ReaderTask<R, A>) => ReaderTask<R, B> =
-  chainReaderIOKW
+  flatMapReaderIO
 
 /**
  * Alias of `tapReaderIO`.

@@ -121,6 +121,8 @@ Added in v2.0.0
   - [chainNullableK](#chainnullablek)
   - [chainOptionK](#chainoptionk)
   - [chainOptionKW](#chainoptionkw)
+  - [chainReaderIOK](#chainreaderiok)
+  - [chainReaderIOKW](#chainreaderiokw)
   - [chainReaderK](#chainreaderk)
   - [chainReaderKW](#chainreaderkw)
   - [chainReaderTaskK](#chainreadertaskk)
@@ -166,14 +168,13 @@ Added in v2.0.0
   - [chainIOEitherKW](#chainioeitherkw)
   - [chainReaderEitherK](#chainreadereitherk)
   - [chainReaderEitherKW](#chainreadereitherkw)
-  - [chainReaderIOK](#chainreaderiok)
-  - [chainReaderIOKW](#chainreaderiokw)
   - [flatMap](#flatmap)
   - [flatMapEither](#flatmapeither)
   - [flatMapIO](#flatmapio)
   - [flatMapNullable](#flatmapnullable)
   - [flatMapOption](#flatmapoption)
   - [flatMapReader](#flatmapreader)
+  - [flatMapReaderIO](#flatmapreaderio)
   - [flatMapReaderTask](#flatmapreadertask)
   - [flatMapTask](#flatmaptask)
   - [flatMapTaskEither](#flatmaptaskeither)
@@ -1676,6 +1677,36 @@ export declare const chainOptionKW: <E2>(
 
 Added in v2.13.2
 
+## chainReaderIOK
+
+Alias of `flatMapReaderIO`.
+
+**Signature**
+
+```ts
+export declare const chainReaderIOK: <A, R, B>(
+  f: (a: A) => RIO.ReaderIO<R, B>
+) => <E>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
+```
+
+Added in v2.13.0
+
+## chainReaderIOKW
+
+Alias of `flatMapReaderIO`.
+
+Less strict version of [`chainReaderIOK`](#chainreaderiok).
+
+**Signature**
+
+```ts
+export declare const chainReaderIOKW: <A, R2, B>(
+  f: (a: A) => RIO.ReaderIO<R2, B>
+) => <R1, E>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, B>
+```
+
+Added in v2.13.0
+
 ## chainReaderK
 
 Alias of `flatMapReader`.
@@ -2244,32 +2275,6 @@ export declare const chainReaderEitherKW: <R2, E2, A, B>(
 
 Added in v2.11.0
 
-## chainReaderIOK
-
-**Signature**
-
-```ts
-export declare const chainReaderIOK: <A, R, B>(
-  f: (a: A) => RIO.ReaderIO<R, B>
-) => <E>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
-```
-
-Added in v2.13.0
-
-## chainReaderIOKW
-
-Less strict version of [`chainReaderIOK`](#chainreaderiok).
-
-**Signature**
-
-```ts
-export declare const chainReaderIOKW: <A, R2, B>(
-  f: (a: A) => RIO.ReaderIO<R2, B>
-) => <R1, E>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, B>
-```
-
-Added in v2.13.0
-
 ## flatMap
 
 **Signature**
@@ -2361,6 +2366,21 @@ Added in v2.15.0
 export declare const flatMapReader: {
   <A, R2, B>(f: (a: A) => R.Reader<R2, B>): <R1, E>(self: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, B>
   <R1, E, A, R2, B>(self: ReaderTaskEither<R1, E, A>, f: (a: A) => R.Reader<R2, B>): ReaderTaskEither<R1 & R2, E, B>
+}
+```
+
+Added in v2.16.0
+
+## flatMapReaderIO
+
+**Signature**
+
+```ts
+export declare const flatMapReaderIO: {
+  <A, R2, B>(f: (a: A) => RIO.ReaderIO<R2, B>): <R1, E>(
+    self: ReaderTaskEither<R1, E, A>
+  ) => ReaderTaskEither<R1 & R2, E, B>
+  <R1, E, A, R2, B>(self: ReaderTaskEither<R1, E, A>, f: (a: A) => RIO.ReaderIO<R2, B>): ReaderTaskEither<R1 & R2, E, B>
 }
 ```
 

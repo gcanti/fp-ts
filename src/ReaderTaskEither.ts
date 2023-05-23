@@ -1364,24 +1364,6 @@ export const fromReaderIOK =
     rightReaderIO(f(...a))
 
 /**
- * Less strict version of [`chainReaderIOK`](#chainreaderiok).
- *
- * @category sequencing
- * @since 2.13.0
- */
-export const chainReaderIOKW: <A, R2, B>(
-  f: (a: A) => ReaderIO<R2, B>
-) => <R1, E>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, B> = (f) => flatMap(fromReaderIOK(f))
-
-/**
- * @category sequencing
- * @since 2.13.0
- */
-export const chainReaderIOK: <A, R, B>(
-  f: (a: A) => ReaderIO<R, B>
-) => <E>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = chainReaderIOKW
-
-/**
  * Alias of `tapReaderIO`.
  *
  * Less strict version of [`chainFirstReaderIOK`](#chainfirstreaderiok).
@@ -1591,6 +1573,19 @@ export const flatMapReader: {
   <A, R2, B>(f: (a: A) => Reader<R2, B>): <R1, E>(self: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, B>
   <R1, E, A, R2, B>(self: ReaderTaskEither<R1, E, A>, f: (a: A) => Reader<R2, B>): ReaderTaskEither<R1 & R2, E, B>
 } = /*#__PURE__*/ _.flatMapReader(_FromReader, _FlatMap)
+
+/**
+ * @category sequencing
+ * @since 2.16.0
+ */
+export const flatMapReaderIO: {
+  <A, R2, B>(f: (a: A) => ReaderIO<R2, B>): <R1, E>(self: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, B>
+  <R1, E, A, R2, B>(self: ReaderTaskEither<R1, E, A>, f: (a: A) => ReaderIO<R2, B>): ReaderTaskEither<R1 & R2, E, B>
+} = /*#__PURE__*/ dual(
+  2,
+  <R1, E, A, R2, B>(self: ReaderTaskEither<R1, E, A>, f: (a: A) => ReaderIO<R2, B>): ReaderTaskEither<R1 & R2, E, B> =>
+    flatMap(self, fromReaderIOK(f))
+)
 
 /**
  * Alias of `flatMapEither`.
@@ -1818,6 +1813,28 @@ export const chainReaderK: <A, R, B>(
 export const chainReaderKW: <A, R1, B>(
   f: (a: A) => R.Reader<R1, B>
 ) => <R2, E>(ma: ReaderTaskEither<R2, E, A>) => ReaderTaskEither<R1 & R2, E, B> = flatMapReader
+
+/**
+ * Alias of `flatMapReaderIO`.
+ *
+ * Less strict version of [`chainReaderIOK`](#chainreaderiok).
+ *
+ * @category legacy
+ * @since 2.13.0
+ */
+export const chainReaderIOKW: <A, R2, B>(
+  f: (a: A) => ReaderIO<R2, B>
+) => <R1, E>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, B> = flatMapReaderIO
+
+/**
+ * Alias of `flatMapReaderIO`.
+ *
+ * @category legacy
+ * @since 2.13.0
+ */
+export const chainReaderIOK: <A, R, B>(
+  f: (a: A) => ReaderIO<R, B>
+) => <E>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = flatMapReaderIO
 
 // -------------------------------------------------------------------------------------
 // utils
