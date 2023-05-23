@@ -827,4 +827,8 @@ describe.concurrent('ReaderTaskEither', () => {
   it('flatMapIOEither', async () => {
     U.deepStrictEqual(await _.flatMapIOEither(_.of(1), () => IE.of(2))(undefined)(), E.of(2))
   })
+
+  it('flatMapReaderEither', async () => {
+    U.deepStrictEqual(await _.flatMapReaderEither(_.of(1), () => RE.of(2))(undefined)(), E.of(2))
+  })
 })
