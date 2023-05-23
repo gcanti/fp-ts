@@ -854,6 +854,16 @@ describe.concurrent('TaskEither', () => {
     U.deepStrictEqual(await pipe(_.left('b'), f)(), E.left('b'))
   })
 
+  it('flatMapTaskOption', async () => {
+    const f = _.flatMapTaskOption(
+      (n: number) => (n > 0 ? TO.some(n * 2) : TO.none),
+      () => 'a'
+    )
+    U.deepStrictEqual(await pipe(_.right(1), f)(), E.right(2))
+    U.deepStrictEqual(await pipe(_.right(-1), f)(), E.left('a'))
+    U.deepStrictEqual(await pipe(_.left('b'), f)(), E.left('b'))
+  })
+
   it('tapIO', async () => {
     const ref: Array<number> = []
     const add = (value: number) => () => ref.push(value)

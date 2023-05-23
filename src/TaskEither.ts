@@ -398,9 +398,11 @@ export const fromTaskOptionK = <E>(
 }
 
 /**
+ * Use `flatMapTaskOption`.
+ *
  * The `W` suffix (short for **W**idening) means that the error types will be merged.
  *
- * @category sequencing
+ * @category legacy
  * @since 2.12.3
  */
 export const chainTaskOptionKW =
@@ -410,7 +412,9 @@ export const chainTaskOptionKW =
     flatMap(ma, fromTaskOptionK<E1 | E2>(onNone)(f))
 
 /**
- * @category sequencing
+ * Use `flatMapTaskOption`.
+ *
+ * @category legacy
  * @since 2.11.0
  */
 export const chainTaskOptionK: <E>(
@@ -1252,6 +1256,19 @@ export const flatMapIOEither: {
   2,
   <E1, A, E2, B>(self: TaskEither<E1, A>, f: (a: A) => IOEither<E2, B>): TaskEither<E1 | E2, B> =>
     flatMap(self, fromIOEitherK(f))
+)
+
+/**
+ * @category sequencing
+ * @since 2.16.0
+ */
+export const flatMapTaskOption: {
+  <A, E2, B>(f: (a: A) => TaskOption<B>, onNone: (a: A) => E2): <E1>(self: TaskEither<E1, A>) => TaskEither<E1 | E2, B>
+  <E1, A, E2, B>(self: TaskEither<E1, A>, f: (a: A) => TaskOption<B>, onNone: (a: A) => E2): TaskEither<E1 | E2, B>
+} = /*#__PURE__*/ dual(
+  3,
+  <E1, A, E2, B>(self: TaskEither<E1, A>, f: (a: A) => TaskOption<B>, onNone: (a: A) => E2): TaskEither<E1 | E2, B> =>
+    flatMap(self, (a) => fromTaskOption(() => onNone(a))(f(a)))
 )
 
 /**
