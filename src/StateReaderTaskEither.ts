@@ -537,6 +537,21 @@ export const flatMapEither: {
 } = /*#__PURE__*/ dual(2, _.flatMapEither(_FromEither, _FlatMap))
 
 /**
+ * @category sequencing
+ * @since 2.16.0
+ */
+export const flatMapOption: {
+  <A, E2, B>(f: (a: A) => Option<B>, onNone: (a: A) => E2): <S, R, E1>(
+    self: StateReaderTaskEither<S, R, E1, A>
+  ) => StateReaderTaskEither<S, R, E1 | E2, B>
+  <S, R, E1, A, E2, B>(
+    self: StateReaderTaskEither<S, R, E1, A>,
+    f: (a: A) => Option<B>,
+    onNone: (a: A) => E2
+  ): StateReaderTaskEither<S, R, E1 | E2, B>
+} = /*#__PURE__*/ _.flatMapOption(_FromEither, _FlatMap)
+
+/**
  * Less strict version of [`flatten`](#flatten).
  *
  * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
@@ -1063,7 +1078,9 @@ export const fromOptionK: <E>(
 ) => <S, R = unknown>(...a: A) => StateReaderTaskEither<S, R, E, B> = /*#__PURE__*/ fromOptionK_(FromEither)
 
 /**
- * @category sequencing
+ * Use `flatMapOption`.
+ *
+ * @category legacy
  * @since 2.10.0
  */
 export const chainOptionK: <E>(
@@ -1076,11 +1093,13 @@ export const chainOptionK: <E>(
 )
 
 /**
+ * Use `flatMapOption`.
+ *
  * Less strict version of [`chainOptionK`](#chainoptionk).
  *
  * The `W` suffix (short for **W**idening) means that the error types will be merged.
  *
- * @category sequencing
+ * @category legacy
  * @since 2.13.2
  */
 export const chainOptionKW: <E2>(
