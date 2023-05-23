@@ -464,27 +464,6 @@ export const fromReaderEitherK = <R, E, A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => ReaderEither<R, E, B>
 ): ((...a: A) => ReaderTaskEither<R, E, B>) => flow(f, fromReaderEither)
 
-/**
- * Less strict version of [`chainReaderEitherK`](#chainreadereitherk).
- *
- * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
- *
- * @category sequencing
- * @since 2.11.0
- */
-export const chainReaderEitherKW: <R2, E2, A, B>(
-  f: (a: A) => ReaderEither<R2, E2, B>
-) => <R1, E1>(ma: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E1 | E2, B> = (f) =>
-  flatMap(fromReaderEitherK(f))
-
-/**
- * @category sequencing
- * @since 2.11.0
- */
-export const chainReaderEitherK: <R, E, A, B>(
-  f: (a: A) => ReaderEither<R, E, B>
-) => (ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = chainReaderEitherKW
-
 const _map: Functor3<URI>['map'] = (fa, f) => pipe(fa, map(f))
 const _apPar: Apply3<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
 const _apSeq: Apply3<URI>['ap'] = (fab, fa) => flatMap(fab, (f) => pipe(fa, map(f)))
@@ -1581,6 +1560,27 @@ export const flatMapIOEither: {
 )
 
 /**
+ * @category sequencing
+ * @since 2.16.0
+ */
+export const flatMapReaderEither: {
+  <A, R2, E2, B>(f: (a: A) => ReaderEither<R2, E2, B>): <R1, E1>(
+    self: ReaderTaskEither<R1, E1, A>
+  ) => ReaderTaskEither<R1 & R2, E1 | E2, B>
+  <R1, E1, A, R2, E2, B>(self: ReaderTaskEither<R1, E1, A>, f: (a: A) => ReaderEither<R2, E2, B>): ReaderTaskEither<
+    R1 & R2,
+    E1 | E2,
+    B
+  >
+} = /*#__PURE__*/ dual(
+  2,
+  <R1, E1, A, R2, E2, B>(
+    self: ReaderTaskEither<R1, E1, A>,
+    f: (a: A) => ReaderEither<R2, E2, B>
+  ): ReaderTaskEither<R1 & R2, E1 | E2, B> => flatMap(self, fromReaderEitherK(f))
+)
+
+/**
  * Alias of `flatMapEither`.
  *
  * @category legacy
@@ -1852,6 +1852,30 @@ export const chainIOEitherKW: <E2, A, B>(
 export const chainIOEitherK: <E, A, B>(
   f: (a: A) => IOEither<E, B>
 ) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = flatMapIOEither
+
+/**
+ * Alias of `flatMapReaderEither`.
+ *
+ * Less strict version of [`chainReaderEitherK`](#chainreadereitherk).
+ *
+ * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
+ *
+ * @category legacy
+ * @since 2.11.0
+ */
+export const chainReaderEitherKW: <R2, E2, A, B>(
+  f: (a: A) => ReaderEither<R2, E2, B>
+) => <R1, E1>(ma: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E1 | E2, B> = flatMapReaderEither
+
+/**
+ * Alias of `flatMapReaderEither`.
+ *
+ * @category legacy
+ * @since 2.11.0
+ */
+export const chainReaderEitherK: <R, E, A, B>(
+  f: (a: A) => ReaderEither<R, E, B>
+) => (ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = flatMapReaderEither
 
 // -------------------------------------------------------------------------------------
 // utils
