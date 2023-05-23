@@ -294,7 +294,7 @@ describe.concurrent('IOOption', () => {
   })
 
   it('flatMapNullable', () => {
-    const f = _.chainNullableK((n: number) => (n > 0 ? n : n === 0 ? null : undefined))
+    const f = _.flatMapNullable((n: number) => (n > 0 ? n : n === 0 ? null : undefined))
     U.deepStrictEqual(f(_.of(1))(), O.some(1))
     U.deepStrictEqual(f(_.of(0))(), O.none)
     U.deepStrictEqual(f(_.of(-1))(), O.none)
