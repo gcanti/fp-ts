@@ -188,7 +188,9 @@ export const fromNullableK: <A extends ReadonlyArray<unknown>, B>(
 ) => (...a: A) => IOOption<NonNullable<B>> = /*#__PURE__*/ OT.fromNullableK(I.Pointed)
 
 /**
- * @category sequencing
+ * Alias of `flatMapNullable`.
+ *
+ * @category legacy
  * @since 2.12.0
  */
 export const chainNullableK: <A, B>(
