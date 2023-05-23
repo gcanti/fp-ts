@@ -896,4 +896,14 @@ describe.concurrent('TaskEither', () => {
     const f = (s: string) => T.of(s.length)
     U.deepStrictEqual(await pipe(_.of('a'), _.flatMapTask(f))(), E.of(1))
   })
+
+  it('flatMapIOEither', async () => {
+    U.deepStrictEqual(
+      await pipe(
+        _.of(1),
+        _.flatMapIOEither(() => IE.of(2))
+      )(),
+      E.of(2)
+    )
+  })
 })
