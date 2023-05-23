@@ -20,12 +20,7 @@ import {
   partition as partition_,
   partitionMap as partitionMap_
 } from './Filterable'
-import {
-  chainEitherK as chainEitherK_,
-  FromEither1,
-  fromEitherK as fromEitherK_,
-  tapEither as tapEither_
-} from './FromEither'
+import { FromEither1, fromEitherK as fromEitherK_, tapEither as tapEither_ } from './FromEither'
 import { FromIO1, fromIOK as fromIOK_, tapIO as tapIO_ } from './FromIO'
 import { dual, flow, identity, LazyArg, pipe, SK } from './function'
 import { as as as_, asUnit as asUnit_, bindTo as bindTo_, flap as flap_, Functor1, let as let__ } from './Functor'
@@ -653,6 +648,11 @@ const _FromIO: _.FromIO<IOOptionTypeLambda> = {
   fromIO: FromIO.fromIO
 }
 
+/** @internal */
+const _FromEither: _.FromEither<IOOptionTypeLambda> = {
+  fromEither
+}
+
 /**
  * @category sequencing
  * @since 2.16.0
@@ -661,6 +661,39 @@ export const flatMapIO: {
   <A, B>(f: (a: A) => IO<B>): (self: IOOption<A>) => IOOption<B>
   <A, B>(self: IOOption<A>, f: (a: A) => IO<B>): IOOption<B>
 } = _.flatMapIO(_FromIO, _FlatMap)
+
+/**
+ * @category sequencing
+ * @since 2.16.0
+ */
+export const flatMapOption: {
+  <A, B>(f: (a: A) => Option<B>): (self: IOOption<A>) => IOOption<B>
+  <A, B>(self: IOOption<A>, f: (a: A) => Option<B>): IOOption<B>
+} = /*#__PURE__*/ dual(
+  2,
+  <A, B>(self: IOOption<A>, f: (a: A) => Option<B>): IOOption<B> => flatMap(self, fromOptionK(f))
+)
+
+/**
+ * @category sequencing
+ * @since 2.16.0
+ */
+export const flatMapEither: {
+  <A, B, _>(f: (a: A) => Either<_, B>): (self: IOOption<A>) => IOOption<B>
+  <A, B, _>(self: IOOption<A>, f: (a: A) => Either<_, B>): IOOption<B>
+} = /*#__PURE__*/ _.flatMapEither(_FromEither, _FlatMap)
+
+/**
+ * @category sequencing
+ * @since 2.16.0
+ */
+export const flatMapNullable: {
+  <A, B>(f: (a: A) => B | null | undefined): (self: IOOption<A>) => IOOption<B>
+  <A, B>(self: IOOption<A>, f: (a: A) => B | null | undefined): IOOption<B>
+} = /*#__PURE__*/ dual(
+  2,
+  <A, B>(self: IOOption<A>, f: (a: A) => B | null | undefined): IOOption<B> => flatMap(self, fromNullableK(f))
+)
 
 /**
  * @category lifting
@@ -694,11 +727,12 @@ export const fromEitherK: <E, A extends ReadonlyArray<unknown>, B>(
 ) => (...a: A) => IOOption<B> = /*#__PURE__*/ fromEitherK_(FromEither)
 
 /**
- * @category sequencing
+ * Alias of `flatMapEither`.
+ *
+ * @category legacy
  * @since 2.12.0
  */
-export const chainEitherK: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: IOOption<A>) => IOOption<B> =
-  /*#__PURE__*/ chainEitherK_(FromEither, Chain)
+export const chainEitherK: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: IOOption<A>) => IOOption<B> = flatMapEither
 
 /**
  * Alias of `tapEither`.

@@ -285,4 +285,27 @@ describe.concurrent('IOOption', () => {
       O.of(2)
     )
   })
+
+  it('flatMapOption', () => {
+    const f = _.flatMapOption((n: number) => (n > 0 ? O.some(n) : O.none))
+    U.deepStrictEqual(f(_.some(1))(), O.some(1))
+    U.deepStrictEqual(f(_.some(-1))(), O.none)
+    U.deepStrictEqual(f(_.none)(), O.none)
+  })
+
+  it('flatMapNullable', () => {
+    const f = _.chainNullableK((n: number) => (n > 0 ? n : n === 0 ? null : undefined))
+    U.deepStrictEqual(f(_.of(1))(), O.some(1))
+    U.deepStrictEqual(f(_.of(0))(), O.none)
+    U.deepStrictEqual(f(_.of(-1))(), O.none)
+  })
+
+  it('flatMapEither', () => {
+    const f = (s: string) => (s.length <= 2 ? E.right(s + '!') : E.left(s.length))
+    const g = _.flatMapEither(f)
+    U.deepStrictEqual(g(_.of(''))(), O.some('!'))
+    U.deepStrictEqual(g(_.of('a'))(), O.some('a!'))
+    U.deepStrictEqual(g(_.of('aa'))(), O.some('aa!'))
+    U.deepStrictEqual(g(_.of('aaa'))(), O.none)
+  })
 })

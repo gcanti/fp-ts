@@ -9,7 +9,6 @@ import * as chainable from './Chain'
 import * as E from './Either'
 import { Endomorphism } from './Endomorphism'
 import {
-  chainEitherK as chainEitherK_,
   chainOptionK as chainOptionK_,
   filterOrElse as filterOrElse_,
   FromEither4,
@@ -419,6 +418,11 @@ const _FromReader: _.FromReader<StateReaderTaskEitherTypeLambda> = {
   fromReader
 }
 
+/** @internal */
+const _FromEither: _.FromEither<StateReaderTaskEitherTypeLambda> = {
+  fromEither
+}
+
 /**
  * @category sequencing
  * @since 2.14.0
@@ -515,6 +519,22 @@ export const flatMapIOEither: {
     f: (a: A) => IOEither<E2, B>
   ): StateReaderTaskEither<S, R, E1 | E2, B> => flatMap(self, (a: A) => fromIOEitherK(f)<S, R>(a))
 )
+
+/**
+ * @category sequencing
+ * @since 2.16.0
+ */
+export const flatMapEither: {
+  <A, E2, B>(f: (a: A) => Either<E2, B>): <S, R, E1>(
+    self: StateReaderTaskEither<S, R, E1, A>
+  ) => StateReaderTaskEither<S, R, E1 | E2, B>
+  <S, R, E1, A, E2, B>(self: StateReaderTaskEither<S, R, E1, A>, f: (a: A) => Either<E2, B>): StateReaderTaskEither<
+    S,
+    R,
+    E1 | E2,
+    B
+  >
+} = /*#__PURE__*/ dual(2, _.flatMapEither(_FromEither, _FlatMap))
 
 /**
  * Less strict version of [`flatten`](#flatten).
@@ -1071,29 +1091,30 @@ export const chainOptionKW: <E2>(
   /*#__PURE__*/ chainOptionK as any
 
 /**
- * @category sequencing
+ * Alias of `flatMapEither`.
+ *
+ * @category legacy
  * @since 2.4.0
  */
 export const chainEitherK: <E, A, B>(
   f: (a: A) => E.Either<E, B>
-) => <S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> = /*#__PURE__*/ chainEitherK_(
-  FromEither,
-  Chain
-)
+) => <S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> = flatMapEither
 
 /**
+ * Alias of `flatMapEither`.
+ *
  * Less strict version of [`chainEitherK`](#chaineitherk).
  *
  * The `W` suffix (short for **W**idening) means that the error types will be merged.
  *
  * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
  *
- * @category sequencing
+ * @category legacy
  * @since 2.6.1
  */
 export const chainEitherKW: <E2, A, B>(
   f: (a: A) => Either<E2, B>
-) => <S, R, E1>(ma: StateReaderTaskEither<S, R, E1, A>) => StateReaderTaskEither<S, R, E1 | E2, B> = chainEitherK as any
+) => <S, R, E1>(ma: StateReaderTaskEither<S, R, E1, A>) => StateReaderTaskEither<S, R, E1 | E2, B> = flatMapEither
 
 /**
  * Alias of `tapEither`.
@@ -1260,7 +1281,7 @@ export const fromTaskK: <A extends ReadonlyArray<unknown>, B>(
 /**
  * Alias of `flatMapTask`.
  *
- * @category sequencing
+ * @category legacy
  * @since 2.10.0
  */
 export const chainTaskK: <A, B>(
