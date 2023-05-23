@@ -290,9 +290,11 @@ export const fromReaderTaskEitherK =
     fromReaderTaskEither(f(...a))
 
 /**
+ * Alias of `flatMapReaderTaskEither`.
+ *
  * Less strict version of [`chainReaderTaskEitherK`](#chainreadertaskeitherk).
  *
- * @category sequencing
+ * @category legacy
  * @since 2.6.1
  */
 export const chainReaderTaskEitherKW =
@@ -301,7 +303,9 @@ export const chainReaderTaskEitherKW =
     flatMap<S, R, E1, A, R, E1 | E2, B>(ma, fromReaderTaskEitherK(f))
 
 /**
- * @category sequencing
+ * Alias of `flatMapReaderTaskEither`.
+ *
+ * @category legacy
  * @since 2.4.0
  */
 export const chainReaderTaskEitherK: <R, E, A, B>(
@@ -550,6 +554,26 @@ export const flatMapOption: {
     onNone: (a: A) => E2
   ): StateReaderTaskEither<S, R, E1 | E2, B>
 } = /*#__PURE__*/ _.flatMapOption(_FromEither, _FlatMap)
+
+/**
+ * @category sequencing
+ * @since 2.16.0
+ */
+export const flatMapReaderTaskEither: {
+  <A, R2, E2, B>(f: (a: A) => ReaderTaskEither<R2, E2, B>): <S, R1, E1>(
+    self: StateReaderTaskEither<S, R1, E1, A>
+  ) => StateReaderTaskEither<S, R1 & R2, E1 | E2, B>
+  <S, R1, E1, A, R2, E2, B>(
+    self: StateReaderTaskEither<S, R1, E1, A>,
+    f: (a: A) => ReaderTaskEither<R2, E2, B>
+  ): StateReaderTaskEither<S, R1 & R2, E1 | E2, B>
+} = /*#__PURE__*/ dual(
+  2,
+  <S, R1, E1, A, R2, E2, B>(
+    self: StateReaderTaskEither<S, R1, E1, A>,
+    f: (a: A) => ReaderTaskEither<R2, E2, B>
+  ): StateReaderTaskEither<S, R1 & R2, E1 | E2, B> => flatMap(self, (a: A) => fromReaderTaskEitherK(f)<S>(a))
+)
 
 /**
  * Less strict version of [`flatten`](#flatten).

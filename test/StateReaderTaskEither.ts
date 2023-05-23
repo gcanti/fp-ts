@@ -628,4 +628,14 @@ describe.concurrent('StateReaderTaskEither', () => {
       E.left('error')
     )
   })
+
+  it('flatMapReaderTaskEither', async () => {
+    U.deepStrictEqual(
+      await pipe(
+        _.flatMapReaderTaskEither(_.of(1), () => RTE.of(2)),
+        _.evaluate(state)
+      )(undefined)(),
+      E.of(2)
+    )
+  })
 })
