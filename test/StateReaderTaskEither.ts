@@ -11,7 +11,7 @@ import * as RE from '../src/ReaderEither'
 import * as RTE from '../src/ReaderTaskEither'
 import * as RA from '../src/ReadonlyArray'
 import { ReadonlyNonEmptyArray } from '../src/ReadonlyNonEmptyArray'
-import { State } from '../src/State'
+import { of as stateOf, State } from '../src/State'
 import * as _ from '../src/StateReaderTaskEither'
 import * as S from '../src/string'
 import * as T from '../src/Task'
@@ -633,6 +633,16 @@ describe.concurrent('StateReaderTaskEither', () => {
     U.deepStrictEqual(
       await pipe(
         _.flatMapReaderTaskEither(_.of(1), () => RTE.of(2)),
+        _.evaluate(state)
+      )(undefined)(),
+      E.of(2)
+    )
+  })
+
+  it('flatMapState', async () => {
+    U.deepStrictEqual(
+      await pipe(
+        _.flatMapState(_.of(1), () => stateOf(2)),
         _.evaluate(state)
       )(undefined)(),
       E.of(2)

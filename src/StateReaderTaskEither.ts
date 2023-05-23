@@ -576,6 +576,23 @@ export const flatMapReaderTaskEither: {
 )
 
 /**
+ * @category sequencing
+ * @since 2.16.0
+ */
+export const flatMapState: {
+  <S, A, B>(f: (a: A) => State<S, B>): <R, E>(
+    self: StateReaderTaskEither<S, R, E, A>
+  ) => StateReaderTaskEither<S, R, E, B>
+  <S, R, E, A, B>(self: StateReaderTaskEither<S, R, E, A>, f: (a: A) => State<S, B>): StateReaderTaskEither<S, R, E, B>
+} = /*#__PURE__*/ dual(
+  2,
+  <S, R, E, A, B>(
+    self: StateReaderTaskEither<S, R, E, A>,
+    f: (a: A) => State<S, B>
+  ): StateReaderTaskEither<S, R, E, B> => flatMap(self, fromStateK(f))
+)
+
+/**
  * Less strict version of [`flatten`](#flatten).
  *
  * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
@@ -812,7 +829,9 @@ export const fromStateK: <A extends ReadonlyArray<unknown>, S, B>(
 ) => <R = unknown, E = never>(...a: A) => StateReaderTaskEither<S, R, E, B> = /*#__PURE__*/ fromStateK_(FromState)
 
 /**
- * @category sequencing
+ * Alias of `flatMapState`.
+ *
+ * @category legacy
  * @since 2.11.0
  */
 export const chainStateK: <A, S, B>(
