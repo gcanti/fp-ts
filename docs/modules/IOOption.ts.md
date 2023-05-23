@@ -69,10 +69,13 @@ Added in v2.12.0
   - [Zero](#zero)
 - [legacy](#legacy)
   - [chain](#chain)
+  - [chainEitherK](#chaineitherk)
   - [chainFirst](#chainfirst)
   - [chainFirstEitherK](#chainfirsteitherk)
   - [chainFirstIOK](#chainfirstiok)
   - [chainIOK](#chainiok)
+  - [chainNullableK](#chainnullablek)
+  - [chainOptionK](#chainoptionk)
 - [lifting](#lifting)
   - [fromEitherK](#fromeitherk)
   - [fromIOK](#fromiok)
@@ -93,11 +96,11 @@ Added in v2.12.0
   - [matchEW](#matchew)
   - [matchW](#matchw)
 - [sequencing](#sequencing)
-  - [chainEitherK](#chaineitherk)
-  - [chainNullableK](#chainnullablek)
-  - [chainOptionK](#chainoptionk)
   - [flatMap](#flatmap)
+  - [flatMapEither](#flatmapeither)
   - [flatMapIO](#flatmapio)
+  - [flatMapNullable](#flatmapnullable)
+  - [flatMapOption](#flatmapoption)
   - [flatten](#flatten)
 - [traversing](#traversing)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
@@ -663,6 +666,18 @@ export declare const chain: <A, B>(f: (a: A) => IOOption<B>) => (ma: IOOption<A>
 
 Added in v2.12.0
 
+## chainEitherK
+
+Alias of `flatMapEither`.
+
+**Signature**
+
+```ts
+export declare const chainEitherK: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: IOOption<A>) => IOOption<B>
+```
+
+Added in v2.12.0
+
 ## chainFirst
 
 Alias of `tap`.
@@ -707,6 +722,32 @@ Alias of `flatMapIO`.
 
 ```ts
 export declare const chainIOK: <A, B>(f: (a: A) => I.IO<B>) => (first: IOOption<A>) => IOOption<B>
+```
+
+Added in v2.12.0
+
+## chainNullableK
+
+Alias of `flatMapNullable`.
+
+**Signature**
+
+```ts
+export declare const chainNullableK: <A, B>(
+  f: (a: A) => B | null | undefined
+) => (ma: IOOption<A>) => IOOption<NonNullable<B>>
+```
+
+Added in v2.12.0
+
+## chainOptionK
+
+Alias of `flatMapOption`.
+
+**Signature**
+
+```ts
+export declare const chainOptionK: <A, B>(f: (a: A) => O.Option<B>) => (ma: IOOption<A>) => IOOption<B>
 ```
 
 Added in v2.12.0
@@ -906,38 +947,6 @@ Added in v2.12.0
 
 # sequencing
 
-## chainEitherK
-
-**Signature**
-
-```ts
-export declare const chainEitherK: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: IOOption<A>) => IOOption<B>
-```
-
-Added in v2.12.0
-
-## chainNullableK
-
-**Signature**
-
-```ts
-export declare const chainNullableK: <A, B>(
-  f: (a: A) => B | null | undefined
-) => (ma: IOOption<A>) => IOOption<NonNullable<B>>
-```
-
-Added in v2.12.0
-
-## chainOptionK
-
-**Signature**
-
-```ts
-export declare const chainOptionK: <A, B>(f: (a: A) => O.Option<B>) => (ma: IOOption<A>) => IOOption<B>
-```
-
-Added in v2.12.0
-
 ## flatMap
 
 **Signature**
@@ -951,6 +960,19 @@ export declare const flatMap: {
 
 Added in v2.14.0
 
+## flatMapEither
+
+**Signature**
+
+```ts
+export declare const flatMapEither: {
+  <A, B, _>(f: (a: A) => Either<_, B>): (self: IOOption<A>) => IOOption<B>
+  <A, B, _>(self: IOOption<A>, f: (a: A) => Either<_, B>): IOOption<B>
+}
+```
+
+Added in v2.16.0
+
 ## flatMapIO
 
 **Signature**
@@ -959,6 +981,32 @@ Added in v2.14.0
 export declare const flatMapIO: {
   <A, B>(f: (a: A) => I.IO<B>): (self: IOOption<A>) => IOOption<B>
   <A, B>(self: IOOption<A>, f: (a: A) => I.IO<B>): IOOption<B>
+}
+```
+
+Added in v2.16.0
+
+## flatMapNullable
+
+**Signature**
+
+```ts
+export declare const flatMapNullable: {
+  <A, B>(f: (a: A) => B | null | undefined): (self: IOOption<A>) => IOOption<B>
+  <A, B>(self: IOOption<A>, f: (a: A) => B | null | undefined): IOOption<B>
+}
+```
+
+Added in v2.16.0
+
+## flatMapOption
+
+**Signature**
+
+```ts
+export declare const flatMapOption: {
+  <A, B>(f: (a: A) => O.Option<B>): (self: IOOption<A>) => IOOption<B>
+  <A, B>(self: IOOption<A>, f: (a: A) => O.Option<B>): IOOption<B>
 }
 ```
 

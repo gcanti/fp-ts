@@ -101,11 +101,15 @@ Added in v2.0.0
   - [chainFirstIOK](#chainfirstiok)
   - [chainFirstTaskK](#chainfirsttaskk)
   - [chainFirstW](#chainfirstw)
+  - [chainIOEitherK](#chainioeitherk)
+  - [chainIOEitherKW](#chainioeitherkw)
   - [chainIOK](#chainiok)
   - [chainNullableK](#chainnullablek)
   - [chainOptionK](#chainoptionk)
   - [chainOptionKW](#chainoptionkw)
   - [chainTaskK](#chaintaskk)
+  - [chainTaskOptionK](#chaintaskoptionk)
+  - [chainTaskOptionKW](#chaintaskoptionkw)
   - [chainW](#chainw)
   - [fromNullableK](#fromnullablek)
   - [fromOptionK](#fromoptionk)
@@ -136,16 +140,14 @@ Added in v2.0.0
   - [matchEW](#matchew)
   - [matchW](#matchw)
 - [sequencing](#sequencing)
-  - [chainIOEitherK](#chainioeitherk)
-  - [chainIOEitherKW](#chainioeitherkw)
-  - [chainTaskOptionK](#chaintaskoptionk)
-  - [chainTaskOptionKW](#chaintaskoptionkw)
   - [flatMap](#flatmap)
   - [flatMapEither](#flatmapeither)
   - [flatMapIO](#flatmapio)
+  - [flatMapIOEither](#flatmapioeither)
   - [flatMapNullable](#flatmapnullable)
   - [flatMapOption](#flatmapoption)
   - [flatMapTask](#flatmaptask)
+  - [flatMapTaskOption](#flatmaptaskoption)
   - [flatten](#flatten)
   - [flattenW](#flattenw)
 - [traversing](#traversing)
@@ -1343,6 +1345,38 @@ export declare const chainFirstW: <E2, A, B>(
 
 Added in v2.8.0
 
+## chainIOEitherK
+
+Alias of `flatMapIOEither`.
+
+**Signature**
+
+```ts
+export declare const chainIOEitherK: <E, A, B>(
+  f: (a: A) => IOEither<E, B>
+) => (ma: TaskEither<E, A>) => TaskEither<E, B>
+```
+
+Added in v2.4.0
+
+## chainIOEitherKW
+
+Alias of `flatMapIOEither`.
+
+Less strict version of [`chainIOEitherK`](#chainioeitherk).
+
+The `W` suffix (short for **W**idening) means that the error types will be merged.
+
+**Signature**
+
+```ts
+export declare const chainIOEitherKW: <E2, A, B>(
+  f: (a: A) => IOEither<E2, B>
+) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
+```
+
+Added in v2.6.1
+
 ## chainIOK
 
 Alias of `flatMapIO`.
@@ -1408,6 +1442,36 @@ export declare const chainTaskK: <A, B>(f: (a: A) => T.Task<B>) => <E>(first: Ta
 ```
 
 Added in v2.10.0
+
+## chainTaskOptionK
+
+Use `flatMapTaskOption`.
+
+**Signature**
+
+```ts
+export declare const chainTaskOptionK: <E>(
+  onNone: LazyArg<E>
+) => <A, B>(f: (a: A) => TaskOption<B>) => (ma: TaskEither<E, A>) => TaskEither<E, B>
+```
+
+Added in v2.11.0
+
+## chainTaskOptionKW
+
+Use `flatMapTaskOption`.
+
+The `W` suffix (short for **W**idening) means that the error types will be merged.
+
+**Signature**
+
+```ts
+export declare const chainTaskOptionKW: <E2>(
+  onNone: LazyArg<E2>
+) => <A, B>(f: (a: A) => TaskOption<B>) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
+```
+
+Added in v2.12.3
 
 ## chainW
 
@@ -1752,60 +1816,6 @@ Added in v2.10.0
 
 # sequencing
 
-## chainIOEitherK
-
-**Signature**
-
-```ts
-export declare const chainIOEitherK: <E, A, B>(
-  f: (a: A) => IOEither<E, B>
-) => (ma: TaskEither<E, A>) => TaskEither<E, B>
-```
-
-Added in v2.4.0
-
-## chainIOEitherKW
-
-Less strict version of [`chainIOEitherK`](#chainioeitherk).
-
-The `W` suffix (short for **W**idening) means that the error types will be merged.
-
-**Signature**
-
-```ts
-export declare const chainIOEitherKW: <E2, A, B>(
-  f: (a: A) => IOEither<E2, B>
-) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
-```
-
-Added in v2.6.1
-
-## chainTaskOptionK
-
-**Signature**
-
-```ts
-export declare const chainTaskOptionK: <E>(
-  onNone: LazyArg<E>
-) => <A, B>(f: (a: A) => TaskOption<B>) => (ma: TaskEither<E, A>) => TaskEither<E, B>
-```
-
-Added in v2.11.0
-
-## chainTaskOptionKW
-
-The `W` suffix (short for **W**idening) means that the error types will be merged.
-
-**Signature**
-
-```ts
-export declare const chainTaskOptionKW: <E2>(
-  onNone: LazyArg<E2>
-) => <A, B>(f: (a: A) => TaskOption<B>) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
-```
-
-Added in v2.12.3
-
 ## flatMap
 
 **Signature**
@@ -1844,6 +1854,19 @@ export declare const flatMapIO: {
 ```
 
 Added in v2.15.0
+
+## flatMapIOEither
+
+**Signature**
+
+```ts
+export declare const flatMapIOEither: {
+  <A, E2, B>(f: (a: A) => IOEither<E2, B>): <E1>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
+  <E1, A, E2, B>(self: TaskEither<E1, A>, f: (a: A) => IOEither<E2, B>): TaskEither<E1 | E2, B>
+}
+```
+
+Added in v2.16.0
 
 ## flatMapNullable
 
@@ -1884,6 +1907,19 @@ Added in v2.15.0
 export declare const flatMapTask: {
   <A, B>(f: (a: A) => T.Task<B>): <E>(self: TaskEither<E, A>) => TaskEither<E, B>
   <E, A, B>(self: TaskEither<E, A>, f: (a: A) => T.Task<B>): TaskEither<E, B>
+}
+```
+
+Added in v2.16.0
+
+## flatMapTaskOption
+
+**Signature**
+
+```ts
+export declare const flatMapTaskOption: {
+  <A, E2, B>(f: (a: A) => TaskOption<B>, onNone: (a: A) => E2): <E1>(self: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
+  <E1, A, E2, B>(self: TaskEither<E1, A>, f: (a: A) => TaskOption<B>, onNone: (a: A) => E2): TaskEither<E1 | E2, B>
 }
 ```
 

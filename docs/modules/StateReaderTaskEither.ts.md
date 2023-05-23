@@ -77,6 +77,8 @@ Added in v2.0.0
   - [Pointed](#pointed)
 - [legacy](#legacy)
   - [chain](#chain)
+  - [chainEitherK](#chaineitherk)
+  - [chainEitherKW](#chaineitherkw)
   - [chainFirst](#chainfirst)
   - [chainFirstEitherK](#chainfirsteitherk)
   - [chainFirstEitherKW](#chainfirsteitherkw)
@@ -85,11 +87,19 @@ Added in v2.0.0
   - [chainFirstReaderKW](#chainfirstreaderkw)
   - [chainFirstTaskK](#chainfirsttaskk)
   - [chainFirstW](#chainfirstw)
+  - [chainIOEitherK](#chainioeitherk)
+  - [chainIOEitherKW](#chainioeitherkw)
   - [chainIOK](#chainiok)
+  - [chainOptionK](#chainoptionk)
+  - [chainOptionKW](#chainoptionkw)
   - [chainReaderK](#chainreaderk)
   - [chainReaderKW](#chainreaderkw)
+  - [chainReaderTaskEitherK](#chainreadertaskeitherk)
+  - [chainReaderTaskEitherKW](#chainreadertaskeitherkw)
+  - [chainStateK](#chainstatek)
   - [chainTaskEitherK](#chaintaskeitherk)
   - [chainTaskEitherKW](#chaintaskeitherkw)
+  - [chainTaskK](#chaintaskk)
   - [chainW](#chainw)
 - [lifting](#lifting)
   - [fromEitherK](#fromeitherk)
@@ -111,19 +121,14 @@ Added in v2.0.0
 - [model](#model)
   - [StateReaderTaskEither (interface)](#statereadertaskeither-interface)
 - [sequencing](#sequencing)
-  - [chainEitherK](#chaineitherk)
-  - [chainEitherKW](#chaineitherkw)
-  - [chainIOEitherK](#chainioeitherk)
-  - [chainIOEitherKW](#chainioeitherkw)
-  - [chainOptionK](#chainoptionk)
-  - [chainOptionKW](#chainoptionkw)
-  - [chainReaderTaskEitherK](#chainreadertaskeitherk)
-  - [chainReaderTaskEitherKW](#chainreadertaskeitherkw)
-  - [chainStateK](#chainstatek)
-  - [chainTaskK](#chaintaskk)
   - [flatMap](#flatmap)
+  - [flatMapEither](#flatmapeither)
   - [flatMapIO](#flatmapio)
+  - [flatMapIOEither](#flatmapioeither)
+  - [flatMapOption](#flatmapoption)
   - [flatMapReader](#flatmapreader)
+  - [flatMapReaderTaskEither](#flatmapreadertaskeither)
+  - [flatMapState](#flatmapstate)
   - [flatMapTask](#flatmaptask)
   - [flatMapTaskEither](#flatmaptaskeither)
   - [flatten](#flatten)
@@ -873,6 +878,40 @@ export declare const chain: <S, R, E, A, B>(
 
 Added in v2.0.0
 
+## chainEitherK
+
+Alias of `flatMapEither`.
+
+**Signature**
+
+```ts
+export declare const chainEitherK: <E, A, B>(
+  f: (a: A) => E.Either<E, B>
+) => <S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
+```
+
+Added in v2.4.0
+
+## chainEitherKW
+
+Alias of `flatMapEither`.
+
+Less strict version of [`chainEitherK`](#chaineitherk).
+
+The `W` suffix (short for **W**idening) means that the error types will be merged.
+
+The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
+
+**Signature**
+
+```ts
+export declare const chainEitherKW: <E2, A, B>(
+  f: (a: A) => E.Either<E2, B>
+) => <S, R, E1>(ma: StateReaderTaskEither<S, R, E1, A>) => StateReaderTaskEither<S, R, E2 | E1, B>
+```
+
+Added in v2.6.1
+
 ## chainFirst
 
 Alias of `tap`.
@@ -993,6 +1032,36 @@ export declare const chainFirstW: <S, R2, E2, A, B>(
 
 Added in v2.8.0
 
+## chainIOEitherK
+
+Alias of `flatMapIOEither`.
+
+**Signature**
+
+```ts
+export declare const chainIOEitherK: <E, A, B>(
+  f: (a: A) => IOEither<E, B>
+) => <S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
+```
+
+Added in v2.4.0
+
+## chainIOEitherKW
+
+Alias of `flatMapIOEither`.
+
+Less strict version of [`chainIOEitherK`](#chainioeitherk).
+
+**Signature**
+
+```ts
+export declare const chainIOEitherKW: <E2, A, B>(
+  f: (a: A) => IOEither<E2, B>
+) => <S, R, E1>(ma: StateReaderTaskEither<S, R, E1, A>) => StateReaderTaskEither<S, R, E2 | E1, B>
+```
+
+Added in v2.6.1
+
 ## chainIOK
 
 Alias of `flatMapIO`.
@@ -1006,6 +1075,42 @@ export declare const chainIOK: <A, B>(
 ```
 
 Added in v2.10.0
+
+## chainOptionK
+
+Use `flatMapOption`.
+
+**Signature**
+
+```ts
+export declare const chainOptionK: <E>(
+  onNone: LazyArg<E>
+) => <A, B>(
+  f: (a: A) => Option<B>
+) => <S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
+```
+
+Added in v2.10.0
+
+## chainOptionKW
+
+Use `flatMapOption`.
+
+Less strict version of [`chainOptionK`](#chainoptionk).
+
+The `W` suffix (short for **W**idening) means that the error types will be merged.
+
+**Signature**
+
+```ts
+export declare const chainOptionKW: <E2>(
+  onNone: LazyArg<E2>
+) => <A, B>(
+  f: (a: A) => Option<B>
+) => <S, R, E1>(ma: StateReaderTaskEither<S, R, E1, A>) => StateReaderTaskEither<S, R, E2 | E1, B>
+```
+
+Added in v2.13.2
 
 ## chainReaderK
 
@@ -1039,6 +1144,50 @@ export declare const chainReaderKW: <A, R1, B>(
 
 Added in v2.11.0
 
+## chainReaderTaskEitherK
+
+Alias of `flatMapReaderTaskEither`.
+
+**Signature**
+
+```ts
+export declare const chainReaderTaskEitherK: <R, E, A, B>(
+  f: (a: A) => RTE.ReaderTaskEither<R, E, B>
+) => <S>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
+```
+
+Added in v2.4.0
+
+## chainReaderTaskEitherKW
+
+Alias of `flatMapReaderTaskEither`.
+
+Less strict version of [`chainReaderTaskEitherK`](#chainreadertaskeitherk).
+
+**Signature**
+
+```ts
+export declare const chainReaderTaskEitherKW: <R, E2, A, B>(
+  f: (a: A) => RTE.ReaderTaskEither<R, E2, B>
+) => <S, E1>(ma: StateReaderTaskEither<S, R, E1, A>) => StateReaderTaskEither<S, R, E2 | E1, B>
+```
+
+Added in v2.6.1
+
+## chainStateK
+
+Alias of `flatMapState`.
+
+**Signature**
+
+```ts
+export declare const chainStateK: <A, S, B>(
+  f: (a: A) => State<S, B>
+) => <R, E>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
+```
+
+Added in v2.11.0
+
 ## chainTaskEitherK
 
 Alias of `flatMapTaskEither`.
@@ -1068,6 +1217,20 @@ export declare const chainTaskEitherKW: <E2, A, B>(
 ```
 
 Added in v2.6.1
+
+## chainTaskK
+
+Alias of `flatMapTask`.
+
+**Signature**
+
+```ts
+export declare const chainTaskK: <A, B>(
+  f: (a: A) => Task<B>
+) => <S, R, E>(first: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
+```
+
+Added in v2.10.0
 
 ## chainW
 
@@ -1302,146 +1465,6 @@ Added in v2.0.0
 
 # sequencing
 
-## chainEitherK
-
-**Signature**
-
-```ts
-export declare const chainEitherK: <E, A, B>(
-  f: (a: A) => E.Either<E, B>
-) => <S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
-```
-
-Added in v2.4.0
-
-## chainEitherKW
-
-Less strict version of [`chainEitherK`](#chaineitherk).
-
-The `W` suffix (short for **W**idening) means that the error types will be merged.
-
-The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
-
-**Signature**
-
-```ts
-export declare const chainEitherKW: <E2, A, B>(
-  f: (a: A) => E.Either<E2, B>
-) => <S, R, E1>(ma: StateReaderTaskEither<S, R, E1, A>) => StateReaderTaskEither<S, R, E2 | E1, B>
-```
-
-Added in v2.6.1
-
-## chainIOEitherK
-
-**Signature**
-
-```ts
-export declare const chainIOEitherK: <E, A, B>(
-  f: (a: A) => IOEither<E, B>
-) => <S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
-```
-
-Added in v2.4.0
-
-## chainIOEitherKW
-
-Less strict version of [`chainIOEitherK`](#chainioeitherk).
-
-**Signature**
-
-```ts
-export declare const chainIOEitherKW: <E2, A, B>(
-  f: (a: A) => IOEither<E2, B>
-) => <S, R, E1>(ma: StateReaderTaskEither<S, R, E1, A>) => StateReaderTaskEither<S, R, E2 | E1, B>
-```
-
-Added in v2.6.1
-
-## chainOptionK
-
-**Signature**
-
-```ts
-export declare const chainOptionK: <E>(
-  onNone: LazyArg<E>
-) => <A, B>(
-  f: (a: A) => Option<B>
-) => <S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
-```
-
-Added in v2.10.0
-
-## chainOptionKW
-
-Less strict version of [`chainOptionK`](#chainoptionk).
-
-The `W` suffix (short for **W**idening) means that the error types will be merged.
-
-**Signature**
-
-```ts
-export declare const chainOptionKW: <E2>(
-  onNone: LazyArg<E2>
-) => <A, B>(
-  f: (a: A) => Option<B>
-) => <S, R, E1>(ma: StateReaderTaskEither<S, R, E1, A>) => StateReaderTaskEither<S, R, E2 | E1, B>
-```
-
-Added in v2.13.2
-
-## chainReaderTaskEitherK
-
-**Signature**
-
-```ts
-export declare const chainReaderTaskEitherK: <R, E, A, B>(
-  f: (a: A) => RTE.ReaderTaskEither<R, E, B>
-) => <S>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
-```
-
-Added in v2.4.0
-
-## chainReaderTaskEitherKW
-
-Less strict version of [`chainReaderTaskEitherK`](#chainreadertaskeitherk).
-
-**Signature**
-
-```ts
-export declare const chainReaderTaskEitherKW: <R, E2, A, B>(
-  f: (a: A) => RTE.ReaderTaskEither<R, E2, B>
-) => <S, E1>(ma: StateReaderTaskEither<S, R, E1, A>) => StateReaderTaskEither<S, R, E2 | E1, B>
-```
-
-Added in v2.6.1
-
-## chainStateK
-
-**Signature**
-
-```ts
-export declare const chainStateK: <A, S, B>(
-  f: (a: A) => State<S, B>
-) => <R, E>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
-```
-
-Added in v2.11.0
-
-## chainTaskK
-
-Alias of `flatMapTask`.
-
-**Signature**
-
-```ts
-export declare const chainTaskK: <A, B>(
-  f: (a: A) => Task<B>
-) => <S, R, E>(first: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
-```
-
-Added in v2.10.0
-
 ## flatMap
 
 **Signature**
@@ -1460,6 +1483,26 @@ export declare const flatMap: {
 
 Added in v2.14.0
 
+## flatMapEither
+
+**Signature**
+
+```ts
+export declare const flatMapEither: {
+  <A, E2, B>(f: (a: A) => E.Either<E2, B>): <S, R, E1>(
+    self: StateReaderTaskEither<S, R, E1, A>
+  ) => StateReaderTaskEither<S, R, E2 | E1, B>
+  <S, R, E1, A, E2, B>(self: StateReaderTaskEither<S, R, E1, A>, f: (a: A) => E.Either<E2, B>): StateReaderTaskEither<
+    S,
+    R,
+    E1 | E2,
+    B
+  >
+}
+```
+
+Added in v2.16.0
+
 ## flatMapIO
 
 **Signature**
@@ -1468,6 +1511,45 @@ Added in v2.14.0
 export declare const flatMapIO: {
   <A, B>(f: (a: A) => IO<B>): <S, R, E>(self: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
   <S, R, E, A, B>(self: StateReaderTaskEither<S, R, E, A>, f: (a: A) => IO<B>): StateReaderTaskEither<S, R, E, B>
+}
+```
+
+Added in v2.16.0
+
+## flatMapIOEither
+
+**Signature**
+
+```ts
+export declare const flatMapIOEither: {
+  <A, E2, B>(f: (a: A) => IOEither<E2, B>): <S, R, E1>(
+    self: StateReaderTaskEither<S, R, E1, A>
+  ) => StateReaderTaskEither<S, R, E2 | E1, B>
+  <S, R, E1, A, E2, B>(self: StateReaderTaskEither<S, R, E1, A>, f: (a: A) => IOEither<E2, B>): StateReaderTaskEither<
+    S,
+    R,
+    E1 | E2,
+    B
+  >
+}
+```
+
+Added in v2.16.0
+
+## flatMapOption
+
+**Signature**
+
+```ts
+export declare const flatMapOption: {
+  <A, E2, B>(f: (a: A) => Option<B>, onNone: (a: A) => E2): <S, R, E1>(
+    self: StateReaderTaskEither<S, R, E1, A>
+  ) => StateReaderTaskEither<S, R, E2 | E1, B>
+  <S, R, E1, A, E2, B>(
+    self: StateReaderTaskEither<S, R, E1, A>,
+    f: (a: A) => Option<B>,
+    onNone: (a: A) => E2
+  ): StateReaderTaskEither<S, R, E1 | E2, B>
 }
 ```
 
@@ -1488,6 +1570,39 @@ export declare const flatMapReader: {
     E,
     B
   >
+}
+```
+
+Added in v2.16.0
+
+## flatMapReaderTaskEither
+
+**Signature**
+
+```ts
+export declare const flatMapReaderTaskEither: {
+  <A, R2, E2, B>(f: (a: A) => RTE.ReaderTaskEither<R2, E2, B>): <S, R1, E1>(
+    self: StateReaderTaskEither<S, R1, E1, A>
+  ) => StateReaderTaskEither<S, R1 & R2, E2 | E1, B>
+  <S, R1, E1, A, R2, E2, B>(
+    self: StateReaderTaskEither<S, R1, E1, A>,
+    f: (a: A) => RTE.ReaderTaskEither<R2, E2, B>
+  ): StateReaderTaskEither<S, R1 & R2, E1 | E2, B>
+}
+```
+
+Added in v2.16.0
+
+## flatMapState
+
+**Signature**
+
+```ts
+export declare const flatMapState: {
+  <S, A, B>(f: (a: A) => State<S, B>): <R, E>(
+    self: StateReaderTaskEither<S, R, E, A>
+  ) => StateReaderTaskEither<S, R, E, B>
+  <S, R, E, A, B>(self: StateReaderTaskEither<S, R, E, A>, f: (a: A) => State<S, B>): StateReaderTaskEither<S, R, E, B>
 }
 ```
 
