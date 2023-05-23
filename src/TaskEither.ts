@@ -425,25 +425,6 @@ export const fromIOEitherK = <E, A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => IOEither<E, B>
 ): ((...a: A) => TaskEither<E, B>) => flow(f, fromIOEither)
 
-/**
- * Less strict version of [`chainIOEitherK`](#chainioeitherk).
- *
- * The `W` suffix (short for **W**idening) means that the error types will be merged.
- *
- * @category sequencing
- * @since 2.6.1
- */
-export const chainIOEitherKW: <E2, A, B>(
-  f: (a: A) => IOEither<E2, B>
-) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E1 | E2, B> = (f) => flatMap(fromIOEitherK(f))
-
-/**
- * @category sequencing
- * @since 2.4.0
- */
-export const chainIOEitherK: <E, A, B>(f: (a: A) => IOEither<E, B>) => (ma: TaskEither<E, A>) => TaskEither<E, B> =
-  chainIOEitherKW
-
 const _map: Functor2<URI>['map'] = (fa, f) => pipe(fa, map(f))
 const _apPar: Apply2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
 const _apSeq: Apply2<URI>['ap'] = (fab, fa) => flatMap(fab, (f) => pipe(fa, map(f)))
@@ -1261,6 +1242,19 @@ export const flatMapTask: {
 } = /*#__PURE__*/ _.flatMapTask(_FromTask, _FlatMap)
 
 /**
+ * @category sequencing
+ * @since 2.16.0
+ */
+export const flatMapIOEither: {
+  <A, E2, B>(f: (a: A) => IOEither<E2, B>): <E1>(self: TaskEither<E1, A>) => TaskEither<E1 | E2, B>
+  <E1, A, E2, B>(self: TaskEither<E1, A>, f: (a: A) => IOEither<E2, B>): TaskEither<E1 | E2, B>
+} = /*#__PURE__*/ dual(
+  2,
+  <E1, A, E2, B>(self: TaskEither<E1, A>, f: (a: A) => IOEither<E2, B>): TaskEither<E1 | E2, B> =>
+    flatMap(self, fromIOEitherK(f))
+)
+
+/**
  * Alias of `flatMapEither`.
  *
  * @category legacy
@@ -1397,6 +1391,29 @@ export const chainTaskK: <A, B>(f: (a: A) => T.Task<B>) => <E>(first: TaskEither
  */
 export const chainFirstTaskK: <A, B>(f: (a: A) => T.Task<B>) => <E>(first: TaskEither<E, A>) => TaskEither<E, A> =
   tapTask
+
+/**
+ * Alias of `flatMapIOEither`.
+ *
+ * Less strict version of [`chainIOEitherK`](#chainioeitherk).
+ *
+ * The `W` suffix (short for **W**idening) means that the error types will be merged.
+ *
+ * @category legacy
+ * @since 2.6.1
+ */
+export const chainIOEitherKW: <E2, A, B>(
+  f: (a: A) => IOEither<E2, B>
+) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E1 | E2, B> = flatMapIOEither
+
+/**
+ * Alias of `flatMapIOEither`.
+ *
+ * @category legacy
+ * @since 2.4.0
+ */
+export const chainIOEitherK: <E, A, B>(f: (a: A) => IOEither<E, B>) => (ma: TaskEither<E, A>) => TaskEither<E, B> =
+  flatMapIOEither
 
 // -------------------------------------------------------------------------------------
 // utils
