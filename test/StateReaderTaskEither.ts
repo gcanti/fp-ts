@@ -602,4 +602,30 @@ describe.concurrent('StateReaderTaskEither', () => {
       E.of(2)
     )
   })
+
+  it('flatMapOption', async () => {
+    U.deepStrictEqual(
+      await pipe(
+        _.flatMapOption(
+          _.of(1),
+          () => O.of(2),
+          () => 'error'
+        ),
+        _.evaluate(state)
+      )(undefined)(),
+      E.of(2)
+    )
+
+    U.deepStrictEqual(
+      await pipe(
+        _.flatMapOption(
+          _.of(1),
+          () => O.none,
+          () => 'error'
+        ),
+        _.evaluate(state)
+      )(undefined)(),
+      E.left('error')
+    )
+  })
 })

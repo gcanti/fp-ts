@@ -207,13 +207,6 @@ export const fromOptionK: <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => 
   /*#__PURE__*/ OT.fromOptionK(I.Pointed)
 
 /**
- * @category sequencing
- * @since 2.12.0
- */
-export const chainOptionK: <A, B>(f: (a: A) => Option<B>) => (ma: IOOption<A>) => IOOption<B> =
-  /*#__PURE__*/ OT.chainOptionK(I.Monad)
-
-/**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
  * use the type constructor `F` to represent some computational context.
  *
@@ -741,6 +734,14 @@ export const chainEitherK: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: IOOption
  * @since 2.12.0
  */
 export const chainFirstEitherK: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: IOOption<A>) => IOOption<A> = tapEither
+
+/**
+ * Alias of `flatMapOption`.
+ *
+ * @category legacy
+ * @since 2.12.0
+ */
+export const chainOptionK: <A, B>(f: (a: A) => Option<B>) => (ma: IOOption<A>) => IOOption<B> = flatMapOption
 
 // -------------------------------------------------------------------------------------
 // do notation
