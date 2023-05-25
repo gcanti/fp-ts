@@ -16,6 +16,28 @@
 **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 2.16.0
+
+- `tapEither` (dual) (aka `chainFirstEitherK` / `chainFirstEitherKW`) https://github.com/gcanti/fp-ts/pull/1864
+- `tapIO` (dual) (aka `chainFirstIOK`) https://github.com/gcanti/fp-ts/pull/1865
+- `as` / `asUnit` https://github.com/gcanti/fp-ts/pull/1867
+- `tapTask` (dual) (aka `chainFirstTaskK`) https://github.com/gcanti/fp-ts/pull/1869
+- `mapError` (dual) (aka `mapLeft`) https://github.com/gcanti/fp-ts/pull/1870
+- `mapBoth` (dual) (aka `bimap`) https://github.com/gcanti/fp-ts/pull/1872
+- `tapReader` (dual) (aka `chainFirstReaderK` / `chainFirstIReaderKW`) https://github.com/gcanti/fp-ts/pull/1871
+- `tapReaderEither` (dual) (aka `chainFirstReaderEitherK` / `chainFirstEitherKW`) https://github.com/gcanti/fp-ts/pull/1873
+- `tapReaderIO` (dual) (aka `chainFirstReaderIOK`) https://github.com/gcanti/fp-ts/pull/1873
+- `tapReaderTask` (dual) (aka `chainFirstReaderTaskK`) https://github.com/gcanti/fp-ts/pull/1873
+- `tapTaskEither` (dual) (aka `chainFirstTaskEitherK` / `chainFirstTaskEitherKW`) https://github.com/gcanti/fp-ts/pull/1873
+- `flatMapReaderTask` (dual) (aka `chainReaderTaskK` / `chainReaderTaskKW`) https://github.com/gcanti/fp-ts/pull/1874
+- `flatMapTaskEither` (dual) (aka `chainTaskEitherK` / `chainTaskEitherKW`) https://github.com/gcanti/fp-ts/pull/1874
+- `flatMapIO` (dual) (aka `chainIOK`) https://github.com/gcanti/fp-ts/pull/1874
+- `Option.orElse` (dual) (aka `alt` / `altW`) https://github.com/gcanti/fp-ts/pull/1868
+- `flatMapTask` (dual) (aka `chainTaskK`) https://github.com/gcanti/fp-ts/pull/1876
+- `flatMapReader` (dual) (aka `chainReaderK` / `chainReaderKW`) https://github.com/gcanti/fp-ts/pull/1876
+- `flatMapReaderIO` (dual) (aka `chainReaderIOK` / `chainReaderIOKW`) https://github.com/gcanti/fp-ts/pull/1879
+- `flatMap*` (aka `chain*K` / `chain*KW`) https://github.com/gcanti/fp-ts/pull/1880
+
 # 2.15.0
 
 **New Feature**
