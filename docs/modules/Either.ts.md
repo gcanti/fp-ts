@@ -98,7 +98,7 @@ Added in v2.0.0
   - [getApplicativeValidation](#getapplicativevalidation)
   - [getOrElse](#getorelse)
   - [getOrElseW](#getorelsew)
-  - [mapLeft](#mapleft)
+  - [mapError](#maperror)
   - [orElse](#orelse)
   - [orElseW](#orelsew)
 - [filtering](#filtering)
@@ -142,6 +142,7 @@ Added in v2.0.0
   - [chainW](#chainw)
   - [fromNullableK](#fromnullablek)
   - [fromOptionK](#fromoptionk)
+  - [mapLeft](#mapleft)
 - [lifting](#lifting)
   - [fromPredicate](#frompredicate)
   - [liftNullable](#liftnullable)
@@ -642,17 +643,31 @@ export declare const getOrElseW: <E, B>(onLeft: (e: E) => B) => <A>(ma: Either<E
 
 Added in v2.6.0
 
-## mapLeft
+## mapError
 
-Map a function over the first type argument of a bifunctor.
+Returns an `Either` with its error channel mapped using the specified function.
 
 **Signature**
 
 ```ts
-export declare const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: Either<E, A>) => Either<G, A>
+export declare const mapError: {
+  <E, G>(f: (e: E) => G): <A>(self: Either<E, A>) => Either<G, A>
+  <E, A, G>(self: Either<E, A>, f: (e: E) => G): Either<G, A>
+}
 ```
 
-Added in v2.0.0
+**Example**
+
+```ts
+import * as Either from 'fp-ts/Either'
+
+const f = (s: string) => new Error(s)
+
+assert.deepStrictEqual(Either.mapError(Either.right(1), f), Either.right(1))
+assert.deepStrictEqual(Either.mapError(Either.left('err'), f), Either.left(new Error('err')))
+```
+
+Added in v2.17.0
 
 ## orElse
 
@@ -1235,6 +1250,20 @@ export declare const fromOptionK: <E>(
 ```
 
 Added in v2.10.0
+
+## mapLeft
+
+Alias of `mapError`.
+
+Map a function over the first type argument of a bifunctor.
+
+**Signature**
+
+```ts
+export declare const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: Either<E, A>) => Either<G, A>
+```
+
+Added in v2.0.0
 
 # lifting
 

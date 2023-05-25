@@ -17,6 +17,11 @@ describe.concurrent('Either', () => {
       U.deepStrictEqual(pipe(_.left(2), _.mapLeft(U.double)), _.left(4))
     })
 
+    it('mapError', () => {
+      U.deepStrictEqual(_.mapError(_.right('bar'), U.double), _.right('bar'))
+      U.deepStrictEqual(_.mapError(_.left(2), U.double), _.left(4))
+    })
+
     it('alt', () => {
       U.deepStrictEqual(
         pipe(

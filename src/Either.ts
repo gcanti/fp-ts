@@ -742,13 +742,33 @@ export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: Either<
     isLeft(fa) ? left(f(fa.left)) : right(g(fa.right))
 
 /**
- * Map a function over the first type argument of a bifunctor.
+ * Returns an `Either` with its error channel mapped using the specified function.
+ *
+ * @example
+ * import * as Either from 'fp-ts/Either'
+ *
+ * const f = (s: string) => new Error(s)
+ *
+ * assert.deepStrictEqual(Either.mapError(Either.right(1), f), Either.right(1))
+ * assert.deepStrictEqual(Either.mapError(Either.left('err'), f), Either.left(new Error('err')))
  *
  * @category error handling
+ * @since 2.17.0
+ */
+export const mapError: {
+  <E, G>(f: (e: E) => G): <A>(self: Either<E, A>) => Either<G, A>
+  <E, A, G>(self: Either<E, A>, f: (e: E) => G): Either<G, A>
+} = /*#__PURE__*/ dual(2, (self, f) => (isLeft(self) ? left(f(self.left)) : self))
+
+/**
+ * Alias of `mapError`.
+ *
+ * Map a function over the first type argument of a bifunctor.
+ *
+ * @category legacy
  * @since 2.0.0
  */
-export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: Either<E, A>) => Either<G, A> = (f) => (fa) =>
-  isLeft(fa) ? left(f(fa.left)) : fa
+export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: Either<E, A>) => Either<G, A> = mapError
 
 /**
  * @category instances
