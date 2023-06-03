@@ -233,19 +233,11 @@ export function flip(f: Function): Function {
  *
  * @since 2.0.0
  */
-type FlowFuncs<A extends ReadonlyArray<unknown>, F extends ReadonlyArray<unknown>>
-	= F extends [(...args: A) => unknown] ? F
-	: F extends [(...args: A) => infer T, ...infer R] ? [(...args: A) => T, ...FlowFuncs<[T], R>]
-	: never
-
-type FlowOutput<A extends ReadonlyArray<unknown>, F extends ReadonlyArray<unknown>>
-	= F extends [(...args: A) => infer T] ? T
-	: F extends [(...args: A) => infer T, ...infer R] ? FlowOutput<[T], R>
-	: never
-
-export function flow<A extends ReadonlyArray<unknown>, F extends ReadonlyArray<unknown>>(...fs: FlowFuncs<A, F>): (...args: A) => FlowOutput<A, F> {
-	// @ts-expect-error(TypeScript can't handle the type recursion)
-	return (...args) => fs.reduce((x, f) => [f(...x)], args)[0];
+export function flow<A extends ReadonlyArray<unknown>, B, F extends ReadonlyArray<unknown>>(
+  f: (...args: A) => B,
+  ...fs: PipeFuncs<B, F>
+): (...args: A) => PipeOutput<B, F> {
+  return (...args) => pipe<B, F>(f(...args), ...fs)
 }
 
 /**
@@ -320,20 +312,21 @@ export function untupled<A extends ReadonlyArray<unknown>, B>(f: (a: A) => B): (
  *
  * @since 2.6.3
  */
-type PipeFuncs<A, F extends ReadonlyArray<unknown>>
-	= F extends [] ? F
-	: F extends [(x: A) => infer T, ...infer R] ? [(x: A) => T, ...PipeFuncs<T, R>]
-	: never
+type PipeFuncs<A, F extends ReadonlyArray<unknown>> = F extends []
+  ? F
+  : F extends [(x: A) => infer T, ...infer R]
+  ? [(x: A) => T, ...PipeFuncs<T, R>]
+  : never
 
-type PipeOutput<A, F extends ReadonlyArray<unknown>>
-	= F extends [] ? A
-	: F extends [(x: A) => infer T] ? T
-	: F extends [(x: A) => infer T, ...infer R] ? PipeOutput<T, R>
-	: never
+type PipeOutput<A, F extends ReadonlyArray<unknown>> = F extends []
+  ? A
+  : F extends [(x: A) => infer T, ...infer R]
+  ? PipeOutput<T, R>
+  : never
 
 export function pipe<A, F extends ReadonlyArray<unknown>>(x: A, ...fs: PipeFuncs<A, F>): PipeOutput<A, F> {
-	// @ts-expect-error(TypeScript can't handle the type recursion)
-	return fs.reduce((x, f) => f(x), x);
+  // @ts-expect-error(TypeScript can't handle the type recursion)
+  return fs.reduce((x, f) => f(x), x)
 }
 
 /**
