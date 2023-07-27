@@ -16,6 +16,12 @@
 **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 2.16.1
+
+**Bug Fix**
+
+- fix type signature of `ReaderTaskEither.tapReaderIO`, #1895
+
 # 2.16.0
 
 - `tapEither` (dual) (aka `chainFirstEitherK` / `chainFirstEitherKW`) https://github.com/gcanti/fp-ts/pull/1864
