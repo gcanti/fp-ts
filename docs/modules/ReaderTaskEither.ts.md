@@ -360,7 +360,7 @@ keeping only the result of the first.
 
 ```ts
 export declare const tapReaderIO: {
-  <A, R2, _>(f: (a: A) => RT.ReaderTask<R2, _>): <R1, E>(
+  <A, R2, _>(f: (a: A) => RIO.ReaderIO<R2, _>): <R1, E>(
     self: ReaderTaskEither<R1, E, A>
   ) => ReaderTaskEither<R1 & R2, E, A>
   <R1, E, A, R2, _>(self: ReaderTaskEither<R1, E, A>, f: (a: A) => RIO.ReaderIO<R2, _>): ReaderTaskEither<R1 & R2, E, A>

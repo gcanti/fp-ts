@@ -1150,9 +1150,7 @@ export const tapReaderTask: {
  * @since 2.16.0
  */
 export const tapReaderIO: {
-  <A, R2, _>(f: (a: A) => ReaderTask<R2, _>): <R1, E>(
-    self: ReaderTaskEither<R1, E, A>
-  ) => ReaderTaskEither<R1 & R2, E, A>
+  <A, R2, _>(f: (a: A) => ReaderIO<R2, _>): <R1, E>(self: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, A>
   <R1, E, A, R2, _>(self: ReaderTaskEither<R1, E, A>, f: (a: A) => ReaderIO<R2, _>): ReaderTaskEither<R1 & R2, E, A>
 } = /*#__PURE__*/ dual(
   2,
