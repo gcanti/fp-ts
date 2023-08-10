@@ -238,7 +238,7 @@ element of the base type (this is useful for building a `Monad`).
 **Signature**
 
 ```ts
-export declare const of: <A>(a: A) => A[]
+export declare const of: <A>(a: A) => [A]
 ```
 
 **Example**

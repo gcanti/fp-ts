@@ -9,6 +9,8 @@ declare const ns: Array<number>
 declare const ss: Array<string>
 declare const tns: Array<[number, string]>
 
+pipe(_.of('b'), ([value]: [string]) => value)
+
 // prepend
 
 pipe(ss, _.prepend('a')) // $ExpectType NonEmptyArray<string>
