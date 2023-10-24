@@ -502,7 +502,7 @@ export declare const filter: {
 
 ```ts
 import { filter } from 'fp-ts/Array'
-import { isString } from 'fp-ts/lib/string'
+import { isString } from 'fp-ts/string'
 
 assert.deepStrictEqual(filter(isString)(['a', 1, {}, 'b', 5]), ['a', 'b'])
 assert.deepStrictEqual(filter((x: number) => x > 0)([-3, 1, -2, 5]), [1, 5])
@@ -608,7 +608,7 @@ export declare const partition: {
 
 ```ts
 import { partition } from 'fp-ts/Array'
-import { isString } from 'fp-ts/lib/string'
+import { isString } from 'fp-ts/string'
 
 assert.deepStrictEqual(partition(isString)(['a', 1, {}, 'b', 5]), { left: [1, {}, 5], right: ['a', 'b'] })
 assert.deepStrictEqual(partition((x: number) => x > 0)([-3, 1, -2, 5]), { left: [-3, -2], right: [1, 5] })
@@ -632,7 +632,7 @@ export declare const partitionMap: <A, B, C>(f: (a: A) => Either<B, C>) => (fa: 
 
 ```ts
 import { partitionMap } from 'fp-ts/Array'
-import { Either, left, right } from 'fp-ts/lib/Either'
+import { Either, left, right } from 'fp-ts/Either'
 
 const upperIfString = <B>(x: B): Either<B, string> => (typeof x === 'string' ? right(x.toUpperCase()) : left(x))
 assert.deepStrictEqual(partitionMap(upperIfString)([-2, 'hello', 6, 7, 'world']), {
@@ -659,7 +659,7 @@ export declare const partitionMapWithIndex: <A, B, C>(
 
 ```ts
 import { partitionMapWithIndex } from 'fp-ts/Array'
-import { Either, left, right } from 'fp-ts/lib/Either'
+import { Either, left, right } from 'fp-ts/Either'
 
 const upperIfStringBefore3 = <B>(index: number, x: B): Either<B, string> =>
   index < 3 && typeof x === 'string' ? right(x.toUpperCase()) : left(x)
@@ -1383,7 +1383,7 @@ export declare function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Arr
 ```ts
 import { fromPredicate } from 'fp-ts/Array'
 import { pipe } from 'fp-ts/function'
-import { isString } from 'fp-ts/lib/string'
+import { isString } from 'fp-ts/string'
 
 assert.deepStrictEqual(pipe('a', fromPredicate(isString)), ['a'])
 assert.deepStrictEqual(pipe(7, fromPredicate(isString)), [])
@@ -1859,7 +1859,7 @@ export declare const traverseWithIndex: PipeableTraverseWithIndex1<'Array', numb
 
 ```ts
 import { traverseWithIndex } from 'fp-ts/Array'
-import { Applicative, left, right } from 'fp-ts/lib/Either'
+import { Applicative, left, right } from 'fp-ts/Either'
 
 const f = (index: number, x: unknown) =>
   typeof x === 'string' ? right(x.toUpperCase() + index) : left(new Error('not a string'))
@@ -1892,7 +1892,7 @@ export declare const sequence: Sequence1<'Array'>
 
 ```ts
 import { sequence } from 'fp-ts/Array'
-import { Applicative, left, right } from 'fp-ts/lib/Either'
+import { Applicative, left, right } from 'fp-ts/Either'
 
 assert.deepStrictEqual(sequence(Applicative)([right('a'), right('b')]), right(['a', 'b']))
 assert.deepStrictEqual(
@@ -1925,7 +1925,7 @@ export declare const traverse: PipeableTraverse1<'Array'>
 
 ```ts
 import { traverse } from 'fp-ts/Array'
-import { Applicative, left, right } from 'fp-ts/lib/Either'
+import { Applicative, left, right } from 'fp-ts/Either'
 
 const f = (x: unknown) => (typeof x === 'string' ? right(x.toUpperCase()) : left(new Error('not a string')))
 assert.deepStrictEqual(traverse(Applicative)(f)(['a', 'b']), right(['A', 'B']))
