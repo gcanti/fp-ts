@@ -183,7 +183,7 @@ export const replicate = <A>(n: number, a: A): Array<A> => makeBy(n, () => a)
  * @example
  * import { fromPredicate } from 'fp-ts/Array'
  * import { pipe } from 'fp-ts/function'
- * import { isString } from "fp-ts/lib/string";
+ * import { isString } from "fp-ts/string";
  *
  * assert.deepStrictEqual(pipe("a", fromPredicate(isString)), ["a"]);
  * assert.deepStrictEqual(pipe(7, fromPredicate(isString)), []);
@@ -1728,7 +1728,7 @@ export const separate = <A, B>(fa: Array<Either<A, B>>): Separated<Array<A>, Arr
  *
  * @example
  * import { filter } from 'fp-ts/Array'
- * import { isString } from "fp-ts/lib/string";
+ * import { isString } from "fp-ts/string";
  *
  * assert.deepStrictEqual(filter(isString)(["a", 1, {}, "b", 5]), ["a", "b"]);
  * assert.deepStrictEqual(filter((x:number) => x > 0)([-3, 1, -2, 5]), [1, 5]);
@@ -1753,7 +1753,7 @@ export const filter: {
  *
  * @example
  * import { partition } from 'fp-ts/Array'
- * import { isString } from "fp-ts/lib/string";
+ * import { isString } from "fp-ts/string";
  *
  * assert.deepStrictEqual(partition(isString)(["a", 1, {}, "b", 5]), { left: [1, {}, 5], right: ["a", "b"] });
  * assert.deepStrictEqual(partition((x: number) => x > 0)([-3, 1, -2, 5]), { left: [-3, -2], right: [1, 5] });
@@ -1811,7 +1811,7 @@ export const partitionWithIndex: {
  *
  * @example
  * import { partitionMap } from 'fp-ts/Array'
- * import { Either, left, right } from "fp-ts/lib/Either";
+ * import { Either, left, right } from "fp-ts/Either";
  *
  * const upperIfString = <B>(x: B): Either<B, string> =>
  *   typeof x === "string" ? right(x.toUpperCase()) : left(x);
@@ -1832,7 +1832,7 @@ export const partitionMap: <A, B, C>(f: (a: A) => Either<B, C>) => (fa: Array<A>
  *
  * @example
  * import { partitionMapWithIndex } from 'fp-ts/Array'
- * import { Either, left, right } from "fp-ts/lib/Either";
+ * import { Either, left, right } from "fp-ts/Either";
  *
  * const upperIfStringBefore3 = <B>(index: number, x: B): Either<B, string> =>
  *   index < 3 && typeof x === "string" ? right(x.toUpperCase()) : left(x);
@@ -2071,7 +2071,7 @@ export const reduceRightWithIndex: <A, B>(b: B, f: (i: number, a: A, b: B) => B)
  *
  * @example
  * import { traverse } from 'fp-ts/Array'
- * import { Applicative, left, right } from "fp-ts/lib/Either";
+ * import { Applicative, left, right } from "fp-ts/Either";
  *
  * const f = (x: unknown) =>
  *   typeof x === "string" ? right(x.toUpperCase()) : left(new Error("not a string"));
@@ -2100,7 +2100,7 @@ export const traverse: PipeableTraverse1<URI> = <F>(
  *
  * @example
  * import { sequence } from 'fp-ts/Array'
- * import { Applicative, left, right } from "fp-ts/lib/Either";
+ * import { Applicative, left, right } from "fp-ts/Either";
  *
  * assert.deepStrictEqual(sequence(Applicative)([right("a"), right("b")]), right(["a", "b"]));
  * assert.deepStrictEqual(
@@ -2127,7 +2127,7 @@ export const sequence: Traversable1<URI>['sequence'] =
  *
  * @example
  * import { traverseWithIndex } from 'fp-ts/Array'
- * import { Applicative, left, right } from "fp-ts/lib/Either";
+ * import { Applicative, left, right } from "fp-ts/Either";
  *
  * const f = (index:number, x:unknown) =>
  *   typeof x === "string" ? right(x.toUpperCase() + index) : left(new Error("not a string"));
