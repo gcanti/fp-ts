@@ -21,6 +21,22 @@ nav_order: 1
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
+## Import Statements
+
+To properly import modules from `fp-ts`, you should use the following syntax:
+
+```ts
+import ... from 'fp-ts/<module>'
+```
+
+For instance, when importing the `Option` module, you can use the following code:
+
+```ts
+import * as Option from 'fp-ts/Option'
+```
+
+This ensures that you're importing the required modules correctly.
+
 ## Module structure
 
 In general a module containing the definition of a data structure has the following structure
@@ -128,7 +144,7 @@ pipe(
 `K` means *K*leisli. A _Kleisli arrow_ is a function with the following signature
 
 ```ts
-(a: A) => F<B>
+;(a: A) => F<B>
 ```
 
 where `F` is a type constructor.
@@ -159,13 +175,13 @@ how can we parse `input`?
 We could lift the Kleisli arrow `parse`, i.e. transform a function
 
 ```ts
-(s: string) => E.Either<Error, number>
+;(s: string) => E.Either<Error, number>
 ```
 
 into a function
 
 ```ts
-(s: string) => IE.IOEither<Error, number>
+;(s: string) => IE.IOEither<Error, number>
 ```
 
 That's what `fromEitherK` is all about
