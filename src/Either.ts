@@ -1198,7 +1198,7 @@ export const chainOptionK: <E>(
  */
 export const chainOptionKW: <E2>(
   onNone: LazyArg<E2>
-) => <A, B>(f: (a: A) => Option<B>) => <E1>(ma: Either<E1, A>) => Either<E1 | E2, B> = /*#__PURE__*/ chainOptionK as any
+) => <A, B>(f: (a: A) => Option<B>) => <E1>(ma: Either<E1, A>) => Either<E1 | E2, B> = chainOptionK as any
 
 /** @internal */
 interface EitherTypeLambda extends _.TypeLambda {
