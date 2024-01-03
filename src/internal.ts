@@ -192,8 +192,8 @@ export const flatMapNullable = <F extends TypeLambda>(
     E1 | E2,
     NonNullable<B>
   >
-} =>
-  /*#__PURE__*/ dual(
+} => {
+  return /*#__PURE__*/ dual(
     3,
     <R, O, E1, A, B, E2>(
       self: Kind<F, R, O, E1, A>,
@@ -202,6 +202,7 @@ export const flatMapNullable = <F extends TypeLambda>(
     ): Kind<F, R, O, E1 | E2, NonNullable<B>> =>
       M.flatMap<R, O, E1, A, R, O, E2, NonNullable<B>>(self, liftNullable(F)(f, onNullable))
   )
+}
 
 /** @internal */
 export const flatMapOption = <F extends TypeLambda>(
@@ -218,8 +219,8 @@ export const flatMapOption = <F extends TypeLambda>(
     E1 | E2,
     B
   >
-} =>
-  /*#__PURE__*/ dual(
+} => {
+  return /*#__PURE__*/ dual(
     3,
     <R, O, E1, A, B, E2>(
       self: Kind<F, R, O, E1, A>,
@@ -227,6 +228,7 @@ export const flatMapOption = <F extends TypeLambda>(
       onNone: (a: A) => E2
     ): Kind<F, R, O, E1 | E2, B> => M.flatMap<R, O, E1, A, R, O, E2, B>(self, liftOption(F)(f, onNone))
   )
+}
 
 /** @internal */
 export const flatMapEither = <F extends TypeLambda>(
@@ -235,12 +237,13 @@ export const flatMapEither = <F extends TypeLambda>(
 ): {
   <A, E2, B>(f: (a: A) => Either<E2, B>): <R, O, E1>(self: Kind<F, R, O, E1, A>) => Kind<F, R, O, E1 | E2, B>
   <R, O, E1, A, E2, B>(self: Kind<F, R, O, E1, A>, f: (a: A) => Either<E2, B>): Kind<F, R, O, E1 | E2, B>
-} =>
-  /*#__PURE__*/ dual(
+} => {
+  return /*#__PURE__*/ dual(
     2,
     <R, O, E1, A, E2, B>(self: Kind<F, R, O, E1, A>, f: (a: A) => Either<E2, B>): Kind<F, R, O, E1 | E2, B> =>
       M.flatMap(self, (a) => F.fromEither(f(a)))
   )
+}
 
 /** @internal */
 export const flatMapIO = <F extends TypeLambda>(
@@ -249,12 +252,13 @@ export const flatMapIO = <F extends TypeLambda>(
 ): {
   <A, B>(f: (a: A) => IO<B>): <R, O, E>(self: Kind<F, R, O, E, A>) => Kind<F, R, O, E, B>
   <R, O, E, A, B>(self: Kind<F, R, O, E, A>, f: (a: A) => IO<B>): Kind<F, R, O, E, B>
-} =>
-  /*#__PURE__*/ dual(
+} => {
+  return /*#__PURE__*/ dual(
     2,
     <R, O, E, A, B>(self: Kind<F, R, O, E, A>, f: (a: A) => IO<B>): Kind<F, R, O, E, B> =>
       M.flatMap(self, (a) => F.fromIO(f(a)))
   )
+}
 
 /** @internal */
 export const flatMapTask = <F extends TypeLambda>(
@@ -263,12 +267,13 @@ export const flatMapTask = <F extends TypeLambda>(
 ): {
   <A, B>(f: (a: A) => Task<B>): <R, O, E>(self: Kind<F, R, O, E, A>) => Kind<F, R, O, E, B>
   <R, O, E, A, B>(self: Kind<F, R, O, E, A>, f: (a: A) => Task<B>): Kind<F, R, O, E, B>
-} =>
-  /*#__PURE__*/ dual(
+} => {
+  return /*#__PURE__*/ dual(
     2,
     <R, O, E, A, B>(self: Kind<F, R, O, E, A>, f: (a: A) => Task<B>): Kind<F, R, O, E, B> =>
       M.flatMap(self, (a) => F.fromTask(f(a)))
   )
+}
 
 /** @internal */
 export const flatMapReader = <F extends TypeLambda>(
@@ -277,9 +282,10 @@ export const flatMapReader = <F extends TypeLambda>(
 ): {
   <A, R2, B>(f: (a: A) => Reader<R2, B>): <R1, O, E>(self: Kind<F, R1, O, E, A>) => Kind<F, R1 & R2, O, E, B>
   <R1, O, E, A, R2, B>(self: Kind<F, R1, O, E, A>, f: (a: A) => Reader<R2, B>): Kind<F, R1 & R2, O, E, B>
-} =>
-  /*#__PURE__*/ dual(
+} => {
+  return /*#__PURE__*/ dual(
     2,
     <R1, O, E, A, R2, B>(self: Kind<F, R1, O, E, A>, f: (a: A) => Reader<R2, B>): Kind<F, R1 & R2, O, E, B> =>
       M.flatMap(self, (a) => F.fromReader(f(a)))
   )
+}
