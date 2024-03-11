@@ -16,6 +16,12 @@
 **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 2.16.3
+
+**Polish**
+
+`Either.ts`: `toError`: Don't fail when a value can't be converted to a primitive, #1924
+
 # 2.16.2
 
 **Polish**
