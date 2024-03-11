@@ -176,7 +176,7 @@ Added in v2.11.0
 **Signature**
 
 ```ts
-export declare const of: <A>(a: A) => NonEmptyArray<A>
+export declare const of: <A>(a: A) => [A]
 ```
 
 Added in v2.0.0

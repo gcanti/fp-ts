@@ -1508,7 +1508,7 @@ const _chainRecBreadthFirst: ChainRec1<URI>['chainRec'] = RA._chainRecBreadthFir
  * @category constructors
  * @since 2.0.0
  */
-export const of: <A>(a: A) => Array<A> = NEA.of
+export const of: <A>(a: A) => [A] = NEA.of
 
 /**
  * Makes an empty `Array`, useful for building a [`Monoid`](#Monoid)

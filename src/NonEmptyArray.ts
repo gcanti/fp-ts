@@ -464,7 +464,7 @@ export const copy: <A>(as: NonEmptyArray<A>) => NonEmptyArray<A> = fromReadonlyN
  * @category constructors
  * @since 2.0.0
  */
-export const of: <A>(a: A) => NonEmptyArray<A> = (a) => [a]
+export const of: <A>(a: A) => [A] = (a) => [a]
 
 /**
  * @since 2.5.1
