@@ -1456,7 +1456,11 @@ export const toUnion: <E, A>(fa: Either<E, A>) => E | A = /*#__PURE__*/ foldW(id
  * @since 2.0.0
  */
 export function toError(e: unknown): Error {
-  return e instanceof Error ? e : new Error(String(e))
+  try {
+    return e instanceof Error ? e : new Error(String(e))
+  } catch (error) {
+    return new Error()
+  }
 }
 
 /**
