@@ -393,6 +393,20 @@ describe.concurrent('Either', () => {
       }, _.toError),
       _.left(new Error('string error'))
     )
+
+    U.deepStrictEqual(
+      _.tryCatch(() => {
+        throw Object.create(null)
+      }, _.toError),
+      _.left(new Error())
+    )
+
+    U.deepStrictEqual(
+      _.tryCatch(() => {
+        throw { toString: [] }
+      }, _.toError),
+      _.left(new Error())
+    )
   })
 
   describe.concurrent('getEq', () => {
