@@ -1149,8 +1149,7 @@ export const chainOptionKW: <E2>(
   onNone: LazyArg<E2>
 ) => <A, B>(
   f: (a: A) => Option<B>
-) => <S, R, E1>(ma: StateReaderTaskEither<S, R, E1, A>) => StateReaderTaskEither<S, R, E1 | E2, B> =
-  /*#__PURE__*/ chainOptionK as any
+) => <S, R, E1>(ma: StateReaderTaskEither<S, R, E1, A>) => StateReaderTaskEither<S, R, E1 | E2, B> = chainOptionK as any
 
 /**
  * Alias of `flatMapEither`.

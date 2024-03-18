@@ -175,17 +175,15 @@ export const leftIO: <R, E = never, A = never>(me: IO<E>) => ReaderTaskEither<R,
  * @category constructors
  * @since 2.13.0
  */
-export const rightReaderIO: <R, E = never, A = never>(ma: ReaderIO<R, A>) => ReaderTaskEither<R, E, A> = /*#__PURE__*/ (
-  ma
-) => flow(ma, TE.rightIO)
+export const rightReaderIO: <R, E = never, A = never>(ma: ReaderIO<R, A>) => ReaderTaskEither<R, E, A> = (ma) =>
+  flow(ma, TE.rightIO)
 
 /**
  * @category constructors
  * @since 2.13.0
  */
-export const leftReaderIO: <R, E = never, A = never>(me: ReaderIO<R, E>) => ReaderTaskEither<R, E, A> = /*#__PURE__*/ (
-  me
-) => flow(me, TE.leftIO)
+export const leftReaderIO: <R, E = never, A = never>(me: ReaderIO<R, E>) => ReaderTaskEither<R, E, A> = (me) =>
+  flow(me, TE.leftIO)
 
 // -------------------------------------------------------------------------------------
 // conversions
@@ -1381,7 +1379,7 @@ export const chainOptionK: <E>(
 export const chainOptionKW: <E2>(
   onNone: LazyArg<E2>
 ) => <A, B>(f: (a: A) => Option<B>) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E1 | E2, B> =
-  /*#__PURE__*/ chainOptionK as any
+  chainOptionK as any
 
 /** @internal */
 interface ReaderTaskEitherTypeLambda extends _.TypeLambda {

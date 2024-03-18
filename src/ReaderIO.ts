@@ -48,7 +48,7 @@ export const fromReader: <R, A>(fa: Reader<R, A>) => ReaderIO<R, A> = /*#__PURE_
  * @category conversions
  * @since 2.13.0
  */
-export const fromIO: <A, R = unknown>(fa: IO<A>) => ReaderIO<R, A> = /*#__PURE__*/ R.of
+export const fromIO: <A, R = unknown>(fa: IO<A>) => ReaderIO<R, A> = R.of
 
 // -------------------------------------------------------------------------------------
 // combinators

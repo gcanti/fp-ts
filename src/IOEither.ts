@@ -840,8 +840,7 @@ export const chainOptionK: <E>(
  */
 export const chainOptionKW: <E2>(
   onNone: LazyArg<E2>
-) => <A, B>(f: (a: A) => Option<B>) => <E1>(ma: IOEither<E1, A>) => IOEither<E1 | E2, B> =
-  /*#__PURE__*/ chainOptionK as any
+) => <A, B>(f: (a: A) => Option<B>) => <E1>(ma: IOEither<E1, A>) => IOEither<E1 | E2, B> = chainOptionK as any
 
 /** @internal */
 interface IOEitherTypeLambda extends _.TypeLambda {

@@ -64,7 +64,7 @@ export const fromReader: <R, A>(fa: R.Reader<R, A>) => ReaderTask<R, A> = /*#__P
  * @category conversions
  * @since 2.3.0
  */
-export const fromTask: <A, R = unknown>(fa: Task<A>) => ReaderTask<R, A> = /*#__PURE__*/ R.of
+export const fromTask: <A, R = unknown>(fa: Task<A>) => ReaderTask<R, A> = R.of
 
 /**
  * @category conversions

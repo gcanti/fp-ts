@@ -114,7 +114,7 @@ export const fromIO: <A, E = never>(fa: IO<A>) => TaskThese<E, A> = rightIO
  * @category conversions
  * @since 2.4.0
  */
-export const fromIOEither: <E, A>(fa: IOEither<E, A>) => TaskThese<E, A> = /*#__PURE__*/ T.fromIO
+export const fromIOEither: <E, A>(fa: IOEither<E, A>) => TaskThese<E, A> = T.fromIO
 
 /**
  * @category conversions
