@@ -16,6 +16,12 @@
 **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 2.16.4
+
+**Polish**
+
+Fix `__PURE__` annotation placement, closes #1926
+
 # 2.16.3
 
 **Polish**
