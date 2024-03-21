@@ -1409,17 +1409,17 @@ export function intersection<A>(E: Eq<A>): (xs: Array<A>, ys?: Array<A>) => Arra
  * @since 2.0.0
  */
 export function difference<A>(E: Eq<A>): {
-  (xs: Array<A>): (ys: Array<A>) => Array<A>
-  (xs: Array<A>, ys: Array<A>): Array<A>
+  (that: Array<A>): (me: Array<A>) => Array<A>
+  (me: Array<A>, that: Array<A>): Array<A>
 }
-export function difference<A>(E: Eq<A>): (xs: Array<A>, ys?: Array<A>) => Array<A> | ((ys: Array<A>) => Array<A>) {
+export function difference<A>(E: Eq<A>): (me: Array<A>, that?: Array<A>) => Array<A> | ((me: Array<A>) => Array<A>) {
   const elemE = elem(E)
-  return (xs, ys?) => {
-    if (ys === undefined) {
+  return (me, that?) => {
+    if (that === undefined) {
       const differenceE = difference(E)
-      return (ys) => differenceE(ys, xs)
+      return (that) => differenceE(that, me)
     }
-    return xs.filter((a) => !elemE(a, ys))
+    return me.filter((a) => !elemE(a, that))
   }
 }
 
