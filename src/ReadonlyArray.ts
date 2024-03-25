@@ -289,7 +289,10 @@ export const chainWithIndex =
     }
     const out: Array<B> = []
     for (let i = 0; i < as.length; i++) {
-      out.push(...f(i, as[i]))
+      const bs = f(i, as[i])
+      for (let j = 0; j < bs.length; j++) {
+        out.push(bs[j])
+      }
     }
     return out
   }
