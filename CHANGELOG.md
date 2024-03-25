@@ -16,6 +16,12 @@
 **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 2.16.5
+
+**Polish**
+
+Resolved a RangeError where the maximum call stack size was exceeded when invoking `chainWithIndex`, #1931
+
 # 2.16.4
 
 **Polish**
