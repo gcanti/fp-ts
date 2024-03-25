@@ -27,6 +27,13 @@
     "import/no-duplicates": "error",
     "import/no-unresolved": "off",
     "import/order": "off",
-    "simple-import-sort/imports": "error"
+    "simple-import-sort/imports": "error",
+    "no-restricted-syntax": [
+      "error",
+      {
+        "selector": "CallExpression[callee.property.name='push'] > SpreadElement.arguments",
+        "message": "Do not use spread arguments in Array.push"
+      }
+    ]
   }
 }
