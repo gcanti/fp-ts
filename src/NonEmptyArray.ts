@@ -569,7 +569,10 @@ export const chainWithIndex =
   (as: NonEmptyArray<A>): NonEmptyArray<B> => {
     const out: NonEmptyArray<B> = fromReadonlyNonEmptyArray(f(0, head(as)))
     for (let i = 1; i < as.length; i++) {
-      out.push(...f(i, as[i]))
+      const bs = f(i, as[i])
+      for (let j = 0; j < bs.length; j++) {
+        out.push(bs[j])
+      }
     }
     return out
   }
