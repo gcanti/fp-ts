@@ -67,7 +67,7 @@ _.elem(N.Eq)(1) // $ExpectType (as: number[]) => boolean
 //
 
 _.difference(N.Eq)([1, 2], [3, 4]) // $ExpectType number[]
-_.difference(N.Eq)([3, 4]) // $ExpectType (ys: number[]) => number[]
+_.difference(N.Eq)([3, 4]) // $ExpectType (me: number[]) => number[]
 
 //
 // intersection
