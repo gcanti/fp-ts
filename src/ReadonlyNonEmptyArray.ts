@@ -204,7 +204,7 @@ export const sortBy = <B>(
  */
 export const union = <A>(
   E: Eq<A>
-): ((second: ReadonlyNonEmptyArray<A>) => (first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>) => {
+): ((second: ReadonlyArray<A>) => (first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>) => {
   const uniqE = uniq(E)
   return (second) => (first) => uniqE(pipe(first, concat(second)))
 }
