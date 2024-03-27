@@ -2,6 +2,15 @@ import * as E from '../../src/Either'
 import { pipe } from '../../src/function'
 import * as _ from '../../src/Json'
 
+declare const s: string
+
+//
+// parse
+//
+
+// $ExpectType Either<SyntaxError, Json>
+_.parse(s)
+
 //
 // stringify
 //
@@ -34,5 +43,5 @@ _.stringify([{ a: 'a', b: 1 }])
 _.stringify(abs)
 _.stringify([...abs])
 
-// $ExpectType Either<unknown, string>
+// $ExpectType Either<TypeError, string>
 pipe(E.right('a'), E.chainFirst(_.stringify))
