@@ -81,6 +81,16 @@ pipe(
 )
 
 //
+// orLeftW
+//
+
+// $ExpectType ReaderTaskEither<{ a: string; } & { b: string; }, number, never>
+pipe(
+  _.left<{ a: string }, string, never>('a'),
+  _.orLeftW((a) => RT.of<{ b: string }, number>(a.length))
+)
+
+//
 // chainW
 //
 

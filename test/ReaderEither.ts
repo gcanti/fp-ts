@@ -211,6 +211,12 @@ describe.concurrent('ReaderEither', () => {
     U.deepStrictEqual(pipe(_.left('a'), f)({}), E.left('a!'))
   })
 
+  it('orLeftW', () => {
+    const f = _.orLeftW((s: string) => R.of(s + '!'))
+    U.deepStrictEqual(pipe(_.right(1), f)({}), E.right(1))
+    U.deepStrictEqual(pipe(_.left('a'), f)({}), E.left('a!'))
+  })
+
   describe.concurrent('getSemigroup', () => {
     it('concat', () => {
       const S = _.getSemigroup(N.SemigroupSum)

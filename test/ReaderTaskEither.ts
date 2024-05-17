@@ -346,6 +346,12 @@ describe.concurrent('ReaderTaskEither', () => {
     U.deepStrictEqual(await pipe(_.left('a'), f)({})(), E.left('a!'))
   })
 
+  it('orLeftW', async () => {
+    const f = _.orLeftW((s: string) => RT.of(s + '!'))
+    U.deepStrictEqual(await pipe(_.right(1), f)({})(), E.right(1))
+    U.deepStrictEqual(await pipe(_.left('a'), f)({})(), E.left('a!'))
+  })
+
   describe.concurrent('MonadIO', () => {
     it('fromIO', async () => {
       U.deepStrictEqual(await _.fromIO(() => 1)({})(), E.right(1))
