@@ -432,6 +432,14 @@ export const orLeft: <E1, R, E2>(
 ) => <A>(fa: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E2, A> = /*#__PURE__*/ ET.orLeft(RT.Monad)
 
 /**
+ * @category error handling
+ * @since 2.16.6
+ */
+export const orLeftW: <E1, R2, E2>(
+  onLeft: (e: E1) => ReaderTask<R2, E2>
+) => <R1, A>(fa: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2, A> = orLeft as any
+
+/**
  * @since 2.0.0
  */
 export const swap: <R, E, A>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, A, E> = /*#__PURE__*/ ET.swap(

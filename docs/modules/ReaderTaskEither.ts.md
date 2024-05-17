@@ -71,6 +71,7 @@ Added in v2.0.0
   - [orElse](#orelse)
   - [orElseW](#orelsew)
   - [orLeft](#orleft)
+  - [orLeftW](#orleftw)
   - [tapError](#taperror)
 - [filtering](#filtering)
   - [filterOrElse](#filterorelse)
@@ -1037,6 +1038,18 @@ export declare const orLeft: <E1, R, E2>(
 ```
 
 Added in v2.11.0
+
+## orLeftW
+
+**Signature**
+
+```ts
+export declare const orLeftW: <E1, R2, E2>(
+  onLeft: (e: E1) => RT.ReaderTask<R2, E2>
+) => <R1, A>(fa: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2, A>
+```
+
+Added in v2.16.6
 
 ## tapError
 
