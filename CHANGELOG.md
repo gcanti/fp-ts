@@ -16,6 +16,12 @@
 **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 2.16.6
+
+**Polish**
+
+Allow dependencies to be widen when using orLeft #1938
+
 # 2.16.5
 
 **Polish**
