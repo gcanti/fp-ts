@@ -17,10 +17,11 @@ describe.concurrent('Json', () => {
       pipe(
         circular,
         _.stringify,
-        E.mapLeft((e) => (e as Error).message.includes('Converting circular structure to JSON'))
+        E.mapLeft((e) => e.message.includes('Converting circular structure to JSON'))
       ),
       E.left(true)
     )
+    U.deepStrictEqual(_.stringify({ a: BigInt(1) }), E.left(new TypeError('Do not know how to serialize a BigInt')))
     type Person = {
       readonly name: string
       readonly age: number
@@ -28,6 +29,6 @@ describe.concurrent('Json', () => {
     const person: Person = { name: 'Giulio', age: 45 }
     U.deepStrictEqual(pipe(person, _.stringify), E.right('{"name":"Giulio","age":45}'))
 
-    U.deepStrictEqual(_.stringify(undefined as any), E.left(new Error('Converting unsupported structure to JSON')))
+    U.deepStrictEqual(_.stringify(undefined), E.left(new TypeError('Converting unsupported structure to JSON')))
   })
 })

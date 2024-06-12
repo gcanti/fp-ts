@@ -62,7 +62,7 @@ Converts a JavaScript Object Notation (JSON) string into a `Json` type.
 **Signature**
 
 ```ts
-export declare const parse: (s: string) => Either<unknown, Json>
+export declare const parse: (s: string) => Either<SyntaxError, Json>
 ```
 
 **Example**
@@ -85,7 +85,7 @@ Converts a JavaScript value to a JavaScript Object Notation (JSON) string.
 **Signature**
 
 ```ts
-export declare const stringify: <A>(a: A) => Either<unknown, string>
+export declare const stringify: <A>(a: A) => Either<TypeError, string>
 ```
 
 **Example**
@@ -101,7 +101,7 @@ circular.ref = circular
 assert.deepStrictEqual(
   pipe(
     J.stringify(circular),
-    E.mapLeft((e) => e instanceof Error && e.message.includes('Converting circular structure to JSON'))
+    E.mapLeft((e) => e.message.includes('Converting circular structure to JSON'))
   ),
   E.left(true)
 )
