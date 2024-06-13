@@ -54,12 +54,13 @@ export const getAssignSemigroup = <A extends object = never>(): Semigroup<A> => 
  * @since 2.11.0
  */
 export const evolve =
-  <A, F extends { [K in keyof A]: (a: A[K]) => unknown }>(transformations: F) =>
-  (a: A): { [K in keyof F]: ReturnType<F[K]> } => {
+  <A, F extends { [K in keyof A]?: (a: A[K]) => unknown }>(transformations: F) =>
+  (a: A): { [K in keyof A]: F[K] extends (a: A[K]) => unknown ? ReturnType<F[K]> : A[K] } => {
     const out: Record<string, unknown> = {}
     for (const k in a) {
       if (_.has.call(a, k)) {
-        out[k] = transformations[k](a[k])
+        const fn = transformations[k]
+        out[k] = typeof fn === 'function' ? fn(a[k]) : a[k]
       }
     }
     return out as any
