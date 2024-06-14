@@ -1,0 +1,6 @@
+tasks:
+  - init: npm install && npm run build
+
+vscode:
+  extensions:
+    - esbenp.prettier-vscode@5.7.2:uyRGbFR3U94Ki5fjjZ7aoQ==
