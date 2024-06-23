@@ -17,6 +17,16 @@ Functional programming in TypeScript
   </a>
 </p>
 
+**📢 Important Announcement: fp-ts is Joining the Effect-TS Ecosystem!**
+
+We are excited to announce that the `fp-ts` project is officially merging with the Effect-TS ecosystem. This is a significant step forward in the functional programming landscape, bringing together two powerful libraries under one roof. Giulio Canti, the author of `fp-ts`, is being welcomed into the Effect organization, promising an exciting future with enhanced capabilities and support.
+
+**What This Means for New Users:**
+
+Effect-TS can be regarded as the successor to `fp-ts v2` and embodies what would be considered `fp-ts v3`. This merger marks a significant evolution in the library's capabilities, integrating more features and functionalities tailored towards robust, type-safe, and scalable functional programming.
+
+For more details on this merger and what it entails, please refer to the official [announcement here](https://dev.to/effect/a-bright-future-for-effect-455m). Additionally, you can explore more about Effect-TS and its offerings on our [website and documentation](https://effect.website/).
+
 # Introduction
 
 `fp-ts` is a library for _typed functional programming_ in TypeScript.
