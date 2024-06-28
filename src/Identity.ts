@@ -4,7 +4,7 @@
 import { Alt1 } from './Alt'
 import { Applicative as ApplicativeHKT, Applicative1 } from './Applicative'
 import { apFirst as apFirst_, Apply1, apS as apS_, apSecond as apSecond_ } from './Apply'
-import { bind as bind_, Chain1, chainFirst as chainFirst_, tap as tap_ } from './Chain'
+import { bind as bind_, Chain1, tap as tap_ } from './Chain'
 import { ChainRec1, tailRec } from './ChainRec'
 import { Comonad1 } from './Comonad'
 import { Eq } from './Eq'
@@ -289,7 +289,7 @@ export const tap: {
  * @category legacy
  * @since 2.0.0
  */
-export const chainFirst: <A, B>(f: (a: A) => B) => (first: A) => A = /*#__PURE__*/ chainFirst_(Chain)
+export const chainFirst: <A, B>(f: (a: A) => B) => (first: A) => A = tap
 
 /**
  * @category instances
