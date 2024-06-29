@@ -1,6 +1,6 @@
 {
   "name": "fp-ts",
-  "version": "2.16.6",
+  "version": "2.16.7",
   "description": "Functional programming in TypeScript",
   "main": "./lib/index.js",
   "module": "./es6/index.js",
@@ -59,7 +59,7 @@
     "rimraf": "2.6.2",
     "ts-node": "^8.0.2",
     "tslint": "5.11.0",
-    "typescript": "^5.0.4",
+    "typescript": "^5.5.2",
     "vitest": "^0.30.1"
   },
   "tags": [
