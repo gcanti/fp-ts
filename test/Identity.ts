@@ -36,6 +36,11 @@ describe.concurrent('Identity', () => {
       U.deepStrictEqual(pipe(1, _.chain(f)), 2)
     })
 
+    it('tap', () => {
+      const f = (n: number) => n * 2
+      U.deepStrictEqual(pipe(1, _.tap(f)), 1)
+    })
+
     it('chainFirst', () => {
       const f = (n: number) => n * 2
       U.deepStrictEqual(pipe(1, _.chainFirst(f)), 1)
