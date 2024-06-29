@@ -16,6 +16,12 @@
 **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 2.16.7
+
+**Polish**
+
+Add tap for Identity #1943
+
 # 2.16.6
 
 **Polish**
