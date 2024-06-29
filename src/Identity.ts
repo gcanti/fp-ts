@@ -276,7 +276,7 @@ export const Monad: Monad1<URI> = {
  * keeping only the result of the first.
  *
  * @category combinators
- * @since 2.16.0
+ * @since 2.16.7
  */
 export const tap: {
   <A, _>(self: Identity<A>, f: (a: A) => Identity<_>): Identity<A>
