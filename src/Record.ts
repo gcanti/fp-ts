@@ -808,7 +808,7 @@ export const toEntries = toArray
  * @since 2.12.0
  * @category conversions
  */
-export const fromEntries = <A>(fa: Array<[string, A]>): Record<string, A> => fromFoldable(Se.last<A>(), A.Foldable)(fa)
+export const fromEntries = <K extends string, A>(fa: Array<[K, A]>): Record<K, A> => fromFoldable(Se.last<A>(), A.Foldable)(fa)
 
 /**
  * Create a `Record` from a foldable collection using the specified functions to
