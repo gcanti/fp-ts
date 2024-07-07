@@ -50,8 +50,8 @@ const gitHubB = (wa: ProjectBuilder): Project => {
 
 const getProjectName = (project: Project): string => project.projectName
 
-describe.concurrent('Traced', () => {
-  describe.concurrent('pipeables', () => {
+describe('Traced', () => {
+  describe('pipeables', () => {
     it('map', () => {
       const wa = buildProject('myproject')
       U.deepStrictEqual(pipe(wa, _.map(getProjectName))(M.empty), 'myproject')

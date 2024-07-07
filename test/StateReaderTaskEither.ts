@@ -20,8 +20,8 @@ import * as U from './util'
 
 const state: unknown = {}
 
-describe.concurrent('StateReaderTaskEither', () => {
-  describe.concurrent('pipeables', () => {
+describe('StateReaderTaskEither', () => {
+  describe('pipeables', () => {
     it('alt', async () => {
       const e1 = await pipe(
         _.right('a'),
@@ -378,7 +378,7 @@ describe.concurrent('StateReaderTaskEither', () => {
     )
   })
 
-  describe.concurrent('array utils', () => {
+  describe('array utils', () => {
     const input: ReadonlyNonEmptyArray<string> = ['a', 'b']
 
     it('traverseReadonlyArrayWithIndex', async () => {

@@ -1,7 +1,7 @@
 import * as _ from '../src/number'
 import * as U from './util'
 
-describe.concurrent('string', () => {
+describe('string', () => {
   it('Ord', () => {
     U.deepStrictEqual(_.Ord.compare(1, 2), -1)
     U.deepStrictEqual(_.Ord.compare(2, 1), 1)

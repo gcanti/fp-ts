@@ -1,7 +1,7 @@
 import { error, info, log, warn } from '../src/Console'
 import * as U from './util'
 
-describe.concurrent('Console', () => {
+describe('Console', () => {
   it('log', () => {
     const log_ = console.log
     const logger: Array<any> = []

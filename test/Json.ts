@@ -3,10 +3,13 @@ import { pipe } from '../src/function'
 import * as _ from '../src/Json'
 import * as U from './util'
 
-describe.concurrent('Json', () => {
+describe('Json', () => {
   it('parse', () => {
     U.deepStrictEqual(pipe('{"a":1}', _.parse), E.right({ a: 1 }))
-    U.deepStrictEqual(pipe('{"a":}', _.parse), E.left(new SyntaxError('Unexpected token } in JSON at position 5')))
+    U.deepStrictEqual(
+      pipe('{"a":}', _.parse),
+      E.left(new SyntaxError(`Unexpected token '}', "{"a":}" is not valid JSON`))
+    )
   })
 
   it('stringify', () => {

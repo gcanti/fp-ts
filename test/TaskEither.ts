@@ -16,7 +16,7 @@ import * as _ from '../src/TaskEither'
 import * as TO from '../src/TaskOption'
 import * as U from './util'
 
-describe.concurrent('TaskEither', () => {
+describe('TaskEither', () => {
   // -------------------------------------------------------------------------------------
   // pipeables
   // -------------------------------------------------------------------------------------
@@ -178,7 +178,7 @@ describe.concurrent('TaskEither', () => {
     U.deepStrictEqual(await AV.alt(_.left('a'), () => _.left('b'))(), E.left('ab'))
   })
 
-  describe.concurrent('getTaskValidation', () => {
+  describe('getTaskValidation', () => {
     const TV = _.getTaskValidation(S.Semigroup)
 
     it('ap', async () => {
@@ -195,7 +195,7 @@ describe.concurrent('TaskEither', () => {
     })
   })
 
-  describe.concurrent('getCompactable', () => {
+  describe('getCompactable', () => {
     const C = _.getCompactable(S.Monoid)
 
     it('compact', async () => {
@@ -215,7 +215,7 @@ describe.concurrent('TaskEither', () => {
     })
   })
 
-  describe.concurrent('getFilterable', () => {
+  describe('getFilterable', () => {
     const F_ = _.getFilterable(RA.getMonoid<string>())
     const { filter, filterMap, partition, partitionMap } = pipeable(F_)
 
@@ -286,7 +286,7 @@ describe.concurrent('TaskEither', () => {
     })
   })
 
-  describe.concurrent('getSemigroup', () => {
+  describe('getSemigroup', () => {
     it('concat', async () => {
       const S = _.getSemigroup<string, number>(N.SemigroupSum)
       U.deepStrictEqual(await S.concat(_.left('a'), _.left('b'))(), E.left('a'))
@@ -296,7 +296,7 @@ describe.concurrent('TaskEither', () => {
     })
   })
 
-  describe.concurrent('getApplyMonoid', () => {
+  describe('getApplyMonoid', () => {
     const M = _.getApplyMonoid(monoidString)
 
     it('concat (right)', async () => {
@@ -548,7 +548,7 @@ describe.concurrent('TaskEither', () => {
     U.deepStrictEqual(await pipe(_.right('a'), _.chainIOEitherK(f))(), E.right(1))
   })
 
-  describe.concurrent('tryCatchK', () => {
+  describe('tryCatchK', () => {
     test('with a resolved promise', async () => {
       const g = _.tryCatchK((a: number) => Promise.resolve(a), identity)
       U.deepStrictEqual(await g(1)(), E.right(1))
@@ -581,7 +581,7 @@ describe.concurrent('TaskEither', () => {
     U.deepStrictEqual(await _.leftIO(I.of(1))(), E.left(1))
   })
 
-  describe.concurrent('tryCatch', () => {
+  describe('tryCatch', () => {
     test('with a resolving promise', async () => {
       U.deepStrictEqual(await _.tryCatch(() => Promise.resolve(1), identity)(), E.right(1))
     })
@@ -738,7 +738,7 @@ describe.concurrent('TaskEither', () => {
     )
   })
 
-  describe.concurrent('array utils', () => {
+  describe('array utils', () => {
     const input: ReadonlyNonEmptyArray<string> = ['a', 'b']
 
     it('traverseReadonlyArrayWithIndex', async () => {

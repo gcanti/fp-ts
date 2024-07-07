@@ -6,8 +6,8 @@ import * as O from '../src/Option'
 import * as S from '../src/string'
 import * as U from './util'
 
-describe.concurrent('Identity', () => {
-  describe.concurrent('pipeables', () => {
+describe('Identity', () => {
+  describe('pipeables', () => {
     it('map', () => {
       U.deepStrictEqual(pipe(1, _.map(U.double)), 2)
     })

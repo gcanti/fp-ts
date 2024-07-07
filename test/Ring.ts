@@ -2,7 +2,7 @@ import * as N from '../src/number'
 import * as _ from '../src/Ring'
 import * as U from './util'
 
-describe.concurrent('Ring', () => {
+describe('Ring', () => {
   it('tuple', () => {
     const R = _.tuple(N.Field, N.Field, N.Field)
     U.deepStrictEqual(R.add([1, 2, 3], [4, 5, 6]), [5, 7, 9])

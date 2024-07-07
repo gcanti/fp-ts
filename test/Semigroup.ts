@@ -4,7 +4,7 @@ import * as _ from '../src/Semigroup'
 import * as S from '../src/string'
 import * as U from './util'
 
-describe.concurrent('Semigroup', () => {
+describe('Semigroup', () => {
   it('tuple', () => {
     const S1 = _.tuple(S.Semigroup, N.SemigroupSum)
     U.deepStrictEqual(S1.concat(['a', 1], ['b', 2]), ['ab', 3])

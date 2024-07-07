@@ -18,8 +18,8 @@ import * as T from '../src/Task'
 import * as TE from '../src/TaskEither'
 import * as U from './util'
 
-describe.concurrent('ReaderTaskEither', () => {
-  describe.concurrent('pipeables', () => {
+describe('ReaderTaskEither', () => {
+  describe('pipeables', () => {
     it('map', async () => {
       U.deepStrictEqual(await pipe(_.right(1), _.map(U.double))({})(), E.right(2))
     })
@@ -352,7 +352,7 @@ describe.concurrent('ReaderTaskEither', () => {
     U.deepStrictEqual(await pipe(_.left('a'), f)({})(), E.left('a!'))
   })
 
-  describe.concurrent('MonadIO', () => {
+  describe('MonadIO', () => {
     it('fromIO', async () => {
       U.deepStrictEqual(await _.fromIO(() => 1)({})(), E.right(1))
     })
@@ -363,7 +363,7 @@ describe.concurrent('ReaderTaskEither', () => {
     U.deepStrictEqual(await _.swap(_.left('a'))({})(), E.right('a'))
   })
 
-  describe.concurrent('getSemigroup', () => {
+  describe('getSemigroup', () => {
     it('concat', async () => {
       const S = _.getSemigroup(N.SemigroupSum)
       U.deepStrictEqual(await S.concat(_.left('a'), _.left('b'))({})(), E.left('a'))
@@ -594,7 +594,7 @@ describe.concurrent('ReaderTaskEither', () => {
     )
   })
 
-  describe.concurrent('array utils', () => {
+  describe('array utils', () => {
     const input: ReadonlyNonEmptyArray<string> = ['a', 'b']
 
     it('traverseReadonlyArrayWithIndex', async () => {

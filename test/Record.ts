@@ -18,8 +18,8 @@ const p = (n: number) => n > 2
 
 const noPrototype = Object.create(null)
 
-describe.concurrent('Record', () => {
-  describe.concurrent('pipeables', () => {
+describe('Record', () => {
+  describe('pipeables', () => {
     it('collect', () => {
       const x: { readonly a: string; readonly b: boolean } = { a: 'c', b: false }
       U.deepStrictEqual(_.collect(S.Ord)((key, val) => ({ key: key, value: val }))(x), [

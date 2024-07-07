@@ -10,8 +10,8 @@ import * as S from '../src/string'
 import * as T from '../src/Task'
 import * as U from './util'
 
-describe.concurrent('Either', () => {
-  describe.concurrent('pipeables', () => {
+describe('Either', () => {
+  describe('pipeables', () => {
     it('mapLeft', () => {
       U.deepStrictEqual(pipe(_.right('bar'), _.mapLeft(U.double)), _.right('bar'))
       U.deepStrictEqual(pipe(_.left(2), _.mapLeft(U.double)), _.left(4))
@@ -328,7 +328,7 @@ describe.concurrent('Either', () => {
     U.deepStrictEqual(_.parseJSON('{"a":1}', _.toError), _.right({ a: 1 }))
     U.deepStrictEqual(
       _.parseJSON('{"a":}', _.toError),
-      _.left(new SyntaxError('Unexpected token } in JSON at position 5'))
+      _.left(new SyntaxError(`Unexpected token '}', "{"a":}" is not valid JSON`))
     )
   })
 
@@ -409,7 +409,7 @@ describe.concurrent('Either', () => {
     )
   })
 
-  describe.concurrent('getEq', () => {
+  describe('getEq', () => {
     it('equals', () => {
       const equals = _.getEq(S.Eq, N.Eq).equals
       U.deepStrictEqual(equals(_.right(1), _.right(1)), true)
@@ -421,7 +421,7 @@ describe.concurrent('Either', () => {
     })
   })
 
-  describe.concurrent('ChainRec', () => {
+  describe('ChainRec', () => {
     it('chainRec', () => {
       const chainRec = _.ChainRec.chainRec
       U.deepStrictEqual(
@@ -445,7 +445,7 @@ describe.concurrent('Either', () => {
     })
   })
 
-  describe.concurrent('getWitherable', () => {
+  describe('getWitherable', () => {
     const W = _.getWitherable(S.Monoid)
     const p = (n: number) => n > 2
 
@@ -504,7 +504,7 @@ describe.concurrent('Either', () => {
     })
   })
 
-  describe.concurrent('getSemigroup', () => {
+  describe('getSemigroup', () => {
     it('concat', () => {
       const S = _.getSemigroup(N.SemigroupSum)
       U.deepStrictEqual(S.concat(_.left('a'), _.left('b')), _.left('a'))
@@ -514,7 +514,7 @@ describe.concurrent('Either', () => {
     })
   })
 
-  describe.concurrent('getApplySemigroup', () => {
+  describe('getApplySemigroup', () => {
     it('concat', () => {
       const S = _.getApplySemigroup(N.SemigroupSum)
       U.deepStrictEqual(S.concat(_.left('a'), _.left('b')), _.left('a'))
@@ -524,7 +524,7 @@ describe.concurrent('Either', () => {
     })
   })
 
-  describe.concurrent('getApplyMonoid', () => {
+  describe('getApplyMonoid', () => {
     it('concat', () => {
       const M = _.getApplyMonoid(N.MonoidSum)
       U.deepStrictEqual(M.concat(_.left('a'), M.empty), _.left('a'))
@@ -534,7 +534,7 @@ describe.concurrent('Either', () => {
     })
   })
 
-  describe.concurrent('getShow', () => {
+  describe('getShow', () => {
     it('show', () => {
       const Sh = _.getShow(S.Show, S.Show)
       U.deepStrictEqual(Sh.show(_.left('a')), `left("a")`)
@@ -661,7 +661,7 @@ describe.concurrent('Either', () => {
     U.deepStrictEqual(f(_.left('a')), _.left('a'))
   })
 
-  describe.concurrent('array utils', () => {
+  describe('array utils', () => {
     const input: ReadonlyNonEmptyArray<string> = ['a', 'b']
 
     it('traverseReadonlyArrayWithIndex', () => {
@@ -678,7 +678,7 @@ describe.concurrent('Either', () => {
     })
   })
 
-  describe.concurrent('getCompactable', () => {
+  describe('getCompactable', () => {
     const C = _.getCompactable(S.Monoid)
     it('compact', () => {
       U.deepStrictEqual(C.compact(_.left('1')), _.left('1'))

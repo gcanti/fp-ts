@@ -5,7 +5,7 @@ import * as O from '../src/Option'
 import * as S from '../src/Semigroup'
 import * as U from './util'
 
-describe.concurrent('Alternative', () => {
+describe('Alternative', () => {
   it('altAll', () => {
     const altAll = _.altAll(O.Alternative)
     U.deepStrictEqual(altAll([]), O.none)

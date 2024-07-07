@@ -4,8 +4,8 @@ import * as N from '../src/number'
 import * as S from '../src/string'
 import * as U from './util'
 
-describe.concurrent('Const', () => {
-  describe.concurrent('pipeables', () => {
+describe('Const', () => {
+  describe('pipeables', () => {
     it('map', () => {
       const fa = _.make('foo')
       U.deepStrictEqual(pipe(fa, _.map(U.double)), fa)

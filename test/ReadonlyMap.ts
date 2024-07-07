@@ -53,8 +53,8 @@ const repo = new Map<Key, Value>([
   [{ id: 2 }, { value: 2 }]
 ])
 
-describe.concurrent('ReadonlyMap', () => {
-  describe.concurrent('pipeables', () => {
+describe('ReadonlyMap', () => {
+  describe('pipeables', () => {
     it('map', () => {
       U.deepStrictEqual(
         pipe(
@@ -739,8 +739,8 @@ describe.concurrent('ReadonlyMap', () => {
     )
   })
 
-  describe.concurrent('readonlyMap', () => {
-    describe.concurrent('compactable', () => {
+  describe('readonlyMap', () => {
+    describe('compactable', () => {
       it('compact', () => {
         const fooBar = new Map<string, O.Option<number>>([
           ['foo', O.none],
@@ -762,7 +762,7 @@ describe.concurrent('ReadonlyMap', () => {
     })
   })
 
-  describe.concurrent('getTraversable', () => {
+  describe('getTraversable', () => {
     const T = _.getTraversable(ordUser)
 
     it('traverse', () => {
@@ -809,7 +809,7 @@ describe.concurrent('ReadonlyMap', () => {
     })
   })
 
-  describe.concurrent('getWitherable', () => {
+  describe('getWitherable', () => {
     const W = _.getWitherable(ordUser)
 
     it('traverseWithIndex should sort the keys', () => {
@@ -978,7 +978,7 @@ describe.concurrent('ReadonlyMap', () => {
     })
   })
 
-  describe.concurrent('getFilterableWithIndex', () => {
+  describe('getFilterableWithIndex', () => {
     it('partitionMapWithIndex', () => {
       const partitionMapWithIndex = _.getFilterableWithIndex<string>().partitionMapWithIndex
       const emptyMap = new Map<string, number>()

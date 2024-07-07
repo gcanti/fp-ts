@@ -2,7 +2,7 @@ import * as R from '../src/Reader'
 import { fanout, splitStrong } from '../src/Strong'
 import * as U from './util'
 
-describe.concurrent('Strong', () => {
+describe('Strong', () => {
   it('splitStrong', () => {
     const ab = (s: string) => s.length
     const cd = (n: number) => n >= 2

@@ -3,7 +3,7 @@ import { getEitherM } from '../src/EitherT'
 import * as I from '../src/IO'
 import * as U from './util'
 
-describe.concurrent('EitherT', () => {
+describe('EitherT', () => {
   const T = getEitherM(I.Monad)
 
   it('fold', () => {

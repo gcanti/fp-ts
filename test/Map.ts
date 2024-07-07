@@ -52,7 +52,7 @@ const repo = new Map<Key, Value>([
   [{ id: 2 }, { value: 2 }]
 ])
 
-describe.concurrent('Map', () => {
+describe('Map', () => {
   it('URI', () => {
     U.deepStrictEqual(_.URI, 'Map')
   })
@@ -644,8 +644,8 @@ describe.concurrent('Map', () => {
     )
   })
 
-  describe.concurrent('map_', () => {
-    describe.concurrent('functor', () => {
+  describe('map_', () => {
+    describe('functor', () => {
       it('map', () => {
         const d1 = new Map<string, number>([
           ['k1', 1],
@@ -659,7 +659,7 @@ describe.concurrent('Map', () => {
       })
     })
 
-    describe.concurrent('filterable', () => {
+    describe('filterable', () => {
       it('compact', () => {
         const fooBar = new Map<string, O.Option<number>>([
           ['foo', O.none],
@@ -737,7 +737,7 @@ describe.concurrent('Map', () => {
     })
   })
 
-  describe.concurrent('getFoldable', () => {
+  describe('getFoldable', () => {
     const F = _.getFoldable(ordUser)
     it('reduce', () => {
       const d1 = new Map<User, string>([
@@ -780,7 +780,7 @@ describe.concurrent('Map', () => {
     })
   })
 
-  describe.concurrent('getWitherable', () => {
+  describe('getWitherable', () => {
     const W = _.getWitherable(ordUser)
 
     it('mapWithIndex', () => {
@@ -942,7 +942,7 @@ describe.concurrent('Map', () => {
     })
   })
 
-  describe.concurrent('getFilterableWithIndex', () => {
+  describe('getFilterableWithIndex', () => {
     it('partitionMapWithIndex', () => {
       const partitionMapWithIndex = _.getFilterableWithIndex<string>().partitionMapWithIndex
       const emptyMap = new Map<string, number>()
