@@ -1,7 +1,7 @@
 import * as _ from '../src/Endomorphism'
 import * as U from './util'
 
-describe.concurrent('Endomorphism', () => {
+describe('Endomorphism', () => {
   it('getMonoid', () => {
     const M = _.getMonoid<number>()
     const inc = (n: number) => n + 1

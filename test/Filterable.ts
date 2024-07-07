@@ -6,7 +6,7 @@ import * as RA from '../src/ReadonlyArray'
 import { separated } from '../src/Separated'
 import * as U from './util'
 
-describe.concurrent('Filterable', () => {
+describe('Filterable', () => {
   it('getFilterableComposition', () => {
     const F = getFilterableComposition(RA.Functor, RA.Filterable)
 

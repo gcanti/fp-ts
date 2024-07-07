@@ -16,7 +16,7 @@ type NonEmptyString = string & NonEmptyStringBrand
 
 const NonEmptyString: _.Refinement<string, NonEmptyString> = (s): s is NonEmptyString => s.length > 0
 
-describe.concurrent('Refinement', () => {
+describe('Refinement', () => {
   it('not', () => {
     const r1: _.Refinement<string | number, string> = S.isString
     const r2 = _.not(r1)

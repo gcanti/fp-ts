@@ -3,7 +3,7 @@ import * as _ from '../src/Magma'
 import * as N from '../src/number'
 import * as U from './util'
 
-describe.concurrent('Magma', () => {
+describe('Magma', () => {
   it('reverse', () => {
     const subAll = _.concatAll(_.reverse(N.MagmaSub))(0)
     U.deepStrictEqual(subAll([1, 2, 3]), 2)

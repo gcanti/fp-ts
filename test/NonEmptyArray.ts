@@ -8,8 +8,8 @@ import * as O from '../src/Option'
 import * as S from '../src/string'
 import * as U from './util'
 
-describe.concurrent('NonEmptyArray', () => {
-  describe.concurrent('pipeables', () => {
+describe('NonEmptyArray', () => {
+  describe('pipeables', () => {
     it('traverse', () => {
       U.deepStrictEqual(
         pipe(

@@ -7,7 +7,7 @@ import { ReadonlyNonEmptyArray } from '../src/ReadonlyNonEmptyArray'
 import * as S from '../src/string'
 import * as U from './util'
 
-describe.concurrent('ReaderIO', () => {
+describe('ReaderIO', () => {
   // -------------------------------------------------------------------------------------
   // pipeables
   // -------------------------------------------------------------------------------------
@@ -134,7 +134,7 @@ describe.concurrent('ReaderIO', () => {
     U.deepStrictEqual(pipe(_.of(1), _.bindTo('a'), _.apS('b', _.of('b')))(undefined)(), { a: 1, b: 'b' })
   })
 
-  describe.concurrent('array utils', () => {
+  describe('array utils', () => {
     const input: ReadonlyNonEmptyArray<string> = ['a', 'b']
 
     it('traverseReadonlyArrayWithIndex', () => {

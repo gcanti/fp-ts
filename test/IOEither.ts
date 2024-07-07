@@ -12,8 +12,8 @@ import { left, right } from '../src/Separated'
 import * as S from '../src/string'
 import * as U from './util'
 
-describe.concurrent('IOEither', () => {
-  describe.concurrent('pipeables', () => {
+describe('IOEither', () => {
+  describe('pipeables', () => {
     it('alt', () => {
       const r1 = _.right<string, number>(1)
       const r2 = _.right<string, number>(2)
@@ -349,7 +349,7 @@ describe.concurrent('IOEither', () => {
     )
   })
 
-  describe.concurrent('getSemigroup', () => {
+  describe('getSemigroup', () => {
     it('concat', () => {
       const S = _.getSemigroup<string, number>(N.SemigroupSum)
       U.deepStrictEqual(S.concat(_.leftIO(I.of('a')), _.leftIO(I.of('b')))(), E.left('a'))
@@ -359,7 +359,7 @@ describe.concurrent('IOEither', () => {
     })
   })
 
-  describe.concurrent('getApplyMonoid', () => {
+  describe('getApplyMonoid', () => {
     it('concat', () => {
       const M = _.getApplyMonoid(S.Monoid)
       U.deepStrictEqual(M.concat(_.rightIO(I.of('a')), _.rightIO(I.of('b')))(), E.right('ab'))
@@ -446,7 +446,7 @@ describe.concurrent('IOEither', () => {
     U.deepStrictEqual(AV.alt(_.left('a'), () => _.left('b'))(), E.left('ab'))
   })
 
-  describe.concurrent('getCompactable', () => {
+  describe('getCompactable', () => {
     const C = _.getCompactable(S.Monoid)
 
     it('compact', () => {
@@ -466,7 +466,7 @@ describe.concurrent('IOEither', () => {
     })
   })
 
-  describe.concurrent('getFilterable', () => {
+  describe('getFilterable', () => {
     const F_ = _.getFilterable(RA.getMonoid<string>())
     const { filter, filterMap, partition, partitionMap } = pipeable(F_)
 
@@ -550,7 +550,7 @@ describe.concurrent('IOEither', () => {
     )
   })
 
-  describe.concurrent('array utils', () => {
+  describe('array utils', () => {
     const input: ReadonlyNonEmptyArray<string> = ['a', 'b']
 
     it('traverseReadonlyArrayWithIndex', () => {

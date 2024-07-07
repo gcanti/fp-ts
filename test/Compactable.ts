@@ -5,7 +5,7 @@ import * as RA from '../src/ReadonlyArray'
 import { separated } from '../src/Separated'
 import * as U from './util'
 
-describe.concurrent('Compactable', () => {
+describe('Compactable', () => {
   it('getCompactableComposition', () => {
     const C = getCompactableComposition(RA.Functor, { ...RA.Functor, ...RA.Compactable })
     U.deepStrictEqual(

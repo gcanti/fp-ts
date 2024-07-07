@@ -10,7 +10,7 @@ import * as U from './util'
 const f = (n: number) => n + 1
 const g = (n: number) => n * 2
 
-describe.concurrent('function', () => {
+describe('function', () => {
   test('flip', () => {
     const f1 = (a: number) => (b: string) => a - b.length
     const f2 = (a: number, b: string) => a - b.length

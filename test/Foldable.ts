@@ -11,7 +11,7 @@ export const ArrayOptionURI = 'ArrayOption'
 
 export type ArrayOptionURI = typeof ArrayOptionURI
 
-describe.concurrent('Foldable', () => {
+describe('Foldable', () => {
   it('getFoldableComposition', () => {
     const F = _.getFoldableComposition(RA.Foldable, O.Foldable)
     // reduce

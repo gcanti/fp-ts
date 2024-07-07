@@ -4,7 +4,7 @@ import * as _ from '../src/ReaderT'
 import * as TE from '../src/TaskEither'
 import * as U from './util'
 
-describe.concurrent('ReaderT', () => {
+describe('ReaderT', () => {
   it('fromNaturalTransformation', async () => {
     const fromReaderIO = _.fromNaturalTransformation<'IO', 'TaskEither'>(TE.fromIO)
     const f = (s: string): IO.IO<number> => IO.of(s.length)

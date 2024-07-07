@@ -8,8 +8,8 @@ import * as _ from '../src/ReadonlyTuple'
 import * as S from '../src/string'
 import * as U from './util'
 
-describe.concurrent('ReadonlyTuple', () => {
-  describe.concurrent('pipeables', () => {
+describe('ReadonlyTuple', () => {
+  describe('pipeables', () => {
     it('compose', () => {
       U.deepStrictEqual(pipe([true, 2] as const, _.compose([1, 'a'])), [true, 'a'])
     })

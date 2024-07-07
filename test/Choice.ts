@@ -3,7 +3,7 @@ import { left, right } from '../src/Either'
 import * as R from '../src/Reader'
 import * as U from './util'
 
-describe.concurrent('Choice', () => {
+describe('Choice', () => {
   it('splitChoice', () => {
     const ab = (s: string) => s.length
     const cd = (n: number) => n >= 2

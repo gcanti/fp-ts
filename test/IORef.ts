@@ -3,7 +3,7 @@ import * as I from '../src/IO'
 import { IORef, newIORef } from '../src/IORef'
 import * as U from './util'
 
-describe.concurrent('IORef', () => {
+describe('IORef', () => {
   it('read', () => {
     const ref = new IORef(1)
     U.deepStrictEqual(ref.read(), 1)

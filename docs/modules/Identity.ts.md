@@ -14,6 +14,8 @@ Added in v2.0.0
 
 - [Extract](#extract)
   - [extract](#extract)
+- [combinators](#combinators)
+  - [tap](#tap)
 - [constructors](#constructors)
   - [of](#of)
 - [do notation](#do-notation)
@@ -45,13 +47,13 @@ Added in v2.0.0
   - [getShow](#getshow)
 - [legacy](#legacy)
   - [chain](#chain)
+  - [chainFirst](#chainfirst)
 - [mapping](#mapping)
   - [flap](#flap)
   - [map](#map)
 - [model](#model)
   - [Identity (type alias)](#identity-type-alias)
 - [sequencing](#sequencing)
-  - [chainFirst](#chainfirst)
   - [flatMap](#flatmap)
   - [flatten](#flatten)
 - [traversing](#traversing)
@@ -82,6 +84,21 @@ export declare const extract: <A>(wa: A) => A
 ```
 
 Added in v2.6.2
+
+# combinators
+
+## tap
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+**Signature**
+
+```ts
+export declare const tap: { <A, _>(self: A, f: (a: A) => _): A; <A, _>(f: (a: A) => _): (self: A) => A }
+```
+
+Added in v2.16.7
 
 # constructors
 
@@ -363,6 +380,18 @@ export declare const chain: <A, B>(f: (a: A) => B) => (ma: A) => B
 
 Added in v2.0.0
 
+## chainFirst
+
+Alias of `tap`
+
+**Signature**
+
+```ts
+export declare const chainFirst: <A, B>(f: (a: A) => B) => (first: A) => A
+```
+
+Added in v2.0.0
+
 # mapping
 
 ## flap
@@ -401,19 +430,6 @@ export type Identity<A> = A
 Added in v2.0.0
 
 # sequencing
-
-## chainFirst
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-**Signature**
-
-```ts
-export declare const chainFirst: <A, B>(f: (a: A) => B) => (first: A) => A
-```
-
-Added in v2.0.0
 
 ## flatMap
 

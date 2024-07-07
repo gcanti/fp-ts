@@ -2,7 +2,7 @@ import { getMinMaxBoundedDistributiveLattice } from '../src/BoundedDistributiveL
 import * as N from '../src/number'
 import * as U from './util'
 
-describe.concurrent('BoundedDistributiveLattice', () => {
+describe('BoundedDistributiveLattice', () => {
   it('getMinMaxBoundedDistributiveLattice', () => {
     const BDL = getMinMaxBoundedDistributiveLattice(N.Ord)(0, 1)
     U.deepStrictEqual(BDL.join(0.2, 0.4), 0.4)

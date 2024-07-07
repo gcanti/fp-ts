@@ -3,7 +3,7 @@ import * as RA from '../src/ReadonlyArray'
 import * as S from '../src/string'
 import * as U from './util'
 
-describe.concurrent('FoldableWithIndex', () => {
+describe('FoldableWithIndex', () => {
   it('getFoldableWithIndexComposition', () => {
     const arrayOfArray = getFoldableWithIndexComposition(RA.FoldableWithIndex, RA.FoldableWithIndex)
     const fa: ReadonlyArray<ReadonlyArray<string>> = [

@@ -7,8 +7,8 @@ import * as T from '../src/Task'
 import * as _ from '../src/Tree'
 import * as U from './util'
 
-describe.concurrent('Tree', () => {
-  describe.concurrent('pipeables', () => {
+describe('Tree', () => {
+  describe('pipeables', () => {
     it('traverse', () => {
       const fa = _.make('a', [_.make('b'), _.make('c')])
       U.deepStrictEqual(pipe(fa, _.traverse(O.Applicative)(O.some)), O.some(fa))

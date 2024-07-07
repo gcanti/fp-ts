@@ -8,7 +8,7 @@ import * as RA from '../src/ReadonlyArray'
 import { ReadonlyNonEmptyArray } from '../src/ReadonlyNonEmptyArray'
 import * as U from './util'
 
-describe.concurrent('IOOption', () => {
+describe('IOOption', () => {
   // -------------------------------------------------------------------------------------
   // type class members
   // -------------------------------------------------------------------------------------
@@ -164,7 +164,7 @@ describe.concurrent('IOOption', () => {
     U.deepStrictEqual(f(_.none)(), O.none)
   })
 
-  describe.concurrent('array utils', () => {
+  describe('array utils', () => {
     const input: ReadonlyNonEmptyArray<string> = ['a', 'b']
 
     it('traverseReadonlyArrayWithIndex', () => {

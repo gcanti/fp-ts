@@ -12,8 +12,8 @@ import * as Se from '../src/Semigroup'
 import * as S from '../src/string'
 import * as U from './util'
 
-describe.concurrent('ReadonlyNonEmptyArray', () => {
-  describe.concurrent('pipeables', () => {
+describe('ReadonlyNonEmptyArray', () => {
+  describe('pipeables', () => {
     it('traverse', () => {
       assert.deepStrictEqual(
         pipe(

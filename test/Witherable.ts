@@ -7,8 +7,8 @@ import * as T from '../src/Task'
 import * as _ from '../src/Witherable'
 import * as U from './util'
 
-describe.concurrent('Witherable', () => {
-  describe.concurrent('filterE', () => {
+describe('Witherable', () => {
+  describe('filterE', () => {
     const filterERA = _.filterE(RA.Witherable)
     const filterERR = _.filterE(RR.getWitherable(S.Ord))
 
