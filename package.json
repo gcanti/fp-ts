@@ -37,6 +37,7 @@
   },
   "homepage": "https://github.com/gcanti/fp-ts",
   "devDependencies": {
+    "@effect/dtslint": "^0.1.0",
     "@effect/language-service": "^0.0.19",
     "@types/benchmark": "^1.0.31",
     "@types/chai": "^3.5.2",
@@ -47,7 +48,6 @@
     "@vitest/coverage-istanbul": "^1.6.0",
     "benchmark": "2.1.4",
     "docs-ts": "^0.8.0",
-    "dtslint": "github:gcanti/dtslint",
     "eslint": "^8.38.0",
     "eslint-plugin-deprecation": "^1.4.1",
     "eslint-plugin-import": "^2.27.5",
