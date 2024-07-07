@@ -93,7 +93,7 @@ export interface ReaderTaskEither<R, E, A> {
  * @category conversions
  * @since 2.0.0
  */
-export const fromTaskEither: <E, A, R = unknown>(fa: TaskEither<E, A>) => ReaderTaskEither<R, E, A> = /*#__PURE__*/ R.of
+export const fromTaskEither: <E, A, R = unknown>(fa: TaskEither<E, A>) => ReaderTaskEither<R, E, A> = R.of
 
 /**
  * @category constructors
