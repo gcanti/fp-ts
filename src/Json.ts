@@ -30,7 +30,7 @@ export interface JsonArray extends ReadonlyArray<Json> {}
  * import { pipe } from 'fp-ts/function'
  *
  * assert.deepStrictEqual(pipe('{"a":1}', J.parse), E.right({ a: 1 }))
- * assert.deepStrictEqual(pipe('{"a":}', J.parse), E.left(new SyntaxError('Unexpected token } in JSON at position 5')))
+ * assert.deepStrictEqual(pipe('{"a":}', J.parse), E.left(new SyntaxError(`Unexpected token '}', "{"a":}" is not valid JSON`)))
  *
  * @since 2.10.0
  */
