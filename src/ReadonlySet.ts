@@ -61,10 +61,7 @@ export function toSet<A>(s: ReadonlySet<A>): Set<A> {
   return new Set(s)
 }
 
-interface Next<A> {
-  readonly done?: boolean
-  readonly value: A
-}
+type Next<A> = IteratorResult<A>;
 
 /**
  * Projects a Set through a function

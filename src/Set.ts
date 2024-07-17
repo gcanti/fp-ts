@@ -67,10 +67,7 @@ export function chain<B>(E: Eq<B>): <A>(f: (x: A) => Set<B>) => (set: Set<A>) =>
   }
 }
 
-interface Next<A> {
-  readonly done?: boolean
-  readonly value: A
-}
+type Next<A> = IteratorResult<A>;
 
 /**
  * @since 2.0.0

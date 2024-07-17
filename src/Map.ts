@@ -217,10 +217,7 @@ export function pop<K>(E: Eq<K>): (k: K) => <A>(m: Map<K, A>) => Option<[A, Map<
   }
 }
 
-interface Next<A> {
-  readonly done?: boolean
-  readonly value: A
-}
+type Next<A> = IteratorResult<A, undefined>;
 
 // TODO: remove non-curried overloading in v3
 /**
