@@ -95,10 +95,7 @@ export function member<K>(E: Eq<K>): <A>(k: K, m?: ReadonlyMap<K, A>) => boolean
   }
 }
 
-interface Next<A> {
-  readonly done?: boolean
-  readonly value: A
-}
+type Next<A> = IteratorResult<A, undefined>
 
 // TODO: remove non-curried overloading in v3
 /**
