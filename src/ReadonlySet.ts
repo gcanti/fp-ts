@@ -61,7 +61,7 @@ export function toSet<A>(s: ReadonlySet<A>): Set<A> {
   return new Set(s)
 }
 
-type Next<A> = IteratorResult<A, undefined>;
+type Next<A> = IteratorResult<A, undefined>
 
 /**
  * Projects a Set through a function

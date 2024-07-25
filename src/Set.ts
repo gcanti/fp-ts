@@ -67,7 +67,7 @@ export function chain<B>(E: Eq<B>): <A>(f: (x: A) => Set<B>) => (set: Set<A>) =>
   }
 }
 
-type Next<A> = IteratorResult<A, undefined>;
+type Next<A> = IteratorResult<A, undefined>
 
 /**
  * @since 2.0.0

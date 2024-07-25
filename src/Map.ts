@@ -217,7 +217,7 @@ export function pop<K>(E: Eq<K>): (k: K) => <A>(m: Map<K, A>) => Option<[A, Map<
   }
 }
 
-type Next<A> = IteratorResult<A, undefined>;
+type Next<A> = IteratorResult<A, undefined>
 
 // TODO: remove non-curried overloading in v3
 /**
