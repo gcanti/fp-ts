@@ -200,11 +200,15 @@ Added in v2.0.0
 - [utils](#utils)
   - [ApT](#apt)
   - [ap](#ap)
+  - [apEitherSK](#apeithersk)
+  - [apEitherSKW](#apeitherskw)
   - [apFirst](#apfirst)
   - [apFirstW](#apfirstw)
   - [apSecond](#apsecond)
   - [apSecondW](#apsecondw)
   - [apW](#apw)
+  - [bindEitherK](#bindeitherk)
+  - [bindEitherKW](#bindeitherkw)
   - [bracket](#bracket)
   - [bracketW](#bracketw)
   - [local](#local)
@@ -2708,6 +2712,36 @@ export declare const ap: <R, E, A>(
 
 Added in v2.0.0
 
+## apEitherSK
+
+**Signature**
+
+```ts
+export declare const apEitherSK: <A, N extends string, R, E, B>(
+  name: Exclude<N, keyof A>,
+  f: E.Either<E, B>
+) => (
+  fa: ReaderTaskEither<R, E, A>
+) => ReaderTaskEither<R, E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.13.0
+
+## apEitherSKW
+
+**Signature**
+
+```ts
+export declare const apEitherSKW: <N extends string, A, E2, B>(
+  name: Exclude<N, keyof A>,
+  f: E.Either<E2, B>
+) => <R1, E1>(
+  fa: ReaderTaskEither<R1, E1, A>
+) => ReaderTaskEither<R1, E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.13.0
+
 ## apFirst
 
 Combine two effectful actions, keeping only the result of the first.
@@ -2783,6 +2817,36 @@ export declare const apW: <R2, E2, A>(
 ```
 
 Added in v2.8.0
+
+## bindEitherK
+
+**Signature**
+
+```ts
+export declare const bindEitherK: <N extends string, A, R, E, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => E.Either<E, B>
+) => (
+  ma: ReaderTaskEither<R, E, A>
+) => ReaderTaskEither<R, E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.13.0
+
+## bindEitherKW
+
+**Signature**
+
+```ts
+export declare const bindEitherKW: <N extends string, A, E2, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => E.Either<E2, B>
+) => <R1, E1>(
+  fa: ReaderTaskEither<R1, E1, A>
+) => ReaderTaskEither<R1, E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.13.0
 
 ## bracket
 
