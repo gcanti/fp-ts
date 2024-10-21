@@ -1,4 +1,4 @@
-import { pipe } from '../src/function'
+import { pipe, increment } from '../src/function'
 import * as _ from '../src/struct'
 import * as U from './util'
 
@@ -35,5 +35,7 @@ describe('struct', () => {
     const x: Record<'b', number> = Object.create({ a: 1 })
     x.b = 1
     U.deepStrictEqual(pipe(x, _.evolve({ b: (b) => b > 0 })), { b: true })
+    // does not invoke absent transformations
+    U.deepStrictEqual(pipe({ a: 1, b: 's' }, _.evolve({ a: increment })), { a: 2, b: 's' })
   })
 })
