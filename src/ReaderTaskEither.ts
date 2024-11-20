@@ -1965,6 +1965,22 @@ export const bindW: <N extends string, A, R2, E2, B>(
 ) => ReaderTaskEither<R1 & R2, E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bind as any
 
 /**
+ * @since 2.13.0
+ */
+export const bindEitherK = <N extends string, A, R, E, B>(name: Exclude<N, keyof A>, f: (a: A) => Either<E, B>) =>
+  bind(name, (a) => fromEither<E, B, R>(f(a)))
+
+/**
+ * @since 2.13.0
+ */
+export const bindEitherKW: <N extends string, A, E2, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => Either<E2, B>
+) => <R1, E1>(
+  fa: ReaderTaskEither<R1, E1, A>
+) => ReaderTaskEither<R1, E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bindEitherK as any
+
+/**
  * @category do notation
  * @since 2.8.0
  */
@@ -1984,6 +2000,22 @@ export const apSW: <A, N extends string, R2, E2, B>(
 ) => <R1, E1>(
   fa: ReaderTaskEither<R1, E1, A>
 ) => ReaderTaskEither<R1 & R2, E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apS as any
+
+/**
+ * @since 2.13.0
+ */
+export const apEitherSK = <A, N extends string, R, E, B>(name: Exclude<N, keyof A>, f: Either<E, B>) =>
+  apS(name, fromEither<E, B, R>(f))
+
+/**
+ * @since 2.13.0
+ */
+export const apEitherSKW: <N extends string, A, E2, B>(
+  name: Exclude<N, keyof A>,
+  f: Either<E2, B>
+) => <R1, E1>(
+  fa: ReaderTaskEither<R1, E1, A>
+) => ReaderTaskEither<R1, E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apEitherSK as any
 
 /**
  * @since 2.11.0

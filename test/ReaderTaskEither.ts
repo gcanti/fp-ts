@@ -587,10 +587,34 @@ describe('ReaderTaskEither', () => {
     )
   })
 
+  it('bindEitherK', async () => {
+    U.deepStrictEqual(
+      await pipe(
+        _.right<void, string, number>(1),
+        _.bindTo('a'),
+        _.bindEitherK('b', () => E.right<string, string>('b')),
+        _.bindEitherKW('c', () => E.right<number, string>('c'))
+      )(undefined)(),
+      E.right({ a: 1, b: 'b', c: 'c' })
+    )
+  })
+
   it('apS', async () => {
     U.deepStrictEqual(
       await pipe(_.right<void, string, number>(1), _.bindTo('a'), _.apS('b', _.right('b')))(undefined)(),
       E.right({ a: 1, b: 'b' })
+    )
+  })
+
+  it('apEitherSK', async () => {
+    U.deepStrictEqual(
+      await pipe(
+        _.right<void, string, number>(1),
+        _.bindTo('a'),
+        _.apEitherSK('b', E.right<string, string>('b')),
+        _.apEitherSKW('c', E.right<number, string>('c'))
+      )(undefined)(),
+      E.right({ a: 1, b: 'b', c: 'c' })
     )
   })
 
