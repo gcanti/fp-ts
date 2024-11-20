@@ -613,6 +613,11 @@ describe('ReadonlyNonEmptyArray', () => {
     U.deepStrictEqual(concat([1, 2], [3, 4]), [1, 2, 3, 4])
     U.deepStrictEqual(concat([1, 2], [2, 3]), [1, 2, 3])
     U.deepStrictEqual(concat([1, 2], [1, 2]), [1, 2])
+
+    U.deepStrictEqual(_.union(N.Eq)([3, 4])([1, 2]), [1, 2, 3, 4])
+    U.deepStrictEqual(pipe([1, 2], _.union(N.Eq)([3, 4])), [1, 2, 3, 4])
+    U.deepStrictEqual(pipe([1, 2], _.union(N.Eq)([1, 3])), [1, 2, 3])
+    U.deepStrictEqual(pipe([1, 2], _.union(N.Eq)([])), [1, 2])
   })
 
   it('matchLeft', () => {
