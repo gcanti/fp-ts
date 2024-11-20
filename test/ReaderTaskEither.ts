@@ -256,6 +256,10 @@ describe('ReaderTaskEither', () => {
     U.deepStrictEqual(await _.fromIOEither(() => E.left('error'))({})(), E.left('error'))
   })
 
+  it('fromReaderIO', async () => {
+    U.deepStrictEqual(await _.fromReaderIO(RIO.of(1))({})(), E.right(1))
+  })
+
   it('fold', async () => {
     const fold = _.fold(
       (l: string) => R.of(T.of(l.length)),
