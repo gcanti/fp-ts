@@ -30,7 +30,8 @@ export const getBooleanAlgebra =
  * Unary functions form a semigroup as long as you can provide a semigroup for the codomain.
  *
  * @example
- * import { Predicate, getSemigroup } from 'fp-ts/function'
+ * import { getSemigroup } from 'fp-ts/function'
+ * import { Predicate } from 'fp-ts/Predicate'
  * import * as B from 'fp-ts/boolean'
  *
  * const f: Predicate<number> = (n) => n <= 2
