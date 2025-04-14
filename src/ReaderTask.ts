@@ -253,11 +253,33 @@ export const ApplyPar: Apply2<URI> = {
 export const apFirst = /*#__PURE__*/ apFirst_(ApplyPar)
 
 /**
+ * Less strict version of [`apFirst`](#apfirst).
+ *
+ * The `W` suffix (short for **W**idening) means that the environment types will be merged.
+ *
+ * @since 2.17.0
+ */
+export const apFirstW: <R2, B>(
+  second: ReaderTask<R2, B>
+) => <R1, A>(first: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A> = apFirst as any
+
+/**
  * Combine two effectful actions, keeping only the result of the second.
  *
  * @since 2.3.0
  */
 export const apSecond = /*#__PURE__*/ apSecond_(ApplyPar)
+
+/**
+ * Less strict version of [`apSecond`](#apsecond).
+ *
+ * The `W` suffix (short for **W**idening) means that the environment types will be merged.
+ *
+ * @since 2.17.0
+ */
+export const apSecondW: <R2, B>(
+  second: ReaderTask<R2, B>
+) => <R1, A>(first: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B> = apSecond as any
 
 /**
  * Runs computations in parallel.

@@ -105,7 +105,9 @@ Added in v2.3.0
   - [ApT](#apt)
   - [ap](#ap)
   - [apFirst](#apfirst)
+  - [apFirstW](#apfirstw)
   - [apSecond](#apsecond)
+  - [apSecondW](#apsecondw)
   - [apW](#apw)
   - [local](#local)
 - [zone of death](#zone-of-death)
@@ -1191,6 +1193,22 @@ export declare const apFirst: <E, B>(second: ReaderTask<E, B>) => <A>(first: Rea
 
 Added in v2.3.0
 
+## apFirstW
+
+Less strict version of [`apFirst`](#apfirst).
+
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
+
+**Signature**
+
+```ts
+export declare const apFirstW: <R2, B>(
+  second: ReaderTask<R2, B>
+) => <R1, A>(first: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A>
+```
+
+Added in v2.17.0
+
 ## apSecond
 
 Combine two effectful actions, keeping only the result of the second.
@@ -1202,6 +1220,22 @@ export declare const apSecond: <E, B>(second: ReaderTask<E, B>) => <A>(first: Re
 ```
 
 Added in v2.3.0
+
+## apSecondW
+
+Less strict version of [`apSecond`](#apsecond).
+
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
+
+**Signature**
+
+```ts
+export declare const apSecondW: <R2, B>(
+  second: ReaderTask<R2, B>
+) => <R1, A>(first: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B>
+```
+
+Added in v2.17.0
 
 ## apW
 
