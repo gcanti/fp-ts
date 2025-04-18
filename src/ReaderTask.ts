@@ -257,7 +257,7 @@ export const apFirst = /*#__PURE__*/ apFirst_(ApplyPar)
  *
  * The `W` suffix (short for **W**idening) means that the environment types will be merged.
  *
- * @since 2.17.0
+ * @since 2.16.10
  */
 export const apFirstW: <R2, B>(
   second: ReaderTask<R2, B>
@@ -275,7 +275,7 @@ export const apSecond = /*#__PURE__*/ apSecond_(ApplyPar)
  *
  * The `W` suffix (short for **W**idening) means that the environment types will be merged.
  *
- * @since 2.17.0
+ * @since 2.16.10
  */
 export const apSecondW: <R2, B>(
   second: ReaderTask<R2, B>

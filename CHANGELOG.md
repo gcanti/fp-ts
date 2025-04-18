@@ -16,6 +16,12 @@
 **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 2.16.10
+
+**Polish**
+
+Add apFirstW and apSecondW to ReaderTask, #1958
+
 # 2.16.9
 
 **Polish**
