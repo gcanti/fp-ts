@@ -140,7 +140,7 @@ export type Option<A> = None | Some<A>
  * @category constructors
  * @since 2.0.0
  */
-export const none: Option<never> = _.none
+export const none: None = _.none
 
 /**
  * Constructs a `Some`. Represents an optional value that exists.
@@ -148,7 +148,7 @@ export const none: Option<never> = _.none
  * @category constructors
  * @since 2.0.0
  */
-export const some: <A>(a: A) => Option<A> = _.some
+export const some: <A>(a: A) => Some<A> = _.some
 
 /**
  * Returns a *smart constructor* based on the given predicate.
