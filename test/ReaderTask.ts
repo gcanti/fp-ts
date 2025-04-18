@@ -28,8 +28,20 @@ describe('ReaderTask', () => {
     U.deepStrictEqual(await pipe(_.of('a'), _.apFirst(_.of('b')))({})(), 'a')
   })
 
+  it('apFirstW', async () => {
+    const fa = _.of<{ readonly k: string }, string>('a')
+    const fb = _.of<{ readonly x: number }, boolean>(true)
+    U.deepStrictEqual(await pipe(fa, _.apFirstW(fb))({ k: 'v', x: 42 })(), 'a')
+  })
+
   it('apSecond', async () => {
     U.deepStrictEqual(await pipe(_.of('a'), _.apSecond(_.of('b')))({})(), 'b')
+  })
+
+  it('apSecondW', async () => {
+    const fa = _.of<{ readonly k: string }, string>('a')
+    const fb = _.of<{ readonly x: number }, boolean>(true)
+    U.deepStrictEqual(await pipe(fa, _.apSecondW(fb))({ k: 'v', x: 42 })(), true)
   })
 
   it('flatMap', async () => {
