@@ -48,6 +48,7 @@ Added in v2.0.0
   - [fromOption](#fromoption)
   - [fromReader](#fromreader)
   - [fromReaderEither](#fromreadereither)
+  - [fromReaderIO](#fromreaderio)
   - [fromTask](#fromtask)
   - [fromTaskEither](#fromtaskeither)
   - [toUnion](#tounion)
@@ -703,6 +704,16 @@ export declare const fromReaderEither: <R, E, A>(fa: ReaderEither<R, E, A>) => R
 ```
 
 Added in v2.0.0
+
+## fromReaderIO
+
+**Signature**
+
+```ts
+export declare const fromReaderIO: <R, A, E = never>(fa: RIO.ReaderIO<R, A>) => ReaderTaskEither<R, E, A>
+```
+
+Added in v2.13.2
 
 ## fromTask
 
