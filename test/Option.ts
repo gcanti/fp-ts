@@ -297,6 +297,7 @@ describe('Option', () => {
   it('getOrd', () => {
     const OS = _.getOrd(S.Ord)
     U.deepStrictEqual(OS.compare(_.none, _.none), 0)
+    U.deepStrictEqual(OS.compare(_.none, { _tag: 'None' }), 0)
     U.deepStrictEqual(OS.compare(_.some('a'), _.none), 1)
     U.deepStrictEqual(OS.compare(_.none, _.some('a')), -1)
     U.deepStrictEqual(OS.compare(_.some('a'), _.some('a')), 0)
