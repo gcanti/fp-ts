@@ -16,6 +16,12 @@
 **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 2.16.11
+
+**Bug Fix**
+
+Fix Option.getOrd definition, #1963
+
 # 2.16.10
 
 **Polish**

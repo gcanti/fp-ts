@@ -297,7 +297,7 @@ export const getEq = <A>(E: Eq<A>): Eq<Option<A>> => ({
  */
 export const getOrd = <A>(O: Ord<A>): Ord<Option<A>> => ({
   equals: getEq(O).equals,
-  compare: (x, y) => (isSome(x) ? (isSome(y) ? O.compare(x.value, y.value) : 1) : isSome(y) ? -1 : 0)
+  compare: (x, y) => (x === y ? 0 : isSome(x) ? (isSome(y) ? O.compare(x.value, y.value) : 1) : isSome(y) ? -1 : 0)
 })
 
 /**
