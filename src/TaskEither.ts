@@ -163,6 +163,11 @@ export const match: <E, B, A>(onLeft: (e: E) => B, onRight: (a: A) => B) => (ma:
  *
  * The `W` suffix (short for **W**idening) means that the handler return types will be merged.
  *
+ * Note: unlike [`foldW`](#foldw) (which is an alias of [`matchEW`](#matchew)), the handlers here return **plain values**
+ * (not `Task` values). The results are automatically lifted into `Task`. Use `matchW` when your handlers are pure
+ * functions. If your handlers need to perform async operations and return a `Task`, use [`foldW`](#foldw) /
+ * [`matchEW`](#matchew) instead.
+ *
  * @category pattern matching
  * @since 2.10.0
  */
@@ -203,6 +208,14 @@ export const matchEW: <E, B, A, C>(
 
 /**
  * Alias of [`matchEW`](#matchew).
+ *
+ * Note: unlike [`matchW`](#matchw) (where handlers return plain values), the handlers here must return **`Task` values**.
+ * This is useful when your error or success handlers themselves need to perform async operations. If your handlers are
+ * pure functions returning plain values, use [`matchW`](#matchw) instead.
+ *
+ * **Important**: despite the similar name, `foldW` in `TaskEither` behaves differently from `foldW` in `Either`.
+ * In `Either`, `foldW` is an alias of `matchW` and expects plain-value handlers. In `TaskEither`, `foldW` is an alias
+ * of `matchEW` and expects handlers that return `Task` values.
  *
  * @category pattern matching
  * @since 2.10.0
