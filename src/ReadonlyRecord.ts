@@ -1120,8 +1120,8 @@ export const toEntries = toReadonlyArray
  * @since 2.12.0
  * @category conversions
  */
-export const fromEntries = <A>(fa: ReadonlyArray<readonly [string, A]>): ReadonlyRecord<string, A> => {
-  const out: Record<string, A> = {}
+export const fromEntries = <K extends string, A>(fa: ReadonlyArray<readonly [K, A]>): ReadonlyRecord<K, A> => {
+  const out: Record<K, A> = Object.create(null)
   for (const a of fa) {
     out[a[0]] = a[1]
   }
