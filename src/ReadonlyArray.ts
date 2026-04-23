@@ -1343,8 +1343,8 @@ export function intersection<A>(
  * @since 2.5.0
  */
 export function difference<A>(E: Eq<A>): {
-  (xs: ReadonlyArray<A>): (ys: ReadonlyArray<A>) => ReadonlyArray<A>
   (xs: ReadonlyArray<A>, ys: ReadonlyArray<A>): ReadonlyArray<A>
+  (xs: ReadonlyArray<A>): (ys: ReadonlyArray<A>) => ReadonlyArray<A>
 }
 export function difference<A>(
   E: Eq<A>
