@@ -25,6 +25,35 @@ export interface Bounded<A> extends Ord<A> {
 }
 
 // -------------------------------------------------------------------------------------
+// constructors
+// -------------------------------------------------------------------------------------
+
+/**
+ * Builds a `Bounded` from an `Ord` and the given `top` and `bottom` values.
+ *
+ * @example
+ * import * as B from 'fp-ts/Bounded'
+ * import * as N from 'fp-ts/number'
+ *
+ * const bounded = B.fromOrd(N.Ord)(10, 0)
+ *
+ * assert.deepStrictEqual(bounded.top, 10)
+ * assert.deepStrictEqual(bounded.bottom, 0)
+ * assert.deepStrictEqual(bounded.compare(1, 2), -1)
+ *
+ * @category constructors
+ * @since 2.17.0
+ */
+export const fromOrd =
+  <A>(ord: Ord<A>) =>
+  (top: A, bottom: A): Bounded<A> => ({
+    equals: ord.equals,
+    compare: ord.compare,
+    top,
+    bottom
+  })
+
+// -------------------------------------------------------------------------------------
 // utils
 // -------------------------------------------------------------------------------------
 

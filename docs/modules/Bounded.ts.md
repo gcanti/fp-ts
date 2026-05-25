@@ -18,6 +18,8 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [constructors](#constructors)
+  - [fromOrd](#fromord)
 - [model](#model)
   - [Bounded (interface)](#bounded-interface)
 - [utils](#utils)
@@ -27,6 +29,33 @@ Added in v2.0.0
   - [~~boundedNumber~~](#boundednumber)
 
 ---
+
+# constructors
+
+## fromOrd
+
+Builds a `Bounded` from an `Ord` and the given `top` and `bottom` values.
+
+**Signature**
+
+```ts
+export declare const fromOrd: <A>(ord: O.Ord<A>) => (top: A, bottom: A) => Bounded<A>
+```
+
+**Example**
+
+```ts
+import * as B from 'fp-ts/Bounded'
+import * as N from 'fp-ts/number'
+
+const bounded = B.fromOrd(N.Ord)(10, 0)
+
+assert.deepStrictEqual(bounded.top, 10)
+assert.deepStrictEqual(bounded.bottom, 0)
+assert.deepStrictEqual(bounded.compare(1, 2), -1)
+```
+
+Added in v2.17.0
 
 # model
 
