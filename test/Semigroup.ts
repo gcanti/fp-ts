@@ -54,6 +54,15 @@ describe('Semigroup', () => {
     U.deepStrictEqual(S.concat({}, {}), {})
   })
 
+  it('partial', () => {
+    // should ignore non own properties
+    const S1 = _.partial(Object.create({ a: 1 }))
+    U.deepStrictEqual(S1.concat({}, {}), {})
+
+    const S2 = _.partial({ a: S.Semigroup, b: N.SemigroupSum, c: B.SemigroupAll, d: S.Semigroup })
+    U.deepStrictEqual(S2.concat({ a: 'first', b: 12 }, { b: 2, c: true }), { a: 'first', b: 14, c: true })
+  })
+
   it('semigroupAll', () => {
     const S = _.semigroupAll
     U.deepStrictEqual(S.concat(true, true), true)

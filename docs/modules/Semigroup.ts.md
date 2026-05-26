@@ -61,6 +61,7 @@ Added in v2.0.0
   - [concatAll](#concatall)
   - [intercalate](#intercalate)
   - [reverse](#reverse)
+  - [partial](#partial)
   - [struct](#struct)
   - [tuple](#tuple)
 - [zone of death](#zone-of-death)
@@ -244,6 +245,39 @@ import { pipe } from 'fp-ts/function'
 const S1 = pipe(S.Semigroup, intercalate(' + '))
 
 assert.strictEqual(S1.concat('a', 'b'), 'a + b')
+```
+
+Added in v2.14.0
+
+## partial
+
+Given a struct of semigroups returns a semigroup for the struct, that can have optional keys.
+
+**Signature**
+
+```ts
+export declare const partial: <A>(
+  semigroups: { [K in keyof A]: Semigroup<A[K]> }
+) => Semigroup<{ readonly [K in keyof Partial<A>]: A[K] }>
+```
+
+**Example**
+
+```ts
+import { partial, last } from 'fp-ts/Semigroup'
+import * as S from 'fp-ts/string'
+
+interface Person {
+  readonly name: string
+  readonly age: number
+}
+
+const S1 = partial<Person>({
+  name: S.Semigroup,
+  age: last(),
+})
+
+assert.deepStrictEqual(S1.concat({ name: 'first', age: 42 }, { name: 'second' }), { name: 'firstsecond', age: 42 })
 ```
 
 Added in v2.10.0
