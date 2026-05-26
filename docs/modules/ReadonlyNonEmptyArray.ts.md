@@ -1376,7 +1376,7 @@ Added in v2.9.0
 ```ts
 export declare const union: <A>(
   E: Eq<A>
-) => (second: ReadonlyNonEmptyArray<A>) => (first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+) => (second: readonly A[]) => (first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
 ```
 
 Added in v2.11.0
