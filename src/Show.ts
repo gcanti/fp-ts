@@ -112,3 +112,11 @@ export const showString: Show<string> = {
 export const showNumber: Show<number> = {
   show: (a) => JSON.stringify(a)
 }
+
+/**
+ * An easier way to create instances of show from a function.
+ * @category instances
+ * @since 2.0.0
+ */
+export const getShow = <T extends unknown>(show: (t: T) => string): Show<T> => 
+  ({ show });
