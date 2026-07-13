@@ -10,6 +10,7 @@ import * as O from './Ord'
 import { Refinement } from './Refinement'
 import { Semigroup } from './Semigroup'
 import * as S from './Show'
+import * as Q from './Quasigroup'
 
 // -------------------------------------------------------------------------------------
 // refinements
@@ -148,4 +149,14 @@ export const Field: F.Field<number> = {
   degree: (_) => 1,
   div: (first, second) => first / second,
   mod: (first, second) => first % second
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const Quasigroup: Q.Quasigroup<number> = {
+  concat: (first, second) => first + second,
+  leftInv: (first, second) => second - first,
+  rightInv: (first, second) => first - second
 }
