@@ -24,6 +24,28 @@ export const copyPackageJson: Build<void> = (C) =>
       delete clone.files
       delete clone.devDependencies
 
+      clone.exports = {
+        '.': {
+          import: { types: './es6/index.d.ts', default: './es6/index.js' },
+          require: { types: './lib/index.d.ts', default: './lib/index.js' }
+        },
+        './HKT': {
+          import: { types: './HKT.d.ts', default: './es6/HKT/index.js' },
+          require: { types: './HKT.d.ts', default: './lib/HKT/index.js' }
+        },
+        './lib/HKT': { types: './HKT.d.ts', default: './lib/HKT/index.js' },
+        './es6/HKT': { types: './HKT.d.ts', default: './es6/HKT/index.js' },
+        './*': {
+          import: { types: './es6/*.d.ts', default: './es6/*.js' },
+          require: { types: './lib/*.d.ts', default: './lib/*.js' }
+        },
+        './lib/*': { types: './lib/*.d.ts', default: './lib/*.js' },
+        './lib/*.js': { types: './lib/*.d.ts', default: './lib/*.js' },
+        './es6/*': { types: './es6/*.d.ts', default: './es6/*.js' },
+        './es6/*.js': { types: './es6/*.d.ts', default: './es6/*.js' },
+        './package.json': './package.json'
+      }
+
       return clone
     }),
     TE.flatMap((json) => C.writeFile(path.join(OUTPUT_FOLDER, PKG), JSON.stringify(json, null, 2)))
@@ -76,14 +98,14 @@ function makePkgJson(module: string): TE.TaskEither<Error, string> {
   )
 }
 
-const fixHKT = (folder: string): Build<void> =>
+const fixHKT = (folder: string, packageJson: Record<string, unknown> = {}): Build<void> =>
   pipe(
     (C: FileSystem) => C.mkdir(path.join(OUTPUT_FOLDER, folder, 'HKT')),
     RTE.flatMap(
       (): Build<void> => (C) =>
         C.writeFile(
           path.join(OUTPUT_FOLDER, folder, 'HKT', 'package.json'),
-          JSON.stringify({ typings: '../../HKT.d.ts' }, null, 2)
+          JSON.stringify({ typings: '../../HKT.d.ts', ...packageJson }, null, 2)
         )
     ),
     RTE.flatMap(
@@ -96,12 +118,53 @@ const fixHKT = (folder: string): Build<void> =>
     )
   )
 
+const relativeSpecifier = /\b(from\s+|import\s*\(?\s*|declare\s+module\s+)(['"])(\.\.?\/[^'"]+)\2/g
+
+function fixModuleSpecifiers(filePath: string, content: string): string {
+  const isDeclaration = filePath.endsWith('.d.ts')
+  return content.replace(relativeSpecifier, (match, prefix, quote, specifier) => {
+    if (specifier.endsWith('.js')) {
+      return match
+    }
+    if (path.basename(specifier) === 'HKT') {
+      const resolved = isDeclaration
+        ? path.posix.relative(path.posix.dirname(filePath), path.posix.join(OUTPUT_FOLDER, 'HKT')) + '.js'
+        : specifier + '/index.js'
+      return `${prefix}${quote}${resolved}${quote}`
+    }
+    return `${prefix}${quote}${specifier}.js${quote}`
+  })
+}
+
+const rewriteEs6ModuleSpecifiers: Build<void> = (C) =>
+  pipe(
+    C.glob(`${OUTPUT_FOLDER}/es6/**/*.{js,d.ts}`),
+    TE.flatMap(
+      TE.traverseReadonlyArrayWithIndex((_, filePath) =>
+        pipe(
+          C.readFile(filePath),
+          TE.map((content) => fixModuleSpecifiers(filePath, content)),
+          TE.flatMap((content) => C.writeFile(filePath, content))
+        )
+      )
+    ),
+    TE.map(() => undefined)
+  )
+
+const makeEs6PackageJson: Build<void> = (C) =>
+  C.writeFile(
+    path.join(OUTPUT_FOLDER, 'es6', 'package.json'),
+    JSON.stringify({ type: 'module', sideEffects: false }, null, 2)
+  )
+
 const main: Build<void> = pipe(
   copyPackageJson,
   RTE.flatMap(() => copyFiles),
   RTE.flatMap(() => makeModules),
-  RTE.flatMap(() => fixHKT('es6')),
-  RTE.flatMap(() => fixHKT('lib'))
+  RTE.flatMap(() => fixHKT('es6', { type: 'module' })),
+  RTE.flatMap(() => fixHKT('lib')),
+  RTE.flatMap(() => makeEs6PackageJson),
+  RTE.flatMap(() => rewriteEs6ModuleSpecifiers)
 )
 
 run(
